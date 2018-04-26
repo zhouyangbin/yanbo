@@ -14,13 +14,13 @@ import Auth from "@/utils/auth"
 import Vue from "vue"
 import Router from "vue-router"
 import {
-  PATH_HOME,
-  PATH_TABLE,
-  PATH_FORM,
   PATH_ABOUT,
   PATH_TEST,
   PATH_AUTH,
-  PATH_LOGIN
+  PATH_LOGIN,
+  PATH_GRADE_REPORT,
+  PATH_GRADE_MANAGE,
+  PATH_USER_MANAGE
 } from "@/constants/URL"
 
 Vue.use(Router)
@@ -29,72 +29,35 @@ const router = new Router({
   mode: "history",
   routes: [
     {
-      path: PATH_HOME,
-      props: { iconCls: "el-icon-location", label: NAV_HOME_PAGE },
+      path: "/",
+      redirect: PATH_GRADE_REPORT
+    },
+    {
+      path: PATH_GRADE_REPORT,
       component: () => import("@/layout/SidebarLayout/index.vue"),
       children: [
         {
           path: "",
-          props: { label: NAV_HOME_SUB_PAGE },
           components: {
-            default: () => import("@/views/Home.vue"),
+            default: () => import("@/views/gradereport/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_GRADE_MANAGE,
+          components: {
+            default: () => import("@/views/grademanage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_USER_MANAGE,
+          components: {
+            default: () => import("@/views/usermanage/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
       ]
-    },
-    {
-      path: PATH_TABLE,
-      component: () => import("@/layout/SidebarLayout/index.vue"),
-      props: { iconCls: "el-icon-location", label: NAV_TABLE_MODULE },
-      children: [
-        {
-          path: "",
-          props: { label: NAV_TANLE_MODULE_SUB_PAGE },
-          components: {
-            default: () => import("@/views/demo/Table.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        }
-      ]
-    },
-    {
-      path: PATH_FORM,
-      component: () => import("@/layout/SidebarLayout/index.vue"),
-      props: { iconCls: "el-icon-location", label: NAV_FORM_MODULE },
-      children: [
-        {
-          path: "",
-          props: { label: NAV_FORM_CHILE_PAGE },
-          components: {
-            default: () => import("@/views/demo/Form.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        }
-      ]
-    },
-    {
-      path: PATH_ABOUT,
-      component: () => import("@/layout/NavbarLayout/index.vue"),
-      props: { iconCls: "el-icon-location", label: NAV_ABOUT_MODULE },
-      children: [
-        {
-          path: "",
-          props: {
-            iconCls: "el-icon-location",
-            label: NAV_ABOUT_MODULE_SUB_PAGE
-          },
-          components: {
-            default: () => import("@/views/About.vue"),
-            nav: () => import("@/components/common/Navbar/index.vue")
-          }
-        }
-      ]
-    },
-    {
-      path: PATH_TEST,
-      props: { iconCls: "el-icon-location", label: NAV_TEST_PAGE },
-      component: () => import("@/views/Test.vue")
     },
     {
       path: PATH_AUTH,
