@@ -1,26 +1,27 @@
 <template>
-    <div>
-        <nav-bar :list="nav"></nav-bar>
-        <section class="content-container">
-            reort
-        </section>
-    </div>
+  <div>
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container">
+      reort
+      <router-link to="/grademanage/adbac">test</router-link>
+    </section>
+  </div>
 </template>
 <script>
-    import { GRADE_MANAGE } from "@/constants/TEXT"
-    export default {
-      data() {
-        return {
-          nav: [
-            {
-              label: GRADE_MANAGE,
-              active: true
-            }
-          ]
-        }
-      },
-      components: {
-        "nav-bar": () => import("@/components/common/Navbar/index.vue")
+  import { GRADE_MANAGE } from "@/constants/TEXT"
+  export default {
+    data() {
+      return {
+        nav: [
+          {
+            label: GRADE_MANAGE,
+            active: true
+          }
+        ]
       }
+    },
+    components: {
+      "nav-bar": () => import("@/components/common/Navbar/index.vue")
     }
+  }
 </script>

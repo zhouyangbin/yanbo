@@ -14,13 +14,16 @@ import Auth from "@/utils/auth"
 import Vue from "vue"
 import Router from "vue-router"
 import {
-  PATH_ABOUT,
-  PATH_TEST,
-  PATH_AUTH,
+  // PATH_ABOUT,
+  // PATH_TEST,
+  // PATH_AUTH,
   PATH_LOGIN,
   PATH_GRADE_REPORT,
   PATH_GRADE_MANAGE,
-  PATH_USER_MANAGE
+  PATH_USER_MANAGE,
+  PATH_GRADE_PROGRESS,
+  PATH_GRADE_ORG_LIST,
+  PATH_GRADE_EMP_DETAIL
 } from "@/constants/URL"
 
 Vue.use(Router)
@@ -51,6 +54,28 @@ const router = new Router({
           }
         },
         {
+          path: PATH_GRADE_PROGRESS(),
+          components: {
+            default: () => import("@/views/grademanage/progress/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_GRADE_ORG_LIST(),
+          components: {
+            default: () => import("@/views/grademanage/progress/org/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_GRADE_EMP_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/grademanage/progress/org/user/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
           path: PATH_USER_MANAGE,
           components: {
             default: () => import("@/views/usermanage/index.vue"),
@@ -59,11 +84,15 @@ const router = new Router({
         }
       ]
     },
+    // {
+    //   path: PATH_AUTH,
+    //   props: { iconCls: "el-icon-location", label: NAV_AUTH_PAGE },
+    //   meta: { requiresAuth: true },
+    //   component: () => import("@/views/Test.vue")
+    // },
     {
-      path: PATH_AUTH,
-      props: { iconCls: "el-icon-location", label: NAV_AUTH_PAGE },
-      meta: { requiresAuth: true },
-      component: () => import("@/views/Test.vue")
+      path: PATH_LOGIN,
+      component: () => import("@/views/login/index.vue")
     },
     {
       path: "*",
