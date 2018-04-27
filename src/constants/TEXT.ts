@@ -38,7 +38,7 @@ export const NAV_AUTH_PAGE = "auth"
 export const LABEL_TAL = "TAL"
 export const LABEL_MY_MSG = "我的消息"
 export const LABEL_SETTINGS = "设置"
-export const LABEL_LOGOUT = "退出登录"
+export const LABEL_LOGOUT = "退出"
 // demo-table
 export const LABEL_NAME = "姓名"
 export const LABEL_MOBILE = "手机"
