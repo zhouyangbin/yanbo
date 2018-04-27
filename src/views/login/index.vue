@@ -15,7 +15,7 @@
   							<el-header class="login-form-title">
   								<el-row type="flex" justify="center" align="middle" class="row-bg">
   									<el-col>
-  										HR登录
+  										HR{{label_login}}
   									</el-col>
   								</el-row>
   							</el-header>
@@ -23,19 +23,19 @@
   							<el-main class="login-form-main">
   								<el-form :model="loginForm" status-icon :rules="loginRules" ref="loginForm" label-width="100px" label-position="top" :inline-message="true">
   									<el-form-item label="Email" prop="email">
-  										<el-input type="text" v-model="loginForm.email" placeholder="请输入邮箱" auto-complete="on" :autofocus="true"></el-input>
+  										<el-input type="text" v-model="loginForm.email" :placeholder="label_login_email" auto-complete="off" :autofocus="true"></el-input>
   									</el-form-item>
 
   									<el-form-item label="Password" prop="password">
-  										<el-input type="password" v-model="loginForm.password" placeholder="请输入密码" auto-complete="off" :autofocus="true"></el-input>
+  										<el-input type="password" v-model="loginForm.password" :placeholder="label_login_password" auto-complete="off" :autofocus="true"></el-input>
   									</el-form-item>
 
   									<el-form-item>
-  										<el-checkbox @change="rememberUser">记住用户名</el-checkbox>
+  										<el-checkbox v-model="loginRemember">{{lebel_login_remember_user}}</el-checkbox>
   									</el-form-item>
 
   									<el-form-item>
-  										<el-button type="primary" round @click="submitForm('loginForm')">登录</el-button>
+  										<el-button type="primary" round @click="submitForm('loginForm')">{{label_login}}</el-button>
   									</el-form-item>
   								</el-form>
   							</el-main>
@@ -50,27 +50,38 @@
 
 <script>
 	import { PATH_GRADE_REPORT } from '@/constants/URL'
+	import { LABEL_LOGIN, LABEL_LOGIN_EMAIL, LABEL_LOGIN_EMAIL_MSG, LABEL_LOGIN_PASSWORD, LABEL_LOGIN_ASSWORD_MSG, LABEL_LOGIN_REMEMBER_USER } from '@/constants/TEXT'
     export default {
     	data () {
     		return {
-    			loginForm: {},
+    			// 常量文字
+    			label_login: LABEL_LOGIN,
+    			label_login_email: LABEL_LOGIN_EMAIL,
+    			label_login_password: LABEL_LOGIN_PASSWORD,
+    			lebel_login_remember_user: LABEL_LOGIN_REMEMBER_USER,
+				// 登录Form
+    			loginForm: {email:'',password:''},
+    			// 校验规则
     			loginRules: {
     				email: [
-    				{ required: true, message: '邮箱不能为空', trigger: 'change' }
+    				{ required: true, message: LABEL_LOGIN_EMAIL_MSG, trigger: 'change' }
     				],
     				password: [
-    				{ required: true, message: '密码不能为空', trigger: 'change' }
+    				{ required: true, message: LABEL_LOGIN_ASSWORD_MSG, trigger: 'change' }
     				]
-    			}
+    			},
+    			// 记录用户名
+    			loginRemember: false
     		}
     	},
+    	created(){
+    		this.loginForm = Object.assign({},this.loginForm,{email:localStorage.email})
+    	},
     	methods: {
-    		rememberUser(){
-    			console.log('rememberUser')
-    		},
     		submitForm(formName) {
     			this.$refs[formName].validate((valid) => {
     				if (valid) {
+    					localStorage.email = this.loginRemember?this.loginForm.email:''
     					this.$router.push({path:PATH_GRADE_REPORT})
     				} else {
     					console.log('error submit!!');
