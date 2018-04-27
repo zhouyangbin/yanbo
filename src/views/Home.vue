@@ -1,7 +1,7 @@
 <template>
-	<el-row class="container">
-		this is home
-	</el-row>
+	<div>
+		<el-button type="primary">xxx</el-button>
+	</div>
 </template>
 
 <script>

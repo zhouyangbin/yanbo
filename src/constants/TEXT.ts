@@ -48,3 +48,11 @@ export const LABEL_JOIN_POSITION_NAME = "入职职位"
 
 // demo-form
 export const LABEL_ACTIVITY_NAME = "活动名称"
+
+// 文化评分
+export const GRADE_REPORT = "评分报告"
+export const GRADE_MANAGE = "评分管理"
+export const USER_MANAGE = "用户管理"
+export const GRADE_PROGRESS = "评分进度"
+export const ORG_DETAIL = "事业部详情"
+export const GRADE_DETAIL = "评分详情"
