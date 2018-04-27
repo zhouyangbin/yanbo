@@ -4,7 +4,7 @@
       <img src="@assets/img/bg_logo.png" alt="">
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
-        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{logout_labe}}</el-button>
+        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{labe_logout}}</el-button>
         <p>hemiao3@100tal.com</p>
       </section>
     </el-aside>
@@ -20,7 +20,7 @@
   export default {
     data() {
       return {
-        logout_labe: LABEL_LOGOUT
+        labe_logout: LABEL_LOGOUT
       }
     },
     methods: {

@@ -38,6 +38,7 @@ export const NAV_AUTH_PAGE = "auth"
 export const LABEL_TAL = "TAL"
 export const LABEL_MY_MSG = "我的消息"
 export const LABEL_SETTINGS = "设置"
+export const LABEL_LOGIN = "登录"
 export const LABEL_LOGOUT = "退出"
 // demo-table
 export const LABEL_NAME = "姓名"
@@ -48,6 +49,13 @@ export const LABEL_JOIN_POSITION_NAME = "入职职位"
 
 // demo-form
 export const LABEL_ACTIVITY_NAME = "活动名称"
+
+// LOGIN
+export const LABEL_LOGIN_EMAIL = "请输入邮箱"
+export const LABEL_LOGIN_EMAIL_MSG = "邮箱不能为空"
+export const LABEL_LOGIN_PASSWORD = "请输入密码"
+export const LABEL_LOGIN_ASSWORD_MSG = "密码不能为空"
+export const LABEL_LOGIN_REMEMBER_USER = "记住用户名"
 
 // 文化评分
 export const GRADE_REPORT = "评分报告"
