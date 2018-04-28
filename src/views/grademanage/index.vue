@@ -12,7 +12,7 @@
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px;">
         <el-table-column prop="date" :label="constants.GRADE_NAME" width="180">
         </el-table-column>
-        <el-table-column prop="name" :label="constants.DEPARTMENT" width="180">
+        <el-table-column prop="name" :label="constants.BU" width="180">
         </el-table-column>
         <el-table-column prop="address" :label="constants.FINISHED_DATE">
         </el-table-column>
@@ -40,7 +40,7 @@
         <el-form-item :label="constants.GRADE_NAME" prop="name">
           <el-input size="medium" :maxlength="20" style="width:250px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item :label="constants.DEPARTMENT" prop="dep">
+        <el-form-item :label="constants.BU" prop="dep">
           <el-checkbox-group v-model="ruleForm.dep">
             <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
             <el-checkbox label="地推活动" name="type"></el-checkbox>
@@ -70,7 +70,7 @@
     CREATE_GRADE,
     GRADE_NAME,
     CREATED_DATE,
-    DEPARTMENT,
+    BU,
     FINISHED_DATE,
     OPERATIONS,
     DETAILS,
@@ -78,7 +78,7 @@
     CANCEL,
     CONFIRM,
     MSG_FILL_GRADE_NAME,
-    MSG_SELECT_DEPARTMENT,
+    MSG_SELECT_BU,
     MSG_SELECT_FINISHED_DATE
   } from "@/constants/TEXT"
   import { PATH_GRADE_PROGRESS } from "@/constants/URL"
@@ -89,7 +89,7 @@
           GRADE_LIST,
           CREATE_GRADE,
           GRADE_NAME,
-          DEPARTMENT,
+          BU,
           FINISHED_DATE,
           CREATED_DATE,
           OPERATIONS,
@@ -112,7 +112,7 @@
             {
               type: "array",
               required: true,
-              message: MSG_SELECT_DEPARTMENT,
+              message: MSG_SELECT_BU,
               trigger: "change"
             }
           ],
