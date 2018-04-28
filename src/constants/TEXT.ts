@@ -54,7 +54,7 @@ export const LABEL_ACTIVITY_NAME = "活动名称"
 export const LABEL_LOGIN_EMAIL = "请输入邮箱"
 export const LABEL_LOGIN_EMAIL_MSG = "邮箱不能为空"
 export const LABEL_LOGIN_PASSWORD = "请输入密码"
-export const LABEL_LOGIN_ASSWORD_MSG = "密码不能为空"
+export const LABEL_LOGIN_PASSWORD_MSG = "密码不能为空"
 export const LABEL_LOGIN_REMEMBER_USER = "记住用户名"
 
 // 文化评分
