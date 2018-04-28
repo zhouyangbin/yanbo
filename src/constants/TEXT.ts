@@ -61,7 +61,7 @@ export const GRADE_DETAIL = "评分详情"
 export const GRADE_LIST = "好未来集团文化评分列表"
 export const CREATE_GRADE = "创建评分"
 export const GRADE_NAME = "评分名称"
-export const DEPARTMENT = "事业部"
+export const BU = "事业部"
 export const FINISHED_DATE = "截止时间"
 export const CREATED_DATE = "创建时间"
 export const OPERATIONS = "操作"
@@ -72,5 +72,82 @@ export const CONFIRM = "确定"
 export const CANCEL = "取消"
 
 export const MSG_FILL_GRADE_NAME = "请填写评分名称"
-export const MSG_SELECT_DEPARTMENT = "请选择评分事业部"
+export const MSG_SELECT_BU = "请选择评分事业部"
 export const MSG_SELECT_FINISHED_DATE = "请选择截止时间"
+
+// 评分进度
+export const RECORD_STATUS = "名单状态"
+export const SELF_EVALUATION_STATUS = "自评状态"
+export const LEADER_EVALUATION_STATUS = "上级评状态"
+export const LEADER_PLUS_EVALUATION_STATUS = "隔级上级评状态"
+export const FACE_EVALUATION_STATUS = "面谈状态"
+export const DEPARTMENT = "部门"
+
+export const ENUM_RECORD_STATUS = [
+  {
+    key: "0",
+    value: "未导入"
+  },
+  {
+    key: "1",
+    value: "已导入"
+  }
+]
+export const ENUM_SELF_EVALUATION_STATUS = [
+  {
+    key: "0",
+    value: "未开始"
+  },
+  {
+    key: "1",
+    value: "进行中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+]
+
+export const ENUM_LEADER_EVALUATION_STATUS = [
+  {
+    key: "0",
+    value: "未开始"
+  },
+  {
+    key: "1",
+    value: "进行中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+]
+
+export const ENUM_LEADER_PLUS_EVALUATION_STATUS = [
+  {
+    key: "0",
+    value: "未开始"
+  },
+  {
+    key: "1",
+    value: "进行中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+]
+export const ENUM_FACE_EVALUATION_STATUS = [
+  {
+    key: "0",
+    value: "未开始"
+  },
+  {
+    key: "1",
+    value: "进行中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+]
