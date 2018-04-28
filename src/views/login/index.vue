@@ -6,7 +6,7 @@
   				<img src="@assets/img/login_logo.png" alt="好文来文化评分">
   			</el-col>
 
-  			<!-- login-form -->
+  			<!-- login form -->
   			<el-col :span="12" class="col-bg">
 
   				<el-row type="flex" justify="center" align="middle" class="row-bg">
@@ -49,8 +49,18 @@
 </template>
 
 <script>
-	import { PATH_GRADE_REPORT } from '@/constants/URL'
-	import { LABEL_LOGIN, LABEL_LOGIN_EMAIL, LABEL_LOGIN_EMAIL_MSG, LABEL_LOGIN_PASSWORD, LABEL_LOGIN_ASSWORD_MSG, LABEL_LOGIN_REMEMBER_USER } from '@/constants/TEXT'
+	import { 
+		PATH_GRADE_REPORT
+	} from '@/constants/URL'
+	import { 
+		LABEL_LOGIN, 
+		LABEL_LOGIN_EMAIL, 
+		LABEL_LOGIN_EMAIL_MSG, 
+		LABEL_LOGIN_PASSWORD, 
+		LABEL_LOGIN_PASSWORD_MSG, 
+		LABEL_LOGIN_REMEMBER_USER 
+	} from '@/constants/TEXT'
+
     export default {
     	data () {
     		return {
@@ -123,6 +133,5 @@
 	}
 	.el-button{
 		width: 100%;
-	}
-	
+	}	
 </style>
