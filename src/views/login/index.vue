@@ -77,7 +77,7 @@
     				{ required: true, message: LABEL_LOGIN_EMAIL_MSG, trigger: 'change' }
     				],
     				password: [
-    				{ required: true, message: LABEL_LOGIN_ASSWORD_MSG, trigger: 'change' }
+    				{ required: true, message: LABEL_LOGIN_PASSWORD_MSG, trigger: 'change' }
     				]
     			},
     			// 记录用户名
