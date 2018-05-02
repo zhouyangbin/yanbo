@@ -74,6 +74,8 @@ export const FINISHED_DATE = "截止时间"
 export const CREATED_DATE = "创建时间"
 export const OPERATIONS = "操作"
 export const DETAILS = "详情"
+export const MODIFY = "修改"
+export const DEL = "删除"
 export const EXPORT_DETAILS = "导出明细"
 // export const GRADE = "评分"
 export const CONFIRM = "确定"
@@ -90,6 +92,50 @@ export const LEADER_EVALUATION_STATUS = "上级评状态"
 export const LEADER_PLUS_EVALUATION_STATUS = "隔级上级评状态"
 export const FACE_EVALUATION_STATUS = "面谈状态"
 export const DEPARTMENT = "部门"
+export const RESULT_CONFIRM = "结果确认"
+export const SELECTION_TIPS = (total: number, selection: number) =>
+  `共计${total}人/已选${selection}人`
+export const ADD = "添加"
+export const REMINDER = "提醒"
+export const BATCH_DEL = "批量删除"
+export const NUMBER = "工号"
+export const NAME = "姓名"
+export const LEADER_NUMBER = "上级工号"
+export const LEADER_NAME = "上级姓名"
+export const PLUS_LEADER_NUMBER = "隔级上级工号"
+export const PLUS_LEADER_NAME = "隔级上级姓名"
+export const RESET = "清除"
+export const BASE_OR_BU = `总部/${BU}`
+export const DEP_OR_SUB = `大${DEPARTMENT}/分校`
+export const WORK_LEVEL = "职级"
+export const EMAIL = "邮箱"
+export const UP_LEVEL = "上级"
+export const PLUS_UP_LEVEL = "隔级"
+export const FACE_FEEDBACK = "面谈反馈"
+export const SET_TIMES = "设置时间"
+export const IMPORT_RECORDS = "导入名单"
+export const SELF_EVALUATION_TIME = "自评时间"
+export const LEADER_EVALUATION_TIME = "上级评时间"
+export const LEADER_PLUS_EVALUATION_TIME = "隔级上级评时间"
+export const FACE_EVALUATION_TIME = "面谈时间"
+export const REQUIRE_271 = "271等级必填"
+export const EHR_IMPORT = "EHR获取"
+export const EXCEL_IMPORT = "EXCEL导入"
+export const DRAG_FILE = "将文件拖到此处，或"
+export const CLICK_TO_UPLOAD = "点击上传"
+export const DOWNLOAD_EXCEL_TEMPLATE = "EXCEL表格模板下载"
+export const IMPORT_TIPS = "请选择一种导入方式"
+export const LEADER_TIME_VALIDATE_MSG = "上级评价时间必须大于自评时间"
+export const UP_LEADER_TIME_VALIDATE_MSG = "隔级上级评价时间必须大于上级评时间"
+export const FACE_TIME_VALIDATE_MSG = "面谈时间必须大于隔级上级评价时间"
+export const EMAIL_VALIATE_MSG = "请填写邮箱地址"
+export const SELF_TIME_REQUIRE_MSG = "请填写自评时间"
+export const LEADER_TIME_REQUIRE_MSG = "请填写上级评时间"
+export const UP_LEADER_TIME_REQUIRE_MSG = "请填写隔级上级评时间"
+export const FACE_TIME_REQUIRE_MSG = "请填写面谈时间"
+export const NUMBER_REQUIRE_MSG = "请填写工号"
+export const EMAIL_FORMAT_MSG = "请输入正确的邮箱地址"
+export const LEADER_NUMBER_REQUIRE_MSG = "请填写上级工号"
 
 export const ENUM_RECORD_STATUS = [
   {
@@ -112,6 +158,16 @@ export const ENUM_SELF_EVALUATION_STATUS = [
   },
   {
     key: "2",
+    value: "已完成"
+  }
+]
+export const ENUM_GENERIC_COMPLETE_STATUS = [
+  {
+    key: "0",
+    value: "未完成"
+  },
+  {
+    key: "1",
     value: "已完成"
   }
 ]
@@ -157,5 +213,99 @@ export const ENUM_FACE_EVALUATION_STATUS = [
   {
     key: "2",
     value: "已完成"
+  }
+]
+
+export const ENUM_WAIT_CONFIRM = [
+  {
+    key: "0",
+    value: "未完成"
+  },
+  {
+    key: "1",
+    value: "申诉"
+  },
+  {
+    key: "2",
+    value: "确认"
+  }
+]
+
+export const ENUM_LEVELS = [
+  {
+    key: "1.1",
+    value: "1.1"
+  },
+  {
+    key: "1.2",
+    value: "1.2"
+  },
+  {
+    key: "1.3",
+    value: "1.3"
+  },
+  {
+    key: "2.1",
+    value: "2.1"
+  },
+  {
+    key: "2.2",
+    value: "2.2"
+  },
+  {
+    key: "2.3",
+    value: "2.3"
+  },
+  {
+    key: "3.1",
+    value: "3.1"
+  },
+  {
+    key: "3.2",
+    value: "3.2"
+  },
+  {
+    key: "3.3",
+    value: "3.3"
+  },
+  {
+    key: "4.1",
+    value: "4.1"
+  },
+  {
+    key: "4.2",
+    value: "4.2"
+  },
+  {
+    key: "4.3",
+    value: "4.3"
+  },
+  {
+    key: "5.1",
+    value: "5.1"
+  },
+  {
+    key: "5.2",
+    value: "5.2"
+  },
+  {
+    key: "5.3",
+    value: "5.3"
+  },
+  {
+    key: "6.1",
+    value: "6.1"
+  },
+  {
+    key: "6.2",
+    value: "6.2"
+  },
+  {
+    key: "6.3",
+    value: "6.3"
+  },
+  {
+    key: "7.0",
+    value: "7.0"
   }
 ]
