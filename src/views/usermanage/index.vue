@@ -5,7 +5,7 @@
           <!-- screening condition -->
           <el-row>
             <el-col :span="16">
-              <el-form :inline="true" :model="conditionForm" class="demo-form-inline" ref="conditionForm">
+              <el-form :inline="true" :model="conditionForm" ref="conditionForm">
                 <el-form-item>
                   <el-input v-model="conditionForm.name" placeholder="姓名"></el-input>
                 </el-form-item>
@@ -37,7 +37,7 @@
             <el-table-column fixed="right" label="操作" align="center">
               <template slot-scope="scope">
                 <el-button @click="updateUser(scope.row)" type="text" size="small">修改</el-button>
-                <el-button @click="enabledUser(scope.row)" type="text" size="small">启用</el-button>
+                <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.state}}</el-button>
                 <el-button @click="deleteUser(scope.row)" type="text" size="small">删除</el-button>
               </template>
             </el-table-column>
@@ -45,6 +45,12 @@
 
           <!-- update dialog -->
           <user-dialog :visible.sync="updateDialogVisible" title="修改" :userForm="userForm" :disabled="true"></user-dialog>
+          <br>
+          
+          <!-- pagination -->
+          <el-row type="flex" justify="end">
+            <el-pagination @current-change="handleCurrentChange" :pager-count="11" layout="prev, pager, next" :total="100"></el-pagination>
+          </el-row>
         </section>
     </div>
 </template>
@@ -80,6 +86,7 @@
         "user-dialog": () => import("./modules/UserDialog.vue")
       },
       methods: {
+        // 清空
         resetForm(formName) {
           console.log(this.$refs[formName],this.userForm)
           this.$refs[formName].resetFields()
@@ -118,6 +125,10 @@
               message: '已取消删除'
             });
           });
+        },
+        // 分页
+        handleCurrentChange(val) {
+          console.log(`当前页: ${val}`)
         }
       }
     }
