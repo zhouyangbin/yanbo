@@ -33,7 +33,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button round size="medium" @click="resetFilter('filter-form')" class="btn-reset">清除</el-button>
+            <el-button round size="medium" @click="resetFilter('filter-form')" class="btn-reset">{{constants.RESET}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -78,7 +78,8 @@
     DEPARTMENT,
     OPERATIONS,
     DETAILS,
-    EXPORT_DETAILS
+    EXPORT_DETAILS,
+    RESET
   } from "@/constants/TEXT"
   import { PATH_GRADE_MANAGE, PATH_GRADE_ORG_LIST } from "@/constants/URL"
   export default {
@@ -99,7 +100,8 @@
           DEPARTMENT,
           OPERATIONS,
           DETAILS,
-          EXPORT_DETAILS
+          EXPORT_DETAILS,
+          RESET
         },
         searchForm: {
           recordStatus: "",
