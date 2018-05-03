@@ -46,7 +46,7 @@ export default {
             // ‘cross属性有横向虚线’
             type: "shadow",
             crossStyle: {
-              color: "#999999"
+              color: "#999"
             },
             shadowStyle: {
               color: "transparent"
@@ -54,16 +54,7 @@ export default {
           },
           position: "top",
           formatter: function(datas) {
-            var res = "",
-              val;
-            for (var i = 0, length = datas.length; i < length; i++) {
-              val = datas[i].value;
-              if (i < datas.length - 1) {
-                val += "/";
-              }
-              res += val;
-            }
-            return res;
+            return datas[0].value + "/" + datas[1].value;
           }
         },
         color: ["#3BDABC", "#72b7f5"],
@@ -149,7 +140,7 @@ export default {
             barWidth: 12,
             itemStyle: {
               normal: {
-                //柱形图圆角，初始化效果
+                // 柱形图圆角，初始化效果
                 barBorderRadius: [6, 6, 0, 0],
                 color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [
                   { offset: 0, color: "#72b7f5" },
@@ -163,6 +154,7 @@ export default {
     };
   },
   mounted() {
+    this.$emit("update:isLoading", false);
     this.myChart = echarts.init(this.$refs.echartBar);
     this.myChart.setOption(this.option);
   },

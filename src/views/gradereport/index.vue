@@ -24,8 +24,10 @@
           <!-- 某部门文化评分进度 pie -->
           <section class="report-echart">
             <h1><span>{{currentDepartment}}</span>文化评分进度</h1>
-            <echart-pie title="自评进度" :data="progressPieSelf"></echart-pie>
-            <echart-pie title="上级评进度" :data="progressPieSuperior"></echart-pie>
+            <section class="loading-container" v-loading="pieLoading">
+              <echart-pie title="自评进度" :data="progressPieSelf" :isLoading.sync="pieLoading"></echart-pie>
+              <echart-pie title="上级评进度" :data="progressPieSuperior" :isLoading.sync="pieLoading"></echart-pie>
+            </section>
           </section>  
         </el-col>
 
@@ -33,7 +35,7 @@
           <!-- 某部门文化平均分 bar -->
           <section class="report-echart">
             <el-row type="flex" justify="space-between">
-              <el-col :span="12">
+              <el-col :span="12" >
                 <h1><span>{{currentDepartment}}</span>文化平均分</h1>
               </el-col>
               <el-col :span="12">
@@ -43,7 +45,9 @@
                 </el-row>
               </el-col>
             </el-row>
-            <echart-bar-average-single :selfRates="selfRates" :supRates="supRates" ></echart-bar-average-single>
+            <section class="loading-container" v-loading="barAverageSingleLoading">
+              <echart-bar-average-single :selfRates="selfRates" :supRates="supRates" :isLoading.sync="barAverageSingleLoading"></echart-bar-average-single>
+            </section>
           </section>  
         </el-col>
       </el-row>
@@ -63,13 +67,17 @@
             </el-row>
           </el-col>
         </el-row>
-        <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams"></echart-bar-rate>
+        <section class="loading-container" v-loading="barRateLoading">
+          <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams" :isLoading.sync="barRateLoading"></echart-bar-rate>
+        </section>
       </section> 
 
       <!-- 各事业部总平均分 bar -->
       <section class="report-echart">         
         <h1>各事业部总平均分</h1>
-        <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll"></echart-bar-average-all>
+        <section class="loading-container" v-loading="barAverageAllLoading">
+          <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :isLoading.sync="barAverageAllLoading"></echart-bar-average-all>
+        </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
             <span style="color:#21c1a5">● 自评&nbsp;&nbsp;&nbsp;</span>
@@ -92,7 +100,9 @@
             </el-row>
           </el-col>
         </el-row>
-        <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach"></echart-bar-average-all>
+        <section class="loading-container" v-loading="barAverageEachLoading">
+          <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach" :isLoading.sync="barAverageEachLoading"></echart-bar-average-all>
+        </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
             <span style="color:#21c1a5">● 自评&nbsp;&nbsp;&nbsp;</span>
@@ -114,10 +124,10 @@
             </el-row>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="loading-container" v-loading="lineNumbersLoading">
           <!-- 好未来教育各分值人数-自评 line -->
           <el-col :span="12">
-            <echart-line-number :numbers="selfNumbers" :color="selfLineColor"></echart-line-number>
+            <echart-line-number :numbers="selfNumbers" :color="selfLineColor" :isLoading.sync="lineNumbersLoading"></echart-line-number>
             <el-row type="flex" justify="center">
               <span class="color-mark">
                 <span style="color:#21c1a5">● 自评</span>
@@ -126,7 +136,7 @@
           </el-col>
           <!-- 好未来教育各分值人数-上级评 line -->
           <el-col :span="12">
-            <echart-line-number :numbers="supNumbers" :color="supLineColor"></echart-line-number>
+            <echart-line-number :numbers="supNumbers" :color="supLineColor" :isLoading.sync="lineNumbersLoading"></echart-line-number>
             <el-row type="flex" justify="center">
               <span class="color-mark">
                 <span style="color:#5399e1">● 上级评</span>
@@ -186,10 +196,12 @@ export default {
         { value: 700, name: "已完成335人" },
         { value: 335, name: "未完成700人" }
       ],
+      pieLoading: true,
 
       // 某事业部平均分柱状图
       selfRates: [4, 5, 2, 3],
       supRates: [3, 3, 3, 2],
+      barAverageSingleLoading: true,
 
       // 各事业部完成率柱状图
       rateBar: [1, 0.4, 0.5, 0.6, 0.2, 0.3, 0.4, 0.7, 1, 0.5],
@@ -207,6 +219,7 @@ export default {
       ],
       // 当前自评/上级评数据
       rateBarActive: "self",
+      barRateLoading: true,
 
       // 各事业部总平均分
       selfAverageAll: [16, 13, 12, 20, 17, 15, 18, 14, 20, 13],
@@ -226,6 +239,7 @@ export default {
       yMinAll: 0,
       yMaxAll: 20,
       yIntervalAll: 4,
+      barAverageAllLoading: true,
 
       // 各事业部各评分平均分
       selfAverageEach: [3, 4, 2, 5, 3, 3, 5, 4, 1, 5],
@@ -252,6 +266,7 @@ export default {
         { label: "合作", name: "fourth" }
       ],
       averageBarActive: "first",
+      barAverageEachLoading: true,
 
       // 好未来教育各分值人数
       // 自评
@@ -260,7 +275,8 @@ export default {
       // 上级评
       supNumbers: [344, 566, 300, 389, 200],
       supLineColor: "#5399e1",
-      numberLineActive: "first"
+      numberLineActive: "first",
+      lineNumbersLoading: true
     };
   },
   created() {
@@ -305,7 +321,8 @@ export default {
   }
 };
 </script>
-    <style scoped>
+
+<style scoped>
 .des {
   margin: 0;
   color: gray;
@@ -319,6 +336,9 @@ export default {
   background-color: #fff;
   margin-bottom: 20px;
   min-height: 280px;
+}
+.loading-container {
+  min-height: 253px;
 }
 h1 {
   font-size: 16px;

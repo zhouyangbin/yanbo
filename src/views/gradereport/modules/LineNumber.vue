@@ -119,6 +119,7 @@ export default {
     };
   },
   mounted() {
+    this.$emit("update:isLoading", false);
     this.myChart = echarts.init(this.$refs.echartLine);
     this.myChart.setOption(this.option);
   },

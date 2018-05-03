@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartPie" class="echart-pie"></div>
+  <div ref="echartPie" class="echart-pie"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       option: {
         title: {
           text: this.title,
@@ -37,7 +38,8 @@ export default {
         },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {d}%",
+          position: "top"
         },
         series: [
           {
@@ -65,6 +67,7 @@ export default {
     };
   },
   mounted() {
+    this.$emit("update:isLoading", false);
     var myChart = echarts.init(this.$refs.echartPie);
     myChart.setOption(this.option);
   }

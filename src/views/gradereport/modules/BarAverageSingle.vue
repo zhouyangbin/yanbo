@@ -35,24 +35,7 @@ export default {
             }
           },
           formatter: function(datas) {
-            var res = "",
-              val;
-            for (var i = 0, length = datas.length; i < length; i++) {
-              val = datas[i].value;
-              if (i < datas.length - 1) {
-                val += "/";
-              }
-              res += val;
-            }
-            return res;
-          }
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: false, readOnly: false },
-            magicType: { show: false, type: ["line", "bar"] },
-            restore: { show: false },
-            saveAsImage: { show: false }
+            return datas[0].value + "/" + datas[1].value;
           }
         },
         color: ["#3BDABC", "#72b7f5"],
@@ -69,7 +52,7 @@ export default {
             axisTick: {
               show: false
             },
-            //  改变x轴字体颜色和大小
+            // 改变x轴字体颜色和大小
             axisLabel: {
               textStyle: {
                 color: "#999999"
@@ -85,7 +68,6 @@ export default {
             max: 5,
             interval: 1,
             show: true,
-            // 是否显示Y轴线
             // 控制网格线是否显示
             splitLine: {
               show: true,
@@ -133,7 +115,7 @@ export default {
             barWidth: 12,
             itemStyle: {
               normal: {
-                //柱形图圆角，初始化效果
+                // 柱形图圆角，初始化效果
                 barBorderRadius: [6, 6, 0, 0],
                 color: new echarts.graphic.LinearGradient(1, 0, 0, 1, [
                   { offset: 0, color: "#72b7f5" },
@@ -147,6 +129,7 @@ export default {
     };
   },
   mounted() {
+    this.$emit("update:isLoading", false);
     var myChart = echarts.init(this.$refs.echartBar);
     myChart.setOption(this.option);
   }
