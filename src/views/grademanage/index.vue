@@ -30,7 +30,7 @@
         <pagination @current-change="handleCurrentChange" :total="100"></pagination>
       </el-row>
     </section>
-    <el-dialog width="30%" :visible.sync="createGradeDialog">
+    <el-dialog @close="closeDia('ruleForm')" width="650px" :visible.sync="createGradeDialog">
       <span slot="title">
         <el-row type="flex" justify="center" class="dialog-title">
           {{constants.CREATE_GRADE}}
@@ -38,18 +38,15 @@
       </span>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="create-form-dialog">
         <el-form-item :label="constants.GRADE_NAME" prop="name">
-          <el-input size="medium" :maxlength="20" style="width:250px;" v-model="ruleForm.name"></el-input>
+          <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item :label="constants.BU" prop="dep">
           <el-checkbox-group v-model="ruleForm.dep">
-            <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-            <el-checkbox label="地推活动" name="type"></el-checkbox>
-            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+            <el-checkbox v-for="v of depList" :key="v.department_id" :label="v.department_id" name="dep"> {{v.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item :label="constants.FINISHED_DATE" prop="time">
-          <el-date-picker style="width:250px;" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="ruleForm.time" type="datetime" placeholder="选择日期时间">
+          <el-date-picker value-format="yyyy-MM-dd HH:mm" style="width:400px;" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="ruleForm.time" type="datetime" placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
         <br>
@@ -82,6 +79,7 @@ import {
   MSG_SELECT_FINISHED_DATE
 } from "@/constants/TEXT";
 import { PATH_GRADE_PROGRESS } from "@/constants/URL";
+import { getDepList, postNewGrade } from "@/constants/API";
 export default {
   data() {
     return {
@@ -98,6 +96,7 @@ export default {
         CANCEL,
         CONFIRM
       },
+      depList: [],
       createGradeDialog: false,
       ruleForm: {
         name: "",
@@ -165,7 +164,15 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          const postData = {
+            name: this.ruleForm.name,
+            department_ids: this.ruleForm.dep,
+            end_time: this.ruleForm.time
+          };
+          postNewGrade(postData).then(res => {
+            this.createGradeDialog = false;
+            // TODO: refresh the list data
+          });
         } else {
           return false;
         }
@@ -174,6 +181,13 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
     }
+  },
+  created() {
+    getDepList().then(res => {
+      if (res) {
+        this.depList = res;
+      }
+    });
   }
 };
 </script>

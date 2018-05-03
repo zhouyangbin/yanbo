@@ -11,7 +11,7 @@ import {
 // Content-Type:application/x-www-form-urlencoded时 对json数据字符串处理，JSON.stringify()不是很理想
 import qs from "qs";
 // 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框
-import { Notification } from "element-ui";
+import { Notification, Loading } from "element-ui";
 
 // 创建axios实例常量配置
 const axiosCreate = {
@@ -37,6 +37,7 @@ const postHeaders = "application/x-www-form-urlencoded";
 
 // 创建axios实例
 const http = axios.create(axiosCreate);
+let loadingInstance: any;
 
 /**
  * axios request拦截器
@@ -50,6 +51,7 @@ const http = axios.create(axiosCreate);
  */
 http.interceptors.request.use(
   config => {
+    loadingInstance = Loading.service({ fullscreen: true });
     if (config.method === "post" || config.method === "put") {
       config.data = qs.stringify(config.data);
       // 对post和put进行数据字符串化处理，若Content-Type:application/json则不需要
@@ -58,6 +60,7 @@ http.interceptors.request.use(
     return config;
   },
   error => {
+    loadingInstance.close();
     Promise.reject(error);
   }
 );
@@ -69,6 +72,8 @@ http.interceptors.request.use(
  */
 http.interceptors.response.use(
   config => {
+    console.log("config", config);
+    loadingInstance.close();
     if (config.status === 404) {
       Notification({
         type: "error",
@@ -87,12 +92,12 @@ http.interceptors.response.use(
         duration: 3000
       });
       return { ...config, data: null };
-    } else if (config.status === 444) {
+    } else if (config.status === 403) {
       // 后端约定，444时只需要将后端错误信息弹出即可，如需详细处理的业务则判断config.data.data.errcode
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,
-        message: config.data.errmsg,
+        message: config.data.message,
         duration: 3000
         // 弹框自动消失时间
       });
@@ -103,6 +108,7 @@ http.interceptors.response.use(
     }
   },
   (error: any) => {
+    loadingInstance.close();
     Notification({
       // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
       type: "error",
