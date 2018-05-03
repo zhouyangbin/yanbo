@@ -1,11 +1,17 @@
 // 引入axios用来封装http请求
-import axios, { AxiosResponse } from "axios"
+import axios, { AxiosResponse } from "axios";
 // 提示信息常量引入，方便统一更改
-import {HTTP_STATUS_MSG_404, HTTP_STATUS_MSG_401, HTTP_STATUS_MSG_5XX, HTTP_STATUS_TITLE_ERROR, HTTP_STATUS_TITLE_5XX} from "../constants/TEXT"
+import {
+  HTTP_STATUS_MSG_404,
+  HTTP_STATUS_MSG_401,
+  HTTP_STATUS_MSG_5XX,
+  HTTP_STATUS_TITLE_ERROR,
+  HTTP_STATUS_TITLE_5XX
+} from "../constants/TEXT";
 // Content-Type:application/x-www-form-urlencoded时 对json数据字符串处理，JSON.stringify()不是很理想
-import qs from "qs"
-// 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框             
-import { Notification } from "element-ui"
+import qs from "qs";
+// 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框
+import { Notification } from "element-ui";
 
 // 创建axios实例常量配置
 const axiosCreate = {
@@ -55,7 +61,7 @@ http.interceptors.request.use(
     Promise.reject(error);
   }
 );
- 
+
 /**
  * axios respone拦截器
  * 首先针对特殊状态码特殊处理，提示内容统一在常量ts中更改
@@ -81,7 +87,7 @@ http.interceptors.response.use(
         duration: 3000
       });
       return { ...config, data: null };
-    }  else if (config.status === 444) { 
+    } else if (config.status === 444) {
       // 后端约定，444时只需要将后端错误信息弹出即可，如需详细处理的业务则判断config.data.data.errcode
       Notification({
         type: "error",

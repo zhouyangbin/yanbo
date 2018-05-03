@@ -7,23 +7,22 @@
     </div>
 </template>
 <script>
-    import { GRADE_REPORT } from "@/constants/TEXT"
-    export default {
-      data() {
-        return {
-          nav: [
-            {
-              label: GRADE_REPORT,
-              active: true
-            }
-          ]
+import { GRADE_REPORT } from "@/constants/TEXT";
+export default {
+  data() {
+    return {
+      nav: [
+        {
+          label: GRADE_REPORT,
+          active: true
         }
-      },
-      components: {
-        "nav-bar": () => import("@/components/common/Navbar/index.vue")
-      }
-    }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+  }
+};
 </script>
 <style scoped>
-
 </style>

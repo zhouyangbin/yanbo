@@ -279,615 +279,615 @@
   </div>
 </template>
 <script>
-  import {
-    GRADE_PROGRESS,
-    GRADE_MANAGE,
-    ORG_DETAIL,
-    FINISHED_DATE,
-    ENUM_GENERIC_COMPLETE_STATUS,
-    SELF_EVALUATION_STATUS,
-    LEADER_EVALUATION_STATUS,
-    LEADER_PLUS_EVALUATION_STATUS,
-    RESULT_CONFIRM,
-    ENUM_WAIT_CONFIRM,
-    SELECTION_TIPS,
-    RESET,
-    EXPORT_DETAILS,
-    REMINDER,
-    ADD,
-    BATCH_DEL,
-    NUMBER,
-    NAME,
-    LEADER_NUMBER,
-    LEADER_NAME,
-    PLUS_LEADER_NUMBER,
-    PLUS_LEADER_NAME,
-    BASE_OR_BU,
-    DEP_OR_SUB,
-    WORK_LEVEL,
-    EMAIL,
-    UP_LEVEL,
-    PLUS_UP_LEVEL,
-    FACE_FEEDBACK,
-    OPERATIONS,
-    MODIFY,
-    DEL,
-    DETAILS,
-    SET_TIMES,
-    IMPORT_RECORDS,
-    CONFIRM,
-    CANCEL,
-    SELF_EVALUATION_TIME,
-    LEADER_EVALUATION_TIME,
-    LEADER_PLUS_EVALUATION_TIME,
-    FACE_EVALUATION_TIME,
-    REQUIRE_271,
-    EHR_IMPORT,
-    EXCEL_IMPORT,
-    DRAG_FILE,
-    CLICK_TO_UPLOAD,
-    DOWNLOAD_EXCEL_TEMPLATE,
-    IMPORT_TIPS,
-    LEADER_TIME_VALIDATE_MSG,
-    UP_LEADER_TIME_VALIDATE_MSG,
-    FACE_TIME_VALIDATE_MSG,
-    EMAIL_VALIATE_MSG,
-    SELF_TIME_REQUIRE_MSG,
-    LEADER_TIME_REQUIRE_MSG,
-    FACE_TIME_REQUIRE_MSG,
-    UP_LEADER_TIME_REQUIRE_MSG,
-    NUMBER_REQUIRE_MSG,
-    LEADER_NUMBER_REQUIRE_MSG,
-    EMAIL_FORMAT_MSG,
-    ENUM_LEVELS
-  } from "@/constants/TEXT"
-  import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL"
-  export default {
-    data() {
-      // 时间顺序验证
-      const selfTimeValidator = (rule, value, callback) => {
-        if (this.timesForm.leader && !this.timesForm.leader[0]) {
-          // 隔级没填
-          callback()
+import {
+  GRADE_PROGRESS,
+  GRADE_MANAGE,
+  ORG_DETAIL,
+  FINISHED_DATE,
+  ENUM_GENERIC_COMPLETE_STATUS,
+  SELF_EVALUATION_STATUS,
+  LEADER_EVALUATION_STATUS,
+  LEADER_PLUS_EVALUATION_STATUS,
+  RESULT_CONFIRM,
+  ENUM_WAIT_CONFIRM,
+  SELECTION_TIPS,
+  RESET,
+  EXPORT_DETAILS,
+  REMINDER,
+  ADD,
+  BATCH_DEL,
+  NUMBER,
+  NAME,
+  LEADER_NUMBER,
+  LEADER_NAME,
+  PLUS_LEADER_NUMBER,
+  PLUS_LEADER_NAME,
+  BASE_OR_BU,
+  DEP_OR_SUB,
+  WORK_LEVEL,
+  EMAIL,
+  UP_LEVEL,
+  PLUS_UP_LEVEL,
+  FACE_FEEDBACK,
+  OPERATIONS,
+  MODIFY,
+  DEL,
+  DETAILS,
+  SET_TIMES,
+  IMPORT_RECORDS,
+  CONFIRM,
+  CANCEL,
+  SELF_EVALUATION_TIME,
+  LEADER_EVALUATION_TIME,
+  LEADER_PLUS_EVALUATION_TIME,
+  FACE_EVALUATION_TIME,
+  REQUIRE_271,
+  EHR_IMPORT,
+  EXCEL_IMPORT,
+  DRAG_FILE,
+  CLICK_TO_UPLOAD,
+  DOWNLOAD_EXCEL_TEMPLATE,
+  IMPORT_TIPS,
+  LEADER_TIME_VALIDATE_MSG,
+  UP_LEADER_TIME_VALIDATE_MSG,
+  FACE_TIME_VALIDATE_MSG,
+  EMAIL_VALIATE_MSG,
+  SELF_TIME_REQUIRE_MSG,
+  LEADER_TIME_REQUIRE_MSG,
+  FACE_TIME_REQUIRE_MSG,
+  UP_LEADER_TIME_REQUIRE_MSG,
+  NUMBER_REQUIRE_MSG,
+  LEADER_NUMBER_REQUIRE_MSG,
+  EMAIL_FORMAT_MSG,
+  ENUM_LEVELS
+} from "@/constants/TEXT";
+import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL";
+export default {
+  data() {
+    // 时间顺序验证
+    const selfTimeValidator = (rule, value, callback) => {
+      if (this.timesForm.leader && !this.timesForm.leader[0]) {
+        // 隔级没填
+        callback();
+      } else {
+        const leaderStart = new Date(this.timesForm.leader[0]);
+        const end = new Date(value[1]);
+        if (leaderStart <= end) {
+          this.$refs.timesForm.validateField("leader");
         } else {
-          const leaderStart = new Date(this.timesForm.leader[0])
-          const end = new Date(value[1])
-          if (leaderStart <= end) {
-            this.$refs.timesForm.validateField("leader")
-          } else {
-            callback()
-          }
+          callback();
         }
       }
-      const leaderTimeValidator = (rule, value, callback) => {
-        if (value && value[0]) {
-          // 有值的情况下
-          if (this.timesForm.self && !this.timesForm.self[0]) {
-            // 自评没填
-            this.$refs.timesForm.validateField("self")
+    };
+    const leaderTimeValidator = (rule, value, callback) => {
+      if (value && value[0]) {
+        // 有值的情况下
+        if (this.timesForm.self && !this.timesForm.self[0]) {
+          // 自评没填
+          this.$refs.timesForm.validateField("self");
+        } else {
+          const selfEnd = new Date(this.timesForm.self[1]);
+          const leaderStart = new Date(value[0]);
+          if (leaderStart <= selfEnd) {
+            callback(new Error(LEADER_TIME_VALIDATE_MSG));
           } else {
-            const selfEnd = new Date(this.timesForm.self[1])
-            const leaderStart = new Date(value[0])
-            if (leaderStart <= selfEnd) {
-              callback(new Error(LEADER_TIME_VALIDATE_MSG))
-            } else {
-              callback()
-            }
-
-            if (this.timesForm.upLeader && !this.timesForm.upLeader[0]) {
-              // 隔级没填
-              callback()
-            } else {
-              const leaderStart = new Date(this.timesForm.upLeader[0])
-              const end = new Date(value[1])
-              if (leaderStart <= end) {
-                this.$refs.timesForm.validateField("upLeader")
-              } else {
-                callback()
-              }
-            }
-          }
-        }
-        callback()
-      }
-      const upLeaderTimeValidator = (rule, value, callback) => {
-        if (value && value[0]) {
-          // 有值的情况下
-          if (this.timesForm.leader && !this.timesForm.leader[0]) {
-            // 上级评没填
-            this.$refs.timesForm.validateField("leader")
-          } else {
-            const leaderEnd = new Date(this.timesForm.leader[1])
-            const start = new Date(value[0])
-            if (start <= leaderEnd) {
-              callback(new Error(UP_LEADER_TIME_VALIDATE_MSG))
-            } else {
-              callback()
-            }
+            callback();
           }
 
-          if (this.timesForm.face && !this.timesForm.face[0]) {
-            // 面谈没填
-            callback()
-          } else {
-            const faceStart = new Date(this.timesForm.face[0])
-            const end = new Date(value[1])
-            if (faceStart <= end) {
-              this.$refs.timesForm.validateField("face")
-            } else {
-              callback()
-            }
-          }
-        }
-        callback()
-      }
-      const faceTimeValidator = (rule, value, callback) => {
-        if (value && value[0]) {
-          // 有值的情况下
           if (this.timesForm.upLeader && !this.timesForm.upLeader[0]) {
-            // 上级评没填
-            this.$refs.timesForm.validateField("upLeader")
+            // 隔级没填
+            callback();
           } else {
-            const leaderEnd = new Date(this.timesForm.upLeader[1])
-            const start = new Date(value[0])
-            if (start <= leaderEnd) {
-              callback(new Error(FACE_TIME_VALIDATE_MSG))
+            const leaderStart = new Date(this.timesForm.upLeader[0]);
+            const end = new Date(value[1]);
+            if (leaderStart <= end) {
+              this.$refs.timesForm.validateField("upLeader");
             } else {
-              callback()
+              callback();
             }
           }
         }
-        callback()
       }
-      const upLeaderEmailValidator = (rule, value, callback) => {
-        if (this.infoForm.upLeaderNum && !value) {
-          callback(EMAIL_VALIATE_MSG)
+      callback();
+    };
+    const upLeaderTimeValidator = (rule, value, callback) => {
+      if (value && value[0]) {
+        // 有值的情况下
+        if (this.timesForm.leader && !this.timesForm.leader[0]) {
+          // 上级评没填
+          this.$refs.timesForm.validateField("leader");
         } else {
-          callback()
+          const leaderEnd = new Date(this.timesForm.leader[1]);
+          const start = new Date(value[0]);
+          if (start <= leaderEnd) {
+            callback(new Error(UP_LEADER_TIME_VALIDATE_MSG));
+          } else {
+            callback();
+          }
+        }
+
+        if (this.timesForm.face && !this.timesForm.face[0]) {
+          // 面谈没填
+          callback();
+        } else {
+          const faceStart = new Date(this.timesForm.face[0]);
+          const end = new Date(value[1]);
+          if (faceStart <= end) {
+            this.$refs.timesForm.validateField("face");
+          } else {
+            callback();
+          }
         }
       }
-      return {
-        // 导入的tab选项
-        importTab: "first",
-        // 导入的弹框
-        dialogImport: false,
-        // 时间设置弹框
-        dialogTimes: false,
-        // 员工信息弹框
-        dialogInfo: false,
-        importForm: {
-          levels: []
-        },
-        // 时间设置form
-        timesForm: {
-          self: [],
-          leader: [],
-          upLeader: [],
-          face: [],
-          levelRequired: false
-        },
-        // 导入form验证
-        importRules: {
-          levels: [
-            {
-              type: "array",
-              required: true,
-              message: "请至少选择一个活动性质",
-              trigger: "change"
-            }
-          ]
-        },
-        // 时间form验证规则
-        timesRules: {
-          self: [
-            {
-              type: "array",
-              required: true,
-              message: SELF_TIME_REQUIRE_MSG,
-              trigger: "change"
-            },
-            { validator: selfTimeValidator, trigger: "change" }
-          ],
-          leader: [
-            {
-              type: "array",
-              required: true,
-              message: LEADER_TIME_REQUIRE_MSG,
-              trigger: "change"
-            },
-            { validator: leaderTimeValidator, trigger: "change" }
-          ],
-          upLeader: [
-            {
-              type: "array",
-              required: true,
-              message: UP_LEADER_TIME_REQUIRE_MSG,
-              trigger: "change"
-            },
-            { validator: upLeaderTimeValidator, trigger: "change" }
-          ],
-          face: [
-            {
-              type: "array",
-              required: true,
-              message: FACE_TIME_REQUIRE_MSG,
-              trigger: "change"
-            },
-            { validator: faceTimeValidator, trigger: "change" }
-          ]
-        },
-        infoRules: {
-          number: {
-            type: "string",
-            required: true,
-            message: NUMBER_REQUIRE_MSG,
-            trigger: "change"
-          },
-          email: [
-            { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
-            {
-              type: "email",
-              message: EMAIL_FORMAT_MSG,
-              trigger: ["blur", "change"]
-            }
-          ],
-          leaderNum: [
-            {
-              type: "string",
-              required: true,
-              message: LEADER_NUMBER_REQUIRE_MSG,
-              trigger: "change"
-            }
-          ],
-          leaderEmail: [
-            { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
-            {
-              type: "email",
-              message: EMAIL_FORMAT_MSG,
-              trigger: ["blur", "change"]
-            }
-          ],
-          upLeaderEmail: [
-            {
-              type: "email",
-              message: EMAIL_FORMAT_MSG,
-              trigger: ["blur", "change"]
-            },
-            { validator: upLeaderEmailValidator, trigger: "change" }
-          ]
-        },
-        // 添加为add,修改为modify,根据type不同改变title和赋值还有请求
-        infoType: "add",
-        // 添加修改form里的值
-        infoForm: {
-          num: "",
-          name: "",
-          BU: "",
-          dep: "",
-          level: "",
-          email: "",
-          leaderNum: "",
-          leaderName: "",
-          leaderBU: "",
-          leaderEmail: "",
-          upLeaderNum: "",
-          upLeaderName: "",
-          upLeaderBU: "",
-          upLeaderEmail: ""
-        },
-        // 评测信息
-        gradeInfo: {
-          name: "评测的名字这里",
-          finishedDate: new Date()
-        },
-        // 事业部信息
-        depInfo: {
-          name: "是业务的的等部门的名字",
-          step: 2
-        },
-        // 选择集合
-        selection: [],
-        // 搜索项form
-        formFilter: {
-          number: "",
-          name: "",
-          leaderNum: "",
-          leaderName: "",
-          upLeaderNum: "",
-          upLeaderName: "",
-          selfEvaluation: "",
-          leaderEvaluation: "",
-          plusLeaderEvaluation: "",
-          result: ""
-        },
-        constants: {
-          FINISHED_DATE,
-          ENUM_GENERIC_COMPLETE_STATUS,
-          SELF_EVALUATION_STATUS,
-          LEADER_EVALUATION_STATUS,
-          LEADER_PLUS_EVALUATION_STATUS,
-          RESULT_CONFIRM,
-          ENUM_WAIT_CONFIRM,
-          SELECTION_TIPS,
-          RESET,
-          OPERATIONS,
-          EXPORT_DETAILS,
-          REMINDER,
-          ADD,
-          BATCH_DEL,
-          NUMBER,
-          NAME,
-          LEADER_NUMBER,
-          LEADER_NAME,
-          PLUS_LEADER_NUMBER,
-          PLUS_LEADER_NAME,
-          BASE_OR_BU,
-          DEP_OR_SUB,
-          WORK_LEVEL,
-          EMAIL,
-          UP_LEVEL,
-          PLUS_UP_LEVEL,
-          FACE_FEEDBACK,
-          MODIFY,
-          DEL,
-          DETAILS,
-          SET_TIMES,
-          IMPORT_RECORDS,
-          CONFIRM,
-          CANCEL,
-          SELF_EVALUATION_TIME,
-          LEADER_EVALUATION_TIME,
-          LEADER_PLUS_EVALUATION_TIME,
-          FACE_EVALUATION_TIME,
-          EHR_IMPORT,
-          REQUIRE_271,
-          EXCEL_IMPORT,
-          DRAG_FILE,
-          CLICK_TO_UPLOAD,
-          DOWNLOAD_EXCEL_TEMPLATE,
-          IMPORT_TIPS,
-          ENUM_LEVELS
-        },
-        tableData: [
-          {
-            date: "2016-05-02",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1518 弄"
-          },
-          {
-            date: "2016-05-04",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1517 弄"
-          },
-          {
-            date: "2016-05-01",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1519 弄"
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1516 弄"
+      callback();
+    };
+    const faceTimeValidator = (rule, value, callback) => {
+      if (value && value[0]) {
+        // 有值的情况下
+        if (this.timesForm.upLeader && !this.timesForm.upLeader[0]) {
+          // 上级评没填
+          this.$refs.timesForm.validateField("upLeader");
+        } else {
+          const leaderEnd = new Date(this.timesForm.upLeader[1]);
+          const start = new Date(value[0]);
+          if (start <= leaderEnd) {
+            callback(new Error(FACE_TIME_VALIDATE_MSG));
+          } else {
+            callback();
           }
-        ],
-        nav: [
+        }
+      }
+      callback();
+    };
+    const upLeaderEmailValidator = (rule, value, callback) => {
+      if (this.infoForm.upLeaderNum && !value) {
+        callback(EMAIL_VALIATE_MSG);
+      } else {
+        callback();
+      }
+    };
+    return {
+      // 导入的tab选项
+      importTab: "first",
+      // 导入的弹框
+      dialogImport: false,
+      // 时间设置弹框
+      dialogTimes: false,
+      // 员工信息弹框
+      dialogInfo: false,
+      importForm: {
+        levels: []
+      },
+      // 时间设置form
+      timesForm: {
+        self: [],
+        leader: [],
+        upLeader: [],
+        face: [],
+        levelRequired: false
+      },
+      // 导入form验证
+      importRules: {
+        levels: [
           {
-            label: GRADE_MANAGE,
-            href: PATH_GRADE_MANAGE
-          },
-          {
-            label: GRADE_PROGRESS,
-            href: PATH_GRADE_PROGRESS(this.$route.params.id)
-          },
-          {
-            label: ORG_DETAIL,
-            active: true
+            type: "array",
+            required: true,
+            message: "请至少选择一个活动性质",
+            trigger: "change"
           }
         ]
-      }
-    },
-    components: {
-      "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-      pagination: () => import("@/components/common/Pagination/index.vue")
-    },
-    methods: {
-      // 重置form
-      resetFilter(formName) {
-        this.$refs[formName].resetFields()
       },
-      // 选择列表项
-      handleSelectionChange(arr) {
-        this.selection = arr
+      // 时间form验证规则
+      timesRules: {
+        self: [
+          {
+            type: "array",
+            required: true,
+            message: SELF_TIME_REQUIRE_MSG,
+            trigger: "change"
+          },
+          { validator: selfTimeValidator, trigger: "change" }
+        ],
+        leader: [
+          {
+            type: "array",
+            required: true,
+            message: LEADER_TIME_REQUIRE_MSG,
+            trigger: "change"
+          },
+          { validator: leaderTimeValidator, trigger: "change" }
+        ],
+        upLeader: [
+          {
+            type: "array",
+            required: true,
+            message: UP_LEADER_TIME_REQUIRE_MSG,
+            trigger: "change"
+          },
+          { validator: upLeaderTimeValidator, trigger: "change" }
+        ],
+        face: [
+          {
+            type: "array",
+            required: true,
+            message: FACE_TIME_REQUIRE_MSG,
+            trigger: "change"
+          },
+          { validator: faceTimeValidator, trigger: "change" }
+        ]
       },
-      // 翻页
-      handleCurrentChange(val) {
-        // TODO:翻页
-        console.log(`当前页: ${val}`)
-      },
-      // 导入操作提交
-      importFiles(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            alert("submit!")
-          } else {
-            console.log("error submit!!")
-            return false
+      infoRules: {
+        number: {
+          type: "string",
+          required: true,
+          message: NUMBER_REQUIRE_MSG,
+          trigger: "change"
+        },
+        email: [
+          { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
+          {
+            type: "email",
+            message: EMAIL_FORMAT_MSG,
+            trigger: ["blur", "change"]
           }
-        })
-      },
-      // 时间设置提交
-      timeSet(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            alert("submit!")
-          } else {
-            console.log("error submit!!")
-            return false
+        ],
+        leaderNum: [
+          {
+            type: "string",
+            required: true,
+            message: LEADER_NUMBER_REQUIRE_MSG,
+            trigger: "change"
           }
-        })
-      },
-      // 添加或修改用户信息提交
-      infoSubmit(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            alert("submit!")
-          } else {
-            console.log("error submit!!")
-            return false
+        ],
+        leaderEmail: [
+          { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
+          {
+            type: "email",
+            message: EMAIL_FORMAT_MSG,
+            trigger: ["blur", "change"]
           }
-        })
+        ],
+        upLeaderEmail: [
+          {
+            type: "email",
+            message: EMAIL_FORMAT_MSG,
+            trigger: ["blur", "change"]
+          },
+          { validator: upLeaderEmailValidator, trigger: "change" }
+        ]
       },
-      // 发出提醒
-      reminder() {
-        let msg = "是否要发出提醒?"
-        console.log(this.selection.length)
-        if (this.selection.length == 0) {
-          msg = "是否提醒全部?"
+      // 添加为add,修改为modify,根据type不同改变title和赋值还有请求
+      infoType: "add",
+      // 添加修改form里的值
+      infoForm: {
+        num: "",
+        name: "",
+        BU: "",
+        dep: "",
+        level: "",
+        email: "",
+        leaderNum: "",
+        leaderName: "",
+        leaderBU: "",
+        leaderEmail: "",
+        upLeaderNum: "",
+        upLeaderName: "",
+        upLeaderBU: "",
+        upLeaderEmail: ""
+      },
+      // 评测信息
+      gradeInfo: {
+        name: "评测的名字这里",
+        finishedDate: new Date()
+      },
+      // 事业部信息
+      depInfo: {
+        name: "是业务的的等部门的名字",
+        step: 2
+      },
+      // 选择集合
+      selection: [],
+      // 搜索项form
+      formFilter: {
+        number: "",
+        name: "",
+        leaderNum: "",
+        leaderName: "",
+        upLeaderNum: "",
+        upLeaderName: "",
+        selfEvaluation: "",
+        leaderEvaluation: "",
+        plusLeaderEvaluation: "",
+        result: ""
+      },
+      constants: {
+        FINISHED_DATE,
+        ENUM_GENERIC_COMPLETE_STATUS,
+        SELF_EVALUATION_STATUS,
+        LEADER_EVALUATION_STATUS,
+        LEADER_PLUS_EVALUATION_STATUS,
+        RESULT_CONFIRM,
+        ENUM_WAIT_CONFIRM,
+        SELECTION_TIPS,
+        RESET,
+        OPERATIONS,
+        EXPORT_DETAILS,
+        REMINDER,
+        ADD,
+        BATCH_DEL,
+        NUMBER,
+        NAME,
+        LEADER_NUMBER,
+        LEADER_NAME,
+        PLUS_LEADER_NUMBER,
+        PLUS_LEADER_NAME,
+        BASE_OR_BU,
+        DEP_OR_SUB,
+        WORK_LEVEL,
+        EMAIL,
+        UP_LEVEL,
+        PLUS_UP_LEVEL,
+        FACE_FEEDBACK,
+        MODIFY,
+        DEL,
+        DETAILS,
+        SET_TIMES,
+        IMPORT_RECORDS,
+        CONFIRM,
+        CANCEL,
+        SELF_EVALUATION_TIME,
+        LEADER_EVALUATION_TIME,
+        LEADER_PLUS_EVALUATION_TIME,
+        FACE_EVALUATION_TIME,
+        EHR_IMPORT,
+        REQUIRE_271,
+        EXCEL_IMPORT,
+        DRAG_FILE,
+        CLICK_TO_UPLOAD,
+        DOWNLOAD_EXCEL_TEMPLATE,
+        IMPORT_TIPS,
+        ENUM_LEVELS
+      },
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
         }
-        this.$confirm(msg, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-          center: true
-        })
-          .then(() => {
-            this.$message({
-              type: "success",
-              message: "提醒成功!"
-            })
-          })
-          .catch(() => {})
-      },
-      // 删除某条记录
-      delInfo(row) {
-        this.$confirm("确定删除此用户?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-          center: true
-        })
-          .then(() => {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            })
-          })
-          .catch(() => {})
-      },
-      initImportLevels() {
-        this.importForm.levels = ENUM_LEVELS.filter(
-          v => parseFloat(v.value) > 3.0
-        ).map(v => v.value)
-      }
+      ],
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          href: PATH_GRADE_MANAGE
+        },
+        {
+          label: GRADE_PROGRESS,
+          href: PATH_GRADE_PROGRESS(this.$route.params.id)
+        },
+        {
+          label: ORG_DETAIL,
+          active: true
+        }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
+  methods: {
+    // 重置form
+    resetFilter(formName) {
+      this.$refs[formName].resetFields();
     },
-    created() {
-      this.initImportLevels()
+    // 选择列表项
+    handleSelectionChange(arr) {
+      this.selection = arr;
+    },
+    // 翻页
+    handleCurrentChange(val) {
+      // TODO:翻页
+      console.log(`当前页: ${val}`);
+    },
+    // 导入操作提交
+    importFiles(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    // 时间设置提交
+    timeSet(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    // 添加或修改用户信息提交
+    infoSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    // 发出提醒
+    reminder() {
+      let msg = "是否要发出提醒?";
+      console.log(this.selection.length);
+      if (this.selection.length == 0) {
+        msg = "是否提醒全部?";
+      }
+      this.$confirm(msg, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "提醒成功!"
+          });
+        })
+        .catch(() => {});
+    },
+    // 删除某条记录
+    delInfo(row) {
+      this.$confirm("确定删除此用户?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {});
+    },
+    initImportLevels() {
+      this.importForm.levels = ENUM_LEVELS.filter(
+        v => parseFloat(v.value) > 3.0
+      ).map(v => v.value);
     }
+  },
+  created() {
+    this.initImportLevels();
   }
+};
 </script>
 <style scoped>
-  .dep-page {
-    padding: 20px;
-  }
-  .bg-white {
-    background-color: white;
-  }
-  .header {
-    padding: 20px;
-  }
-  .tip {
-    font-size: 10px;
-    color: #afafaf;
-  }
-  hr {
-    border: 0;
-    border-top: 1px solid #eee;
-  }
-  .time-line-panel {
-    padding: 20px 0 40px;
-  }
-  .time-line-panel>>>.el-step__icon {
-    width: 34px;
-    height: 34px;
-    background-color: #ececec;
-    color: #d5d5d5;
-    border: 2px solid #ececec;
-  }
-  .time-line-panel>>>.is-success .el-step__icon {
-    color: white;
-    background-color: #52ddab;
-    border-color: #52ddab;
-  }
-  .time-line-panel>>>.el-step.is-horizontal .el-step__line {
-    top: 15px;
-  }
-  .time-line-panel>>>.el-step .el-step__title {
-    font-size: 14px;
-    margin-top: 10px;
-  }
-  .time-line-panel>>>.el-step__head.is-success {
-    color: #52ddab;
-    border-color: #52ddab;
-  }
-  .time-line-panel>>>.el-step__title.is-success {
-    color: #52ddab;
-  }
-  .dep-name {
-    padding: 8px 20px;
-    background-color: #fff4f4;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
-  .action-bar {
-    padding: 10px;
-  }
+.dep-page {
+  padding: 20px;
+}
+.bg-white {
+  background-color: white;
+}
+.header {
+  padding: 20px;
+}
+.tip {
+  font-size: 10px;
+  color: #afafaf;
+}
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.time-line-panel {
+  padding: 20px 0 40px;
+}
+.time-line-panel >>> .el-step__icon {
+  width: 34px;
+  height: 34px;
+  background-color: #ececec;
+  color: #d5d5d5;
+  border: 2px solid #ececec;
+}
+.time-line-panel >>> .is-success .el-step__icon {
+  color: white;
+  background-color: #52ddab;
+  border-color: #52ddab;
+}
+.time-line-panel >>> .el-step.is-horizontal .el-step__line {
+  top: 15px;
+}
+.time-line-panel >>> .el-step .el-step__title {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.time-line-panel >>> .el-step__head.is-success {
+  color: #52ddab;
+  border-color: #52ddab;
+}
+.time-line-panel >>> .el-step__title.is-success {
+  color: #52ddab;
+}
+.dep-name {
+  padding: 8px 20px;
+  background-color: #fff4f4;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.action-bar {
+  padding: 10px;
+}
 
-  .action-btn:not(.is-disabled) {
-    color: #52ddab;
-    border: none;
-  }
-  .el-button.is-disabled {
-    border: none;
-  }
-  .filter-form {
-    padding: 20px;
-    background-color: #f8f8f8;
-  }
-  .btn-reset {
-    color: #09c981;
-    border-color: #09c981;
-  }
-  .importForm>>>.el-checkbox {
-    margin-left: 30px;
-  }
-  .dialogImport .title,
-  .dialogInfo .title {
-    text-align: center;
-    font-weight: 700;
-    font-size: 18px;
-  }
-  .dialogImport>>>.el-dialog {
-    padding: 20px 40px;
-  }
-  .importTab {
-    position: relative;
-  }
-  .importTab .tips {
-    position: absolute;
-    right: 0;
-    top: 5px;
-    font-size: 12px;
-    color: grey;
-  }
-  .el-upload__tip>>>a {
-    color: #1e90ff;
-    text-decoration: none;
-  }
-  .el-upload__tip {
-    text-align: center;
-    font-size: 14px;
-  }
-  .uploader {
-    margin-top: 10px;
-  }
+.action-btn:not(.is-disabled) {
+  color: #52ddab;
+  border: none;
+}
+.el-button.is-disabled {
+  border: none;
+}
+.filter-form {
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+.btn-reset {
+  color: #09c981;
+  border-color: #09c981;
+}
+.importForm >>> .el-checkbox {
+  margin-left: 30px;
+}
+.dialogImport .title,
+.dialogInfo .title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+.dialogImport >>> .el-dialog {
+  padding: 20px 40px;
+}
+.importTab {
+  position: relative;
+}
+.importTab .tips {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  font-size: 12px;
+  color: grey;
+}
+.el-upload__tip >>> a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+.el-upload__tip {
+  text-align: center;
+  font-size: 14px;
+}
+.uploader {
+  margin-top: 10px;
+}
 </style>

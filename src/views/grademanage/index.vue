@@ -64,137 +64,137 @@
   </div>
 </template>
 <script>
-  import {
-    GRADE_MANAGE,
-    GRADE_LIST,
-    CREATE_GRADE,
-    GRADE_NAME,
-    CREATED_DATE,
-    BU,
-    FINISHED_DATE,
-    OPERATIONS,
-    DETAILS,
-    EXPORT_DETAILS,
-    CANCEL,
-    CONFIRM,
-    MSG_FILL_GRADE_NAME,
-    MSG_SELECT_BU,
-    MSG_SELECT_FINISHED_DATE
-  } from "@/constants/TEXT"
-  import { PATH_GRADE_PROGRESS } from "@/constants/URL"
-  export default {
-    data() {
-      return {
-        constants: {
-          GRADE_LIST,
-          CREATE_GRADE,
-          GRADE_NAME,
-          BU,
-          FINISHED_DATE,
-          CREATED_DATE,
-          OPERATIONS,
-          DETAILS,
-          EXPORT_DETAILS,
-          CANCEL,
-          CONFIRM
-        },
-        createGradeDialog: false,
-        ruleForm: {
-          name: "",
-          dep: [],
-          time: ""
-        },
-        rules: {
-          name: [
-            { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
-          ],
-          dep: [
-            {
-              type: "array",
-              required: true,
-              message: MSG_SELECT_BU,
-              trigger: "change"
-            }
-          ],
-          time: [
-            { required: true, message: MSG_SELECT_FINISHED_DATE, trigger: "blur" }
-          ]
-        },
-        nav: [
+import {
+  GRADE_MANAGE,
+  GRADE_LIST,
+  CREATE_GRADE,
+  GRADE_NAME,
+  CREATED_DATE,
+  BU,
+  FINISHED_DATE,
+  OPERATIONS,
+  DETAILS,
+  EXPORT_DETAILS,
+  CANCEL,
+  CONFIRM,
+  MSG_FILL_GRADE_NAME,
+  MSG_SELECT_BU,
+  MSG_SELECT_FINISHED_DATE
+} from "@/constants/TEXT";
+import { PATH_GRADE_PROGRESS } from "@/constants/URL";
+export default {
+  data() {
+    return {
+      constants: {
+        GRADE_LIST,
+        CREATE_GRADE,
+        GRADE_NAME,
+        BU,
+        FINISHED_DATE,
+        CREATED_DATE,
+        OPERATIONS,
+        DETAILS,
+        EXPORT_DETAILS,
+        CANCEL,
+        CONFIRM
+      },
+      createGradeDialog: false,
+      ruleForm: {
+        name: "",
+        dep: [],
+        time: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
+        ],
+        dep: [
           {
-            label: GRADE_MANAGE,
-            active: true
+            type: "array",
+            required: true,
+            message: MSG_SELECT_BU,
+            trigger: "change"
           }
         ],
-        tableData: [
-          {
-            date: "2016-05-02",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1518 弄"
-          },
-          {
-            date: "2016-05-04",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1517 弄"
-          },
-          {
-            date: "2016-05-01",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1519 弄"
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1516 弄"
-          }
+        time: [
+          { required: true, message: MSG_SELECT_FINISHED_DATE, trigger: "blur" }
         ]
-      }
+      },
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          active: true
+        }
+      ],
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
+  methods: {
+    goDetail(row) {
+      this.$router.push(PATH_GRADE_PROGRESS("123"));
     },
-    components: {
-      "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-      pagination: () => import("@/components/common/Pagination/index.vue")
+    closeDia(formName) {
+      this.createGradeDialog = false;
+      this.$refs[formName].resetFields();
     },
-    methods: {
-      goDetail(row) {
-        this.$router.push(PATH_GRADE_PROGRESS("123"))
-      },
-      closeDia(formName) {
-        this.createGradeDialog = false
-        this.$refs[formName].resetFields()
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            alert("submit!")
-          } else {
-            return false
-          }
-        })
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`)
-      }
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          return false;
+        }
+      });
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
+};
 </script>
 <style scoped>
-  .dialog-title {
-    font-weight: 700;
-  }
-  .create-form-dialog {
-    padding: 15px;
-  }
-  .create-form-dialog>>>.el-form-item__label {
-    font-size: 13px;
-    color: gray;
-  }
-  .create-form-dialog>>>.el-checkbox__label {
-    font-size: 13px;
-    color: gray;
-  }
+.dialog-title {
+  font-weight: 700;
+}
+.create-form-dialog {
+  padding: 15px;
+}
+.create-form-dialog >>> .el-form-item__label {
+  font-size: 13px;
+  color: gray;
+}
+.create-form-dialog >>> .el-checkbox__label {
+  font-size: 13px;
+  color: gray;
+}
 
-  .create-form-dialog>>>.el-checkbox-group,
-  .create-form-dialog>>>.el-checkbox-group + .el-checkbox {
-    margin-left: -30px !important;
-  }
+.create-form-dialog >>> .el-checkbox-group,
+.create-form-dialog >>> .el-checkbox-group + .el-checkbox {
+  margin-left: -30px !important;
+}
 </style>

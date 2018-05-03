@@ -5,34 +5,34 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      list: {
-        type: Array,
-        default: []
-      }
-    },
-    data() {
-      return {}
-    },
-    computed: {
-      activeIndex() {
-        return (this.list.filter(v => v.active)[0] || {}).label
-      }
-    },
-    methods: {
-      nav(url) {
-        this.$router.push(url)
-      }
+export default {
+  props: {
+    list: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    activeIndex() {
+      return (this.list.filter(v => v.active)[0] || {}).label;
+    }
+  },
+  methods: {
+    nav(url) {
+      this.$router.push(url);
     }
   }
+};
 </script>
 <style scoped>
-  .nav-container {
-    padding: 0 20px;
-  }
-  .nav-container>>>.el-menu--horizontal > .el-menu-item {
-    height: 74px;
-    line-height: 74px;
-  }
+.nav-container {
+  padding: 0 20px;
+}
+.nav-container >>> .el-menu--horizontal > .el-menu-item {
+  height: 74px;
+  line-height: 74px;
+}
 </style>

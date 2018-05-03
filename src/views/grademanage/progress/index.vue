@@ -61,138 +61,138 @@
   </div>
 </template>
 <script>
-  import {
-    GRADE_PROGRESS,
-    GRADE_MANAGE,
-    FINISHED_DATE,
-    RECORD_STATUS,
-    SELF_EVALUATION_STATUS,
-    LEADER_EVALUATION_STATUS,
-    LEADER_PLUS_EVALUATION_STATUS,
-    FACE_EVALUATION_STATUS,
-    ENUM_RECORD_STATUS,
-    ENUM_SELF_EVALUATION_STATUS,
-    ENUM_LEADER_EVALUATION_STATUS,
-    ENUM_LEADER_PLUS_EVALUATION_STATUS,
-    ENUM_FACE_EVALUATION_STATUS,
-    DEPARTMENT,
-    OPERATIONS,
-    DETAILS,
-    EXPORT_DETAILS,
-    RESET
-  } from "@/constants/TEXT"
-  import { PATH_GRADE_MANAGE, PATH_GRADE_ORG_LIST } from "@/constants/URL"
-  export default {
-    data() {
-      return {
-        constants: {
-          FINISHED_DATE,
-          RECORD_STATUS,
-          SELF_EVALUATION_STATUS,
-          LEADER_EVALUATION_STATUS,
-          LEADER_PLUS_EVALUATION_STATUS,
-          FACE_EVALUATION_STATUS,
-          ENUM_RECORD_STATUS,
-          ENUM_SELF_EVALUATION_STATUS,
-          ENUM_LEADER_EVALUATION_STATUS,
-          ENUM_LEADER_PLUS_EVALUATION_STATUS,
-          ENUM_FACE_EVALUATION_STATUS,
-          DEPARTMENT,
-          OPERATIONS,
-          DETAILS,
-          EXPORT_DETAILS,
-          RESET
-        },
-        searchForm: {
-          recordStatus: "",
-          selfStatus: "",
-          leaderStatus: "",
-          upLeaderStatus: "",
-          faceStatus: ""
-        },
-        nav: [
-          {
-            label: GRADE_MANAGE,
-            href: PATH_GRADE_MANAGE
-          },
-          {
-            label: GRADE_PROGRESS,
-            active: true
-          }
-        ],
-        gradeName: "testestst",
-        listData: [
-          {
-            date: "2016-05-02",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1518 弄"
-          },
-          {
-            date: "2016-05-04",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1517 弄"
-          },
-          {
-            date: "2016-05-01",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1519 弄"
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1516 弄"
-          }
-        ]
-      }
-    },
-    components: {
-      "nav-bar": () => import("@/components/common/Navbar/index.vue")
-    },
-    methods: {
-      resetFilter(formName) {
-        this.$refs[formName].resetFields()
+import {
+  GRADE_PROGRESS,
+  GRADE_MANAGE,
+  FINISHED_DATE,
+  RECORD_STATUS,
+  SELF_EVALUATION_STATUS,
+  LEADER_EVALUATION_STATUS,
+  LEADER_PLUS_EVALUATION_STATUS,
+  FACE_EVALUATION_STATUS,
+  ENUM_RECORD_STATUS,
+  ENUM_SELF_EVALUATION_STATUS,
+  ENUM_LEADER_EVALUATION_STATUS,
+  ENUM_LEADER_PLUS_EVALUATION_STATUS,
+  ENUM_FACE_EVALUATION_STATUS,
+  DEPARTMENT,
+  OPERATIONS,
+  DETAILS,
+  EXPORT_DETAILS,
+  RESET
+} from "@/constants/TEXT";
+import { PATH_GRADE_MANAGE, PATH_GRADE_ORG_LIST } from "@/constants/URL";
+export default {
+  data() {
+    return {
+      constants: {
+        FINISHED_DATE,
+        RECORD_STATUS,
+        SELF_EVALUATION_STATUS,
+        LEADER_EVALUATION_STATUS,
+        LEADER_PLUS_EVALUATION_STATUS,
+        FACE_EVALUATION_STATUS,
+        ENUM_RECORD_STATUS,
+        ENUM_SELF_EVALUATION_STATUS,
+        ENUM_LEADER_EVALUATION_STATUS,
+        ENUM_LEADER_PLUS_EVALUATION_STATUS,
+        ENUM_FACE_EVALUATION_STATUS,
+        DEPARTMENT,
+        OPERATIONS,
+        DETAILS,
+        EXPORT_DETAILS,
+        RESET
       },
-      goDetail(row) {
-        // FIXME: get id from row
-        this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, "sdfa"))
-      }
-    },
-    watch: {
       searchForm: {
-        handler: function(v) {
-          // TODO: request data
-          console.log(v)
-          console.log("request  data here")
+        recordStatus: "",
+        selfStatus: "",
+        leaderStatus: "",
+        upLeaderStatus: "",
+        faceStatus: ""
+      },
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          href: PATH_GRADE_MANAGE
         },
-        deep: true,
-        immediate: true
-      }
+        {
+          label: GRADE_PROGRESS,
+          active: true
+        }
+      ],
+      gradeName: "testestst",
+      listData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+  },
+  methods: {
+    resetFilter(formName) {
+      this.$refs[formName].resetFields();
+    },
+    goDetail(row) {
+      // FIXME: get id from row
+      this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, "sdfa"));
+    }
+  },
+  watch: {
+    searchForm: {
+      handler: function(v) {
+        // TODO: request data
+        console.log(v);
+        console.log("request  data here");
+      },
+      deep: true,
+      immediate: true
     }
   }
+};
 </script>
 <style scoped>
-  .progress-header {
-    background-color: white;
-    padding: 20px 10px 10px 10px;
-  }
-  .tips {
-    font-size: 10px;
-    color: grey;
-  }
-  hr {
-    margin-top: 20px;
-    border: 0;
-    border-top: 1px solid #eeeeee;
-  }
-  .form-search {
-    background-color: #f8f8f8;
-    padding: 10px;
-  }
-  .form-search .el-form-item {
-    margin-bottom: 0px;
-  }
-  .btn-reset {
-    color: #09c981;
-    border-color: #09c981;
-  }
+.progress-header {
+  background-color: white;
+  padding: 20px 10px 10px 10px;
+}
+.tips {
+  font-size: 10px;
+  color: grey;
+}
+hr {
+  margin-top: 20px;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+.form-search {
+  background-color: #f8f8f8;
+  padding: 10px;
+}
+.form-search .el-form-item {
+  margin-bottom: 0px;
+}
+.btn-reset {
+  color: #09c981;
+  border-color: #09c981;
+}
 </style>

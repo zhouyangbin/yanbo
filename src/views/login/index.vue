@@ -49,89 +49,94 @@
 </template>
 
 <script>
-	import { 
-		PATH_GRADE_REPORT
-	} from '@/constants/URL'
-	import { 
-		LABEL_LOGIN, 
-		LABEL_LOGIN_EMAIL, 
-		LABEL_LOGIN_EMAIL_MSG, 
-		LABEL_LOGIN_PASSWORD, 
-		LABEL_LOGIN_PASSWORD_MSG, 
-		LABEL_LOGIN_REMEMBER_USER 
-	} from '@/constants/TEXT'
+import { PATH_GRADE_REPORT } from "@/constants/URL";
+import {
+  LABEL_LOGIN,
+  LABEL_LOGIN_EMAIL,
+  LABEL_LOGIN_EMAIL_MSG,
+  LABEL_LOGIN_PASSWORD,
+  LABEL_LOGIN_PASSWORD_MSG,
+  LABEL_LOGIN_REMEMBER_USER
+} from "@/constants/TEXT";
 
-    export default {
-    	data () {
-    		return {
-    			// 常量文字
-    			label_login: LABEL_LOGIN,
-    			label_login_email: LABEL_LOGIN_EMAIL,
-    			label_login_password: LABEL_LOGIN_PASSWORD,
-    			lebel_login_remember_user: LABEL_LOGIN_REMEMBER_USER,
-				// 登录Form
-    			loginForm: {email:'',password:''},
-    			// 校验规则
-    			loginRules: {
-    				email: [
-    				{ required: true, message: LABEL_LOGIN_EMAIL_MSG, trigger: 'change' }
-    				],
-    				password: [
-    				{ required: true, message: LABEL_LOGIN_PASSWORD_MSG, trigger: 'change' }
-    				]
-    			},
-    			// 记录用户名
-    			loginRemember: false
-    		}
-    	},
-    	created(){
-    		this.loginForm = Object.assign({},this.loginForm,{email:localStorage.email})
-    	},
-    	methods: {
-    		submitForm(formName) {
-    			this.$refs[formName].validate((valid) => {
-    				if (valid) {
-    					localStorage.email = this.loginRemember?this.loginForm.email:''
-    					this.$router.push({path:PATH_GRADE_REPORT})
-    				} else {
-    					console.log('error submit!!');
-    					return false;
-    				}
-    			});
-    		}
-    	}
+export default {
+  data() {
+    return {
+      // 常量文字
+      label_login: LABEL_LOGIN,
+      label_login_email: LABEL_LOGIN_EMAIL,
+      label_login_password: LABEL_LOGIN_PASSWORD,
+      lebel_login_remember_user: LABEL_LOGIN_REMEMBER_USER,
+      // 登录Form
+      loginForm: { email: "", password: "" },
+      // 校验规则
+      loginRules: {
+        email: [
+          { required: true, message: LABEL_LOGIN_EMAIL_MSG, trigger: "change" }
+        ],
+        password: [
+          {
+            required: true,
+            message: LABEL_LOGIN_PASSWORD_MSG,
+            trigger: "change"
+          }
+        ]
+      },
+      // 记录用户名
+      loginRemember: false
+    };
+  },
+  created() {
+    this.loginForm = Object.assign({}, this.loginForm, {
+      email: localStorage.email
+    });
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          localStorage.email = this.loginRemember ? this.loginForm.email : "";
+          this.$router.push({ path: PATH_GRADE_REPORT });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
+  }
+};
 </script>
 
 <style scoped>
-	.login{
-		width: 100%;
-		height: 100%;
-		background-image: url(../../assets/img/login_bg.jpg);
-		background-repeat: no-repeat;
-		background-size: cover;
-	}
-	.row-bg, .col-bg{
-		height: 100%;
-	}
-	.login-logo{
-		padding: 40px 35px;
-	}
-	.login-form{
-		background-color: #fff;
-		border-radius: 5px;
-	}
-	.login-form-title{
-		background-color: #f9f9f9;
-		border-radius: 5px;
-		font-size: 16px;
-		text-align: center;
-	}
-	.login-form-main{
-		padding-left: 25px;
-		padding-right: 25px;
-	}
-	.el-button{
-		width: 100%;
-	}	
+.login {
+  width: 100%;
+  height: 100%;
+  background-image: url(../../assets/img/login_bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.row-bg,
+.col-bg {
+  height: 100%;
+}
+.login-logo {
+  padding: 40px 35px;
+}
+.login-form {
+  background-color: #fff;
+  border-radius: 5px;
+}
+.login-form-title {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+.login-form-main {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+.el-button {
+  width: 100%;
+}
 </style>

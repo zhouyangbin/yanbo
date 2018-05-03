@@ -68,96 +68,96 @@
   </div>
 </template>
 <script>
-  import {
-    GRADE_PROGRESS,
-    GRADE_MANAGE,
-    ORG_DETAIL,
-    GRADE_DETAIL,
-    SELF_EVALUATION,
-    LEADER_EVALUATION,
-    EVALUATION_FEEDBACK,
-    LEADER_NAME
-  } from "@/constants/TEXT"
-  import {
-    PATH_GRADE_MANAGE,
-    PATH_GRADE_PROGRESS,
-    PATH_GRADE_ORG_LIST
-  } from "@/constants/URL"
-  export default {
-    data() {
-      return {
-        constants:{
-          SELF_EVALUATION,
-          LEADER_EVALUATION,
-          EVALUATION_FEEDBACK,
-          LEADER_NAME
+import {
+  GRADE_PROGRESS,
+  GRADE_MANAGE,
+  ORG_DETAIL,
+  GRADE_DETAIL,
+  SELF_EVALUATION,
+  LEADER_EVALUATION,
+  EVALUATION_FEEDBACK,
+  LEADER_NAME
+} from "@/constants/TEXT";
+import {
+  PATH_GRADE_MANAGE,
+  PATH_GRADE_PROGRESS,
+  PATH_GRADE_ORG_LIST
+} from "@/constants/URL";
+export default {
+  data() {
+    return {
+      constants: {
+        SELF_EVALUATION,
+        LEADER_EVALUATION,
+        EVALUATION_FEEDBACK,
+        LEADER_NAME
+      },
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          href: PATH_GRADE_MANAGE
         },
-        nav: [
-          {
-            label: GRADE_MANAGE,
-            href: PATH_GRADE_MANAGE
-          },
-          {
-            label: GRADE_PROGRESS,
-            href: PATH_GRADE_PROGRESS(this.$route.params.id)
-          },
-          {
-            label: ORG_DETAIL,
-            href: PATH_GRADE_ORG_LIST(
-              this.$route.params.id,
-              this.$route.params.orgID
-            )
-          },
-          {
-            label: GRADE_DETAIL,
-            active: true
-          }
-        ]
-      }
-    },
-    components: {
-      "nav-bar": () => import("@/components/common/Navbar/index.vue")
-    }
+        {
+          label: GRADE_PROGRESS,
+          href: PATH_GRADE_PROGRESS(this.$route.params.id)
+        },
+        {
+          label: ORG_DETAIL,
+          href: PATH_GRADE_ORG_LIST(
+            this.$route.params.id,
+            this.$route.params.orgID
+          )
+        },
+        {
+          label: GRADE_DETAIL,
+          active: true
+        }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
   }
+};
 </script>
 <style scoped>
-  .whiteBG {
-    background-color: white;
-  }
-  .detail-container {
-    margin-top: 20px;
-    padding: 20px;
-  }
-  .info {
-    margin-left: 20px;
-    display: flex;
-    height: 100px;
-    justify-content: center;
-    flex-direction: column;
-    /* align-items: center; */
-  }
-  .info .me {
-    font-weight: 700;
-    color: #333;
-  }
-  .info .leader {
-    color: gray;
-    font-size: 10px;
-  }
-  .content {
-    margin-top: 20px;
-  }
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .box-card {
-    flex-basis: 49%;
-    margin-top: 20px;
-  }
-  hr {
-    border: 0;
-    border-top: 1px solid #eee;
-  }
+.whiteBG {
+  background-color: white;
+}
+.detail-container {
+  margin-top: 20px;
+  padding: 20px;
+}
+.info {
+  margin-left: 20px;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.info .me {
+  font-weight: 700;
+  color: #333;
+}
+.info .leader {
+  color: gray;
+  font-size: 10px;
+}
+.content {
+  margin-top: 20px;
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.box-card {
+  flex-basis: 49%;
+  margin-top: 20px;
+}
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
 </style>

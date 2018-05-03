@@ -15,47 +15,47 @@
   </el-menu>
 </template>
 <script>
-  import { GRADE_REPORT, GRADE_MANAGE, USER_MANAGE } from "@/constants/TEXT"
-  import {
-    PATH_GRADE_REPORT,
-    PATH_GRADE_MANAGE,
-    PATH_USER_MANAGE,
-    PATH_GRADE_PROGRESS,
-    PATH_GRADE_ORG_LIST,
-    PATH_GRADE_EMP_DETAIL
-  } from "@/constants/URL"
+import { GRADE_REPORT, GRADE_MANAGE, USER_MANAGE } from "@/constants/TEXT";
+import {
+  PATH_GRADE_REPORT,
+  PATH_GRADE_MANAGE,
+  PATH_USER_MANAGE,
+  PATH_GRADE_PROGRESS,
+  PATH_GRADE_ORG_LIST,
+  PATH_GRADE_EMP_DETAIL
+} from "@/constants/URL";
 
-  export default {
-    data() {
-      return {
-        constants: {
-          GRADE_REPORT,
-          GRADE_MANAGE,
-          USER_MANAGE,
-          PATH_GRADE_REPORT,
-          PATH_GRADE_MANAGE,
-          PATH_USER_MANAGE,
-          PATH_GRADE_PROGRESS,
-          PATH_GRADE_ORG_LIST,
-          PATH_GRADE_EMP_DETAIL
-        }
+export default {
+  data() {
+    return {
+      constants: {
+        GRADE_REPORT,
+        GRADE_MANAGE,
+        USER_MANAGE,
+        PATH_GRADE_REPORT,
+        PATH_GRADE_MANAGE,
+        PATH_USER_MANAGE,
+        PATH_GRADE_PROGRESS,
+        PATH_GRADE_ORG_LIST,
+        PATH_GRADE_EMP_DETAIL
       }
-    }
+    };
   }
+};
 </script>
 
 <style scoped>
-  .menu-list>>>.el-menu-item {
-    position: relative;
-  }
-  .menu-list>>>.el-menu-item:hover::after,
-  .menu-list>>>.el-menu-item.is-active::after {
-    position: absolute;
-    content: "";
-    width: 4px;
-    left: 0;
-    top: 0px;
-    background-color: rgb(76, 233, 195);
-    height: 100%;
-  }
+.menu-list >>> .el-menu-item {
+  position: relative;
+}
+.menu-list >>> .el-menu-item:hover::after,
+.menu-list >>> .el-menu-item.is-active::after {
+  position: absolute;
+  content: "";
+  width: 4px;
+  left: 0;
+  top: 0px;
+  background-color: rgb(76, 233, 195);
+  height: 100%;
+}
 </style>

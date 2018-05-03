@@ -11,7 +11,7 @@
                 </el-form-item>
                 <el-form-item>
                   <el-select v-model="conditionForm.department" placeholder="选择事业部">
-                    <el-option v-for="item in departments" :label="item.label" :value="item.value">
+                    <el-option v-for="item in departments" :key="item.value"  :label="item.label" :value="item.value">
                       
                     </el-option>
                   </el-select>
@@ -33,7 +33,7 @@
 
           <!-- user tableList -->
           <el-table :data="userTable" stripe style="width: 100%">
-            <el-table-column v-for="item in tableColumn" :prop="item.prop" :label="item.label"></el-table-column>
+            <el-table-column v-for="item in tableColumn" :key="item.prop"  :prop="item.prop" :label="item.label"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
               <template slot-scope="scope">
                 <el-button @click="updateUser(scope.row)" type="text" size="small">修改</el-button>
@@ -55,81 +55,124 @@
     </div>
 </template>
 <script>
-    import { USER_MANAGE } from "@/constants/TEXT"
-    export default {
-      data() {
-        return {
-          nav: [
-            {
-              label: USER_MANAGE,
-              active: true
-            }
-          ],
-          // 筛选条件
-          conditionForm: {name:'', department:''},
-          // 事业部-分校列表
-          departments: [{label: '集团总部', value: 'id001'},{label: '培优', value: 'id002'}],
-          // dialog
-          addDialogVisible: false,
-          updateDialogVisible: false,
-          // user form
-          userForm: {email: '', name: '', department: ''},
-          // table头部
-          tableColumn: [{prop: 'name', label: '姓名'},{prop: 'email', label: '企业邮箱'},{prop: 'scope', label: '事业部'},{prop: 'state', label: '状态'},{prop: 'createTime', label: '创建时间'}],
-          // table数据
-          userTable: [{name: '章三', email: 'zhenkaixin@100tal.com', scope: '集团总部', state: '启用', createTime: '2018-08-23'},{name: '真开心', email: 'zhenkaixin@100tal.com', scope: '集团总部', state: '启用', createTime: '2018-08-23'},{name: '莉丝', email: 'zhenkaixin@100tal.com', scope: '集团总部', state: '启用', createTime: '2018-08-23'},{name: '狗子', email: 'zhenkaixin@100tal.com', scope: '培优事业部-哈分校', state: '启用', createTime: '2018-08-23'}]
-
+import { USER_MANAGE } from "@/constants/TEXT";
+export default {
+  data() {
+    return {
+      nav: [
+        {
+          label: USER_MANAGE,
+          active: true
         }
-      },
-      components: {
-        "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-        "user-dialog": () => import("./modules/UserDialog.vue")
-      },
-      methods: {
-        // 清空
-        resetForm(formName) {
-          console.log(this.$refs[formName],this.userForm)
-          this.$refs[formName].resetFields()
+      ],
+      // 筛选条件
+      conditionForm: { name: "", department: "" },
+      // 事业部-分校列表
+      departments: [
+        { label: "集团总部", value: "id001" },
+        { label: "培优", value: "id002" }
+      ],
+      // dialog
+      addDialogVisible: false,
+      updateDialogVisible: false,
+      // user form
+      userForm: { email: "", name: "", department: "" },
+      // table头部
+      tableColumn: [
+        { prop: "name", label: "姓名" },
+        { prop: "email", label: "企业邮箱" },
+        { prop: "scope", label: "事业部" },
+        { prop: "state", label: "状态" },
+        { prop: "createTime", label: "创建时间" }
+      ],
+      // table数据
+      userTable: [
+        {
+          name: "章三",
+          email: "zhenkaixin@100tal.com",
+          scope: "集团总部",
+          state: "启用",
+          createTime: "2018-08-23"
         },
-        // 修改用户
-        updateUser(user) {
-          console.log('修改用户',user.name)
-          this.updateDialogVisible = true
-          this.userForm = {email:user.email,name:user.name,department:user.scope}
+        {
+          name: "真开心",
+          email: "zhenkaixin@100tal.com",
+          scope: "集团总部",
+          state: "启用",
+          createTime: "2018-08-23"
         },
-        // 启用/禁用用户
-        enabledUser(user) {
-          console.log('启用/禁用用户',user.name)
+        {
+          name: "莉丝",
+          email: "zhenkaixin@100tal.com",
+          scope: "集团总部",
+          state: "启用",
+          createTime: "2018-08-23"
+        },
+        {
+          name: "狗子",
+          email: "zhenkaixin@100tal.com",
+          scope: "培优事业部-哈分校",
+          state: "启用",
+          createTime: "2018-08-23"
+        }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "user-dialog": () => import("./modules/UserDialog.vue")
+  },
+  methods: {
+    // 清空
+    resetForm(formName) {
+      console.log(this.$refs[formName], this.userForm);
+      this.$refs[formName].resetFields();
+    },
+    // 修改用户
+    updateUser(user) {
+      console.log("修改用户", user.name);
+      this.updateDialogVisible = true;
+      this.userForm = {
+        email: user.email,
+        name: user.name,
+        department: user.scope
+      };
+    },
+    // 启用/禁用用户
+    enabledUser(user) {
+      console.log("启用/禁用用户", user.name);
+      this.$message({
+        type: "success",
+        message: "启用成功!"
+      });
+    },
+    // 删除用户
+    deleteUser(user) {
+      console.log("删除用户", user.name);
+      this.$confirm("确定删除此用户?", "提示", {
+        roundButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
           this.$message({
-            type: 'success',
-            message: '启用成功!'
+            type: "success",
+            message: "删除成功!"
           });
-        },
-        // 删除用户
-        deleteUser(user) {
-          console.log('删除用户',user.name)
-          this.$confirm('确定删除此用户?', '提示', {
-            roundButton: true,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning',
-            center: true
-          }).then(() => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
           });
-        },
-        // 分页
-        handleCurrentChange(val) {
-          console.log(`当前页: ${val}`)
-        }
-      }
+        });
+    },
+    // 分页
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
+  }
+};
 </script>
