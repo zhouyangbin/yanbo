@@ -11,8 +11,7 @@
                 </el-form-item>
                 <el-form-item>
                   <el-select v-model="conditionForm.department" placeholder="选择事业部">
-                    <el-option v-for="item in departments" :key="item.value"  :label="item.label" :value="item.value">
-                      
+                    <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -33,7 +32,7 @@
 
           <!-- user tableList -->
           <el-table :data="userTable" stripe style="width: 100%">
-            <el-table-column v-for="item in tableColumn" :key="item.prop"  :prop="item.prop" :label="item.label"></el-table-column>
+            <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
               <template slot-scope="scope">
                 <el-button @click="updateUser(scope.row)" type="text" size="small">修改</el-button>
@@ -49,7 +48,7 @@
           
           <!-- pagination -->
           <el-row type="flex" justify="end">
-            <el-pagination @current-change="handleCurrentChange" :pager-count="11" layout="prev, pager, next" :total="100"></el-pagination>
+            <pagination @current-change="handleCurrentChange" :total="100"></pagination>
           </el-row>
         </section>
     </div>
@@ -57,6 +56,11 @@
 <script>
 import { USER_MANAGE } from "@/constants/TEXT";
 export default {
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "user-dialog": () => import("./modules/UserDialog.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
   data() {
     return {
       nav: [
@@ -117,10 +121,6 @@ export default {
         }
       ]
     };
-  },
-  components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "user-dialog": () => import("./modules/UserDialog.vue")
   },
   methods: {
     // 清空
