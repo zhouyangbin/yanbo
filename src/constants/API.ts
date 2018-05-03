@@ -7,6 +7,7 @@ import { sendAll, sendDelete, sendGet, sendPost, sendPut } from "@/utils/base";
 let TEST_GET_URL = "http://www.zhiyinlou.com/theme/index.css";
 let TEST_DELETE_URL = "https://jsonplaceholder.typicode.com/posts/";
 let DEMO_TABLE_DATA_URL = "/table.json";
+
 export const getTestApi = () => {
   return sendGet(`${TEST_GET_URL}`);
 };
@@ -25,3 +26,10 @@ export const allTestApi = (iterable: any[], callback: () => Promise<any>) => {
 export const getDemoTableDataApi = () => {
   return sendGet(`${DEMO_TABLE_DATA_URL}`);
 };
+
+// 评分管理
+// 部分列表
+export const getDepList = () => sendGet("/admin/api/departments");
+// 创建评分
+export const postNewGrade = (data: object) =>
+  sendPost("/admin/api/evaluations", data);
