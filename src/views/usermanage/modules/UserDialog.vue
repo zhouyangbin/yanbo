@@ -53,7 +53,7 @@
     }
 </script>
 
-<style>
+<style scoped>
   .user-form{
     padding: 0 20px;
   }
