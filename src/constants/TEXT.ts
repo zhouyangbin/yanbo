@@ -137,6 +137,10 @@ export const NUMBER_REQUIRE_MSG = "请填写工号"
 export const EMAIL_FORMAT_MSG = "请输入正确的邮箱地址"
 export const LEADER_NUMBER_REQUIRE_MSG = "请填写上级工号"
 
+export const SELF_EVALUATION = "自评"
+export const LEADER_EVALUATION = "上级评"
+export const EVALUATION_FEEDBACK = "评价反馈"
+
 export const ENUM_RECORD_STATUS = [
   {
     key: "0",
