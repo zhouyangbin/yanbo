@@ -33,3 +33,6 @@ export const getDepList = () => sendGet("/admin/api/departments");
 // 创建评分
 export const postNewGrade = (data: object) =>
   sendPost("/admin/api/evaluations", data);
+// 评测列表
+export const getGradeList = (page: number) =>
+  sendGet("/admin/api/evaluations", { page });

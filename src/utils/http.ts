@@ -51,7 +51,7 @@ let loadingInstance: any;
  */
 http.interceptors.request.use(
   config => {
-    loadingInstance = Loading.service({ fullscreen: true });
+    // loadingInstance = Loading.service({ fullscreen: true });
     if (config.method === "post" || config.method === "put") {
       config.data = qs.stringify(config.data);
       // 对post和put进行数据字符串化处理，若Content-Type:application/json则不需要
@@ -60,7 +60,7 @@ http.interceptors.request.use(
     return config;
   },
   error => {
-    loadingInstance.close();
+    // loadingInstance.close();
     Promise.reject(error);
   }
 );
@@ -72,8 +72,8 @@ http.interceptors.request.use(
  */
 http.interceptors.response.use(
   config => {
-    console.log("config", config);
-    loadingInstance.close();
+    // console.log("config", config);
+    // loadingInstance.close();
     if (config.status === 404) {
       Notification({
         type: "error",
@@ -108,7 +108,7 @@ http.interceptors.response.use(
     }
   },
   (error: any) => {
-    loadingInstance.close();
+    // loadingInstance.close();
     Notification({
       // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
       type: "error",

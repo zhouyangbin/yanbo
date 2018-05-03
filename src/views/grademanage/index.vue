@@ -6,17 +6,21 @@
         <span>
           {{constants.GRADE_LIST}}
         </span>
-        <el-button type="primary" @click="createGradeDialog=true" round>{{constants.CREATE_GRADE}}</el-button>
+        <el-button type="primary" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px;">
-        <el-table-column prop="date" :label="constants.GRADE_NAME" width="180">
+        <el-table-column prop="name" :label="constants.GRADE_NAME" width="180">
         </el-table-column>
         <el-table-column prop="name" :label="constants.BU" width="180">
+          <template slot-scope="scope">
+
+            {{(scope.row.department_names||[]).map(v=>v.department_name).join("|")}}
+          </template>
         </el-table-column>
-        <el-table-column prop="address" :label="constants.FINISHED_DATE">
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
         </el-table-column>
-        <el-table-column prop="address1" :label="constants.CREATED_DATE">
+        <el-table-column prop="create_at" :label="constants.CREATED_DATE">
         </el-table-column>
         <el-table-column prop="address2" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -27,7 +31,7 @@
       </el-table>
       <br>
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :total="100"></pagination>
+        <pagination @current-change="handleCurrentChange" :total="total"></pagination>
       </el-row>
     </section>
     <el-dialog @close="closeDia('ruleForm')" width="650px" :visible.sync="createGradeDialog">
@@ -58,6 +62,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <async-com></async-com>
   </div>
 </template>
 <script>
@@ -79,10 +84,14 @@ import {
   MSG_SELECT_FINISHED_DATE
 } from "@/constants/TEXT";
 import { PATH_GRADE_PROGRESS } from "@/constants/URL";
-import { getDepList, postNewGrade } from "@/constants/API";
+import { getDepList, postNewGrade, getGradeList } from "@/constants/API";
+import { AsyncComp } from "@/utils/asyncCom";
+
 export default {
   data() {
     return {
+      currentPage: 1,
+      total: 0,
       constants: {
         GRADE_LIST,
         CREATE_GRADE,
@@ -151,7 +160,8 @@ export default {
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    pagination: () => import("@/components/common/Pagination/index.vue"),
+    "async-com": AsyncComp(import("@/views/grademanage/progress/org/index.vue"))
   },
   methods: {
     goDetail(row) {
@@ -171,7 +181,7 @@ export default {
           };
           postNewGrade(postData).then(res => {
             this.createGradeDialog = false;
-            // TODO: refresh the list data
+            this.refreshList(this.currentPage);
           });
         } else {
           return false;
@@ -179,15 +189,30 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`)
+      this.currentPage = val;
+      this.refreshList(val);
+    },
+    createGrade() {
+      getDepList().then(res => {
+        if (res) {
+          this.depList = res;
+          this.createGradeDialog = true;
+        }
+      });
+    },
+    refreshList(page) {
+      getGradeList(page).then(res => {
+        if (res) {
+          console.log(res);
+          this.tableData = res.data;
+          this.total = res.total;
+        }
+      });
     }
   },
   created() {
-    getDepList().then(res => {
-      if (res) {
-        this.depList = res;
-      }
-    });
+    // this.refreshList(this.currentPage)
   }
 };
 </script>
