@@ -1,5 +1,5 @@
 <template>
-  <span v-if="total<=pageSize" class="paging-style">
+  <span v-if="total>pageSize" class="paging-style">
     <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :background="true" prev-text="" layout="prev, pager, next" :total="total">
     </el-pagination>
   </span>
@@ -9,7 +9,7 @@ export default {
   props: {
     total: {
       type: Number,
-      default: 10
+      default: 0
     },
     currentPage: {
       type: Number,
