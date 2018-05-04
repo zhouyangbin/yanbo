@@ -41,7 +41,7 @@ const projectRoot = path.resolve(__dirname);
 
 module.exports = {
   devServer: {
-    proxy: "http://10.1.28.203:8081"
+    proxy: "http://api.gamesife.com"
   },
   chainWebpack: config => {
     // config.merge({

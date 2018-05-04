@@ -34,6 +34,17 @@ export function sendPut(url: string, data: object) {
 }
 
 /**
+ * Patch 请求
+ * @param { String } url
+ * @param { Object } data
+ */
+export function sendPatch(url: string, data: object) {
+  return http.patch(url, data).then(response => {
+    return response.data;
+  });
+}
+
+/**
  * Delete请求
  * @param { String } url
  * @param { Object } params

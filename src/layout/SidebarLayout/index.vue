@@ -5,7 +5,7 @@
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
         <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{labe_logout}}</el-button>
-        <p>hemiao3@100tal.com</p>
+        <p>{{talEmail}}</p>
       </section>
     </el-aside>
     <el-main class="main-container">
@@ -17,16 +17,38 @@
 <script>
 import { PATH_LOGIN } from "@/constants/URL";
 import { LABEL_LOGOUT } from "@/constants/TEXT";
+import { logout } from "@/constants/API";
 export default {
   data() {
     return {
-      labe_logout: LABEL_LOGOUT
+      labe_logout: LABEL_LOGOUT,
+      talEmail: localStorage.talEmail
     };
   },
   methods: {
     logout() {
-      // 退出操作
-      this.$router.push({ path: PATH_LOGIN });
+      this.$confirm("确定退出登录?", "提示", {
+        roundButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "退出成功!"
+          });
+          logout().then(res => {
+            this.$router.push({ path: PATH_LOGIN });
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消退出"
+          });
+        });
     }
   }
 };
