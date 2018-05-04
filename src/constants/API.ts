@@ -41,7 +41,7 @@ export const login = (data: object) => {
 };
 // 退出
 export const logout = () => {
-  return sendPost("/admin/api/logout");
+  return sendPost("/admin/api/logout", {});
 };
 // 管理员列表
 export const getManagers = (params: object) => {
@@ -49,15 +49,15 @@ export const getManagers = (params: object) => {
 };
 // 添加管理员
 export const addManager = (data: object) => {
-  return sendPost(`/admin/api/admins`);
+  return sendPost(`/admin/api/admins`, data);
 };
 // 用户搜索(添加管理员)
 export const searchManager = (params: object) => {
-  return sendget(`/admin/api/admins`, params);
+  return sendGet(`/admin/api/admins`, params);
 };
 // 删除管理员
 export const deleteManager = (id: string) => {
-  return sendDelete(`/admin/api/admins/${id}`);
+  return sendDelete(`/admin/api/admins/${id}`, {});
 };
 // 修改管理员
 export const updateManager = (id: string, data: object) => {
@@ -81,5 +81,3 @@ export const getGradeList = (page: number, perPage: number = 20) =>
 // 评分进度列表
 export const getProgressList = (id: string, params: object) =>
   sendGet(`/admin/api/evaluations/${id}`, params);
-
-export const login = (data: object) => sendPost("/admin/api/login", data);
