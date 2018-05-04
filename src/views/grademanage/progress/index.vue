@@ -4,7 +4,7 @@
     <section class="content-container">
       <div class="progress-header">
         <span>{{gradeName}}</span>&nbsp;
-        <span class="tips">{{constants.FINISHED_DATE}} 2018-04-26 23:55˝</span>
+        <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate}}</span>
         <hr>
         <el-form :inline="true" ref="filter-form" :model="searchForm" class="form-search">
           <el-form-item prop="recordStatus">
@@ -38,17 +38,32 @@
         </el-form>
       </div>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="date" :label="constants.DEPARTMENT" width="180">
+        <el-table-column prop="department_name" :label="constants.DEPARTMENT" width="180">
         </el-table-column>
-        <el-table-column prop="name" :label="constants.RECORD_STATUS" width="180">
+        <el-table-column prop="feedback_status" :label="constants.RECORD_STATUS" width="180">
+          <template slot-scope="scope">
+            {{(constants.ENUM_RECORD_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+          </template>
         </el-table-column>
-        <el-table-column prop="address" :label="constants.SELF_EVALUATION_STATUS">
+        <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS">
+          <template slot-scope="scope">
+            {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+          </template>
         </el-table-column>
-        <el-table-column prop="1" :label="constants.LEADER_EVALUATION_STATUS">
+        <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS">
+          <template slot-scope="scope">
+            {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
+          </template>
         </el-table-column>
-        <el-table-column prop="2" :label="constants.LEADER_PLUS_EVALUATION_STATUS">
+        <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS">
+          <template slot-scope="scope">
+            {{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
+          </template>
         </el-table-column>
         <el-table-column prop="3" :label="constants.FACE_EVALUATION_STATUS">
+          <template slot-scope="scope">
+            {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+          </template>
         </el-table-column>
         <el-table-column prop="4" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -82,6 +97,7 @@ import {
   RESET
 } from "@/constants/TEXT";
 import { PATH_GRADE_MANAGE, PATH_GRADE_ORG_LIST } from "@/constants/URL";
+import { getProgressList } from "@/constants/API";
 export default {
   data() {
     return {
@@ -120,29 +136,9 @@ export default {
           active: true
         }
       ],
-      gradeName: "testestst",
-      listData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
+      gradeName: "",
+      finishedDate: "",
+      listData: []
     };
   },
   components: {
@@ -153,16 +149,33 @@ export default {
       this.$refs[formName].resetFields();
     },
     goDetail(row) {
-      // FIXME: get id from row
-      this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, "sdfa"));
+      this.$router.push(
+        PATH_GRADE_ORG_LIST(this.$route.params.id, row.department_id)
+      );
+    },
+    refreshList(params) {
+      // console.log(this.$route.params.id)
+      getProgressList(this.$route.params.id, params).then(res => {
+        if (res) {
+          // console.log(res)
+          this.gradeName = res.info.evaluation_name;
+          this.listData = res.list;
+          this.finishedDate = res.info.end_time;
+        }
+      });
     }
   },
   watch: {
     searchForm: {
       handler: function(v) {
-        // TODO: request data
-        console.log(v);
-        console.log("request  data here");
+        const postData = {
+          import_status: this.searchForm.recordStatus,
+          self_status: this.searchForm.selfStatus,
+          superior_status: this.searchForm.leaderStatus,
+          highlevel_status: this.searchForm.upLeaderStatus,
+          feedback_status: this.searchForm.faceStatus
+        };
+        this.refreshList(postData);
       },
       deep: true,
       immediate: true

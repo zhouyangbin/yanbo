@@ -10,9 +10,15 @@
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px;">
-        <el-table-column prop="name" :label="constants.GRADE_NAME" width="180">
+        <el-table-column prop="name" :label="constants.GRADE_NAME">
+          <template slot-scope="scope">
+            {{scope.row.name}}
+            <span class="newTag" v-if="scope.row.index===0">
+              NEW!
+            </span>
+          </template>
         </el-table-column>
-        <el-table-column prop="name" :label="constants.BU" width="180">
+        <el-table-column prop="name" :label="constants.BU">
           <template slot-scope="scope">
             {{(scope.row.department_names||[]).map(v=>v.department_name).join("|")}}
           </template>
@@ -21,7 +27,7 @@
         </el-table-column>
         <el-table-column prop="create_at" :label="constants.CREATED_DATE">
         </el-table-column>
-        <el-table-column prop="address2" :label="constants.OPERATIONS">
+        <el-table-column prop="operation" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
             <el-button type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
@@ -61,7 +67,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <async-com></async-com>
   </div>
 </template>
 <script>
@@ -84,7 +89,6 @@ import {
 } from "@/constants/TEXT";
 import { PATH_GRADE_PROGRESS } from "@/constants/URL";
 import { getDepList, postNewGrade, getGradeList } from "@/constants/API";
-import { AsyncComp } from "@/utils/asyncCom";
 
 export default {
   data() {
@@ -138,12 +142,11 @@ export default {
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue"),
-    "async-com": AsyncComp(import("@/views/grademanage/progress/org/index.vue"))
+    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
     goDetail(row) {
-      this.$router.push(PATH_GRADE_PROGRESS("123"));
+      this.$router.push(PATH_GRADE_PROGRESS(row.id));
     },
     closeDia(formName) {
       this.createGradeDialog = false;
@@ -182,8 +185,8 @@ export default {
     refreshList(page) {
       getGradeList(page).then(res => {
         if (res) {
-          console.log(res);
-          this.tableData = res.data;
+          // console.log(res)
+          this.tableData = res.data.map((v, i) => ({ ...v, index: i }));
           this.total = res.total;
         }
       });
@@ -213,5 +216,11 @@ export default {
 .create-form-dialog >>> .el-checkbox-group,
 .create-form-dialog >>> .el-checkbox-group + .el-checkbox {
   margin-left: -30px !important;
+}
+.newTag {
+  color: rgb(62, 170, 255);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bold;
 }
 </style>

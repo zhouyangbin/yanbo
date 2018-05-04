@@ -87,7 +87,7 @@ http.interceptors.response.use(
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,
-        message: HTTP_STATUS_MSG_401,
+        message: config.data.message,
         // 弹框自动消失时间
         duration: 3000
       });
@@ -104,7 +104,7 @@ http.interceptors.response.use(
       return { ...config, data: null };
     } else {
       // 成功
-      return config.data;
+      return config.data || {};
     }
   },
   (error: any) => {
