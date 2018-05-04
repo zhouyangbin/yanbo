@@ -19,21 +19,19 @@
         </el-form>
       </section>
 
-      <el-row>
-        <el-col :span="12">
-          <!-- 某部门文化评分进度 pie -->
-          <section class="report-echart">
+      <section class="report-echart">
+        <el-row>
+          <el-col :span="12">
+            <!-- 某部门文化评分进度 pie -->
             <h1><span>{{currentDepartment}}</span>文化评分进度</h1>
-            <section class="loading-container" v-loading="pieLoading">
-              <echart-pie title="自评进度" :data="progressPieSelf" :isLoading.sync="pieLoading"></echart-pie>
-              <echart-pie title="上级评进度" :data="progressPieSuperior" :isLoading.sync="pieLoading"></echart-pie>
-            </section>
-          </section>  
-        </el-col>
+            <el-row>
+              <el-col :span="12" class="loading-container"><echart-pie title="自评进度" :data="progressPieSelf"></echart-pie></el-col>
+              <el-col :span="12" class="loading-container"><echart-pie title="上级评进度" :data="progressPieSuperior"></echart-pie></el-col>
+            </el-row>           
+          </el-col>
 
-        <el-col :span="12">
-          <!-- 某部门文化平均分 bar -->
-          <section class="report-echart">
+          <el-col :span="12">
+            <!-- 某部门文化平均分 bar -->
             <el-row type="flex" justify="space-between">
               <el-col :span="12" >
                 <h1><span>{{currentDepartment}}</span>文化平均分</h1>
@@ -45,12 +43,12 @@
                 </el-row>
               </el-col>
             </el-row>
-            <section class="loading-container" v-loading="barAverageSingleLoading">
-              <echart-bar-average-single :selfRates="selfRates" :supRates="supRates" :isLoading.sync="barAverageSingleLoading"></echart-bar-average-single>
+            <section class="loading-container">
+              <echart-bar-average-single :selfRates="selfRates" :supRates="supRates"></echart-bar-average-single>
             </section>
-          </section>  
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+      </section>
 
       <!-- 各事业部完成率 bar -->
       <section class="report-echart">
@@ -60,23 +58,23 @@
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
-              <el-tabs v-model="rateBarActive" type="card" @tab-click="changeBarRate">
+              <el-tabs v-model="rateBarActive" type="card" @tab-click="changeBarRate" class="echart-tabs">
                 <el-tab-pane label="自评" name="self"></el-tab-pane>
                 <el-tab-pane label="上级评" name="sup"></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
         </el-row>
-        <section class="loading-container" v-loading="barRateLoading">
-          <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams" :isLoading.sync="barRateLoading"></echart-bar-rate>
+        <section class="loading-container">
+          <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams"></echart-bar-rate>
         </section>
       </section> 
 
       <!-- 各事业部总平均分 bar -->
       <section class="report-echart">         
         <h1>各事业部总平均分</h1>
-        <section class="loading-container" v-loading="barAverageAllLoading">
-          <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :isLoading.sync="barAverageAllLoading"></echart-bar-average-all>
+        <section class="loading-container">
+          <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll"></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
@@ -94,14 +92,14 @@
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
-              <el-tabs v-model="averageBarActive" type="card" @tab-click="changeBarAverage">
+              <el-tabs v-model="averageBarActive" type="card" @tab-click="changeBarAverage" class="echart-tabs">
                 <el-tab-pane v-for="item in activeTabs" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
         </el-row>
-        <section class="loading-container" v-loading="barAverageEachLoading">
-          <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach" :isLoading.sync="barAverageEachLoading"></echart-bar-average-all>
+        <section class="loading-container">
+          <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach"></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
@@ -118,16 +116,18 @@
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
-              <el-tabs v-model="numberLineActive" type="card" @tab-click="changeLineNumbers">
+              <el-tabs v-model="numberLineActive" type="card" @tab-click="changeLineNumbers" class="echart-tabs">
                 <el-tab-pane v-for="item in activeTabs" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
         </el-row>
-        <el-row class="loading-container" v-loading="lineNumbersLoading">
+        <el-row>
           <!-- 好未来教育各分值人数-自评 line -->
           <el-col :span="12">
-            <echart-line-number :numbers="selfNumbers" :color="selfLineColor" :isLoading.sync="lineNumbersLoading"></echart-line-number>
+            <section class="loading-container">
+              <echart-line-number :numbers="selfNumbers" :color="selfLineColor"></echart-line-number>
+            </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
                 <span style="color:#21c1a5">● 自评</span>
@@ -136,7 +136,9 @@
           </el-col>
           <!-- 好未来教育各分值人数-上级评 line -->
           <el-col :span="12">
-            <echart-line-number :numbers="supNumbers" :color="supLineColor" :isLoading.sync="lineNumbersLoading"></echart-line-number>
+            <section class="loading-container">
+              <echart-line-number :numbers="supNumbers" :color="supLineColor"></echart-line-number>
+            </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
                 <span style="color:#5399e1">● 上级评</span>
@@ -151,14 +153,17 @@
 </template>
 <script>
 import { GRADE_REPORT } from "@/constants/TEXT";
+import { AsyncComp } from "@/utils/asyncCom.ts";
 export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "echart-pie": () => import("./modules/Pie.vue"),
-    "echart-bar-average-single": () => import("./modules/BarAverageSingle.vue"),
-    "echart-bar-rate": () => import("./modules/BarRate.vue"),
-    "echart-bar-average-all": () => import("./modules/BarAverageAll.vue"),
-    "echart-line-number": () => import("./modules/LineNumber.vue")
+    "echart-pie": AsyncComp(import("./modules/Pie.vue")),
+    "echart-bar-average-single": AsyncComp(
+      import("./modules/BarAverageSingle.vue")
+    ),
+    "echart-bar-rate": AsyncComp(import("./modules/BarRate.vue")),
+    "echart-bar-average-all": AsyncComp(import("./modules/BarAverageAll.vue")),
+    "echart-line-number": AsyncComp(import("./modules/LineNumber.vue"))
   },
   data() {
     return {
@@ -196,12 +201,10 @@ export default {
         { value: 700, name: "已完成335人" },
         { value: 335, name: "未完成700人" }
       ],
-      pieLoading: true,
 
       // 某事业部平均分柱状图
       selfRates: [4, 5, 2, 3],
       supRates: [3, 3, 3, 2],
-      barAverageSingleLoading: true,
 
       // 各事业部完成率柱状图
       rateBar: [1, 0.4, 0.5, 0.6, 0.2, 0.3, 0.4, 0.7, 1, 0.5],
@@ -219,7 +222,6 @@ export default {
       ],
       // 当前自评/上级评数据
       rateBarActive: "self",
-      barRateLoading: true,
 
       // 各事业部总平均分
       selfAverageAll: [16, 13, 12, 20, 17, 15, 18, 14, 20, 13],
@@ -239,7 +241,6 @@ export default {
       yMinAll: 0,
       yMaxAll: 20,
       yIntervalAll: 4,
-      barAverageAllLoading: true,
 
       // 各事业部各评分平均分
       selfAverageEach: [3, 4, 2, 5, 3, 3, 5, 4, 1, 5],
@@ -266,7 +267,6 @@ export default {
         { label: "合作", name: "fourth" }
       ],
       averageBarActive: "first",
-      barAverageEachLoading: true,
 
       // 好未来教育各分值人数
       // 自评
@@ -275,8 +275,7 @@ export default {
       // 上级评
       supNumbers: [344, 566, 300, 389, 200],
       supLineColor: "#5399e1",
-      numberLineActive: "first",
-      lineNumbersLoading: true
+      numberLineActive: "first"
     };
   },
   created() {
@@ -338,7 +337,7 @@ export default {
   min-height: 280px;
 }
 .loading-container {
-  min-height: 253px;
+  height: 250px;
 }
 h1 {
   font-size: 16px;
@@ -353,5 +352,8 @@ h1 {
   border-radius: 20px;
   min-width: 64px;
   text-align: center;
+}
+.echart-tabs >>> .el-tabs__header {
+  margin: 0;
 }
 </style>

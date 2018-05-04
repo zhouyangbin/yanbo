@@ -67,7 +67,6 @@ export default {
     };
   },
   mounted() {
-    this.$emit("update:isLoading", false);
     var myChart = echarts.init(this.$refs.echartPie);
     myChart.setOption(this.option);
   }
@@ -77,7 +76,7 @@ export default {
 <style scoped>
 .echart-pie {
   height: 250px;
-  width: 50%;
+  width: 100%;
   display: inline-block;
 }
 </style>
