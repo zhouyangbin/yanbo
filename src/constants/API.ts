@@ -69,11 +69,17 @@ export const enableManager = (id: string, data: object) => {
 };
 
 // 评分管理
-// 部分列表
+// 评分列表
 export const getDepList = () => sendGet("/admin/api/actionable-departments");
 // 创建评分
 export const postNewGrade = (data: object) =>
   sendPost("/admin/api/evaluations", data);
 // 评测列表
-export const getGradeList = (page: number) =>
-  sendGet("/admin/api/evaluations", { page });
+export const getGradeList = (page: number, perPage: number = 20) =>
+  sendGet("/admin/api/evaluations", { page, perPage });
+
+// 评分进度列表
+export const getProgressList = (id: string, params: object) =>
+  sendGet(`/admin/api/evaluations/${id}`, params);
+
+export const login = (data: object) => sendPost("/admin/api/login", data);

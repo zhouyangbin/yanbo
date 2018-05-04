@@ -108,7 +108,7 @@ http.interceptors.response.use(
       return Promise.reject(config);
     } else {
       // 成功
-      return config.data;
+      return config.data || {};
     }
   },
   (error: any) => {
