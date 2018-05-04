@@ -1,5 +1,5 @@
 <template>
-  <span class="paging-style">
+  <span v-if="total<=page-size" class="paging-style">
     <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :background="true" prev-text="" layout="prev, pager, next" :total="total">
     </el-pagination>
   </span>
