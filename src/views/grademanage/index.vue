@@ -18,9 +18,11 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" :label="constants.BU">
+        <el-table-column :show-overflow-tooltip="true" prop="name" :label="constants.BU">
           <template slot-scope="scope">
-            {{(scope.row.department_names||[]).map(v=>v.department_name).join("|")}}
+            <span slot="reference">
+              {{(scope.row.department_names||[]).map(v=>v.department_name).join("、 ")}}
+            </span>
           </template>
         </el-table-column>
         <el-table-column prop="end_time" :label="constants.FINISHED_DATE">

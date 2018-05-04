@@ -72,6 +72,10 @@
           </template>
         </el-table-column>
       </el-table>
+      <br>
+      <el-row type="flex" justify="end">
+        <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+      </el-row>
     </section>
   </div>
 </template>
@@ -101,6 +105,8 @@ import { getProgressList } from "@/constants/API";
 export default {
   data() {
     return {
+      currentPage: 1,
+      total: 0,
       constants: {
         FINISHED_DATE,
         RECORD_STATUS,
@@ -142,7 +148,8 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
     resetFilter(formName) {
@@ -163,6 +170,19 @@ export default {
           this.finishedDate = res.info.end_time;
         }
       });
+    },
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`)
+      this.currentPage = val;
+      const postData = {
+        import_status: this.searchForm.recordStatus,
+        self_status: this.searchForm.selfStatus,
+        superior_status: this.searchForm.leaderStatus,
+        highlevel_status: this.searchForm.upLeaderStatus,
+        feedback_status: this.searchForm.faceStatus,
+        page: val
+      };
+      this.refreshList(postData);
     }
   },
   watch: {
@@ -173,7 +193,8 @@ export default {
           self_status: this.searchForm.selfStatus,
           superior_status: this.searchForm.leaderStatus,
           highlevel_status: this.searchForm.upLeaderStatus,
-          feedback_status: this.searchForm.faceStatus
+          feedback_status: this.searchForm.faceStatus,
+          page: this.currentPage
         };
         this.refreshList(postData);
       },
