@@ -29,7 +29,7 @@ export const getDemoTableDataApi = () => {
 
 // 评分管理
 // 部分列表
-export const getDepList = () => sendGet("/admin/api/departments");
+export const getDepList = () => sendGet("/admin/api/actionable-departments");
 // 创建评分
 export const postNewGrade = (data: object) =>
   sendPost("/admin/api/evaluations", data);
