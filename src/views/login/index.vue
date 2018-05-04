@@ -58,6 +58,7 @@ import {
   LABEL_LOGIN_PASSWORD_MSG,
   LABEL_LOGIN_REMEMBER_USER
 } from "@/constants/TEXT";
+import { login } from "@/constants/API";
 
 export default {
   data() {
@@ -88,15 +89,23 @@ export default {
   },
   created() {
     this.loginForm = Object.assign({}, this.loginForm, {
-      email: localStorage.email
+      email: localStorage.loginEmail
     });
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          localStorage.email = this.loginRemember ? this.loginForm.email : "";
-          this.$router.push({ path: PATH_GRADE_REPORT });
+          login(this.loginForm).then(res => {
+            if (res) {
+              localStorage.loginEmail = this.loginRemember
+                ? this.loginForm.email
+                : "";
+              localStorage.talEmail = this.loginForm.email;
+              localStorage.talToken = res.token;
+              this.$router.push({ path: PATH_GRADE_REPORT });
+            }
+          });
         } else {
           console.log("error submit!!");
           return false;

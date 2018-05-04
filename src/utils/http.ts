@@ -52,6 +52,7 @@ let loadingInstance: any;
 http.interceptors.request.use(
   config => {
     // loadingInstance = Loading.service({ fullscreen: true });
+    config.headers["Authorization"] = "Bearer " + localStorage.token;
     if (config.method === "post" || config.method === "put") {
       config.data = qs.stringify(config.data);
       // 对post和put进行数据字符串化处理，若Content-Type:application/json则不需要
@@ -82,16 +83,18 @@ http.interceptors.response.use(
         // 弹框自动消失时间
         duration: 3000
       });
-      return { ...config, data: null };
+      // return { ...config, data: null };
+      return Promise.reject(config);
     } else if (config.status === 401) {
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,
-        message: HTTP_STATUS_MSG_401,
+        message: config.data.message,
         // 弹框自动消失时间
         duration: 3000
       });
-      return { ...config, data: null };
+      // return { ...config, data: null };
+      return Promise.reject(config);
     } else if (config.status === 403) {
       // 后端约定，444时只需要将后端错误信息弹出即可，如需详细处理的业务则判断config.data.data.errcode
       Notification({
@@ -101,7 +104,8 @@ http.interceptors.response.use(
         duration: 3000
         // 弹框自动消失时间
       });
-      return { ...config, data: null };
+      // return { ...config, data: null };
+      return Promise.reject(config);
     } else {
       // 成功
       return config.data;
