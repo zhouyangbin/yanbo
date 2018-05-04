@@ -35,12 +35,12 @@ export default {
         center: true
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "退出成功!"
-          });
           logout().then(res => {
             this.$router.push({ path: PATH_LOGIN });
+            this.$message({
+              type: "success",
+              message: "退出成功!"
+            });
           });
         })
         .catch(() => {

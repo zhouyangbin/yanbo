@@ -36,9 +36,7 @@ export const getDemoTableDataApi = () => {
 
 // 用户管理
 // 登录
-export const login = (data: object) => {
-  return sendPost("/admin/api/login", data);
-};
+export const login = (data: object) => sendPost("/admin/api/login", data);
 // 退出
 export const logout = () => {
   return sendPost("/admin/api/logout", {});

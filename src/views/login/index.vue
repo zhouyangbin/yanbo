@@ -89,7 +89,7 @@ export default {
   },
   created() {
     this.loginForm = Object.assign({}, this.loginForm, {
-      email: localStorage.loginEmail
+      email: localStorage.getItem("loginEmail")
     });
   },
   methods: {
@@ -98,11 +98,10 @@ export default {
         if (valid) {
           login(this.loginForm).then(res => {
             if (res) {
-              localStorage.loginEmail = this.loginRemember
-                ? this.loginForm.email
-                : "";
-              localStorage.talEmail = this.loginForm.email;
-              localStorage.talToken = res.token;
+              const loginEmail = this.loginRemember ? this.loginForm.email : "";
+              localStorage.setItem("loginEmail", loginEmail);
+              localStorage.setItem("talEmail", this.loginForm.email);
+              localStorage.setItem("talToken", res.token);
               this.$router.push({ path: PATH_GRADE_REPORT });
             }
           });

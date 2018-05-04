@@ -52,7 +52,8 @@ let loadingInstance: any;
 http.interceptors.request.use(
   config => {
     // loadingInstance = Loading.service({ fullscreen: true });
-    config.headers["Authorization"] = "Bearer " + localStorage.token;
+    config.headers["Authorization"] =
+      "Bearer " + localStorage.getItem("talToken");
     if (config.method === "post" || config.method === "put") {
       config.data = qs.stringify(config.data);
       // 对post和put进行数据字符串化处理，若Content-Type:application/json则不需要

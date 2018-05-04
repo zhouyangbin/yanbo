@@ -154,7 +154,6 @@ export default {
     };
   },
   mounted() {
-    this.$emit("update:isLoading", false);
     this.myChart = echarts.init(this.$refs.echartBar);
     this.myChart.setOption(this.option);
   },
