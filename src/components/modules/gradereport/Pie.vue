@@ -1,5 +1,5 @@
 <template>
-  <div ref="echartPie" class="echart-pie"></div>
+  <div ref="echartPie" class="echart-pie" id="echart-pie"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -21,10 +21,15 @@ export default {
     title: {
       type: String,
       default: "进度"
+    },
+    width: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
+      myChart: null,
       isLoading: true,
       option: {
         title: {
@@ -67,15 +72,22 @@ export default {
     };
   },
   mounted() {
-    var myChart = echarts.init(this.$refs.echartPie);
-    myChart.setOption(this.option);
-  }
+    this.myChart = echarts.init(this.$refs.echartPie);
+    this.myChart.setOption(this.option);
+  },
+  watch: {
+    // 监听拉动浏览器大小自适应
+    width: function(){
+      const width = document.getElementById('echart-pie').clientWidth
+      this.myChart.resize({width})
+    }
+  },
 };
 </script>
 
 <style scoped>
 .echart-pie {
-  height: 250px;
+  height: 100%;
   width: 100%;
   display: inline-block;
 }

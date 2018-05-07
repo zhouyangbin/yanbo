@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartBar" class="echart-bar"></div>
+    <div ref="echartBar" class="echart-bar" :id="id"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -18,10 +18,19 @@ export default {
     supRates: {
       type: Array,
       default: () => []
+    },
+    width: {
+      type: Number,
+      default: 0
+    },
+    id: {
+      type: String,
+      default: 'echart-bar'
     }
   },
   data() {
     return {
+      myChart: null,
       option: {
         tooltip: {
           trigger: "axis",
@@ -129,8 +138,15 @@ export default {
     };
   },
   mounted() {
-    var myChart = echarts.init(this.$refs.echartBar);
-    myChart.setOption(this.option);
+    this.myChart = echarts.init(this.$refs.echartBar);
+    this.myChart.setOption(this.option);
+  },
+  watch: {
+    // 监听拉动浏览器大小自适应
+    width: function(){
+      const width = document.getElementById(this.id).clientWidth
+      this.myChart.resize({width})
+    }
   }
 };
 </script>

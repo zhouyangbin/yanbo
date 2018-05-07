@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="user-manage">
         <nav-bar :list="nav"></nav-bar>
         <section class="content-container">
           <!-- screening condition -->
@@ -28,10 +28,10 @@
           </el-row>
 
           <!-- addUser dialog -->
-          <user-dialog :visible.sync="addDialogVisible" title="新增" :userForm.sync="userForm" :disabled="false" :submit="addSubmit" :departments="adminsDepartments"></user-dialog>
+          <user-dialog :visible.sync="addDialogVisible" title="新增" :userForm.sync="userForm" :disabled="false" :submit="addSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
 
           <!-- user tableList -->
-          <el-table :data="userTable" stripe style="width: 100%" v-loading="tableLoading">
+          <el-table :data="userTable" stripe style="width: 100%;overflow:scroll" v-loading="tableLoading" :max-height="tableHeight">
             <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width"></el-table-column>
             <el-table-column label="事业部">
               <template slot-scope="scope">
@@ -114,7 +114,9 @@ export default {
       ],
       // table数据
       userTable: [],
-      tableLoading: true
+      tableLoading: true,
+      // nav-bar导航栏高度61px、预留pagination分页40px
+      tableHeight: 'calc(100% - 61px - 40px)'
     };
   },
   created() {
@@ -184,6 +186,7 @@ export default {
     submitUser() {
       this.addDialogVisible = true;
       this.userForm = { email: "", name: "", department_id: "", empID: "" };
+      this.department = []
     },
     // 提交新增
     addSubmit() {
@@ -208,7 +211,6 @@ export default {
       user.department.parent_id && user.department.department_id !== "D1000002"
         ? this.department.push(user.department.parent_id, user.department_id)
         : this.department.push(user.department_id);
-      console.log(user);
     },
     // 提交修改
     updateSubmit() {
@@ -265,7 +267,17 @@ export default {
     // 分页
     handleCurrentChange(val) {
       this.conditionForm = Object.assign({}, this.conditionForm, { page: val });
+      this.getManagers()
     }
   }
 };
 </script>
+<style scoped>
+  .user-manage{
+    height: 100%;
+  }
+  .content-container{
+    height: calc(100% - 40px - 61px);
+    overflow: hidden;
+  }
+</style>

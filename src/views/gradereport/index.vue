@@ -25,8 +25,8 @@
             <!-- 某部门文化评分进度 pie -->
             <h1><span>{{currentDepartment}}</span>文化评分进度</h1>
             <el-row>
-              <el-col :span="12" class="loading-container"><echart-pie title="自评进度" :data="progressPieSelf"></echart-pie></el-col>
-              <el-col :span="12" class="loading-container"><echart-pie title="上级评进度" :data="progressPieSuperior"></echart-pie></el-col>
+              <el-col :span="12" class="loading-container"><echart-pie title="自评进度" :data="progressPieSelf" :width="width"></echart-pie></el-col>
+              <el-col :span="12" class="loading-container"><echart-pie title="上级评进度" :data="progressPieSuperior" :width="width"></echart-pie></el-col>
             </el-row>           
           </el-col>
 
@@ -44,7 +44,7 @@
               </el-col>
             </el-row>
             <section class="loading-container">
-              <echart-bar-average-single :selfRates="selfRates" :supRates="supRates"></echart-bar-average-single>
+              <echart-bar-average-single :selfRates="selfRates" :supRates="supRates" :width="width" id="echart-bar1"></echart-bar-average-single>
             </section>
           </el-col>
         </el-row>
@@ -66,7 +66,7 @@
           </el-col>
         </el-row>
         <section class="loading-container">
-          <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams"></echart-bar-rate>
+          <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams" :width="width"></echart-bar-rate>
         </section>
       </section> 
 
@@ -74,7 +74,7 @@
       <section class="report-echart">         
         <h1>各事业部总平均分</h1>
         <section class="loading-container">
-          <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll"></echart-bar-average-all>
+          <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
@@ -99,7 +99,7 @@
           </el-col>
         </el-row>
         <section class="loading-container">
-          <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach"></echart-bar-average-all>
+          <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach" :width="width"></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
@@ -126,7 +126,7 @@
           <!-- 好未来教育各分值人数-自评 line -->
           <el-col :span="12">
             <section class="loading-container">
-              <echart-line-number :numbers="selfNumbers" :color="selfLineColor"></echart-line-number>
+              <echart-line-number :numbers="selfNumbers" :color="selfLineColor" :width="width"></echart-line-number>
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
@@ -137,7 +137,7 @@
           <!-- 好未来教育各分值人数-上级评 line -->
           <el-col :span="12">
             <section class="loading-container">
-              <echart-line-number :numbers="supNumbers" :color="supLineColor"></echart-line-number>
+              <echart-line-number :numbers="supNumbers" :color="supLineColor" :width="width"></echart-line-number>
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
@@ -281,7 +281,9 @@ export default {
       // 上级评
       supNumbers: [344, 566, 300, 389, 200],
       supLineColor: "#5399e1",
-      numberLineActive: "first"
+      numberLineActive: "first",
+      // body width
+      width: 0
     };
   },
   created() {
@@ -291,7 +293,15 @@ export default {
     };
     this.currentDepartment = this.departments[1].label;
   },
+  mounted(){
+    this.resize()
+  },
   methods: {
+    resize(){
+      window.onresize=()=>{
+        this.width = document.body.clientWidth
+      }
+    },
     changeName(val) {
       console.log("更换文化评分", val, this.conditionForm);
     },

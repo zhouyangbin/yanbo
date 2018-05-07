@@ -26,6 +26,7 @@ export default {
     };
   },
   methods: {
+    // 退出
     logout() {
       this.$confirm("确定退出登录?", "提示", {
         roundButton: true,

@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartLine" class="echart-line"></div>
+    <div ref="echartLine" class="echart-line" id="echart-line"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -19,6 +19,10 @@ export default {
     color: {
       type: String,
       default: "#3ed6bf"
+    },
+    width: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
@@ -125,6 +129,11 @@ export default {
   watch: {
     numbers: function(newDate) {
       this.myChart.setOption(this.option);
+    },
+    // 监听拉动浏览器大小自适应
+    width: function(){
+      const width = document.getElementById('echart-line').clientWidth
+      this.myChart.resize({width})
     }
   }
 };

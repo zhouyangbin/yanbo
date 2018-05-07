@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartBar" class="echart-bar"></div>
+    <div ref="echartBar" class="echart-bar" id="echart-bar"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -34,6 +34,10 @@ export default {
     yInterval: {
       type: Number,
       default: 1
+    },
+    width: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -163,6 +167,11 @@ export default {
     },
     supAverage: function(newDate) {
       this.myChart.setOption(this.option);
+    },
+    // 监听拉动浏览器大小自适应
+    width: function(){
+      const width = document.getElementById('echart-bar').clientWidth
+      this.myChart.resize({width})
     }
   }
 };
