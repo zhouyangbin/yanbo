@@ -116,7 +116,7 @@ export default {
       userTable: [],
       tableLoading: true,
       // nav-bar导航栏高度61px、预留pagination分页40px
-      tableHeight: 'calc(100% - 61px - 40px)'
+      tableHeight: "calc(100% - 61px - 40px)"
     };
   },
   created() {
@@ -186,7 +186,7 @@ export default {
     submitUser() {
       this.addDialogVisible = true;
       this.userForm = { email: "", name: "", department_id: "", empID: "" };
-      this.department = []
+      this.department = [];
     },
     // 提交新增
     addSubmit() {
@@ -267,17 +267,17 @@ export default {
     // 分页
     handleCurrentChange(val) {
       this.conditionForm = Object.assign({}, this.conditionForm, { page: val });
-      this.getManagers()
+      this.getManagers();
     }
   }
 };
 </script>
 <style scoped>
-  .user-manage{
-    height: 100%;
-  }
-  .content-container{
-    height: calc(100% - 40px - 61px);
-    overflow: hidden;
-  }
+.user-manage {
+  height: 100%;
+}
+.content-container {
+  height: calc(100% - 40px - 61px);
+  overflow: hidden;
+}
 </style>

@@ -149,10 +149,10 @@ export default {
       this.myChart.setOption(this.option);
     },
     // 监听拉动浏览器大小自适应
-    width: function(){
-      const width = document.getElementById('echart-bar').clientWidth
-      this.myChart.resize({width})
-    } 
+    width: function() {
+      const width = document.getElementById("echart-bar").clientWidth;
+      this.myChart.resize({ width });
+    }
   }
 };
 </script>

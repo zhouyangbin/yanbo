@@ -293,14 +293,14 @@ export default {
     };
     this.currentDepartment = this.departments[1].label;
   },
-  mounted(){
-    this.resize()
+  mounted() {
+    this.resize();
   },
   methods: {
-    resize(){
-      window.onresize=()=>{
-        this.width = document.body.clientWidth
-      }
+    resize() {
+      window.onresize = () => {
+        this.width = document.body.clientWidth;
+      };
     },
     changeName(val) {
       console.log("更换文化评分", val, this.conditionForm);

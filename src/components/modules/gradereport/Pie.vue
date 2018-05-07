@@ -77,11 +77,11 @@ export default {
   },
   watch: {
     // 监听拉动浏览器大小自适应
-    width: function(){
-      const width = document.getElementById('echart-pie').clientWidth
-      this.myChart.resize({width})
+    width: function() {
+      const width = document.getElementById("echart-pie").clientWidth;
+      this.myChart.resize({ width });
     }
-  },
+  }
 };
 </script>
 

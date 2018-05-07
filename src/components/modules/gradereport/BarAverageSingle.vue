@@ -25,7 +25,7 @@ export default {
     },
     id: {
       type: String,
-      default: 'echart-bar'
+      default: "echart-bar"
     }
   },
   data() {
@@ -143,9 +143,9 @@ export default {
   },
   watch: {
     // 监听拉动浏览器大小自适应
-    width: function(){
-      const width = document.getElementById(this.id).clientWidth
-      this.myChart.resize({width})
+    width: function() {
+      const width = document.getElementById(this.id).clientWidth;
+      this.myChart.resize({ width });
     }
   }
 };
