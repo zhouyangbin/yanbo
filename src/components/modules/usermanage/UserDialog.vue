@@ -63,14 +63,24 @@ export default {
     },
     querySearchAsync(queryString, cb) {
       if (queryString) {
-        searchManager({ email: queryString }).then(res => {
-          if (res.data) {
-            for (var i = res.data.length - 1; i >= 0; i--) {
-              res.data[i].value = res.data[i].name;
+        searchManager({ email: queryString })
+          .then(res => {
+            console.log(res);
+            if (res) {
+              for (var i = res.length - 1; i >= 0; i--) {
+                res[i].value =
+                  res[i].name +
+                  " - " +
+                  res[i].workcode +
+                  " - " +
+                  res[i].department;
+              }
+              cb(res);
             }
-            cb(res.data);
-          }
-        });
+          })
+          .catch(err => {
+            cb([]);
+          });
       } else {
         this.$emit(
           "update:userForm",
@@ -84,8 +94,8 @@ export default {
         "update:userForm",
         Object.assign({}, this.userForm, {
           email: item.email,
-          name: "孙超",
-          empID: "070579"
+          name: item.name,
+          empID: item.empID
         })
       );
     },

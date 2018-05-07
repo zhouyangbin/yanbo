@@ -78,7 +78,8 @@ import {
 export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "user-dialog": () => import("./modules/UserDialog.vue"),
+    "user-dialog": () =>
+      import("@/components/modules/usermanage/UserDialog.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   data() {
@@ -141,29 +142,33 @@ export default {
     },
     // 事业部-分校列表
     getDepartments() {
-      getDepartments().then(res => {
-        res.map(function(item) {
-          item.label = item.name;
-          item.value = item.department_id;
-        });
-        this.departments = res;
-      });
+      getDepartments()
+        .then(res => {
+          res.map(function(item) {
+            item.label = item.name;
+            item.value = item.department_id;
+          });
+          this.departments = res;
+        })
+        .catch(err => {});
     },
     // 事业部-分校列表
     getAdminsDepartments() {
-      getAdminsDepartments().then(res => {
-        const recursive = function f(arr) {
-          arr.map(function(item) {
-            item.label = item.name;
-            item.value = item.department_id;
-            if (item.children) {
-              f(item.children);
-            }
-          });
-        };
-        recursive(res);
-        this.adminsDepartments = res;
-      });
+      getAdminsDepartments()
+        .then(res => {
+          const recursive = function f(arr) {
+            arr.map(function(item) {
+              item.label = item.name;
+              item.value = item.department_id;
+              if (item.children) {
+                f(item.children);
+              }
+            });
+          };
+          recursive(res);
+          this.adminsDepartments = res;
+        })
+        .catch(err => {});
     },
     // 更改筛选条件
     changeCondition() {
@@ -182,9 +187,11 @@ export default {
     },
     // 提交新增
     addSubmit() {
-      return addManager(this.userForm).then(res => {
-        this.getManagers();
-      });
+      return addManager(this.userForm)
+        .then(res => {
+          this.getManagers();
+        })
+        .catch(err => {});
     },
     // 修改用户
     updateUser(user) {
@@ -197,29 +204,36 @@ export default {
       };
       this.department = [];
       this.userId = user.id;
-      user.department.parent_id
+      // 返回的数据集团总部层级parent_id是好未来教育，影响层级查找
+      user.department.parent_id && user.department.department_id !== "D1000002"
         ? this.department.push(user.department.parent_id, user.department_id)
         : this.department.push(user.department_id);
+      console.log(user);
     },
     // 提交修改
     updateSubmit() {
-      return updateManager(this.userId, this.userForm).then(res => {
-        this.$message({
-          type: "success",
-          message: "修改成功!"
-        });
-        this.getManagers();
-      });
+      return updateManager(this.userId, this.userForm)
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "修改成功!"
+          });
+          this.getManagers();
+        })
+        .catch(err => {});
     },
     // 启用/禁用用户
     enabledUser(user) {
-      enableManager(user.id, { active: user.active }).then(res => {
-        this.$message({
-          type: "success",
-          message: "操作成功!"
-        });
-        this.getManagers();
-      });
+      const active = user.active == 1 ? 0 : 1;
+      enableManager(user.id, { active })
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "操作成功!"
+          });
+          this.getManagers();
+        })
+        .catch(err => {});
     },
     // 删除用户
     deleteUser(user) {
@@ -231,13 +245,15 @@ export default {
         center: true
       })
         .then(() => {
-          deleteManager(user.id).then(res => {
-            this.getManagers();
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-          });
+          deleteManager(user.id)
+            .then(res => {
+              this.getManagers();
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            })
+            .catch(err => {});
         })
         .catch(() => {
           this.$message({

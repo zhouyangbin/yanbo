@@ -51,7 +51,7 @@ export const addManager = (data: object) => {
 };
 // 用户搜索(添加管理员)
 export const searchManager = (params: object) => {
-  return sendGet(`/admin/api/admins`, params);
+  return sendGet(`/admin/api/search`, params);
 };
 // 删除管理员
 export const deleteManager = (id: string) => {

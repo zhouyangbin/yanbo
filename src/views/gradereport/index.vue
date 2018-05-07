@@ -157,13 +157,19 @@ import { AsyncComp } from "@/utils/asyncCom.ts";
 export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "echart-pie": AsyncComp(import("./modules/Pie.vue")),
+    "echart-pie": AsyncComp(import("@/components/modules/gradereport/Pie.vue")),
     "echart-bar-average-single": AsyncComp(
-      import("./modules/BarAverageSingle.vue")
+      import("@/components/modules/gradereport/BarAverageSingle.vue")
     ),
-    "echart-bar-rate": AsyncComp(import("./modules/BarRate.vue")),
-    "echart-bar-average-all": AsyncComp(import("./modules/BarAverageAll.vue")),
-    "echart-line-number": AsyncComp(import("./modules/LineNumber.vue"))
+    "echart-bar-rate": AsyncComp(
+      import("@/components/modules/gradereport/BarRate.vue")
+    ),
+    "echart-bar-average-all": AsyncComp(
+      import("@/components/modules/gradereport/BarAverageAll.vue")
+    ),
+    "echart-line-number": AsyncComp(
+      import("@/components/modules/gradereport/LineNumber.vue")
+    )
   },
   data() {
     return {
