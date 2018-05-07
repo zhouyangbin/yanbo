@@ -1,62 +1,62 @@
 <template>
-    <el-dialog @close="close" width="650px" :visible="dialogInfo" class="dialogInfo">
-        <div slot="title" class="title">
-            {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
-        </div>
-        <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
-            <el-form-item prop="num">
-                <el-input size="small" :placeholder="constants.NUMBER" v-model="infoForm.num"></el-input>
-            </el-form-item>
-            <el-form-item prop="name">
-                <el-input size="small" :disabled="true" :placeholder="constants.NAME" v-model="infoForm.name"></el-input>
-            </el-form-item>
-            <el-form-item prop="BU">
-                <el-input size="small" :disabled="true" :placeholder="constants.BASE_OR_BU" v-model="infoForm.BU"></el-input>
-            </el-form-item>
-            <el-form-item prop="dep">
-                <el-input size="small" :disabled="true" :placeholder="constants.DEP_OR_SUB" v-model="infoForm.dep"></el-input>
-            </el-form-item>
-            <el-form-item prop="level">
-                <el-input size="small" :disabled="true" :placeholder="constants.WORK_LEVEL" v-model="infoForm.level"></el-input>
-            </el-form-item>
-            <el-form-item prop="email">
-                <el-input size="small" :placeholder="constants.EMAIL" v-model="infoForm.email"></el-input>
-            </el-form-item>
-            <el-form-item prop="leaderNum">
-                <el-input size="small" :placeholder="constants.LEADER_NUMBER" v-model="infoForm.leaderNum"></el-input>
-            </el-form-item>
-            <el-form-item prop="leaderName">
-                <el-input size="small" :disabled="true" :placeholder="constants.LEADER_NAME" v-model="infoForm.leaderName"></el-input>
-            </el-form-item>
-            <el-form-item prop="leaderBU">
-                <el-input size="small" :disabled="true" :placeholder="constants.UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.leaderBU"></el-input>
-            </el-form-item>
-            <el-form-item prop="leaderEmail">
-                <el-input size="small" :placeholder="constants.UP_LEVEL+constants.EMAIL" v-model="infoForm.leaderEmail"></el-input>
-            </el-form-item>
-            <div>
-                <el-form-item prop="upLeaderNum">
-                    <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
-                </el-form-item>
-                <el-form-item prop="upLeaderName">
-                    <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.NAME" v-model="infoForm.upLeaderName"></el-input>
-                </el-form-item>
-                <el-form-item prop="upLeaderBU">
-                    <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.upLeaderBU"></el-input>
-                </el-form-item>
-                <el-form-item prop="upLeaderEmail">
-                    <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.EMAIL" v-model="infoForm.upLeaderEmail"></el-input>
-                </el-form-item>
-            </div>
+  <el-dialog @close="close" width="650px" :visible="dialogInfo" class="dialogInfo">
+    <div slot="title" class="title">
+      {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
+    </div>
+    <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
+      <el-form-item prop="num">
+        <el-input size="small" :placeholder="constants.NUMBER" v-model="infoForm.num"></el-input>
+      </el-form-item>
+      <el-form-item prop="name">
+        <el-input size="small" :disabled="true" :placeholder="constants.NAME" v-model="infoForm.name"></el-input>
+      </el-form-item>
+      <el-form-item prop="BU">
+        <el-input size="small" :disabled="true" :placeholder="constants.BASE_OR_BU" v-model="infoForm.BU"></el-input>
+      </el-form-item>
+      <el-form-item prop="dep">
+        <el-input size="small" :disabled="true" :placeholder="constants.DEP_OR_SUB" v-model="infoForm.dep"></el-input>
+      </el-form-item>
+      <el-form-item prop="level">
+        <el-input size="small" :disabled="true" :placeholder="constants.WORK_LEVEL" v-model="infoForm.level"></el-input>
+      </el-form-item>
+      <el-form-item prop="email">
+        <el-input size="small" :placeholder="constants.EMAIL" v-model="infoForm.email"></el-input>
+      </el-form-item>
+      <el-form-item prop="leaderNum">
+        <el-input size="small" :placeholder="constants.LEADER_NUMBER" v-model="infoForm.leaderNum"></el-input>
+      </el-form-item>
+      <el-form-item prop="leaderName">
+        <el-input size="small" :disabled="true" :placeholder="constants.LEADER_NAME" v-model="infoForm.leaderName"></el-input>
+      </el-form-item>
+      <el-form-item prop="leaderBU">
+        <el-input size="small" :disabled="true" :placeholder="constants.UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.leaderBU"></el-input>
+      </el-form-item>
+      <el-form-item prop="leaderEmail">
+        <el-input size="small" :placeholder="constants.UP_LEVEL+constants.EMAIL" v-model="infoForm.leaderEmail"></el-input>
+      </el-form-item>
+      <div>
+        <el-form-item prop="upLeaderNum">
+          <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
+        </el-form-item>
+        <el-form-item prop="upLeaderName">
+          <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.NAME" v-model="infoForm.upLeaderName"></el-input>
+        </el-form-item>
+        <el-form-item prop="upLeaderBU">
+          <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.upLeaderBU"></el-input>
+        </el-form-item>
+        <el-form-item prop="upLeaderEmail">
+          <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.EMAIL" v-model="infoForm.upLeaderEmail"></el-input>
+        </el-form-item>
+      </div>
 
-        </el-form>
-        <div slot="footer">
-            <el-row type="flex" justify="center">
-                <el-button round size="medium" @click="infoSubmit('infoForm')" type="primary">{{constants.CONFIRM}}</el-button>
-                <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
-            </el-row>
-        </div>
-    </el-dialog>
+    </el-form>
+    <div slot="footer">
+      <el-row type="flex" justify="center">
+        <el-button round size="medium" @click="infoSubmit('infoForm')" type="primary">{{constants.CONFIRM}}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+      </el-row>
+    </div>
+  </el-dialog>
 </template>
 <script>
 import {
@@ -79,6 +79,7 @@ import {
   CONFIRM,
   CANCEL
 } from "@/constants/TEXT";
+import { postNewUser } from "@/constants/API";
 export default {
   props: {
     dialogInfo: {
@@ -116,7 +117,7 @@ export default {
         CANCEL
       },
       infoRules: {
-        number: {
+        num: {
           type: "string",
           required: true,
           message: NUMBER_REQUIRE_MSG,
@@ -184,7 +185,25 @@ export default {
     infoSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          // console.log(this.infoType)
+          if (this.infoType === "add") {
+            // 添加的情况下
+            const postData = {
+              ev_user_workcode: this.infoForm.num,
+              ev_user_email: this.infoForm.email,
+              evaluator_workcode: this.infoForm.leaderNum,
+              evaluator_email: this.infoForm.leaderEmail,
+              highlevel_workcode: this.infoForm.upLeaderNum,
+              highlevel_email: this.infoForm.upLeaderEmail
+            };
+            postNewUser(this.$route.params.id, postData)
+              .then(res => {
+                this.close();
+              })
+              .catch(e => {
+                // console.log(e)
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;

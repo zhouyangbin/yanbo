@@ -89,3 +89,6 @@ export const getGradeList = (page: number, perPage: number = 20) =>
 // 评分进度列表
 export const getProgressList = (id: string, params: object) =>
   sendGet(`/admin/api/evaluations/${id}`, params);
+//添加评测人员
+export const postNewUser = (id: string, params: object) =>
+  sendPost(`/admin/api/user_list/${id}`, params);
