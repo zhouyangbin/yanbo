@@ -66,6 +66,16 @@ export const enableManager = (id: string, data: object) => {
   return sendPatch(`/admin/api/admins/${id}`, data);
 };
 
+// 部门接口
+// 事业部-分校列表
+export const getAdminsDepartments = () => {
+  return sendGet(`/admin/api/admins/departments`);
+};
+// 事业部列表
+export const getDepartments = () => {
+  return sendGet(`/admin/api/departments`);
+};
+
 // 评分管理
 // 评分列表
 export const getDepList = () => sendGet("/admin/api/actionable-departments");

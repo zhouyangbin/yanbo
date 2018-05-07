@@ -36,6 +36,7 @@ export default {
       })
         .then(() => {
           logout().then(res => {
+            localStorage.setItem("talToken", "");
             this.$router.push({ path: PATH_LOGIN });
             this.$message({
               type: "success",

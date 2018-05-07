@@ -7,10 +7,10 @@
             <el-col :span="16">
               <el-form :inline="true" :model="conditionForm" ref="conditionForm">
                 <el-form-item>
-                  <el-input v-model="conditionForm.name" placeholder="姓名"></el-input>
+                  <el-input v-model="conditionForm.name" placeholder="姓名" @change="changeCondition"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-select v-model="conditionForm.department" placeholder="选择事业部">
+                  <el-select v-model="conditionForm.department_id" placeholder="选择事业部" @change="changeCondition">
                     <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                   </el-select>
@@ -22,39 +22,59 @@
             </el-col>
             <el-col :span="8">
               <el-row type="flex" justify="end">
-                <el-button type="primary" round @click="addDialogVisible = true">新增用户</el-button>
+                <el-button type="primary" round @click="submitUser">新增用户</el-button>
               </el-row>
             </el-col>
           </el-row>
 
           <!-- addUser dialog -->
-          <user-dialog :visible.sync="addDialogVisible" title="新增" :userForm="userForm" :disabled="false"></user-dialog>
+          <user-dialog :visible.sync="addDialogVisible" title="新增" :userForm.sync="userForm" :disabled="false" :submit="addSubmit" :departments="adminsDepartments"></user-dialog>
 
           <!-- user tableList -->
-          <el-table :data="userTable" stripe style="width: 100%">
+          <el-table :data="userTable" stripe style="width: 100%" v-loading="tableLoading">
             <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label"></el-table-column>
+            <el-table-column label="事业部">
+              <template slot-scope="scope">
+                {{scope.row.department.name}}
+              </template>
+            </el-table-column>
+            <el-table-column label="状态">
+              <template slot-scope="scope">
+                {{scope.row.active == '1'?'启用':'禁用'}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="crateTime" label="创建时间"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
               <template slot-scope="scope">
                 <el-button @click="updateUser(scope.row)" type="text" size="small">修改</el-button>
-                <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.state}}</el-button>
+                <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?'禁用':'启用'}}</el-button>
                 <el-button @click="deleteUser(scope.row)" type="text" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
 
           <!-- update dialog -->
-          <user-dialog :visible.sync="updateDialogVisible" title="修改" :userForm="userForm" :disabled="true"></user-dialog>
+          <user-dialog :visible.sync="updateDialogVisible" title="修改" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
           <br>
           
           <!-- pagination -->
           <el-row type="flex" justify="end">
-            <pagination @current-change="handleCurrentChange" :total="100"></pagination>
+            <pagination @current-change="handleCurrentChange" :total="total"></pagination>
           </el-row>
         </section>
     </div>
 </template>
 <script>
 import { USER_MANAGE } from "@/constants/TEXT";
+import {
+  getManagers,
+  addManager,
+  getAdminsDepartments,
+  getDepartments,
+  enableManager,
+  deleteManager,
+  updateManager
+} from "@/constants/API";
 export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
@@ -69,86 +89,140 @@ export default {
           active: true
         }
       ],
-      // 筛选条件
-      conditionForm: { name: "", department: "" },
+      // 用户筛选条件
+      conditionForm: { name: "", department_id: "", page: 1 },
+      // 分页
+      total: 0,
+      // 事业部列表
+      departments: [],
       // 事业部-分校列表
-      departments: [
-        { label: "集团总部", value: "id001" },
-        { label: "培优", value: "id002" }
-      ],
+      adminsDepartments: [],
+      // 编辑用户事业部-分校
+      department: [],
       // dialog
       addDialogVisible: false,
       updateDialogVisible: false,
-      // user form
-      userForm: { email: "", name: "", department: "" },
+      // user form(add or update)
+      userForm: { email: "", name: "", department_id: "", empID: "" },
+      // 操作用户ID
+      userId: "",
       // table头部
       tableColumn: [
         { prop: "name", label: "姓名" },
-        { prop: "email", label: "企业邮箱" },
-        { prop: "scope", label: "事业部" },
-        { prop: "state", label: "状态" },
-        { prop: "createTime", label: "创建时间" }
+        { prop: "email", label: "企业邮箱" }
       ],
       // table数据
-      userTable: [
-        {
-          name: "章三",
-          email: "zhenkaixin@100tal.com",
-          scope: "集团总部",
-          state: "启用",
-          createTime: "2018-08-23"
-        },
-        {
-          name: "真开心",
-          email: "zhenkaixin@100tal.com",
-          scope: "集团总部",
-          state: "启用",
-          createTime: "2018-08-23"
-        },
-        {
-          name: "莉丝",
-          email: "zhenkaixin@100tal.com",
-          scope: "集团总部",
-          state: "启用",
-          createTime: "2018-08-23"
-        },
-        {
-          name: "狗子",
-          email: "zhenkaixin@100tal.com",
-          scope: "培优事业部-哈分校",
-          state: "启用",
-          createTime: "2018-08-23"
-        }
-      ]
+      userTable: [],
+      tableLoading: true
     };
   },
+  created() {
+    this.getManagers();
+    this.getDepartments();
+    this.getAdminsDepartments();
+  },
   methods: {
+    // 用户列表
+    getManagers() {
+      const data = { ...this.conditionForm };
+      data.name.length == 0 && delete data.name;
+      data.department_id.length == 0 && delete data.department_id;
+      getManagers(data)
+        .then(res => {
+          this.tableLoading = false;
+          if (res) {
+            this.total = res.total;
+            this.userTable = res.data;
+          }
+        })
+        .catch(err => {
+          this.tableLoading = false;
+        });
+    },
+    // 事业部-分校列表
+    getDepartments() {
+      getDepartments().then(res => {
+        res.map(function(item) {
+          item.label = item.name;
+          item.value = item.department_id;
+        });
+        this.departments = res;
+      });
+    },
+    // 事业部-分校列表
+    getAdminsDepartments() {
+      getAdminsDepartments().then(res => {
+        const recursive = function f(arr) {
+          arr.map(function(item) {
+            item.label = item.name;
+            item.value = item.department_id;
+            if (item.children) {
+              f(item.children);
+            }
+          });
+        };
+        recursive(res);
+        this.adminsDepartments = res;
+      });
+    },
+    // 更改筛选条件
+    changeCondition() {
+      this.conditionForm = Object.assign({}, this.conditionForm, { page: 0 });
+      this.getManagers();
+    },
     // 清空
     resetForm(formName) {
-      console.log(this.$refs[formName], this.userForm);
-      this.$refs[formName].resetFields();
+      this.conditionForm = { name: "", department_id: "", page: 1 };
+      this.getManagers();
+    },
+    // 新增用户
+    submitUser() {
+      this.addDialogVisible = true;
+      this.userForm = { email: "", name: "", department_id: "", empID: "" };
+    },
+    // 提交新增
+    addSubmit() {
+      return addManager(this.userForm).then(res => {
+        this.getManagers();
+      });
     },
     // 修改用户
     updateUser(user) {
-      console.log("修改用户", user.name);
       this.updateDialogVisible = true;
       this.userForm = {
         email: user.email,
         name: user.name,
-        department: user.scope
+        department_id: user.department_id,
+        empID: user.empID
       };
+      this.department = [];
+      this.userId = user.id;
+      user.department.parent_id
+        ? this.department.push(user.department.parent_id, user.department_id)
+        : this.department.push(user.department_id);
+    },
+    // 提交修改
+    updateSubmit() {
+      return updateManager(this.userId, this.userForm).then(res => {
+        this.$message({
+          type: "success",
+          message: "修改成功!"
+        });
+        this.getManagers();
+      });
     },
     // 启用/禁用用户
     enabledUser(user) {
-      console.log("启用/禁用用户", user.name);
-      this.$message({
-        type: "success",
-        message: "启用成功!"
+      enableManager(user.id, { active: user.active }).then(res => {
+        this.$message({
+          type: "success",
+          message: "操作成功!"
+        });
+        this.getManagers();
       });
     },
     // 删除用户
     deleteUser(user) {
-      console.log("删除用户", user.name);
       this.$confirm("确定删除此用户?", "提示", {
         roundButton: true,
         confirmButtonText: "确定",
@@ -157,9 +231,12 @@ export default {
         center: true
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
+          deleteManager(user.id).then(res => {
+            this.getManagers();
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
           });
         })
         .catch(() => {
@@ -171,7 +248,7 @@ export default {
     },
     // 分页
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.conditionForm = Object.assign({}, this.conditionForm, { page: val });
     }
   }
 };

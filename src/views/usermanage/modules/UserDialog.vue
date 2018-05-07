@@ -2,7 +2,7 @@
   <el-dialog :title="title" :visible.sync="visible" width="25%" center :before-close="closeDialog">
     <el-form class="user-form">
       <el-form-item>
-        <el-input type="text" v-model="userForm.email" placeholder="企业邮箱" auto-complete="off" :autofocus="true" :disabled="disabled"></el-input>
+        <el-autocomplete v-model="userForm.email" :fetch-suggestions="querySearchAsync" placeholder="企业邮箱" @select="handleSelect" style="width:100%" :disabled="disabled"></el-autocomplete>
       </el-form-item>
 
       <el-form-item>
@@ -10,16 +10,17 @@
       </el-form-item>
 
       <el-form-item>
-        <el-cascader :options="departments" change-on-select placeholder="部门" separator="-" style="width:100%"></el-cascader>
+        <el-cascader :value="department" @change="changeDepartment" :options="departments" change-on-select placeholder="部门" separator="-" style="width:100%"></el-cascader>
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button type="primary" round @click="closeDialog">确 定</el-button>
+      <el-button type="primary" round @click="handelSubmit">确 定</el-button>
       <el-button round @click="closeDialog">取 消</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
+import { searchManager } from "@/constants/API";
 export default {
   props: {
     visible: {
@@ -32,32 +33,69 @@ export default {
     },
     userForm: {
       type: Object,
-      default: () => ({ email: "", name: "", department: "" })
+      default: () => ({ email: "", name: "", department_id: "", empID: "" })
     },
     disabled: {
       type: Boolean,
       default: false
+    },
+    submit: {
+      type: Function,
+      default: () => function() {}
+    },
+    departments: {
+      type: Array,
+      default: () => []
+    },
+    department: {
+      type: Array,
+      default: () => []
     }
-  },
-  data() {
-    return {
-      department: "",
-      departments: [
-        {
-          label: "培优事业部",
-          value: "id001",
-          children: [
-            { label: "哈分校", value: "id009" },
-            { label: "嘿分校", value: "id0010" }
-          ]
-        },
-        { label: "集团总部", value: "id002" }
-      ]
-    };
   },
   methods: {
     closeDialog() {
       this.$emit("update:visible", false);
+    },
+    handelSubmit() {
+      this.submit().then(res => {
+        this.closeDialog();
+      });
+    },
+    querySearchAsync(queryString, cb) {
+      if (queryString) {
+        searchManager({ email: queryString }).then(res => {
+          if (res.data) {
+            for (var i = res.data.length - 1; i >= 0; i--) {
+              res.data[i].value = res.data[i].name;
+            }
+            cb(res.data);
+          }
+        });
+      } else {
+        this.$emit(
+          "update:userForm",
+          Object.assign({}, this.userForm, { name: "" })
+        );
+        cb([]);
+      }
+    },
+    handleSelect(item) {
+      this.$emit(
+        "update:userForm",
+        Object.assign({}, this.userForm, {
+          email: item.email,
+          name: "孙超",
+          empID: "070579"
+        })
+      );
+    },
+    changeDepartment(departmentArr) {
+      this.$emit(
+        "update:userForm",
+        Object.assign({}, this.userForm, {
+          department_id: departmentArr[departmentArr.length - 1]
+        })
+      );
     }
   }
 };
