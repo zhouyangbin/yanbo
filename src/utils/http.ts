@@ -23,7 +23,7 @@ const axiosCreate = {
   withCredentials: true,
   validateStatus: function(status: number) {
     // 若状态码大于等于500时则Reject 用来统一处理5XX报错走catch方法
-    return status < 500;
+    return status < 400;
   }
 };
 
