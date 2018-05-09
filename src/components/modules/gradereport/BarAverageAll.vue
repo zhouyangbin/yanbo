@@ -4,11 +4,10 @@
 <script>
 // ECharts 主模块
 import echarts from "echarts/lib/echarts";
-// 饼状图
+// 柱状图
 import "echarts/lib/chart/bar";
 // 提示框和标题
 import "echarts/lib/component/tooltip";
-import "echarts/lib/component/title";
 export default {
   props: {
     selfAverage: {
@@ -66,9 +65,6 @@ export default {
           {
             type: "category",
             data: this.departmentsAverage,
-            axisPointer: {
-              type: "shadow"
-            },
             grid: {
               y2: 140
             },
@@ -92,7 +88,6 @@ export default {
         yAxis: [
           {
             type: "value",
-            name: "",
             min: this.yMin,
             max: this.yMax,
             interval: this.yInterval,
@@ -104,7 +99,7 @@ export default {
               // 改变轴线颜色
               lineStyle: {
                 // 使用深浅的间隔色
-                color: ["#eeeeee"]
+                color: ["#eee"]
               }
             },
             axisLabel: {
