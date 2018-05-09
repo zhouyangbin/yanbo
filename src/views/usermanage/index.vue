@@ -32,19 +32,19 @@
 
           <!-- user tableList -->
           <el-table :data="userTable" stripe style="width:100%" v-loading="tableLoading" :height="tableHeight">
-            <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width"></el-table-column>
-            <el-table-column label="事业部">
+            <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="true" align="center"></el-table-column>
+            <el-table-column label="范围" :show-overflow-tooltip="true" align="center">
               <template slot-scope="scope">
                 {{scope.row.department.name}}
               </template>
             </el-table-column>
-            <el-table-column label="状态">
+            <el-table-column label="状态" width="80" align="center">
               <template slot-scope="scope">
                 {{scope.row.active == '1'?'启用':'禁用'}}
               </template>
             </el-table-column>
-            <el-table-column prop="created_at" label="创建时间"></el-table-column>
-            <el-table-column fixed="right" label="操作" align="center">
+            <el-table-column prop="created_at" label="创建时间" width="180" align="center"></el-table-column>
+            <el-table-column fixed="right" label="操作" align="center" width="180">
               <template slot-scope="scope">
                 <el-button @click="updateUser(scope.row)" type="text" size="small">修改</el-button>
                 <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?'禁用':'启用'}}</el-button>
@@ -109,8 +109,8 @@ export default {
       userId: "",
       // table头部
       tableColumn: [
-        { prop: "name", label: "姓名", width: "" },
-        { prop: "email", label: "企业邮箱", width: "220" }
+        { prop: "name", label: "姓名", width: "150" },
+        { prop: "email", label: "企业邮箱", width: "" }
       ],
       // table数据
       userTable: [],

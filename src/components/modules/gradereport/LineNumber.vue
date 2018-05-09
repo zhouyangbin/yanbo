@@ -4,11 +4,10 @@
 <script>
 // ECharts 主模块
 import echarts from "echarts/lib/echarts";
-// 饼状图
+// 折线图
 import "echarts/lib/chart/line";
 // 提示框和标题
 import "echarts/lib/component/tooltip";
-import "echarts/lib/component/title";
 import "echarts/lib/component/grid";
 export default {
   props: {
@@ -105,7 +104,6 @@ export default {
         ],
         series: [
           {
-            name: "自评",
             type: "line",
             lineWidth: 15,
             data: this.numbers,

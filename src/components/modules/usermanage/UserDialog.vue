@@ -2,7 +2,7 @@
   <el-dialog :title="title" :visible.sync="visible" width="25%" center :before-close="closeDialog">
     <el-form class="user-form">
       <el-form-item>
-        <el-autocomplete v-model="userForm.email" :fetch-suggestions="querySearchAsync" placeholder="企业邮箱" @select="handleSelect" style="width:100%" :disabled="disabled"></el-autocomplete>
+        <el-autocomplete v-model="userForm.email" :fetch-suggestions="querySearchAsync" placeholder="企业邮箱" @select="handleSelect" style="width:100%" :disabled="disabled" :autofocus="true"></el-autocomplete>
       </el-form-item>
 
       <el-form-item>

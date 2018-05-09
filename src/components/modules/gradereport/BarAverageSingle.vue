@@ -4,11 +4,10 @@
 <script>
 // ECharts 主模块
 import echarts from "echarts/lib/echarts";
-// 饼状图
+// 柱状图
 import "echarts/lib/chart/bar";
 // 提示框和标题
 import "echarts/lib/component/tooltip";
-import "echarts/lib/component/title";
 export default {
   props: {
     selfRates: {
@@ -52,9 +51,6 @@ export default {
           {
             type: "category",
             data: ["成就客户", "务实", "创新", "合作"],
-            axisPointer: {
-              type: "shadow"
-            },
             // 隐藏x轴
             axisLine: { show: false },
             // 去除x轴上的刻度线
@@ -64,7 +60,7 @@ export default {
             // 改变x轴字体颜色和大小
             axisLabel: {
               textStyle: {
-                color: "#999999"
+                color: "#999"
               }
             }
           }
@@ -72,7 +68,6 @@ export default {
         yAxis: [
           {
             type: "value",
-            name: "",
             min: 0,
             max: 5,
             interval: 1,
@@ -83,7 +78,7 @@ export default {
               //  改变轴线颜色
               lineStyle: {
                 // 使用深浅的间隔色
-                color: ["#eeeeee"]
+                color: ["#eee"]
               }
             },
             axisLabel: {
