@@ -5,7 +5,7 @@
     </div>
     <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
       <el-form-item prop="num">
-        <el-input size="small" :placeholder="constants.NUMBER" v-model="infoForm.num"></el-input>
+        <el-input :disabled="infoType !== 'add'" size="small" @input="searchME" :placeholder="constants.NUMBER" v-model="infoForm.num"></el-input>
       </el-form-item>
       <el-form-item prop="name">
         <el-input size="small" :disabled="true" :placeholder="constants.NAME" v-model="infoForm.name"></el-input>
@@ -23,7 +23,7 @@
         <el-input size="small" :placeholder="constants.EMAIL" v-model="infoForm.email"></el-input>
       </el-form-item>
       <el-form-item prop="leaderNum">
-        <el-input size="small" :placeholder="constants.LEADER_NUMBER" v-model="infoForm.leaderNum"></el-input>
+        <el-input size="small" @input="searchLeader" :placeholder="constants.LEADER_NUMBER" v-model="infoForm.leaderNum"></el-input>
       </el-form-item>
       <el-form-item prop="leaderName">
         <el-input size="small" :disabled="true" :placeholder="constants.LEADER_NAME" v-model="infoForm.leaderName"></el-input>
@@ -79,7 +79,7 @@ import {
   CONFIRM,
   CANCEL
 } from "@/constants/TEXT";
-import { postNewUser } from "@/constants/API";
+import { postNewUser, postUpdateUser, getUserDetail } from "@/constants/API";
 export default {
   props: {
     dialogInfo: {
@@ -89,9 +89,14 @@ export default {
     infoType: {
       type: String,
       default: "add"
+    },
+    currentInfo: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
+    // 填了隔级的邮箱就必须填隔级的工号
     const upLeaderEmailValidator = (rule, value, callback) => {
       if (this.infoForm.upLeaderNum && !value) {
         callback(EMAIL_VALIATE_MSG);
@@ -174,6 +179,22 @@ export default {
       }
     };
   },
+  created() {
+    this.infoForm.num = this.currentInfo.workcode;
+    this.infoForm.name = this.currentInfo.name;
+    this.infoForm.BU = this.currentInfo.department;
+    this.infoForm.dep = this.currentInfo.first_department;
+    this.infoForm.level = this.currentInfo.level;
+    this.infoForm.email = this.currentInfo.email;
+    this.infoForm.leaderNum = this.currentInfo.superior_workcode;
+    this.infoForm.leaderName = this.currentInfo.superior_name;
+    this.infoForm.leaderBU = this.currentInfo.superior_department;
+    this.infoForm.leaderEmail = this.currentInfo.superior_email;
+    this.infoForm.upLeaderNum = this.currentInfo.highlevel_workcode;
+    this.infoForm.upLeaderName = this.currentInfo.highlevel_name;
+    this.infoForm.upLeaderBU = this.currentInfo.highlevel_department;
+    this.infoForm.upLeaderEmail = this.currentInfo.highlevel_email;
+  },
   methods: {
     resetFilter(formName) {
       this.$refs[formName].resetFields();
@@ -196,19 +217,66 @@ export default {
               highlevel_workcode: this.infoForm.upLeaderNum,
               highlevel_email: this.infoForm.upLeaderEmail
             };
-            postNewUser(this.$route.params.id, postData)
+            postNewUser(this.$route.params.orgID, postData)
               .then(res => {
                 this.close();
               })
               .catch(e => {
                 // console.log(e)
               });
+          } else {
+            // console.log("modifu")
+            postUpdateUser(this.$route.params.orgID, this.currentInfo.id, {
+              ev_user_email: this.infoForm.email,
+              evaluator_workcode: this.infoForm.leaderNum,
+              evaluator_email: this.infoForm.leaderEmail,
+              highlevel_workcode: this.infoForm.upLeaderNum,
+              highlevel_email: this.infoForm.upLeaderEmail
+            })
+              .then(res => {
+                this.close();
+              })
+              .catch(e => {});
           }
         } else {
-          console.log("error submit!!");
+          // console.log("error submit!!")
           return false;
         }
       });
+    },
+    searchME(v) {
+      if (v != "") {
+        getUserDetail({
+          empID: v
+        })
+          .then(res => {
+            if (res) {
+              this.infoForm.name = res.name;
+              this.infoForm.BU = res.department;
+              this.infoForm.dep = res.first_department;
+              this.infoForm.level = res.level;
+              this.infoForm.email = res.email;
+            }
+          })
+          .catch(e => {});
+      }
+    },
+    searchLeader(v) {
+      if (v != "") {
+        getUserDetail({
+          empID: v
+        })
+          .then(res => {
+            if (res) {
+              this.infoForm.leaderName = res.name;
+              this.infoForm.leaderBU = res.department;
+              // this.infoForm.dep = res.first_department
+              // this.infoForm.level = res.level
+              this.infoForm.leaderEmail = res.email;
+            }
+          })
+          .catch(e => {});
+      }
     }
   },
   beforeDestroy() {

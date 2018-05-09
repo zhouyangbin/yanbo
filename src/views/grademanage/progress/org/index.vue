@@ -15,24 +15,46 @@
             <span class="dep-name">
               {{depInfo.name}}
             </span>
-            <el-button @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
-              {{constants.SET_TIMES}}
+            <el-button :disabled="total==0" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
+              {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
             </el-button>
           </el-row>
           <br>
           <br>
           <el-row type="flex" justify="center">
             <el-col :span="20">
-              <el-steps align-center :active="depInfo.step" finish-status="success">
+              <el-steps align-center :active="step" finish-status="success">
                 <el-step>
                   <template slot="title">
-                    <el-button @click="dialogImport =true" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
+                    <el-button @click="dialogImport =true" :disabled="!canbeImport" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
                   </template>
                 </el-step>
-                <el-step title="自评未开始"></el-step>
-                <el-step title="上级评进行中"></el-step>
-                <el-step title="隔级上级评未开始"></el-step>
-                <el-step title="面谈未开始"></el-step>
+                <el-step>
+                  <template slot="title">
+                    自评{{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.self_status))[0]||{}).value}}
+                    <span v-if="depInfo.self!='' && depInfo.count">({{depInfo.self}}/{{depInfo.count}})</span>
+                    <div v-if="gradeInfo.self_start_time">{{gradeInfo.self_start_time}} - {{gradeInfo.self_end_time}}</div>
+                  </template>
+                </el-step>
+                <el-step>
+                  <template slot="title">
+                    上级评{{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.superior_status))[0]||{}).value}}
+                    <span v-if="depInfo.superior!='' && depInfo.count">({{depInfo.superior}}/{{depInfo.count}})</span>
+                    <div v-if="gradeInfo.superior_start_time">{{gradeInfo.superior_start_time}} - {{gradeInfo.superior_end_time}}</div>
+                  </template>
+                </el-step>
+                <el-step>
+                  <template slot="title">
+                    隔级上级评{{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.highlevel_status))[0]||{}).value}}
+                    <span v-if="depInfo.highlevel!='' && depInfo.refuse !=''&& depInfo.count">({{(highlevel-refuse)}}/{{depInfo.count}})</span>
+                    <div v-if="gradeInfo.highlevel_start_time">{{gradeInfo.highlevel_start_time}} - {{gradeInfo.highlevel_end_time}}</div>
+                  </template>
+                </el-step>
+                <el-step title="未开始">
+                  <template slot="title">
+                    面谈{{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.feedback_status))[0]||{}).value}}
+                  </template>
+                </el-step>
               </el-steps>
             </el-col>
           </el-row>
@@ -42,13 +64,13 @@
       <div class="bg-white">
         <el-row align="middle" class="action-bar" type="flex" justify="space-between">
           <span>
-            {{constants.SELECTION_TIPS(10,selection.length)}}
+            {{constants.SELECTION_TIPS(total,selection.length)}}
           </span>
           <span>
             <el-button :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="reminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" icon="el-icon-plus" type="medium" @click="dialogInfo=true">{{constants.ADD}}</el-button>
-            <el-button :disabled="selection.length===0" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button @click="reminder" :disabled="!canbeEdit" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
+            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true">{{constants.ADD}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -94,64 +116,76 @@
             <el-button round size="medium" @click="resetFilter('filter-form')" class="btn-reset">{{constants.RESET}}</el-button>
           </el-form-item>
         </el-form>
-        <el-table @selection-change="handleSelectionChange" ref="multipleTable" height="250" :data="tableData" stripe style="width: 100%">
+        <el-table @selection-change="handleSelectionChange" ref="multipleTable" height="400" :data="tableData" stripe style="width: 100%">
           <el-table-column fixed="left" type="selection" width="55">
           </el-table-column>
-          <el-table-column prop="date" :label="constants.NUMBER" width="80">
+          <el-table-column prop="workcode" :label="constants.NUMBER" width="80">
           </el-table-column>
           <el-table-column prop="name" :label="constants.NAME" width="100">
           </el-table-column>
-          <el-table-column prop="address" :label="constants.BASE_OR_BU" width="100">
+          <el-table-column prop="department" :label="constants.BASE_OR_BU" width="100">
           </el-table-column>
-          <el-table-column prop="address1" :label="constants.DEP_OR_SUB" width="100">
+          <el-table-column prop="sub_department" :label="constants.DEP_OR_SUB" width="100">
           </el-table-column>
-          <el-table-column prop="address2" :label="constants.WORK_LEVEL" width="100">
+          <el-table-column prop="level" :label="constants.WORK_LEVEL" width="100">
           </el-table-column>
-          <el-table-column prop="address3" :label="constants.EMAIL" width="100">
+          <el-table-column prop="email" :label="constants.EMAIL" width="180">
           </el-table-column>
-          <el-table-column prop="address4" :label="constants.LEADER_NUMBER" width="80">
+          <el-table-column prop="superior_workcode" :label="constants.LEADER_NUMBER" width="80">
           </el-table-column>
-          <el-table-column prop="address5" :label="constants.LEADER_NAME" width="100">
+          <el-table-column prop="superior_name" :label="constants.LEADER_NAME" width="100">
           </el-table-column>
-          <el-table-column prop="address6" :label="constants.UP_LEVEL+constants.BASE_OR_BU" width="150">
+          <el-table-column prop="superior_department" :label="constants.UP_LEVEL+constants.BASE_OR_BU" width="150">
           </el-table-column>
-          <el-table-column prop="address7" :label="constants.UP_LEVEL+constants.EMAIL" width="100">
+          <el-table-column prop="superior_email" :label="constants.UP_LEVEL+constants.EMAIL" width="150">
           </el-table-column>
-          <el-table-column prop="address8" :label="constants.SELF_EVALUATION_STATUS" width="80">
+          <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
+            <template slot-scope="scope">
+              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+            </template>
           </el-table-column>
-          <el-table-column prop="address9" :label="constants.LEADER_EVALUATION_STATUS" width="100">
+          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
+            <template slot-scope="scope">
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
+            </template>
           </el-table-column>
-          <el-table-column prop="address10" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
+          <el-table-column prop="highlevel_workcode" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
           </el-table-column>
-          <el-table-column prop="address11" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
+          <el-table-column prop="highlevel_name" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
           </el-table-column>
-          <el-table-column prop="address12" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
+          <el-table-column prop="highlevel_department" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
           </el-table-column>
-          <el-table-column prop="address13" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="100">
+          <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
           </el-table-column>
-          <el-table-column prop="address14" :label="constants.FACE_FEEDBACK">
+          <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
+            <template slot-scope="scope">
+              {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+            </template>
           </el-table-column>
-          <el-table-column prop="address14" :label="constants.RESULT_CONFIRM">
+          <el-table-column prop="feedback_is_agree" :label="constants.RESULT_CONFIRM">
+            <template slot-scope="scope">
+              {{(constants.ENUM_WAIT_CONFIRM.filter(v=>v.key===String(scope.row.feedback_is_agree))[0]||{}).value}}
+            </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
-              <el-button type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
-              <el-button type="text" size="small">{{constants.DETAILS}}</el-button>
+              <el-button v-if="canbeEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
+              <el-button v-if="canbeEdit" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
+              <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
         <br>
         <el-row type="flex" justify="end">
-          <pagination @current-change="handleCurrentChange" :total="100"></pagination>
+          <pagination @current-change="handleCurrentChange" :total="total"></pagination>
         </el-row>
         <br>
       </div>
     </section>
 
     <import-dialog @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
-    <time-setting @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
-    <info-dialog @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
+    <time-setting :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
+    <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
   </div>
 </template>
 <script>
@@ -190,13 +224,28 @@ import {
   DEL,
   DETAILS,
   SET_TIMES,
-  IMPORT_RECORDS
+  IMPORT_RECORDS,
+  ENUM_SELF_EVALUATION_STATUS,
+  ENUM_LEADER_EVALUATION_STATUS,
+  ENUM_FACE_EVALUATION_STATUS,
+  ENUM_LEADER_PLUS_EVALUATION_STATUS,
+  MODIFY_TIMES
 } from "@/constants/TEXT";
+import { PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
 import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
+import { delUser, getUserList } from "@/constants/API";
+import { defaultCoreCipherList } from "constants";
+import { compact } from "@/utils/obj";
+
 export default {
   data() {
     return {
+      currentPage: 1,
+      stage: 10,
+      total: 0,
+      // info框内的数据
+      currentInfo: {},
       // 导入的弹框
       dialogImport: false,
       // 时间设置弹框
@@ -209,13 +258,30 @@ export default {
 
       // 评测信息
       gradeInfo: {
-        name: "评测的名字这里",
-        finishedDate: new Date()
+        name: "",
+        finishedDate: "",
+        self_start_time: "",
+        self_end_time: "",
+        superior_start_time: "",
+        superior_end_time: "",
+        highlevel_start_time: "",
+        highlevel_end_time: "",
+        feedback_start_time: "",
+        feedback_end_time: "",
+        checked_271: 0
       },
       // 事业部信息
       depInfo: {
-        name: "是业务的的等部门的名字",
-        step: 2
+        name: "",
+        self_status: 0,
+        superior_status: 0,
+        highlevel_status: 0,
+        feedback_status: 0,
+        count: "",
+        self: "",
+        superior: "",
+        highlevel: "",
+        refuse: ""
       },
       // 选择集合
       selection: [],
@@ -264,30 +330,15 @@ export default {
         DETAILS,
         SET_TIMES,
         IMPORT_RECORDS,
-        WORK_LEVEL
+        WORK_LEVEL,
+        ENUM_SELF_EVALUATION_STATUS,
+        ENUM_LEADER_EVALUATION_STATUS,
+        ENUM_FACE_EVALUATION_STATUS,
+        ENUM_LEADER_PLUS_EVALUATION_STATUS,
+        MODIFY_TIMES,
+        PATH_GRADE_EMP_DETAIL
       },
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
+      tableData: [],
       nav: [
         {
           label: GRADE_MANAGE,
@@ -321,28 +372,49 @@ export default {
     resetFilter(formName) {
       this.$refs[formName].resetFields();
     },
+    batchDel() {
+      // 批量删除
+      delUser({ evaluation_user_ids: this.selection.map(v => v.id) })
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+          this.refreshList();
+        })
+        .catch(() => {});
+    },
     // 选择列表项
     handleSelectionChange(arr) {
       this.selection = arr;
     },
     // 翻页
     handleCurrentChange(val) {
-      // TODO:翻页
-      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      const postData = {
+        page: val
+      };
+      this.refreshList(postData);
     },
+    // 导入
     closeImportDia() {
       this.dialogImport = false;
+      this.refreshList();
     },
     closeTimeSettingDia() {
+      // 设置修改时间后需要刷新
       this.dialogTimes = false;
+      this.refreshList();
     },
     closeInfoDia() {
+      // 添加修改信息后
       this.dialogInfo = false;
+      this.refreshList();
     },
     // 发出提醒
     reminder() {
       let msg = "是否要发出提醒?";
-      console.log(this.selection.length);
+      // console.log(this.selection.length)
       if (this.selection.length == 0) {
         msg = "是否提醒全部?";
       }
@@ -369,12 +441,148 @@ export default {
         center: true
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
+          delUser({ evaluation_user_ids: [row.id] }).then(res => {
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+            this.refreshList();
           });
         })
         .catch(() => {});
+    },
+    modifyInfo(row) {
+      // console.log(row)
+      // 修改某个人的信息
+      this.infoType = "modify";
+      this.currentInfo = row;
+      this.dialogInfo = true;
+    },
+    // 拉取列表数据
+    refreshList(data) {
+      let postData = data || {};
+      postData = {
+        ...{
+          name: this.formFilter.name,
+          workcode: this.formFilter.number,
+          superior_workcode: this.formFilter.leaderNum,
+          superior_name: this.formFilter.leaderName,
+          highlevel_workcode: this.formFilter.upLeaderNum,
+          highlevel_name: this.formFilter.upLeaderName,
+          self_status: this.formFilter.selfEvaluation,
+          superior_status: this.formFilter.leaderEvaluation,
+          highlevel_status: this.formFilter.plusLeaderEvaluation,
+          feedback_is_agree: this.formFilter.result,
+          page: this.currentPage,
+          perPage: 20
+        },
+        ...postData
+      };
+      getUserList(this.$route.params.orgID, compact(postData))
+        .then(res => {
+          this.tableData = res.list.data;
+          this.total = res.list.total;
+          this.depInfo.name = res.info.department_name;
+          this.gradeInfo.name = res.info.evaluation_name.evaluation_name;
+          this.gradeInfo.finishedDate = res.info.evaluation_name.end_time;
+          this.gradeInfo.self_start_time = res.info.self_start_time;
+          this.gradeInfo.self_end_time = res.info.self_end_time;
+          this.gradeInfo.superior_start_time = res.info.superior_start_time;
+          this.gradeInfo.superior_end_time = res.info.superior_end_time;
+          this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time;
+          this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time;
+          this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
+          this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
+          this.gradeInfo.checked_271 = res.info._271_is_necessary;
+          this.stage = parseInt(res.info.stage);
+        })
+        .catch(e => {});
+    }
+  },
+  watch: {
+    // 筛选watch
+    formFilter: {
+      handler: function(v) {
+        const postData = {
+          name: v.name,
+          workcode: v.number,
+          superior_workcode: v.leaderNum,
+          superior_name: v.leaderName,
+          highlevel_workcode: v.upLeaderNum,
+          highlevel_name: v.upLeaderName,
+          self_status: v.selfEvaluation,
+          superior_status: v.leaderEvaluation,
+          highlevel_status: v.plusLeaderEvaluation,
+          feedback_is_agree: v.result
+        };
+        this.refreshList(postData);
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  computed: {
+    canbeImport() {
+      return !this.depInfo.self_status;
+    },
+    canbeEdit() {
+      return this.depInfo.self_status != 2;
+    },
+    step() {
+      // return 5
+      let stage = this.stage;
+      if (stage == 10) {
+        return 0;
+      }
+      if (stage == 20 || stage == 30) {
+        return 1;
+      }
+      if (stage == 40) {
+        return 2;
+      }
+      if (stage == 50) {
+        return 3;
+      }
+      if (stage == 60) {
+        return 4;
+      }
+      if (stage == 70) {
+        return 5;
+      }
+    },
+    hasSchedule() {
+      // 是否设置了时间
+      return (
+        this.gradeInfo.self_start_time &&
+        this.gradeInfo.self_end_time &&
+        this.gradeInfo.superior_start_time &&
+        this.gradeInfo.superior_end_time &&
+        this.gradeInfo.highlevel_start_time &&
+        this.gradeInfo.highlevel_end_time &&
+        this.gradeInfo.feedback_start_time &&
+        this.gradeInfo.feedback_end_time
+      );
+    },
+    status() {
+      return {
+        self_status: this.depInfo.self_status,
+        superior_status: this.depInfo.superior_status,
+        highlevel_status: this.depInfo.highlevel_status,
+        feedback_status: this.depInfo.feedback_status
+      };
+    },
+    timeData() {
+      return {
+        self_start_time: this.gradeInfo.self_start_time,
+        self_end_time: this.gradeInfo.self_end_time,
+        superior_start_time: this.gradeInfo.superior_start_time,
+        superior_end_time: this.gradeInfo.superior_end_time,
+        highlevel_start_time: this.gradeInfo.highlevel_start_time,
+        highlevel_end_time: this.gradeInfo.highlevel_end_time,
+        feedback_start_time: this.gradeInfo.feedback_start_time,
+        feedback_end_time: this.gradeInfo.feedback_end_time,
+        checked_271: this.gradeInfo.checked_271
+      };
     }
   }
 };
@@ -382,6 +590,7 @@ export default {
 <style scoped>
 .dep-page {
   padding: 20px;
+  /* height: calc(100% - 40px); */
 }
 .bg-white {
   background-color: white;

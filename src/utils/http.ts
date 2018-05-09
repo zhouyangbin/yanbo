@@ -114,6 +114,7 @@ http.interceptors.response.use(
   },
   (error: any) => {
     // loadingInstance.close();
+    console.log(error);
     Notification({
       // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
       type: "error",
