@@ -31,7 +31,7 @@
           <user-dialog :visible.sync="addDialogVisible" title="新增" :userForm.sync="userForm" :disabled="false" :submit="addSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
 
           <!-- user tableList -->
-          <el-table :data="userTable" stripe style="width: 100%;overflow:scroll" v-loading="tableLoading" :max-height="tableHeight">
+          <el-table :data="userTable" stripe style="width:100%" v-loading="tableLoading" :height="tableHeight">
             <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width"></el-table-column>
             <el-table-column label="事业部">
               <template slot-scope="scope">

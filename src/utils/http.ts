@@ -1,5 +1,7 @@
 // 引入axios用来封装http请求
 import axios, { AxiosResponse } from "axios";
+// token失效|禁用跳转登录页
+import router from "../router";
 // 提示信息常量引入，方便统一更改
 import {
   HTTP_STATUS_MSG_404,
@@ -74,55 +76,30 @@ http.interceptors.request.use(
  */
 http.interceptors.response.use(
   config => {
-    // console.log("config", config);
-    // loadingInstance.close();
-    if (config.status === 404) {
-      Notification({
-        type: "error",
-        title: HTTP_STATUS_TITLE_ERROR,
-        message: HTTP_STATUS_MSG_404,
-        // 弹框自动消失时间
-        duration: 3000
-      });
-      // return { ...config, data: null };
-      return Promise.reject(config);
-    } else if (config.status === 401) {
-      Notification({
-        type: "error",
-        title: HTTP_STATUS_TITLE_ERROR,
-        message: config.data.message,
-        // 弹框自动消失时间
-        duration: 3000
-      });
-      // return { ...config, data: null };
-      return Promise.reject(config);
-    } else if (config.status === 403) {
-      // 后端约定，444时只需要将后端错误信息弹出即可，如需详细处理的业务则判断config.data.data.errcode
-      Notification({
-        type: "error",
-        title: HTTP_STATUS_TITLE_ERROR,
-        message: config.data.message,
-        duration: 3000
-        // 弹框自动消失时间
-      });
-      // return { ...config, data: null };
-      return Promise.reject(config);
-    } else {
-      // 成功
-      return config.data || {};
-    }
+    return config.data || {};
   },
   (error: any) => {
     // loadingInstance.close();
-    console.log(error);
-    Notification({
-      // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
-      type: "error",
-      title: HTTP_STATUS_TITLE_5XX,
-      message: HTTP_STATUS_MSG_5XX,
-      duration: 3000
-      // 弹框自动消失时间
-    });
+    // 登录失败|禁用|token失效等相关问题返回401，此处做跳转登录页动作
+    if (error.response.status === 401) {
+      Notification({
+        type: "error",
+        title: HTTP_STATUS_TITLE_ERROR,
+        message: error.response.data.message,
+        // 弹框自动消失时间
+        duration: 3000
+      });
+      router.push({ path: "/login" });
+    } else {
+      Notification({
+        // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
+        type: "error",
+        title: HTTP_STATUS_TITLE_5XX,
+        message: HTTP_STATUS_MSG_5XX,
+        duration: 3000
+      });
+    }
+
     return Promise.reject(error.response);
   }
 );

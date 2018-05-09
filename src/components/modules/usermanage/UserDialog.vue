@@ -57,15 +57,30 @@ export default {
       this.$emit("update:visible", false);
     },
     handelSubmit() {
+      if (
+        !this.userForm.email ||
+        !this.userForm.name ||
+        !this.userForm.department_id
+      ) {
+        this.$message({
+          message: "企业邮箱、姓名、部门都是必填项哦！",
+          type: "warning"
+        });
+        return;
+      }
       this.submit().then(res => {
         this.closeDialog();
       });
     },
     querySearchAsync(queryString, cb) {
+      // 内容输入变更就清楚name
+      this.$emit(
+        "update:userForm",
+        Object.assign({}, this.userForm, { name: "" })
+      );
       if (queryString) {
         searchManager({ email: queryString })
           .then(res => {
-            console.log(res);
             if (res) {
               for (var i = res.length - 1; i >= 0; i--) {
                 res[i].value =
@@ -82,20 +97,18 @@ export default {
             cb([]);
           });
       } else {
-        this.$emit(
-          "update:userForm",
-          Object.assign({}, this.userForm, { name: "" })
-        );
+        // 从有内容删减到无内容时不要搜索
         cb([]);
       }
     },
     handleSelect(item) {
+      console.log(item);
       this.$emit(
         "update:userForm",
         Object.assign({}, this.userForm, {
           email: item.email,
           name: item.name,
-          empID: item.empID
+          empID: item.workcode
         })
       );
     },
