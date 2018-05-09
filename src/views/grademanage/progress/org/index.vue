@@ -189,478 +189,478 @@
   </div>
 </template>
 <script>
-  import {
-    GRADE_PROGRESS,
-    GRADE_MANAGE,
-    ORG_DETAIL,
-    FINISHED_DATE,
-    ENUM_GENERIC_COMPLETE_STATUS,
-    SELF_EVALUATION_STATUS,
-    LEADER_EVALUATION_STATUS,
-    LEADER_PLUS_EVALUATION_STATUS,
-    RESULT_CONFIRM,
-    ENUM_WAIT_CONFIRM,
-    SELECTION_TIPS,
-    RESET,
-    EXPORT_DETAILS,
-    REMINDER,
-    ADD,
-    BATCH_DEL,
-    NUMBER,
-    NAME,
-    LEADER_NUMBER,
-    LEADER_NAME,
-    PLUS_LEADER_NUMBER,
-    PLUS_LEADER_NAME,
-    BASE_OR_BU,
-    DEP_OR_SUB,
-    WORK_LEVEL,
-    EMAIL,
-    UP_LEVEL,
-    PLUS_UP_LEVEL,
-    FACE_FEEDBACK,
-    OPERATIONS,
-    MODIFY,
-    DEL,
-    DETAILS,
-    SET_TIMES,
-    IMPORT_RECORDS,
-    ENUM_SELF_EVALUATION_STATUS,
-    ENUM_LEADER_EVALUATION_STATUS,
-    ENUM_FACE_EVALUATION_STATUS,
-    ENUM_LEADER_PLUS_EVALUATION_STATUS,
-    MODIFY_TIMES
-  } from "@/constants/TEXT"
-  import { PATH_GRADE_EMP_DETAIL } from "@/constants/URL"
-  import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL"
-  import { AsyncComp } from "@/utils/asyncCom"
-  import { delUser, getUserList } from "@/constants/API"
-  import { defaultCoreCipherList } from "constants"
-  import { compact } from "@/utils/obj"
+import {
+  GRADE_PROGRESS,
+  GRADE_MANAGE,
+  ORG_DETAIL,
+  FINISHED_DATE,
+  ENUM_GENERIC_COMPLETE_STATUS,
+  SELF_EVALUATION_STATUS,
+  LEADER_EVALUATION_STATUS,
+  LEADER_PLUS_EVALUATION_STATUS,
+  RESULT_CONFIRM,
+  ENUM_WAIT_CONFIRM,
+  SELECTION_TIPS,
+  RESET,
+  EXPORT_DETAILS,
+  REMINDER,
+  ADD,
+  BATCH_DEL,
+  NUMBER,
+  NAME,
+  LEADER_NUMBER,
+  LEADER_NAME,
+  PLUS_LEADER_NUMBER,
+  PLUS_LEADER_NAME,
+  BASE_OR_BU,
+  DEP_OR_SUB,
+  WORK_LEVEL,
+  EMAIL,
+  UP_LEVEL,
+  PLUS_UP_LEVEL,
+  FACE_FEEDBACK,
+  OPERATIONS,
+  MODIFY,
+  DEL,
+  DETAILS,
+  SET_TIMES,
+  IMPORT_RECORDS,
+  ENUM_SELF_EVALUATION_STATUS,
+  ENUM_LEADER_EVALUATION_STATUS,
+  ENUM_FACE_EVALUATION_STATUS,
+  ENUM_LEADER_PLUS_EVALUATION_STATUS,
+  MODIFY_TIMES
+} from "@/constants/TEXT";
+import { PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL";
+import { AsyncComp } from "@/utils/asyncCom";
+import { delUser, getUserList } from "@/constants/API";
+import { defaultCoreCipherList } from "constants";
+import { compact } from "@/utils/obj";
 
-  export default {
-    data() {
-      return {
-        currentPage: 1,
-        stage: 10,
-        //导入状态
-        import_status: 0,
-        total: 0,
-        // info框内的数据
-        currentInfo: {},
-        // 导入的弹框
-        dialogImport: false,
-        // 时间设置弹框
-        dialogTimes: false,
-        // 员工信息弹框
-        dialogInfo: false,
+export default {
+  data() {
+    return {
+      currentPage: 1,
+      stage: 10,
+      //导入状态
+      import_status: 0,
+      total: 0,
+      // info框内的数据
+      currentInfo: {},
+      // 导入的弹框
+      dialogImport: false,
+      // 时间设置弹框
+      dialogTimes: false,
+      // 员工信息弹框
+      dialogInfo: false,
 
-        // 添加为add,修改为modify,根据type不同改变title和赋值还有请求
-        infoType: "add",
+      // 添加为add,修改为modify,根据type不同改变title和赋值还有请求
+      infoType: "add",
 
-        // 评测信息
-        gradeInfo: {
-          name: "",
-          finishedDate: "",
-          self_start_time: "",
-          self_end_time: "",
-          superior_start_time: "",
-          superior_end_time: "",
-          highlevel_start_time: "",
-          highlevel_end_time: "",
-          feedback_start_time: "",
-          feedback_end_time: "",
-          checked_271: 0
-        },
-        // 事业部信息
-        depInfo: {
-          name: "",
-          self_status: 0,
-          superior_status: 0,
-          highlevel_status: 0,
-          feedback_status: 0,
-          count: "",
-          self: "",
-          superior: "",
-          highlevel: "",
-          refuse: ""
-        },
-        // 选择集合
-        selection: [],
-        // 搜索项form
-        formFilter: {
-          number: "",
-          name: "",
-          leaderNum: "",
-          leaderName: "",
-          upLeaderNum: "",
-          upLeaderName: "",
-          selfEvaluation: "",
-          leaderEvaluation: "",
-          plusLeaderEvaluation: "",
-          result: ""
-        },
-        constants: {
-          FINISHED_DATE,
-          ENUM_GENERIC_COMPLETE_STATUS,
-          SELF_EVALUATION_STATUS,
-          LEADER_EVALUATION_STATUS,
-          LEADER_PLUS_EVALUATION_STATUS,
-          RESULT_CONFIRM,
-          ENUM_WAIT_CONFIRM,
-          SELECTION_TIPS,
-          RESET,
-          OPERATIONS,
-          EXPORT_DETAILS,
-          REMINDER,
-          ADD,
-          BATCH_DEL,
-          NUMBER,
-          NAME,
-          LEADER_NUMBER,
-          LEADER_NAME,
-          PLUS_LEADER_NUMBER,
-          PLUS_LEADER_NAME,
-          BASE_OR_BU,
-          DEP_OR_SUB,
-          EMAIL,
-          UP_LEVEL,
-          PLUS_UP_LEVEL,
-          FACE_FEEDBACK,
-          MODIFY,
-          DEL,
-          DETAILS,
-          SET_TIMES,
-          IMPORT_RECORDS,
-          WORK_LEVEL,
-          ENUM_SELF_EVALUATION_STATUS,
-          ENUM_LEADER_EVALUATION_STATUS,
-          ENUM_FACE_EVALUATION_STATUS,
-          ENUM_LEADER_PLUS_EVALUATION_STATUS,
-          MODIFY_TIMES,
-          PATH_GRADE_EMP_DETAIL
-        },
-        tableData: [],
-        nav: [
-          {
-            label: GRADE_MANAGE,
-            href: PATH_GRADE_MANAGE
-          },
-          {
-            label: GRADE_PROGRESS,
-            href: PATH_GRADE_PROGRESS(this.$route.params.id)
-          },
-          {
-            label: ORG_DETAIL,
-            active: true
-          }
-        ]
-      }
-    },
-    components: {
-      "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-      pagination: () => import("@/components/common/Pagination/index.vue"),
-      "import-dialog": AsyncComp(
-        import("@/components/modules/grademanage/progress/org/import/Dialog.vue")
-      ),
-      "time-setting": AsyncComp(
-        import("@/components/modules/grademanage/progress/org/settings/TimeDialog.vue")
-      ),
-      "info-dialog": AsyncComp(
-        import("@/components/modules/grademanage/progress/org/info/Dialog.vue")
-      )
-    },
-    methods: {
-      resetFilter(formName) {
-        this.$refs[formName].resetFields()
+      // 评测信息
+      gradeInfo: {
+        name: "",
+        finishedDate: "",
+        self_start_time: "",
+        self_end_time: "",
+        superior_start_time: "",
+        superior_end_time: "",
+        highlevel_start_time: "",
+        highlevel_end_time: "",
+        feedback_start_time: "",
+        feedback_end_time: "",
+        checked_271: 0
       },
-      batchDel() {
-        // 批量删除
-        delUser({ evaluation_user_ids: this.selection.map(v => v.id) })
-          .then(res => {
+      // 事业部信息
+      depInfo: {
+        name: "",
+        self_status: 0,
+        superior_status: 0,
+        highlevel_status: 0,
+        feedback_status: 0,
+        count: "",
+        self: "",
+        superior: "",
+        highlevel: "",
+        refuse: ""
+      },
+      // 选择集合
+      selection: [],
+      // 搜索项form
+      formFilter: {
+        number: "",
+        name: "",
+        leaderNum: "",
+        leaderName: "",
+        upLeaderNum: "",
+        upLeaderName: "",
+        selfEvaluation: "",
+        leaderEvaluation: "",
+        plusLeaderEvaluation: "",
+        result: ""
+      },
+      constants: {
+        FINISHED_DATE,
+        ENUM_GENERIC_COMPLETE_STATUS,
+        SELF_EVALUATION_STATUS,
+        LEADER_EVALUATION_STATUS,
+        LEADER_PLUS_EVALUATION_STATUS,
+        RESULT_CONFIRM,
+        ENUM_WAIT_CONFIRM,
+        SELECTION_TIPS,
+        RESET,
+        OPERATIONS,
+        EXPORT_DETAILS,
+        REMINDER,
+        ADD,
+        BATCH_DEL,
+        NUMBER,
+        NAME,
+        LEADER_NUMBER,
+        LEADER_NAME,
+        PLUS_LEADER_NUMBER,
+        PLUS_LEADER_NAME,
+        BASE_OR_BU,
+        DEP_OR_SUB,
+        EMAIL,
+        UP_LEVEL,
+        PLUS_UP_LEVEL,
+        FACE_FEEDBACK,
+        MODIFY,
+        DEL,
+        DETAILS,
+        SET_TIMES,
+        IMPORT_RECORDS,
+        WORK_LEVEL,
+        ENUM_SELF_EVALUATION_STATUS,
+        ENUM_LEADER_EVALUATION_STATUS,
+        ENUM_FACE_EVALUATION_STATUS,
+        ENUM_LEADER_PLUS_EVALUATION_STATUS,
+        MODIFY_TIMES,
+        PATH_GRADE_EMP_DETAIL
+      },
+      tableData: [],
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          href: PATH_GRADE_MANAGE
+        },
+        {
+          label: GRADE_PROGRESS,
+          href: PATH_GRADE_PROGRESS(this.$route.params.id)
+        },
+        {
+          label: ORG_DETAIL,
+          active: true
+        }
+      ]
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue"),
+    "import-dialog": AsyncComp(
+      import("@/components/modules/grademanage/progress/org/import/Dialog.vue")
+    ),
+    "time-setting": AsyncComp(
+      import("@/components/modules/grademanage/progress/org/settings/TimeDialog.vue")
+    ),
+    "info-dialog": AsyncComp(
+      import("@/components/modules/grademanage/progress/org/info/Dialog.vue")
+    )
+  },
+  methods: {
+    resetFilter(formName) {
+      this.$refs[formName].resetFields();
+    },
+    batchDel() {
+      // 批量删除
+      delUser({ evaluation_user_ids: this.selection.map(v => v.id) })
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+          this.refreshList();
+        })
+        .catch(() => {});
+    },
+    // 选择列表项
+    handleSelectionChange(arr) {
+      this.selection = arr;
+    },
+    // 翻页
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      const postData = {
+        page: val
+      };
+      this.refreshList(postData);
+    },
+    // 导入
+    closeImportDia() {
+      this.dialogImport = false;
+      this.refreshList();
+    },
+    closeTimeSettingDia() {
+      // 设置修改时间后需要刷新
+      this.dialogTimes = false;
+      this.refreshList();
+    },
+    closeInfoDia() {
+      // 添加修改信息后
+      this.dialogInfo = false;
+      this.refreshList();
+    },
+    // 发出提醒
+    reminder() {
+      let msg = "是否要发出提醒?";
+      // console.log(this.selection.length)
+      if (this.selection.length == 0) {
+        msg = "是否提醒全部?";
+      }
+      this.$confirm(msg, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "提醒成功!"
+          });
+        })
+        .catch(() => {});
+    },
+    // 删除某条记录
+    delInfo(row) {
+      this.$confirm("确定删除此用户?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          delUser({ evaluation_user_ids: [row.id] }).then(res => {
             this.$message({
               type: "success",
               message: "删除成功!"
-            })
-            this.refreshList()
-          })
-          .catch(() => {})
-      },
-      // 选择列表项
-      handleSelectionChange(arr) {
-        this.selection = arr
-      },
-      // 翻页
-      handleCurrentChange(val) {
-        this.currentPage = val
-        const postData = {
-          page: val
-        }
-        this.refreshList(postData)
-      },
-      // 导入
-      closeImportDia() {
-        this.dialogImport = false
-        this.refreshList()
-      },
-      closeTimeSettingDia() {
-        // 设置修改时间后需要刷新
-        this.dialogTimes = false
-        this.refreshList()
-      },
-      closeInfoDia() {
-        // 添加修改信息后
-        this.dialogInfo = false
-        this.refreshList()
-      },
-      // 发出提醒
-      reminder() {
-        let msg = "是否要发出提醒?"
-        // console.log(this.selection.length)
-        if (this.selection.length == 0) {
-          msg = "是否提醒全部?"
-        }
-        this.$confirm(msg, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-          center: true
+            });
+            this.refreshList();
+          });
         })
-          .then(() => {
-            this.$message({
-              type: "success",
-              message: "提醒成功!"
-            })
-          })
-          .catch(() => {})
-      },
-      // 删除某条记录
-      delInfo(row) {
-        this.$confirm("确定删除此用户?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-          center: true
-        })
-          .then(() => {
-            delUser({ evaluation_user_ids: [row.id] }).then(res => {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              })
-              this.refreshList()
-            })
-          })
-          .catch(() => {})
-      },
-      modifyInfo(row) {
-        // console.log(row)
-        // 修改某个人的信息
-        this.infoType = "modify"
-        this.currentInfo = row
-        this.dialogInfo = true
-      },
-      // 拉取列表数据
-      refreshList(data) {
-        let postData = data || {}
-        postData = {
-          ...{
-            name: this.formFilter.name,
-            workcode: this.formFilter.number,
-            superior_workcode: this.formFilter.leaderNum,
-            superior_name: this.formFilter.leaderName,
-            highlevel_workcode: this.formFilter.upLeaderNum,
-            highlevel_name: this.formFilter.upLeaderName,
-            self_status: this.formFilter.selfEvaluation,
-            superior_status: this.formFilter.leaderEvaluation,
-            highlevel_status: this.formFilter.plusLeaderEvaluation,
-            feedback_is_agree: this.formFilter.result,
-            page: this.currentPage,
-            perPage: 20
-          },
-          ...postData
-        }
-        getUserList(this.$route.params.orgID, compact(postData))
-          .then(res => {
-            this.tableData = res.list.data
-            this.total = res.list.total
-            this.depInfo.name = res.info.department_name
-            this.gradeInfo.name = res.info.evaluation_name.evaluation_name
-            this.gradeInfo.finishedDate = res.info.evaluation_name.end_time
-            this.gradeInfo.self_start_time = res.info.self_start_time
-            this.gradeInfo.self_end_time = res.info.self_end_time
-            this.gradeInfo.superior_start_time = res.info.superior_start_time
-            this.gradeInfo.superior_end_time = res.info.superior_end_time
-            this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time
-            this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time
-            this.gradeInfo.feedback_start_time = res.info.feedback_start_time
-            this.gradeInfo.feedback_end_time = res.info.feedback_end_time
-            this.gradeInfo.checked_271 = res.info._271_is_necessary
-            this.stage = parseInt(res.info.stage)
-            this.import_status = parseInt(res.info.import_status)
-          })
-          .catch(e => {})
-      }
+        .catch(() => {});
     },
-    watch: {
-      // 筛选watch
-      formFilter: {
-        handler: function(v) {
-          const postData = {
-            name: v.name,
-            workcode: v.number,
-            superior_workcode: v.leaderNum,
-            superior_name: v.leaderName,
-            highlevel_workcode: v.upLeaderNum,
-            highlevel_name: v.upLeaderName,
-            self_status: v.selfEvaluation,
-            superior_status: v.leaderEvaluation,
-            highlevel_status: v.plusLeaderEvaluation,
-            feedback_is_agree: v.result
-          }
-          this.refreshList(postData)
+    modifyInfo(row) {
+      // console.log(row)
+      // 修改某个人的信息
+      this.infoType = "modify";
+      this.currentInfo = row;
+      this.dialogInfo = true;
+    },
+    // 拉取列表数据
+    refreshList(data) {
+      let postData = data || {};
+      postData = {
+        ...{
+          name: this.formFilter.name,
+          workcode: this.formFilter.number,
+          superior_workcode: this.formFilter.leaderNum,
+          superior_name: this.formFilter.leaderName,
+          highlevel_workcode: this.formFilter.upLeaderNum,
+          highlevel_name: this.formFilter.upLeaderName,
+          self_status: this.formFilter.selfEvaluation,
+          superior_status: this.formFilter.leaderEvaluation,
+          highlevel_status: this.formFilter.plusLeaderEvaluation,
+          feedback_is_agree: this.formFilter.result,
+          page: this.currentPage,
+          perPage: 20
         },
-        deep: true,
-        immediate: true
+        ...postData
+      };
+      getUserList(this.$route.params.orgID, compact(postData))
+        .then(res => {
+          this.tableData = res.list.data;
+          this.total = res.list.total;
+          this.depInfo.name = res.info.department_name;
+          this.gradeInfo.name = res.info.evaluation_name.evaluation_name;
+          this.gradeInfo.finishedDate = res.info.evaluation_name.end_time;
+          this.gradeInfo.self_start_time = res.info.self_start_time;
+          this.gradeInfo.self_end_time = res.info.self_end_time;
+          this.gradeInfo.superior_start_time = res.info.superior_start_time;
+          this.gradeInfo.superior_end_time = res.info.superior_end_time;
+          this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time;
+          this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time;
+          this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
+          this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
+          this.gradeInfo.checked_271 = res.info._271_is_necessary;
+          this.stage = parseInt(res.info.stage);
+          this.import_status = parseInt(res.info.import_status);
+        })
+        .catch(e => {});
+    }
+  },
+  watch: {
+    // 筛选watch
+    formFilter: {
+      handler: function(v) {
+        const postData = {
+          name: v.name,
+          workcode: v.number,
+          superior_workcode: v.leaderNum,
+          superior_name: v.leaderName,
+          highlevel_workcode: v.upLeaderNum,
+          highlevel_name: v.upLeaderName,
+          self_status: v.selfEvaluation,
+          superior_status: v.leaderEvaluation,
+          highlevel_status: v.plusLeaderEvaluation,
+          feedback_is_agree: v.result
+        };
+        this.refreshList(postData);
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  computed: {
+    canbeImport() {
+      return !this.depInfo.self_status;
+    },
+    canbeEdit() {
+      return this.depInfo.self_status != 2;
+    },
+    step() {
+      // return 5
+      let stage = this.stage;
+      if (stage == 10 && this.import_status == 0) {
+        return 0;
+      }
+      if (stage == 20 || stage == 30 || this.import_status == 2) {
+        return 1;
+      }
+      if (stage == 40) {
+        return 2;
+      }
+      if (stage == 50) {
+        return 3;
+      }
+      if (stage == 60) {
+        return 4;
+      }
+      if (stage == 70) {
+        return 5;
       }
     },
-    computed: {
-      canbeImport() {
-        return !this.depInfo.self_status
-      },
-      canbeEdit() {
-        return this.depInfo.self_status != 2
-      },
-      step() {
-        // return 5
-        let stage = this.stage
-        if (stage == 10 && this.import_status == 0) {
-          return 0
-        }
-        if (stage == 20 || stage == 30 || this.import_status == 2) {
-          return 1
-        }
-        if (stage == 40) {
-          return 2
-        }
-        if (stage == 50) {
-          return 3
-        }
-        if (stage == 60) {
-          return 4
-        }
-        if (stage == 70) {
-          return 5
-        }
-      },
-      hasSchedule() {
-        // 是否设置了时间
-        return (
-          this.gradeInfo.self_start_time &&
-          this.gradeInfo.self_end_time &&
-          this.gradeInfo.superior_start_time &&
-          this.gradeInfo.superior_end_time &&
-          this.gradeInfo.highlevel_start_time &&
-          this.gradeInfo.highlevel_end_time &&
-          this.gradeInfo.feedback_start_time &&
-          this.gradeInfo.feedback_end_time
-        )
-      },
-      status() {
-        return {
-          self_status: this.depInfo.self_status,
-          superior_status: this.depInfo.superior_status,
-          highlevel_status: this.depInfo.highlevel_status,
-          feedback_status: this.depInfo.feedback_status
-        }
-      },
-      timeData() {
-        return {
-          self_start_time: this.gradeInfo.self_start_time,
-          self_end_time: this.gradeInfo.self_end_time,
-          superior_start_time: this.gradeInfo.superior_start_time,
-          superior_end_time: this.gradeInfo.superior_end_time,
-          highlevel_start_time: this.gradeInfo.highlevel_start_time,
-          highlevel_end_time: this.gradeInfo.highlevel_end_time,
-          feedback_start_time: this.gradeInfo.feedback_start_time,
-          feedback_end_time: this.gradeInfo.feedback_end_time,
-          checked_271: this.gradeInfo.checked_271
-        }
-      }
+    hasSchedule() {
+      // 是否设置了时间
+      return (
+        this.gradeInfo.self_start_time &&
+        this.gradeInfo.self_end_time &&
+        this.gradeInfo.superior_start_time &&
+        this.gradeInfo.superior_end_time &&
+        this.gradeInfo.highlevel_start_time &&
+        this.gradeInfo.highlevel_end_time &&
+        this.gradeInfo.feedback_start_time &&
+        this.gradeInfo.feedback_end_time
+      );
+    },
+    status() {
+      return {
+        self_status: this.depInfo.self_status,
+        superior_status: this.depInfo.superior_status,
+        highlevel_status: this.depInfo.highlevel_status,
+        feedback_status: this.depInfo.feedback_status
+      };
+    },
+    timeData() {
+      return {
+        self_start_time: this.gradeInfo.self_start_time,
+        self_end_time: this.gradeInfo.self_end_time,
+        superior_start_time: this.gradeInfo.superior_start_time,
+        superior_end_time: this.gradeInfo.superior_end_time,
+        highlevel_start_time: this.gradeInfo.highlevel_start_time,
+        highlevel_end_time: this.gradeInfo.highlevel_end_time,
+        feedback_start_time: this.gradeInfo.feedback_start_time,
+        feedback_end_time: this.gradeInfo.feedback_end_time,
+        checked_271: this.gradeInfo.checked_271
+      };
     }
   }
+};
 </script>
 <style scoped>
-  .dep-page {
-    padding: 20px;
-    /* height: calc(100% - 40px); */
-  }
-  .bg-white {
-    background-color: white;
-  }
-  .header {
-    padding: 20px;
-  }
-  .tip {
-    font-size: 10px;
-    color: #afafaf;
-  }
-  hr {
-    border: 0;
-    border-top: 1px solid #eee;
-  }
-  .time-line-panel {
-    padding: 20px 0 40px;
-  }
-  .time-line-panel>>>.el-step__icon {
-    width: 34px;
-    height: 34px;
-    background-color: #ececec;
-    color: #d5d5d5;
-    border: 2px solid #ececec;
-  }
-  .time-line-panel>>>.is-success .el-step__icon {
-    color: white;
-    background-color: #52ddab;
-    border-color: #52ddab;
-  }
-  .time-line-panel>>>.el-step.is-horizontal .el-step__line {
-    top: 15px;
-  }
-  .time-line-panel>>>.el-step .el-step__title {
-    font-size: 14px;
-    margin-top: 10px;
-  }
-  .time-line-panel>>>.el-step__head.is-success {
-    color: #52ddab;
-    border-color: #52ddab;
-  }
-  .time-line-panel>>>.el-step__title.is-success {
-    color: #52ddab;
-  }
-  .dep-name {
-    padding: 8px 20px;
-    background-color: #fff4f4;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
-  .action-bar {
-    padding: 10px;
-  }
+.dep-page {
+  padding: 20px;
+  /* height: calc(100% - 40px); */
+}
+.bg-white {
+  background-color: white;
+}
+.header {
+  padding: 20px;
+}
+.tip {
+  font-size: 10px;
+  color: #afafaf;
+}
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.time-line-panel {
+  padding: 20px 0 40px;
+}
+.time-line-panel >>> .el-step__icon {
+  width: 34px;
+  height: 34px;
+  background-color: #ececec;
+  color: #d5d5d5;
+  border: 2px solid #ececec;
+}
+.time-line-panel >>> .is-success .el-step__icon {
+  color: white;
+  background-color: #52ddab;
+  border-color: #52ddab;
+}
+.time-line-panel >>> .el-step.is-horizontal .el-step__line {
+  top: 15px;
+}
+.time-line-panel >>> .el-step .el-step__title {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.time-line-panel >>> .el-step__head.is-success {
+  color: #52ddab;
+  border-color: #52ddab;
+}
+.time-line-panel >>> .el-step__title.is-success {
+  color: #52ddab;
+}
+.dep-name {
+  padding: 8px 20px;
+  background-color: #fff4f4;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.action-bar {
+  padding: 10px;
+}
 
-  .action-btn:not(.is-disabled) {
-    color: #52ddab;
-    border: none;
-  }
-  .el-button.is-disabled {
-    border: none;
-  }
-  .filter-form {
-    padding: 20px;
-    background-color: #f8f8f8;
-  }
-  .btn-reset {
-    color: #09c981;
-    border-color: #09c981;
-  }
+.action-btn:not(.is-disabled) {
+  color: #52ddab;
+  border: none;
+}
+.el-button.is-disabled {
+  border: none;
+}
+.filter-form {
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+.btn-reset {
+  color: #09c981;
+  border-color: #09c981;
+}
 </style>
