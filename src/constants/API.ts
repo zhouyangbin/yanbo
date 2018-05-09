@@ -92,3 +92,22 @@ export const getProgressList = (id: string, params: object) =>
 //添加评测人员
 export const postNewUser = (id: string, params: object) =>
   sendPost(`/admin/api/user_list/${id}`, params);
+// 修改评测人信息
+export const postUpdateUser = (eid: string, uid: string, params: object) =>
+  sendPost(`/admin/api/user_list/update/${eid}/${uid}`, params);
+// 删除评测人员
+export const delUser = (params: object) =>
+  sendDelete(`/admin/api/user_list/delete`, params);
+// EHR导入
+export const postEHR = (data: object) =>
+  sendPost("/admin/api/import/ehr", data);
+
+// 事业部详情列表
+export const getUserList = (id: string, params: object) =>
+  sendGet(`/admin/api/evaluations/${id}/users`, params);
+// 用户信息搜索根据工号或邮箱
+export const getUserDetail = (params: object) =>
+  sendGet("/admin/api/search", params);
+// 设置时间
+export const postTimeSettings = (eid: string, params: object) =>
+  sendPost(`/admin/api/evaluation/set-time/${eid}`, params);

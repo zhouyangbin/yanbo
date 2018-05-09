@@ -23,7 +23,6 @@
             <div class="el-upload__tip" slot="tip">
               <a href="https://www.baidu.com">{{constants.DOWNLOAD_EXCEL_TEMPLATE}}</a>
             </div>
-
           </el-upload>
         </el-tab-pane>
       </el-tabs>
@@ -53,8 +52,10 @@ import {
   CLICK_TO_UPLOAD,
   DOWNLOAD_EXCEL_TEMPLATE,
   CONFIRM,
-  CANCEL
+  CANCEL,
+  IMPORT_SUCCESS
 } from "@/constants/TEXT";
+import { postEHR } from "@/constants/API";
 export default {
   props: {
     dialogImport: {
@@ -103,7 +104,23 @@ export default {
     importFiles(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          // alert("submit!")
+          // console.log(this.$route.params.orgID)
+          const postData = {
+            evaluation_id: this.$route.params.id,
+            department_id: this.$route.params.orgID,
+            "levels[]": this.importForm.levels
+          };
+          // console.log(postData)
+          postEHR(postData)
+            .then(res => {
+              this.$message({
+                message: IMPORT_SUCCESS,
+                type: "success"
+              });
+              this.close();
+            })
+            .catch(e => {});
         } else {
           console.log("error submit!!");
           return false;

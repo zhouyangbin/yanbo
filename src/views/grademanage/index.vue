@@ -18,7 +18,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column :show-overflow-tooltip="true" prop="name" :label="constants.BU">
+        <el-table-column :show-overflow-tooltip="true" prop="department_names" :label="constants.BU">
           <template slot-scope="scope">
             <span slot="reference">
               {{(scope.row.department_names||[]).map(v=>v.department_name).join("、 ")}}

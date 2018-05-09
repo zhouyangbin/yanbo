@@ -102,6 +102,7 @@ import {
 } from "@/constants/TEXT";
 import { PATH_GRADE_MANAGE, PATH_GRADE_ORG_LIST } from "@/constants/URL";
 import { getProgressList } from "@/constants/API";
+import { compact } from "@/utils/obj";
 export default {
   data() {
     return {
@@ -156,13 +157,11 @@ export default {
       this.$refs[formName].resetFields();
     },
     goDetail(row) {
-      this.$router.push(
-        PATH_GRADE_ORG_LIST(this.$route.params.id, row.department_id)
-      );
+      this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
     },
     refreshList(params) {
       // console.log(this.$route.params.id)
-      getProgressList(this.$route.params.id, params).then(res => {
+      getProgressList(this.$route.params.id, compact(params)).then(res => {
         if (res) {
           // console.log(res)
           this.gradeName = res.info.evaluation_name;
