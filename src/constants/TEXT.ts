@@ -154,7 +154,7 @@ export const ENUM_RECORD_STATUS = [
     value: "未导入"
   },
   {
-    key: "1",
+    key: "2",
     value: "已导入"
   }
 ];

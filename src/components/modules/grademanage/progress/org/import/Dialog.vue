@@ -107,8 +107,8 @@ export default {
           // alert("submit!")
           // console.log(this.$route.params.orgID)
           const postData = {
-            evaluation_id: this.$route.params.id,
-            department_id: this.$route.params.orgID,
+            evaluation_id: this.$route.params.orgID,
+            // department_id: this.$route.params.orgID,
             "levels[]": this.importForm.levels
           };
           // console.log(postData)

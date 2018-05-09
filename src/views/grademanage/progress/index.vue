@@ -40,9 +40,9 @@
       <el-table :data="listData" stripe style="width: 100%">
         <el-table-column prop="department_name" :label="constants.DEPARTMENT" width="180">
         </el-table-column>
-        <el-table-column prop="feedback_status" :label="constants.RECORD_STATUS" width="180">
+        <el-table-column prop="import_status" :label="constants.RECORD_STATUS" width="180">
           <template slot-scope="scope">
-            {{(constants.ENUM_RECORD_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+            {{(constants.ENUM_RECORD_STATUS.filter(v=>v.key===String(scope.row.import_status))[0]||{}).value}}
           </template>
         </el-table-column>
         <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS">
