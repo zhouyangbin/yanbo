@@ -8,12 +8,14 @@ import {
   HTTP_STATUS_MSG_401,
   HTTP_STATUS_MSG_5XX,
   HTTP_STATUS_TITLE_ERROR,
-  HTTP_STATUS_TITLE_5XX
+  HTTP_STATUS_TITLE_5XX,
+  TOKEN_EXPIRE
 } from "../constants/TEXT";
 // Content-Type:application/x-www-form-urlencoded时 对json数据字符串处理，JSON.stringify()不是很理想
 import qs from "qs";
 // 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框
 import { Notification, Loading } from "element-ui";
+import { PATH_LOGIN } from "@/constants/URL";
 
 // 创建axios实例常量配置
 const axiosCreate = {
@@ -85,11 +87,19 @@ http.interceptors.response.use(
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,
-        message: error.response.data.message,
+        message: TOKEN_EXPIRE,
         // 弹框自动消失时间
         duration: 3000
       });
-      router.push({ path: "/login" });
+      router.push({ path: PATH_LOGIN });
+    } else if (error.response.status === 435) {
+      Notification({
+        // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
+        type: "error",
+        title: HTTP_STATUS_TITLE_5XX,
+        message: error.response.data.message,
+        duration: 3000
+      });
     } else {
       Notification({
         // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。

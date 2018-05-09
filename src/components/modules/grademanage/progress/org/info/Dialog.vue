@@ -248,17 +248,16 @@ export default {
       if (v != "") {
         getUserDetail({
           empID: v
-        })
-          .then(res => {
-            if (res) {
-              this.infoForm.name = res.name;
-              this.infoForm.BU = res.department;
-              this.infoForm.dep = res.first_department;
-              this.infoForm.level = res.level;
-              this.infoForm.email = res.email;
-            }
-          })
-          .catch(e => {});
+        }).then(res => {
+          if (res) {
+            this.infoForm.name = res.name;
+            this.infoForm.BU = res.department;
+            this.infoForm.dep = res.first_department;
+            this.infoForm.level = res.level;
+            this.infoForm.email = res.email;
+          }
+        });
+        // .catch(e => {});
       }
     },
     searchLeader(v) {

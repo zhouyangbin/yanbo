@@ -146,6 +146,7 @@ export const EVALUATION_FEEDBACK = "评价反馈";
 export const IMPORT_SUCCESS = "导入成功";
 export const START_TIME = "开始时间";
 export const END_TIME = "结束时间";
+export const TOKEN_EXPIRE = "登录信息已过期,请重新登录";
 
 export const ENUM_RECORD_STATUS = [
   {
