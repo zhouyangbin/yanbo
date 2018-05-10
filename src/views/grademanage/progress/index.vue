@@ -68,7 +68,7 @@
         <el-table-column prop="4" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="exportFile(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -100,7 +100,11 @@ import {
   EXPORT_DETAILS,
   RESET
 } from "@/constants/TEXT";
-import { PATH_GRADE_MANAGE, PATH_GRADE_ORG_LIST } from "@/constants/URL";
+import {
+  PATH_GRADE_MANAGE,
+  PATH_GRADE_ORG_LIST,
+  PATH_EXPORT_DEP_GRADE
+} from "@/constants/URL";
 import { getProgressList } from "@/constants/API";
 import { compact } from "@/utils/obj";
 export default {
@@ -158,6 +162,9 @@ export default {
     },
     goDetail(row) {
       this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
+    },
+    exportFile(row) {
+      window.location.href = PATH_EXPORT_DEP_GRADE(row.id);
     },
     refreshList(params) {
       // console.log(this.$route.params.id)

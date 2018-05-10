@@ -32,7 +32,7 @@
         <el-table-column prop="operation" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="exportGrade(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -89,7 +89,7 @@ import {
   MSG_SELECT_BU,
   MSG_SELECT_FINISHED_DATE
 } from "@/constants/TEXT";
-import { PATH_GRADE_PROGRESS } from "@/constants/URL";
+import { PATH_GRADE_PROGRESS, PATH_EXPORT_GRADE } from "@/constants/URL";
 import { getDepList, postNewGrade, getGradeList } from "@/constants/API";
 
 export default {
@@ -149,6 +149,10 @@ export default {
   methods: {
     goDetail(row) {
       this.$router.push(PATH_GRADE_PROGRESS(row.id));
+    },
+    exportGrade(row) {
+      // console.log(row, PATH_EXPORT_GRADE(row.id))
+      window.location.href = PATH_EXPORT_GRADE(row.id);
     },
     closeDia(formName) {
       this.createGradeDialog = false;

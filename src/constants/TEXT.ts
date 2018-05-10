@@ -4,7 +4,7 @@
  * 后续可以考虑拆分为多个文件及模块 HTTP/NAV/ENUM/LABEL/ERROR
  * */
 export const PI = 3.1415;
-export const SUCCESS = "成功";
+// export const SUCCESS = "成功"
 export const FAIL = "失败";
 export const FILE_SIZE_ERROR: string = "文件超出大小！";
 export const UPDATE_PASSWORD_ERR: string = "修改密码错误！";
@@ -147,6 +147,10 @@ export const IMPORT_SUCCESS = "导入成功";
 export const START_TIME = "开始时间";
 export const END_TIME = "结束时间";
 export const TOKEN_EXPIRE = "登录信息已过期,请重新登录";
+export const ERROR = "错误";
+export const SUCCESS = "成功";
+export const UPLOAD_SUCCESS = "上传成功";
+export const UPLOAD_FAIL = "上传失败";
 
 export const ENUM_RECORD_STATUS = [
   {

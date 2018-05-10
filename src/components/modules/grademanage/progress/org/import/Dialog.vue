@@ -15,7 +15,7 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane :label="constants.EXCEL_IMPORT" name="second">
-          <el-upload class="uploader" drag action="https://jsonplaceholder.typicode.com/posts/">
+          <el-upload :on-success="uploadSuccess" :on-error="uploadErr" class="uploader" :headers="uploadHeader" :data="uploadData" drag :action="constants.PATH_IMPORT_BY_EXCEL">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">{{constants.DRAG_FILE}}
               <em>{{constants.CLICK_TO_UPLOAD}}</em>
@@ -53,9 +53,15 @@ import {
   DOWNLOAD_EXCEL_TEMPLATE,
   CONFIRM,
   CANCEL,
-  IMPORT_SUCCESS
+  IMPORT_SUCCESS,
+  SUCCESS,
+  ERROR,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAIL
 } from "@/constants/TEXT";
 import { postEHR } from "@/constants/API";
+import { PATH_IMPORT_BY_EXCEL } from "@/constants/URL";
+// FIXME:模板下载地址未定
 export default {
   props: {
     dialogImport: {
@@ -74,7 +80,7 @@ export default {
           {
             type: "array",
             required: true,
-            message: "请至少选择一个活动性质",
+            message: "请至少选择一个级别",
             trigger: "change"
           }
         ]
@@ -90,7 +96,8 @@ export default {
         CLICK_TO_UPLOAD,
         DOWNLOAD_EXCEL_TEMPLATE,
         CONFIRM,
-        CANCEL
+        CANCEL,
+        PATH_IMPORT_BY_EXCEL
       }
     };
   },
@@ -122,13 +129,40 @@ export default {
             })
             .catch(e => {});
         } else {
-          console.log("error submit!!");
+          // console.log("error submit!!")
           return false;
         }
       });
     },
     close() {
       this.$emit("close");
+    },
+    uploadErr(err, file, fileList) {
+      // console.log(err, file, fileList)
+      const errObj = JSON.parse(err.message);
+      this.$notify.error({
+        title: ERROR,
+        message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
+      });
+    },
+    uploadSuccess(response, file, fileList) {
+      this.$notify({
+        title: SUCCESS,
+        message: UPLOAD_SUCCESS,
+        type: "success"
+      });
+    }
+  },
+  computed: {
+    uploadData() {
+      return {
+        evaluation_id: this.$route.params.orgID
+      };
+    },
+    uploadHeader() {
+      return {
+        Authorization: `Bearer ${localStorage.getItem("talToken")}`
+      };
     }
   },
   created() {

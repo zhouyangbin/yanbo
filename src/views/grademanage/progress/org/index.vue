@@ -67,7 +67,7 @@
             {{constants.SELECTION_TIPS(total,selection.length)}}
           </span>
           <span>
-            <el-button :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeEdit" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true">{{constants.ADD}}</el-button>
             <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
@@ -231,7 +231,10 @@ import {
   ENUM_LEADER_PLUS_EVALUATION_STATUS,
   MODIFY_TIMES
 } from "@/constants/TEXT";
-import { PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import {
+  PATH_GRADE_EMP_DETAIL,
+  PATH_EXPORT_USERS_GRADE
+} from "@/constants/URL";
 import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import { delUser, getUserList } from "@/constants/API";
@@ -373,6 +376,11 @@ export default {
   methods: {
     resetFilter(formName) {
       this.$refs[formName].resetFields();
+    },
+    exportData() {
+      window.location.href = PATH_EXPORT_USERS_GRADE(
+        this.selection.map(v => v.id)
+      );
     },
     batchDel() {
       // 批量删除
