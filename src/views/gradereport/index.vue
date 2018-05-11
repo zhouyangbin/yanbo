@@ -262,12 +262,14 @@ export default {
   },
   computed: {
     evaluation_id: {
-      get(){
-        return this.evaluationId
+      get() {
+        return this.evaluationId;
       },
-      set(obj){
-        this.evaluationId = obj
-        this.conditionForm = Object.assign({}, this.conditionForm, {evaluation_id:obj.value})
+      set(obj) {
+        this.evaluationId = obj;
+        this.conditionForm = Object.assign({}, this.conditionForm, {
+          evaluation_id: obj.value
+        });
       }
     }
   },
@@ -314,8 +316,8 @@ export default {
           this.conditionForm = Object.assign({}, this.conditionForm, {
             evaluation_id: res[0].value
           });
-          this.evaluationId = res[0]
-          this.currentDepartment = res[0].label
+          this.evaluationId = res[0];
+          this.currentDepartment = res[0].label;
           // 报告数据
           this.getReports();
         })
@@ -441,7 +443,7 @@ export default {
       this.conditionForm = Object.assign({}, this.conditionForm, {
         evaluation_id: item.value
       });
-      this.currentDepartment = item.label
+      this.currentDepartment = item.label;
       // 报告数据
       this.getReports();
     },
