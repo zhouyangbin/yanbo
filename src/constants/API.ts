@@ -114,3 +114,7 @@ export const postTimeSettings = (eid: string, params: object) =>
 // 获取个人的评测详情
 export const getUserGradeContent = (uid: string) =>
   sendGet(`/admin/api/user_list/detail/${uid}`);
+// 发出提醒
+
+export const postReminder = (params: object) =>
+  sendPost("/admin/api/messages", params);
