@@ -237,7 +237,7 @@ import {
 } from "@/constants/URL";
 import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
-import { delUser, getUserList } from "@/constants/API";
+import { delUser, getUserList, postReminder } from "@/constants/API";
 import { defaultCoreCipherList } from "constants";
 import { compact } from "@/utils/obj";
 
@@ -435,10 +435,19 @@ export default {
         center: true
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "提醒成功!"
-          });
+          const postData = {};
+          postData.evaluation_id = this.$route.params.orgID;
+          if (this.selection.length != 0) {
+            postData.ids = this.selection.map(v => v.id);
+          }
+          postReminder(postData)
+            .then(res => {
+              this.$message({
+                type: "success",
+                message: "提醒成功!"
+              });
+            })
+            .catch(e => {});
         })
         .catch(() => {});
     },
