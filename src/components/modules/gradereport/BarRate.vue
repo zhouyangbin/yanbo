@@ -25,8 +25,12 @@ export default {
   },
   data() {
     return {
-      myChart: null,
-      option: {
+      myChart: null
+    };
+  },
+  computed: {
+    option: function() {
+      return {
         tooltip: {
           trigger: "item",
           axisPointer: {
@@ -120,15 +124,18 @@ export default {
             }
           }
         ]
-      }
-    };
+      };
+    }
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.echartBar);
     this.myChart.setOption(this.option);
   },
   watch: {
-    rateBar: function(newDate) {
+    rateBar: function() {
+      this.myChart.setOption(this.option);
+    },
+    completionBuNams: function() {
       this.myChart.setOption(this.option);
     },
     // 监听拉动浏览器大小自适应

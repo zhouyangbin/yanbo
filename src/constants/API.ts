@@ -76,6 +76,20 @@ export const getDepartments = () => {
   return sendGet(`/admin/api/departments`);
 };
 
+// 评分报告
+// 文化评分列表
+export const getGradeNames = () => {
+  return sendGet(`/admin/api/reports/select`);
+};
+// 可筛选部门列表
+export const getGradeDepartments = (id: string) => {
+  return sendGet(`/admin/api/evaluations/${id}/departments`);
+};
+// 评分报告数据
+export const getGradeReports = (params: object) => {
+  return sendGet(`/admin/api/reports`, params);
+};
+
 // 评分管理
 // 评分列表
 export const getDepList = () => sendGet("/admin/api/actionable-departments");

@@ -102,6 +102,7 @@ export default {
               localStorage.setItem("loginEmail", loginEmail);
               localStorage.setItem("talEmail", this.loginForm.email);
               localStorage.setItem("talToken", res.token);
+              localStorage.setItem("talLevel", res.admin.level);
               this.$router.push({ path: PATH_GRADE_REPORT });
             }
           });

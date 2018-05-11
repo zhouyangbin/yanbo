@@ -29,8 +29,12 @@ export default {
   },
   data() {
     return {
-      myChart: null,
-      option: {
+      myChart: null
+    };
+  },
+  computed: {
+    option: function() {
+      return {
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -129,8 +133,8 @@ export default {
             }
           }
         ]
-      }
-    };
+      };
+    }
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.echartBar);
@@ -141,6 +145,12 @@ export default {
     width: function() {
       const width = document.getElementById(this.id).clientWidth;
       this.myChart.resize({ width });
+    },
+    selfRates: function() {
+      this.myChart.setOption(this.option);
+    },
+    supRates: function() {
+      this.myChart.setOption(this.option);
     }
   }
 };

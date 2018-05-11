@@ -6,12 +6,16 @@
       <section>
         <el-form :inline="true" :model="conditionForm" ref="conditionForm">
           <el-form-item>
-            <el-select v-model="conditionForm.name" placeholder="选择文化评分" @change="changeName">
+            <el-select v-model="conditionForm.evaluation_name_id" placeholder="选择文化评分" @change="changeName">
               <el-option v-for="item in names" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-cascader :options="departments" :value="conditionForm.department" change-on-select @change="changeDepartment" placeholder="部门" separator="-" style="width:100%"></el-cascader>
+            <!-- <el-cascader :options="departments" :value="conditionForm.department" change-on-select @change="changeDepartment" placeholder="部门" separator="-" style="width:100%"></el-cascader> -->
+
+            <el-select v-model="conditionForm.evaluation_id" placeholder="选择部门" @change="changeDepartment">
+              <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <p class="des">参与人数共计<span class="des-num"> 3 </span>人，好未来集团总平均分：自评<span class="des-num"> 4分 </span>，上级评<span class="des-num"> 5分 </span></p>
@@ -71,7 +75,7 @@
       </section> 
 
       <!-- 各事业部总平均分 bar -->
-      <section class="report-echart">         
+      <section class="report-echart" v-if="level==1">         
         <h1>各事业部总平均分</h1>
         <section class="loading-container">
           <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
@@ -85,7 +89,7 @@
       </section> 
 
       <!-- 各事业部评分平均分 bar -->
-      <section class="report-echart">
+      <section class="report-echart" v-if="level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>各事业各文化平均分</h1>
@@ -109,7 +113,7 @@
         </el-row>
       </section> 
 
-      <section class="report-echart">
+      <section class="report-echart" v-if="level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>好未来教育各分值人数</h1>
@@ -153,6 +157,11 @@
 </template>
 <script>
 import { GRADE_REPORT } from "@/constants/TEXT";
+import {
+  getGradeNames,
+  getGradeDepartments,
+  getGradeReports
+} from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom.ts";
 export default {
   components: {
@@ -179,90 +188,48 @@ export default {
           active: true
         }
       ],
-      conditionForm: { name: "", department: [] },
-      names: [
-        { label: "测试一", value: "id80" },
-        { label: "测试二", value: "id90" },
-        { label: "测试三", value: "id100" }
-      ],
-      departments: [
-        {
-          label: "培优事业部",
-          value: "id001",
-          children: [
-            { label: "哈分校", value: "id009" },
-            { label: "嘿分校", value: "id0010" }
-          ]
-        },
-        { label: "集团总部", value: "id002" }
-      ],
+      level: 0,
+      conditionForm: { evaluation_name_id: "", evaluation_id: "" },
+      names: [],
+      departments: [],
       currentDepartment: "",
 
       // 进度饼状图
-      progressPieSelf: [
-        { value: 335, name: "已完成335人" },
-        { value: 700, name: "未完成700人" }
-      ],
-      progressPieSuperior: [
-        { value: 700, name: "已完成335人" },
-        { value: 335, name: "未完成700人" }
-      ],
+      progressPieSelf: [{ value: 0, name: "" }, { value: 0, name: "" }],
+      progressPieSuperior: [{ value: 0, name: "" }, { value: 0, name: "" }],
 
       // 某事业部平均分柱状图
-      selfRates: [4, 5, 2, 3],
-      supRates: [3, 3, 3, 2],
+      selfRates: [],
+      supRates: [],
 
       // 各事业部完成率柱状图
-      rateBar: [1, 0.4, 0.5, 0.6, 0.2, 0.3, 0.4, 0.7, 1, 0.5],
-      completionBuNams: [
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "培优事业部",
-        "集团总部"
-      ],
+      selfRateBar: [],
+      superiorRateBar: [],
+      rateBar: [],
+      completionBuNams: [],
       // 当前自评/上级评数据
       rateBarActive: "self",
 
       // 各事业部总平均分
-      selfAverageAll: [16, 13, 12, 20, 17, 15, 18, 14, 20, 13],
-      supAverageAll: [13, 20, 14, 18, 15, 17, 20, 12, 13, 16],
-      departmentsAverageAll: [
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "培优事业部",
-        "集团总部"
-      ],
+      selfAverageAll: [],
+      supAverageAll: [],
+      departmentsAverageAll: [],
       yMinAll: 0,
       yMaxAll: 20,
       yIntervalAll: 4,
 
       // 各事业部各评分平均分
-      selfAverageEach: [3, 4, 2, 5, 3, 3, 5, 4, 1, 5],
-      supAverageEach: [5, 4, 4, 2, 3, 1, 4, 3, 2, 4],
-      departmentsAverageEach: [
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "集团总部",
-        "培优事业部",
-        "培优事业部",
-        "集团总部"
-      ],
+      selfAverageA: [],
+      selfAverageB: [],
+      selfAverageC: [],
+      selfAverageD: [],
+      selfAverageEach: [],
+      supAverageA: [],
+      supAverageB: [],
+      supAverageC: [],
+      supAverageD: [],
+      supAverageEach: [],
+      departmentsAverageEach: [],
       yMinEach: 0,
       yMaxEach: 5,
       yIntervalEach: 1,
@@ -276,10 +243,18 @@ export default {
 
       // 好未来教育各分值人数
       // 自评
-      selfNumbers: [250, 344, 356, 488, 500],
+      selfNumbersA: [],
+      selfNumbersB: [],
+      selfNumbersC: [],
+      selfNumbersD: [],
+      selfNumbers: [],
       selfLineColor: "#3ed6bf",
       // 上级评
-      supNumbers: [344, 566, 300, 389, 200],
+      supNumbersA: [],
+      supNumbersB: [],
+      supNumbersC: [],
+      supNumbersD: [],
+      supNumbers: [],
       supLineColor: "#5399e1",
       numberLineActive: "first",
       // body width
@@ -287,11 +262,8 @@ export default {
     };
   },
   created() {
-    this.conditionForm = {
-      name: this.names[0].value,
-      department: [this.departments[1].value]
-    };
-    this.currentDepartment = this.departments[1].label;
+    this.level = localStorage.getItem("talLevel");
+    this.getGrades();
   },
   mounted() {
     this.resize();
@@ -302,36 +274,203 @@ export default {
         this.width = document.body.clientWidth;
       };
     },
+    // 文化评分列表
+    getGrades() {
+      getGradeNames()
+        .then(res => {
+          // console.log("getGrades", res.evaluations);
+          res.evaluations.map(function(item) {
+            item.label = item.evaluation_name;
+            item.value = item.id;
+          });
+          this.names = res.evaluations;
+          this.conditionForm = Object.assign({}, this.conditionForm, {
+            evaluation_name_id: res.evaluations[0].value
+          });
+          this.getDepartments(res.evaluations[0].id);
+        })
+        .catch(err => {});
+    },
+    // 部门列表
+    getDepartments(id) {
+      return getGradeDepartments(id)
+        .then(res => {
+          // console.log("getGradeDepartments", res);
+          res.map(function(item) {
+            item.label = item.department_name;
+            item.value = item.id;
+          });
+          this.departments = res;
+          this.conditionForm = Object.assign({}, this.conditionForm, {
+            evaluation_id: res[0].value
+          });
+          // 报告数据
+          this.getReports();
+        })
+        .catch(err => {});
+    },
+    getReports() {
+      getGradeReports(this.conditionForm)
+        .then(res => {
+          // console.log("getGradeReports", res);
+          // 评分进度Pie
+          this.progressPieSelf = [
+            {
+              value: res.process.self,
+              name: "已完成" + res.process.self + "人"
+            },
+            {
+              value: res.process.count - res.process.self,
+              name: "未完成" + (res.process.count - res.process.self) + "人"
+            }
+          ];
+          this.progressPieSuperior = [
+            {
+              value: res.process.superior,
+              name: "已完成" + res.process.superior + "人"
+            },
+            {
+              value: res.process.count - res.process.superior,
+              name: "未完成" + (res.process.count - res.process.superior) + "人"
+            }
+          ];
+          // 某事业部|部门平均分
+          this.selfRates = Object.values(res.avg.self);
+          this.supRates = Object.values(res.avg.superior);
+          // 各事业部完成率bar
+          this.selfRateBar = [];
+          this.superiorRateBar = [];
+          this.completionBuNams = [];
+          res.finish.forEach(item => {
+            this.selfRateBar.push(
+              item.count ? item.self_status / item.count : 0
+            );
+            this.superiorRateBar.push(
+              item.count ? item.superior_status / item.count : 0
+            );
+            this.completionBuNams.push(item.department_name);
+          });
+          this.rateBarActive = "self";
+          this.rateBar = [...this.selfRateBar];
+          // 各事业部总平均分
+          const m_selfAverageAll = [];
+          const m_supAverageAll = [];
+          const m_departmentsAverageAll = [];
+          res.total.self.forEach(item => {
+            m_selfAverageAll.push(item.score);
+            m_departmentsAverageAll.push(item.department_name);
+          });
+          res.total.superior.forEach(item => {
+            m_supAverageAll.push(item.score);
+          });
+          this.selfAverageAll = m_selfAverageAll;
+          this.supAverageAll = m_supAverageAll;
+          this.departmentsAverageAll = m_departmentsAverageAll;
+          // 各事业部文化评分
+          const m_departmentsAverageEach = [];
+          this.selfAverageA = [];
+          this.selfAverageB = [];
+          this.selfAverageC = [];
+          this.selfAverageD = [];
+          res.question.self.forEach(item => {
+            this.selfAverageA.push(item.a);
+            this.selfAverageB.push(item.b);
+            this.selfAverageC.push(item.c);
+            this.selfAverageD.push(item.d);
+            m_departmentsAverageEach.push(item.department_name);
+          });
+          this.supAverageA = [];
+          this.supAverageB = [];
+          this.supAverageC = [];
+          this.supAverageD = [];
+          res.question.superior.forEach(item => {
+            this.supAverageA.push(item.a);
+            this.supAverageB.push(item.b);
+            this.supAverageC.push(item.c);
+            this.supAverageD.push(item.d);
+          });
+          this.selfAverageEach = [...this.selfAverageA];
+          this.supAverageEach = [...this.supAverageA];
+          this.departmentsAverageEach = m_departmentsAverageEach;
+          this.averageBarActive = "first";
+          // 各分值人数
+          res.number.self.forEach((item, index) => {
+            if (index == 0) {
+              this.selfNumbersA = Object.values(item);
+            } else if (index == 1) {
+              this.selfNumbersB = Object.values(item);
+            } else if (index == 2) {
+              this.selfNumbersC = Object.values(item);
+            } else if (index == 3) {
+              this.selfNumbersD = Object.values(item);
+            }
+          });
+          res.number.superior.forEach((item, index) => {
+            if (index == 0) {
+              this.supNumbersA = Object.values(item);
+            } else if (index == 1) {
+              this.supNumbersB = Object.values(item);
+            } else if (index == 2) {
+              this.supNumbersC = Object.values(item);
+            } else if (index == 3) {
+              this.supNumbersD = Object.values(item);
+            }
+          });
+          this.selfNumbers = [...this.selfNumbersA];
+          this.supNumbers = [...this.supNumbersA];
+          this.numberLineActive = "first";
+        })
+        .catch(err => {});
+    },
     changeName(val) {
-      console.log("更换文化评分", val, this.conditionForm);
+      this.getDepartments(val);
     },
     changeDepartment(val) {
-      console.log(val);
       this.conditionForm = Object.assign({}, this.conditionForm, {
-        department: val
+        evaluation_id: val
       });
+      // 报告数据
+      this.getReports();
     },
     // 某事业部平均分切换自评or上级评数据
     changeBarRate(tab) {
-      console.log(tab.name);
-      let name = tab.name;
-      this.rateBar.reverse();
+      if (tab.name == "self") {
+        this.rateBar = this.selfRateBar.concat();
+      } else {
+        this.rateBar = this.superiorRateBar.concat();
+      }
     },
     // 各事业部各评分平均分切换各评分数据
     changeBarAverage(tab) {
-      console.log(tab.name);
-      // 切换数据
-      let name = tab.name;
-      this.selfAverageEach.reverse();
-      this.supAverageEach.reverse();
+      if (tab.name == "first") {
+        this.selfAverageEach = [...this.selfAverageA];
+        this.supAverageEach = [...this.supAverageA];
+      } else if (tab.name == "second") {
+        this.selfAverageEach = [...this.selfAverageB];
+        this.supAverageEach = [...this.supAverageB];
+      } else if (tab.name == "third") {
+        this.selfAverageEach = [...this.selfAverageC];
+        this.supAverageEach = [...this.supAverageC];
+      } else if (tab.name == "fourth") {
+        this.selfAverageEach = [...this.selfAverageD];
+        this.supAverageEach = [...this.supAverageD];
+      }
     },
     // 好未来教育各分值人数切换各评分数据
     changeLineNumbers(tab) {
-      console.log(tab.name);
-      // 切换数据
-      let name = tab.name;
-      this.selfNumbers.reverse();
-      this.supNumbers.reverse();
+      if (tab.name == "first") {
+        this.selfNumbers = [...this.selfNumbersA];
+        this.supNumbers = [...this.supNumbersA];
+      } else if (tab.name == "second") {
+        this.selfNumbers = [...this.selfNumbersB];
+        this.supNumbers = [...this.supNumbersB];
+      } else if (tab.name == "third") {
+        this.selfNumbers = [...this.selfNumbersC];
+        this.supNumbers = [...this.supNumbersC];
+      } else if (tab.name == "fourth") {
+        this.selfNumbers = [...this.selfNumbersD];
+        this.supNumbers = [...this.supNumbersD];
+      }
     }
   }
 };

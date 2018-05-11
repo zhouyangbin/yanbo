@@ -41,8 +41,12 @@ export default {
   },
   data() {
     return {
-      myChart: null,
-      option: {
+      myChart: null
+    };
+  },
+  computed: {
+    option: function() {
+      return {
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -149,18 +153,21 @@ export default {
             }
           }
         ]
-      }
-    };
+      };
+    }
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.echartBar);
     this.myChart.setOption(this.option);
   },
   watch: {
-    selfAverage: function(newDate) {
+    selfAverage: function() {
       this.myChart.setOption(this.option);
     },
-    supAverage: function(newDate) {
+    supAverage: function() {
+      this.myChart.setOption(this.option);
+    },
+    departmentsAverage: function() {
       this.myChart.setOption(this.option);
     },
     // 监听拉动浏览器大小自适应

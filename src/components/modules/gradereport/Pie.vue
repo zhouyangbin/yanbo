@@ -30,8 +30,12 @@ export default {
   data() {
     return {
       myChart: null,
-      isLoading: true,
-      option: {
+      isLoading: true
+    };
+  },
+  computed: {
+    option: function() {
+      return {
         title: {
           text: this.title,
           x: "center",
@@ -68,8 +72,8 @@ export default {
             }
           }
         ]
-      }
-    };
+      };
+    }
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.echartPie);
@@ -80,6 +84,9 @@ export default {
     width: function() {
       const width = document.getElementById("echart-pie").clientWidth;
       this.myChart.resize({ width });
+    },
+    data: function(newvalue) {
+      this.myChart.setOption(this.option);
     }
   }
 };

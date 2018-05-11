@@ -8,7 +8,7 @@
       <i class="el-icon-setting"></i>
       <span slot="title">{{constants.GRADE_MANAGE}}</span>
     </el-menu-item>
-    <el-menu-item :index="constants.PATH_USER_MANAGE">
+    <el-menu-item :index="constants.PATH_USER_MANAGE" v-show="level==1">
       <i class="el-icon-setting"></i>
       <span slot="title">{{constants.USER_MANAGE}}</span>
     </el-menu-item>
@@ -38,8 +38,12 @@ export default {
         PATH_GRADE_PROGRESS,
         PATH_GRADE_ORG_LIST,
         PATH_GRADE_EMP_DETAIL
-      }
+      },
+      level: 0
     };
+  },
+  created() {
+    this.level = localStorage.getItem("talLevel");
   }
 };
 </script>

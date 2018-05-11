@@ -24,15 +24,17 @@ export default {
       default: 0
     }
   },
+  data() {
+    return {
+      myChart: null
+    };
+  },
   computed: {
     maxNum() {
       return Math.max(...this.numbers);
-    }
-  },
-  data() {
-    return {
-      myChart: null,
-      option: {
+    },
+    option: function() {
+      return {
         tooltip: {
           trigger: "item",
           formatter: function(data) {
@@ -117,15 +119,15 @@ export default {
             }
           }
         ]
-      }
-    };
+      };
+    }
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.echartLine);
     this.myChart.setOption(this.option);
   },
   watch: {
-    numbers: function(newDate) {
+    numbers: function() {
       this.myChart.setOption(this.option);
     },
     // 监听拉动浏览器大小自适应
