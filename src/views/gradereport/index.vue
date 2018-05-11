@@ -11,10 +11,8 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <!-- <el-cascader :options="departments" :value="conditionForm.department" change-on-select @change="changeDepartment" placeholder="部门" separator="-" style="width:100%"></el-cascader> -->
-
-            <el-select v-model="conditionForm.evaluation_id" placeholder="选择部门" @change="changeDepartment">
-              <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-select v-model="evaluation_id" placeholder="选择部门" @change="changeDepartment">
+              <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -193,6 +191,7 @@ export default {
       names: [],
       departments: [],
       currentDepartment: "",
+      evaluationId: {},
 
       // 进度饼状图
       progressPieSelf: [{ value: 0, name: "" }, { value: 0, name: "" }],
@@ -261,6 +260,17 @@ export default {
       width: 0
     };
   },
+  computed: {
+    evaluation_id: {
+      get(){
+        return this.evaluationId
+      },
+      set(obj){
+        this.evaluationId = obj
+        this.conditionForm = Object.assign({}, this.conditionForm, {evaluation_id:obj.value})
+      }
+    }
+  },
   created() {
     this.level = localStorage.getItem("talLevel");
     this.getGrades();
@@ -304,6 +314,8 @@ export default {
           this.conditionForm = Object.assign({}, this.conditionForm, {
             evaluation_id: res[0].value
           });
+          this.evaluationId = res[0]
+          this.currentDepartment = res[0].label
           // 报告数据
           this.getReports();
         })
@@ -425,10 +437,11 @@ export default {
     changeName(val) {
       this.getDepartments(val);
     },
-    changeDepartment(val) {
+    changeDepartment(item) {
       this.conditionForm = Object.assign({}, this.conditionForm, {
-        evaluation_id: val
+        evaluation_id: item.value
       });
+      this.currentDepartment = item.label
       // 报告数据
       this.getReports();
     },
