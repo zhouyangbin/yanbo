@@ -1,11 +1,11 @@
 <template>
   <el-menu class="menu-list" :default-active="$route.path" background-color="#242a36" text-color="#969798" active-text-color="#969798" unique-opened router>
     <el-menu-item :index="constants.PATH_GRADE_REPORT">
-      <i class="el-icon-setting"></i>
+      <i class="el-icon-printer"></i>
       <span slot="title">{{constants.GRADE_REPORT}}</span>
     </el-menu-item>
     <el-menu-item :class="{'is-active':[constants.PATH_GRADE_PROGRESS($route.params.id),constants.PATH_GRADE_ORG_LIST($route.params.id,$route.params.orgID),constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,$route.params.uid)].includes($route.path)}" :index="constants.PATH_GRADE_MANAGE">
-      <i class="el-icon-setting"></i>
+      <i class="el-icon-edit-outline"></i>
       <span slot="title">{{constants.GRADE_MANAGE}}</span>
     </el-menu-item>
     <el-menu-item :index="constants.PATH_USER_MANAGE" v-show="level==1">

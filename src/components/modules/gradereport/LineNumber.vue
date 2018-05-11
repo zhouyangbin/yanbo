@@ -141,7 +141,7 @@ export default {
 
 <style scoped>
 .echart-line {
-  height: 250px;
+  height: 100%;
   width: 100%;
   display: inline-block;
 }

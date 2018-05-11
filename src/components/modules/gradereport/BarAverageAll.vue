@@ -76,7 +76,7 @@ export default {
               // 横轴信息全部显示
               interval: 0,
               // -30度角倾斜显示
-              rotate: -25,
+              rotate: -18,
               textStyle: {
                 color: "#999"
               }
@@ -181,7 +181,7 @@ export default {
 
 <style scoped>
 .echart-bar {
-  height: 250px;
+  height: 100%;
   width: 100%;
   display: inline-block;
 }
