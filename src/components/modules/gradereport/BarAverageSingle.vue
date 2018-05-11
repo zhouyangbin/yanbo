@@ -158,7 +158,7 @@ export default {
 
 <style scoped>
 .echart-bar {
-  height: 250px;
+  height: 100%;
   width: 100%;
 }
 </style>
