@@ -8,8 +8,7 @@ import {
   HTTP_STATUS_MSG_401,
   HTTP_STATUS_MSG_5XX,
   HTTP_STATUS_TITLE_ERROR,
-  HTTP_STATUS_TITLE_5XX,
-  TOKEN_EXPIRE
+  HTTP_STATUS_TITLE_5XX
 } from "../constants/TEXT";
 // Content-Type:application/x-www-form-urlencoded时 对json数据字符串处理，JSON.stringify()不是很理想
 import qs from "qs";
@@ -87,17 +86,15 @@ http.interceptors.response.use(
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,
-        message: TOKEN_EXPIRE,
-        // 弹框自动消失时间
+        message: error.response.data.message || HTTP_STATUS_MSG_401,
         duration: 3000
       });
       router.push({ path: PATH_LOGIN });
-    } else if (error.response.status === 435) {
+    } else if (error.response.status >= 400 && error.response.status < 500) {
       Notification({
-        // 基于axiosCreate中validateStatus配置的区间判断此时状态码>=500 或者 浏览器直接报错(比如跨域) 走此弹框。
         type: "error",
-        title: HTTP_STATUS_TITLE_5XX,
-        message: error.response.data.message,
+        title: HTTP_STATUS_TITLE_ERROR,
+        message: error.response.data.message || HTTP_STATUS_TITLE_ERROR,
         duration: 3000
       });
     } else {

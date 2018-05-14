@@ -2,26 +2,44 @@
   <el-dialog :title="title" :visible.sync="visible" width="25%" center :before-close="closeDialog">
     <el-form class="user-form">
       <el-form-item>
-        <el-autocomplete v-model="userForm.email" :fetch-suggestions="querySearchAsync" placeholder="企业邮箱" @select="handleSelect" style="width:100%" :disabled="disabled" :autofocus="true"></el-autocomplete>
+        <el-autocomplete v-model="userForm.email" :fetch-suggestions="querySearchAsync" :placeholder="constants.LABEL_TAL_EMAIL" @select="handleSelect" style="width:100%" :disabled="disabled" :autofocus="true"></el-autocomplete>
       </el-form-item>
 
       <el-form-item>
-        <el-input type="text" v-model="userForm.name" placeholder="姓名" auto-complete="off" disabled></el-input>
+        <el-input type="text" v-model="userForm.name" :placeholder="constants.LABEL_NAME" auto-complete="off" disabled></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-cascader :value="department" @change="changeDepartment" :options="departments" change-on-select placeholder="部门" separator="-" style="width:100%"></el-cascader>
+        <el-cascader :value="department" @change="changeDepartment" :options="departments" change-on-select :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader>
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button type="primary" round @click="handelSubmit">确 定</el-button>
-      <el-button round @click="closeDialog">取 消</el-button>
+      <el-button type="primary" round @click="handelSubmit">{{constants.LABEL_CONFIRM}}</el-button>
+      <el-button round @click="closeDialog">{{constants.LABEL_CANCEL}}</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
+import {
+  LABEL_NAME,
+  LABEL_TAL_EMAIL,
+  LABEL_DEPARTMENT,
+  LABEL_CONFIRM,
+  LABEL_CANCEL
+} from "@/constants/TEXT";
 import { searchManager } from "@/constants/API";
 export default {
+  data() {
+    return {
+      constants: {
+        LABEL_NAME,
+        LABEL_TAL_EMAIL,
+        LABEL_DEPARTMENT,
+        LABEL_CONFIRM,
+        LABEL_CANCEL
+      }
+    };
+  },
   props: {
     visible: {
       type: Boolean,

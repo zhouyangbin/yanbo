@@ -16,7 +16,15 @@
 
 <script>
 import { PATH_LOGIN } from "@/constants/URL";
-import { LABEL_LOGOUT } from "@/constants/TEXT";
+import {
+  LABEL_LOGOUT,
+  ATTENTION,
+  LABEL_LOGOUT_MSG,
+  LABEL_CONFIRM,
+  LABEL_CANCEL,
+  CONST_LOGOUT_SUCCESS,
+  CONST_CANCEL_LOGOUT_SUCCESS
+} from "@/constants/TEXT";
 import { logout } from "@/constants/API";
 export default {
   data() {
@@ -28,10 +36,10 @@ export default {
   methods: {
     // 退出
     logout() {
-      this.$confirm("确定退出登录?", "提示", {
+      this.$confirm(LABEL_LOGOUT_MSG, ATTENTION, {
         roundButton: true,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        confirmButtonText: LABEL_CONFIRM,
+        cancelButtonText: LABEL_CANCEL,
         type: "warning",
         center: true
       })
@@ -41,14 +49,14 @@ export default {
             this.$router.push({ path: PATH_LOGIN });
             this.$message({
               type: "success",
-              message: "退出成功!"
+              message: CONST_LOGOUT_SUCCESS
             });
           });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消退出"
+            message: CONST_CANCEL_LOGOUT_SUCCESS
           });
         });
     }
