@@ -72,162 +72,162 @@
   </div>
 </template>
 <script>
-  import {
-    GRADE_MANAGE,
-    GRADE_LIST,
-    CREATE_GRADE,
-    GRADE_NAME,
-    CREATED_DATE,
-    BU,
-    FINISHED_DATE,
-    OPERATIONS,
-    DETAILS,
-    EXPORT_DETAILS,
-    CANCEL,
-    CONFIRM,
-    MSG_FILL_GRADE_NAME,
-    MSG_SELECT_BU,
-    MSG_SELECT_FINISHED_DATE
-  } from "@/constants/TEXT"
-  import { PATH_GRADE_PROGRESS, PATH_EXPORT_GRADE } from "@/constants/URL"
-  import { getDepList, postNewGrade, getGradeList } from "@/constants/API"
-  const isAdmin = parseInt(window.localStorage.getItem("talLevel")) === 1
-  export default {
-    data() {
-      return {
-        isAdmin,
-        currentPage: 1,
-        total: 0,
-        constants: {
-          GRADE_LIST,
-          CREATE_GRADE,
-          GRADE_NAME,
-          BU,
-          FINISHED_DATE,
-          CREATED_DATE,
-          OPERATIONS,
-          DETAILS,
-          EXPORT_DETAILS,
-          CANCEL,
-          CONFIRM
-        },
-        depList: [],
-        createGradeDialog: false,
-        ruleForm: {
-          name: "",
-          dep: [],
-          time: ""
-        },
-        rules: {
-          name: [
-            { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
-          ],
-          dep: [
-            {
-              type: "array",
-              required: true,
-              message: MSG_SELECT_BU,
-              trigger: "change"
-            }
-          ],
-          time: [
-            { required: true, message: MSG_SELECT_FINISHED_DATE, trigger: "blur" }
-          ]
-        },
-        nav: [
+import {
+  GRADE_MANAGE,
+  GRADE_LIST,
+  CREATE_GRADE,
+  GRADE_NAME,
+  CREATED_DATE,
+  BU,
+  FINISHED_DATE,
+  OPERATIONS,
+  DETAILS,
+  EXPORT_DETAILS,
+  CANCEL,
+  CONFIRM,
+  MSG_FILL_GRADE_NAME,
+  MSG_SELECT_BU,
+  MSG_SELECT_FINISHED_DATE
+} from "@/constants/TEXT";
+import { PATH_GRADE_PROGRESS, PATH_EXPORT_GRADE } from "@/constants/URL";
+import { getDepList, postNewGrade, getGradeList } from "@/constants/API";
+const isAdmin = parseInt(window.localStorage.getItem("talLevel")) === 1;
+export default {
+  data() {
+    return {
+      isAdmin,
+      currentPage: 1,
+      total: 0,
+      constants: {
+        GRADE_LIST,
+        CREATE_GRADE,
+        GRADE_NAME,
+        BU,
+        FINISHED_DATE,
+        CREATED_DATE,
+        OPERATIONS,
+        DETAILS,
+        EXPORT_DETAILS,
+        CANCEL,
+        CONFIRM
+      },
+      depList: [],
+      createGradeDialog: false,
+      ruleForm: {
+        name: "",
+        dep: [],
+        time: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
+        ],
+        dep: [
           {
-            label: GRADE_MANAGE,
-            active: true
+            type: "array",
+            required: true,
+            message: MSG_SELECT_BU,
+            trigger: "change"
           }
         ],
-        tableData: []
-      }
+        time: [
+          { required: true, message: MSG_SELECT_FINISHED_DATE, trigger: "blur" }
+        ]
+      },
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          active: true
+        }
+      ],
+      tableData: []
+    };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
+  methods: {
+    goDetail(row) {
+      this.$router.push(PATH_GRADE_PROGRESS(row.id));
     },
-    components: {
-      "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-      pagination: () => import("@/components/common/Pagination/index.vue")
+    exportGrade(row) {
+      // console.log(row, PATH_EXPORT_GRADE(row.id))
+      window.location.href = PATH_EXPORT_GRADE(row.id);
     },
-    methods: {
-      goDetail(row) {
-        this.$router.push(PATH_GRADE_PROGRESS(row.id))
-      },
-      exportGrade(row) {
-        // console.log(row, PATH_EXPORT_GRADE(row.id))
-        window.location.href = PATH_EXPORT_GRADE(row.id)
-      },
-      closeDia(formName) {
-        this.createGradeDialog = false
-        this.$refs[formName].resetFields()
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            const postData = {
-              name: this.ruleForm.name,
-              department_ids: this.ruleForm.dep,
-              end_time: this.ruleForm.time
-            }
-            postNewGrade(postData).then(res => {
-              this.createGradeDialog = false
-              this.refreshList(this.currentPage)
-            })
-          } else {
-            return false
-          }
-        })
-      },
-      handleCurrentChange(val) {
-        // console.log(`当前页: ${val}`)
-        this.currentPage = val
-        this.refreshList(val)
-      },
-      createGrade() {
-        getDepList().then(res => {
-          if (res) {
-            this.depList = res
-            this.createGradeDialog = true
-          }
-        })
-      },
-      refreshList(page) {
-        getGradeList(page).then(res => {
-          if (res) {
-            // console.log(res)
-            this.tableData = res.data.map((v, i) => ({ ...v, index: i }))
-            this.total = res.total
-          }
-        })
-      }
+    closeDia(formName) {
+      this.createGradeDialog = false;
+      this.$refs[formName].resetFields();
     },
-    created() {
-      this.refreshList(this.currentPage)
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          const postData = {
+            name: this.ruleForm.name,
+            department_ids: this.ruleForm.dep,
+            end_time: this.ruleForm.time
+          };
+          postNewGrade(postData).then(res => {
+            this.createGradeDialog = false;
+            this.refreshList(this.currentPage);
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`)
+      this.currentPage = val;
+      this.refreshList(val);
+    },
+    createGrade() {
+      getDepList().then(res => {
+        if (res) {
+          this.depList = res;
+          this.createGradeDialog = true;
+        }
+      });
+    },
+    refreshList(page) {
+      getGradeList(page).then(res => {
+        if (res) {
+          // console.log(res)
+          this.tableData = res.data.map((v, i) => ({ ...v, index: i }));
+          this.total = res.total;
+        }
+      });
     }
+  },
+  created() {
+    this.refreshList(this.currentPage);
   }
+};
 </script>
 <style scoped>
-  .dialog-title {
-    font-weight: 700;
-  }
-  .create-form-dialog {
-    padding: 15px;
-  }
-  .create-form-dialog>>>.el-form-item__label {
-    font-size: 13px;
-    color: gray;
-  }
-  .create-form-dialog>>>.el-checkbox__label {
-    font-size: 13px;
-    color: gray;
-  }
+.dialog-title {
+  font-weight: 700;
+}
+.create-form-dialog {
+  padding: 15px;
+}
+.create-form-dialog >>> .el-form-item__label {
+  font-size: 13px;
+  color: gray;
+}
+.create-form-dialog >>> .el-checkbox__label {
+  font-size: 13px;
+  color: gray;
+}
 
-  .create-form-dialog>>>.el-checkbox-group,
-  .create-form-dialog>>>.el-checkbox-group + .el-checkbox {
-    margin-left: -30px !important;
-  }
-  .newTag {
-    color: rgb(62, 170, 255);
-    font-size: 14px;
-    font-style: italic;
-    font-weight: bold;
-  }
+.create-form-dialog >>> .el-checkbox-group,
+.create-form-dialog >>> .el-checkbox-group + .el-checkbox {
+  margin-left: -30px !important;
+}
+.newTag {
+  color: rgb(62, 170, 255);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bold;
+}
 </style>
