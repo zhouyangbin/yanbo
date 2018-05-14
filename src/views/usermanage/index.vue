@@ -7,54 +7,54 @@
             <el-col :span="16">
               <el-form :inline="true" :model="conditionForm" ref="conditionForm">
                 <el-form-item>
-                  <el-input v-model="conditionForm.name" placeholder="姓名" @change="changeCondition"></el-input>
+                  <el-input v-model="conditionForm.name" :placeholder="constants.LABEL_NAME" @input="changeCondition"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-select v-model="conditionForm.department_id" placeholder="选择事业部" @change="changeCondition">
+                  <el-select v-model="conditionForm.department_id" :placeholder="constants.LABEL_SELECT_DIVISION" @change="changeCondition">
                     <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item>
-                  <el-button round @click="resetForm('conditionForm')">清空</el-button>
+                  <el-button round @click="resetForm('conditionForm')">{{constants.LABEL_EMPTY}}</el-button>
                 </el-form-item>
               </el-form>
             </el-col>
             <el-col :span="8">
               <el-row type="flex" justify="end">
-                <el-button type="primary" round @click="submitUser">新增用户</el-button>
+                <el-button type="primary" round @click="submitUser">{{constants.LABEL_ADD_USER}}</el-button>
               </el-row>
             </el-col>
           </el-row>
 
           <!-- addUser dialog -->
-          <user-dialog :visible.sync="addDialogVisible" title="新增" :userForm.sync="userForm" :disabled="false" :submit="addSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
+          <user-dialog :visible.sync="addDialogVisible" :title="constants.LABEL_ADD" :userForm.sync="userForm" :disabled="false" :submit="addSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
 
           <!-- user tableList -->
           <el-table :data="userTable" stripe style="width:100%" v-loading="tableLoading" :height="tableHeight">
             <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="true" align="center"></el-table-column>
-            <el-table-column label="范围" :show-overflow-tooltip="true" align="center">
+            <el-table-column :label="constants.LABEL_SCOPE" :show-overflow-tooltip="true" align="center">
               <template slot-scope="scope">
                 {{scope.row.department.name}}
               </template>
             </el-table-column>
-            <el-table-column label="状态" width="80" align="center">
+            <el-table-column :label="constants.LABEL_STATUS" width="80" align="center">
               <template slot-scope="scope">
-                {{scope.row.active == '1'?'启用':'禁用'}}
+                {{scope.row.active == '1'?constants.LABEL_FORBIDDEN:constants.LABEL_ENABLED}}
               </template>
             </el-table-column>
-            <el-table-column prop="created_at" label="创建时间" width="180" align="center"></el-table-column>
-            <el-table-column fixed="right" label="操作" align="center" width="180">
+            <el-table-column prop="created_at" :label="constants.LABEL_CREATED_DATE" width="180" align="center"></el-table-column>
+            <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS" align="center" width="180">
               <template slot-scope="scope">
-                <el-button @click="updateUser(scope.row)" type="text" size="small">修改</el-button>
-                <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?'禁用':'启用'}}</el-button>
-                <el-button @click="deleteUser(scope.row)" type="text" size="small">删除</el-button>
+                <el-button @click="updateUser(scope.row)" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
+                <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?constants.LABEL_FORBIDDEN:constants.LABEL_ENABLED}}</el-button>
+                <el-button @click="deleteUser(scope.row)" type="text" size="small">{{constants.LABEL_DEL}}</el-button>
               </template>
             </el-table-column>
           </el-table>
 
           <!-- update dialog -->
-          <user-dialog :visible.sync="updateDialogVisible" title="修改" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
+          <user-dialog :visible.sync="updateDialogVisible" :title="constants.LABEL_MODIFY" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit" :departments="adminsDepartments" :department="department"></user-dialog>
           <br>
           
           <!-- pagination -->
@@ -65,7 +65,31 @@
     </div>
 </template>
 <script>
-import { USER_MANAGE } from "@/constants/TEXT";
+import {
+  USER_MANAGE,
+  ATTENTION,
+  LABEL_CONFIRM,
+  LABEL_CANCEL,
+  LABEL_NAME,
+  LABEL_TAL_EMAIL,
+  LABEL_SCOPE,
+  LABEL_STATUS,
+  LABEL_CREATED_DATE,
+  LABEL_OPERATIONS,
+  LABEL_MODIFY,
+  LABEL_FORBIDDEN,
+  LABEL_ENABLED,
+  LABEL_DEL,
+  LABEL_ADD,
+  LABEL_ADD_USER,
+  LABEL_EMPTY,
+  LABEL_SELECT_DIVISION,
+  CONST_DELETE_SUCCESS,
+  CONST_OPERATIONS_SUCCESS,
+  CONST_MODIFY_SUCCESS,
+  CONST_UNDELETE_SUCCESS,
+  LABEL_USER_DEL_MSG
+} from "@/constants/TEXT";
 import {
   getManagers,
   addManager,
@@ -90,6 +114,21 @@ export default {
           active: true
         }
       ],
+      constants: {
+        LABEL_NAME,
+        LABEL_SCOPE,
+        LABEL_STATUS,
+        LABEL_CREATED_DATE,
+        LABEL_OPERATIONS,
+        LABEL_MODIFY,
+        LABEL_FORBIDDEN,
+        LABEL_ENABLED,
+        LABEL_DEL,
+        LABEL_ADD,
+        LABEL_ADD_USER,
+        LABEL_EMPTY,
+        LABEL_SELECT_DIVISION
+      },
       // 用户筛选条件
       conditionForm: { name: "", department_id: "", page: 1 },
       // 分页
@@ -109,8 +148,8 @@ export default {
       userId: "",
       // table头部
       tableColumn: [
-        { prop: "name", label: "姓名", width: "150" },
-        { prop: "email", label: "企业邮箱", width: "" }
+        { prop: "name", label: LABEL_NAME, width: "150" },
+        { prop: "email", label: LABEL_TAL_EMAIL, width: "" }
       ],
       // table数据
       userTable: [],
@@ -218,7 +257,7 @@ export default {
         .then(res => {
           this.$message({
             type: "success",
-            message: "修改成功!"
+            message: CONST_MODIFY_SUCCESS
           });
           this.getManagers();
         })
@@ -231,7 +270,7 @@ export default {
         .then(res => {
           this.$message({
             type: "success",
-            message: "操作成功!"
+            message: CONST_OPERATIONS_SUCCESS
           });
           this.getManagers();
         })
@@ -239,10 +278,10 @@ export default {
     },
     // 删除用户
     deleteUser(user) {
-      this.$confirm("确定删除此用户?", "提示", {
+      this.$confirm(LABEL_USER_DEL_MSG, ATTENTION, {
         roundButton: true,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        confirmButtonText: LABEL_CONFIRM,
+        cancelButtonText: LABEL_CANCEL,
         type: "warning",
         center: true
       })
@@ -252,7 +291,7 @@ export default {
               this.getManagers();
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: CONST_DELETE_SUCCESS
               });
             })
             .catch(err => {});
@@ -260,7 +299,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: CONST_UNDELETE_SUCCESS
           });
         });
     },

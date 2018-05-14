@@ -6,18 +6,18 @@
       <section>
         <el-form :inline="true" :model="conditionForm" ref="conditionForm">
           <el-form-item>
-            <el-select v-model="conditionForm.evaluation_name_id" placeholder="选择文化评分" @change="changeName">
+            <el-select v-model="conditionForm.evaluation_name_id" :placeholder="constants.LABEL_SELECT_GRAGE" @change="changeName">
               <el-option v-for="item in names" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-select v-model="evaluation_id" placeholder="选择部门" @change="changeDepartment">
+            <el-select v-model="evaluation_id" :placeholder="constants.LABEL_SELECT_DEPARTMENT" @change="changeDepartment">
               <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item>
+          <!-- <el-form-item>
             <p class="des">参与人数共计<span class="des-num"> 3 </span>人，好未来集团总平均分：自评<span class="des-num"> 4分 </span>，上级评<span class="des-num"> 5分 </span></p>
-          </el-form-item>  
+          </el-form-item>   -->
         </el-form>
       </section>
 
@@ -25,10 +25,10 @@
         <el-row>
           <el-col :span="12">
             <!-- 某部门文化评分进度 pie -->
-            <h1><span>{{currentDepartment}}</span>文化评分进度</h1>
+            <h1><span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_PROGRESS}}</h1>
             <el-row>
-              <el-col :span="12" class="loading-container"><echart-pie title="自评进度" :data="progressPieSelf" :width="width"></echart-pie></el-col>
-              <el-col :span="12" class="loading-container"><echart-pie title="上级评进度" :data="progressPieSuperior" :width="width"></echart-pie></el-col>
+              <el-col :span="12" class="loading-container"><echart-pie :title="constants.LABEL_SELF_PROGRESS" :data="progressPieSelf" :width="width"></echart-pie></el-col>
+              <el-col :span="12" class="loading-container"><echart-pie :title="constants.LABEL_SUP_PROGRESS" :data="progressPieSuperior" :width="width"></echart-pie></el-col>
             </el-row>           
           </el-col>
 
@@ -36,12 +36,12 @@
             <!-- 某部门文化平均分 bar -->
             <el-row type="flex" justify="space-between">
               <el-col :span="12" >
-                <h1><span>{{currentDepartment}}</span>文化平均分</h1>
+                <h1><span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_AVERAGE}}</h1>
               </el-col>
               <el-col :span="12">
                 <el-row type="flex" justify="end">
-                  <span style="color:#21c1a5">● 自评&nbsp;&nbsp;&nbsp;</span>
-                  <span style="color:#5399e1">● 上级评</span>
+                  <span style="color:#21c1a5">● {{constants.LABEL_SELF}}&nbsp;&nbsp;&nbsp;</span>
+                  <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
                 </el-row>
               </el-col>
             </el-row>
@@ -56,13 +56,13 @@
       <section class="report-echart">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
-            <h1>各事业部完成率</h1>
+            <h1>{{constants.LABEL_REPORT_RATE}}</h1>
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
               <el-tabs v-model="rateBarActive" type="card" @tab-click="changeBarRate" class="echart-tabs">
-                <el-tab-pane label="自评" name="self"></el-tab-pane>
-                <el-tab-pane label="上级评" name="sup"></el-tab-pane>
+                <el-tab-pane :label="constants.LABEL_SELF" name="self"></el-tab-pane>
+                <el-tab-pane :label="constants.LABEL_SUP" name="sup"></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
@@ -74,14 +74,14 @@
 
       <!-- 各事业部总平均分 bar -->
       <section class="report-echart" v-if="level==1">         
-        <h1>各事业部总平均分</h1>
+        <h1>{{constants.LABEL_REPORT_AVERAGE_ALL}}</h1>
         <section class="loading-container">
           <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
-            <span style="color:#21c1a5">● 自评&nbsp;&nbsp;&nbsp;</span>
-            <span style="color:#5399e1">● 上级评</span>
+            <span style="color:#21c1a5">● {{constants.LABEL_SELF}}&nbsp;&nbsp;&nbsp;</span>
+            <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
           </span>
         </el-row>
       </section> 
@@ -90,7 +90,7 @@
       <section class="report-echart" v-if="level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
-            <h1>各事业各文化平均分</h1>
+            <h1>{{constants.LABEL_REPORT_AVERAGE_SINGLE}}</h1>
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
@@ -105,8 +105,8 @@
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
-            <span style="color:#21c1a5">● 自评&nbsp;&nbsp;&nbsp;</span>
-            <span style="color:#5399e1">● 上级评</span>
+            <span style="color:#21c1a5">● {{constants.LABEL_SELF}}&nbsp;&nbsp;&nbsp;</span>
+            <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
           </span>
         </el-row>
       </section> 
@@ -114,7 +114,7 @@
       <section class="report-echart" v-if="level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
-            <h1>好未来教育各分值人数</h1>
+            <h1>{{constants.LABEL_REPORT_NUMBER}}</h1>
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
@@ -132,7 +132,7 @@
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
-                <span style="color:#21c1a5">● 自评</span>
+                <span style="color:#21c1a5">● {{constants.LABEL_SELF}}</span>
               </span>
             </el-row>
           </el-col>
@@ -143,7 +143,7 @@
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
-                <span style="color:#5399e1">● 上级评</span>
+                <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
               </span>
             </el-row>
           </el-col>
@@ -154,7 +154,25 @@
   </div>
 </template>
 <script>
-import { GRADE_REPORT } from "@/constants/TEXT";
+import {
+  GRADE_REPORT,
+  LABEL_REPORT_PROGRESS,
+  LABEL_REPORT_AVERAGE,
+  LABEL_REPORT_RATE,
+  LABEL_REPORT_AVERAGE_ALL,
+  LABEL_REPORT_AVERAGE_SINGLE,
+  LABEL_REPORT_NUMBER,
+  NAV_TAB_TYPE_ONE,
+  NAV_TAB_TYPE_TWO,
+  NAV_TAB_TYPE_THREE,
+  NAV_TAB_TYPE_FOUR,
+  LABEL_SELF,
+  LABEL_SUP,
+  LABEL_SELF_PROGRESS,
+  LABEL_SUP_PROGRESS,
+  LABEL_SELECT_DEPARTMENT,
+  LABEL_SELECT_GRAGE
+} from "@/constants/TEXT";
 import {
   getGradeNames,
   getGradeDepartments,
@@ -186,6 +204,20 @@ export default {
           active: true
         }
       ],
+      constants: {
+        LABEL_REPORT_PROGRESS,
+        LABEL_REPORT_AVERAGE,
+        LABEL_REPORT_RATE,
+        LABEL_REPORT_AVERAGE_ALL,
+        LABEL_REPORT_AVERAGE_SINGLE,
+        LABEL_REPORT_NUMBER,
+        LABEL_SELF,
+        LABEL_SUP,
+        LABEL_SELF_PROGRESS,
+        LABEL_SUP_PROGRESS,
+        LABEL_SELECT_DEPARTMENT,
+        LABEL_SELECT_GRAGE
+      },
       level: 0,
       conditionForm: { evaluation_name_id: "", evaluation_id: "" },
       names: [],
@@ -233,10 +265,10 @@ export default {
       yMaxEach: 5,
       yIntervalEach: 1,
       activeTabs: [
-        { label: "成就客户", name: "first" },
-        { label: "务实", name: "second" },
-        { label: "创新", name: "third" },
-        { label: "合作", name: "fourth" }
+        { label: NAV_TAB_TYPE_ONE, name: "first" },
+        { label: NAV_TAB_TYPE_TWO, name: "second" },
+        { label: NAV_TAB_TYPE_THREE, name: "third" },
+        { label: NAV_TAB_TYPE_FOUR, name: "fourth" }
       ],
       averageBarActive: "first",
 
