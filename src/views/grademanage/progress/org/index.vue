@@ -229,7 +229,9 @@ import {
   ENUM_LEADER_EVALUATION_STATUS,
   ENUM_FACE_EVALUATION_STATUS,
   ENUM_LEADER_PLUS_EVALUATION_STATUS,
-  MODIFY_TIMES
+  MODIFY_TIMES,
+  CONFIRM,
+  CANCEL
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_EMP_DETAIL,
@@ -429,8 +431,8 @@ export default {
         msg = "是否提醒全部?";
       }
       this.$confirm(msg, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
         type: "warning",
         center: true
       })
@@ -454,8 +456,8 @@ export default {
     // 删除某条记录
     delInfo(row) {
       this.$confirm("确定删除此用户?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
         type: "warning",
         center: true
       })
