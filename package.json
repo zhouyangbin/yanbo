@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --open ",
     "build": "vue-cli-service build",
+    "dev-build": "vue-cli-service build --mode development",
     "lint": "vue-cli-service lint --fix",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
@@ -31,11 +32,7 @@
     "sass-loader": "^6.0.6",
     "vue-template-compiler": "^2.5.13"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

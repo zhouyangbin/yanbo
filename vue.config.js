@@ -60,6 +60,10 @@ module.exports = {
     //     }
     //   }
     // })
+    config.plugin("html").tap(args => {
+      args[0].favicon = "./public/favicon.ico";
+      return args;
+    });
     config.plugins.delete("prefetch");
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));
 
