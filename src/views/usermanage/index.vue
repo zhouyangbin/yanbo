@@ -40,7 +40,7 @@
             </el-table-column>
             <el-table-column :label="constants.LABEL_STATUS" width="80" align="center">
               <template slot-scope="scope">
-                {{scope.row.active == '1'?constants.LABEL_FORBIDDEN:constants.LABEL_ENABLED}}
+                {{scope.row.active == '1'?constants.LABEL_ENABLED:constants.LABEL_FORBIDDEN}}
               </template>
             </el-table-column>
             <el-table-column prop="created_at" :label="constants.LABEL_CREATED_DATE" width="180" align="center"></el-table-column>
