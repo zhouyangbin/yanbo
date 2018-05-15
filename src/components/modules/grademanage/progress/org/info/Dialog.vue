@@ -36,7 +36,7 @@
       </el-form-item>
       <div>
         <el-form-item prop="upLeaderNum">
-          <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
+          <el-input size="small" @input="searchUpLeader"  :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
         </el-form-item>
         <el-form-item prop="upLeaderName">
           <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.NAME" v-model="infoForm.upLeaderName"></el-input>
@@ -272,6 +272,23 @@ export default {
               // this.infoForm.dep = res.first_department
               // this.infoForm.level = res.level
               this.infoForm.leaderEmail = res.email;
+            }
+          })
+          .catch(e => {});
+      }
+    },
+    searchUpLeader(v) {
+      if (v != "") {
+        getUserDetail({
+          empID: v
+        })
+          .then(res => {
+            if (res) {
+              this.infoForm.upLeaderName = res.name;
+              this.infoForm.upLeaderBU = res.department;
+              // this.infoForm.dep = res.first_department
+              // this.infoForm.level = res.level
+              this.infoForm.upLeaderEmail = res.email;
             }
           })
           .catch(e => {});
