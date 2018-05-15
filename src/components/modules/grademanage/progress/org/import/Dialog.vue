@@ -144,6 +144,7 @@ export default {
         title: ERROR,
         message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
       });
+      this.close();
     },
     uploadSuccess(response, file, fileList) {
       this.$notify({
@@ -151,6 +152,7 @@ export default {
         message: UPLOAD_SUCCESS,
         type: "success"
       });
+      this.close();
     }
   },
   computed: {
