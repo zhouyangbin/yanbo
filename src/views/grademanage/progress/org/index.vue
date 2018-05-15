@@ -380,9 +380,8 @@ export default {
       this.$refs[formName].resetFields();
     },
     exportData() {
-      window.open(
-        PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id)),
-        "_blank"
+      window.location.href = PATH_EXPORT_USERS_GRADE(
+        this.selection.map(v => v.id)
       );
     },
     batchDel() {

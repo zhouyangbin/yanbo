@@ -17,16 +17,20 @@ export const PATH_GRADE_EMP_DETAIL = (
 export const PATH_LOGIN = "/login";
 // 导出评测
 export const PATH_EXPORT_GRADE = (id: string) =>
-  `${base}admin/api/export/evaluation/${id}`;
+  `${base}admin/api/export/evaluation/${id}?token=${localStorage.getItem(
+    "talToken"
+  )}`;
 // 导出部门的评测
 export const PATH_EXPORT_DEP_GRADE = (id: string) =>
-  `${base}admin/api/export/department/${id}`;
+  `${base}admin/api/export/department/${id}?token=${localStorage.getItem(
+    "talToken"
+  )}`;
 // 导出选择人的评测
 export const PATH_EXPORT_USERS_GRADE = (ids: Array<string>) =>
   `${base}admin/api/export/users?${qs.stringify(
     { "ids[]": ids },
     { arrayFormat: "brackets" }
-  )}`;
+  )}&token=${localStorage.getItem("talToken")}`;
 // excel方式导入user
 export const PATH_IMPORT_BY_EXCEL = `${base}admin/api/import/excel`;
 
