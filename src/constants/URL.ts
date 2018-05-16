@@ -28,9 +28,9 @@ export const PATH_EXPORT_DEP_GRADE = (id: string) =>
 // 导出选择人的评测
 export const PATH_EXPORT_USERS_GRADE = (ids: Array<string>) =>
   `${base}admin/api/export/users?${qs.stringify(
-    { "ids[]": ids },
+    { "ids[]": ids, token: localStorage.getItem("talToken") },
     { arrayFormat: "brackets" }
-  )}&token=${localStorage.getItem("talToken")}`;
+  )}`;
 // excel方式导入user
 export const PATH_IMPORT_BY_EXCEL = `${base}admin/api/import/excel`;
 

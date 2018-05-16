@@ -380,9 +380,9 @@ export default {
       this.$refs[formName].resetFields();
     },
     exportData() {
-      window.location.href = PATH_EXPORT_USERS_GRADE(
-        this.selection.map(v => v.id)
-      );
+      const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
+      window.open(url, "_blank");
+      // window.location.href = url
     },
     batchDel() {
       // 批量删除
@@ -615,13 +615,6 @@ export default {
         checked_271: this.gradeInfo.checked_271,
         finishedDate: this.gradeInfo.finishedDate
       };
-    },
-    test() {
-      return (
-        this.constants.ENUM_SELF_EVALUATION_STATUS.filter(
-          v => v.key === String(this.depInfo.self_status)
-        )[0] || {}
-      ).value;
     }
   }
 };
