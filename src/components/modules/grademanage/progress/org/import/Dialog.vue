@@ -24,6 +24,17 @@
               <a href="https://www.baidu.com">{{constants.DOWNLOAD_EXCEL_TEMPLATE}}</a>
             </div>
           </el-upload>
+          <el-table v-if="showTable" class="err-table" max-height="250" :data="tableData" style="width: 100%">
+            <el-table-column prop="workcode" label="工号">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名">
+            </el-table-column>
+            <el-table-column prop="reason" label="原因">
+              <template class="reason" slot-scope="scope">
+                {{scope.row.reason.join(" ")}}
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
       </el-tabs>
       <span class="tips">
@@ -98,7 +109,9 @@ export default {
         CONFIRM,
         CANCEL,
         PATH_IMPORT_BY_EXCEL
-      }
+      },
+      tableData: [],
+      showTable: false
     };
   },
   methods: {
@@ -140,11 +153,12 @@ export default {
     uploadErr(err, file, fileList) {
       // console.log(err, file, fileList)
       const errObj = JSON.parse(err.message);
+      this.tableData = errObj.data;
+      this.showTable = true;
       this.$notify.error({
         title: ERROR,
         message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
       });
-      this.close();
     },
     uploadSuccess(response, file, fileList) {
       this.$notify({
@@ -204,5 +218,8 @@ export default {
 }
 .uploader {
   margin-top: 10px;
+}
+.err-table >>> .cell {
+  font-size: 12px;
 }
 </style>
