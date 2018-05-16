@@ -504,6 +504,15 @@ export default {
           this.tableData = res.list.data;
           this.total = res.list.total;
           this.depInfo.name = res.info.department_name;
+          this.depInfo.self_status = res.info.self_status;
+          this.depInfo.superior_status = res.info.superior_status;
+          this.depInfo.highlevel_status = res.info.highlevel_status;
+          this.depInfo.feedback_status = res.info.feedback_status;
+          this.depInfo.count = res.info.stat[0].count;
+          this.depInfo.self = res.info.stat[0].self;
+          this.depInfo.superior = res.info.stat[0].superior;
+          this.depInfo.highlevel = res.info.stat[0].highlevel;
+          this.depInfo.refuse = res.info.stat[0].refuse;
           this.gradeInfo.name = res.info.evaluation_name.evaluation_name;
           this.gradeInfo.finishedDate = res.info.evaluation_name.end_time;
           this.gradeInfo.self_start_time = res.info.self_start_time;
@@ -605,6 +614,13 @@ export default {
         feedback_end_time: this.gradeInfo.feedback_end_time,
         checked_271: this.gradeInfo.checked_271
       };
+    },
+    test() {
+      return (
+        this.constants.ENUM_SELF_EVALUATION_STATUS.filter(
+          v => v.key === String(this.depInfo.self_status)
+        )[0] || {}
+      ).value;
     }
   }
 };
