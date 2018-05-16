@@ -266,6 +266,12 @@ export default {
             this.infoForm.dep = res.first_department;
             this.infoForm.level = res.level;
             this.infoForm.email = res.email;
+          } else {
+            this.infoForm.name = "";
+            this.infoForm.BU = "";
+            this.infoForm.dep = "";
+            this.infoForm.level = "";
+            this.infoForm.email = "";
           }
         });
         // .catch(e => {});
@@ -280,9 +286,11 @@ export default {
             if (res) {
               this.infoForm.leaderName = res.name;
               this.infoForm.leaderBU = res.department;
-              // this.infoForm.dep = res.first_department
-              // this.infoForm.level = res.level
               this.infoForm.leaderEmail = res.email;
+            } else {
+              this.infoForm.leaderName = "";
+              this.infoForm.leaderBU = "";
+              this.infoForm.leaderEmail = "";
             }
           })
           .catch(e => {});
@@ -297,9 +305,12 @@ export default {
             if (res) {
               this.infoForm.upLeaderName = res.name;
               this.infoForm.upLeaderBU = res.department;
-              // this.infoForm.dep = res.first_department
-              // this.infoForm.level = res.level
+
               this.infoForm.upLeaderEmail = res.email;
+            } else {
+              this.infoForm.upLeaderName = "";
+              this.infoForm.upLeaderBU = "";
+              this.infoForm.upLeaderEmail = "";
             }
           })
           .catch(e => {});
