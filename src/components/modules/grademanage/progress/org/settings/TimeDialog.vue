@@ -32,7 +32,7 @@
         </el-row>
       </el-form-item>
       <el-form-item label="" prop="levelRequired">
-        <el-checkbox :true-label="1" :false-label="0" v-model="timesForm.levelRequired">{{constants.REQUIRE_271}}</el-checkbox>
+        <el-checkbox :disabled="leader_start_disable" :true-label="1" :false-label="0" v-model="timesForm.levelRequired">{{constants.REQUIRE_271}}</el-checkbox>
       </el-form-item>
       <el-form-item :label="constants.LEADER_PLUS_EVALUATION_TIME" required>
         <el-row type="flex">
