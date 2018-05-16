@@ -32,21 +32,21 @@
                 <el-step>
                   <template slot="title">
                     自评{{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.self_status))[0]||{}).value}}
-                    <span v-if="depInfo.self!='' && depInfo.count">({{depInfo.self}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.self_status>0">({{depInfo.self}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.self_start_time">{{gradeInfo.self_start_time}} - {{gradeInfo.self_end_time}}</div>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     上级评{{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.superior_status))[0]||{}).value}}
-                    <span v-if="depInfo.superior!='' && depInfo.count">({{depInfo.superior}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.superior_status>0">({{depInfo.superior}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.superior_start_time">{{gradeInfo.superior_start_time}} - {{gradeInfo.superior_end_time}}</div>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     隔级上级评{{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.highlevel_status))[0]||{}).value}}
-                    <span v-if="depInfo.highlevel!='' && depInfo.refuse !=''&& depInfo.count">({{(highlevel-refuse)}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.highlevel_status>0">({{(highlevel-refuse)}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.highlevel_start_time">{{gradeInfo.highlevel_start_time}} - {{gradeInfo.highlevel_end_time}}</div>
                   </template>
                 </el-step>
