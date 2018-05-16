@@ -4,6 +4,7 @@
       {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
     </div>
     <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
+      <div class="section-title">员工信息:</div>
       <el-form-item prop="num">
         <el-input :disabled="infoType !== 'add'" size="small" @input="searchME" :placeholder="constants.NUMBER" v-model="infoForm.num"></el-input>
       </el-form-item>
@@ -22,6 +23,7 @@
       <el-form-item prop="email">
         <el-input size="small" :placeholder="constants.EMAIL" v-model="infoForm.email"></el-input>
       </el-form-item>
+      <div class="section-title">上级信息:</div>
       <el-form-item prop="leaderNum">
         <el-input size="small" @input="searchLeader" :placeholder="constants.LEADER_NUMBER" v-model="infoForm.leaderNum"></el-input>
       </el-form-item>
@@ -34,9 +36,10 @@
       <el-form-item prop="leaderEmail">
         <el-input size="small" :placeholder="constants.UP_LEVEL+constants.EMAIL" v-model="infoForm.leaderEmail"></el-input>
       </el-form-item>
+      <div class="section-title">隔级信息:</div>
       <div>
         <el-form-item prop="upLeaderNum">
-          <el-input size="small" @input="searchUpLeader"  :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
+          <el-input size="small" @input="searchUpLeader" :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
         </el-form-item>
         <el-form-item prop="upLeaderName">
           <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.NAME" v-model="infoForm.upLeaderName"></el-input>
@@ -305,5 +308,8 @@ export default {
   text-align: center;
   font-weight: 700;
   font-size: 18px;
+}
+.section-title {
+  font-weight: bold;
 }
 </style>
