@@ -226,11 +226,10 @@ hr {
 }
 .form-search {
   background-color: #f8f8f8;
-  padding: 10px;
+  padding: 20px;
+  padding-bottom: 0px;
 }
-.form-search .el-form-item {
-  margin-bottom: 0px;
-}
+
 .btn-reset {
   color: #09c981;
   border-color: #09c981;
