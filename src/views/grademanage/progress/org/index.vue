@@ -612,7 +612,8 @@ export default {
         highlevel_end_time: this.gradeInfo.highlevel_end_time,
         feedback_start_time: this.gradeInfo.feedback_start_time,
         feedback_end_time: this.gradeInfo.feedback_end_time,
-        checked_271: this.gradeInfo.checked_271
+        checked_271: this.gradeInfo.checked_271,
+        finishedDate: this.gradeInfo.finishedDate
       };
     },
     test() {

@@ -5,13 +5,13 @@
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="self_start">
-              <el-date-picker :disabled="status.self_status>0" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.self_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker :disabled="self_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.self_start" placeholder="开始日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="2"> - </el-col>
           <el-col :span="8">
             <el-form-item prop="self_end">
-              <el-date-picker :disabled="status.self_status===2" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.self_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker :disabled="self_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.self_end" placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -20,13 +20,13 @@
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="leader_start">
-              <el-date-picker :disabled="status.superior_status>0" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.leader_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker :disabled="leader_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.leader_start" placeholder="开始日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="2"> - </el-col>
           <el-col :span="8">
             <el-form-item prop="leader_end">
-              <el-date-picker :disabled="status.superior_status===2" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.leader_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker :disabled="leader_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.leader_end" placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -38,13 +38,13 @@
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="upLeader_start">
-              <el-date-picker :disabled="status.highlevel_status>0" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.upLeader_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker :disabled="upLeader_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.upLeader_start" placeholder="开始日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="2"> - </el-col>
           <el-col :span="8">
             <el-form-item prop="upLeader_end">
-              <el-date-picker :disabled="status.highlevel_status===2" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.upLeader_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker :disabled="upLeader_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.upLeader_end" placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,13 +53,13 @@
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="face_start">
-              <el-date-picker :disabled="status.feedback_status>0" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.face_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker :disabled="face_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.face_start" placeholder="开始日期"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="2"> - </el-col>
           <el-col :span="8">
             <el-form-item prop="face_end">
-              <el-date-picker :disabled="status.feedback_status===2" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.face_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker :disabled="face_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.face_end" placeholder="结束日期"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -92,7 +92,8 @@ import {
   START_TIME,
   END_TIME,
   SELF_START_TIME_VALIDATE_MSG,
-  START_END_VALIDATE_MSG
+  START_END_VALIDATE_MSG,
+  FACE_TIME_OVER_GRADE_MSG
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
 import { postTimeSettings } from "@/constants/API";
@@ -129,7 +130,7 @@ export default {
   data() {
     //
     const selfStartTimeValidator = (rule, value, callback) => {
-      if (value <= formatTime(new Date())) {
+      if (value <= formatTime(new Date()) && !this.self_start_disable) {
         callback(new Error(SELF_START_TIME_VALIDATE_MSG));
       } else {
         // else if (
@@ -222,6 +223,9 @@ export default {
       }
     };
     const faceEndTimeValidator = (rule, value, callback) => {
+      if (value >= this.timesForm.finishedDate) {
+        callback(new Error(FACE_TIME_OVER_GRADE_MSG));
+      }
       if (this.timesForm.face_start && value <= this.timesForm.face_start) {
         callback(new Error(START_END_VALIDATE_MSG));
       } else {
@@ -248,7 +252,8 @@ export default {
         upLeader_end: "",
         face_start: "",
         face_end: "",
-        levelRequired: 0
+        levelRequired: 0,
+        finishedDate: ""
       },
       timesRules: {
         self_start: [
@@ -369,9 +374,36 @@ export default {
     this.timesForm.face_start = this.timeData.feedback_start_time;
     this.timesForm.face_end = this.timeData.feedback_end_time;
     this.timesForm.levelRequired = this.timeData.checked_271;
+    this.timesForm.finishedDate = this.timeData.finishedDate;
   },
   beforeDestroy() {
     this.resetFilter("timesForm");
+  },
+  computed: {
+    self_start_disable() {
+      return this.status.self_status > 0;
+    },
+    self_end_disable() {
+      return this.status.self_status === 2;
+    },
+    leader_start_disable() {
+      return this.status.superior_status > 0;
+    },
+    leader_end_disable() {
+      return this.status.superior_status === 2;
+    },
+    upLeader_start_disable() {
+      return this.status.highlevel_status > 0;
+    },
+    upLeader_end_disable() {
+      return this.status.highlevel_status === 2;
+    },
+    face_start_disable() {
+      return this.status.feedback_status > 0;
+    },
+    face_end_disable() {
+      return this.status.feedback_status === 2;
+    }
   }
 };
 </script>
