@@ -222,6 +222,10 @@ export default {
             };
             postNewUser(this.$route.params.orgID, postData)
               .then(res => {
+                this.$message({
+                  message: "添加成功",
+                  type: "success"
+                });
                 this.close();
               })
               .catch(e => {
@@ -237,6 +241,10 @@ export default {
               highlevel_email: this.infoForm.upLeaderEmail
             })
               .then(res => {
+                this.$message({
+                  message: "添加成功",
+                  type: "success"
+                });
                 this.close();
               })
               .catch(e => {});
