@@ -91,11 +91,10 @@ import {
 } from "@/constants/TEXT";
 import { PATH_GRADE_PROGRESS, PATH_EXPORT_GRADE } from "@/constants/URL";
 import { getDepList, postNewGrade, getGradeList } from "@/constants/API";
-const isAdmin = parseInt(window.localStorage.getItem("talLevel")) === 1;
+
 export default {
   data() {
     return {
-      isAdmin,
       currentPage: 1,
       total: 0,
       constants: {
@@ -198,6 +197,11 @@ export default {
           this.total = res.total;
         }
       });
+    }
+  },
+  computed: {
+    isAdmin() {
+      return parseInt(window.localStorage.getItem("talLevel"), 10) === 1;
     }
   },
   created() {
