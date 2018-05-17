@@ -125,7 +125,7 @@
           </el-table-column>
           <el-table-column prop="department" :label="constants.BASE_OR_BU" width="100">
           </el-table-column>
-          <el-table-column prop="sub_department" :label="constants.DEP_OR_SUB" width="100">
+          <el-table-column prop="first_department" :label="constants.DEP_OR_SUB" width="200">
           </el-table-column>
           <el-table-column prop="level" :label="constants.WORK_LEVEL" width="100">
           </el-table-column>
