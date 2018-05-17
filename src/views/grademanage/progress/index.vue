@@ -74,7 +74,7 @@
       </el-table>
       <br>
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+        <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
       </el-row>
     </section>
   </div>
@@ -171,10 +171,10 @@ export default {
       // console.log(this.$route.params.id)
       getProgressList(this.$route.params.id, compact(params)).then(res => {
         if (res) {
-          // console.log(res)
           this.gradeName = res.info.evaluation_name;
-          this.listData = res.list;
+          this.listData = res.list.data;
           this.finishedDate = res.info.end_time;
+          this.total = res.list.total;
         }
       });
     },
@@ -201,8 +201,9 @@ export default {
           superior_status: this.searchForm.leaderStatus,
           highlevel_status: this.searchForm.upLeaderStatus,
           feedback_status: this.searchForm.faceStatus,
-          page: this.currentPage
+          page: 1
         };
+        this.currentPage = 1;
         this.refreshList(postData);
       },
       deep: true,
