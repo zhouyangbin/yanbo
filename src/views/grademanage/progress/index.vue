@@ -164,11 +164,9 @@ export default {
       this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
     },
     exportFile(row) {
-      // window.location.href = ;
       window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
     },
     refreshList(params) {
-      // console.log(this.$route.params.id)
       getProgressList(this.$route.params.id, compact(params)).then(res => {
         if (res) {
           this.gradeName = res.info.evaluation_name;
@@ -179,7 +177,6 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`)
       this.currentPage = val;
       const postData = {
         import_status: this.searchForm.recordStatus,

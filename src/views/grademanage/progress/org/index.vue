@@ -573,15 +573,27 @@ export default {
         return 0;
       }
       if (stage == 20 || stage == 30) {
+        if (this.depInfo.self_status === 2) {
+          return 2;
+        }
         return 1;
       }
       if (stage == 40) {
+        if (this.depInfo.superior_status === 2) {
+          return 3;
+        }
         return 2;
       }
       if (stage == 50) {
+        if (this.depInfo.highlevel_status === 2) {
+          return 4;
+        }
         return 3;
       }
       if (stage == 60) {
+        if (this.depInfo.feedback_status === 2) {
+          return 5;
+        }
         return 4;
       }
       if (stage == 70) {
