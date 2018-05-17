@@ -7,7 +7,7 @@
           <img src="@assets/img/icon_pic.png" alt="">
           <div class="info">
             <div class="me">
-              被评分人 | {{info.name}} | 等级 {{info.feed_back._271_level}}
+              被评分人 | {{info.name}} | 等级 {{info.feed_back._271_level || '无'}}
             </div>
             <div class="leader">
               {{constants.LEADER_NAME}} - {{info.superior_name}}
@@ -30,6 +30,7 @@
               {{ o }}
             </div>
           </el-card>
+          <span v-if="(info.self_evaluation||[]).length===0">无</span>
         </div>
         <br>
         <h1>
@@ -46,13 +47,14 @@
               {{ o }}
             </div>
           </el-card>
+          <span v-if="(info.superior_evaluation||[]).length===0">无</span>
         </div>
         <br>
         <h1>
           {{constants.EVALUATION_FEEDBACK}}
         </h1>
         <hr>
-        <div class="card-container">
+        <div v-if="info.feed_back.advantage && info.feed_back.promotion" class="card-container">
           <el-card v-for="(v,i) of feedbackInfo" :key="i" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{v.title}}</span>
@@ -63,6 +65,7 @@
             </div>
           </el-card>
         </div>
+        <span v-else>无</span>
       </div>
     </section>
   </div>
