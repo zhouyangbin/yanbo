@@ -34,6 +34,11 @@ export const PATH_EXPORT_USERS_GRADE = (ids: Array<string>) =>
 // excel方式导入user
 export const PATH_IMPORT_BY_EXCEL = `${base}admin/api/import/excel`;
 
+// excel模板下载
+export const PATH_EXCEL_TPL = `${base}/admin/api/export/template?token=${localStorage.getItem(
+  "talToken"
+)}`;
+
 export const PATH_ABOUT = "/about";
 export const PATH_TEST = "/test";
 export const PATH_AUTH = "/auth";

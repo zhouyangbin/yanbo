@@ -164,7 +164,8 @@ export default {
       this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
     },
     exportFile(row) {
-      window.location.href = PATH_EXPORT_DEP_GRADE(row.id);
+      // window.location.href = ;
+      window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
     },
     refreshList(params) {
       // console.log(this.$route.params.id)

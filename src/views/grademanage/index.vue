@@ -152,8 +152,8 @@ export default {
     },
     exportGrade(row) {
       // console.log(row, PATH_EXPORT_GRADE(row.id))
-      window.location.href = PATH_EXPORT_GRADE(row.id);
-      // window.open(PATH_EXPORT_GRADE(row.id), "_blank")
+      // window.location.href = PATH_EXPORT_GRADE(row.id);
+      window.open(PATH_EXPORT_GRADE(row.id), "_blank");
     },
     closeDia(formName) {
       this.createGradeDialog = false;

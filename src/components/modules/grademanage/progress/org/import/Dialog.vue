@@ -21,7 +21,7 @@
               <em>{{constants.CLICK_TO_UPLOAD}}</em>
             </div>
             <div class="el-upload__tip" slot="tip">
-              <a href="https://www.baidu.com">{{constants.DOWNLOAD_EXCEL_TEMPLATE}}</a>
+              <a style="cursor: pointer;" @click="downloadTpl">{{constants.DOWNLOAD_EXCEL_TEMPLATE}}</a>
             </div>
           </el-upload>
           <el-table v-if="showTable" class="err-table" max-height="250" :data="tableData" style="width: 100%">
@@ -71,8 +71,8 @@ import {
   UPLOAD_FAIL
 } from "@/constants/TEXT";
 import { postEHR } from "@/constants/API";
-import { PATH_IMPORT_BY_EXCEL } from "@/constants/URL";
-// FIXME:模板下载地址未定
+import { PATH_IMPORT_BY_EXCEL, PATH_EXCEL_TPL } from "@/constants/URL";
+
 export default {
   props: {
     dialogImport: {
@@ -108,7 +108,8 @@ export default {
         DOWNLOAD_EXCEL_TEMPLATE,
         CONFIRM,
         CANCEL,
-        PATH_IMPORT_BY_EXCEL
+        PATH_IMPORT_BY_EXCEL,
+        PATH_EXCEL_TPL
       },
       tableData: [],
       showTable: false
@@ -167,6 +168,10 @@ export default {
         type: "success"
       });
       this.close();
+    },
+    downloadTpl() {
+      const url = PATH_EXCEL_TPL;
+      window.open(url, "_blank");
     }
   },
   computed: {
