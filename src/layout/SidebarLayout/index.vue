@@ -66,6 +66,7 @@ export default {
 <style scoped>
 .sidebar-container {
   background-color: #242a36;
+  height: 100%;
 }
 .sidebar-container >>> ul {
   height: calc(100% - 168px);
@@ -79,6 +80,7 @@ export default {
 .main-container {
   background-color: #f2f7f9;
   padding: 0;
+  height: 100%;
 }
 .sidebar-logout {
   height: 60px;
