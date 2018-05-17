@@ -10,7 +10,7 @@
               <el-option v-for="item in names" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-if="level==1">
             <el-select v-model="evaluation_id" :placeholder="constants.LABEL_SELECT_DEPARTMENT" @change="changeDepartment">
               <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item"></el-option>
             </el-select>
@@ -25,18 +25,24 @@
         <el-row>
           <el-col :span="12">
             <!-- 某部门文化评分进度 pie -->
-            <h1><span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_PROGRESS}}</h1>
+            <h1>
+              <span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_PROGRESS}}</h1>
             <el-row>
-              <el-col :span="12" class="loading-container"><echart-pie :title="constants.LABEL_SELF_PROGRESS" :data="progressPieSelf" :width="width"></echart-pie></el-col>
-              <el-col :span="12" class="loading-container"><echart-pie :title="constants.LABEL_SUP_PROGRESS" :data="progressPieSuperior" :width="width"></echart-pie></el-col>
-            </el-row>           
+              <el-col :span="12" class="loading-container">
+                <echart-pie :title="constants.LABEL_SELF_PROGRESS" :data="progressPieSelf" :width="width"></echart-pie>
+              </el-col>
+              <el-col :span="12" class="loading-container">
+                <echart-pie :title="constants.LABEL_SUP_PROGRESS" :data="progressPieSuperior" :width="width"></echart-pie>
+              </el-col>
+            </el-row>
           </el-col>
 
           <el-col :span="12">
             <!-- 某部门文化平均分 bar -->
             <el-row type="flex" justify="space-between">
-              <el-col :span="12" >
-                <h1><span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_AVERAGE}}</h1>
+              <el-col :span="12">
+                <h1>
+                  <span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_AVERAGE}}</h1>
               </el-col>
               <el-col :span="12">
                 <el-row type="flex" justify="end">
@@ -70,10 +76,10 @@
         <section class="loading-container">
           <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams" :width="width"></echart-bar-rate>
         </section>
-      </section> 
+      </section>
 
       <!-- 各事业部总平均分 bar -->
-      <section class="report-echart" v-if="level==1">         
+      <section class="report-echart" v-if="level==1">
         <h1>{{constants.LABEL_REPORT_AVERAGE_ALL}}</h1>
         <section class="loading-container">
           <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
@@ -84,7 +90,7 @@
             <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
           </span>
         </el-row>
-      </section> 
+      </section>
 
       <!-- 各事业部评分平均分 bar -->
       <section class="report-echart" v-if="level==1">
@@ -109,7 +115,7 @@
             <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
           </span>
         </el-row>
-      </section> 
+      </section>
 
       <section class="report-echart" v-if="level==1">
         <el-row type="flex" justify="space-between">
@@ -148,7 +154,7 @@
             </el-row>
           </el-col>
         </el-row>
-      </section> 
+      </section>
 
     </section>
   </div>
@@ -178,6 +184,7 @@ import {
   getGradeDepartments,
   getGradeReports
 } from "@/constants/API";
+import { compact } from "@/utils/obj";
 import { AsyncComp } from "@/utils/asyncCom.ts";
 export default {
   components: {
@@ -306,7 +313,7 @@ export default {
     }
   },
   created() {
-    this.level = localStorage.getItem("talLevel");
+    this.level = parseInt(localStorage.getItem("talLevel"));
     this.getGrades();
   },
   mounted() {
@@ -331,7 +338,12 @@ export default {
           this.conditionForm = Object.assign({}, this.conditionForm, {
             evaluation_name_id: res.evaluations[0].value
           });
-          this.getDepartments(res.evaluations[0].id);
+          if (this.level === 1) {
+            this.getDepartments(res.evaluations[0].id);
+          } else {
+            this.currentDepartment = res.user.department.name;
+            this.getReports();
+          }
         })
         .catch(err => {});
     },
@@ -356,7 +368,7 @@ export default {
         .catch(err => {});
     },
     getReports() {
-      getGradeReports(this.conditionForm)
+      getGradeReports(compact(this.conditionForm))
         .then(res => {
           // console.log("getGradeReports", res);
           // 评分进度Pie
