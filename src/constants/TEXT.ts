@@ -222,7 +222,7 @@ export const ENUM_GENERIC_COMPLETE_STATUS = [
     value: "未完成"
   },
   {
-    key: "1",
+    key: "2",
     value: "已完成"
   }
 ];
