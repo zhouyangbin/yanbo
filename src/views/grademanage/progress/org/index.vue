@@ -139,6 +139,16 @@
           </el-table-column>
           <el-table-column prop="superior_email" :label="constants.UP_LEVEL+constants.EMAIL" width="150">
           </el-table-column>
+          <el-table-column prop="highlevel_workcode" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
+          </el-table-column>
+          <el-table-column prop="highlevel_name" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
+          </el-table-column>
+          <el-table-column prop="highlevel_department" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
+          </el-table-column>
+          <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
+          </el-table-column>
+          <el-table-column prop="_271_level" label="271等级" width="150">
+          </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
               {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
@@ -149,13 +159,10 @@
               {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
             </template>
           </el-table-column>
-          <el-table-column prop="highlevel_workcode" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
-          </el-table-column>
-          <el-table-column prop="highlevel_name" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
-          </el-table-column>
-          <el-table-column prop="highlevel_department" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
-          </el-table-column>
-          <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
+          <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
+            <template slot-scope="scope">
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
+            </template>
           </el-table-column>
           <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
             <template slot-scope="scope">
