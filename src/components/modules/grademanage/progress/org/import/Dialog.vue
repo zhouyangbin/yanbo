@@ -13,6 +13,17 @@
               </el-checkbox-group>
             </el-form-item>
           </el-form>
+          <el-table v-if="showTableEHR" class="err-table" max-height="250" :data="eHRError" style="width: 100%">
+            <el-table-column prop="workcode" label="工号">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名">
+            </el-table-column>
+            <el-table-column prop="reason" label="原因">
+              <template class="reason" slot-scope="scope">
+                {{scope.row.reason.join(" ")}}
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane :label="constants.EXCEL_IMPORT" name="second">
           <el-upload :on-success="uploadSuccess" :on-error="uploadErr" class="uploader" :headers="uploadHeader" :data="uploadData" drag :action="constants.PATH_IMPORT_BY_EXCEL">
@@ -112,7 +123,9 @@ export default {
         PATH_EXCEL_TPL
       },
       tableData: [],
-      showTable: false
+      showTable: false,
+      eHRError: [],
+      showTableEHR: false
     };
   },
   methods: {
@@ -141,7 +154,10 @@ export default {
               });
               this.close();
             })
-            .catch(e => {});
+            .catch(e => {
+              this.eHRError = e.data.data;
+              this.showTableEHR = true;
+            });
         } else {
           // console.log("error submit!!")
           return false;
