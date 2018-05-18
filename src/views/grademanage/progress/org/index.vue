@@ -68,7 +68,7 @@
           </span>
           <span>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="reminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
+            <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
             <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
@@ -562,6 +562,13 @@ export default {
   computed: {
     canbeImport() {
       return !this.depInfo.self_status;
+    },
+    canbeReminder() {
+      return (
+        (this.stage == 30 && this.canbeEdit) ||
+        (this.stage == 40 && this.depInfo.superior_status !== 2) ||
+        (this.stage == 60 && this.depInfo.feedback_status !== 2)
+      );
     },
     canbeEdit() {
       return this.depInfo.self_status != 2;
