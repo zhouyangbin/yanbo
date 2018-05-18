@@ -46,9 +46,10 @@ export default {
               color: "transparent"
             }
           },
-          formatter: function(datas) {
-            return datas[0].value + "/" + datas[1].value;
-          }
+          // formatter: function(datas) {
+          //   return datas[0].value + "/" + datas[1].value;
+          // },
+          formatter: "{c0}/{c1}"
         },
         color: ["#3BDABC", "#72b7f5"],
         xAxis: [
