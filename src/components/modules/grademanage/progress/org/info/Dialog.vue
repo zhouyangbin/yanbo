@@ -242,7 +242,7 @@ export default {
             })
               .then(res => {
                 this.$message({
-                  message: "添加成功",
+                  message: "修改成功",
                   type: "success"
                 });
                 this.close();
@@ -275,9 +275,16 @@ export default {
           }
         });
         // .catch(e => {});
+      } else {
+        this.infoForm.name = "";
+        this.infoForm.BU = "";
+        this.infoForm.dep = "";
+        this.infoForm.level = "";
+        this.infoForm.email = "";
       }
     },
     searchLeader(v) {
+      console.log(v);
       if (v != "") {
         getUserDetail({
           empID: v
@@ -294,6 +301,10 @@ export default {
             }
           })
           .catch(e => {});
+      } else {
+        this.infoForm.leaderName = "";
+        this.infoForm.leaderBU = "";
+        this.infoForm.leaderEmail = "";
       }
     },
     searchUpLeader(v) {
@@ -314,6 +325,10 @@ export default {
             }
           })
           .catch(e => {});
+      } else {
+        this.infoForm.upLeaderName = "";
+        this.infoForm.upLeaderBU = "";
+        this.infoForm.upLeaderEmail = "";
       }
     }
   },
