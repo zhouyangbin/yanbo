@@ -49,7 +49,7 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item :label="constants.FACE_EVALUATION_TIME">
+      <el-form-item :label="constants.FACE_EVALUATION_TIME" required>
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="face_start">
