@@ -26,9 +26,11 @@
               <span>{{v.topic}} - {{v.score}}分</span>
               <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
             </div>
-            <div v-for="o in (v.cases||[])" :key="o" class="text item">
-              {{ o }}
-            </div>
+            <ul>
+              <li v-for="o in (v.cases||[])" :key="o" class="text item">
+                {{ o }}
+              </li>
+            </ul>
           </el-card>
           <span v-if="(info.self_evaluation||[]).length===0">无</span>
         </div>
@@ -43,9 +45,11 @@
               <span>{{v.topic}} - {{v.score}}分</span>
               <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
             </div>
-            <div v-for="o in (v.cases||[])" :key="o" class="text item">
-              {{ o }}
-            </div>
+            <ul>
+              <li v-for="o in (v.cases||[])" :key="o" class="text item">
+                {{ o }}
+              </li>
+            </ul>
           </el-card>
           <span v-if="(info.superior_evaluation||[]).length===0">无</span>
         </div>
