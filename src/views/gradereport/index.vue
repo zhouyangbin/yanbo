@@ -145,7 +145,7 @@
           <!-- 好未来教育各分值人数-上级评 line -->
           <el-col :span="12">
             <section class="loading-container">
-              <echart-line-number :numbers="supNumbers" :color="supLineColor" :width="width"></echart-line-number>
+              <echart-line-number :isSelf="false" :numbers="supNumbers" :color="supLineColor" :width="width"></echart-line-number>
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
