@@ -551,7 +551,8 @@ export default {
           self_status: v.selfEvaluation,
           superior_status: v.leaderEvaluation,
           highlevel_status: v.plusLeaderEvaluation,
-          feedback_is_agree: v.result
+          feedback_is_agree: v.result,
+          page: 1
         };
         this.refreshList(postData);
       },
