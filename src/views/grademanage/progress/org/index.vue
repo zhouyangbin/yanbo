@@ -15,7 +15,7 @@
             <span class="dep-name">
               {{depInfo.name}}
             </span>
-            <el-button :disabled="total==0" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
+            <el-button :disabled="total==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
               {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
             </el-button>
           </el-row>
