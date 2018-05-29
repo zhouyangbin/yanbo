@@ -687,6 +687,10 @@ hr {
   font-size: 14px;
   margin-top: 10px;
 }
+.time-line-panel >>> .el-step .el-step__title div {
+  font-size: 12px;
+  padding: 10px;
+}
 .time-line-panel >>> .el-step__head.is-success {
   color: #52ddab;
   border-color: #52ddab;
