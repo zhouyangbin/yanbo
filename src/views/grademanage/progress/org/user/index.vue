@@ -189,6 +189,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  word-wrap: break-word;
 }
 .box-card {
   flex-basis: 49%;
