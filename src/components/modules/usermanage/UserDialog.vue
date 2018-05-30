@@ -120,7 +120,7 @@ export default {
       }
     },
     handleSelect(item) {
-      console.log(item);
+      // console.log(item);
       this.$emit(
         "update:userForm",
         Object.assign({}, this.userForm, {

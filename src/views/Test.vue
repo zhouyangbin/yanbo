@@ -28,21 +28,21 @@ export default {
     handleDeleteTest() {
       deleteTestApi({}, "1").then(res => {
         if (res) {
-          console.log("handleDeleteTest", res);
+          // console.log("handleDeleteTest", res);
         }
       });
     },
     handlePutTest() {
       putTestApi({ title: "foo", body: "bar", userId: 1 }, "1").then(res => {
         if (res) {
-          console.log("handlePutTest", res);
+          // console.log("handlePutTest", res);
         }
       });
     },
     handlePostTest() {
       postTestApi({ title: "foo", body: "bar", userId: 1 }, "1").then(res => {
         if (res) {
-          console.log("handlePostTest", res);
+          // console.log("handlePostTest", res);
         }
       });
     },
@@ -68,10 +68,10 @@ export default {
         ],
         function(Get, Put, Delete, Post) {
           if (Get && Put && Post && Delete) {
-            console.log("Get", Get);
-            console.log("Put", Put);
-            console.log("Delete", Delete);
-            console.log("Post", Post);
+            // console.log("Get", Get);
+            // console.log("Put", Put);
+            // console.log("Delete", Delete);
+            // console.log("Post", Post);
           }
         }
       );
