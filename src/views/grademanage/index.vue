@@ -167,10 +167,12 @@ export default {
             department_ids: this.ruleForm.dep,
             end_time: this.ruleForm.time
           };
-          postNewGrade(postData).then(res => {
-            this.createGradeDialog = false;
-            this.refreshList(this.currentPage);
-          });
+          postNewGrade(postData)
+            .then(res => {
+              this.createGradeDialog = false;
+              this.refreshList(this.currentPage);
+            })
+            .catch(e => {});
         } else {
           return false;
         }
@@ -182,21 +184,22 @@ export default {
       this.refreshList(val);
     },
     createGrade() {
-      getDepList().then(res => {
-        if (res) {
-          this.depList = res;
-          this.createGradeDialog = true;
-        }
-      });
+      getDepList()
+        .then(res => {
+          if (res) {
+            this.depList = res;
+            this.createGradeDialog = true;
+          }
+        })
+        .catch(e => {});
     },
     refreshList(page) {
-      getGradeList(page).then(res => {
-        if (res) {
-          // console.log(res)
+      getGradeList(page)
+        .then(res => {
           this.tableData = res.data.map((v, i) => ({ ...v, index: i }));
           this.total = res.total;
-        }
-      });
+        })
+        .catch(e => {});
     }
   },
   computed: {

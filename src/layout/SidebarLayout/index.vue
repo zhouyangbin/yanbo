@@ -44,14 +44,16 @@ export default {
         center: true
       })
         .then(() => {
-          logout().then(res => {
-            localStorage.setItem("talToken", "");
-            this.$router.push({ path: PATH_LOGIN });
-            this.$message({
-              type: "success",
-              message: CONST_LOGOUT_SUCCESS
-            });
-          });
+          logout()
+            .then(res => {
+              localStorage.setItem("talToken", "");
+              this.$router.push({ path: PATH_LOGIN });
+              this.$message({
+                type: "success",
+                message: CONST_LOGOUT_SUCCESS
+              });
+            })
+            .catch(e => {});
         })
         .catch(() => {
           this.$message({

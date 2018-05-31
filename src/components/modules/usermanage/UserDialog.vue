@@ -131,7 +131,7 @@ export default {
       );
     },
     changeDepartment(departmentArr) {
-      console.log(departmentArr);
+      // console.log(departmentArr);
       this.$emit(
         "update:userForm",
         Object.assign({}, this.userForm, {
