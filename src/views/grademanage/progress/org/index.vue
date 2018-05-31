@@ -53,6 +53,7 @@
                 <el-step title="未开始">
                   <template slot="title">
                     面谈{{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.feedback_status))[0]||{}).value}}
+                    <div v-if="gradeInfo.feedback_start_time">{{gradeInfo.feedback_start_time}} - {{gradeInfo.feedback_end_time}}</div>
                   </template>
                 </el-step>
               </el-steps>
