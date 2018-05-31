@@ -7,7 +7,7 @@
           <img src="@assets/img/icon_pic.png" alt="">
           <div class="info">
             <div class="me">
-              被评分人 | {{info.name}} | 等级 {{info.feed_back._271_level}}
+              被评分人 | {{info.name}} | 等级 {{info.feed_back._271_level || '无'}}
             </div>
             <div class="leader">
               {{constants.LEADER_NAME}} - {{info.superior_name}}
@@ -26,10 +26,13 @@
               <span>{{v.topic}} - {{v.score}}分</span>
               <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
             </div>
-            <div v-for="o in (v.cases||[])" :key="o" class="text item">
-              {{ o }}
-            </div>
+            <ul>
+              <li v-for="o in (v.cases||[])" :key="o" class="text item">
+                {{ o }}
+              </li>
+            </ul>
           </el-card>
+          <span v-if="(info.self_evaluation||[]).length===0">无</span>
         </div>
         <br>
         <h1>
@@ -42,17 +45,20 @@
               <span>{{v.topic}} - {{v.score}}分</span>
               <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
             </div>
-            <div v-for="o in (v.cases||[])" :key="o" class="text item">
-              {{ o }}
-            </div>
+            <ul>
+              <li v-for="o in (v.cases||[])" :key="o" class="text item">
+                {{ o }}
+              </li>
+            </ul>
           </el-card>
+          <span v-if="(info.superior_evaluation||[]).length===0">无</span>
         </div>
         <br>
         <h1>
           {{constants.EVALUATION_FEEDBACK}}
         </h1>
         <hr>
-        <div class="card-container">
+        <div v-if="info.feed_back.advantage && info.feed_back.promotion" class="card-container">
           <el-card v-for="(v,i) of feedbackInfo" :key="i" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{v.title}}</span>
@@ -63,6 +69,7 @@
             </div>
           </el-card>
         </div>
+        <span v-else>无</span>
       </div>
     </section>
   </div>
@@ -182,6 +189,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  word-wrap: break-word;
 }
 .box-card {
   flex-basis: 49%;

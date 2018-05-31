@@ -15,7 +15,7 @@
             <span class="dep-name">
               {{depInfo.name}}
             </span>
-            <el-button :disabled="total==0" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
+            <el-button :disabled="total==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
               {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
             </el-button>
           </el-row>
@@ -32,27 +32,28 @@
                 <el-step>
                   <template slot="title">
                     自评{{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.self_status))[0]||{}).value}}
-                    <span v-if="depInfo.self!='' && depInfo.count">({{depInfo.self}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.self_status>0">({{depInfo.self}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.self_start_time">{{gradeInfo.self_start_time}} - {{gradeInfo.self_end_time}}</div>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     上级评{{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.superior_status))[0]||{}).value}}
-                    <span v-if="depInfo.superior!='' && depInfo.count">({{depInfo.superior}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.superior_status>0">({{depInfo.superior}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.superior_start_time">{{gradeInfo.superior_start_time}} - {{gradeInfo.superior_end_time}}</div>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     隔级上级评{{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.highlevel_status))[0]||{}).value}}
-                    <span v-if="depInfo.highlevel!='' && depInfo.refuse !=''&& depInfo.count">({{(highlevel-refuse)}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.highlevel_status>0">({{(depInfo.highlevel-depInfo.refuse)}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.highlevel_start_time">{{gradeInfo.highlevel_start_time}} - {{gradeInfo.highlevel_end_time}}</div>
                   </template>
                 </el-step>
                 <el-step title="未开始">
                   <template slot="title">
                     面谈{{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.feedback_status))[0]||{}).value}}
+                    <div v-if="gradeInfo.feedback_start_time">{{gradeInfo.feedback_start_time}} - {{gradeInfo.feedback_end_time}}</div>
                   </template>
                 </el-step>
               </el-steps>
@@ -68,8 +69,8 @@
           </span>
           <span>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="reminder" :disabled="!canbeEdit" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true">{{constants.ADD}}</el-button>
+            <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
+            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
             <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
@@ -125,7 +126,7 @@
           </el-table-column>
           <el-table-column prop="department" :label="constants.BASE_OR_BU" width="100">
           </el-table-column>
-          <el-table-column prop="sub_department" :label="constants.DEP_OR_SUB" width="100">
+          <el-table-column prop="first_department" :label="constants.DEP_OR_SUB" width="200">
           </el-table-column>
           <el-table-column prop="level" :label="constants.WORK_LEVEL" width="100">
           </el-table-column>
@@ -139,6 +140,16 @@
           </el-table-column>
           <el-table-column prop="superior_email" :label="constants.UP_LEVEL+constants.EMAIL" width="150">
           </el-table-column>
+          <el-table-column prop="highlevel_workcode" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
+          </el-table-column>
+          <el-table-column prop="highlevel_name" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
+          </el-table-column>
+          <el-table-column prop="highlevel_department" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
+          </el-table-column>
+          <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
+          </el-table-column>
+          <el-table-column prop="_271_level" label="271等级" width="150">
+          </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
               {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
@@ -149,13 +160,10 @@
               {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
             </template>
           </el-table-column>
-          <el-table-column prop="highlevel_workcode" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
-          </el-table-column>
-          <el-table-column prop="highlevel_name" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
-          </el-table-column>
-          <el-table-column prop="highlevel_department" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
-          </el-table-column>
-          <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
+          <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
+            <template slot-scope="scope">
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
+            </template>
           </el-table-column>
           <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
             <template slot-scope="scope">
@@ -380,9 +388,9 @@ export default {
       this.$refs[formName].resetFields();
     },
     exportData() {
-      window.location.href = PATH_EXPORT_USERS_GRADE(
-        this.selection.map(v => v.id)
-      );
+      const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
+      window.open(url, "_blank");
+      // window.location.href = url
     },
     batchDel() {
       // 批量删除
@@ -504,6 +512,15 @@ export default {
           this.tableData = res.list.data;
           this.total = res.list.total;
           this.depInfo.name = res.info.department_name;
+          this.depInfo.self_status = res.info.self_status;
+          this.depInfo.superior_status = res.info.superior_status;
+          this.depInfo.highlevel_status = res.info.highlevel_status;
+          this.depInfo.feedback_status = res.info.feedback_status;
+          this.depInfo.count = res.info.stat[0].count;
+          this.depInfo.self = res.info.stat[0].self;
+          this.depInfo.superior = res.info.stat[0].superior;
+          this.depInfo.highlevel = res.info.stat[0].highlevel;
+          this.depInfo.refuse = res.info.stat[0].refuse;
           this.gradeInfo.name = res.info.evaluation_name.evaluation_name;
           this.gradeInfo.finishedDate = res.info.evaluation_name.end_time;
           this.gradeInfo.self_start_time = res.info.self_start_time;
@@ -535,7 +552,8 @@ export default {
           self_status: v.selfEvaluation,
           superior_status: v.leaderEvaluation,
           highlevel_status: v.plusLeaderEvaluation,
-          feedback_is_agree: v.result
+          feedback_is_agree: v.result,
+          page: 1
         };
         this.refreshList(postData);
       },
@@ -547,6 +565,13 @@ export default {
     canbeImport() {
       return !this.depInfo.self_status;
     },
+    canbeReminder() {
+      return (
+        (this.stage == 30 && this.canbeEdit) ||
+        (this.stage == 40 && this.depInfo.superior_status !== 2) ||
+        (this.stage == 60 && this.depInfo.feedback_status !== 2)
+      );
+    },
     canbeEdit() {
       return this.depInfo.self_status != 2;
     },
@@ -556,16 +581,28 @@ export default {
       if (stage == 10 && this.import_status == 0) {
         return 0;
       }
-      if (stage == 20 || stage == 30 || this.import_status == 2) {
+      if (stage == 20 || stage == 30) {
+        if (this.depInfo.self_status === 2) {
+          return 2;
+        }
         return 1;
       }
       if (stage == 40) {
+        if (this.depInfo.superior_status === 2) {
+          return 3;
+        }
         return 2;
       }
       if (stage == 50) {
+        if (this.depInfo.highlevel_status === 2) {
+          return 4;
+        }
         return 3;
       }
       if (stage == 60) {
+        if (this.depInfo.feedback_status === 2) {
+          return 5;
+        }
         return 4;
       }
       if (stage == 70) {
@@ -603,7 +640,8 @@ export default {
         highlevel_end_time: this.gradeInfo.highlevel_end_time,
         feedback_start_time: this.gradeInfo.feedback_start_time,
         feedback_end_time: this.gradeInfo.feedback_end_time,
-        checked_271: this.gradeInfo.checked_271
+        checked_271: this.gradeInfo.checked_271,
+        finishedDate: this.gradeInfo.finishedDate
       };
     }
   }
@@ -649,6 +687,10 @@ hr {
 .time-line-panel >>> .el-step .el-step__title {
   font-size: 14px;
   margin-top: 10px;
+}
+.time-line-panel >>> .el-step .el-step__title div {
+  font-size: 12px;
+  padding: 10px;
 }
 .time-line-panel >>> .el-step__head.is-success {
   color: #52ddab;

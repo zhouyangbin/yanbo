@@ -74,7 +74,7 @@
       </el-table>
       <br>
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+        <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
       </el-row>
     </section>
   </div>
@@ -164,21 +164,19 @@ export default {
       this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
     },
     exportFile(row) {
-      window.location.href = PATH_EXPORT_DEP_GRADE(row.id);
+      window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
     },
     refreshList(params) {
-      // console.log(this.$route.params.id)
-      getProgressList(this.$route.params.id, compact(params)).then(res => {
-        if (res) {
-          // console.log(res)
+      getProgressList(this.$route.params.id, compact(params))
+        .then(res => {
           this.gradeName = res.info.evaluation_name;
-          this.listData = res.list;
+          this.listData = res.list.data;
           this.finishedDate = res.info.end_time;
-        }
-      });
+          this.total = res.list.total;
+        })
+        .catch(e => {});
     },
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`)
       this.currentPage = val;
       const postData = {
         import_status: this.searchForm.recordStatus,
@@ -200,8 +198,9 @@ export default {
           superior_status: this.searchForm.leaderStatus,
           highlevel_status: this.searchForm.upLeaderStatus,
           feedback_status: this.searchForm.faceStatus,
-          page: this.currentPage
+          page: 1
         };
+        this.currentPage = 1;
         this.refreshList(postData);
       },
       deep: true,
@@ -226,11 +225,10 @@ hr {
 }
 .form-search {
   background-color: #f8f8f8;
-  padding: 10px;
+  padding: 20px;
+  padding-bottom: 0px;
 }
-.form-search .el-form-item {
-  margin-bottom: 0px;
-}
+
 .btn-reset {
   color: #09c981;
   border-color: #09c981;

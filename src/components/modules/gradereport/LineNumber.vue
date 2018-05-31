@@ -22,6 +22,10 @@ export default {
     width: {
       type: Number,
       default: 0
+    },
+    isSelf: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -32,6 +36,23 @@ export default {
   computed: {
     maxNum() {
       return Math.max(...this.numbers);
+    },
+    x() {
+      return this.isSelf
+        ? ["1分", "2分", "3分", "4分", "5分"]
+        : [
+            "0分",
+            "0.5分",
+            "1分",
+            "1.5分",
+            "2分",
+            "2.5分",
+            "3分",
+            "3.5分",
+            "4分",
+            "4.5分",
+            "5分"
+          ];
     },
     option: function() {
       return {
@@ -51,7 +72,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["1分", "2分", "3分", "4分", "5分"],
+          data: this.x,
           // 设置坐标轴字体颜色和宽度
           axisLine: {
             lineStyle: {
@@ -83,7 +104,7 @@ export default {
             type: "value",
             min: 0,
             max: this.maxNum,
-            interval: 50,
+            // interval: 50,
             // 是否显示Y轴线
             show: true,
             splitLine: {

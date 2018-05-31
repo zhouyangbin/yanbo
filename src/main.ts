@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import "@assets/css/common.scss";
 import Element from "element-ui";
+import "core-js/fn/promise";
 
 Vue.use(Element);
 Vue.config.productionTip = false;

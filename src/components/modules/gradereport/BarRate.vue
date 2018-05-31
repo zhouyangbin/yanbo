@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartBar" class="echart-bar" id="echart-bar"></div>
+  <div ref="echartBar" class="echart-bar" id="echart-bar"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -44,7 +44,8 @@ export default {
           },
           position: "top",
           formatter: function(data) {
-            return data.value * 100 + "%";
+            // console.log(parseFloat(data.value).toFixed(4))
+            return parseFloat(data.value * 100).toFixed(2) + "%";
           }
         },
         color: ["#3BDABC", "#72b7f5"],
@@ -112,6 +113,7 @@ export default {
           {
             type: "bar",
             data: this.rateBar,
+            // data:[0.0476],
             barWidth: 12,
             itemStyle: {
               normal: {

@@ -172,6 +172,7 @@ export const START_END_VALIDATE_MSG = "结束时间必须大于开始时间";
 export const LEADER_TIME_VALIDATE_MSG = "上级评价时间必须大于自评时间";
 export const UP_LEADER_TIME_VALIDATE_MSG = "隔级上级评价时间必须大于上级评时间";
 export const FACE_TIME_VALIDATE_MSG = "面谈时间必须大于隔级上级评价时间";
+export const FACE_TIME_OVER_GRADE_MSG = "面谈时间不能晚于评测截止时间";
 export const EMAIL_VALIATE_MSG = "请填写邮箱地址";
 export const SELF_TIME_REQUIRE_MSG = "请填写自评";
 export const LEADER_TIME_REQUIRE_MSG = "请填写上级评";
@@ -221,7 +222,7 @@ export const ENUM_GENERIC_COMPLETE_STATUS = [
     value: "未完成"
   },
   {
-    key: "1",
+    key: "2",
     value: "已完成"
   }
 ];

@@ -91,11 +91,10 @@ import {
 } from "@/constants/TEXT";
 import { PATH_GRADE_PROGRESS, PATH_EXPORT_GRADE } from "@/constants/URL";
 import { getDepList, postNewGrade, getGradeList } from "@/constants/API";
-const isAdmin = parseInt(window.localStorage.getItem("talLevel")) === 1;
+
 export default {
   data() {
     return {
-      isAdmin,
       currentPage: 1,
       total: 0,
       constants: {
@@ -153,7 +152,8 @@ export default {
     },
     exportGrade(row) {
       // console.log(row, PATH_EXPORT_GRADE(row.id))
-      window.location.href = PATH_EXPORT_GRADE(row.id);
+      // window.location.href = PATH_EXPORT_GRADE(row.id);
+      window.open(PATH_EXPORT_GRADE(row.id), "_blank");
     },
     closeDia(formName) {
       this.createGradeDialog = false;
@@ -167,10 +167,12 @@ export default {
             department_ids: this.ruleForm.dep,
             end_time: this.ruleForm.time
           };
-          postNewGrade(postData).then(res => {
-            this.createGradeDialog = false;
-            this.refreshList(this.currentPage);
-          });
+          postNewGrade(postData)
+            .then(res => {
+              this.createGradeDialog = false;
+              this.refreshList(this.currentPage);
+            })
+            .catch(e => {});
         } else {
           return false;
         }
@@ -182,21 +184,27 @@ export default {
       this.refreshList(val);
     },
     createGrade() {
-      getDepList().then(res => {
-        if (res) {
-          this.depList = res;
-          this.createGradeDialog = true;
-        }
-      });
+      getDepList()
+        .then(res => {
+          if (res) {
+            this.depList = res;
+            this.createGradeDialog = true;
+          }
+        })
+        .catch(e => {});
     },
     refreshList(page) {
-      getGradeList(page).then(res => {
-        if (res) {
-          // console.log(res)
+      getGradeList(page)
+        .then(res => {
           this.tableData = res.data.map((v, i) => ({ ...v, index: i }));
           this.total = res.total;
-        }
-      });
+        })
+        .catch(e => {});
+    }
+  },
+  computed: {
+    isAdmin() {
+      return parseInt(window.localStorage.getItem("talLevel"), 10) === 1;
     }
   },
   created() {

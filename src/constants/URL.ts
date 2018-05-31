@@ -1,7 +1,7 @@
 // 路由,路径相关
 import qs from "qs";
 
-const base = process.env.VUE_APP_API;
+const base = process.env.VUE_APP_API_URL;
 
 export const PATH_GRADE_REPORT = "/gradereport";
 export const PATH_GRADE_MANAGE = "/grademanage";
@@ -17,18 +17,27 @@ export const PATH_GRADE_EMP_DETAIL = (
 export const PATH_LOGIN = "/login";
 // 导出评测
 export const PATH_EXPORT_GRADE = (id: string) =>
-  `${base}/admin/api/export/evaluation/${id}`;
+  `${base}admin/api/export/evaluation/${id}?token=${localStorage.getItem(
+    "talToken"
+  )}`;
 // 导出部门的评测
 export const PATH_EXPORT_DEP_GRADE = (id: string) =>
-  `${base}/admin/api/export/department/${id}`;
+  `${base}admin/api/export/department/${id}?token=${localStorage.getItem(
+    "talToken"
+  )}`;
 // 导出选择人的评测
 export const PATH_EXPORT_USERS_GRADE = (ids: Array<string>) =>
-  `${base}/admin/api/export/users?${qs.stringify(
-    { "ids[]": ids },
+  `${base}admin/api/export/users?${qs.stringify(
+    { "ids[]": ids, token: localStorage.getItem("talToken") },
     { arrayFormat: "brackets" }
   )}`;
 // excel方式导入user
-export const PATH_IMPORT_BY_EXCEL = `${base}/admin/api/import/excel`;
+export const PATH_IMPORT_BY_EXCEL = `${base}admin/api/import/excel`;
+
+// excel模板下载
+export const PATH_EXCEL_TPL = `${base}/admin/api/export/template?token=${localStorage.getItem(
+  "talToken"
+)}`;
 
 export const PATH_ABOUT = "/about";
 export const PATH_TEST = "/test";

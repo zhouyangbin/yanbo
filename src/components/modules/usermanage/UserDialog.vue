@@ -10,7 +10,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-cascader :value="department" @change="changeDepartment" :options="departments" change-on-select :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader>
+        <el-cascader :value="department" @change="changeDepartment" :options="departments" :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader>
       </el-form-item>
     </el-form>
     <span slot="footer">
@@ -120,7 +120,7 @@ export default {
       }
     },
     handleSelect(item) {
-      console.log(item);
+      // console.log(item);
       this.$emit(
         "update:userForm",
         Object.assign({}, this.userForm, {
@@ -131,6 +131,7 @@ export default {
       );
     },
     changeDepartment(departmentArr) {
+      // console.log(departmentArr);
       this.$emit(
         "update:userForm",
         Object.assign({}, this.userForm, {
