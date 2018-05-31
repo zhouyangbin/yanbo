@@ -259,22 +259,23 @@ export default {
       if (v != "") {
         getUserDetail({
           empID: v
-        }).then(res => {
-          if (res) {
-            this.infoForm.name = res.name;
-            this.infoForm.BU = res.department;
-            this.infoForm.dep = res.first_department;
-            this.infoForm.level = res.level;
-            this.infoForm.email = res.email;
-          } else {
-            this.infoForm.name = "";
-            this.infoForm.BU = "";
-            this.infoForm.dep = "";
-            this.infoForm.level = "";
-            this.infoForm.email = "";
-          }
-        });
-        // .catch(e => {});
+        })
+          .then(res => {
+            if (res) {
+              this.infoForm.name = res.name;
+              this.infoForm.BU = res.department;
+              this.infoForm.dep = res.first_department;
+              this.infoForm.level = res.level;
+              this.infoForm.email = res.email;
+            } else {
+              this.infoForm.name = "";
+              this.infoForm.BU = "";
+              this.infoForm.dep = "";
+              this.infoForm.level = "";
+              this.infoForm.email = "";
+            }
+          })
+          .catch(e => {});
       } else {
         this.infoForm.name = "";
         this.infoForm.BU = "";
@@ -284,7 +285,7 @@ export default {
       }
     },
     searchLeader(v) {
-      console.log(v);
+      // console.log(v);
       if (v != "") {
         getUserDetail({
           empID: v

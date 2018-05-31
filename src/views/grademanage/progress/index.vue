@@ -167,14 +167,14 @@ export default {
       window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
     },
     refreshList(params) {
-      getProgressList(this.$route.params.id, compact(params)).then(res => {
-        if (res) {
+      getProgressList(this.$route.params.id, compact(params))
+        .then(res => {
           this.gradeName = res.info.evaluation_name;
           this.listData = res.list.data;
           this.finishedDate = res.info.end_time;
           this.total = res.list.total;
-        }
-      });
+        })
+        .catch(e => {});
     },
     handleCurrentChange(val) {
       this.currentPage = val;
