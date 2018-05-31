@@ -104,7 +104,7 @@ export default {
             type: "value",
             min: 0,
             max: this.maxNum,
-            interval: 50,
+            // interval: 50,
             // 是否显示Y轴线
             show: true,
             splitLine: {
