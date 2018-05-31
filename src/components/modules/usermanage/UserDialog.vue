@@ -1,0 +1,150 @@
+<template>
+  <el-dialog :title="title" :visible.sync="visible" width="25%" center :before-close="closeDialog">
+    <el-form class="user-form">
+      <el-form-item>
+        <el-autocomplete v-model="userForm.email" :fetch-suggestions="querySearchAsync" :placeholder="constants.LABEL_TAL_EMAIL" @select="handleSelect" style="width:100%" :disabled="disabled" :autofocus="true"></el-autocomplete>
+      </el-form-item>
+
+      <el-form-item>
+        <el-input type="text" v-model="userForm.name" :placeholder="constants.LABEL_NAME" auto-complete="off" disabled></el-input>
+      </el-form-item>
+
+      <el-form-item>
+        <el-cascader :value="department" @change="changeDepartment" :options="departments" :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader>
+      </el-form-item>
+    </el-form>
+    <span slot="footer">
+      <el-button type="primary" round @click="handelSubmit">{{constants.LABEL_CONFIRM}}</el-button>
+      <el-button round @click="closeDialog">{{constants.LABEL_CANCEL}}</el-button>
+    </span>
+  </el-dialog>
+</template>
+<script>
+import {
+  LABEL_NAME,
+  LABEL_TAL_EMAIL,
+  LABEL_DEPARTMENT,
+  LABEL_CONFIRM,
+  LABEL_CANCEL
+} from "@/constants/TEXT";
+import { searchManager } from "@/constants/API";
+export default {
+  data() {
+    return {
+      constants: {
+        LABEL_NAME,
+        LABEL_TAL_EMAIL,
+        LABEL_DEPARTMENT,
+        LABEL_CONFIRM,
+        LABEL_CANCEL
+      }
+    };
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    title: {
+      type: String,
+      default: "用户信息"
+    },
+    userForm: {
+      type: Object,
+      default: () => ({ email: "", name: "", department_id: "", empID: "" })
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    submit: {
+      type: Function,
+      default: () => function() {}
+    },
+    departments: {
+      type: Array,
+      default: () => []
+    },
+    department: {
+      type: Array,
+      default: () => []
+    }
+  },
+  methods: {
+    closeDialog() {
+      this.$emit("update:visible", false);
+    },
+    handelSubmit() {
+      if (
+        !this.userForm.email ||
+        !this.userForm.name ||
+        !this.userForm.department_id
+      ) {
+        this.$message({
+          message: "企业邮箱、姓名、部门都是必填项哦！",
+          type: "warning"
+        });
+        return;
+      }
+      this.submit().then(res => {
+        this.closeDialog();
+      });
+    },
+    querySearchAsync(queryString, cb) {
+      // 内容输入变更就清楚name
+      this.$emit(
+        "update:userForm",
+        Object.assign({}, this.userForm, { name: "" })
+      );
+      if (queryString) {
+        searchManager({ email: queryString })
+          .then(res => {
+            if (res) {
+              for (var i = res.length - 1; i >= 0; i--) {
+                res[i].value =
+                  res[i].name +
+                  " - " +
+                  res[i].workcode +
+                  " - " +
+                  res[i].department;
+              }
+              cb(res);
+            }
+          })
+          .catch(err => {
+            cb([]);
+          });
+      } else {
+        // 从有内容删减到无内容时不要搜索
+        cb([]);
+      }
+    },
+    handleSelect(item) {
+      // console.log(item);
+      this.$emit(
+        "update:userForm",
+        Object.assign({}, this.userForm, {
+          email: item.email,
+          name: item.name,
+          empID: item.workcode
+        })
+      );
+    },
+    changeDepartment(departmentArr) {
+      // console.log(departmentArr);
+      this.$emit(
+        "update:userForm",
+        Object.assign({}, this.userForm, {
+          department_id: departmentArr[departmentArr.length - 1]
+        })
+      );
+    }
+  }
+};
+</script>
+
+<style>
+.user-form {
+  padding: 0 20px;
+}
+</style>

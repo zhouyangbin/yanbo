@@ -1,15 +1,18 @@
 {
-  "name": "myvuelic",
+  "name": "pingfen-pc",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open ",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "dev-build": "vue-cli-service build --mode development",
+    "staging-build": "vue-cli-service build --mode staging",
+    "lint": "vue-cli-service lint --fix",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.1.0",
     "element-ui": "^2.3.4",
     "qs": "^6.5.1",
     "vue": "^2.5.13",
