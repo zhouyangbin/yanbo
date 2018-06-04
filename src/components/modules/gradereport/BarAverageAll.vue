@@ -8,6 +8,8 @@ import echarts from "echarts/lib/echarts";
 import "echarts/lib/chart/bar";
 // 提示框和标题
 import "echarts/lib/component/tooltip";
+// dataZoom
+import "echarts/lib/component/dataZoom";
 export default {
   props: {
     selfAverage: {
@@ -75,7 +77,7 @@ export default {
             },
             axisLabel: {
               // 横轴信息全部显示
-              interval: 0,
+              // interval: 0,
               // -30度角倾斜显示
               rotate: -18,
               textStyle: {
@@ -119,6 +121,11 @@ export default {
             axisTick: {
               show: false
             }
+          }
+        ],
+        dataZoom: [
+          {
+            type: "slider"
           }
         ],
         series: [
