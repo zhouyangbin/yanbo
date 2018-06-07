@@ -32,7 +32,7 @@
         <el-table-column prop="operation" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button @click="exportGrade(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <!-- <el-button @click="exportGrade(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button> -->
           </template>
         </el-table-column>
       </el-table>
