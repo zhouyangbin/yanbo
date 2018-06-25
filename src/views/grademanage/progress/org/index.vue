@@ -46,7 +46,7 @@
                 <el-step>
                   <template slot="title">
                     隔级上级评{{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.highlevel_status))[0]||{}).value}}
-                    <span v-if="depInfo.highlevel_status>0">({{(depInfo.highlevel-depInfo.refuse)}}/{{depInfo.count}})</span>
+                    <span v-if="depInfo.highlevel_status>0">({{(depInfo.highlevel)}}/{{depInfo.count}})</span>
                     <div v-if="gradeInfo.highlevel_start_time">{{gradeInfo.highlevel_start_time}} - {{gradeInfo.highlevel_end_time}}</div>
                   </template>
                 </el-step>
