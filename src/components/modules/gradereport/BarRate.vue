@@ -8,6 +8,8 @@ import echarts from "echarts/lib/echarts";
 import "echarts/lib/chart/bar";
 // 提示框和标题
 import "echarts/lib/component/tooltip";
+// dataZoom
+import "echarts/lib/component/dataZoom";
 export default {
   props: {
     rateBar: {
@@ -32,7 +34,7 @@ export default {
     option: function() {
       return {
         tooltip: {
-          trigger: "item",
+          trigger: "axis",
           axisPointer: {
             type: "shadow",
             crossStyle: {
@@ -44,8 +46,11 @@ export default {
           },
           position: "top",
           formatter: function(data) {
-            // console.log(parseFloat(data.value).toFixed(4))
-            return parseFloat(data.value * 100).toFixed(2) + "%";
+            if (data[0] && !data[0].data) {
+              return "0%";
+            } else {
+              return parseFloat(data[0].data * 100).toFixed(2) + "%";
+            }
           }
         },
         color: ["#3BDABC", "#72b7f5"],
@@ -55,7 +60,7 @@ export default {
             data: this.completionBuNams,
             axisLabel: {
               // 横轴信息全部显示
-              interval: 0,
+              // interval: 0,
               // -30度角倾斜显示
               rotate: -18,
               textStyle: {
@@ -107,6 +112,11 @@ export default {
             axisTick: {
               show: false
             }
+          }
+        ],
+        dataZoom: [
+          {
+            type: "slider"
           }
         ],
         series: [
