@@ -6,6 +6,7 @@ const base = process.env.VUE_APP_API_URL;
 export const PATH_GRADE_REPORT = "/gradereport";
 export const PATH_GRADE_MANAGE = "/grademanage";
 export const PATH_USER_MANAGE = "/userManage";
+
 export const PATH_GRADE_PROGRESS = (id = ":id") => `${PATH_GRADE_MANAGE}/${id}`;
 export const PATH_GRADE_ORG_LIST = (testID = ":id", orgID = ":orgID") =>
   `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}`;
@@ -39,6 +40,9 @@ export const PATH_EXCEL_TPL = `${base}/admin/api/export/template?token=${localSt
   "talToken"
 )}`;
 
-export const PATH_ABOUT = "/about";
-export const PATH_TEST = "/test";
-export const PATH_AUTH = "/auth";
+export const PATH_PERFORMANCE_REPORT = "/performance/report";
+export const PATH_PERFORMANCE_MANAGER = "/performance/manage";
+export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
+  `${PATH_PERFORMANCE_MANAGER}/${id}`;
+export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
+  `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;

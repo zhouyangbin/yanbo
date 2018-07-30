@@ -8,6 +8,18 @@
       <i class="el-icon-edit-outline"></i>
       <span slot="title">{{constants.GRADE_MANAGE}}</span>
     </el-menu-item>
+    <el-submenu :index="constants.PATH_PERFORMANCE_REPORT">
+      <template slot="title">
+        <i class="el-icon-view"></i>
+        <span>{{constants.PERFORMANCE_GRADE}}</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_REPORT].includes($route.path)}" :index="constants.PATH_PERFORMANCE_REPORT">{{constants.GRADE_REPORT}}</el-menu-item>
+        <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_MANAGER].includes($route.path)}" :index="constants.PATH_PERFORMANCE_MANAGER">{{constants.GRADE_MANAGE}}</el-menu-item>
+        <el-menu-item index="1-2">用户管理</el-menu-item>
+        <el-menu-item index="1-2">规则设置</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
     <el-menu-item :index="constants.PATH_USER_MANAGE" v-show="level==1">
       <i class="el-icon-setting"></i>
       <span slot="title">{{constants.USER_MANAGE}}</span>
@@ -15,14 +27,22 @@
   </el-menu>
 </template>
 <script>
-import { GRADE_REPORT, GRADE_MANAGE, USER_MANAGE } from "@/constants/TEXT";
+// FIXME: 导航设置
+import {
+  GRADE_REPORT,
+  GRADE_MANAGE,
+  USER_MANAGE,
+  PERFORMANCE_GRADE
+} from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
   PATH_GRADE_MANAGE,
   PATH_USER_MANAGE,
   PATH_GRADE_PROGRESS,
   PATH_GRADE_ORG_LIST,
-  PATH_GRADE_EMP_DETAIL
+  PATH_GRADE_EMP_DETAIL,
+  PATH_PERFORMANCE_REPORT,
+  PATH_PERFORMANCE_MANAGER
 } from "@/constants/URL";
 
 export default {
@@ -37,7 +57,10 @@ export default {
         PATH_USER_MANAGE,
         PATH_GRADE_PROGRESS,
         PATH_GRADE_ORG_LIST,
-        PATH_GRADE_EMP_DETAIL
+        PATH_GRADE_EMP_DETAIL,
+        PATH_PERFORMANCE_REPORT,
+        PERFORMANCE_GRADE,
+        PATH_PERFORMANCE_MANAGER
       },
       level: 0
     };

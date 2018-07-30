@@ -1,29 +1,30 @@
-import {
-  NAV_AUTH_PAGE,
-  NAV_TEST_PAGE,
-  NAV_ABOUT_MODULE,
-  NAV_ABOUT_MODULE_SUB_PAGE,
-  NAV_FORM_CHILE_PAGE,
-  NAV_FORM_MODULE,
-  NAV_HOME_PAGE,
-  NAV_HOME_SUB_PAGE,
-  NAV_TABLE_MODULE,
-  NAV_TANLE_MODULE_SUB_PAGE
-} from "@/constants/TEXT";
-import Auth from "@/utils/auth";
+// import {
+//   NAV_AUTH_PAGE,
+//   NAV_TEST_PAGE,
+//   NAV_ABOUT_MODULE,
+//   NAV_ABOUT_MODULE_SUB_PAGE,
+//   NAV_FORM_CHILE_PAGE,
+//   NAV_FORM_MODULE,
+//   NAV_HOME_PAGE,
+//   NAV_HOME_SUB_PAGE,
+//   NAV_TABLE_MODULE,
+//   NAV_TANLE_MODULE_SUB_PAGE
+// } from "@/constants/TEXT";
+// import Auth from "@/utils/auth";
 import Vue from "vue";
 import Router from "vue-router";
 import {
-  // PATH_ABOUT,
-  // PATH_TEST,
-  // PATH_AUTH,
   PATH_LOGIN,
   PATH_GRADE_REPORT,
   PATH_GRADE_MANAGE,
   PATH_USER_MANAGE,
   PATH_GRADE_PROGRESS,
   PATH_GRADE_ORG_LIST,
-  PATH_GRADE_EMP_DETAIL
+  PATH_GRADE_EMP_DETAIL,
+  PATH_PERFORMANCE_REPORT,
+  PATH_PERFORMANCE_MANAGER,
+  PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_ORG_LIST
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -79,6 +80,35 @@ const router = new Router({
           path: PATH_USER_MANAGE,
           components: {
             default: () => import("@/views/usermanage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_REPORT,
+          components: {
+            default: () => import("@/views/performance/report/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_MANAGER,
+          components: {
+            default: () => import("@/views/performance/manage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_PROGRESS(),
+          components: {
+            default: () => import("@/views/performance/manage/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_ORG_LIST(),
+          components: {
+            default: () =>
+              import("@/views/performance/manage/list/org/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
