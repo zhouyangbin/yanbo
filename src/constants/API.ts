@@ -2,41 +2,14 @@
  * api 都集中在这里
  * https://jsonplaceholder.typicode.com/posts/1
  * */
-import {
-  sendAll,
-  sendDelete,
-  sendGet,
-  sendPost,
-  sendPut,
-  sendPatch
-} from "@/utils/base";
-
-let TEST_GET_URL = "http://www.zhiyinlou.com/theme/index.css";
-let TEST_DELETE_URL = "https://jsonplaceholder.typicode.com/posts/";
-let DEMO_TABLE_DATA_URL = "/table.json";
-
-export const getTestApi = () => {
-  return sendGet(`${TEST_GET_URL}`);
-};
-export const deleteTestApi = (params: object, id: string) => {
-  return sendDelete(`${TEST_DELETE_URL}${id}`, params);
-};
-export const putTestApi = (params: object, id: string) => {
-  return sendPut(`${TEST_DELETE_URL}${id}`, params);
-};
-export const postTestApi = (params: object, id: string) => {
-  return sendPost(`${TEST_DELETE_URL}`, params);
-};
-export const allTestApi = (iterable: any[], callback: () => Promise<any>) => {
-  return sendAll(iterable, callback);
-};
-export const getDemoTableDataApi = () => {
-  return sendGet(`${DEMO_TABLE_DATA_URL}`);
-};
+import { sendDelete, sendGet, sendPost, sendPatch } from "@/utils/base";
 
 // 用户管理
 // 登录
-export const login = (data: object) => sendPost("/admin/api/login", data);
+export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
+// 扫码登录
+
+// export const qrLogin = (data: object) => sendPost("/api/login", data);
 // 退出
 export const logout = () => {
   return sendPost("/admin/api/logout", {});
