@@ -11,7 +11,7 @@
         <el-cascader style="width:400px" placeholder="选择事业部" :options="options" v-model="tplForm.dp " change-on-select></el-cascader>
       </el-form-item>
       <el-form-item label="绩效类型" prop="types">
-        <el-select v-model="tplForm.types " placeholder="请选择活动区域 ">
+        <el-select v-model="tplForm.types" placeholder="请选择活动区域 ">
           <el-option label="区域一 " value="shanghai "></el-option>
           <el-option label="区域二 " value="beijing "></el-option>
         </el-select>
