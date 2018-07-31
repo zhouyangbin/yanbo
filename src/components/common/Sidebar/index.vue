@@ -34,7 +34,7 @@ import {
   USER_MANAGE,
   PERFORMANCE_GRADE,
   TPL_SETTING
-} from "@/constants/TEXT"
+} from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
   PATH_GRADE_MANAGE,
@@ -45,7 +45,7 @@ import {
   PATH_PERFORMANCE_REPORT,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_TPL
-} from "@/constants/URL"
+} from "@/constants/URL";
 
 export default {
   data() {
@@ -67,26 +67,26 @@ export default {
         PATH_PERFORMANCE_TPL
       },
       level: 0
-    }
+    };
   },
   created() {
-    this.level = localStorage.getItem("talLevel")
+    this.level = localStorage.getItem("talLevel");
   }
-}
+};
 </script>
 
 <style scoped>
-  .menu-list >>> .el-menu-item {
-    position: relative;
-  }
-  .menu-list >>> .el-menu-item:hover::after,
-  .menu-list >>> .el-menu-item.is-active::after {
-    position: absolute;
-    content: "";
-    width: 4px;
-    left: 0;
-    top: 0px;
-    background-color: rgb(76, 233, 195);
-    height: 100%;
-  }
+.menu-list >>> .el-menu-item {
+  position: relative;
+}
+.menu-list >>> .el-menu-item:hover::after,
+.menu-list >>> .el-menu-item.is-active::after {
+  position: absolute;
+  content: "";
+  width: 4px;
+  left: 0;
+  top: 0px;
+  background-color: rgb(76, 233, 195);
+  height: 100%;
+}
 </style>
