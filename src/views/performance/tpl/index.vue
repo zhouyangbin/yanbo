@@ -8,7 +8,7 @@
             <el-input v-model="tplForm.name" placeholder="模板名称"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-cascader placeholder="选择事业部" :options="options " style="width:400px; " v-model="tplForm.dp " change-on-select></el-cascader>
+            <el-cascader placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader>
           </el-form-item>
         </el-form>
         <el-button type="primary" @click="showDialog=true" round>新增</el-button>
