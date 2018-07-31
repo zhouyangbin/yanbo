@@ -6,10 +6,10 @@ import { sendDelete, sendGet, sendPost, sendPatch } from "@/utils/base";
 
 // 用户管理
 // 登录
-export const login = (data: object) => sendPost("/admin/api/login", data);
+export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
 // 扫码登录
 
-export const qrLogin = (data: object) => sendPost("/api/login", data);
+// export const qrLogin = (data: object) => sendPost("/api/login", data);
 // 退出
 export const logout = () => {
   return sendPost("/admin/api/logout", {});
