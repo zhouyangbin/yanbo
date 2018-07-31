@@ -64,6 +64,17 @@ import { PATH_GRADE_REPORT } from "@/constants/URL";
 // } from "@/constants/TEXT"
 import { qrLogin } from "@/constants/API";
 import qs from "qs";
+import { PATH_GRADE_REPORT } from "@/constants/URL"
+// import {
+//   LABEL_LOGIN,
+//   LABEL_LOGIN_EMAIL,
+//   LABEL_LOGIN_EMAIL_MSG,
+//   LABEL_LOGIN_PASSWORD,
+//   LABEL_LOGIN_PASSWORD_MSG,
+//   LABEL_LOGIN_REMEMBER_USER
+// } from "@/constants/TEXT"
+import { qrLogin } from "@/constants/API"
+import qs from "qs"
 
 export default {
   data() {
@@ -90,31 +101,34 @@ export default {
       // },
       // 记录用户名
       // loginRemember: false
-    };
+    }
   },
   created() {
     // console.log(window.location.search)
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
-    });
+    })
 
     if (querys.token) {
       // FIXME: get the our token && router && save to localStorage
       // console.log(querys.token)
       qrLogin({ token: querys.token }).then(res => {
-        console.log(res);
-      });
+        localStorage.setItem("talEmail", res.admin.email)
+        localStorage.setItem("talToken", res.token)
+        localStorage.setItem("talLevel", res.admin.level)
+        this.$router.push({ path: PATH_GRADE_REPORT })
+      })
     }
     tinfo.init({
-      appid: "113754250",
+      appid: process.env.VUE_APP_APP_ID,
       appname: "评分系统"
-    });
+    })
     tinfo.sso.show("embed", "qr_scan", {
       style: {
         //  '.login-form-title':'display:none'
       },
       title: "钉钉登录评分系统"
-    });
+    })
 
     // this.loginForm = Object.assign({}, this.loginForm, {
     //   email: localStorage.getItem("loginEmail")
@@ -145,39 +159,39 @@ export default {
     //   })
     // }
   }
-};
+}
 </script>
 
 <style scoped>
-.login {
-  width: 100%;
-  height: 100%;
-  background-image: url(../../assets/img/login_bg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.row-bg,
-.col-bg {
-  height: 100%;
-}
-.login-logo {
-  padding: 40px 35px;
-}
-.login-form {
-  background-color: #fff;
-  border-radius: 5px;
-}
-.login-form-title {
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  font-size: 16px;
-  text-align: center;
-}
-.login-form-main {
-  padding-left: 25px;
-  padding-right: 25px;
-}
-.el-button {
-  width: 100%;
-}
+  .login {
+    width: 100%;
+    height: 100%;
+    background-image: url(../../assets/img/login_bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .row-bg,
+  .col-bg {
+    height: 100%;
+  }
+  .login-logo {
+    padding: 40px 35px;
+  }
+  .login-form {
+    background-color: #fff;
+    border-radius: 5px;
+  }
+  .login-form-title {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+  }
+  .login-form-main {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .el-button {
+    width: 100%;
+  }
 </style>
