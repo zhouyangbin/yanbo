@@ -198,6 +198,7 @@ export const UPLOAD_FAIL = "上传失败";
 
 export const TPL_SETTING = "模板设置";
 export const TPL = "模板";
+export const RULES_SETTING = "规则设置";
 
 export const ENUM_RECORD_STATUS = [
   {

@@ -13,12 +13,10 @@
         <i class="el-icon-view"></i>
         <span>{{constants.PERFORMANCE_GRADE}}</span>
       </template>
-      <el-menu-item-group>
-        <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_REPORT].includes($route.path)}" :index="constants.PATH_PERFORMANCE_REPORT">{{constants.GRADE_REPORT}}</el-menu-item>
-        <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_MANAGER].includes($route.path)}" :index="constants.PATH_PERFORMANCE_MANAGER">{{constants.GRADE_MANAGE}}</el-menu-item>
-        <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_TPL].includes($route.path)}" :index="constants.PATH_PERFORMANCE_TPL">{{constants.TPL_SETTING}}</el-menu-item>
-        <el-menu-item index="1-2">规则设置</el-menu-item>
-      </el-menu-item-group>
+      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_REPORT].includes($route.path)}" :index="constants.PATH_PERFORMANCE_REPORT">{{constants.GRADE_REPORT}}</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_MANAGER].includes($route.path)}" :index="constants.PATH_PERFORMANCE_MANAGER">{{constants.GRADE_MANAGE}}</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_TPL].includes($route.path)}" :index="constants.PATH_PERFORMANCE_TPL">{{constants.TPL_SETTING}}</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_RULES].includes($route.path)}" :index="constants.PATH_PERFORMANCE_RULES">{{constants.RULES_SETTING}}</el-menu-item>
     </el-submenu>
     <el-menu-item :index="constants.PATH_USER_MANAGE" v-show="level==1">
       <i class="el-icon-setting"></i>
@@ -33,8 +31,9 @@ import {
   GRADE_MANAGE,
   USER_MANAGE,
   PERFORMANCE_GRADE,
-  TPL_SETTING
-} from "@/constants/TEXT";
+  TPL_SETTING,
+  RULES_SETTING
+} from "@/constants/TEXT"
 import {
   PATH_GRADE_REPORT,
   PATH_GRADE_MANAGE,
@@ -44,8 +43,9 @@ import {
   PATH_GRADE_EMP_DETAIL,
   PATH_PERFORMANCE_REPORT,
   PATH_PERFORMANCE_MANAGER,
-  PATH_PERFORMANCE_TPL
-} from "@/constants/URL";
+  PATH_PERFORMANCE_TPL,
+  PATH_PERFORMANCE_RULES
+} from "@/constants/URL"
 
 export default {
   data() {
@@ -64,29 +64,31 @@ export default {
         PERFORMANCE_GRADE,
         PATH_PERFORMANCE_MANAGER,
         TPL_SETTING,
-        PATH_PERFORMANCE_TPL
+        PATH_PERFORMANCE_TPL,
+        PATH_PERFORMANCE_RULES,
+        RULES_SETTING
       },
       level: 0
-    };
+    }
   },
   created() {
-    this.level = localStorage.getItem("talLevel");
+    this.level = localStorage.getItem("talLevel")
   }
-};
+}
 </script>
 
 <style scoped>
-.menu-list >>> .el-menu-item {
-  position: relative;
-}
-.menu-list >>> .el-menu-item:hover::after,
-.menu-list >>> .el-menu-item.is-active::after {
-  position: absolute;
-  content: "";
-  width: 4px;
-  left: 0;
-  top: 0px;
-  background-color: rgb(76, 233, 195);
-  height: 100%;
-}
+  .menu-list >>> .el-menu-item {
+    position: relative;
+  }
+  .menu-list >>> .el-menu-item:hover::after,
+  .menu-list >>> .el-menu-item.is-active::after {
+    position: absolute;
+    content: "";
+    width: 4px;
+    left: 0;
+    top: 0px;
+    background-color: rgb(76, 233, 195);
+    height: 100%;
+  }
 </style>

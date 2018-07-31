@@ -1,16 +1,3 @@
-// import {
-//   NAV_AUTH_PAGE,
-//   NAV_TEST_PAGE,
-//   NAV_ABOUT_MODULE,
-//   NAV_ABOUT_MODULE_SUB_PAGE,
-//   NAV_FORM_CHILE_PAGE,
-//   NAV_FORM_MODULE,
-//   NAV_HOME_PAGE,
-//   NAV_HOME_SUB_PAGE,
-//   NAV_TABLE_MODULE,
-//   NAV_TANLE_MODULE_SUB_PAGE
-// } from "@/constants/TEXT";
-// import Auth from "@/utils/auth";
 import Vue from "vue";
 import Router from "vue-router";
 import {
@@ -25,7 +12,8 @@ import {
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
   PATH_PERFORMANCE_ORG_LIST,
-  PATH_PERFORMANCE_TPL
+  PATH_PERFORMANCE_TPL,
+  PATH_PERFORMANCE_RULES
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -117,6 +105,13 @@ const router = new Router({
           path: PATH_PERFORMANCE_TPL,
           components: {
             default: () => import("@/views/performance/tpl/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_RULES,
+          components: {
+            default: () => import("@/views/performance/rules/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
