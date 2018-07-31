@@ -305,7 +305,7 @@ export default {
         MODIFY_TIMES,
         PATH_GRADE_EMP_DETAIL
       },
-      tableData: [],
+      tableData: [{}],
       nav: [
         {
           label: GRADE_MANAGE,

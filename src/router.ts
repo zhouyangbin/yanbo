@@ -24,7 +24,8 @@ import {
   PATH_PERFORMANCE_REPORT,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
-  PATH_PERFORMANCE_ORG_LIST
+  PATH_PERFORMANCE_ORG_LIST,
+  PATH_PERFORMANCE_TPL
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -109,6 +110,13 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/performance/manage/list/org/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TPL,
+          components: {
+            default: () => import("@/views/performance/tpl/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

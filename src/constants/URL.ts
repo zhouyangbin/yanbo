@@ -42,6 +42,7 @@ export const PATH_EXCEL_TPL = `${base}/admin/api/export/template?token=${localSt
 
 export const PATH_PERFORMANCE_REPORT = "/performance/report";
 export const PATH_PERFORMANCE_MANAGER = "/performance/manage";
+export const PATH_PERFORMANCE_TPL = "/performance/tpl";
 export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}`;
 export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>

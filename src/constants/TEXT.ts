@@ -196,6 +196,9 @@ export const TOKEN_EXPIRE = "登录信息已过期,请重新登录";
 export const UPLOAD_SUCCESS = "上传成功";
 export const UPLOAD_FAIL = "上传失败";
 
+export const TPL_SETTING = "模板设置";
+export const TPL = "模板";
+
 export const ENUM_RECORD_STATUS = [
   {
     key: "0",
