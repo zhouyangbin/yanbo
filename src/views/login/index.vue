@@ -102,9 +102,7 @@ export default {
       // FIXME: get the our token && router && save to localStorage
       // console.log(querys.token)
       qrLogin({ token: querys.token }).then(res => {
-        console.log(res)
-        // localStorage.setItem("loginEmail", loginEmail)
-        localStorage.setItem("talEmail", res.email)
+        localStorage.setItem("talEmail", res.admin.email)
         localStorage.setItem("talToken", res.token)
         localStorage.setItem("talLevel", res.admin.level)
         this.$router.push({ path: PATH_GRADE_REPORT })
