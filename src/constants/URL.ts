@@ -3,8 +3,8 @@ import qs from "qs";
 
 const base = process.env.VUE_APP_API_URL;
 
-export const PATH_GRADE_REPORT = "/gradereport";
-export const PATH_GRADE_MANAGE = "/grademanage";
+export const PATH_GRADE_REPORT = "/culture/gradereport";
+export const PATH_GRADE_MANAGE = "/culture/grademanage";
 export const PATH_USER_MANAGE = "/access/user";
 
 export const PATH_GRADE_PROGRESS = (id = ":id") => `${PATH_GRADE_MANAGE}/${id}`;
