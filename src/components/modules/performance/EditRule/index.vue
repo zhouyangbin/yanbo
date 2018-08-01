@@ -3,7 +3,7 @@
     <div slot="title" class="title">
       部门名字
     </div>
-    <el-form :rules="rules" label-width="100px" ref="ruleForm" :model="ruleForm" class="ruleForm">
+    <el-form :rules="rules" label-width="150px" ref="ruleForm" :model="ruleForm" class="ruleForm">
       <el-form-item label="是否强制对应" prop="isMapping">
         <el-radio-group v-model="ruleForm.isMapping">
           <el-radio :label="3">是</el-radio>
@@ -15,21 +15,21 @@
         <span>D</span>
         <span>对应</span>
         <div>
-          <el-slider tooltip-class="tooltip" style="width:400px" :max="499" v-model="D" :format-tooltip="formatTooltip"></el-slider>
+          <el-slider tooltip-class="tooltip" style="width:400px" :max="496" v-model="D" :format-tooltip="formatTooltip"></el-slider>
         </div>
       </div>
       <div class="mapping-container">
         <span>C</span>
         <span>对应</span>
         <div>
-          <el-slider tooltip-class="tooltip" range :min="1" :max="499" style="width:400px" v-model="C" :format-tooltip="formatTooltip"></el-slider>
+          <el-slider tooltip-class="tooltip" range :min="1" :max="497" style="width:400px" v-model="C" :format-tooltip="formatTooltip"></el-slider>
         </div>
       </div>
       <div class="mapping-container">
         <span>B</span>
         <span>对应</span>
         <div>
-          <el-slider tooltip-class="tooltip" range :min="2" :max="499" style="width:400px" v-model="B" :format-tooltip="formatTooltip"></el-slider>
+          <el-slider tooltip-class="tooltip" range :min="2" :max="498" style="width:400px" v-model="B" :format-tooltip="formatTooltip"></el-slider>
         </div>
       </div>
       <div class="mapping-container">
@@ -74,7 +74,9 @@ export default {
       B: [201, 300],
       A: [301, 400],
       S: [401, 500],
-      rules: {},
+      rules: {
+        isMapping: [{ required: true, message: "请选择类型", trigger: "blur" }]
+      },
       constants: {
         CONFIRM,
         CANCEL
@@ -99,11 +101,11 @@ export default {
   },
   computed: {},
   watch: {
-    // 筛选watch
+    // 小心死循环
     C: {
       handler: function(v, o) {
         if (v[0] != o[0]) {
-          console.log("C Change");
+          // console.log("C Change")
           this.D = v[0] - 1 < 0 ? 0 : v[0] - 1;
         }
         if (v[1] != o[1] && v[1] - this.B[0] != 1) {
@@ -115,7 +117,7 @@ export default {
     D: {
       handler: function(v, o) {
         if (v != o) {
-          console.log("D Change");
+          // console.log("D Change")
           this.C = [v + 1, this.C[1]];
         }
       }
@@ -124,7 +126,7 @@ export default {
     B: {
       handler: function(v, o) {
         if (v[0] != o[0] && v[0] - this.C[1] != 1) {
-          console.log("B Change");
+          // console.log("B Change")
           const end = v[0] - 1 < 1 ? 1 : v[0] - 1;
           const start = Math.min(end, this.C[0]);
           this.C = [start, end];
@@ -138,7 +140,7 @@ export default {
     A: {
       handler: function(v, o) {
         if (v[0] != o[0] && v[0] - this.B[1] != 1) {
-          console.log("A Change");
+          // console.log("A Change")
           const end = v[0] - 1 < 1 ? 1 : v[0] - 1;
           const start = Math.min(end, this.B[0]);
           this.B = [start, end];
@@ -152,7 +154,7 @@ export default {
     S: {
       handler: function(v, o) {
         if (v[0] != o[0] && v[0] - this.A[1] != 1) {
-          console.log("A Change");
+          // console.log("A Change")
           const end = v[0] - 1 < 1 ? 1 : v[0] - 1;
           const start = Math.min(end, this.A[0]);
           this.A = [start, end];

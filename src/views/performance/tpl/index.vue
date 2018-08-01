@@ -127,7 +127,7 @@ export default {
       this.showDialog = true;
     },
     delTpl(row) {
-      console.log(row);
+      // console.log(row);
       // TODO: del ajax
       // TODO: refresh list
       this.refreshList();

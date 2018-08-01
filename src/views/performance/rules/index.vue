@@ -23,7 +23,7 @@
       <br>
       <pagination @current-change="handleCurrentChange" :total="total"></pagination>
     </section>
-    <edit-rule :visible="showRuleDialog"></edit-rule>
+    <edit-rule v-if="showRuleDialog" @close="closeDialog" :visible="showRuleDialog"></edit-rule>
   </div>
 </template>
 <script>
@@ -70,7 +70,7 @@ export default {
   methods: {
     updateRule(row) {
       // TODO: update
-      console.log(row);
+      // console.log(row)
       this.selectedData = row;
       this.showRuleDialog = true;
     },
@@ -81,6 +81,10 @@ export default {
     refreshList(data) {
       this.currentPage = 1;
       // TODO: ajax list
+    },
+    closeDialog() {
+      this.showRuleDialog = false;
+      this.refreshList();
     }
   },
   components: {
