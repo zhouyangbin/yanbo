@@ -42,7 +42,8 @@ export const LABEL_ID_NUMBER = "身份证号";
 export const LABEL_JOIN_POSITION_NAME = "入职职位";
 export const LABEL_TAL_EMAIL = "企业邮箱";
 export const LABEL_DEPARTMENT = "部门";
-export const LABEL_SCOPE = "范围";
+// export const LABEL_SCOPE = "范围";
+
 export const LABEL_STATUS = "状态";
 export const LABEL_CREATED_DATE = "创建时间";
 export const LABEL_OPERATIONS = "操作";
@@ -182,6 +183,7 @@ export const TPL = "模板";
 export const RULES_SETTING = "规则设置";
 export const ACCESS_SETTING = "权限管理";
 export const ROLE_SETTING = "角色管理";
+export const ROLE = "角色";
 
 export const ENUM_RECORD_STATUS = [
   {

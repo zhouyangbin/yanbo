@@ -10,7 +10,11 @@
       </el-form-item>
 
       <el-form-item>
-        <el-cascader :value="department" @change="changeDepartment" :options="departments" :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader>
+        <el-select style="display:block" @change="roleChange" :value="userForm.roles" multiple :placeholder="constants.ROLE">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+        <!-- <el-cascader :value="department" @change="changeDepartment" :options="departments" :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader> -->
       </el-form-item>
     </el-form>
     <span slot="footer">
@@ -23,7 +27,8 @@
 import {
   LABEL_NAME,
   LABEL_TAL_EMAIL,
-  LABEL_DEPARTMENT,
+  // LABEL_DEPARTMENT,
+  ROLE,
   LABEL_CONFIRM,
   LABEL_CANCEL
 } from "@/constants/TEXT";
@@ -31,10 +36,33 @@ import { searchManager } from "@/constants/API";
 export default {
   data() {
     return {
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕"
+        },
+        {
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          label: "龙须面"
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭"
+        }
+      ],
       constants: {
         LABEL_NAME,
         LABEL_TAL_EMAIL,
-        LABEL_DEPARTMENT,
+        // LABEL_DEPARTMENT,
+        ROLE,
         LABEL_CONFIRM,
         LABEL_CANCEL
       }
@@ -51,7 +79,7 @@ export default {
     },
     userForm: {
       type: Object,
-      default: () => ({ email: "", name: "", department_id: "", empID: "" })
+      default: () => ({ email: "", name: "", roles: [], empID: "" })
     },
     disabled: {
       type: Boolean,
@@ -60,14 +88,6 @@ export default {
     submit: {
       type: Function,
       default: () => function() {}
-    },
-    departments: {
-      type: Array,
-      default: () => []
-    },
-    department: {
-      type: Array,
-      default: () => []
     }
   },
   methods: {
@@ -78,10 +98,10 @@ export default {
       if (
         !this.userForm.email ||
         !this.userForm.name ||
-        !this.userForm.department_id
+        this.userForm.roles.length == 0
       ) {
         this.$message({
-          message: "企业邮箱、姓名、部门都是必填项哦！",
+          message: "企业邮箱、姓名、角色都是必填项哦！",
           type: "warning"
         });
         return;
@@ -130,15 +150,19 @@ export default {
         })
       );
     },
-    changeDepartment(departmentArr) {
-      // console.log(departmentArr);
-      this.$emit(
-        "update:userForm",
-        Object.assign({}, this.userForm, {
-          department_id: departmentArr[departmentArr.length - 1]
-        })
-      );
+    roleChange(v) {
+      console.log(v);
+      this.$emit("update:userForm", { ...this.userForm, roles: v });
     }
+    // changeDepartment(departmentArr) {
+    //   // console.log(departmentArr);
+    //   this.$emit(
+    //     "update:userForm",
+    //     Object.assign({}, this.userForm, {
+    //       department_id: departmentArr[departmentArr.length - 1]
+    //     })
+    //   )
+    // }
   }
 };
 </script>
