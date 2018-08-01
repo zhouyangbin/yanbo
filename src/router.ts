@@ -13,7 +13,8 @@ import {
   PATH_PERFORMANCE_PROGRESS,
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
-  PATH_PERFORMANCE_RULES
+  PATH_PERFORMANCE_RULES,
+  PATH_ACCESS_ROLES
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -112,6 +113,13 @@ const router = new Router({
           path: PATH_PERFORMANCE_RULES,
           components: {
             default: () => import("@/views/performance/rules/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_ACCESS_ROLES,
+          components: {
+            default: () => import("@/views/rolemanage/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

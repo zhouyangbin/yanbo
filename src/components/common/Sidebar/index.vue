@@ -18,10 +18,18 @@
       <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_TPL].includes($route.path)}" :index="constants.PATH_PERFORMANCE_TPL">{{constants.TPL_SETTING}}</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_RULES].includes($route.path)}" :index="constants.PATH_PERFORMANCE_RULES">{{constants.RULES_SETTING}}</el-menu-item>
     </el-submenu>
-    <el-menu-item :index="constants.PATH_USER_MANAGE" v-show="level==1">
+    <el-submenu :index="constants.PATH_ACCESS_ROLES">
+      <template slot="title">
+        <i class="el-icon-setting"></i>
+        <span>{{constants.ACCESS_SETTING}}</span>
+      </template>
+      <el-menu-item :class="{'is-active':[constants.PATH_ACCESS_ROLES].includes($route.path)}" :index="constants.PATH_ACCESS_ROLES">{{constants.ROLE_SETTING}}</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_USER_MANAGE].includes($route.path)}" :index="constants.PATH_USER_MANAGE">{{constants.USER_MANAGE}}</el-menu-item>
+    </el-submenu>
+    <!-- <el-menu-item :index="constants.PATH_USER_MANAGE" v-show="level==1">
       <i class="el-icon-setting"></i>
       <span slot="title">{{constants.USER_MANAGE}}</span>
-    </el-menu-item>
+    </el-menu-item> -->
   </el-menu>
 </template>
 <script>
@@ -32,7 +40,9 @@ import {
   USER_MANAGE,
   PERFORMANCE_GRADE,
   TPL_SETTING,
-  RULES_SETTING
+  RULES_SETTING,
+  ACCESS_SETTING,
+  ROLE_SETTING
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
@@ -44,7 +54,8 @@ import {
   PATH_PERFORMANCE_REPORT,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_TPL,
-  PATH_PERFORMANCE_RULES
+  PATH_PERFORMANCE_RULES,
+  PATH_ACCESS_ROLES
 } from "@/constants/URL";
 
 export default {
@@ -66,7 +77,10 @@ export default {
         TPL_SETTING,
         PATH_PERFORMANCE_TPL,
         PATH_PERFORMANCE_RULES,
-        RULES_SETTING
+        RULES_SETTING,
+        ACCESS_SETTING,
+        ROLE_SETTING,
+        PATH_ACCESS_ROLES
       },
       level: 0
     };

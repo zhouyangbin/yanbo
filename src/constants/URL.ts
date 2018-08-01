@@ -5,7 +5,7 @@ const base = process.env.VUE_APP_API_URL;
 
 export const PATH_GRADE_REPORT = "/gradereport";
 export const PATH_GRADE_MANAGE = "/grademanage";
-export const PATH_USER_MANAGE = "/userManage";
+export const PATH_USER_MANAGE = "/access/user";
 
 export const PATH_GRADE_PROGRESS = (id = ":id") => `${PATH_GRADE_MANAGE}/${id}`;
 export const PATH_GRADE_ORG_LIST = (testID = ":id", orgID = ":orgID") =>
@@ -44,6 +44,7 @@ export const PATH_PERFORMANCE_REPORT = "/performance/report";
 export const PATH_PERFORMANCE_MANAGER = "/performance/manage";
 export const PATH_PERFORMANCE_TPL = "/performance/tpl";
 export const PATH_PERFORMANCE_RULES = "/performance/rules";
+export const PATH_ACCESS_ROLES = "/access/roles";
 export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}`;
 export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
