@@ -8,20 +8,16 @@
         <el-input style="width:400px" v-model="tplForm.name"></el-input>
       </el-form-item>
       <el-form-item label="事业部" prop="dp">
-        <el-cascader style="width:400px" placeholder="选择事业部" :options="options" v-model="tplForm.dp " change-on-select></el-cascader>
+        <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp " change-on-select></el-cascader>
       </el-form-item>
       <el-form-item label="绩效类型" prop="types">
-        <el-select v-model="tplForm.types" placeholder="请选择活动区域 ">
-          <el-option label="区域一 " value="shanghai "></el-option>
-          <el-option label="区域二 " value="beijing "></el-option>
+        <el-select v-model="tplForm.types" placeholder="请选择绩效类型 ">
+          <el-option v-for="v of constants.ENUM_PERFORMANCE_TYPE" :key="v.key" :label="v.value" :value="v.key"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="模板字段" prop="property">
+      <el-form-item label="模板字段">
         <el-checkbox-group v-model="tplForm.property">
-          <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-          <el-checkbox label="地推活动" name="type"></el-checkbox>
-          <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-          <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+          <el-checkbox v-for="v of constants.ENUM_PERFORMANCE_CONFIG_PROPERTY" :key="v.key" :value="v.value" :label="v.key" name="property">{{v.value}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -34,7 +30,16 @@
   </el-dialog>
 </template>
 <script>
-import { ADD, MODIFY, CONFIRM, CANCEL } from "@/constants/TEXT";
+import {
+  ADD,
+  MODIFY,
+  CONFIRM,
+  CANCEL,
+  ENUM_PERFORMANCE_TYPE,
+  ENUM_PERFORMANCE_CONFIG_PROPERTY
+} from "@/constants/TEXT";
+import { postTpl, putTpl, getTpl } from "@/constants/API";
+
 export default {
   props: {
     visible: {
@@ -48,65 +53,32 @@ export default {
     initData: {
       type: Object,
       default: () => ({})
+    },
+    departmentTree: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
+      treeProps: {
+        value: "id",
+        label: "text"
+      },
       rules: {
         name: [{ required: true, message: "请输入名称", trigger: "blur" }],
         dp: [{ required: true, message: "请选择事业部", trigger: "blur" }],
         types: [{ required: true, message: "请选择绩效类型", trigger: "blur" }]
       },
+      property: [],
       tplForm: { name: "", dp: [], types: "", property: [] },
-      options: [
-        {
-          value: "zhinan",
-          label: "指南",
-          children: [
-            {
-              value: "shejiyuanze",
-              label: "设计原则",
-              children: [
-                {
-                  value: "yizhi",
-                  label: "一致"
-                },
-                {
-                  value: "fankui",
-                  label: "反馈"
-                },
-                {
-                  value: "xiaolv",
-                  label: "效率"
-                },
-                {
-                  value: "kekong",
-                  label: "可控"
-                }
-              ]
-            },
-            {
-              value: "daohang",
-              label: "导航",
-              children: [
-                {
-                  value: "cexiangdaohang",
-                  label: "侧向导航"
-                },
-                {
-                  value: "dingbudaohang",
-                  label: "顶部导航"
-                }
-              ]
-            }
-          ]
-        }
-      ],
       constants: {
         ADD,
         MODIFY,
         CONFIRM,
-        CANCEL
+        CANCEL,
+        ENUM_PERFORMANCE_TYPE,
+        ENUM_PERFORMANCE_CONFIG_PROPERTY
       }
     };
   },
@@ -117,7 +89,21 @@ export default {
     submit() {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
-          // TODO: ajax for diff infoType
+          const postData = {
+            name: this.tplForm.name,
+            department_id: this.tplForm.dp,
+            type_id: this.tplForm.types,
+            template_columns: this.tplForm.property
+          };
+          if (this.infoType == "add") {
+            return postTpl(postData).then(res => {
+              this.close();
+            });
+          } else {
+            return putTpl(this.initData.id, postData).then(res => {
+              this.close();
+            });
+          }
         }
       });
     }
@@ -126,7 +112,18 @@ export default {
     this.$refs["tplForm"].resetFields();
   },
   created() {
-    this.tplForm = { ...this.initData };
+    if (this.infoType != "add" && this.initData.id) {
+      getTpl(this.initData.id).then(res => {
+        const { name, department_path, type_id, template_cloumns } = res;
+
+        this.tplForm = {
+          name,
+          dp: department_path,
+          types: type_id.toString(),
+          property: template_cloumns.map(v => String(v.id))
+        };
+      });
+    }
   }
 };
 </script>

@@ -357,3 +357,56 @@ export const ENUM_LEVELS = [
     value: "7.0"
   }
 ];
+
+// 1 年度
+// 2 半年
+// 3 季度
+// 4 月度
+// 5 春署秋寒
+// 6 不固定日期
+export const ENUM_PERFORMANCE_TYPE = [
+  {
+    key: "1",
+    value: "年度"
+  },
+  {
+    key: "2",
+    value: "半年"
+  },
+  {
+    key: "3",
+    value: "季度"
+  },
+  {
+    key: "4",
+    value: "月度"
+  },
+  {
+    key: "5",
+    value: "春署秋寒"
+  },
+  {
+    key: "6",
+    value: "不固定日期"
+  }
+];
+
+// 1 权重，2 完成期限，3 衡量标准，4 加减分
+export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
+  {
+    key: "1",
+    value: "权重"
+  },
+  {
+    key: "2",
+    value: "完成期限"
+  },
+  {
+    key: "3",
+    value: "衡量标准"
+  },
+  {
+    key: "4",
+    value: "加减分"
+  }
+];

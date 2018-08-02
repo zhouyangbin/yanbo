@@ -2,7 +2,13 @@
  * api 都集中在这里
  * https://jsonplaceholder.typicode.com/posts/1
  * */
-import { sendDelete, sendGet, sendPost, sendPatch } from "@/utils/base";
+import {
+  sendDelete,
+  sendGet,
+  sendPost,
+  sendPatch,
+  sendPut
+} from "@/utils/base";
 
 const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 // 用户管理
@@ -105,3 +111,22 @@ export const postReminder = (params: object) =>
 
 // 角色列表
 export const getRoleList = () => sendGet(`${test}/permission/roles`);
+
+// 模板列表
+export const getTplList = (params: object) =>
+  sendGet(`${test}/performance/admin/templates`, params);
+// 删除模板
+export const delTpl = (id: string) =>
+  sendDelete(`${test}/performance/admin/templates/${id}`, {});
+// 组织架构树
+export const getOrgTree = () =>
+  sendGet(`${test}/performance/admin/organization`);
+// 新增模板
+export const postTpl = (params: object) =>
+  sendPost(`${test}/performance/admin/templates`, params);
+// 更新模板
+export const putTpl = (id: string, params: object) =>
+  sendPut(`${test}/performance/admin/templates/${id}`, params);
+// 获取模板详情
+export const getTpl = (id: string) =>
+  sendGet(`${test}/performance/admin/templates/${id}`);

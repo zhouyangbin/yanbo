@@ -148,7 +148,7 @@
         </el-table>
         <br>
         <el-row type="flex" justify="end">
-          <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+          <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
         </el-row>
         <br>
       </div>

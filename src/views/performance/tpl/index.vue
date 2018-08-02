@@ -8,103 +8,61 @@
             <el-input v-model="tplForm.name" placeholder="模板名称"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-cascader placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader>
+            <el-cascader :props="treeProps" placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader>
           </el-form-item>
         </el-form>
-        <el-button type="primary" @click="showDialog=true" round>新增</el-button>
+        <el-button type="primary" @click="addTpl" round>新增</el-button>
       </el-row>
       <br>
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="date" label="模板名称">
+        <el-table-column prop="name" label="模板名称">
         </el-table-column>
-        <el-table-column prop="name" label="适用事业部">
+        <el-table-column prop="department" label="适用事业部">
+          <template slot-scope="scope">
+            {{scope.row.department.join(", ")}}
+          </template>
         </el-table-column>
-        <el-table-column prop="address" label="绩效类型">
+        <el-table-column prop="type" label="绩效类型">
         </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="updateTpl(scope.row)" size="small">修改</el-button>
-            <el-popover placement="top" width="160" v-model="delVisible">
-              <p>确定要删除这个模板么?</p>
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="delVisible = false">取消</el-button>
-                <el-button type="primary" size="mini" @click="delTpl(scope.row)">确定</el-button>
-              </div>
-              <el-button style="margin-left:10px" type="text" size="small" slot="reference">删除</el-button>
-            </el-popover>
+            <el-button type="text" size="small" @click="delTpl(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <br>
-      <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+      <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
     </section>
-    <tpl-dialog v-if="showDialog" :initData="initData" @close="tplDialogClose" :visible="showDialog" :infoType="infoType"></tpl-dialog>
+    <tpl-dialog v-if="showDialog" :initData="initData" :departmentTree="options" @close="tplDialogClose" :visible="showDialog" :infoType="infoType"></tpl-dialog>
   </div>
 </template>
 <script>
-import { TPL } from "@/constants/TEXT";
+import { TPL, ATTENTION, LABEL_CONFIRM, LABEL_CANCEL } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
+import { getTplList, delTpl, getOrgTree } from "@/constants/API";
 export default {
   data() {
     return {
       currentPage: 1,
       total: 0,
       delVisible: false,
-      tableData: [{ id: 99 }],
+      tableData: [],
       initData: {},
       tplForm: { name: "", dp: [] },
       infoType: "add",
       showDialog: false,
-      options: [
-        {
-          value: "zhinan",
-          label: "指南",
-          children: [
-            {
-              value: "shejiyuanze",
-              label: "设计原则",
-              children: [
-                {
-                  value: "yizhi",
-                  label: "一致"
-                },
-                {
-                  value: "fankui",
-                  label: "反馈"
-                },
-                {
-                  value: "xiaolv",
-                  label: "效率"
-                },
-                {
-                  value: "kekong",
-                  label: "可控"
-                }
-              ]
-            },
-            {
-              value: "daohang",
-              label: "导航",
-              children: [
-                {
-                  value: "cexiangdaohang",
-                  label: "侧向导航"
-                },
-                {
-                  value: "dingbudaohang",
-                  label: "顶部导航"
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      options: [],
       nav: [
         {
           label: TPL,
           active: true
         }
-      ]
+      ],
+      treeProps: {
+        value: "id",
+        label: "text"
+      }
     };
   },
   components: {
@@ -115,31 +73,61 @@ export default {
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
+    addTpl() {
+      this.infoType = "add";
+      this.showDialog = true;
+    },
     tplDialogClose() {
       this.showDialog = false;
-      // TODO: refresh list
-      this.refreshList();
+      const postData = {
+        department_id: this.tplForm.dp[v.dp.length - 1] || "",
+        name: this.tplForm.name,
+        page: 1
+      };
+      this.refreshList(postData);
     },
     updateTpl(row) {
       this.infoType = "modify";
-      // TODO: set init data
-      this.initData = {};
+      this.initData = { id: row.id };
       this.showDialog = true;
     },
     delTpl(row) {
-      // console.log(row);
-      // TODO: del ajax
-      // TODO: refresh list
-      this.refreshList();
-      this.delVisible = false;
+      return this.$confirm("确定要删除这个模板么?", ATTENTION, {
+        roundButton: true,
+        confirmButtonText: LABEL_CONFIRM,
+        cancelButtonText: LABEL_CANCEL,
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          delTpl(row.id)
+            .then(res => {
+              this.refreshList(this.currentPage);
+              this.delVisible = false;
+            })
+            .catch(e => {});
+        })
+        .catch(() => {});
     },
     handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList();
     },
     refreshList(data) {
-      this.currentPage = 1;
-      // TODO: ajax list
+      return getTplList(data)
+        .then(res => {
+          // console.log(res)
+          const { total, data } = res;
+          this.total = total;
+          this.tableData = data;
+        })
+        .catch(e => {});
+    },
+    getOrgList() {
+      return getOrgTree().then(res => {
+        // console.log(res)
+        this.options = res;
+      });
     }
   },
   watch: {
@@ -147,11 +135,20 @@ export default {
     tplForm: {
       handler: function(v) {
         // TODO: refresh list
-        this.refreshList();
+        // console.log("refrsh")
+        const postData = {
+          department_id: v.dp[v.dp.length - 1] || "",
+          name: v.name,
+          page: 1
+        };
+        this.refreshList(postData);
       },
       deep: true,
       immediate: true
     }
+  },
+  created() {
+    this.getOrgList();
   }
 };
 </script>
