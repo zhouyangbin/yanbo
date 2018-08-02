@@ -4,23 +4,24 @@
  * */
 import { sendDelete, sendGet, sendPost, sendPatch } from "@/utils/base";
 
+const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 // 用户管理
-// 登录
+// 扫码登录
 export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
 // 扫码登录
 
-// export const qrLogin = (data: object) => sendPost("/api/login", data);
 // 退出
 export const logout = () => {
   return sendPost("/admin/api/logout", {});
 };
 // 管理员列表
+
 export const getManagers = (params: object) => {
-  return sendGet(`/admin/api/admins`, params);
+  return sendGet(`${test}/permission/users`, params);
 };
-// 添加管理员
+
 export const addManager = (data: object) => {
-  return sendPost(`/admin/api/admins`, data);
+  return sendPost(`${test}/permission/users`, data);
 };
 // 用户搜索(添加管理员)
 export const searchManager = (params: object) => {
@@ -28,15 +29,11 @@ export const searchManager = (params: object) => {
 };
 // 删除管理员
 export const deleteManager = (id: string) => {
-  return sendDelete(`/admin/api/admins/${id}`, {});
+  return sendDelete(`${test}/permission/users/${id}`, {});
 };
-// 修改管理员
+
 export const updateManager = (id: string, data: object) => {
-  return sendPatch(`/admin/api/admins/${id}`, data);
-};
-// 启用|禁用管理员
-export const enableManager = (id: string, data: object) => {
-  return sendPatch(`/admin/api/admins/${id}`, data);
+  return sendPatch(`${test}/permission/users/${id}`, data);
 };
 
 // 部门接口
@@ -105,3 +102,6 @@ export const getUserGradeContent = (uid: string) =>
 
 export const postReminder = (params: object) =>
   sendPost("/admin/api/messages", params);
+
+// 角色列表
+export const getRoleList = () => sendGet(`${test}/permission/roles`);

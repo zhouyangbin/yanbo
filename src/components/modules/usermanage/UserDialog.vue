@@ -11,10 +11,9 @@
 
       <el-form-item>
         <el-select style="display:block" @change="roleChange" :value="userForm.roles" multiple :placeholder="constants.ROLE">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id">
           </el-option>
         </el-select>
-        <!-- <el-cascader :value="department" @change="changeDepartment" :options="departments" :placeholder="constants.LABEL_DEPARTMENT" separator="-" style="width:100%"></el-cascader> -->
       </el-form-item>
     </el-form>
     <span slot="footer">
@@ -27,41 +26,18 @@
 import {
   LABEL_NAME,
   LABEL_TAL_EMAIL,
-  // LABEL_DEPARTMENT,
   ROLE,
   LABEL_CONFIRM,
   LABEL_CANCEL
 } from "@/constants/TEXT";
-import { searchManager } from "@/constants/API";
+import { searchManager, getRoleList } from "@/constants/API";
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
+      options: [],
       constants: {
         LABEL_NAME,
         LABEL_TAL_EMAIL,
-        // LABEL_DEPARTMENT,
         ROLE,
         LABEL_CONFIRM,
         LABEL_CANCEL
@@ -151,18 +127,18 @@ export default {
       );
     },
     roleChange(v) {
-      console.log(v);
+      // console.log(v)
       this.$emit("update:userForm", { ...this.userForm, roles: v });
+    },
+    getRoleList() {
+      return getRoleList().then(res => {
+        // console.log(res)
+        this.options = res;
+      });
     }
-    // changeDepartment(departmentArr) {
-    //   // console.log(departmentArr);
-    //   this.$emit(
-    //     "update:userForm",
-    //     Object.assign({}, this.userForm, {
-    //       department_id: departmentArr[departmentArr.length - 1]
-    //     })
-    //   )
-    // }
+  },
+  created() {
+    this.getRoleList();
   }
 };
 </script>

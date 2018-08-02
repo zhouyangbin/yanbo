@@ -28,14 +28,14 @@
       </el-row>
 
       <!-- addUser dialog -->
-      <user-dialog :visible.sync="addDialogVisible" :title="constants.LABEL_ADD" :userForm.sync="userForm" :disabled="false" :submit="addSubmit"></user-dialog>
+      <user-dialog v-if="addDialogVisible" :visible.sync="addDialogVisible" :title="constants.LABEL_ADD" :userForm.sync="userForm" :disabled="false" :submit="addSubmit"></user-dialog>
 
       <!-- user tableList -->
       <el-table :data="userTable" stripe style="width:100%" v-loading="tableLoading" :height="tableHeight">
         <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="true" align="center"></el-table-column>
         <el-table-column :label="constants.ROLE" :show-overflow-tooltip="true" align="center">
           <template slot-scope="scope">
-            {{scope.row.department.name}}
+            {{scope.row.roles.join(", ")}}
           </template>
         </el-table-column>
         <el-table-column :label="constants.LABEL_STATUS" width="80" align="center">
@@ -55,12 +55,12 @@
       </el-table>
 
       <!-- update dialog -->
-      <user-dialog :visible.sync="updateDialogVisible" :title="constants.LABEL_MODIFY" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit"></user-dialog>
+      <user-dialog v-if="updateDialogVisible" :visible.sync="updateDialogVisible" :title="constants.LABEL_MODIFY" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit"></user-dialog>
       <br>
       <bind-dialog v-if="bindDialogVisible" :visible.sync="bindDialogVisible"></bind-dialog>
       <!-- pagination -->
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+        <pagination :currentPage="conditionForm.page" @current-change="handleCurrentChange" :total="total"></pagination>
       </el-row>
     </section>
   </div>
@@ -95,9 +95,7 @@ import {
 import {
   getManagers,
   addManager,
-  // getAdminsDepartments,
   getDepartments,
-  enableManager,
   deleteManager,
   updateManager
 } from "@/constants/API";
@@ -141,15 +139,11 @@ export default {
       // 事业部列表
       departments: [],
       bindDialogVisible: false,
-      // 事业部-分校列表
-      // adminsDepartments: [],
-      // 编辑用户事业部-分校
-      // department: [],
       // dialog
       addDialogVisible: false,
       updateDialogVisible: false,
       // user form(add or update)
-      userForm: { email: "", name: "", department_id: "", empID: "" },
+      userForm: { email: "", name: "", roles: [], empID: "" },
       // 操作用户ID
       userId: "",
       // table头部
@@ -167,16 +161,14 @@ export default {
   created() {
     this.getManagers();
     this.getDepartments();
-    // this.getAdminsDepartments()
   },
   methods: {
     // 用户列表
     getManagers() {
       const data = { ...this.conditionForm };
-      data.name.length == 0 && delete data.name;
-      data.department_id.length == 0 && delete data.department_id;
       getManagers(data)
         .then(res => {
+          console.log(res);
           this.tableLoading = false;
           if (res) {
             this.total = res.total;
@@ -199,24 +191,7 @@ export default {
         })
         .catch(err => {});
     },
-    // // 事业部-分校列表
-    // getAdminsDepartments() {
-    //   getAdminsDepartments()
-    //     .then(res => {
-    //       const recursive = function f(arr) {
-    //         arr.map(function(item) {
-    //           item.label = item.name
-    //           item.value = item.department_id
-    //           if (item.children) {
-    //             f(item.children)
-    //           }
-    //         })
-    //       }
-    //       recursive(res)
-    //       this.adminsDepartments = res
-    //     })
-    //     .catch(err => {})
-    // },
+
     // 更改筛选条件
     changeCondition() {
       this.conditionForm = Object.assign({}, this.conditionForm, { page: 1 });
@@ -231,11 +206,11 @@ export default {
     submitUser() {
       this.addDialogVisible = true;
       this.userForm = { email: "", name: "", roles: [], empID: "" };
-      // this.department = []
     },
     // 提交新增
     addSubmit() {
-      return addManager(this.userForm)
+      const { email, roles } = this.userForm;
+      return addManager({ email, role_ids: roles })
         .then(res => {
           this.getManagers();
         })
@@ -243,38 +218,33 @@ export default {
     },
     // 修改用户
     updateUser(user) {
-      console.log(user);
       this.updateDialogVisible = true;
       this.userForm = {
         email: user.email,
         name: user.name,
-        // department_id: user.department_id,
         empID: user.empID,
         roles: user.roles || []
       };
-      // this.department = []
       this.userId = user.id;
-      // 返回的数据集团总部层级parent_id是好未来教育，影响层级查找
-      // user.department.parent_id && user.department.department_id !== "D1000002"
-      //   ? this.department.push(user.department.parent_id, user.department_id)
-      //   : this.department.push(user.department_id)
     },
     // 提交修改
     updateSubmit() {
-      return updateManager(this.userId, this.userForm)
+      const { roles, active } = this.userForm;
+      return updateManager(this.userId, { role_ids: roles })
         .then(res => {
           this.$message({
             type: "success",
             message: CONST_MODIFY_SUCCESS
           });
+          this.this.userId = "";
           this.getManagers();
         })
         .catch(err => {});
     },
     // 启用/禁用用户
     enabledUser(user) {
-      const active = user.active == 1 ? 0 : 1;
-      enableManager(user.id, { active })
+      const active = user.active ^ 1;
+      updateManager(user.id, { active })
         .then(res => {
           this.$message({
             type: "success",
