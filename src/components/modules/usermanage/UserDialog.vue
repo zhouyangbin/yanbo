@@ -10,8 +10,8 @@
       </el-form-item>
 
       <el-form-item>
-        <el-select style="display:block" @change="roleChange" :value="userForm.roles" multiple :placeholder="constants.ROLE">
-          <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id">
+        <el-select style="display:block" @change="roleChange" value-key="id" :value="userForm.roles" multiple :placeholder="constants.ROLE">
+          <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
@@ -127,7 +127,7 @@ export default {
       );
     },
     roleChange(v) {
-      // console.log(v)
+      console.log(v);
       this.$emit("update:userForm", { ...this.userForm, roles: v });
     },
     getRoleList() {
@@ -135,6 +135,11 @@ export default {
         // console.log(res)
         this.options = res;
       });
+    }
+  },
+  computed: {
+    selectedRoles() {
+      return this.userForm.roles.map(v => v.id);
     }
   },
   created() {

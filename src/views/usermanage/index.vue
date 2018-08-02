@@ -35,7 +35,7 @@
         <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="true" align="center"></el-table-column>
         <el-table-column :label="constants.ROLE" :show-overflow-tooltip="true" align="center">
           <template slot-scope="scope">
-            {{scope.row.roles.join(", ")}}
+            {{scope.row.roles.map(v=>v.name).join(", ")}}
           </template>
         </el-table-column>
         <el-table-column :label="constants.LABEL_STATUS" width="80" align="center">
@@ -210,7 +210,7 @@ export default {
     // 提交新增
     addSubmit() {
       const { email, roles } = this.userForm;
-      return addManager({ email, role_ids: roles })
+      return addManager({ email, role_ids: roles.map(v => v.id) })
         .then(res => {
           this.getManagers();
         })
@@ -230,7 +230,7 @@ export default {
     // 提交修改
     updateSubmit() {
       const { roles, active } = this.userForm;
-      return updateManager(this.userId, { role_ids: roles })
+      return updateManager(this.userId, { role_ids: roles.map(v => v.id) })
         .then(res => {
           this.$message({
             type: "success",

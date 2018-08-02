@@ -1,18 +1,18 @@
 <template>
-    <div class="roles-setting">
-        <nav-bar :list="nav"></nav-bar>
-        <section class="content-container">
-            <br>
-            <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-                <el-table-column prop="date" label="角色">
-                </el-table-column>
-                <el-table-column prop="name" label="权限">
-                </el-table-column>
-            </el-table>
-            <br>
-            <pagination @current-change="handleCurrentChange" :total="total"></pagination>
-        </section>
-    </div>
+  <div class="roles-setting">
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container">
+      <br>
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
+        <el-table-column prop="date" label="角色">
+        </el-table-column>
+        <el-table-column prop="name" label="权限">
+        </el-table-column>
+      </el-table>
+      <br>
+      <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
+    </section>
+  </div>
 </template>
 <script>
 import { ROLE_SETTING } from "@/constants/TEXT";
@@ -39,10 +39,12 @@ export default {
       this.currentPage = val;
       this.refreshList();
     },
-    refreshList(data) {
-      this.currentPage = 1;
-      // TODO: ajax list
+    refreshList(page) {
+      // TODO: ajax
     }
+  },
+  created() {
+    this.refreshList(1);
   }
 };
 </script>
