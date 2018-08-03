@@ -67,6 +67,7 @@ export default {
     refreshList(data) {
       return getRuleList(data).then(res => {
         const { total, data } = res;
+        this.currentPage = 1;
         this.total = total;
         this.tableData = data;
       });

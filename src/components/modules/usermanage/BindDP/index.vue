@@ -101,11 +101,9 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           const params = {
-            culture_department_ids: this.cultureCheckedNodes.map(
-              v => v.department_id
-            ),
+            culture_department_ids: this.cultureCheckedNodes.map(v => v.id),
             achievement_department_ids: this.performanceCheckedNodes.map(
-              v => v.department_id
+              v => v.id
             )
           };
           // console.log(this.currentInfo)

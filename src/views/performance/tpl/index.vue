@@ -116,9 +116,9 @@ export default {
     refreshList(data) {
       return getTplList(data)
         .then(res => {
-          // console.log(res)
           const { total, data } = res;
           this.total = total;
+          this.currentPage = 1;
           this.tableData = data;
         })
         .catch(e => {});

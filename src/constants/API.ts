@@ -143,3 +143,13 @@ export const getAccessTree = () =>
 // 设置用户部门管理范围
 export const patchUserScope = (id: String, params: Object) =>
   sendPatch(`${test}/permission/users/${id}/set-department`, params);
+// 根据部门获取模板列表
+
+export const getTplRuleByDep = (params: Object) =>
+  sendGet(`${test}/performance/admin/department_tempate`, params);
+// 创建评分
+export const postAddPerformanceGrade = (params: Object) =>
+  sendPost(`${test}/performance/admin/performance`, params);
+// 绩效评分列表
+export const getPerformanceList = (params: Object) =>
+  sendGet(`${test}/performance/admin/performances`, params);

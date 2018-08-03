@@ -3,22 +3,32 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <el-row align="middle" type="flex" justify="space-between">
-        <span>
-          {{constants.PERFORMANCE_GRADE_LIST}}
-        </span>
+        <div>
+          <span>
+            {{constants.PERFORMANCE_GRADE_LIST}}
+          </span>
+          <el-select style="margin-left:30px" v-model="filterForm.dp" placeholder="请选择事业部">
+            <el-option v-for="item in dpArr" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select style="margin-left:30px" v-model="filterForm.type" placeholder="请选择周期类型">
+            <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
+            </el-option>
+          </el-select>
+        </div>
         <el-button type="primary" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="date" label="评分名称" width="180">
+        <el-table-column prop="name" label="评分名称" width="180">
         </el-table-column>
-        <el-table-column prop="name" label="部门" width="180">
+        <el-table-column prop="department" label="部门" width="180">
         </el-table-column>
-        <el-table-column prop="address" label="周期类型">
+        <el-table-column prop="type" label="周期类型">
         </el-table-column>
-        <el-table-column prop="address" label="截止时间">
+        <el-table-column prop="end_time" label="截止时间">
         </el-table-column>
-        <el-table-column prop="address" label="创建时间">
+        <el-table-column prop="start_time" label="创建时间">
         </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
@@ -43,7 +53,8 @@
           <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="范围" prop="scope">
-          <el-cascader :options="options" style="width:400px;" v-model="ruleForm.scope" change-on-select></el-cascader>
+          <el-input style="width:400px" placeholder="请选择事业部" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
+          </el-input>
         </el-form-item>
         <el-form-item label="绩效属性" prop="property">
           <el-select style="width:400px;" v-model="ruleForm.property" placeholder="请选择">
@@ -62,13 +73,13 @@
         </el-form-item>
         <el-form-item label="模板" prop="tpl">
           <el-select style="width:400px;" v-model="ruleForm.tpl" placeholder="请选择">
-            <el-option v-for="item in propertyArr" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="分数对应关系" prop="tpl">
+        <el-form-item label="分数对应关系" prop="mapping">
           <el-select style="width:400px;" v-model="ruleForm.mapping" placeholder="请选择">
-            <el-option v-for="item in propertyArr" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in ruleArr" :key="item.id" :label="item.type" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -80,6 +91,7 @@
           </el-row>
         </el-form-item>
       </el-form>
+      <dp-panel :checkedNodes.sync="checkedNodes" :visible.sync="showScopeTree" :data="departmentTree"></dp-panel>
     </el-dialog>
   </div>
 </template>
@@ -97,6 +109,15 @@ import {
   ENUM_PERFORMANCE_TYPE
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
+import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
+import {
+  getOrgTree,
+  getTplRuleByDep,
+  postAddPerformanceGrade,
+  getDepartments,
+  getPerformanceList
+} from "@/constants/API";
+const debounce = require("lodash.debounce");
 export default {
   data() {
     const endTimeValidator = (rule, value, callback) => {
@@ -109,7 +130,26 @@ export default {
         callback();
       }
     };
+
+    const scopeValidator = (rule, value, callback) => {
+      // console.log(value)
+      if (this.checkedNodes.length == 0) {
+        callback(new Error("请先选择范围"));
+      } else {
+        callback();
+      }
+    };
     return {
+      // tree panel
+      checkedNodes: [],
+      showScopeTree: false,
+      departmentTree: [],
+
+      // filter form
+      filterForm: {
+        type: "",
+        dp: ""
+      },
       createGradeDialog: false,
       constants: {
         PERFORMANCE_GRADE_LIST,
@@ -130,20 +170,21 @@ export default {
       tableData: [],
       currentPage: 1,
       total: 0,
+      // form in dialog
       ruleForm: {
         name: "",
-        scope: [],
         property: "",
         tpl: "",
         mapping: "",
         startTime: "",
         endTime: ""
       },
+      // form validator
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        scope: [{ required: true, message: "请选择评分范围", trigger: "blur" }],
+        scope: [{ validator: scopeValidator }],
         property: [
           { required: true, message: "请选择绩效属性", trigger: "blur" }
         ],
@@ -151,104 +192,152 @@ export default {
         mapping: [
           { required: true, message: "请选择对应关系", trigger: "blur" }
         ],
-        endTime: [
-          // {
-          //   required: true,
-          //   message: "请选择评分周期",
-          //   trigger: "change"
-          // },
-          { validator: endTimeValidator, trigger: "change" }
-        ]
+        endTime: [{ validator: endTimeValidator, trigger: "change" }]
       },
-      options: [
-        {
-          value: "zhinan",
-          label: "指南",
-          children: [
-            {
-              value: "shejiyuanze",
-              label: "设计原则",
-              children: [
-                {
-                  value: "yizhi",
-                  label: "一致"
-                },
-                {
-                  value: "fankui",
-                  label: "反馈"
-                },
-                {
-                  value: "xiaolv",
-                  label: "效率"
-                },
-                {
-                  value: "kekong",
-                  label: "可控"
-                }
-              ]
-            },
-            {
-              value: "daohang",
-              label: "导航",
-              children: [
-                {
-                  value: "cexiangdaohang",
-                  label: "侧向导航"
-                },
-                {
-                  value: "dingbudaohang",
-                  label: "顶部导航"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      propertyArr: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        }
-      ]
+      // select options
+      ruleArr: [],
+      tplArr: [],
+      dpArr: []
     };
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    pagination: () => import("@/components/common/Pagination/index.vue"),
+    "dp-panel": TreeSelectPanel
   },
   methods: {
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.refreshList(val);
+      this.refreshList({
+        page: val,
+        department_id: this.filterForm.dp,
+        type_id: this.filterForm.type
+      });
     },
-    refreshList(page) {},
+    refreshList(data) {
+      return getPerformanceList(data).then(res => {
+        // console.log(res)
+        const { total, data } = res;
+        this.total = total;
+        this.currentPage = 1;
+        this.tableData = data;
+      });
+    },
     closeDia(formName) {
       this.createGradeDialog = false;
       this.ruleForm.startTime = "";
       this.$refs[formName].resetFields();
+      this.refreshList({
+        page: this.currentPage,
+        department_id: this.filterForm.dp,
+        type_id: this.filterForm.type
+      });
     },
     createGrade() {
-      // TODO: get data for the dialog
+      this.getOrgList();
       this.createGradeDialog = true;
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // TODO: post data
+          // console.log(this.ruleForm)
+          const {
+            name,
+            mapping,
+            endTime,
+            property,
+            startTime,
+            tpl
+          } = this.ruleForm;
+          const postData = {
+            name,
+            department_ids: this.checkedNodes.map(v => v.id),
+            start_time: startTime,
+            end_time: endTime,
+            template_id: tpl,
+            rule_id: mapping,
+            type_id: property
+          };
+          postAddPerformanceGrade(postData)
+            .then(res => {
+              // console.log(res)
+              this.closeDia("ruleForm");
+            })
+            .catch(e => {});
         } else {
           return false;
         }
       });
     },
     calculateEndDate(date) {
-      // FIXME: 根据属性 不同计算.当 结束时间没有值的时候
       if (!this.ruleForm.endTime) {
-        this.ruleForm.endTime = formatTime(new Date(date));
+        let dateObj = new Date(date);
+        switch (this.ruleForm.property) {
+          case "1":
+            dateObj.setFullYear(dateObj.getFullYear() + 1);
+            dateObj = new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+            break;
+          case "2":
+            if (dateObj.getMonth() > 5) {
+              dateObj.setFullYear(dateObj.getFullYear() + 1);
+              dateObj.setMonth(dateObj.getMonth() - 6);
+            } else {
+              dateObj.setMonth(dateObj.getMonth() + 6);
+            }
+            dateObj = new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+            break;
+          case "3":
+            if (dateObj.getMonth() > 8) {
+              dateObj.setFullYear(dateObj.getFullYear() + 1);
+              dateObj.setMonth(dateObj.getMonth() - 9);
+            } else {
+              dateObj.setMonth(dateObj.getMonth() + 3);
+            }
+            dateObj = new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+            break;
+          case "4":
+            if (dateObj.getMonth() > 10) {
+              dateObj.setFullYear(dateObj.getFullYear() + 1);
+              dateObj.setMonth(0);
+            } else {
+              dateObj.setMonth(dateObj.getMonth() + 1);
+            }
+            break;
+        }
+        this.ruleForm.endTime = formatTime(dateObj);
       }
+    },
+    getOrgList() {
+      return getOrgTree()
+        .then(res => {
+          this.departmentTree = res;
+        })
+        .catch(e => {});
+    },
+    getTplList: debounce(function(ids) {
+      getTplRuleByDep({
+        department_ids: ids
+      })
+        .then(res => {
+          // console.log(res)
+          const { rules, templates } = res;
+          this.ruleArr = rules;
+          this.tplArr = templates;
+        })
+        .catch(e => {
+          this.checkedNodes = [];
+        });
+    }, 500),
+    getDepartments() {
+      getDepartments()
+        .then(res => {
+          res.map(function(item) {
+            item.label = item.name;
+            item.value = item.department_id;
+          });
+          this.dpArr = res;
+        })
+        .catch(err => {});
     }
   },
   computed: {
@@ -276,9 +365,40 @@ export default {
           return dt < now;
         }
       };
+    },
+    scopeSelectedNames() {
+      return this.checkedNodes.map(v => v.name).join(", ");
+    },
+    tplOptions() {
+      return this.tplArr.filter(v => v.type_id == this.ruleForm.property);
     }
   },
-  created() {}
+  watch: {
+    checkedNodes: {
+      handler: function(v, o) {
+        if (v.length > 0 && v.join(",") != o.join(",")) {
+          this.getTplList(v.map(v => v.id));
+        }
+      },
+      deep: true
+    },
+    filterForm: {
+      handler: function(v) {
+        console.log(v);
+        const filterData = {
+          page: 1,
+          department_id: v.dp,
+          type_id: v.type
+        };
+        this.refreshList(filterData);
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  created() {
+    this.getDepartments();
+  }
 };
 </script>
 <style scoped>

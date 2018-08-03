@@ -3,7 +3,7 @@
     <div v-click-outside="outside" class="objectTree-container" v-if="visible">
       <el-input placeholder="输入关键字进行过滤" v-model="filterText">
       </el-input>
-      <el-tree @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="department_id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="data">
+      <el-tree @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="data">
       </el-tree>
     </div>
   </transition>
@@ -47,7 +47,7 @@ export default {
       console.log(nodes);
       this.$emit(
         "update:checkedNodes",
-        nodes.map(({ name, department_id }) => ({ name, department_id }))
+        nodes.map(({ name, id }) => ({ name, id }))
       );
     },
     outside() {
@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     checkedKeys() {
-      return this.checkedNodes.map(({ department_id }) => department_id);
+      return this.checkedNodes.map(({ id }) => id);
     }
   },
   directives: {
