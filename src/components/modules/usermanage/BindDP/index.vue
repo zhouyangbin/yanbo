@@ -1,5 +1,5 @@
 <template>
-  <el-dialog @close="$emit('update:visible',false)" width="650px" :visible="visible" class="bindDPDialog">
+  <el-dialog @close="close" width="650px" :visible="visible" class="bindDPDialog">
     <div slot="title" class="title">
       {{constants.MODIFY}}
     </div>
@@ -18,16 +18,18 @@
     <div slot="footer">
       <el-row type="flex" justify="center">
         <el-button round size="medium" @click="submit('bindForm')" type="primary">{{constants.CONFIRM}}</el-button>
-        <el-button round size="medium" @click="$emit('update:visible',false)" class="btn-reset">{{constants.CANCEL}}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
       </el-row>
     </div>
-    <dp-panel :checkedNodes.sync="cultureCheckedNodes" :visible.sync="showCultureTree" :data="data"></dp-panel>
-    <dp-panel :checkedNodes.sync="performanceCheckedNodes" :visible.sync="showPerformanceTree" :data="data"></dp-panel>
+    <dp-panel :checkedNodes.sync="cultureCheckedNodes" :visible.sync="showCultureTree" :data="cultureDepartmentTree"></dp-panel>
+    <dp-panel :checkedNodes.sync="performanceCheckedNodes" :visible.sync="showPerformanceTree" :data="performanceDepartmentTree"></dp-panel>
   </el-dialog>
 </template>
 <script>
 import { MODIFY, CONFIRM, CANCEL } from "@/constants/TEXT";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
+import { getAccessTree, patchUserScope } from "@/constants/API";
+
 export default {
   props: {
     visible: {
@@ -57,9 +59,11 @@ export default {
     return {
       // show: true,
       showCultureTree: false,
-      cultureCheckedNodes: [],
+      cultureCheckedNodes: this.currentInfo.culture_departments || [],
       showPerformanceTree: false,
-      performanceCheckedNodes: [],
+      performanceCheckedNodes: this.currentInfo.achievement_departments || [],
+      cultureDepartmentTree: [],
+      performanceDepartmentTree: [],
       filterText: "",
       constants: {
         MODIFY,
@@ -75,57 +79,7 @@ export default {
       bindForm: {
         culture: "",
         performance: ""
-      },
-      data: [
-        {
-          id: 1,
-          label: "一级 1",
-          children: [
-            {
-              id: 4,
-              label: "二级 1-1",
-              children: [
-                {
-                  id: 9,
-                  label: "三级 1-1-1"
-                },
-                {
-                  id: 10,
-                  label: "三级 1-1-2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          label: "一级 2",
-          children: [
-            {
-              id: 5,
-              label: "二级 2-1"
-            },
-            {
-              id: 6,
-              label: "二级 2-2"
-            }
-          ]
-        },
-        {
-          id: 3,
-          label: "一级 3",
-          children: [
-            {
-              id: 7,
-              label: "二级 3-1"
-            },
-            {
-              id: 8,
-              label: "二级 3-2"
-            }
-          ]
-        }
-      ]
+      }
     };
   },
   beforeDestroy() {
@@ -136,21 +90,48 @@ export default {
   },
   computed: {
     cultrueSelectedNames() {
-      return this.cultureCheckedNodes.map(({ label }) => label).join(", ");
+      return this.cultureCheckedNodes.map(({ name }) => name).join(", ");
     },
     performanceSelectedNames() {
-      return this.performanceCheckedNodes.map(({ label }) => label).join(", ");
+      return this.performanceCheckedNodes.map(({ name }) => name).join(", ");
     }
   },
   methods: {
     submit(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
-          // TODO: ajax to update bind
-          console.log("object");
+          const params = {
+            culture_department_ids: this.cultureCheckedNodes.map(
+              v => v.department_id
+            ),
+            achievement_department_ids: this.performanceCheckedNodes.map(
+              v => v.department_id
+            )
+          };
+          // console.log(this.currentInfo)
+          patchUserScope(this.currentInfo.id, params).then(res => {
+            console.log(res);
+            this.close();
+          });
         }
       });
+    },
+    close() {
+      this.$emit("update:visible", false);
     }
+  },
+  created() {
+    getAccessTree()
+      .then(res => {
+        const { cultureDepartment, achievementDepartmentTree } = res;
+        this.cultureDepartmentTree = cultureDepartment
+          ? [cultureDepartment]
+          : [];
+        this.performanceDepartmentTree = achievementDepartmentTree
+          ? [achievementDepartmentTree]
+          : [];
+      })
+      .catch(e => {});
   }
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
-    <transition @before-leave="beforeLeave" @after-enter="afterEnter" name="fade">
-        <div v-click-outside="outside" class="objectTree-container" v-if="visible">
-            <el-input placeholder="输入关键字进行过滤" v-model="filterText">
-            </el-input>
-            <el-tree @check-change="treeChange" :default-checked-keys="checkedKeys" node-key="id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="data">
-            </el-tree>
-        </div>
-    </transition>
+  <transition @before-leave="beforeLeave" @after-enter="afterEnter" name="fade">
+    <div v-click-outside="outside" class="objectTree-container" v-if="visible">
+      <el-input placeholder="输入关键字进行过滤" v-model="filterText">
+      </el-input>
+      <el-tree @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="department_id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="data">
+      </el-tree>
+    </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -26,13 +26,14 @@ export default {
   },
   data() {
     return {
+      defaultProps: { label: "name" },
       filterText: ""
     };
   },
   methods: {
     filterNode(value, data) {
       if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+      return data.name.indexOf(value) !== -1;
     },
     afterEnter(el) {
       el.style.width = "30%";
@@ -43,9 +44,10 @@ export default {
     },
     treeChange() {
       const nodes = this.$refs.tree.getCheckedNodes();
+      console.log(nodes);
       this.$emit(
         "update:checkedNodes",
-        nodes.map(({ label, id }) => ({ label, id }))
+        nodes.map(({ name, department_id }) => ({ name, department_id }))
       );
     },
     outside() {
@@ -59,7 +61,7 @@ export default {
   },
   computed: {
     checkedKeys() {
-      return this.checkedNodes.map(({ id }) => id);
+      return this.checkedNodes.map(({ department_id }) => department_id);
     }
   },
   directives: {

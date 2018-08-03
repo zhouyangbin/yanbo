@@ -57,7 +57,7 @@
       <!-- update dialog -->
       <user-dialog v-if="updateDialogVisible" :visible.sync="updateDialogVisible" :title="constants.LABEL_MODIFY" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit"></user-dialog>
       <br>
-      <bind-dialog v-if="bindDialogVisible" :visible.sync="bindDialogVisible"></bind-dialog>
+      <bind-dialog :currentInfo="selectedUser" v-if="bindDialogVisible" :visible.sync="bindDialogVisible"></bind-dialog>
       <!-- pagination -->
       <el-row type="flex" justify="end">
         <pagination :currentPage="conditionForm.page" @current-change="handleCurrentChange" :total="total"></pagination>
@@ -155,7 +155,8 @@ export default {
       userTable: [],
       tableLoading: true,
       // nav-bar导航栏高度61px、预留pagination分页40px
-      tableHeight: "calc(100% - 61px - 40px)"
+      tableHeight: "calc(100% - 61px - 40px)",
+      selectedUser: {}
     };
   },
   created() {
@@ -287,6 +288,7 @@ export default {
       this.getManagers();
     },
     bind(row) {
+      this.selectedUser = row;
       this.bindDialogVisible = true;
     }
   }

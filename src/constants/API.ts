@@ -137,3 +137,9 @@ export const getRuleList = (params: object) =>
 
 export const putRule = (id: String, params: Object) =>
   sendPut(`${test}/performance/admin/rule/${id}`, params);
+// 获取权限组织🌲
+export const getAccessTree = () =>
+  sendGet(`${test}/permission/department-tree`);
+// 设置用户部门管理范围
+export const patchUserScope = (id: String, params: Object) =>
+  sendPatch(`${test}/permission/users/${id}/set-department`, params);
