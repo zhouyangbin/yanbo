@@ -1,49 +1,50 @@
 <template>
   <el-dialog @close="close" width="650px" :visible="visible" class="ruleDialog">
     <div slot="title" class="title">
-      部门名字
+      {{data.department}}
     </div>
     <el-form :rules="rules" label-width="150px" ref="ruleForm" :model="ruleForm" class="ruleForm">
       <el-form-item label="是否强制对应" prop="isMapping">
         <el-radio-group v-model="ruleForm.isMapping">
-          <el-radio :label="3">是</el-radio>
-          <el-radio :label="6">否</el-radio>
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="2">否</el-radio>
         </el-radio-group>
       </el-form-item>
-
-      <div class="mapping-container">
-        <span>D</span>
-        <span>对应</span>
-        <div>
-          <el-slider tooltip-class="tooltip" style="width:400px" :max="496" v-model="D" :format-tooltip="formatTooltip"></el-slider>
+      <div v-if="showMapping">
+        <div class="mapping-container">
+          <span>D</span>
+          <span>对应</span>
+          <div>
+            <el-slider tooltip-class="tooltip" style="width:400px" :max="496" v-model="D" :format-tooltip="formatTooltip"></el-slider>
+          </div>
         </div>
-      </div>
-      <div class="mapping-container">
-        <span>C</span>
-        <span>对应</span>
-        <div>
-          <el-slider tooltip-class="tooltip" range :min="1" :max="497" style="width:400px" v-model="C" :format-tooltip="formatTooltip"></el-slider>
+        <div class="mapping-container">
+          <span>C</span>
+          <span>对应</span>
+          <div>
+            <el-slider tooltip-class="tooltip" range :min="1" :max="497" style="width:400px" v-model="C" :format-tooltip="formatTooltip"></el-slider>
+          </div>
         </div>
-      </div>
-      <div class="mapping-container">
-        <span>B</span>
-        <span>对应</span>
-        <div>
-          <el-slider tooltip-class="tooltip" range :min="2" :max="498" style="width:400px" v-model="B" :format-tooltip="formatTooltip"></el-slider>
+        <div class="mapping-container">
+          <span>B</span>
+          <span>对应</span>
+          <div>
+            <el-slider tooltip-class="tooltip" range :min="2" :max="498" style="width:400px" v-model="B" :format-tooltip="formatTooltip"></el-slider>
+          </div>
         </div>
-      </div>
-      <div class="mapping-container">
-        <span>A</span>
-        <span>对应</span>
-        <div>
-          <el-slider tooltip-class="tooltip" range :min="3" :max="499" style="width:400px" v-model="A" :format-tooltip="formatTooltip"></el-slider>
+        <div class="mapping-container">
+          <span>A</span>
+          <span>对应</span>
+          <div>
+            <el-slider tooltip-class="tooltip" range :min="3" :max="499" style="width:400px" v-model="A" :format-tooltip="formatTooltip"></el-slider>
+          </div>
         </div>
-      </div>
-      <div class="mapping-container">
-        <span>S</span>
-        <span>对应</span>
-        <div>
-          <el-slider tooltip-class="tooltip" :min="4" range :max="500" style="width:400px" v-model="S" :format-tooltip="formatTooltip"></el-slider>
+        <div class="mapping-container">
+          <span>S</span>
+          <span>对应</span>
+          <div>
+            <el-slider tooltip-class="tooltip" :min="4" range :max="500" style="width:400px" v-model="S" :format-tooltip="formatTooltip"></el-slider>
+          </div>
         </div>
       </div>
     </el-form>
@@ -57,11 +58,17 @@
 </template>
 <script>
 import { CONFIRM, CANCEL } from "@/constants/TEXT";
+import { putRule } from "@/constants/API";
+
 export default {
   props: {
     visible: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -94,12 +101,32 @@ export default {
     submit() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
-          // TODO: ajax
+          let postData = {
+            type_id: this.ruleForm.isMapping
+          };
+          if (this.showMapping) {
+            postData.fraction = [
+              this.D / 100,
+              this.C[1] / 100,
+              this.B[1] / 100,
+              this.A[1] / 100,
+              this.S[0] / 100
+            ];
+          }
+          putRule(this.data.id, postData)
+            .then(res => {
+              this.close();
+            })
+            .catch(e => {});
         }
       });
     }
   },
-  computed: {},
+  computed: {
+    showMapping() {
+      return this.ruleForm.isMapping == 1;
+    }
+  },
   watch: {
     // 小心死循环
     C: {

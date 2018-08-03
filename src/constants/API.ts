@@ -130,3 +130,10 @@ export const putTpl = (id: string, params: object) =>
 // 获取模板详情
 export const getTpl = (id: string) =>
   sendGet(`${test}/performance/admin/templates/${id}`);
+// 获取规则列表
+export const getRuleList = (params: object) =>
+  sendGet(`${test}/performance/admin/rule`, params);
+// 跟新规则
+
+export const putRule = (id: String, params: Object) =>
+  sendPut(`${test}/performance/admin/rule/${id}`, params);
