@@ -32,7 +32,7 @@
         </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small">{{constants.DETAILS}}</el-button>
+            <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
             <el-button type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
@@ -117,6 +117,7 @@ import {
   getDepartments,
   getPerformanceList
 } from "@/constants/API";
+import { PATH_PERFORMANCE_PROGRESS } from "@/constants/URL";
 const debounce = require("lodash.debounce");
 export default {
   data() {
@@ -219,7 +220,7 @@ export default {
         // console.log(res)
         const { total, data } = res;
         this.total = total;
-        this.currentPage = 1;
+        // this.currentPage = 1
         this.tableData = data;
       });
     },
@@ -338,6 +339,9 @@ export default {
           this.dpArr = res;
         })
         .catch(err => {});
+    },
+    goSubList(row) {
+      this.$router.push(PATH_PERFORMANCE_PROGRESS(row.id));
     }
   },
   computed: {
@@ -390,6 +394,7 @@ export default {
           department_id: v.dp,
           type_id: v.type
         };
+        this.currentPage = 1;
         this.refreshList(filterData);
       },
       deep: true,

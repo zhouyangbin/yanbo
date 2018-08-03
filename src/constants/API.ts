@@ -109,8 +109,11 @@ export const getUserGradeContent = (uid: string) =>
 export const postReminder = (params: object) =>
   sendPost("/admin/api/messages", params);
 
-// 角色列表
-export const getRoleList = () => sendGet(`${test}/permission/roles`);
+// 角色列表 全量
+export const getRoleList = () => sendGet(`${test}/permission/users/roles`);
+// 分页
+export const getRoleListByPage = (params: object) =>
+  sendGet(`${test}/permission/roles`, params);
 
 // 模板列表
 export const getTplList = (params: object) =>

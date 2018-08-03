@@ -16,6 +16,7 @@
 </template>
 <script>
 import { ROLE_SETTING } from "@/constants/TEXT";
+import { getRoleListByPage } from "@/constants/API";
 export default {
   data() {
     return {
@@ -37,10 +38,15 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.refreshList();
+      this.refreshList(val);
     },
     refreshList(page) {
-      // TODO: ajax
+      return getRoleListByPage({ page }).then(res => {
+        const { total, data } = res;
+        this.total = total;
+        this.tableData = data;
+        // this.currentPage = 1
+      });
     }
   },
   created() {

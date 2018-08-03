@@ -67,7 +67,7 @@ export default {
     refreshList(data) {
       return getRuleList(data).then(res => {
         const { total, data } = res;
-        this.currentPage = 1;
+        // this.currentPage = 1;
         this.total = total;
         this.tableData = data;
       });
@@ -100,6 +100,7 @@ export default {
           department_id: v
         };
         this.refreshList(postData);
+        this.currentPage = 1;
       },
       deep: true,
       immediate: true

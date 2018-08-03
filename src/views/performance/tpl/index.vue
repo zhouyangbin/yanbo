@@ -82,7 +82,7 @@ export default {
       const postData = {
         department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
         name: this.tplForm.name,
-        page: 1
+        page: this.currentPage
       };
       this.refreshList(postData);
     },
@@ -102,7 +102,11 @@ export default {
         .then(() => {
           delTpl(row.id)
             .then(res => {
-              this.refreshList(this.currentPage);
+              this.refreshList({
+                department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
+                name: this.tplForm.name,
+                page: this.currentPage
+              });
               this.delVisible = false;
             })
             .catch(e => {});
@@ -111,14 +115,18 @@ export default {
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.refreshList();
+      this.refreshList({
+        department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
+        name: this.tplForm.name,
+        page: val
+      });
     },
     refreshList(data) {
       return getTplList(data)
         .then(res => {
           const { total, data } = res;
           this.total = total;
-          this.currentPage = 1;
+          // this.currentPage = 1
           this.tableData = data;
         })
         .catch(e => {});
@@ -134,13 +142,12 @@ export default {
     // 筛选watch
     tplForm: {
       handler: function(v) {
-        // TODO: refresh list
-        // console.log("refrsh")
         const postData = {
           department_id: v.dp[v.dp.length - 1] || "",
           name: v.name,
           page: 1
         };
+        this.currentPage = 1;
         this.refreshList(postData);
       },
       deep: true,
