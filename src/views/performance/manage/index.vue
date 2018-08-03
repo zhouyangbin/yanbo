@@ -47,7 +47,7 @@
         </el-form-item>
         <el-form-item label="绩效属性" prop="property">
           <el-select style="width:400px;" v-model="ruleForm.property" placeholder="请选择">
-            <el-option v-for="item in propertyArr" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>
         </el-form-item>
@@ -93,7 +93,8 @@ import {
   CONFIRM,
   CANCEL,
   DETAILS,
-  EXPORT_DETAILS
+  EXPORT_DETAILS,
+  ENUM_PERFORMANCE_TYPE
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
 export default {
@@ -117,7 +118,8 @@ export default {
         CONFIRM,
         CANCEL,
         DETAILS,
-        EXPORT_DETAILS
+        EXPORT_DETAILS,
+        ENUM_PERFORMANCE_TYPE
       },
       nav: [
         {

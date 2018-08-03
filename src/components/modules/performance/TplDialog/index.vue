@@ -8,7 +8,7 @@
         <el-input style="width:400px" v-model="tplForm.name"></el-input>
       </el-form-item>
       <el-form-item label="事业部" prop="dp">
-        <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp " change-on-select></el-cascader>
+        <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp "></el-cascader>
       </el-form-item>
       <el-form-item label="绩效类型" prop="types">
         <el-select v-model="tplForm.types" placeholder="请选择绩效类型 ">
