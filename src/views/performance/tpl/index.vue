@@ -80,7 +80,7 @@ export default {
     tplDialogClose() {
       this.showDialog = false;
       const postData = {
-        department_id: this.tplForm.dp[v.dp.length - 1] || "",
+        department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
         name: this.tplForm.name,
         page: 1
       };
