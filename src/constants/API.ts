@@ -156,3 +156,6 @@ export const postAddPerformanceGrade = (params: Object) =>
 // 绩效评分列表
 export const getPerformanceList = (params: Object) =>
   sendGet(`${test}/performance/admin/performances`, params);
+// 绩效评分部门列表
+export const getPerformanceDepartmentsList = (id: String, page: String) =>
+  sendGet(`${test}/performance/admin/departments/${id}?page=${page}`);

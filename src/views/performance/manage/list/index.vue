@@ -1,38 +1,38 @@
 <template>
-    <div>
-        <nav-bar :list="nav"></nav-bar>
-        <section class="content-container">
-            <div class="progress-header">
-                <span>{{gradeName||"mock grade name"}}</span>&nbsp;
-                <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate||"测试结束的时间 mock"}}</span>
-                <hr>
-            </div>
-            <el-table :data="listData" stripe style="width: 100%">
-                <el-table-column prop="department_name" :label="constants.DEPARTMENT" width="180">
-                </el-table-column>
-                <el-table-column prop="department_name" label="名单状态" width="180">
-                </el-table-column>
-                <el-table-column prop="department_name" label="目标状态" width="180">
-                </el-table-column>
-                <el-table-column prop="department_name" label="自评状态" width="180">
-                </el-table-column>
-                <el-table-column prop="department_name" label="上级评状态" width="180">
-                </el-table-column>
-                <el-table-column prop="department_name" label="申诉状态" width="180">
-                </el-table-column>
-                <el-table-column prop="4" :label="constants.OPERATIONS">
-                    <template slot-scope="scope">
-                        <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-                        <el-button @click="exportFile(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <br>
-            <el-row type="flex" justify="end">
-                <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
-            </el-row>
-        </section>
-    </div>
+  <div>
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container">
+      <div class="progress-header">
+        <span>{{gradeName||"mock grade name"}}</span>&nbsp;
+        <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate||"测试结束的时间 mock"}}</span>
+        <hr>
+      </div>
+      <el-table :data="listData" stripe style="width: 100%">
+        <el-table-column prop="department_name" :label="constants.DEPARTMENT" width="180">
+        </el-table-column>
+        <el-table-column prop="department_name" label="名单状态" width="180">
+        </el-table-column>
+        <el-table-column prop="department_name" label="目标状态" width="180">
+        </el-table-column>
+        <el-table-column prop="department_name" label="自评状态" width="180">
+        </el-table-column>
+        <el-table-column prop="department_name" label="上级评状态" width="180">
+        </el-table-column>
+        <el-table-column prop="department_name" label="申诉状态" width="180">
+        </el-table-column>
+        <el-table-column prop="4" :label="constants.OPERATIONS">
+          <template slot-scope="scope">
+            <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
+            <el-button @click="exportFile(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <br>
+      <el-row type="flex" justify="end">
+        <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
+      </el-row>
+    </section>
+  </div>
 </template>
 <script>
 import {
@@ -73,11 +73,7 @@ export default {
       ],
       gradeName: "",
       finishedDate: "",
-      listData: [
-        {
-          department_name: "ests"
-        }
-      ]
+      listData: []
     };
   },
   components: {
@@ -87,7 +83,7 @@ export default {
   methods: {
     goDetail(row) {
       this.$router.push(
-        PATH_PERFORMANCE_ORG_LIST(this.$route.params.id, row.id || "1")
+        PATH_PERFORMANCE_ORG_LIST(this.$route.params.id, row.id)
       );
     },
     exportFile(row) {
@@ -98,7 +94,15 @@ export default {
       this.getList(val);
     },
     getList(page) {
-      // TODO: get new page data
+      return getPerformanceDepartmentsList(this.$route.params.id, page)
+        .then(res => {
+          // console.log(res)
+          // TODO: need other data
+          const { total, data } = res;
+          this.total = total;
+          this.listData = data;
+        })
+        .catch(e => {});
     }
   }
 };
