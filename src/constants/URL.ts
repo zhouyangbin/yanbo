@@ -49,3 +49,5 @@ export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}`;
 export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;
+export const PATH_PERFORMANCE_EXCEL_IMPORT = (orgID: String) =>
+  `${base}/performance/admin/${orgID}/import/excel`;

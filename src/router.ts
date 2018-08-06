@@ -8,7 +8,7 @@ import {
   PATH_GRADE_PROGRESS,
   PATH_GRADE_ORG_LIST,
   PATH_GRADE_EMP_DETAIL,
-  PATH_PERFORMANCE_REPORT,
+  // PATH_PERFORMANCE_REPORT,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
   PATH_PERFORMANCE_ORG_LIST,
@@ -73,13 +73,13 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
-        {
-          path: PATH_PERFORMANCE_REPORT,
-          components: {
-            default: () => import("@/views/performance/report/index.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        },
+        // {
+        //   path: PATH_PERFORMANCE_REPORT,
+        //   components: {
+        //     default: () => import("@/views/performance/report/index.vue"),
+        //     sidebar: () => import("@/components/common/Sidebar/index.vue")
+        //   }
+        // },
         {
           path: PATH_PERFORMANCE_MANAGER,
           components: {

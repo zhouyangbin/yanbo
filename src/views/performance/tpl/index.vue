@@ -61,7 +61,7 @@ export default {
       ],
       treeProps: {
         value: "id",
-        label: "text"
+        label: "name"
       }
     };
   },

@@ -3,22 +3,22 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="progress-header">
-        <span>{{gradeName||"mock grade name"}}</span>&nbsp;
-        <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate||"测试结束的时间 mock"}}</span>
+        <span>{{performance_info.name}}</span>&nbsp;
+        <span class="tips">{{constants.FINISHED_DATE}} {{performance_info.end_time}}</span>
         <hr>
       </div>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="department_name" :label="constants.DEPARTMENT" width="180">
+        <el-table-column prop="department" :label="constants.DEPARTMENT" width="180">
         </el-table-column>
-        <el-table-column prop="department_name" label="名单状态" width="180">
+        <el-table-column prop="user_status" label="名单状态" width="180">
         </el-table-column>
-        <el-table-column prop="department_name" label="目标状态" width="180">
+        <el-table-column prop="target_status" label="目标状态" width="180">
         </el-table-column>
-        <el-table-column prop="department_name" label="自评状态" width="180">
+        <el-table-column prop="self_status" label="自评状态" width="180">
         </el-table-column>
-        <el-table-column prop="department_name" label="上级评状态" width="180">
+        <el-table-column prop="superior_status" label="上级评状态" width="180">
         </el-table-column>
-        <el-table-column prop="department_name" label="申诉状态" width="180">
+        <el-table-column prop="appeal_status" label="申诉状态" width="180">
         </el-table-column>
         <el-table-column prop="4" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -49,11 +49,14 @@ import {
   PATH_PERFORMANCE_ORG_LIST
 } from "@/constants/URL";
 
+import { getPerformanceDepartmentsList } from "@/constants/API";
+
 export default {
   data() {
     return {
       currentPage: 1,
       total: 0,
+      performance_info: {},
       constants: {
         FINISHED_DATE,
         DEPARTMENT,
@@ -98,12 +101,16 @@ export default {
         .then(res => {
           // console.log(res)
           // TODO: need other data
-          const { total, data } = res;
+          const { total, data, performance_info } = res;
           this.total = total;
           this.listData = data;
+          this.performance_info = performance_info;
         })
         .catch(e => {});
     }
+  },
+  created() {
+    this.getList(1);
   }
 };
 </script>

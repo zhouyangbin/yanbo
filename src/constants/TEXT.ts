@@ -410,3 +410,29 @@ export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
     value: "加减分"
   }
 ];
+
+export const ENUM_PERFORMANCE_FINISH = [
+  {
+    key: 0,
+    value: "未完成"
+  },
+  {
+    key: 1,
+    value: "已完成"
+  }
+];
+
+export const ENUM_PERFORMANCE_USER_CONFIRM = [
+  {
+    key: 0,
+    value: "未完成"
+  },
+  {
+    key: 1,
+    value: "已完成"
+  },
+  {
+    key: 2,
+    value: "申诉中"
+  }
+];

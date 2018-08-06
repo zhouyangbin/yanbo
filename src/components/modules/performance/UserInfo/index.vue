@@ -1,19 +1,19 @@
 <template>
-    <el-dialog @close="close" width="650px" :visible="dialogInfo" class="dialogInfo">
-        <div slot="title" class="title">
-            {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
-        </div>
-        <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
-            <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>
-            <leader-info :infoForm="infoForm" :infoType="infoType"></leader-info>
-        </el-form>
-        <div slot="footer">
-            <el-row type="flex" justify="center">
-                <el-button round size="medium" @click="infoSubmit('infoForm')" type="primary">{{constants.CONFIRM}}</el-button>
-                <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
-            </el-row>
-        </div>
-    </el-dialog>
+  <el-dialog @close="close" width="650px" :visible="dialogInfo" class="dialogInfo">
+    <div slot="title" class="title">
+      {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
+    </div>
+    <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
+      <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>
+      <leader-info :infoForm="infoForm" :infoType="infoType"></leader-info>
+    </el-form>
+    <div slot="footer">
+      <el-row type="flex" justify="center">
+        <el-button round size="medium" @click="infoSubmit('infoForm')" type="primary">{{constants.CONFIRM}}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+      </el-row>
+    </div>
+  </el-dialog>
 </template>
 <script>
 import {
@@ -26,7 +26,7 @@ import {
   CONFIRM,
   CANCEL
 } from "@/constants/TEXT";
-// import { postNewUser, postUpdateUser } from "@/constants/API"
+import { postPerformanceUser, pathPerformanceUser } from "@/constants/API";
 import EmpInfo from "@/components/common/EmpInfo/index.vue";
 import LeaderInfo from "@/components/common/LeaderInfo/index.vue";
 
@@ -104,7 +104,7 @@ export default {
     this.infoForm.num = this.currentInfo.workcode;
     this.infoForm.name = this.currentInfo.name;
     this.infoForm.BU = this.currentInfo.department;
-    this.infoForm.dep = this.currentInfo.first_department;
+    this.infoForm.dep = this.currentInfo.syb_department;
     this.infoForm.level = this.currentInfo.level;
     this.infoForm.email = this.currentInfo.email;
     this.infoForm.leaderNum = this.currentInfo.superior_workcode;
@@ -126,12 +126,36 @@ export default {
           // console.log(this.infoType)
           if (this.infoType === "add") {
             // 添加的情况下
-            // TODO: post ajax for add
+            const { num, email, leaderNum, leaderEmail } = this.infoForm;
+            const postData = {
+              workcode: num,
+              email,
+              superior_workcode: leaderNum,
+              superior_email: leaderEmail
+            };
+            return postPerformanceUser(this.$route.params.orgID, postData)
+              .then(res => {
+                this.close();
+              })
+              .catch(e => {});
           } else {
-            // TODO: post ajax for modify
+            const { email, leaderNum, leaderEmail } = this.infoForm;
+            console.log(this.currentInfo);
+            return pathPerformanceUser(
+              this.$route.params.orgID,
+              this.currentInfo.id,
+              {
+                email,
+                superior_workcode: leaderNum,
+                superior_email: leaderEmail
+              }
+            )
+              .then(res => {
+                this.close();
+              })
+              .catch(e => {});
           }
         } else {
-          // console.log("error submit!!")
           return false;
         }
       });

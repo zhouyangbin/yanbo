@@ -4,47 +4,47 @@
     <section class="content-container dep-page">
       <div class="bg-white">
         <el-row type="flex" justify="space-between" class="header">
-          <span>{{gradeInfo.name||"mock pingfen name"}}</span>
+          <span>{{depInfo.name}}</span>
           <span class="tip">
-            {{constants.FINISHED_DATE}} {{gradeInfo.finishedDate || "mock 截止日期"}}
+            {{constants.FINISHED_DATE}} {{depInfo.performance_name_end_time}}
           </span>
         </el-row>
         <hr>
         <div class="time-line-panel bg-white">
           <el-row type="flex" justify="space-between">
             <span class="dep-name">
-              {{depInfo.name || "mock 部门名称"}}
+              {{depInfo.department_path}}
             </span>
-            <!-- <el-button size="mini" type="primary" round style="margin-right:20px">
-                            {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
-                        </el-button> -->
+            <el-button @click="dialogTimes =true" size="mini" type="primary" round style="margin-right:20px">
+              {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
+            </el-button>
           </el-row>
           <br>
           <br>
           <el-row type="flex" justify="center">
             <el-col :span="20">
-              <el-steps align-center :active="step" finish-status="success">
+              <el-steps align-center :active="step">
                 <el-step>
                   <template slot="title">
-                    <el-button @click="dialogImport =true" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
+                    <el-button :disabled="isImported" @click="dialogImport =true" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     自评
-                    <span>(0/0)</span>
+                    <span>({{depInfo.self_status}})</span>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     上级评
-                    <span>(0/0)</span>
+                    <span>({{depInfo.superior_status}})</span>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
                     申诉
-                    <span>(0/0)</span>
+                    <span>({{depInfo.appeal_status}})</span>
                   </template>
                 </el-step>
               </el-steps>
@@ -61,9 +61,9 @@
           <span>
             <el-button @click="uploadTarget" class="action-btn" icon="el-icon-upload2" type="medium">上传目标</el-button>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button @click="reminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
+            <el-button class="action-btn" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -81,22 +81,22 @@
           </el-form-item>
           <el-form-item prop="targetStatus">
             <el-select v-model="formFilter.targetStatus" placeholder="目标状态">
-              <el-option v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+              <el-option v-for="v of constants.ENUM_PERFORMANCE_FINISH" :key="v.key" :label="v.value" :value="v.key"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="selfEvaluation">
             <el-select v-model="formFilter.selfEvaluation" :placeholder="constants.SELF_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+              <el-option v-for="v of constants.ENUM_PERFORMANCE_FINISH" :key="v.key" :label="v.value" :value="v.key"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="leaderEvaluation">
             <el-select v-model="formFilter.leaderEvaluation" :placeholder="constants.LEADER_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+              <el-option v-for="v of constants.ENUM_PERFORMANCE_FINISH" :key="v.key" :label="v.value" :value="v.key"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="confirm">
             <el-select v-model="formFilter.confirm" placeholder="员工确认">
-              <el-option v-for="v of constants.ENUM_WAIT_CONFIRM" :key="v.key" :label="v.value" :value="v.key"></el-option>
+              <el-option v-for="v of constants.ENUM_PERFORMANCE_USER_CONFIRM" :key="v.key" :label="v.value" :value="v.key"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -112,36 +112,36 @@
           </el-table-column>
           <el-table-column prop="department" :label="constants.BASE_OR_BU" width="100">
           </el-table-column>
-          <el-table-column prop="first_department" :label="constants.DEP_OR_SUB" width="200">
+          <el-table-column prop="syb_department" :label="constants.DEP_OR_SUB" width="200">
           </el-table-column>
 
           <el-table-column prop="email" :label="constants.EMAIL" width="180">
           </el-table-column>
-          <el-table-column prop="taget_status" label="目标状态" width="80">
-            <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
-            </template>
+          <el-table-column prop="target" label="目标状态">
+            <!-- <template slot-scope="scope">
+              {{(constants.ENUM_PERFORMANCE_FINISH.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+            </template> -->
           </el-table-column>
-          <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
-            <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
-            </template>
+          <el-table-column prop="self" :label="constants.SELF_EVALUATION_STATUS">
+            <!-- <template slot-scope="scope">
+              {{(constants.ENUM_PERFORMANCE_FINISH.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+            </template> -->
           </el-table-column>
-          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
-            <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
-            </template>
+          <el-table-column prop="superior" :label="constants.LEADER_EVALUATION_STATUS">
+            <!-- <template slot-scope="scope">
+              {{(constants.ENUM_PERFORMANCE_FINISH.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
+            </template> -->
           </el-table-column>
 
-          <el-table-column prop="isConiftm" label="员工确认">
-            <template slot-scope="scope">
-              {{(constants.ENUM_WAIT_CONFIRM.filter(v=>v.key===String(scope.row.feedback_is_agree))[0]||{}).value}}
-            </template>
+          <el-table-column prop="confirm" label="员工确认">
+            <!-- <template slot-scope="scope">
+              {{(constants.ENUM_PERFORMANCE_USER_CONFIRM.filter(v=>v.key===String(scope.row.feedback_is_agree))[0]||{}).value}}
+            </template> -->
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
-              <el-button v-if="canbeEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button v-if="canbeEdit" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
+              <el-button @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
+              <el-button type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
               <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
@@ -155,7 +155,7 @@
     </section>
     <target-dialog @close="dialogTarget=false" :visible="dialogTarget"></target-dialog>
     <import-dialog @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
-    <time-setting :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
+    <time-set v-if="dialogTimes" @close="closeTimeSettingDia" :initTime="initTime" :visible="dialogTimes"></time-set>
     <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
   </div>
 </template>
@@ -195,7 +195,9 @@ import {
   ENUM_LEADER_EVALUATION_STATUS,
   MODIFY_TIMES,
   CONFIRM,
-  CANCEL
+  CANCEL,
+  ENUM_PERFORMANCE_FINISH,
+  ENUM_PERFORMANCE_USER_CONFIRM
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_EMP_DETAIL,
@@ -206,7 +208,12 @@ import {
   PATH_PERFORMANCE_PROGRESS
 } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
-import { delUser, getUserList, postReminder } from "@/constants/API";
+import {
+  getPerormanceDepartmentDetails,
+  delPerformanceUser,
+  postPerformanceReminder
+} from "@/constants/API";
+import { getUserList, postReminder } from "@/constants/API";
 import { compact } from "@/utils/obj";
 
 export default {
@@ -229,34 +236,8 @@ export default {
 
       // 添加为add,修改为modify,根据type不同改变title和赋值还有请求
       infoType: "add",
-
-      // 评测信息
-      gradeInfo: {
-        name: "",
-        finishedDate: "",
-        self_start_time: "",
-        self_end_time: "",
-        superior_start_time: "",
-        superior_end_time: "",
-        highlevel_start_time: "",
-        highlevel_end_time: "",
-        feedback_start_time: "",
-        feedback_end_time: "",
-        checked_271: 0
-      },
       // 事业部信息
-      depInfo: {
-        name: "",
-        self_status: 0,
-        superior_status: 0,
-        highlevel_status: 0,
-        feedback_status: 0,
-        count: "",
-        self: "",
-        superior: "",
-        highlevel: "",
-        refuse: ""
-      },
+      depInfo: {},
       // 选择集合
       selection: [],
       // 搜索项form
@@ -273,6 +254,8 @@ export default {
       constants: {
         FINISHED_DATE,
         ENUM_GENERIC_COMPLETE_STATUS,
+        ENUM_PERFORMANCE_FINISH,
+        ENUM_PERFORMANCE_USER_CONFIRM,
         SELF_EVALUATION_STATUS,
         LEADER_EVALUATION_STATUS,
         RESULT_CONFIRM,
@@ -305,7 +288,7 @@ export default {
         MODIFY_TIMES,
         PATH_GRADE_EMP_DETAIL
       },
-      tableData: [{}],
+      tableData: [],
       nav: [
         {
           label: GRADE_MANAGE,
@@ -326,16 +309,16 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
     "import-dialog": AsyncComp(
-      import("@/components/modules/grademanage/progress/org/import/Dialog.vue")
-    ),
-    "time-setting": AsyncComp(
-      import("@/components/modules/grademanage/progress/org/settings/TimeDialog.vue")
+      import("@/components/modules/performance/ImportDialog/index.vue")
     ),
     "info-dialog": AsyncComp(
       import("@/components/modules/performance/UserInfo/index.vue")
     ),
     "target-dialog": AsyncComp(
       import("@/components/modules/performance/ImportTarget/index.vue")
+    ),
+    "time-set": AsyncComp(
+      import("@/components/modules/performance/TimeSet/index.vue")
     )
   },
   methods: {
@@ -346,19 +329,29 @@ export default {
       this.dialogTarget = true;
     },
     exportData() {
+      // FIXME:
       const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
       window.open(url, "_blank");
       // window.location.href = url
     },
     batchDel() {
       // 批量删除
-      delUser({ evaluation_user_ids: this.selection.map(v => v.id) })
-        .then(res => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
+      this.$confirm("确定删除这些用户?", "提示", {
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          delPerformanceUser(this.$route.params.orgID, {
+            performance_user_ids: this.selection.map(v => v.id)
+          }).then(res => {
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+            this.refreshList(this.getCurrentPostData());
           });
-          this.refreshList();
         })
         .catch(() => {});
     },
@@ -370,6 +363,7 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       const postData = {
+        ...this.getCurrentPostData(),
         page: val
       };
       this.refreshList(postData);
@@ -377,17 +371,18 @@ export default {
     // 导入
     closeImportDia() {
       this.dialogImport = false;
-      this.refreshList();
+      this.refreshList(this.getCurrentPostData());
     },
     closeTimeSettingDia() {
       // 设置修改时间后需要刷新
       this.dialogTimes = false;
-      this.refreshList();
+      this.refreshList(this.getCurrentPostData());
     },
     closeInfoDia() {
       // 添加修改信息后
       this.dialogInfo = false;
-      this.refreshList();
+
+      this.refreshList(this.getCurrentPostData());
     },
     // 发出提醒
     reminder() {
@@ -404,11 +399,11 @@ export default {
       })
         .then(() => {
           const postData = {};
-          postData.evaluation_id = this.$route.params.orgID;
+          postData.performance_id = this.$route.params.orgID;
           if (this.selection.length != 0) {
-            postData.ids = this.selection.map(v => v.id);
+            postData.performance_user_ids = this.selection.map(v => v.id);
           }
-          postReminder(postData)
+          postPerformanceReminder(postData)
             .then(res => {
               this.$message({
                 type: "success",
@@ -428,18 +423,19 @@ export default {
         center: true
       })
         .then(() => {
-          delUser({ evaluation_user_ids: [row.id] }).then(res => {
+          delPerformanceUser(this.$route.params.orgID, {
+            performance_user_ids: [row.id]
+          }).then(res => {
             this.$message({
               type: "success",
               message: "删除成功!"
             });
-            this.refreshList();
+            this.refreshList(this.getCurrentPostData());
           });
         })
         .catch(() => {});
     },
     modifyInfo(row) {
-      // console.log(row)
       // 修改某个人的信息
       this.infoType = "modify";
       this.currentInfo = row;
@@ -447,74 +443,45 @@ export default {
     },
     // 拉取列表数据
     refreshList(data) {
-      //   let postData = data || {}
-      //   postData = {
-      //     ...{
-      //       name: this.formFilter.name,
-      //       workcode: this.formFilter.number,
-      //       superior_workcode: this.formFilter.leaderNum,
-      //       superior_name: this.formFilter.leaderName,
-      //       highlevel_workcode: this.formFilter.upLeaderNum,
-      //       highlevel_name: this.formFilter.upLeaderName,
-      //       self_status: this.formFilter.selfEvaluation,
-      //       superior_status: this.formFilter.leaderEvaluation,
-      //       highlevel_status: this.formFilter.plusLeaderEvaluation,
-      //       feedback_is_agree: this.formFilter.result,
-      //       page: this.currentPage,
-      //       perPage: 20
-      //     },
-      //     ...postData
-      //   }
-      //   getUserList(this.$route.params.orgID, compact(postData))
-      //     .then(res => {
-      //       this.tableData = res.list.data
-      //       this.total = res.list.total
-      //       this.depInfo.name = res.info.department_name
-      //       this.depInfo.self_status = res.info.self_status
-      //       this.depInfo.superior_status = res.info.superior_status
-      //       this.depInfo.highlevel_status = res.info.highlevel_status
-      //       this.depInfo.feedback_status = res.info.feedback_status
-      //       this.depInfo.count = res.info.stat[0].count
-      //       this.depInfo.self = res.info.stat[0].self
-      //       this.depInfo.superior = res.info.stat[0].superior
-      //       this.depInfo.highlevel = res.info.stat[0].highlevel
-      //       this.depInfo.refuse = res.info.stat[0].refuse
-      //       this.gradeInfo.name = res.info.evaluation_name.evaluation_name
-      //       this.gradeInfo.finishedDate = res.info.evaluation_name.end_time
-      //       this.gradeInfo.self_start_time = res.info.self_start_time
-      //       this.gradeInfo.self_end_time = res.info.self_end_time
-      //       this.gradeInfo.superior_start_time = res.info.superior_start_time
-      //       this.gradeInfo.superior_end_time = res.info.superior_end_time
-      //       this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time
-      //       this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time
-      //       this.gradeInfo.feedback_start_time = res.info.feedback_start_time
-      //       this.gradeInfo.feedback_end_time = res.info.feedback_end_time
-      //       this.gradeInfo.checked_271 = res.info._271_is_necessary
-      //       this.stage = parseInt(res.info.stage)
-      //       this.import_status = parseInt(res.info.import_status)
-      //     })
-      //     .catch(e => {})
-      // TODO: get search param and ajax
+      return getPerormanceDepartmentDetails(this.$route.params.orgID, data)
+        .then(res => {
+          const { data, total, performance_info } = res;
+          this.tableData = data;
+          this.total = total;
+          this.depInfo = performance_info;
+        })
+        .catch(e => {});
+    },
+    getCurrentPostData() {
+      return {
+        page: this.currentPage,
+        workcode: this.formFilter.number,
+        name: this.formFilter.name,
+        superior_workcode: this.formFilter.leaderNum,
+        superior_name: this.formFilter.leaderName,
+        target_status: this.formFilter.targetStatus,
+        self_status: this.formFilter.selfEvaluation,
+        superior_status: this.formFilter.leaderEvaluation,
+        confirm_status: this.formFilter.confirm
+      };
     }
   },
   watch: {
     // 筛选watch
     formFilter: {
       handler: function(v) {
-        // const postData = {
-        //   name: v.name,
-        //   workcode: v.number,
-        //   superior_workcode: v.leaderNum,
-        //   superior_name: v.leaderName,
-        //   highlevel_workcode: v.upLeaderNum,
-        //   highlevel_name: v.upLeaderName,
-        //   self_status: v.selfEvaluation,
-        //   superior_status: v.leaderEvaluation,
-        //   highlevel_status: v.plusLeaderEvaluation,
-        //   feedback_is_agree: v.result,
-        //   page: 1
-        // }
-        const postData = {};
+        const postData = {
+          page: 1,
+          workcode: v.number,
+          name: v.name,
+          superior_workcode: v.leaderNum,
+          superior_name: v.leaderName,
+          target_status: v.targetStatus,
+          self_status: v.selfEvaluation,
+          superior_status: v.leaderEvaluation,
+          confirm_status: v.confirm
+        };
+        this.currentPage = 1;
         this.refreshList(postData);
       },
       deep: true,
@@ -522,55 +489,23 @@ export default {
     }
   },
   computed: {
-    canbeImport() {
-      // FIXME: 确少逻辑
-      return true;
+    hasSchedule() {
+      return this.depInfo.start_time && this.depInfo.end_time;
     },
-    canbeReminder() {
-      // FIXME: 确少逻辑
-      return true;
+    isImported() {
+      return !!this.depInfo.user_status;
     },
-    canbeEdit() {
-      return this.depInfo.self_status != 2;
+    initTime() {
+      return {
+        startTime: this.depInfo.start_time,
+        endTime: this.depInfo.end_time,
+        finalEnd: this.depInfo.performance_name_end_time
+      };
     },
+
     step() {
       // FIXME: 确少逻辑
       return 4;
-    },
-    // hasSchedule() {
-    //   // 是否设置了时间
-    //   return (
-    //     this.gradeInfo.self_start_time &&
-    //     this.gradeInfo.self_end_time &&
-    //     this.gradeInfo.superior_start_time &&
-    //     this.gradeInfo.superior_end_time &&
-    //     this.gradeInfo.highlevel_start_time &&
-    //     this.gradeInfo.highlevel_end_time &&
-    //     this.gradeInfo.feedback_start_time &&
-    //     this.gradeInfo.feedback_end_time
-    //   )
-    // },
-    status() {
-      return {
-        self_status: this.depInfo.self_status,
-        superior_status: this.depInfo.superior_status,
-        highlevel_status: this.depInfo.highlevel_status,
-        feedback_status: this.depInfo.feedback_status
-      };
-    },
-    timeData() {
-      return {
-        self_start_time: this.gradeInfo.self_start_time,
-        self_end_time: this.gradeInfo.self_end_time,
-        superior_start_time: this.gradeInfo.superior_start_time,
-        superior_end_time: this.gradeInfo.superior_end_time,
-        highlevel_start_time: this.gradeInfo.highlevel_start_time,
-        highlevel_end_time: this.gradeInfo.highlevel_end_time,
-        feedback_start_time: this.gradeInfo.feedback_start_time,
-        feedback_end_time: this.gradeInfo.feedback_end_time,
-        checked_271: this.gradeInfo.checked_271,
-        finishedDate: this.gradeInfo.finishedDate
-      };
     }
   }
 };
@@ -600,9 +535,9 @@ hr {
 .time-line-panel >>> .el-step__icon {
   width: 34px;
   height: 34px;
-  background-color: #ececec;
-  color: #d5d5d5;
-  border: 2px solid #ececec;
+  /* background-color: #ececec; */
+  /* color: #d5d5d5; */
+  /* border: 2px solid #ececec; */
 }
 .time-line-panel >>> .is-success .el-step__icon {
   color: white;
@@ -620,13 +555,13 @@ hr {
   font-size: 12px;
   padding: 10px;
 }
-.time-line-panel >>> .el-step__head.is-success {
-  color: #52ddab;
-  border-color: #52ddab;
-}
-.time-line-panel >>> .el-step__title.is-success {
-  color: #52ddab;
-}
+/* .time-line-panel >>> .el-step__head.is-success {
+                                                                                  color: #52ddab;
+                                                                                  border-color: #52ddab;
+                                                                                }
+                                                                                .time-line-panel >>> .el-step__title.is-success {
+                                                                                  color: #52ddab;
+                                                                                } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

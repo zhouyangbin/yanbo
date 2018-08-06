@@ -159,3 +159,28 @@ export const getPerformanceList = (params: Object) =>
 // 绩效评分部门列表
 export const getPerformanceDepartmentsList = (id: String, page: String) =>
   sendGet(`${test}/performance/admin/departments/${id}?page=${page}`);
+// 绩效评分事业部详情
+export const getPerormanceDepartmentDetails = (id: String) =>
+  sendGet(`${test}/performance/admin/${id}/users`);
+// 删除业绩user
+export const delPerformanceUser = (performanceID: String, params: Object) =>
+  sendDelete(`${test}/performance/admin/${performanceID}/users`, params);
+// 添加业绩user
+export const postPerformanceUser = (orgID: String, params: Object) =>
+  sendPost(`${test}/performance/admin/${orgID}/users`, params);
+// 业绩提醒
+export const postPerformanceReminder = (params: Object) =>
+  sendPost(`${test}/performance/admin/message`, params);
+// 更新业绩 user
+export const pathPerformanceUser = (
+  orgID: String,
+  uid: String,
+  params: Object
+) => sendPatch(`${test}/performance/admin/${orgID}/users/${uid}`, params);
+
+// 设置业绩时间
+export const postPerformanceTime = (orgID: String, params: Object) =>
+  sendPost(`${test}/performance/admin/${orgID}/set-time`, params);
+// 业绩EHR 导入
+export const postPerformanceEHR = (orgID: String, params: Object) =>
+  sendPost(`${test}/performance/admin/${orgID}/import/ehr`, params);

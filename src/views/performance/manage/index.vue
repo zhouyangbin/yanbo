@@ -304,6 +304,9 @@ export default {
               dateObj.setMonth(dateObj.getMonth() + 1);
             }
             break;
+          case "5":
+          case "6":
+            return;
         }
         this.ruleForm.endTime = formatTime(dateObj);
       }

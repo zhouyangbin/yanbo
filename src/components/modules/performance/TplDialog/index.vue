@@ -63,7 +63,7 @@ export default {
     return {
       treeProps: {
         value: "id",
-        label: "text"
+        label: "name"
       },
       rules: {
         name: [{ required: true, message: "请输入名称", trigger: "blur" }],
