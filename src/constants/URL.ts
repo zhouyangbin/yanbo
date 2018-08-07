@@ -51,3 +51,12 @@ export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;
 export const PATH_PERFORMANCE_EXCEL_IMPORT = (orgID: String) =>
   `${base}/performance/admin/${orgID}/import/excel`;
+
+// 员工评分
+export const PATH_EMPLOYEE_MY = "/employee/my";
+export const PATH_EMPLOYEE_TEAM = "/employee/team";
+
+export const PATH_EMPLYEE_MY_DETAIL = (id: String = ":id") =>
+  `/employee/my/${id}`;
+export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
+  `/employee/team/${id}`;

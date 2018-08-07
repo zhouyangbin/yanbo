@@ -1,5 +1,13 @@
 <template>
   <el-menu class="menu-list" :default-active="$route.path" background-color="#242a36" text-color="#969798" active-text-color="#969798" unique-opened router>
+    <el-submenu :index="constants.PATH_EMPLOYEE_MY">
+      <template slot="title">
+        <i class="el-icon-star-off"></i>
+        <span>{{constants.EMPLOYEE_GRADE}}</span>
+      </template>
+      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{constants.MY_GRADE}}</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_EMPLOYEE_TEAM].includes($route.path)}" :index="constants.PATH_EMPLOYEE_TEAM">{{constants.TEAM_GRADE}}</el-menu-item>
+    </el-submenu>
     <el-submenu :index="constants.PATH_GRADE_REPORT">
       <template slot="title">
         <i class="el-icon-edit-outline"></i>
@@ -38,7 +46,10 @@ import {
   RULES_SETTING,
   ACCESS_SETTING,
   ROLE_SETTING,
-  CULTURE_GRADE
+  CULTURE_GRADE,
+  EMPLOYEE_GRADE,
+  MY_GRADE,
+  TEAM_GRADE
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
@@ -51,13 +62,18 @@ import {
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
-  PATH_ACCESS_ROLES
+  PATH_ACCESS_ROLES,
+  PATH_EMPLOYEE_MY,
+  PATH_EMPLOYEE_TEAM
 } from "@/constants/URL";
 
 export default {
   data() {
     return {
       constants: {
+        MY_GRADE,
+        TEAM_GRADE,
+        EMPLOYEE_GRADE,
         GRADE_REPORT,
         GRADE_MANAGE,
         USER_MANAGE,
@@ -77,7 +93,9 @@ export default {
         ACCESS_SETTING,
         ROLE_SETTING,
         PATH_ACCESS_ROLES,
-        CULTURE_GRADE
+        CULTURE_GRADE,
+        PATH_EMPLOYEE_MY,
+        PATH_EMPLOYEE_TEAM
       },
       level: 0
     };
