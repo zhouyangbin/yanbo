@@ -8,7 +8,7 @@
       <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{constants.MY_GRADE}}</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_EMPLOYEE_TEAM].includes($route.path)}" :index="constants.PATH_EMPLOYEE_TEAM">{{constants.TEAM_GRADE}}</el-menu-item>
     </el-submenu>
-    <el-submenu :index="constants.PATH_GRADE_REPORT">
+    <el-submenu v-if="canManageCultureGrade" :index="constants.PATH_GRADE_REPORT">
       <template slot="title">
         <i class="el-icon-edit-outline"></i>
         <span>{{constants.CULTURE_GRADE}}</span>
@@ -16,23 +16,23 @@
       <el-menu-item :index="constants.PATH_GRADE_REPORT">{{constants.GRADE_REPORT}}</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_GRADE_PROGRESS($route.params.id),constants.PATH_GRADE_ORG_LIST($route.params.id,$route.params.orgID),constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,$route.params.uid)].includes($route.path)}" :index="constants.PATH_GRADE_MANAGE">{{constants.GRADE_MANAGE}} </el-menu-item>
     </el-submenu>
-    <el-submenu :index="constants.PATH_PERFORMANCE_MANAGER">
+    <el-submenu v-if="canManagePerformanceGrade" :index="constants.PATH_PERFORMANCE_MANAGER">
       <template slot="title">
         <i class="el-icon-view"></i>
         <span>{{constants.PERFORMANCE_GRADE}}</span>
       </template>
       <!-- <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_REPORT].includes($route.path)}" :index="constants.PATH_PERFORMANCE_REPORT">{{constants.GRADE_REPORT}}</el-menu-item> -->
       <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_MANAGER].includes($route.path)}" :index="constants.PATH_PERFORMANCE_MANAGER">{{constants.GRADE_MANAGE}}</el-menu-item>
-      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_TPL].includes($route.path)}" :index="constants.PATH_PERFORMANCE_TPL">{{constants.TPL_SETTING}}</el-menu-item>
-      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_RULES].includes($route.path)}" :index="constants.PATH_PERFORMANCE_RULES">{{constants.RULES_SETTING}}</el-menu-item>
+      <el-menu-item v-if="canSetTpl" :class="{'is-active':[constants.PATH_PERFORMANCE_TPL].includes($route.path)}" :index="constants.PATH_PERFORMANCE_TPL">{{constants.TPL_SETTING}}</el-menu-item>
+      <el-menu-item v-if="canSetRules" :class="{'is-active':[constants.PATH_PERFORMANCE_RULES].includes($route.path)}" :index="constants.PATH_PERFORMANCE_RULES">{{constants.RULES_SETTING}}</el-menu-item>
     </el-submenu>
-    <el-submenu v-show="level==1" :index="constants.PATH_ACCESS_ROLES">
+    <el-submenu v-if="showRole || showUser" :index="constants.PATH_ACCESS_ROLES">
       <template slot="title">
         <i class="el-icon-setting"></i>
         <span>{{constants.ACCESS_SETTING}}</span>
       </template>
-      <el-menu-item :class="{'is-active':[constants.PATH_ACCESS_ROLES].includes($route.path)}" :index="constants.PATH_ACCESS_ROLES">{{constants.ROLE_SETTING}}</el-menu-item>
-      <el-menu-item :class="{'is-active':[constants.PATH_USER_MANAGE].includes($route.path)}" :index="constants.PATH_USER_MANAGE">{{constants.USER_MANAGE}}</el-menu-item>
+      <el-menu-item v-if="showRole" :class="{'is-active':[constants.PATH_ACCESS_ROLES].includes($route.path)}" :index="constants.PATH_ACCESS_ROLES">{{constants.ROLE_SETTING}}</el-menu-item>
+      <el-menu-item v-if="showUser" :class="{'is-active':[constants.PATH_USER_MANAGE].includes($route.path)}" :index="constants.PATH_USER_MANAGE">{{constants.USER_MANAGE}}</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
@@ -96,12 +96,34 @@ export default {
         CULTURE_GRADE,
         PATH_EMPLOYEE_MY,
         PATH_EMPLOYEE_TEAM
-      },
-      level: 0
+      }
     };
   },
   created() {
-    this.level = localStorage.getItem("talLevel");
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+  },
+  computed: {
+    showRole() {
+      return this.permissions.includes(101);
+    },
+    showUser() {
+      return this.permissions.includes(102);
+    },
+    // canCreateCultureGrade() {
+    //   return this.permissions.includes(201)
+    // },
+    canManageCultureGrade() {
+      return this.permissions.includes(202);
+    },
+    canManagePerformanceGrade() {
+      return this.permissions.includes(302);
+    },
+    canSetTpl() {
+      return this.permissions.includes(303);
+    },
+    canSetRules() {
+      return this.permissions.includes(304);
+    }
   }
 };
 </script>

@@ -15,6 +15,10 @@
                     <span class="label">完成期限:</span> &nbsp;
                     <span>2019-10-8</span>
                 </div>
+                <div>
+                    <span class="label">自评分:</span> &nbsp;
+                    <span>5分</span>
+                </div>
             </div>
             <br>
             <div>
@@ -24,7 +28,7 @@
 
         </div>
         <div class="marks">
-            <el-input-number @change="markChange" v-model="defaultValue" :min="1" :max="5" label="描述文字"></el-input-number>
+            <el-input-number @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
         </div>
     </div>
 </template>
@@ -34,6 +38,14 @@ export default {
     value: {
       type: Number | String,
       default: ""
+    },
+    config: {
+      type: Object,
+      default: () => ({
+        min: 1,
+        max: 5,
+        step: 1
+      })
     }
   },
   data() {

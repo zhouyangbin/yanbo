@@ -1,35 +1,35 @@
 <template>
-    <el-dialog @close="close" width="500px" :visible="dialogImport" class="dialogImport">
-        <div slot="title" class="title">
-            {{constants.IMPORT_RECORDS}}
-        </div>
-        <div class="importTab">
-            <el-tabs v-model="importTab">
-                <el-tab-pane :label="constants.EHR_IMPORT" name="first">
-                    <el-form label-width="80px" :rules="importRules" ref="importForm" :model="importForm" class="importForm">
-                        <el-form-item :label="constants.WORK_LEVEL" prop="levels">
-                            <el-checkbox-group v-model="importForm.levels">
-                                <el-checkbox v-for="v of levelOptions" :key="v.key" :label="v.value" name="levels"></el-checkbox>
-                            </el-checkbox-group>
-                        </el-form-item>
-                    </el-form>
-                    <err-table :errorData="eHRError"></err-table>
-                </el-tab-pane>
-                <el-tab-pane :label="constants.EXCEL_IMPORT" name="second">
-                    <import-excel :uploadSuccess="uploadSuccess" :uploadErr="uploadErr" :errorData="tableData" :uploadHeader="uploadHeader" :actionURL="constants.PATH_PERFORMANCE_EXCEL_IMPORT($route.params.orgID)" :downloadURL="constants.PATH_EXCEL_TPL"></import-excel>
-                </el-tab-pane>
-            </el-tabs>
-            <span class="tips">
-                {{constants.IMPORT_TIPS}}
-            </span>
-        </div>
-        <div v-if="importTab==='first'" slot="footer" class="dialog-footer">
-            <el-row type="flex" justify="center">
-                <el-button round size="medium" type="primary" @click="importFiles('importForm')">{{constants.CONFIRM}}</el-button>
-                <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
-            </el-row>
-        </div>
-    </el-dialog>
+  <el-dialog @close="close" width="500px" :visible="dialogImport" class="dialogImport">
+    <div slot="title" class="title">
+      {{constants.IMPORT_RECORDS}}
+    </div>
+    <div class="importTab">
+      <el-tabs v-model="importTab">
+        <el-tab-pane :label="constants.EHR_IMPORT" name="first">
+          <el-form label-width="80px" :rules="importRules" ref="importForm" :model="importForm" class="importForm">
+            <el-form-item :label="constants.WORK_LEVEL" prop="levels">
+              <el-checkbox-group v-model="importForm.levels">
+                <el-checkbox v-for="v of levelOptions" :key="v.key" :label="v.value" name="levels"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-form>
+          <err-table :errorData="eHRError"></err-table>
+        </el-tab-pane>
+        <el-tab-pane :label="constants.EXCEL_IMPORT" name="second">
+          <import-excel :uploadSuccess="uploadSuccess" :uploadErr="uploadErr" :errorData="tableData" :uploadHeader="uploadHeader" :actionURL="constants.PATH_PERFORMANCE_EXCEL_IMPORT($route.params.orgID)" :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TPL($route.params.orgID)"></import-excel>
+        </el-tab-pane>
+      </el-tabs>
+      <span class="tips">
+        {{constants.IMPORT_TIPS}}
+      </span>
+    </div>
+    <div v-if="importTab==='first'" slot="footer" class="dialog-footer">
+      <el-row type="flex" justify="center">
+        <el-button round size="medium" type="primary" @click="importFiles('importForm')">{{constants.CONFIRM}}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+      </el-row>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
@@ -49,7 +49,10 @@ import {
   UPLOAD_FAIL
 } from "@/constants/TEXT";
 import { postPerformanceEHR } from "@/constants/API";
-import { PATH_PERFORMANCE_EXCEL_IMPORT, PATH_EXCEL_TPL } from "@/constants/URL";
+import {
+  PATH_PERFORMANCE_EXCEL_IMPORT,
+  PATH_PERFORMANCE_EXCEL_TPL
+} from "@/constants/URL";
 
 import ImportByExcel from "@/components/common/ImportByExcel/index.vue";
 import ImportErrTable from "@/components/common/ImportErrTable/index.vue";
@@ -87,12 +90,12 @@ export default {
         CONFIRM,
         CANCEL,
         PATH_PERFORMANCE_EXCEL_IMPORT,
-        PATH_EXCEL_TPL
+        PATH_PERFORMANCE_EXCEL_TPL
       },
       tableData: [],
-      showTable: false,
-      eHRError: [],
-      showTableEHR: false
+      // showTable: false,
+      eHRError: []
+      // showTableEHR: false
     };
   },
   methods: {
@@ -120,7 +123,7 @@ export default {
             })
             .catch(e => {
               this.eHRError = e.data.data;
-              this.showTableEHR = true;
+              // this.showTableEHR = true
             });
         } else {
           // console.log("error submit!!")
@@ -135,7 +138,7 @@ export default {
       // console.log(err, file, fileList)
       const errObj = JSON.parse(err.message);
       this.tableData = errObj.data;
-      this.showTable = true;
+      // this.showTable = true
       this.$notify.error({
         title: ERROR,
         message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`

@@ -60,3 +60,15 @@ export const PATH_EMPLYEE_MY_DETAIL = (id: String = ":id") =>
   `/employee/my/${id}`;
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
+export const PATH_EMPLOYEE_TEAM_MEMEBER = (
+  gradeID: String = ":gradeID",
+  uid: String = "uid"
+) => `/employee/team/${gradeID}/user/${uid}`;
+export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (id: String) =>
+  `/performance/admin/${id}/target/template?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+export const PATH_PERFORMANCE_EXCEL_TPL = (id: String) =>
+  `/performance/admin/${id}/users/template`;
+export const PATH_PERFORMANCE_IMPORT_TARGET = (id: String) =>
+  `performance/admin/${id}/target/import`;

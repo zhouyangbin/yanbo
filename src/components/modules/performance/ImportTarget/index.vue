@@ -1,13 +1,17 @@
 <template>
-    <el-dialog @close="close" width="500px" :visible="visible" class="dialogImport">
-        <div slot="title" class="title">
-            导入目标
-        </div>
-        <import-excel></import-excel>
-    </el-dialog>
+  <el-dialog @close="close" width="500px" :visible="visible" class="dialogImport">
+    <div slot="title" class="title">
+      导入目标
+    </div>
+    <import-excel :uploadSuccess="uploadSuccess" :uploadHeader="uploadHeader" :errorData="tableData" :uploadErr="uploadErr" :actionURL="constants.PATH_PERFORMANCE_IMPORT_TARGET($route.params.orgID)" :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID)"></import-excel>
+  </el-dialog>
 </template>
 <script>
 import ImportByExcel from "@/components/common/ImportByExcel/index.vue";
+import {
+  PATH_PERFORMANCE_EXCEL_TARGET_TPL,
+  PATH_PERFORMANCE_IMPORT_TARGET
+} from "@/constants/URL";
 export default {
   props: {
     visible: {
@@ -18,10 +22,44 @@ export default {
   methods: {
     close() {
       this.$emit("close");
+    },
+    uploadErr(err, file, fileList) {
+      // console.log(err, file, fileList)
+      const errObj = JSON.parse(err.message);
+      this.tableData = errObj.data;
+      this.showTable = true;
+      this.$notify.error({
+        title: ERROR,
+        message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
+      });
+    },
+    uploadSuccess(response, file, fileList) {
+      this.$notify({
+        title: SUCCESS,
+        message: UPLOAD_SUCCESS,
+        type: "success"
+      });
+      this.close();
     }
   },
   components: {
     "import-excel": ImportByExcel
+  },
+  data() {
+    return {
+      constants: {
+        PATH_PERFORMANCE_EXCEL_TARGET_TPL,
+        PATH_PERFORMANCE_IMPORT_TARGET
+      },
+      tableData: []
+    };
+  },
+  computed: {
+    uploadHeader() {
+      return {
+        Authorization: `Bearer ${localStorage.getItem("talToken")}`
+      };
+    }
   }
 };
 </script>

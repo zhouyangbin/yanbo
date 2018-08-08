@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { PATH_GRADE_REPORT } from "@/constants/URL";
+import { PATH_EMPLOYEE_MY } from "@/constants/URL";
 import { qrLogin } from "@/constants/API";
 import qs from "qs";
 
@@ -45,8 +45,11 @@ export default {
       qrLogin({ token: querys.token }).then(res => {
         localStorage.setItem("talEmail", res.admin.email);
         localStorage.setItem("talToken", res.token);
-        localStorage.setItem("talLevel", res.admin.level);
-        this.$router.push({ path: PATH_GRADE_REPORT });
+        localStorage.setItem(
+          "permissions",
+          JSON.stringify(res.admin.permissions)
+        );
+        this.$router.push({ path: PATH_EMPLOYEE_MY });
       });
     }
     tinfo.init({
@@ -55,7 +58,7 @@ export default {
     });
     tinfo.sso.show("embed", "qr_scan", {
       style: {
-        //  '.login-form-title':'display:none'
+        ".login-bottom-pc": "display:none"
       },
       title: "钉钉登录评分系统"
     });

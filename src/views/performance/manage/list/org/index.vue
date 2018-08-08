@@ -134,9 +134,6 @@
           </el-table-column>
 
           <el-table-column prop="confirm" label="员工确认">
-            <!-- <template slot-scope="scope">
-              {{(constants.ENUM_PERFORMANCE_USER_CONFIRM.filter(v=>v.key===String(scope.row.feedback_is_agree))[0]||{}).value}}
-            </template> -->
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
@@ -556,12 +553,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                  color: #52ddab;
-                                                                                  border-color: #52ddab;
-                                                                                }
-                                                                                .time-line-panel >>> .el-step__title.is-success {
-                                                                                  color: #52ddab;
-                                                                                } */
+                                                                                    color: #52ddab;
+                                                                                    border-color: #52ddab;
+                                                                                  }
+                                                                                  .time-line-panel >>> .el-step__title.is-success {
+                                                                                    color: #52ddab;
+                                                                                  } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

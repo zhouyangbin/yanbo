@@ -6,7 +6,7 @@
         <span>
           {{constants.GRADE_LIST}}
         </span>
-        <el-button type="primary" v-if="isAdmin" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
+        <el-button type="primary" v-if="canCreateCultureGrade" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px;">
@@ -32,7 +32,7 @@
         <el-table-column prop="operation" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button v-if="isAdmin" @click="exportGrade(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="exportGrade(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -117,6 +117,7 @@ export default {
         dep: [],
         time: ""
       },
+      permissions: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
@@ -203,12 +204,13 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      return parseInt(window.localStorage.getItem("talLevel"), 10) === 1;
+    canCreateCultureGrade() {
+      return this.permissions.includes(201);
     }
   },
   created() {
     this.refreshList(this.currentPage);
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
   }
 };
 </script>

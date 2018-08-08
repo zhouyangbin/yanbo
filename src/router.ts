@@ -18,7 +18,8 @@ import {
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLYEE_MY_DETAIL,
-  PATH_EMPLOYY_TEAM_GRADE_DETAIL
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYEE_TEAM_MEMEBER
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -151,7 +152,14 @@ const router = new Router({
         {
           path: PATH_EMPLYEE_MY_DETAIL(),
           components: {
-            default: () => import("@/views/employee//my/index.vue"),
+            default: () => import("@/views/employee/my/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_TEAM_MEMEBER(),
+          components: {
+            default: () => import("@/views/employee/team/member/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
