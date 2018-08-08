@@ -1,15 +1,23 @@
 <template>
-    <div class="team-member-detail">
-        <nav-bar :list="nav"></nav-bar>
-        <section class="content-container">
-            <div>
-                <span class="label">基本信息:</span>
-                <span>上级工号:&nbsp; 00002 &nbsp;&nbsp; 上级姓名: &nbsp;开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            </div>
-            <br>
-            <card :config="markConfig" class="card" v-for="(v,i) of cards" v-model="cards[i].mark" :key="i"></card>
-        </section>
-    </div>
+  <div class="team-member-detail">
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container">
+      <div class="basic-info">
+        <span class="label">基本信息:</span>
+        <span>上级工号 / 00002 &nbsp;&nbsp; 上级姓名 / 开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <br>
+      <card :config="markConfig" class="card" v-for="(v,i) of cards" v-model="cards[i].mark" :key="i"></card>
+    </section>
+    <el-row type="flex" justify="end" class="total-section">
+      <el-col :span="4">
+        <span>
+          总分:
+        </span>
+        <span>80</span>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
 import { TEAM_GRADE } from "@/constants/TEXT";
@@ -43,6 +51,10 @@ export default {
 .team-member-detail .label {
   font-weight: 500;
   margin-right: 20px;
-  font-size: 1.1em;
+  /* font-size: 1.1em; */
+}
+.team-member-detail .basic-info {
+  background: white;
+  padding: 20px;
 }
 </style>

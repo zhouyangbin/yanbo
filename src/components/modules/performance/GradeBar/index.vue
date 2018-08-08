@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartBar" class="echart-bar-performance" id="echart-bar-performance"></div>
+  <div ref="echartBar" class="echart-bar-performance" id="echart-bar-performance"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -57,8 +57,12 @@ export default {
     }
   },
   mounted() {
-    this.myChart = echarts.init(this.$refs.echartBar);
-    this.myChart.setOption(this.option);
+    this.$nextTick(function() {
+      this.myChart = echarts.init(this.$refs.echartBar);
+      console.log("mounted", this.myChart);
+      this.myChart.setOption(this.option);
+      this.$forceUpdate();
+    });
   },
   watch: {
     // 监听拉动浏览器大小自适应

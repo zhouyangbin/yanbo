@@ -12,6 +12,7 @@ import {
   PATH_PERFORMANCE_EXCEL_TARGET_TPL,
   PATH_PERFORMANCE_IMPORT_TARGET
 } from "@/constants/URL";
+import { UPLOAD_FAIL, UPLOAD_SUCCESS, SUCCESS, ERROR } from "@/constants/TEXT";
 export default {
   props: {
     visible: {
@@ -27,7 +28,7 @@ export default {
       // console.log(err, file, fileList)
       const errObj = JSON.parse(err.message);
       this.tableData = errObj.data;
-      this.showTable = true;
+      // this.showTable = true
       this.$notify.error({
         title: ERROR,
         message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`

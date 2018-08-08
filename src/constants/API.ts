@@ -117,7 +117,7 @@ export const getRoleListByPage = (params: object) =>
 
 // 模板列表
 export const getTplList = (params: object) =>
-  sendGet(`${test}/performance/admin/templates`, params);
+  sendGet(`/performance/admin/templates`, params);
 // 删除模板
 export const delTpl = (id: string) =>
   sendDelete(`${test}/performance/admin/templates/${id}`, {});
@@ -126,7 +126,7 @@ export const getOrgTree = () =>
   sendGet(`${test}/performance/admin/organization`);
 // 新增模板
 export const postTpl = (params: object) =>
-  sendPost(`${test}/performance/admin/templates`, params);
+  sendPost(`/performance/admin/templates`, params);
 // 更新模板
 export const putTpl = (id: string, params: object) =>
   sendPut(`${test}/performance/admin/templates/${id}`, params);
@@ -135,7 +135,7 @@ export const getTpl = (id: string) =>
   sendGet(`${test}/performance/admin/templates/${id}`);
 // 获取规则列表
 export const getRuleList = (params: object) =>
-  sendGet(`${test}/performance/admin/rule`, params);
+  sendGet(`/performance/admin/rule`, params);
 // 跟新规则
 
 export const putRule = (id: String, params: Object) =>

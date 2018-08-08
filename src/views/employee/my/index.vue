@@ -2,26 +2,15 @@
   <div class="my-grade-page">
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
-      <div>
+      <div class="basic-info">
         <span class="label">基本信息:</span>
-        <span>上级工号:&nbsp; 00002 &nbsp;&nbsp; 上级姓名: &nbsp;开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>上级工号 / 00002 &nbsp;&nbsp; 上级姓名 / 开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
       <card class="card" v-for="(v,i) of cards" v-model="cards[i].mark" :key="i"></card>
       <br>
-      <div class="inner-container moreMarksSection">
-        <div class="inner-container">
-          <span class="label">加减分:</span> &nbsp;
-          <div>
-            <el-input :maxlength="200" type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea">
-            </el-input>
-          </div>
-        </div>
-        <div class="marks">
-          <el-input-number v-model="moreMark" :min="-0.5" :max="0.5" :step="0.1" label="描述文字"></el-input-number>
-        </div>
-      </div>
+      <addition-mark :desc.sync="desc" :mark.sync="addtionalMark"></addition-mark>
       <br>
       <el-row type="flex" justify="end" class="total-section">
         <el-col :span="4">
@@ -44,8 +33,8 @@ import { MY_GRADE } from "@/constants/TEXT";
 export default {
   data() {
     return {
-      textarea: "",
-      moreMark: "",
+      desc: "",
+      addtionalMark: "",
       cards: [
         { weight: 33, mark: 1 },
         { weight: 33, mark: 1 },
@@ -62,7 +51,9 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
-    card: () => import("@/components/modules/employee/gradeCard/index.vue")
+    card: () => import("@/components/modules/employee/gradeCard/index.vue"),
+    "addition-mark": () =>
+      import("@/components/modules/employee/additionalMark/index.vue")
   },
   computed: {
     total() {
@@ -70,13 +61,13 @@ export default {
         return parseFloat(
           this.cards
             .map(v => v.weight * v.mark / 100)
-            .reduce((pre, next) => pre + next, 0) + this.moreMark
+            .reduce((pre, next) => pre + next, 0) + this.addtionalMark
         ).toFixed(2);
       }
       return parseFloat(
         this.cards.map(v => v.mark).reduce((pre, next) => pre + next, 0) /
           this.cards.length +
-          this.moreMark
+          this.addtionalMark
       ).toFixed(2);
     },
     hasWeight() {
@@ -119,29 +110,45 @@ export default {
 .my-grade-page .card {
   margin-bottom: 20px;
 }
+.my-grade-page .basic-info {
+  background: white;
+  padding: 20px;
+}
 .my-grade-page .label {
-  font-weight: 500;
   margin-right: 20px;
-  font-size: 1.1em;
+  color: black;
+  width: 100px;
+  min-width: 100px;
+  height: 26px;
+  box-sizing: border-box;
+  line-height: 26px;
+  padding: 0 10px;
+}
+.my-grade-page .label.title {
+  background-color: #52ddab;
+  color: white;
+  border-radius: 0 13px 13px 0;
 }
 .my-grade-page .tip {
   color: red;
 }
-.inner-container {
-  display: flex;
-}
+/* .inner-container {
+                          display: flex;
+                        }
 
-.inner-container > div {
-  flex: 5;
-}
-.inner-container .marks {
-  flex: 1;
-  margin-left: 40px;
-}
-.moreMarksSection {
-  background: white;
-  padding: 20px;
-}
+                        .my-grade-page .marks {
+                          margin-left: 40px;
+                          display: flex;
+                          justify-content: flex-end;
+                          align-items: center;
+                        }
+                        .my-grade-page.marks .numbers {
+                          margin-right: 20px;
+                        }
+                        .moreMarksSection {
+                          background: white;
+                          padding: 20px;
+                        } */
 .total-section {
   font-size: 20px;
 }
