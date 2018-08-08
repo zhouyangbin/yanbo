@@ -196,10 +196,7 @@ import {
   ENUM_PERFORMANCE_FINISH,
   ENUM_PERFORMANCE_USER_CONFIRM
 } from "@/constants/TEXT";
-import {
-  PATH_GRADE_EMP_DETAIL,
-  PATH_EXPORT_USERS_GRADE
-} from "@/constants/URL";
+import { PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
 import {
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
@@ -211,8 +208,6 @@ import {
   delPerformanceUser,
   postPerformanceReminder
 } from "@/constants/API";
-import { getUserList, postReminder } from "@/constants/API";
-import { compact } from "@/utils/obj";
 
 export default {
   data() {
@@ -556,12 +551,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                            color: #52ddab;
-                                                                                            border-color: #52ddab;
-                                                                                          }
-                                                                                          .time-line-panel >>> .el-step__title.is-success {
-                                                                                            color: #52ddab;
-                                                                                          } */
+                                                                                                    color: #52ddab;
+                                                                                                    border-color: #52ddab;
+                                                                                                  }
+                                                                                                  .time-line-panel >>> .el-step__title.is-success {
+                                                                                                    color: #52ddab;
+                                                                                                  } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

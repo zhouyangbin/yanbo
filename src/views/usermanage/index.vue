@@ -230,7 +230,7 @@ export default {
     },
     // 提交修改
     updateSubmit() {
-      const { roles, active } = this.userForm;
+      const { roles } = this.userForm;
       return updateManager(this.userId, { role_ids: roles.map(v => v.id) })
         .then(res => {
           this.$message({
