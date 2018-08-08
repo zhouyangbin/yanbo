@@ -46,7 +46,8 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_PERFORMANCE_MANAGER,
-  PATH_PERFORMANCE_ORG_LIST
+  PATH_PERFORMANCE_ORG_LIST,
+  PATH_EXPORT_PERFORMANCE_DEPARTMENT
 } from "@/constants/URL";
 
 import { getPerformanceDepartmentsList } from "@/constants/API";
@@ -90,7 +91,10 @@ export default {
       );
     },
     exportFile(row) {
-      //   window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank")
+      window.open(
+        PATH_EXPORT_PERFORMANCE_DEPARTMENT(this.$route.params.id, row.id),
+        "_blank"
+      );
     },
     handleCurrentChange(val) {
       this.currentPage = val;

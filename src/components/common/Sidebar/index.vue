@@ -1,5 +1,5 @@
 <template>
-  <el-menu class="menu-list" :default-active="$route.path" background-color="#242a36" text-color="#969798" active-text-color="#969798" unique-opened router>
+  <el-menu :default-openeds="defaultOpeneds" class="menu-list" :default-active="$route.path" background-color="#242a36" text-color="#969798" active-text-color="#969798" unique-opened router>
     <el-submenu :index="constants.PATH_EMPLOYEE_MY">
       <template slot="title">
         <i class="el-icon-star-off"></i>
@@ -70,6 +70,7 @@ import {
 export default {
   data() {
     return {
+      defaultOpeneds: [PATH_EMPLOYEE_MY],
       constants: {
         MY_GRADE,
         TEAM_GRADE,

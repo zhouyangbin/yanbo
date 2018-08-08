@@ -202,7 +202,8 @@ import {
 } from "@/constants/URL";
 import {
   PATH_PERFORMANCE_MANAGER,
-  PATH_PERFORMANCE_PROGRESS
+  PATH_PERFORMANCE_PROGRESS,
+  PATH_EXPORT_PERFORMANCE_MEMBERS
 } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import {
@@ -326,8 +327,10 @@ export default {
       this.dialogTarget = true;
     },
     exportData() {
-      // FIXME:
-      const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
+      const url = PATH_EXPORT_PERFORMANCE_MEMBERS(
+        this.$route.params.id,
+        this.selection.map(v => v.id)
+      );
       window.open(url, "_blank");
       // window.location.href = url
     },
@@ -553,12 +556,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                    color: #52ddab;
-                                                                                    border-color: #52ddab;
-                                                                                  }
-                                                                                  .time-line-panel >>> .el-step__title.is-success {
-                                                                                    color: #52ddab;
-                                                                                  } */
+                                                                                            color: #52ddab;
+                                                                                            border-color: #52ddab;
+                                                                                          }
+                                                                                          .time-line-panel >>> .el-step__title.is-success {
+                                                                                            color: #52ddab;
+                                                                                          } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

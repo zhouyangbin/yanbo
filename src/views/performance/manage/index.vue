@@ -33,7 +33,7 @@
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
             <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="gradeExport(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -117,7 +117,10 @@ import {
   getDepartments,
   getPerformanceList
 } from "@/constants/API";
-import { PATH_PERFORMANCE_PROGRESS } from "@/constants/URL";
+import {
+  PATH_PERFORMANCE_PROGRESS,
+  PATH_EXPORT_PERFORMANCE_GRADE
+} from "@/constants/URL";
 const debounce = require("lodash.debounce");
 export default {
   data() {
@@ -239,6 +242,9 @@ export default {
       this.getOrgList(() => {
         this.createGradeDialog = true;
       });
+    },
+    gradeExport(row) {
+      window.open(PATH_EXPORT_PERFORMANCE_GRADE(row.id), "_blank");
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
