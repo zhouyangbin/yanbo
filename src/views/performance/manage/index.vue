@@ -278,31 +278,31 @@ export default {
         }
       });
     },
+    add7Days(dateObj) {
+      return new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+    },
+    addMonth(dateObj, num) {
+      if (dateObj.getMonth() > 12 - num - 1) {
+        dateObj.setFullYear(dateObj.getFullYear() + 1);
+        dateObj.setMonth(dateObj.getMonth() - (12 - num));
+      } else {
+        dateObj.setMonth(dateObj.getMonth() + num);
+      }
+      dateObj = this.add7Days(dateObj);
+    },
     calculateEndDate(date) {
       if (!this.ruleForm.endTime) {
         let dateObj = new Date(date);
         switch (this.ruleForm.property) {
           case "1":
             dateObj.setFullYear(dateObj.getFullYear() + 1);
-            dateObj = new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+            dateObj = this.add7Days(dateObj);
             break;
           case "2":
-            if (dateObj.getMonth() > 5) {
-              dateObj.setFullYear(dateObj.getFullYear() + 1);
-              dateObj.setMonth(dateObj.getMonth() - 6);
-            } else {
-              dateObj.setMonth(dateObj.getMonth() + 6);
-            }
-            dateObj = new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+            this.addMonth(dateObj, 6);
             break;
           case "3":
-            if (dateObj.getMonth() > 8) {
-              dateObj.setFullYear(dateObj.getFullYear() + 1);
-              dateObj.setMonth(dateObj.getMonth() - 9);
-            } else {
-              dateObj.setMonth(dateObj.getMonth() + 3);
-            }
-            dateObj = new Date(dateObj.getTime() + 60 * 1000 * 60 * 24 * 7);
+            this.addMonth(dateObj, 3);
             break;
           case "4":
             if (dateObj.getMonth() > 10) {

@@ -103,8 +103,6 @@ export default {
     getList(page) {
       return getPerformanceDepartmentsList(this.$route.params.id, page)
         .then(res => {
-          // console.log(res)
-          // TODO: need other data
           const { total, data, performance_info } = res;
           this.total = total;
           this.listData = data;

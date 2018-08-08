@@ -51,8 +51,6 @@ export default {
   },
   methods: {
     updateRule(row) {
-      // TODO: update
-      // console.log(row)
       this.selectedData = row;
       this.showRuleDialog = true;
     },
