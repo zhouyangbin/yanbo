@@ -42,7 +42,7 @@
         <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
       </el-row>
     </section>
-    <el-dialog @close="closeDia('ruleForm')" width="650px" :visible.sync="createGradeDialog">
+    <el-dialog v-if="createGradeDialog" @close="closeDia('ruleForm')" width="650px" :visible.sync="createGradeDialog">
       <span slot="title">
         <el-row type="flex" justify="center" class="dialog-title">
           {{constants.CREATE_GRADE}}
@@ -91,7 +91,7 @@
           </el-row>
         </el-form-item>
       </el-form>
-      <dp-panel :checkedNodes.sync="checkedNodes" :visible.sync="showScopeTree" :data="departmentTree"></dp-panel>
+      <dp-panel :exclusive="true" v-if="showScopeTree" :checkedNodes.sync="checkedNodes" :visible.sync="showScopeTree" :data="departmentTree"></dp-panel>
     </el-dialog>
   </div>
 </template>
@@ -227,6 +227,7 @@ export default {
     closeDia(formName) {
       this.createGradeDialog = false;
       this.ruleForm.startTime = "";
+      this.checkedNodes = [];
       this.$refs[formName].resetFields();
       this.refreshList({
         page: this.currentPage,
@@ -235,8 +236,9 @@ export default {
       });
     },
     createGrade() {
-      this.getOrgList();
-      this.createGradeDialog = true;
+      this.getOrgList(() => {
+        this.createGradeDialog = true;
+      });
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -311,10 +313,13 @@ export default {
         this.ruleForm.endTime = formatTime(dateObj);
       }
     },
-    getOrgList() {
+    getOrgList(cb) {
       return getOrgTree()
         .then(res => {
           this.departmentTree = res;
+          if (cb) {
+            cb();
+          }
         })
         .catch(e => {});
     },

@@ -3,7 +3,7 @@
     <div v-click-outside="outside" class="objectTree-container" v-if="visible">
       <el-input placeholder="输入关键字进行过滤" v-model="filterText">
       </el-input>
-      <el-tree @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="data">
+      <el-tree @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="treeOps">
       </el-tree>
     </div>
   </transition>
@@ -22,12 +22,17 @@ export default {
     checkedNodes: {
       type: Array,
       default: () => []
+    },
+    exclusive: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       defaultProps: { label: "name" },
-      filterText: ""
+      filterText: "",
+      tree: this.data
     };
   },
   methods: {
@@ -42,13 +47,85 @@ export default {
       el.style.width = "0px";
       el.style.padding = "0px";
     },
-    treeChange() {
+    treeChange(data, checked, indeterminate) {
       const nodes = this.$refs.tree.getCheckedNodes();
-      console.log(nodes);
+      if (this.exclusive) {
+        if (checked) {
+          const rootID = this.findRoot(data.id).id;
+          // console.log(rootID)
+          this.disabledOtherBranch(rootID);
+        }
+
+        if (nodes.length == 0) {
+          this.enableAll();
+        }
+      }
+
+      // console.log(nodes)
       this.$emit(
         "update:checkedNodes",
         nodes.map(({ name, id }) => ({ name, id }))
       );
+    },
+    findRoot(id) {
+      // console.log("find id", id)
+      let currentRoot = {};
+      for (let index = 0; index < this.data.length; index++) {
+        currentRoot = this.data[index];
+        // console.log("currentRoot", currentRoot)
+        if (this.findNode(id, this.data[index])) {
+          return currentRoot;
+        }
+      }
+    },
+    findNode(id, node) {
+      if (node.id == id) {
+        return true;
+      }
+      const children = node.children;
+      if (children && children.length > 0) {
+        for (let index = 0; index < children.length; index++) {
+          if (this.findNode(id, children[index])) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+    disabledOtherBranch(id) {
+      let tree = this.tree;
+      for (let index = 0; index < tree.length; index++) {
+        if (tree[index].id == id) {
+          // console.log(id, tree[index], "will continue")
+          continue;
+        }
+        tree[index] = this.disableNode(tree[index], true);
+        this.$set(tree, index, { ...tree[index] });
+      }
+      // this.$emit("update:data", tree)
+      // this.tree = tree.slice()
+
+      // this.$forceUpdate()
+    },
+    disableNode(node, disabled) {
+      node.disabled = disabled;
+      const children = node.children;
+      if (children && children.length > 0) {
+        node.children = children.map(c => {
+          return this.disableNode(c, disabled);
+        });
+      }
+      return node;
+    },
+    enableAll() {
+      let tree = this.tree;
+      for (let index = 0; index < tree.length; index++) {
+        tree[index] = this.disableNode(tree[index], false);
+        this.$set(tree, index, { ...tree[index] });
+      }
+      // this.da = tree
+      // this.$emit("update:data", tree)
+      // this.$forceUpdate()
     },
     outside() {
       this.$emit("update:visible", false);
@@ -62,6 +139,9 @@ export default {
   computed: {
     checkedKeys() {
       return this.checkedNodes.map(({ id }) => id);
+    },
+    treeOps() {
+      return this.tree;
     }
   },
   directives: {
