@@ -2,35 +2,49 @@
   <div class="grade-card-container">
     <div class="info">
       <section>
-        <span class="label title">绩效目标1:</span>
-        <div>人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug</div>
+        <span class="label title">绩效目标{{index+1}}:</span>
+        <div>{{data.target}}</div>
       </section>
       <br>
-
       <section>
         <span class="label">权重:</span>
-        <span>10%</span>
+        <span>{{data.weights*100}}%</span>
       </section>
       <br>
-      <section>
-        <span class="label">衡量标准:</span> &nbsp;
-        <span>人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug人才盘点准时上线, 线上无严重bug</span>
-      </section>
-      <br>
-      <section>
-        <span class="label">完成期限:</span>
-        <span>2019-10-8</span>
-      </section>
-      <br>
-      <section>
-        <span class="label">自评分:</span> &nbsp;
-        <span>5分</span>
-      </section>
-      <br>
+      <div v-if="data.metrics">
+        <section>
+          <span class="label">衡量标准:</span> &nbsp;
+          <span>{{data.metrics}}</span>
+        </section>
+        <br>
+      </div>
+      <div v-if="data.deadlines">
+        <section>
+          <span class="label">完成期限:</span>
+          <span>{{data.deadlines}}</span>
+        </section>
+        <br>
+      </div>
+      <div v-if="data.target_self_score && data.target_self_score.score">
+        <section>
+          <span class="label">自评分:</span> &nbsp;
+          <span>{{data.target_self_score && data.target_self_score.score}}分</span>
+        </section>
+        <br>
+      </div>
+      <div v-if="data.target_superior_score && data.target_superior_score.score">
+        <section>
+          <span class="label">上级评分:</span> &nbsp;
+          <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>
+        </section>
+        <br>
+      </div>
     </div>
-    <div class="marks">
+    <div v-if="!readOnly" class="marks">
       <el-input-number size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
-      <span>您的打分/5</span>
+      <span class="greyText">您的打分 /
+        <span class="hightlight-mark">{{value}}分</span>
+      </span>
     </div>
   </div>
 </template>
@@ -48,6 +62,18 @@ export default {
         max: 5,
         step: 1
       })
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
+    data: {
+      type: Object,
+      default: () => ({})
+    },
+    index: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -65,7 +91,7 @@ export default {
 <style scoped>
 .grade-card-container {
   background-color: white;
-  padding: 20px;
+  padding: 20px 20px 20px 0;
 }
 .grade-card-container .info {
   color: grey;
@@ -74,17 +100,17 @@ export default {
   display: flex;
 }
 .grade-card-container .marks {
-  margin-left: 40px;
+  margin-right: 10px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 .grade-card-container .marks .numbers {
-  margin-right: 20px;
+  margin-right: 30px;
 }
 .grade-card-container .label {
   margin-right: 20px;
-  color: black;
+  color: #778294;
   width: 100px;
   min-width: 100px;
   height: 26px;
@@ -92,9 +118,16 @@ export default {
   line-height: 26px;
   padding: 0 10px;
 }
+.greyText {
+  color: #778294;
+}
 .grade-card-container .label.title {
   background-color: #52ddab;
   color: white;
   border-radius: 0 13px 13px 0;
+}
+.hightlight-mark {
+  font-size: 1.3em;
+  color: #52ddab;
 }
 </style>

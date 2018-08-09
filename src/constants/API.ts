@@ -184,3 +184,6 @@ export const postPerformanceTime = (orgID: String, params: Object) =>
 // 业绩EHR 导入
 export const postPerformanceEHR = (orgID: String, params: Object) =>
   sendPost(`${test}/performance/admin/${orgID}/import/ehr`, params);
+// 业绩管理 员工详情
+export const getPerformanceUserDetail = (orgID: String, uid: String) =>
+  sendGet(`${test}/performance/admin/${orgID}/users/${uid}`);

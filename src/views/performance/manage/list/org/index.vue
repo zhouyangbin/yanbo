@@ -139,7 +139,7 @@
             <template slot-scope="scope">
               <el-button @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
               <el-button type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
-              <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
+              <el-button @click="$router.push(constants.PATH_PERFORMANCE_USER_DETAIL($route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -196,7 +196,7 @@ import {
   ENUM_PERFORMANCE_FINISH,
   ENUM_PERFORMANCE_USER_CONFIRM
 } from "@/constants/TEXT";
-import { PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import { PATH_PERFORMANCE_USER_DETAIL } from "@/constants/URL";
 import {
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
@@ -269,7 +269,7 @@ export default {
         DEP_OR_SUB,
         EMAIL,
         UP_LEVEL,
-
+        PATH_PERFORMANCE_USER_DETAIL,
         MODIFY,
         DEL,
         DETAILS,
@@ -278,8 +278,7 @@ export default {
         WORK_LEVEL,
         ENUM_SELF_EVALUATION_STATUS,
         ENUM_LEADER_EVALUATION_STATUS,
-        MODIFY_TIMES,
-        PATH_GRADE_EMP_DETAIL
+        MODIFY_TIMES
       },
       tableData: [],
       nav: [
@@ -550,12 +549,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                      color: #52ddab;
-                                                                                                      border-color: #52ddab;
-                                                                                                    }
-                                                                                                    .time-line-panel >>> .el-step__title.is-success {
-                                                                                                      color: #52ddab;
-                                                                                                    } */
+                                                                                                                    color: #52ddab;
+                                                                                                                    border-color: #52ddab;
+                                                                                                                  }
+                                                                                                                  .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                    color: #52ddab;
+                                                                                                                  } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

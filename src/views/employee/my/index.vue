@@ -4,7 +4,9 @@
     <section class="content-container">
       <div class="basic-info">
         <span class="label">基本信息:</span>
-        <span>上级工号 / 00002 &nbsp;&nbsp; 上级姓名 / 开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>
+          <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp;
+          <span class="greycolor">上级姓名</span> / 开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
@@ -12,14 +14,7 @@
       <br>
       <addition-mark :desc.sync="desc" :mark.sync="addtionalMark"></addition-mark>
       <br>
-      <el-row type="flex" justify="end" class="total-section">
-        <el-col :span="4">
-          <span>
-            总分:
-          </span>
-          <span>{{total}}</span>
-        </el-col>
-      </el-row>
+      <total-mark :total="total"></total-mark>
       <br>
       <el-row type="flex" justify="center">
         <el-button round size="medium" @click="saveDraft" class="btn-reset">保存草稿</el-button>
@@ -53,7 +48,9 @@ export default {
     pagination: () => import("@/components/common/Pagination/index.vue"),
     card: () => import("@/components/modules/employee/gradeCard/index.vue"),
     "addition-mark": () =>
-      import("@/components/modules/employee/additionalMark/index.vue")
+      import("@/components/modules/employee/additionalMark/index.vue"),
+    "total-mark": () =>
+      import("@/components/modules/employee/totalMark/index.vue")
   },
   computed: {
     total() {
@@ -114,9 +111,19 @@ export default {
   background: white;
   padding: 20px;
 }
+.my-grade-page .summary-section {
+  background: white;
+  padding: 20px 20px 20px 0;
+}
+.my-grade-page .summary-section >>> .el-step__icon.is-text {
+  border: none;
+}
+.my-grade-page .summary-section >>> .el-step__icon {
+  width: 56px;
+}
 .my-grade-page .label {
   margin-right: 20px;
-  color: black;
+  color: #778294;
   width: 100px;
   min-width: 100px;
   height: 26px;
@@ -130,26 +137,14 @@ export default {
   border-radius: 0 13px 13px 0;
 }
 .my-grade-page .tip {
-  color: red;
+  color: #ea7754;
 }
-/* .inner-container {
-                          display: flex;
-                        }
+.my-grade-page .greycolor {
+  color: #778294;
+}
 
-                        .my-grade-page .marks {
-                          margin-left: 40px;
-                          display: flex;
-                          justify-content: flex-end;
-                          align-items: center;
-                        }
-                        .my-grade-page.marks .numbers {
-                          margin-right: 20px;
-                        }
-                        .moreMarksSection {
-                          background: white;
-                          padding: 20px;
-                        } */
-.total-section {
-  font-size: 20px;
+.my-grade-page .inner-container {
+  display: flex;
+  color: grey;
 }
 </style>

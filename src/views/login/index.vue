@@ -40,7 +40,6 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
-
     if (querys.token) {
       qrLogin({ token: querys.token }).then(res => {
         localStorage.setItem("talEmail", res.admin.email);
