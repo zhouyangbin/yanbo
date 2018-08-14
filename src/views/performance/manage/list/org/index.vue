@@ -419,13 +419,15 @@ export default {
         .then(() => {
           delPerformanceUser(this.$route.params.orgID, {
             performance_user_ids: [row.id]
-          }).then(res => {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.refreshList(this.getCurrentPostData());
-          });
+          })
+            .then(res => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              this.refreshList(this.getCurrentPostData());
+            })
+            .catch(e => {});
         })
         .catch(() => {});
     },
@@ -549,12 +551,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                    color: #52ddab;
-                                                                                                                    border-color: #52ddab;
-                                                                                                                  }
-                                                                                                                  .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                    color: #52ddab;
-                                                                                                                  } */
+                                                                                                                      color: #52ddab;
+                                                                                                                      border-color: #52ddab;
+                                                                                                                    }
+                                                                                                                    .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                      color: #52ddab;
+                                                                                                                    } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

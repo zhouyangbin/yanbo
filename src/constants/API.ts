@@ -10,7 +10,6 @@ import {
   sendPut
 } from "@/utils/base";
 
-const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 // 用户管理
 // 扫码登录
 export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
@@ -156,7 +155,7 @@ export const getPerformanceList = (params: Object) =>
   sendGet(`/performance/admin/performances`, params);
 // 绩效评分部门列表
 export const getPerformanceDepartmentsList = (id: String, page: String) =>
-  sendGet(`/performance/admin/departments/${id}?page=${page}`);
+  sendGet(`/performance/admin/${id}/departments?page=${page}`);
 // 绩效评分事业部详情
 export const getPerormanceDepartmentDetails = (id: String) =>
   sendGet(`/performance/admin/${id}/users`);
