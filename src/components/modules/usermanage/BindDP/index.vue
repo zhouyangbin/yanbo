@@ -7,11 +7,11 @@
     </div>
     <el-form :inline="true" :rules="bindRules" ref="bindForm" :model="bindForm" class="bindForm">
       <el-form-item prop="culture" label="文化范围">
-        <el-input style="width:400px" placeholder="请选择事业部" v-model="cultrueSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showCultureTree = !showCultureTree">
+        <el-input style="width:400px" placeholder="请选择事业部" v-model="cultrueSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree">
         </el-input>
       </el-form-item>
       <el-form-item prop="performance" label="绩效范围">
-        <el-input style="width:400px" placeholder="请选择事业部" v-model="performanceSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showPerformanceTree = !showPerformanceTree">
+        <el-input style="width:400px" placeholder="请选择事业部" v-model="performanceSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree">
         </el-input>
       </el-form-item>
     </el-form>
@@ -21,8 +21,8 @@
         <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
       </el-row>
     </div>
-    <dp-panel :checkedNodes.sync="cultureCheckedNodes" :visible.sync="showCultureTree" :data="cultureDepartmentTree"></dp-panel>
-    <dp-panel :checkedNodes.sync="performanceCheckedNodes" :visible.sync="showPerformanceTree" :data="performanceDepartmentTree"></dp-panel>
+    <dp-panel v-if="showCultureTree" key="showCultureTree" :checkedNodes.sync="cultureCheckedNodes" :visible.sync="showCultureTree" :data="cultureDepartmentTree"></dp-panel>
+    <dp-panel v-if="showPerformanceTree" key="showPerformanceTree" :checkedNodes.sync="performanceCheckedNodes" :visible.sync="showPerformanceTree" :data="performanceDepartmentTree"></dp-panel>
   </el-dialog>
 </template>
 <script>

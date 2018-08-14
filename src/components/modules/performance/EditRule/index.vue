@@ -74,13 +74,13 @@ export default {
   data() {
     return {
       ruleForm: {
-        isMapping: this.data.type_id
+        isMapping: this.data.type_id || ""
       },
-      D: this.data.fraction[0] || 100,
-      C: [101, this.data.fraction[1] || 200],
-      B: [201, this.data.fraction[2] || 300],
-      A: [301, this.data.fraction[3] || 400],
-      S: [this.data.fraction[3] + 1 || 401, 500],
+      D: (this.data.fraction && this.data.fraction[0]) || 100,
+      C: [101, (this.data.fraction && this.data.fraction[1]) || 200],
+      B: [201, (this.data.fraction && this.data.fraction[2]) || 300],
+      A: [301, (this.data.fraction && this.data.fraction[3]) || 400],
+      S: [(this.data.fraction && this.data.fraction[3] + 1) || 401, 500],
       rules: {
         isMapping: [{ required: true, message: "请选择类型", trigger: "blur" }]
       },

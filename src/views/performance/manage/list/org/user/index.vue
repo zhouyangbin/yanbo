@@ -1,103 +1,89 @@
 <template>
-    <div class="user-detail-page">
-        <nav-bar :list="nav"></nav-bar>
-        <section class="content-container">
-            <div class="basic-info">
-                <span class="label">基本信息:</span>
-                <span>
-                    <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
-                    <span class="greycolor">上级姓名</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
-            </div>
-            <br>
-            <card :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
-            <br>
-            <addition-mark prefixTitle="自评" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
-            <br>
-            <addition-mark prefixTitle="上级评" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
-            <br>
-            <div class="summary-section">
-                <div class="inner-container">
-                    <span class="label">进度:</span>
-                    <el-steps style="width:100%" :active="1">
-                        <el-step>
-                            <div slot="icon">目标导入</div>
-                            <div slot="title">目标导入11</div>
-                        </el-step>
-                        <el-step>
-                            <div slot="icon">自评</div>
-                            <div slot="title">自评888</div>
-                        </el-step>
-                        <el-step>
-                            <div slot="icon">上级评</div>
-                            <div slot="title">自评888</div>
-                        </el-step>
-                        <el-step>
-                            <div slot="icon">申诉</div>
-                            <div slot="title">自评888</div>
-                        </el-step>
-                    </el-steps>
-                </div>
-                <div v-if="appeal.reason">
-                    <br>
-                    <div class="inner-container">
-                        <span class="label">申诉理由:</span>
-                        <span>{{appeal.reason}}</span>
-                    </div>
-                    <br>
-                </div>
-                <div class="inner-container">
-                    <span class="label">评分结果:</span>
-                    <span> {{total}} </span>
-                </div>
-                <div class="inner-container">
-                    <span class="label"></span>
-                    <el-steps style="width:100%" :active="1">
-                        <el-step>
-                            <div slot="icon">自评</div>
-                            <div slot="title">自评888</div>
-                        </el-step>
-                        <el-step>
-                            <div slot="icon">上级评</div>
-                            <div slot="title">自评888</div>
-                        </el-step>
-                        <el-step>
-                            <div slot="icon">BP修改</div>
-                            <div slot="title">自评888</div>
-                        </el-step>
-                    </el-steps>
-                </div>
-            </div>
-            <br>
-            <br>
-            <el-row type="flex" justify="center">
-                <el-button round size="medium" @click="changeMarks" class="btn-reset">修改</el-button>
-                <el-button round size="medium" @click="submit" type="primary">确认结果</el-button>
-            </el-row>
-        </section>
-    </div>
+  <div class="user-detail-page">
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container">
+      <div class="basic-info">
+        <span class="label">基本信息:</span>
+        <span>
+          <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
+          <span class="greycolor">上级姓名</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
+      </div>
+      <br>
+      <card :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
+      <br>
+      <addition-mark prefixTitle="自评" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+      <br>
+      <addition-mark prefixTitle="上级评" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+      <br>
+      <div class="summary-section">
+        <div class="inner-container">
+          <span class="label">进度:</span>
+          <el-steps style="width:80%" :active="progressArr.length">
+            <el-step v-for="(v,i) of progressArr" :key="i">
+              <div slot="icon">{{v.text}}</div>
+              <div slot="title">{{v.value}}</div>
+            </el-step>
+          </el-steps>
+        </div>
+        <div v-if="appeal.reason">
+          <br>
+          <div class="inner-container">
+            <span class="label">申诉理由:</span>
+            <span>{{appeal.reason}}</span>
+          </div>
+          <br>
+        </div>
+        <div class="inner-container">
+          <span class="label">评分结果:</span>
+          <span> {{total}} </span>
+        </div>
+        <div class="inner-container">
+          <span class="label"></span>
+          <el-steps style="width:80%" :active="resultArr.length">
+            <el-step v-for="(v,i) of resultArr" :key="i">
+              <div slot="icon">{{v.text}}</div>
+              <div slot="title">{{v.value}}</div>
+            </el-step>
+          </el-steps>
+        </div>
+      </div>
+      <br>
+      <br>
+      <el-row v-if="canEdit" type="flex" justify="center">
+        <el-button round size="medium" @click="changeMarks" class="btn-reset">修改</el-button>
+        <el-button round size="medium" @click="submit" type="primary">确认结果</el-button>
+      </el-row>
+    </section>
+    <change-mark @close="afterChangeGrade" v-if="showChangeMarkDia" :mark="total" :visible.sync="showChangeMarkDia"></change-mark>
+  </div>
 </template>
 <script>
-import { MY_GRADE } from "@/constants/TEXT";
-import { getPerformanceUserDetail } from "@/constants/API";
+import { EMPLOYEE_DETAIL } from "@/constants/TEXT";
+import {
+  getPerformanceUserDetail,
+  changePerformanceGrade
+} from "@/constants/API";
 
 export default {
   data() {
     return {
       basicInfo: {},
       total: "",
-      //   desc: "",
-      //   addtionalMark: "",
       targets: [],
       myAdditionMark: {},
       leaderAdditionMark: {},
       appeal: {},
       nav: [
         {
-          label: MY_GRADE,
+          label: EMPLOYEE_DETAIL,
           active: true
         }
-      ]
+      ],
+      resultArr: [],
+      progressArr: [],
+      canEdit: true,
+      showChangeMarkDia: false
     };
   },
   components: {
@@ -105,55 +91,38 @@ export default {
     pagination: () => import("@/components/common/Pagination/index.vue"),
     card: () => import("@/components/modules/employee/gradeCard/index.vue"),
     "addition-mark": () =>
-      import("@/components/modules/employee/additionalMark/index.vue")
-  },
-  computed: {
-    // total() {
-    //   if (this.hasWeight) {
-    //     return parseFloat(
-    //       this.cards
-    //         .map(v => v.weight * v.mark / 100)
-    //         .reduce((pre, next) => pre + next, 0) + this.addtionalMark
-    //     ).toFixed(2)
-    //   }
-    //   return parseFloat(
-    //     this.cards.map(v => v.mark).reduce((pre, next) => pre + next, 0) /
-    //       this.cards.length +
-    //       this.addtionalMark
-    //   ).toFixed(2)
-    // },
-    // hasWeight() {
-    //   return false
-    // }
+      import("@/components/modules/employee/additionalMark/index.vue"),
+    "change-mark": () =>
+      import("@/components/modules/performance/ChangeGrade/index.vue")
   },
   methods: {
-    // TODO:
-    changeMarks() {},
+    changeMarks() {
+      this.showChangeMarkDia = true;
+    },
+    afterChangeGrade() {
+      this.getInfo();
+    },
     submit() {
-      // 若模版选择了加减分，需要填写加减分理由，必填上限200
-      // 自评分不能超过5分
-
-      this.$confirm(
-        "自评分为XX分，请确认无误再提交，一经提交无法修改, 是否继续?",
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }
-      )
+      this.$confirm("请确认无误再提交，一经提交无法修改, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+          const postData = {
+            action: 1
+          };
+          changePerformanceGrade(
+            this.$route.params.orgID,
+            this.$route.params.id,
+            postData
+          )
+            .then(res => {
+              this.getInfo();
+            })
+            .catch(e => {});
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+        .catch(() => {});
     },
     getInfo() {
       return getPerformanceUserDetail(
@@ -161,25 +130,87 @@ export default {
         this.$route.params.id
       )
         .then(res => {
-          console.log(res);
+          // console.log(res)
           const {
             superior_name,
             targets,
             self_attach_score,
             superior_attach_score,
-            score,
-            appeal
+            superior_score,
+            appeal,
+            self_score,
+            target_time,
+            self_time,
+            superior_time,
+            appeal_time,
+            end_time,
+            can_edit,
+            score_level
           } = res;
           this.basicInfo = {
             leaderName: superior_name
           };
-          this.total = score;
+
+          this.total = score_level;
+          if (self_score && self_score.score) {
+            this.resultArr.push({
+              text: "自评",
+              value: self_score.score
+            });
+          }
+          if (superior_score && superior_score.score_level) {
+            this.resultArr.push({
+              text: "上级评",
+              value: superior_score.score_level
+            });
+          }
+          if (appeal && appeal.hr_score_level) {
+            this.resultArr.push({
+              text: "BP修改",
+              value: appeal.hr_score_level
+            });
+          }
+          if (target_time) {
+            this.progressArr.push({
+              text: "目标导入",
+              value: target_time
+            });
+          }
+
+          if (self_time) {
+            this.progressArr.push({
+              text: "自评",
+              value: self_time
+            });
+          }
+
+          if (superior_time) {
+            this.progressArr.push({
+              text: "上级评",
+              value: superior_time
+            });
+          }
+          if (appeal_time) {
+            this.progressArr.push({
+              text: "申诉",
+              value: appeal_time
+            });
+          }
+          if (end_time) {
+            this.progressArr.push({
+              text: "结束",
+              value: end_time
+            });
+          }
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.appeal = appeal || {};
+          this.canEdit = can_edit == 0;
         })
-        .catch(e => {});
+        .catch(e => {
+          // console.log(e)
+        });
     }
   },
   created() {
@@ -203,7 +234,7 @@ export default {
   border: none;
 }
 .user-detail-page .summary-section >>> .el-step__icon {
-  width: 56px;
+  width: auto;
 }
 .user-detail-page .label {
   margin-right: 20px;

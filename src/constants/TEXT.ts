@@ -188,6 +188,7 @@ export const ROLE = "角色";
 export const EMPLOYEE_GRADE = "员工评分";
 export const MY_GRADE = "我的评分";
 export const TEAM_GRADE = "团队评分";
+export const EMPLOYEE_DETAIL = "员工详情";
 
 export const ENUM_RECORD_STATUS = [
   {

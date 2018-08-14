@@ -83,7 +83,7 @@ export default {
         return;
       }
       this.submit().then(res => {
-        this.closeDialog();
+        // this.closeDialog();
       });
     },
     querySearchAsync(queryString, cb) {

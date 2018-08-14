@@ -8,7 +8,11 @@
         <el-input style="width:400px" v-model="tplForm.name"></el-input>
       </el-form-item>
       <el-form-item label="事业部" prop="dp">
-        <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp "></el-cascader>
+        <!-- <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp "></el-cascader> -->
+        <el-select v-model="tplForm.dp" placeholder="请选择事业部">
+          <el-option v-for="item in departmentsOps" :key="item.department_id" :label="item.name" :value="item.department_id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="绩效类型" prop="types">
         <el-select v-model="tplForm.types" placeholder="请选择绩效类型 ">
@@ -54,24 +58,20 @@ export default {
       type: Object,
       default: () => ({})
     },
-    departmentTree: {
+    departmentsOps: {
       type: Array,
       default: () => []
     }
   },
   data() {
     return {
-      treeProps: {
-        value: "id",
-        label: "name"
-      },
       rules: {
         name: [{ required: true, message: "请输入名称", trigger: "blur" }],
         dp: [{ required: true, message: "请选择事业部", trigger: "blur" }],
         types: [{ required: true, message: "请选择绩效类型", trigger: "blur" }]
       },
       property: [],
-      tplForm: { name: "", dp: [], types: "", property: [] },
+      tplForm: { name: "", dp: "", types: "", property: [] },
       constants: {
         ADD,
         MODIFY,
@@ -114,13 +114,13 @@ export default {
   created() {
     if (this.infoType != "add" && this.initData.id) {
       getTpl(this.initData.id).then(res => {
-        const { name, department_path, type_id, template_cloumns } = res;
-
+        const { name, department_path, type_id, template_columns } = res;
+        // console.log(template_columns)
         this.tplForm = {
           name,
           dp: department_path,
           types: type_id.toString(),
-          property: template_cloumns.map(v => String(v.id))
+          property: template_columns.map(v => String(v.id))
         };
       });
     }

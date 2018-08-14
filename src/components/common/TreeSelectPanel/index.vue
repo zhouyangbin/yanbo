@@ -141,7 +141,7 @@ export default {
       return this.checkedNodes.map(({ id }) => id);
     },
     treeOps() {
-      return this.tree;
+      return this.tree || this.data;
     }
   },
   directives: {

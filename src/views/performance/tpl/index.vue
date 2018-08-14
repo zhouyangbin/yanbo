@@ -8,7 +8,11 @@
             <el-input v-model="tplForm.name" placeholder="模板名称"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-cascader :props="treeProps" placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader>
+            <!-- <el-cascader :props="treeProps" placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader> -->
+            <el-select v-model="tplForm.dp" placeholder="请选择事业部">
+              <el-option v-for="item in options" :key="item.department_id" :label="item.name" :value="item.department_id">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <el-button type="primary" @click="addTpl" round>新增</el-button>
@@ -18,9 +22,9 @@
         <el-table-column prop="name" label="模板名称">
         </el-table-column>
         <el-table-column prop="department" label="适用事业部">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             {{scope.row.department.join(", ")}}
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column prop="type" label="绩效类型">
         </el-table-column>
@@ -34,13 +38,13 @@
       <br>
       <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
     </section>
-    <tpl-dialog v-if="showDialog" :initData="initData" :departmentTree="options" @close="tplDialogClose" :visible="showDialog" :infoType="infoType"></tpl-dialog>
+    <tpl-dialog v-if="showDialog" :initData="initData" :departmentsOps="options" @close="tplDialogClose" :visible="showDialog" :infoType="infoType"></tpl-dialog>
   </div>
 </template>
 <script>
 import { TPL, ATTENTION, LABEL_CONFIRM, LABEL_CANCEL } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
-import { getTplList, delTpl, getOrgTree } from "@/constants/API";
+import { getTplList, delTpl, getDepartments } from "@/constants/API";
 export default {
   data() {
     return {
@@ -49,7 +53,7 @@ export default {
       delVisible: false,
       tableData: [],
       initData: {},
-      tplForm: { name: "", dp: [] },
+      tplForm: { name: "", dp: "" },
       infoType: "add",
       showDialog: false,
       options: [],
@@ -80,7 +84,7 @@ export default {
     tplDialogClose() {
       this.showDialog = false;
       const postData = {
-        department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
+        department_id: this.tplForm.dp || "",
         name: this.tplForm.name,
         page: this.currentPage
       };
@@ -103,7 +107,7 @@ export default {
           delTpl(row.id)
             .then(res => {
               this.refreshList({
-                department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
+                department_id: this.tplForm.dp || "",
                 name: this.tplForm.name,
                 page: this.currentPage
               });
@@ -116,7 +120,7 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList({
-        department_id: this.tplForm.dp[this.tplForm.dp - 1] || "",
+        department_id: this.tplForm.dp || "",
         name: this.tplForm.name,
         page: val
       });
@@ -131,9 +135,8 @@ export default {
         })
         .catch(e => {});
     },
-    getOrgList() {
-      return getOrgTree().then(res => {
-        // console.log(res)
+    getDepartment() {
+      getDepartments().then(res => {
         this.options = res;
       });
     }
@@ -143,7 +146,7 @@ export default {
     tplForm: {
       handler: function(v) {
         const postData = {
-          department_id: v.dp[v.dp.length - 1] || "",
+          department_id: v.dp || "",
           name: v.name,
           page: 1
         };
@@ -155,7 +158,7 @@ export default {
     }
   },
   created() {
-    this.getOrgList();
+    this.getDepartment();
   }
 };
 </script>

@@ -28,7 +28,12 @@
 </template>
 
 <script>
-import { PATH_EMPLOYEE_MY } from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_MY,
+  PATH_EMPLYEE_MY_DETAIL,
+  PATH_PERFORMANCE_USER_DETAIL,
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL
+} from "@/constants/URL";
 import { qrLogin } from "@/constants/API";
 import qs from "qs";
 
@@ -40,6 +45,25 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
+    // console.log(querys)
+    let dst = PATH_EMPLOYEE_MY;
+    if (querys.fromDingDing) {
+      switch (querys.path) {
+        case "self":
+        case "confim":
+          dst = PATH_EMPLYEE_MY_DETAIL(querys.performance_id);
+          break;
+        case "superior-list":
+          dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
+          break;
+        case "appeal":
+          dst = PATH_PERFORMANCE_USER_DETAIL(
+            querys.performance_id,
+            querys.performance_user_id
+          );
+          break;
+      }
+    }
     if (querys.token) {
       qrLogin({ token: querys.token }).then(res => {
         localStorage.setItem("talEmail", res.admin.email);
@@ -48,7 +72,7 @@ export default {
           "permissions",
           JSON.stringify(res.admin.permissions)
         );
-        this.$router.push({ path: PATH_EMPLOYEE_MY });
+        this.$router.push({ path: dst });
       });
     }
     tinfo.init({

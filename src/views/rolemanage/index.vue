@@ -4,9 +4,12 @@
     <section class="content-container">
       <br>
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="date" label="角色">
+        <el-table-column prop="name" label="角色">
         </el-table-column>
-        <el-table-column prop="name" label="权限">
+        <el-table-column prop="permissions" label="权限">
+          <template slot-scope="scope">
+            {{scope.row.permissions.join(", ")}}
+          </template>
         </el-table-column>
       </el-table>
       <br>

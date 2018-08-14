@@ -169,7 +169,7 @@ export default {
       const data = { ...this.conditionForm };
       getManagers(data)
         .then(res => {
-          console.log(res);
+          // console.log(res)
           this.tableLoading = false;
           if (res) {
             this.total = res.total;
@@ -213,6 +213,7 @@ export default {
       const { email, roles } = this.userForm;
       return addManager({ email, role_ids: roles.map(v => v.id) })
         .then(res => {
+          this.addDialogVisible = false;
           this.getManagers();
         })
         .catch(err => {});
@@ -237,7 +238,8 @@ export default {
             type: "success",
             message: CONST_MODIFY_SUCCESS
           });
-          this.this.userId = "";
+          this.userId = "";
+          this.updateDialogVisible = false;
           this.getManagers();
         })
         .catch(err => {});
@@ -290,6 +292,13 @@ export default {
     bind(row) {
       this.selectedUser = row;
       this.bindDialogVisible = true;
+    }
+  },
+  watch: {
+    bindDialogVisible(v) {
+      if (!v) {
+        this.getManagers();
+      }
     }
   }
 };
