@@ -140,7 +140,7 @@ export default {
               .catch(e => {});
           } else {
             const { email, leaderNum, leaderEmail } = this.infoForm;
-            console.log(this.currentInfo);
+            // console.log(this.currentInfo);
             return pathPerformanceUser(
               this.$route.params.orgID,
               this.currentInfo.id,

@@ -59,7 +59,7 @@ export default {
   mounted() {
     this.$nextTick(function() {
       this.myChart = echarts.init(this.$refs.echartBar);
-      console.log("mounted", this.myChart);
+      // console.log("mounted", this.myChart);
       this.myChart.setOption(this.option);
       this.$forceUpdate();
     });

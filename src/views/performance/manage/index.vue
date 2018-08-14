@@ -7,7 +7,7 @@
           <span>
             {{constants.PERFORMANCE_GRADE_LIST}}
           </span>
-          <el-select style="margin-left:30px" v-model="filterForm.dp" placeholder="请选择事业部">
+          <el-select style="margin-left:30px" v-model="filterForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
             <el-option v-for="item in dpArr" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -20,17 +20,17 @@
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="name" label="评分名称" width="180">
+        <el-table-column prop="name" :label="constants.GRADE_NAME" width="180">
         </el-table-column>
-        <el-table-column prop="department" label="部门" width="180">
+        <el-table-column prop="department" :abel="constants.DEPARTMENT" width="180">
         </el-table-column>
-        <el-table-column prop="type" label="周期类型">
+        <el-table-column prop="type" :label="constants.DURATION_TYPE">
         </el-table-column>
-        <el-table-column prop="end_time" label="截止时间">
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
         </el-table-column>
-        <el-table-column prop="start_time" label="创建时间">
+        <el-table-column prop="start_time" :label="constants.CREATED_DATE">
         </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
             <el-button @click="gradeExport(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
@@ -52,8 +52,8 @@
         <el-form-item :label="constants.GRADE_NAME" prop="name">
           <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="范围" prop="scope">
-          <el-input style="width:400px" placeholder="请选择事业部" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
+        <el-form-item :label="constants.LABEL_SCOPE" prop="scope">
+          <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
           </el-input>
         </el-form-item>
         <el-form-item label="绩效属性" prop="property">
@@ -71,7 +71,7 @@
             </el-date-picker>
           </div>
         </el-form-item>
-        <el-form-item label="模板" prop="tpl">
+        <el-form-item :label="constants.TPL" prop="tpl">
           <el-select style="width:400px;" v-model="ruleForm.tpl" placeholder="请选择">
             <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
@@ -106,7 +106,15 @@ import {
   CANCEL,
   DETAILS,
   EXPORT_DETAILS,
-  ENUM_PERFORMANCE_TYPE
+  ENUM_PERFORMANCE_TYPE,
+  LABEL_SELECT_DIVISION,
+  DEPARTMENT,
+  DURATION_TYPE,
+  FINISHED_DATE,
+  CREATED_DATE,
+  OPERATIONS,
+  LABEL_SCOPE,
+  TPL
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
@@ -163,7 +171,15 @@ export default {
         CANCEL,
         DETAILS,
         EXPORT_DETAILS,
-        ENUM_PERFORMANCE_TYPE
+        ENUM_PERFORMANCE_TYPE,
+        LABEL_SELECT_DIVISION,
+        DEPARTMENT,
+        DURATION_TYPE,
+        FINISHED_DATE,
+        CREATED_DATE,
+        OPERATIONS,
+        LABEL_SCOPE,
+        TPL
       },
       nav: [
         {
@@ -344,7 +360,7 @@ export default {
         });
     }, 500),
     getDepartments() {
-      getDepartments()
+      return getDepartments()
         .then(res => {
           res.map(function(item) {
             item.label = item.name;
@@ -402,7 +418,7 @@ export default {
     },
     filterForm: {
       handler: function(v) {
-        console.log(v);
+        // console.log(v)
         const filterData = {
           page: 1,
           department_id: v.dp,

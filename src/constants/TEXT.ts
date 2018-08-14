@@ -42,7 +42,7 @@ export const LABEL_ID_NUMBER = "身份证号";
 export const LABEL_JOIN_POSITION_NAME = "入职职位";
 export const LABEL_TAL_EMAIL = "企业邮箱";
 export const LABEL_DEPARTMENT = "部门";
-// export const LABEL_SCOPE = "范围";
+export const LABEL_SCOPE = "范围";
 
 export const LABEL_STATUS = "状态";
 export const LABEL_CREATED_DATE = "创建时间";
@@ -184,11 +184,19 @@ export const RULES_SETTING = "规则设置";
 export const ACCESS_SETTING = "权限管理";
 export const ROLE_SETTING = "角色管理";
 export const ROLE = "角色";
+export const ACCESS = "权限";
 
 export const EMPLOYEE_GRADE = "员工评分";
 export const MY_GRADE = "我的评分";
 export const TEAM_GRADE = "团队评分";
 export const EMPLOYEE_DETAIL = "员工详情";
+export const TPL_NAME = "模板名称";
+export const PERFORMANCE_TYPE = "绩效类型";
+
+export const BIND_DEPARTMENT = "绑定事业部";
+export const APPLIED_DEPARTMENTS = "适用事业部";
+export const DEL_TPL_CONFIRM = "确定要删除这个模板么?";
+export const DURATION_TYPE = "周期类型";
 
 export const ENUM_RECORD_STATUS = [
   {

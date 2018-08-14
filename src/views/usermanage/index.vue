@@ -49,7 +49,7 @@
             <el-button @click="updateUser(scope.row)" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
             <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?constants.LABEL_FORBIDDEN:constants.LABEL_ENABLED}}</el-button>
             <el-button @click="deleteUser(scope.row)" type="text" size="small">{{constants.LABEL_DEL}}</el-button>
-            <el-button @click="bind(scope.row)" type="text" size="small">绑定事业部</el-button>
+            <el-button @click="bind(scope.row)" type="text" size="small">{{constants.BIND_DEPARTMENT}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,7 +90,8 @@ import {
   CONST_OPERATIONS_SUCCESS,
   CONST_MODIFY_SUCCESS,
   CONST_UNDELETE_SUCCESS,
-  LABEL_USER_DEL_MSG
+  LABEL_USER_DEL_MSG,
+  BIND_DEPARTMENT
 } from "@/constants/TEXT";
 import {
   getManagers,
@@ -118,7 +119,6 @@ export default {
       ],
       constants: {
         LABEL_NAME,
-        // LABEL_SCOPE,
         ROLE,
         LABEL_STATUS,
         LABEL_CREATED_DATE,
@@ -130,7 +130,8 @@ export default {
         LABEL_ADD,
         LABEL_ADD_USER,
         LABEL_EMPTY,
-        LABEL_SELECT_DIVISION
+        LABEL_SELECT_DIVISION,
+        BIND_DEPARTMENT
       },
       // 用户筛选条件
       conditionForm: { name: "", department_id: "", page: 1 },

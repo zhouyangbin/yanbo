@@ -5,33 +5,33 @@
       <el-row type="flex" justify="space-between">
         <el-form :inline="true" :model="tplForm" ref="tplForm">
           <el-form-item>
-            <el-input v-model="tplForm.name" placeholder="模板名称"></el-input>
+            <el-input v-model="tplForm.name" :placeholder="constants.TPL_NAME"></el-input>
           </el-form-item>
           <el-form-item>
             <!-- <el-cascader :props="treeProps" placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader> -->
-            <el-select v-model="tplForm.dp" placeholder="请选择事业部">
+            <el-select v-model="tplForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
               <el-option v-for="item in options" :key="item.department_id" :label="item.name" :value="item.department_id">
               </el-option>
             </el-select>
           </el-form-item>
         </el-form>
-        <el-button type="primary" @click="addTpl" round>新增</el-button>
+        <el-button type="primary" @click="addTpl" round>{{constants.LABEL_ADD}}</el-button>
       </el-row>
       <br>
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="name" label="模板名称">
+        <el-table-column prop="name" :label="constants.TPL_NAME">
         </el-table-column>
-        <el-table-column prop="department" label="适用事业部">
+        <el-table-column prop="department" :label="constants.APPLIED_DEPARTMENTS">
           <!-- <template slot-scope="scope">
             {{scope.row.department.join(", ")}}
           </template> -->
         </el-table-column>
-        <el-table-column prop="type" label="绩效类型">
+        <el-table-column prop="type" :label="constants.PERFORMANCE_TYPE">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button type="text" @click="updateTpl(scope.row)" size="small">修改</el-button>
-            <el-button type="text" size="small" @click="delTpl(scope.row)">删除</el-button>
+            <el-button type="text" @click="updateTpl(scope.row)" size="small">{{constants.MODIFY}}</el-button>
+            <el-button type="text" size="small" @click="delTpl(scope.row)">{{constants.DEL}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -42,7 +42,21 @@
   </div>
 </template>
 <script>
-import { TPL, ATTENTION, LABEL_CONFIRM, LABEL_CANCEL } from "@/constants/TEXT";
+import {
+  TPL,
+  ATTENTION,
+  LABEL_CONFIRM,
+  LABEL_CANCEL,
+  TPL_NAME,
+  LABEL_SELECT_DIVISION,
+  LABEL_ADD,
+  OPERATIONS,
+  MODIFY,
+  DEL,
+  PERFORMANCE_TYPE,
+  APPLIED_DEPARTMENTS,
+  DEL_TPL_CONFIRM
+} from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
 import { getTplList, delTpl, getDepartments } from "@/constants/API";
 export default {
@@ -66,6 +80,16 @@ export default {
       treeProps: {
         value: "id",
         label: "name"
+      },
+      constants: {
+        TPL_NAME,
+        LABEL_SELECT_DIVISION,
+        LABEL_ADD,
+        OPERATIONS,
+        MODIFY,
+        DEL,
+        PERFORMANCE_TYPE,
+        APPLIED_DEPARTMENTS
       }
     };
   },
@@ -96,7 +120,7 @@ export default {
       this.showDialog = true;
     },
     delTpl(row) {
-      return this.$confirm("确定要删除这个模板么?", ATTENTION, {
+      return this.$confirm(DEL_TPL_CONFIRM, ATTENTION, {
         roundButton: true,
         confirmButtonText: LABEL_CONFIRM,
         cancelButtonText: LABEL_CANCEL,

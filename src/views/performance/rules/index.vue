@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <el-row type="flex" justify="space-between">
-        <el-select v-model="dp" placeholder="请选择事业部">
+        <el-select v-model="dp" :placeholder="constants.LABEL_SELECT_DIVISION">
           <el-option v-for="item in options" :key="item.department_id" :label="item.name" :value="item.department_id">
           </el-option>
         </el-select>
@@ -12,11 +12,11 @@
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
         <el-table-column prop="department" label="事业部">
         </el-table-column>
-        <el-table-column prop="type" label="状态">
+        <el-table-column prop="type" :label="constants.LABEL_STATUS">
         </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="address" :label="constants.LABEL_OPERATIONS">
           <template slot-scope="scope">
-            <el-button type="text" @click="updateRule(scope.row)" size="small">修改</el-button>
+            <el-button type="text" @click="updateRule(scope.row)" size="small">{{constants.LABEL_MODIFY}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -27,7 +27,13 @@
   </div>
 </template>
 <script>
-import { RULES_SETTING } from "@/constants/TEXT";
+import {
+  RULES_SETTING,
+  LABEL_SELECT_DIVISION,
+  LABEL_STATUS,
+  LABEL_OPERATIONS,
+  LABEL_MODIFY
+} from "@/constants/TEXT";
 import { getDepartments, getRuleList } from "@/constants/API";
 
 export default {
@@ -46,7 +52,13 @@ export default {
           label: RULES_SETTING,
           active: true
         }
-      ]
+      ],
+      constants: {
+        LABEL_SELECT_DIVISION,
+        LABEL_STATUS,
+        LABEL_OPERATIONS,
+        LABEL_MODIFY
+      }
     };
   },
   methods: {

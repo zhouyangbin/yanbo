@@ -4,9 +4,9 @@
     <section class="content-container">
       <br>
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="name" label="角色">
+        <el-table-column prop="name" :label="constants.ROLE">
         </el-table-column>
-        <el-table-column prop="permissions" label="权限">
+        <el-table-column prop="permissions" :label="constants.ACCESS">
           <template slot-scope="scope">
             {{scope.row.permissions.join(", ")}}
           </template>
@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import { ROLE_SETTING } from "@/constants/TEXT";
+import { ROLE_SETTING, ROLE, ACCESS } from "@/constants/TEXT";
 import { getRoleListByPage } from "@/constants/API";
 export default {
   data() {
@@ -31,7 +31,11 @@ export default {
           label: ROLE_SETTING,
           active: true
         }
-      ]
+      ],
+      constants: {
+        ROLE,
+        ACCESS
+      }
     };
   },
   components: {

@@ -10,13 +10,13 @@
       <el-table :data="listData" stripe style="width: 100%">
         <el-table-column prop="department" :label="constants.DEPARTMENT" width="180">
         </el-table-column>
-        <el-table-column prop="user_status" label="名单状态" width="180">
+        <el-table-column prop="user_status" :label="constants.RECORD_STATUS" width="180">
         </el-table-column>
         <el-table-column prop="target_status" label="目标状态" width="180">
         </el-table-column>
-        <el-table-column prop="self_status" label="自评状态" width="180">
+        <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="180">
         </el-table-column>
-        <el-table-column prop="superior_status" label="上级评状态" width="180">
+        <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="180">
         </el-table-column>
         <el-table-column prop="appeal_status" label="申诉状态" width="180">
         </el-table-column>
@@ -42,7 +42,10 @@ import {
   DEPARTMENT,
   OPERATIONS,
   DETAILS,
-  EXPORT_DETAILS
+  EXPORT_DETAILS,
+  RECORD_STATUS,
+  SELF_EVALUATION_STATUS,
+  LEADER_EVALUATION_STATUS
 } from "@/constants/TEXT";
 import {
   PATH_PERFORMANCE_MANAGER,
@@ -63,7 +66,10 @@ export default {
         DEPARTMENT,
         OPERATIONS,
         DETAILS,
-        EXPORT_DETAILS
+        EXPORT_DETAILS,
+        RECORD_STATUS,
+        SELF_EVALUATION_STATUS,
+        LEADER_EVALUATION_STATUS
       },
       nav: [
         {

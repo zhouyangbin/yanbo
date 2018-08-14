@@ -53,10 +53,10 @@ export default {
         case "confim":
           dst = PATH_EMPLYEE_MY_DETAIL(querys.performance_id);
           break;
-        case "superior-list":
+        case "superior_list":
           dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
           break;
-        case "appeal":
+        case "appeal_hr":
           dst = PATH_PERFORMANCE_USER_DETAIL(
             querys.performance_id,
             querys.performance_user_id

@@ -1,23 +1,24 @@
 <template>
-    <el-dialog class="gradeForm" @close="close" title="修改分数" :visible="visible" width="30%">
-        <el-form :model="gradeForm" :rules="gradeFormRules" ref="gradeForm" label-width="100px">
-            <el-form-item label="分数" prop="mark">
-                <el-select v-model="gradeForm.mark">
-                    <el-option v-for="v of marks" :label="v" :value="v" :key="v"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="原因" prop="reason">
-                <el-input type="textarea" maxlength="200" v-model="gradeForm.reason"></el-input>
-            </el-form-item>
-        </el-form>
-        <span class="gradeForm-footer" slot="footer">
-            <el-button @click="close">取 消</el-button>
-            <el-button type="primary" @click="submit">确 定</el-button>
-        </span>
-    </el-dialog>
+  <el-dialog class="gradeForm" @close="close" title="修改分数" :visible="visible" width="30%">
+    <el-form :model="gradeForm" :rules="gradeFormRules" ref="gradeForm" label-width="100px">
+      <el-form-item label="分数" prop="mark">
+        <el-select v-model="gradeForm.mark">
+          <el-option v-for="v of marks" :label="v" :value="v" :key="v"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="原因" prop="reason">
+        <el-input type="textarea" maxlength="200" v-model="gradeForm.reason"></el-input>
+      </el-form-item>
+    </el-form>
+    <span class="gradeForm-footer" slot="footer">
+      <el-button @click="close">{{constants.CANCEL}}</el-button>
+      <el-button type="primary" @click="submit">{{constants.CONFIRM}}</el-button>
+    </span>
+  </el-dialog>
 </template>
 <script>
 import { changePerformanceGrade } from "@/constants/API";
+import { CANCEL, CONFIRM } from "@/constants/TEXT";
 export default {
   props: {
     visible: {
@@ -39,7 +40,11 @@ export default {
         mark: [{ required: true, message: "请选择分数", trigger: "change" }],
         reason: [{ required: true, message: "请填写修改原因", trigger: "blur" }]
       },
-      marks: ["A", "B", "C", "D", "S"]
+      marks: ["A", "B", "C", "D", "S"],
+      constants: {
+        CANCEL,
+        CONFIRM
+      }
     };
   },
   methods: {
