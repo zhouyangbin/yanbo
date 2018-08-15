@@ -45,25 +45,24 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
-    // console.log(querys)
+    // alert(JSON.stringify(querys))
     let dst = PATH_EMPLOYEE_MY;
-    if (querys.fromDingDing) {
-      switch (querys.path) {
-        case "self":
-        case "confim":
-          dst = PATH_EMPLYEE_MY_DETAIL(querys.performance_id);
-          break;
-        case "superior_list":
-          dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
-          break;
-        case "appeal_hr":
-          dst = PATH_PERFORMANCE_USER_DETAIL(
-            querys.performance_id,
-            querys.performance_user_id
-          );
-          break;
-      }
+    switch (querys.path) {
+      case "self":
+      case "confirm":
+        dst = PATH_EMPLYEE_MY_DETAIL(querys.performance_id);
+        break;
+      case "superior_list":
+        dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
+        break;
+      case "appeal_hr":
+        dst = PATH_PERFORMANCE_USER_DETAIL(
+          querys.performance_id,
+          querys.performance_user_id
+        );
+        break;
     }
+
     if (querys.token) {
       qrLogin({ token: querys.token }).then(res => {
         localStorage.setItem("talEmail", res.admin.email);
@@ -72,7 +71,17 @@ export default {
           "permissions",
           JSON.stringify(res.admin.permissions)
         );
-        this.$router.push({ path: dst });
+        if (querys.fromDingDing) {
+          window.DingTalkPC.biz.util.openLink({
+            url: `${window.location.origin}${dst}`, //要打开链接的地址
+            onSuccess: function(result) {
+              /**/
+            },
+            onFail: function() {}
+          });
+        } else {
+          this.$router.push({ path: dst });
+        }
       });
     }
     tinfo.init({

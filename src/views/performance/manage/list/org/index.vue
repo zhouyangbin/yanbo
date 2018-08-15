@@ -551,12 +551,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                      color: #52ddab;
-                                                                                                                      border-color: #52ddab;
-                                                                                                                    }
-                                                                                                                    .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                      color: #52ddab;
-                                                                                                                    } */
+                                                                                                                        color: #52ddab;
+                                                                                                                        border-color: #52ddab;
+                                                                                                                      }
+                                                                                                                      .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                        color: #52ddab;
+                                                                                                                      } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

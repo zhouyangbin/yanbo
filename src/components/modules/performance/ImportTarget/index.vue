@@ -26,21 +26,34 @@ export default {
     },
     uploadErr(err, file, fileList) {
       // console.log(err, file, fileList)
-      const errObj = JSON.parse(err.message);
-      this.tableData = errObj.data;
+      // const errObj = JSON.parse(err.message)
+      // this.tableData = errObj.data
       // this.showTable = true
       this.$notify.error({
         title: ERROR,
-        message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
+        message: `${file.name}${UPLOAD_FAIL}`
       });
     },
     uploadSuccess(response, file, fileList) {
-      this.$notify({
-        title: SUCCESS,
-        message: UPLOAD_SUCCESS,
-        type: "success"
-      });
-      this.close();
+      if (
+        response &&
+        response.data &&
+        response.data.errors &&
+        response.data.errors.length > 0
+      ) {
+        this.tableData = response.data.errors;
+        this.$notify.error({
+          title: ERROR,
+          message: `上传内容有部分错误!`
+        });
+      } else {
+        this.$notify({
+          title: SUCCESS,
+          message: UPLOAD_SUCCESS,
+          type: "success"
+        });
+        this.close();
+      }
     }
   },
   components: {

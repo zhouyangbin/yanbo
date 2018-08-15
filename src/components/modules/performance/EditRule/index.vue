@@ -109,8 +109,7 @@ export default {
               this.D / 100,
               this.C[1] / 100,
               this.B[1] / 100,
-              this.A[1] / 100,
-              this.S[0] / 100
+              this.A[1] / 100
             ];
           }
           putRule(this.data.id, postData)
