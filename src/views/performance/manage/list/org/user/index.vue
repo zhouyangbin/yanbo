@@ -12,11 +12,15 @@
       <br>
       <card :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
       <br>
-      <addition-mark prefixTitle="自评" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
-      <br>
-      <addition-mark prefixTitle="上级评" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
-      <br>
-      <div class="summary-section">
+      <div v-if="myAdditionMark.evaluation">
+        <addition-mark prefixTitle="自评" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <br>
+      </div>
+      <div v-if="leaderAdditionMark.evaluation">
+        <addition-mark prefixTitle="上级评" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+        <br>
+      </div>
+      <div v-if="progressArr.length>1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
           <el-steps style="width:80%" :active="progressArr.length">
@@ -82,7 +86,7 @@ export default {
       ],
       resultArr: [],
       progressArr: [],
-      canEdit: true,
+      canEdit: false,
       showChangeMarkDia: false
     };
   },
@@ -206,7 +210,7 @@ export default {
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.appeal = appeal || {};
-          this.canEdit = can_edit == 0;
+          this.canEdit = can_edit == 1;
         })
         .catch(e => {
           // console.log(e)
