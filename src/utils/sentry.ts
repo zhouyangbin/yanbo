@@ -11,7 +11,7 @@ function formatComponentName(vm: any) {
   );
 }
 //@ts-ignore
-function vuePlugin(Raven, Vue: any) {
+function vuePlugin(Raven, Vue) {
   Vue = Vue || (window as any).Vue;
 
   // quit if Vue isn't on the page
@@ -38,7 +38,7 @@ function vuePlugin(Raven, Vue: any) {
     Raven.captureException(error, {
       extra: metaData
     });
-
+    console.error(error, info);
     if (typeof _oldOnError === "function") {
       _oldOnError.call(this, error, vm, info);
     }

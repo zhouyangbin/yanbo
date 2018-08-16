@@ -341,12 +341,12 @@ export default {
           this.conditionForm = Object.assign({}, this.conditionForm, {
             evaluation_name_id: res.evaluations[0].value
           });
-          if (this.canCreateCultureGrade) {
-            this.getDepartments(res.evaluations[0].id);
-          } else {
-            this.currentDepartment = res.user.department.name;
-            this.getReports();
-          }
+          this.getDepartments(res.evaluations[0].id);
+          // if (this.canCreateCultureGrade) {
+          // } else {
+          //   this.currentDepartment = res.user.department.name
+          //   this.getReports()
+          // }
         })
         .catch(err => {});
     },

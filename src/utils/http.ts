@@ -1,10 +1,11 @@
 // 引入axios用来封装http请求
 import axios from "axios";
+// import Raven from "raven-js";
 // token失效|禁用跳转登录页
 import router from "../router";
 // 提示信息常量引入，方便统一更改
 import {
-  HTTP_STATUS_MSG_404,
+  // HTTP_STATUS_MSG_404,
   HTTP_STATUS_MSG_401,
   HTTP_STATUS_MSG_5XX,
   HTTP_STATUS_TITLE_ERROR,
@@ -105,6 +106,7 @@ http.interceptors.response.use(
         message: HTTP_STATUS_MSG_5XX,
         duration: 3000
       });
+      // Raven.captureException(error);
     }
 
     return Promise.reject(error.response);

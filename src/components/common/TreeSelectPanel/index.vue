@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     checkedKeys() {
-      return this.checkedNodes.map(({ id }) => id);
+      return this.checkedNodes.map(({ department_id }) => department_id);
     },
     treeOps() {
       return this.tree || this.data;
