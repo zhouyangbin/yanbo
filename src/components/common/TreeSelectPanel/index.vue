@@ -3,7 +3,7 @@
     <div v-click-outside="outside" class="objectTree-container" v-if="visible">
       <el-input placeholder="输入关键字进行过滤" v-model="filterText">
       </el-input>
-      <el-tree @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="id" ref="tree" :filter-node-method="filterNode" show-checkbox empty-text="暂无数据" :data="treeOps">
+      <el-tree empty-text="努力加载中..." @check-change="treeChange" :props="defaultProps" :default-checked-keys="checkedKeys" node-key="id" ref="tree" :filter-node-method="filterNode" show-checkbox :data="treeOps">
       </el-tree>
     </div>
   </transition>
@@ -64,7 +64,7 @@ export default {
       // console.log(nodes)
       this.$emit(
         "update:checkedNodes",
-        nodes.map(({ name, id }) => ({ name, id }))
+        nodes.map(({ name, id }) => ({ name, department_id: id }))
       );
     },
     findRoot(id) {
@@ -134,6 +134,9 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
+    },
+    data(v) {
+      this.tree = v;
     }
   },
   computed: {

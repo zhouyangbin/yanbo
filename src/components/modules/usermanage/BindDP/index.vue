@@ -6,11 +6,11 @@
     <div>
     </div>
     <el-form :inline="true" :rules="bindRules" ref="bindForm" :model="bindForm" class="bindForm">
-      <el-form-item prop="culture" label="文化范围">
+      <el-form-item v-if="currentInfo.has_culture_permission" prop="culture" label="文化范围">
         <el-input style="width:400px" placeholder="请选择事业部" v-model="cultrueSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree">
         </el-input>
       </el-form-item>
-      <el-form-item prop="performance" label="绩效范围">
+      <el-form-item v-if="currentInfo.has_achievement_permission" prop="performance" label="绩效范围">
         <el-input style="width:400px" placeholder="请选择事业部" v-model="performanceSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree">
         </el-input>
       </el-form-item>
@@ -101,9 +101,11 @@ export default {
       this.$refs[form].validate(valid => {
         if (valid) {
           const params = {
-            culture_department_ids: this.cultureCheckedNodes.map(v => v.id),
+            culture_department_ids: this.cultureCheckedNodes.map(
+              v => v.department_id
+            ),
             achievement_department_ids: this.performanceCheckedNodes.map(
-              v => v.id
+              v => v.department_id
             )
           };
           // console.log(this.currentInfo)

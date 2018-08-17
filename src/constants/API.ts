@@ -146,7 +146,7 @@ export const patchUserScope = (id: String, params: Object) =>
 // 根据部门获取模板列表
 
 export const getTplRuleByDep = (params: Object) =>
-  sendGet(`/performance/admin/department_tempate`, params);
+  sendGet(`/performance/admin/department_template`, params);
 // 创建评分
 export const postAddPerformanceGrade = (params: Object) =>
   sendPost(`/performance/admin/performance`, params);

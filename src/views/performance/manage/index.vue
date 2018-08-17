@@ -276,7 +276,7 @@ export default {
           } = this.ruleForm;
           const postData = {
             name,
-            department_ids: this.checkedNodes.map(v => v.id),
+            department_ids: this.checkedNodes.map(v => v.department_id),
             start_time: startTime,
             end_time: endTime,
             template_id: tpl,
@@ -411,7 +411,7 @@ export default {
     checkedNodes: {
       handler: function(v, o) {
         if (v.length > 0 && v.join(",") != o.join(",")) {
-          this.getTplList(v.map(v => v.id));
+          this.getTplList(v.map(v => v.department_id));
         }
       },
       deep: true

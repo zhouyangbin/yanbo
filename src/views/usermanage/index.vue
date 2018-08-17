@@ -49,7 +49,7 @@
             <el-button @click="updateUser(scope.row)" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
             <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?constants.LABEL_FORBIDDEN:constants.LABEL_ENABLED}}</el-button>
             <el-button @click="deleteUser(scope.row)" type="text" size="small">{{constants.LABEL_DEL}}</el-button>
-            <el-button @click="bind(scope.row)" type="text" size="small">{{constants.BIND_DEPARTMENT}}</el-button>
+            <el-button :class="{'disable':!scope.row.has_achievement_permission&&!scope.row.has_culture_permission}" @click="bind(scope.row)" type="text" size="small">{{constants.BIND_DEPARTMENT}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -311,5 +311,9 @@ export default {
 .content-container {
   height: calc(100% - 40px - 61px);
   overflow: hidden;
+}
+.user-manage .disable {
+  pointer-events: none;
+  color: grey;
 }
 </style>
