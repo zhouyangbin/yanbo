@@ -152,6 +152,9 @@ export const getTplRuleByDep = (params: Object) =>
 // 创建评分
 export const postAddPerformanceGrade = (params: Object) =>
   sendPost(`/performance/admin/performance`, params);
+// 复制评分
+export const postClonePerformanceGrade = (id: String, params: Object) =>
+  sendPost(`/performance/admin/${id}/clone`, params);
 // 绩效评分列表
 export const getPerformanceList = (params: Object) =>
   sendGet(`/performance/admin/performances`, params);

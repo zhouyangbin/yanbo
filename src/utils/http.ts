@@ -104,7 +104,7 @@ http.interceptors.response.use(
       // router.push({ path: PATH_LOGIN });
     } else if (
       error.response.status >= 400 &&
-      error.response.status === 422 &&
+      error.response.status !== 422 &&
       error.response.status < 500
     ) {
       Notification({

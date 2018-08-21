@@ -130,7 +130,8 @@ import {
   getTplRuleByDep,
   postAddPerformanceGrade,
   getDepartments,
-  getPerformanceList
+  getPerformanceList,
+  postClonePerformanceGrade
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_PROGRESS,
@@ -164,6 +165,7 @@ export default {
       showScopeTree: false,
       departmentTree: [],
       actionType: "",
+      copyID: "",
 
       // filter form
       filterForm: {
@@ -255,11 +257,21 @@ export default {
       });
     },
     closeDia(formName) {
-      this.createGradeDialog = false;
-      this.ruleForm.startTime = "";
+      this.ruleForm = {
+        name: "",
+        property: "",
+        tpl: "",
+        mapping: "",
+        startTime: "",
+        endTime: ""
+      };
       this.checkedNodes = [];
       this.actionType = "";
+      this.copyID = "";
+
       this.$refs[formName].resetFields();
+
+      this.createGradeDialog = false;
       this.refreshList({
         page: this.currentPage,
         department_id: this.filterForm.dp,
@@ -273,6 +285,8 @@ export default {
     },
     copyGrade(row) {
       this.actionType = "copy";
+      this.copyID = row.id;
+
       this.ruleForm = {
         name: row.name,
         property: String(row.type_id),
@@ -316,7 +330,11 @@ export default {
             type_id: property
           };
           if (this.actionType == "copy") {
-            //TODO
+            return postClonePerformanceGrade(this.copyID, postData)
+              .then(res => {
+                this.closeDia("ruleForm");
+              })
+              .catch(e => {});
           }
           return postAddPerformanceGrade(postData)
             .then(res => {
