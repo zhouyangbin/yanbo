@@ -7,10 +7,11 @@
           <span>
             {{constants.PERFORMANCE_GRADE_LIST}}
           </span>
-          <el-select style="margin-left:30px" v-model="filterForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
+          <!-- <el-select style="margin-left:30px" v-model="filterForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
             <el-option v-for="item in dpArr" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
-          </el-select>
+          </el-select> -->
+          <el-cascader v-model="filterForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION" :props="filterProps" style="margin-left:30px" :options="dpArr" :show-all-levels="false"></el-cascader>
           <el-select style="margin-left:30px" v-model="filterForm.type" placeholder="请选择周期类型">
             <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
@@ -129,7 +130,6 @@ import {
   getOrgTree,
   getTplRuleByDep,
   postAddPerformanceGrade,
-  getDepartments,
   getPerformanceList,
   postClonePerformanceGrade
 } from "@/constants/API";
@@ -166,11 +166,16 @@ export default {
       departmentTree: [],
       actionType: "",
       copyID: "",
+      filterProps: {
+        value: "id",
+        label: "name",
+        children: "children"
+      },
 
       // filter form
       filterForm: {
         type: "",
-        dp: ""
+        dp: []
       },
       createGradeDialog: false,
       constants: {
@@ -240,7 +245,7 @@ export default {
       this.currentPage = val;
       this.refreshList({
         page: val,
-        department_id: this.filterForm.dp,
+        department_id: this.selectedDep,
         type_id: this.filterForm.type
       });
     },
@@ -274,7 +279,7 @@ export default {
       this.createGradeDialog = false;
       this.refreshList({
         page: this.currentPage,
-        department_id: this.filterForm.dp,
+        department_id: this.selectedDep,
         type_id: this.filterForm.type
       });
     },
@@ -413,12 +418,8 @@ export default {
         });
     }, 500),
     getDepartments() {
-      return getDepartments()
+      return getOrgTree()
         .then(res => {
-          res.map(function(item) {
-            item.label = item.name;
-            item.value = item.department_id;
-          });
           this.dpArr = res;
         })
         .catch(err => {});
@@ -458,6 +459,11 @@ export default {
     },
     tplOptions() {
       return this.tplArr.filter(v => v.type_id == this.ruleForm.property);
+    },
+    selectedDep() {
+      return this.filterForm.dp.length > 0
+        ? this.filterForm.dp[this.filterForm.dp.length - 1]
+        : "";
     }
   },
   watch: {
@@ -471,10 +477,10 @@ export default {
     },
     filterForm: {
       handler: function(v) {
-        // console.log(v)
+        console.log(v);
         const filterData = {
           page: 1,
-          department_id: v.dp,
+          department_id: v.dp.length > 0 ? v.dp[v.dp.length - 1] : "",
           type_id: v.type
         };
         this.currentPage = 1;
