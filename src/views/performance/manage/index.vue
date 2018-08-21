@@ -21,8 +21,14 @@
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
         <el-table-column prop="name" :label="constants.GRADE_NAME" width="180">
+          <template slot-scope="scope">
+            {{scope.row.name}}
+            <span class="newTag" v-if="scope.row.index===0">
+              NEW!
+            </span>
+          </template>
         </el-table-column>
-        <el-table-column prop="department" :abel="constants.DEPARTMENT" width="180">
+        <el-table-column :show-overflow-tooltip="true" prop="department" :label="constants.DEPARTMENT" min-width="180">
         </el-table-column>
         <el-table-column prop="type" :label="constants.DURATION_TYPE">
         </el-table-column>
@@ -34,6 +40,7 @@
           <template slot-scope="scope">
             <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
             <el-button @click="gradeExport(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="copyGrade(scope.row)" type="text" size="small">复制评分</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -156,6 +163,7 @@ export default {
       checkedNodes: [],
       showScopeTree: false,
       departmentTree: [],
+      actionType: "",
 
       // filter form
       filterForm: {
@@ -240,13 +248,17 @@ export default {
         const { total, data } = res;
         this.total = total;
         // this.currentPage = 1
-        this.tableData = data;
+        this.tableData = data.map((v, i) => {
+          v.index = i;
+          return v;
+        });
       });
     },
     closeDia(formName) {
       this.createGradeDialog = false;
       this.ruleForm.startTime = "";
       this.checkedNodes = [];
+      this.actionType = "";
       this.$refs[formName].resetFields();
       this.refreshList({
         page: this.currentPage,
@@ -258,6 +270,27 @@ export default {
       this.getOrgList(() => {
         this.createGradeDialog = true;
       });
+    },
+    copyGrade(row) {
+      this.actionType = "copy";
+      this.ruleForm = {
+        name: row.name,
+        property: String(row.type_id),
+        tpl: row.template_id,
+        mapping: row.rule_id,
+        startTime: row.start_time,
+        endTime: row.end_time
+      };
+      // FIXME:
+      row.department_ids = ["D1001090", "D1001111"];
+      const depArr = row.department.split(",");
+      this.checkedNodes = row.department_ids.map((id, i) => {
+        return {
+          department_id: id,
+          name: depArr[i]
+        };
+      });
+      this.createGrade();
     },
     gradeExport(row) {
       window.open(PATH_EXPORT_PERFORMANCE_GRADE(row.id), "_blank");
@@ -283,7 +316,10 @@ export default {
             rule_id: mapping,
             type_id: property
           };
-          postAddPerformanceGrade(postData)
+          if (this.actionType == "copy") {
+            //TODO
+          }
+          return postAddPerformanceGrade(postData)
             .then(res => {
               // console.log(res)
               this.closeDia("ruleForm");
