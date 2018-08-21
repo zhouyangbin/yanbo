@@ -59,7 +59,7 @@
         <el-form-item :label="constants.GRADE_NAME" prop="name">
           <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item :label="constants.LABEL_SCOPE" prop="scope">
+        <el-form-item v-if="actionType != 'copy'" :label="constants.LABEL_SCOPE" prop="scope">
           <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
           </el-input>
         </el-form-item>

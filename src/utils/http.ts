@@ -91,7 +91,22 @@ http.interceptors.response.use(
         duration: 3000
       });
       router.push({ path: PATH_LOGIN });
-    } else if (error.response.status >= 400 && error.response.status < 500) {
+    } else if (error.response.status === 422) {
+      Notification({
+        type: "error",
+        title: HTTP_STATUS_TITLE_ERROR,
+        message:
+          error.response.data.data[
+            Object.keys(error.response.data.data)[0]
+          ][0] || HTTP_STATUS_TITLE_ERROR,
+        duration: 3000
+      });
+      // router.push({ path: PATH_LOGIN });
+    } else if (
+      error.response.status >= 400 &&
+      error.response.status === 422 &&
+      error.response.status < 500
+    ) {
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,

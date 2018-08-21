@@ -10,7 +10,7 @@ import {
   sendPut
 } from "@/utils/base";
 
-const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
+// const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 
 // 用户管理
 // 扫码登录
@@ -196,13 +196,13 @@ export const changePerformanceGrade = (
 ) => sendPatch(`/performance/admin/${orgID}/users/${uid}/modify`, params);
 
 export const getTeamGradeList = (params: Object) =>
-  sendGet(`${test}/performance/api/superior/performances`, params);
+  sendGet(`/performance/api/superior/performances`, params);
 // 某个评分的团队成员列表
 export const getTeamList = (id: String, params: Object) =>
-  sendGet(`${test}/performance/api/superior/${id}`, params);
+  sendGet(`/performance/api/superior/${id}`, params);
 
 export const getTeamUserDetail = (orgID: String, uid: String) =>
-  sendGet(`${test}/performance/api/superior/${orgID}/${uid}`);
+  sendGet(`/performance/api/superior/${orgID}/${uid}`);
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>
