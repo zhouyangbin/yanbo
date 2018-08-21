@@ -66,9 +66,8 @@ export default {
   },
   methods: {
     updateRule(row) {
-      row.fraction = (row.fraction || []).map(v => parseInt(v) * 100);
+      row.fraction = (row.fraction || []).map(v => parseFloat(v) * 100);
       this.selectedData = row;
-
       this.showRuleDialog = true;
     },
     handleCurrentChange(val) {

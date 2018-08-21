@@ -77,9 +77,27 @@ export default {
         isMapping: this.data.type_id || ""
       },
       D: (this.data.fraction && this.data.fraction[0]) || 100,
-      C: [101, (this.data.fraction && this.data.fraction[1]) || 200],
-      B: [201, (this.data.fraction && this.data.fraction[2]) || 300],
-      A: [301, (this.data.fraction && this.data.fraction[3]) || 400],
+      C: [
+        (this.data.fraction &&
+          this.data.fraction[0] &&
+          this.data.fraction[0] + 1) ||
+          101,
+        (this.data.fraction && this.data.fraction[1]) || 200
+      ],
+      B: [
+        (this.data.fraction &&
+          this.data.fraction[1] &&
+          this.data.fraction[1] + 1) ||
+          201,
+        (this.data.fraction && this.data.fraction[2]) || 300
+      ],
+      A: [
+        (this.data.fraction &&
+          this.data.fraction[2] &&
+          this.data.fraction[2] + 1) ||
+          301,
+        (this.data.fraction && this.data.fraction[3]) || 400
+      ],
       S: [(this.data.fraction && this.data.fraction[3] + 1) || 401, 500],
       rules: {
         isMapping: [{ required: true, message: "请选择类型", trigger: "blur" }]
