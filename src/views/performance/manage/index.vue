@@ -281,8 +281,7 @@ export default {
         startTime: row.start_time,
         endTime: row.end_time
       };
-      // FIXME:
-      row.department_ids = ["D1001090", "D1001111"];
+
       const depArr = row.department.split(",");
       this.checkedNodes = row.department_ids.map((id, i) => {
         return {

@@ -92,7 +92,9 @@ export default {
     });
     tinfo.sso.show("embed", "qr_scan", {
       style: {
-        ".login-bottom-pc": "display:none"
+        ".login-bottom-pc": "display:none",
+        ".ding-login-title":
+          "margin-top:0px;margin-bottom:0px;background:#f5f6f7;"
       },
       title: "钉钉登录评分系统"
     });

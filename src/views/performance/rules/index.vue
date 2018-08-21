@@ -21,7 +21,10 @@
         </el-table-column>
       </el-table>
       <br>
-      <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
+      <el-row type="flex" justify="end">
+        <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+      </el-row>
+      <br>
     </section>
     <edit-rule :data="selectedData" v-if="showRuleDialog" @close="closeDialog" :visible="showRuleDialog"></edit-rule>
   </div>

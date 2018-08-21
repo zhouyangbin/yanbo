@@ -9,6 +9,8 @@
   </transition>
 </template>
 <script>
+const debounce = require("lodash.debounce");
+
 export default {
   props: {
     visible: {
@@ -47,7 +49,7 @@ export default {
       el.style.width = "0px";
       el.style.padding = "0px";
     },
-    treeChange(data, checked, indeterminate) {
+    treeChange: debounce(function(data, checked, indeterminate) {
       const nodes = this.$refs.tree.getCheckedNodes();
       if (this.exclusive) {
         if (checked) {
@@ -66,7 +68,7 @@ export default {
         "update:checkedNodes",
         nodes.map(({ name, id }) => ({ name, department_id: id }))
       );
-    },
+    }, 500),
     findRoot(id) {
       // console.log("find id", id)
       let currentRoot = {};

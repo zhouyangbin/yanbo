@@ -114,11 +114,11 @@ export default {
   created() {
     if (this.infoType != "add" && this.initData.id) {
       getTpl(this.initData.id).then(res => {
-        const { name, department_path, type_id, template_columns } = res;
+        const { name, department_id, type_id, template_columns } = res;
         // console.log(template_columns)
         this.tplForm = {
           name,
-          dp: department_path,
+          dp: department_id,
           types: type_id.toString(),
           property: template_columns.map(v => String(v.id))
         };
