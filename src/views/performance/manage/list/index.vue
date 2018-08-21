@@ -8,17 +8,17 @@
         <hr>
       </div>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="department" :label="constants.DEPARTMENT" width="180">
+        <el-table-column prop="department" :label="constants.DEPARTMENT" min-width="180">
         </el-table-column>
-        <el-table-column prop="user_status" :label="constants.RECORD_STATUS" width="180">
+        <el-table-column prop="user_status" :label="constants.RECORD_STATUS">
         </el-table-column>
-        <el-table-column prop="target_status" label="目标状态" width="180">
+        <el-table-column prop="target_status" label="目标状态">
         </el-table-column>
-        <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="180">
+        <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS">
         </el-table-column>
-        <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="180">
+        <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS">
         </el-table-column>
-        <el-table-column prop="appeal_status" label="申诉状态" width="180">
+        <el-table-column prop="appeal_status" label="申诉状态">
         </el-table-column>
         <el-table-column prop="4" :label="constants.OPERATIONS">
           <template slot-scope="scope">

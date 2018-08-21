@@ -80,25 +80,11 @@
             <el-input v-model="formFilter.leaderName" :placeholder="constants.LEADER_NAME"></el-input>
           </el-form-item>
           <el-form-item prop="targetStatus">
-            <el-select v-model="formFilter.targetStatus" placeholder="目标状态">
+            <el-select v-model="formFilter.targetStatus" placeholder="阶段">
               <el-option v-for="v of constants.ENUM_PERFORMANCE_FINISH" :key="v.key" :label="v.value" :value="v.key"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="selfEvaluation">
-            <el-select v-model="formFilter.selfEvaluation" :placeholder="constants.SELF_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_PERFORMANCE_FINISH" :key="v.key" :label="v.value" :value="v.key"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="leaderEvaluation">
-            <el-select v-model="formFilter.leaderEvaluation" :placeholder="constants.LEADER_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_PERFORMANCE_FINISH" :key="v.key" :label="v.value" :value="v.key"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="confirm">
-            <el-select v-model="formFilter.confirm" placeholder="员工确认">
-              <el-option v-for="v of constants.ENUM_PERFORMANCE_USER_CONFIRM" :key="v.key" :label="v.value" :value="v.key"></el-option>
-            </el-select>
-          </el-form-item>
+
           <el-form-item>
             <el-button round size="medium" @click="resetFilter('filter-form')" class="btn-reset">{{constants.RESET}}</el-button>
           </el-form-item>
@@ -118,19 +104,13 @@
           <el-table-column prop="email" :label="constants.EMAIL" width="180">
           </el-table-column>
           <el-table-column prop="target" label="目标状态">
-            <!-- <template slot-scope="scope">
-              {{(constants.ENUM_PERFORMANCE_FINISH.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
-            </template> -->
+
           </el-table-column>
           <el-table-column prop="self" :label="constants.SELF_EVALUATION_STATUS">
-            <!-- <template slot-scope="scope">
-              {{(constants.ENUM_PERFORMANCE_FINISH.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
-            </template> -->
+
           </el-table-column>
           <el-table-column prop="superior" :label="constants.LEADER_EVALUATION_STATUS">
-            <!-- <template slot-scope="scope">
-              {{(constants.ENUM_PERFORMANCE_FINISH.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
-            </template> -->
+
           </el-table-column>
 
           <el-table-column prop="confirm" label="员工确认">
@@ -188,13 +168,10 @@ import {
   DETAILS,
   SET_TIMES,
   IMPORT_RECORDS,
-  ENUM_SELF_EVALUATION_STATUS,
-  ENUM_LEADER_EVALUATION_STATUS,
   MODIFY_TIMES,
   CONFIRM,
   CANCEL,
-  ENUM_PERFORMANCE_FINISH,
-  ENUM_PERFORMANCE_USER_CONFIRM
+  ENUM_PERFORMANCE_FINISH
 } from "@/constants/TEXT";
 import { PATH_PERFORMANCE_USER_DETAIL } from "@/constants/URL";
 import {
@@ -239,16 +216,12 @@ export default {
         name: "",
         leaderNum: "",
         leaderName: "",
-        targetStatus: "",
-        selfEvaluation: "",
-        leaderEvaluation: "",
-        confirm: ""
+        targetStatus: ""
       },
       constants: {
         FINISHED_DATE,
         ENUM_GENERIC_COMPLETE_STATUS,
         ENUM_PERFORMANCE_FINISH,
-        ENUM_PERFORMANCE_USER_CONFIRM,
         SELF_EVALUATION_STATUS,
         LEADER_EVALUATION_STATUS,
         RESULT_CONFIRM,
@@ -264,7 +237,6 @@ export default {
         NAME,
         LEADER_NUMBER,
         LEADER_NAME,
-
         BASE_OR_BU,
         DEP_OR_SUB,
         EMAIL,
@@ -276,8 +248,6 @@ export default {
         SET_TIMES,
         IMPORT_RECORDS,
         WORK_LEVEL,
-        ENUM_SELF_EVALUATION_STATUS,
-        ENUM_LEADER_EVALUATION_STATUS,
         MODIFY_TIMES
       },
       tableData: [],
@@ -455,10 +425,10 @@ export default {
         name: this.formFilter.name,
         superior_workcode: this.formFilter.leaderNum,
         superior_name: this.formFilter.leaderName,
-        target_status: this.formFilter.targetStatus,
-        self_status: this.formFilter.selfEvaluation,
-        superior_status: this.formFilter.leaderEvaluation,
-        confirm_status: this.formFilter.confirm
+        stage: this.formFilter.targetStatus
+        // self_status: this.formFilter.selfEvaluation,
+        // superior_status: this.formFilter.leaderEvaluation,
+        // confirm_status: this.formFilter.confirm
       };
     }
   },
@@ -472,10 +442,10 @@ export default {
           name: v.name,
           superior_workcode: v.leaderNum,
           superior_name: v.leaderName,
-          target_status: v.targetStatus,
-          self_status: v.selfEvaluation,
-          superior_status: v.leaderEvaluation,
-          confirm_status: v.confirm
+          stage: v.targetStatus
+          // self_status: v.selfEvaluation,
+          // superior_status: v.leaderEvaluation,
+          // confirm_status: v.confirm
         };
         this.currentPage = 1;
         this.refreshList(postData);
@@ -551,12 +521,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                        color: #52ddab;
-                                                                                                                        border-color: #52ddab;
-                                                                                                                      }
-                                                                                                                      .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                        color: #52ddab;
-                                                                                                                      } */
+                                                                                                                                                        color: #52ddab;
+                                                                                                                                                        border-color: #52ddab;
+                                                                                                                                                      }
+                                                                                                                                                      .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                                                        color: #52ddab;
+                                                                                                                                                      } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

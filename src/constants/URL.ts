@@ -66,25 +66,32 @@ export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
-  uid: String = "uid"
+  uid: String = ":uid"
 ) => `/employee/team/${gradeID}/user/${uid}`;
 
 export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (id: String) =>
-  `${base}/performance/admin/${id}/target/template?${qs.stringify({
+  `${base}performance/admin/${id}/target/template?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
 export const PATH_PERFORMANCE_EXCEL_TPL = (id: String) =>
-  `${base}/performance/admin/${id}/users/template`;
+  `${base}performance/admin/${id}/users/template`;
 export const PATH_PERFORMANCE_IMPORT_TARGET = (id: String) =>
-  `${base}/performance/admin/${id}/target/import`;
+  `${base}performance/admin/${id}/target/import`;
 export const PATH_EXPORT_PERFORMANCE_GRADE = (id: String) =>
-  `${base}/performance/admin/export?performance_name_id=${id}`;
+  `${base}performance/admin/export?performance_name_id=${id}&${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
 export const PATH_EXPORT_PERFORMANCE_DEPARTMENT = (id: String, did: String) =>
-  `${base}/performance/admin/export?performance_name_id=${id}&performance_id=${did}`;
-export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
-  `${base}/performance/admin/export?performance_name_id=${id}&${qs.stringify(
+  `${base}performance/admin/export?performance_name_id=${id}&performance_id=${did}&${qs.stringify(
     {
-      user_ids: uids
+      token: localStorage.getItem("talToken")
+    }
+  )}`;
+export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
+  `${base}performance/admin/export?performance_name_id=${id}&${qs.stringify(
+    {
+      user_ids: uids,
+      token: localStorage.getItem("talToken")
     },
     { arrayFormat: "brackets" }
   )}`;

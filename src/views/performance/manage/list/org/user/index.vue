@@ -7,7 +7,7 @@
         <span>
           <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
           <span class="greycolor">上级姓名</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-        <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
+        <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
       <card :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>

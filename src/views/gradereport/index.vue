@@ -59,7 +59,7 @@
       </section>
 
       <!-- 各事业部完成率 bar -->
-      <section class="report-echart">
+      <section v-if="department_level!=3" class="report-echart">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{constants.LABEL_REPORT_RATE}}</h1>
@@ -79,7 +79,7 @@
       </section>
 
       <!-- 各事业部总平均分 bar -->
-      <section class="report-echart" v-if="canCreateCultureGrade">
+      <section v-if="department_level==1" class="report-echart">
         <h1>{{constants.LABEL_REPORT_AVERAGE_ALL}}</h1>
         <section class="loading-container">
           <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
@@ -93,7 +93,7 @@
       </section>
 
       <!-- 各事业部评分平均分 bar -->
-      <section class="report-echart" v-if="canCreateCultureGrade">
+      <section class="report-echart" v-if="department_level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{constants.LABEL_REPORT_AVERAGE_SINGLE}}</h1>
@@ -117,7 +117,7 @@
         </el-row>
       </section>
 
-      <section class="report-echart" v-if="canCreateCultureGrade">
+      <section class="report-echart" v-if="department_level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{constants.LABEL_REPORT_NUMBER}}</h1>
@@ -205,6 +205,7 @@ export default {
   },
   data() {
     return {
+      department_level: "",
       nav: [
         {
           label: GRADE_REPORT,
@@ -310,10 +311,10 @@ export default {
           evaluation_id: obj.value
         });
       }
-    },
-    canCreateCultureGrade() {
-      return this.permissions.includes(201);
     }
+    // canCreateCultureGrade() {
+    //   return this.permissions.includes(201)
+    // }
   },
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
@@ -480,6 +481,7 @@ export default {
           this.selfNumbers = [...this.selfNumbersA];
           this.supNumbers = [...this.supNumbersA];
           this.numberLineActive = "first";
+          this.department_level = res.department_level;
         })
         .catch(err => {});
     },

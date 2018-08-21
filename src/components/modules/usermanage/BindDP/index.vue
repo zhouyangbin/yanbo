@@ -109,10 +109,12 @@ export default {
             )
           };
           // console.log(this.currentInfo)
-          patchUserScope(this.currentInfo.id, params).then(res => {
-            // console.log(res);
-            this.close();
-          });
+          patchUserScope(this.currentInfo.id, params)
+            .then(res => {
+              // console.log(res);
+              this.close();
+            })
+            .catch(e => {});
         }
       });
     },

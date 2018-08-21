@@ -43,7 +43,7 @@
     <div v-if="!readOnly" class="marks">
       <el-input-number size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
       <span class="greyText">您的打分 /
-        <span class="hightlight-mark">{{value}}分</span>
+        <span class="hightlight-mark">{{value&& parseFloat(value).toFixed(2)}}分</span>
       </span>
     </div>
   </div>

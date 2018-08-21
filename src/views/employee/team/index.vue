@@ -9,8 +9,9 @@
           </el-form-item>
           <el-form-item>
             <el-select v-model="filterForm.status" placeholder="请选择">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option label="未完成" value="0"></el-option>
+              <el-option label="已完成" value="1"></el-option>
+              <!-- <el-option label="区域二" value="beijing"></el-option> -->
             </el-select>
           </el-form-item>
         </el-form>
@@ -19,23 +20,32 @@
         <el-row type="flex" :gutter="20" align="top">
           <el-col :span="18">
             <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column prop="date" label="姓名" width="180">
+              <el-table-column prop="name" label="姓名" min-width="180">
+                <template slot-scope="scope">
+                  <img :src="scope.row.avatar" alt="">
+                  <span>{{scope.row.name}}</span>
+                  <span class="appeal-tag" v-if="scope.row.has_appeal">申诉</span>
+                </template>
               </el-table-column>
-              <el-table-column prop="name" label="自评" width="180">
+              <el-table-column prop="self_score" label="自评" width="180">
               </el-table-column>
-              <el-table-column prop="address" label="上级评">
+              <el-table-column prop="superior_score" label="上级评">
               </el-table-column>
-              <el-table-column prop="address" label="对应等级">
+              <el-table-column prop="score_level" label="对应等级">
               </el-table-column>
-              <el-table-column prop="address" label="操作">
+              <el-table-column prop="ops" label="操作">
                 <template slot-scope="scope">
                   <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
                 </template>
               </el-table-column>
             </el-table>
+            <br>
+            <el-row type="flex" justify="end">
+              <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+            </el-row>
           </el-col>
           <el-col :span="6">
-            <peformance-bar></peformance-bar>
+            <peformance-pie :data="chartData"></peformance-pie>
           </el-col>
         </el-row>
       </section>
@@ -46,62 +56,25 @@
 import { TEAM_GRADE, DETAILS } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_TEAM_MEMEBER } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
+import { getTeamList } from "@/constants/API";
 
 export default {
   data() {
     return {
+      total: 0,
+      currentPage: 1,
       filterForm: {
         status: "",
         name: ""
       },
+      chartData: [],
       nav: [
         {
           label: TEAM_GRADE,
           active: true
         }
       ],
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
+      tableData: [],
       constants: {
         DETAILS
       }
@@ -109,18 +82,59 @@ export default {
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "peformance-bar": AsyncComp(
-      import("@/components/modules/performance/GradeBar/index.vue")
-    )
+    "peformance-pie": AsyncComp(
+      import("@/components/modules/performance/GradePie/index.vue")
+    ),
+    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
     goDetail(row) {
       this.$router.push(
         PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
       );
+    },
+    refreshList(data) {
+      return getTeamList(this.$route.params.id, data)
+        .then(res => {
+          const { user, overview } = res;
+          this.tableData = user.data;
+          this.total = user.total;
+          this.chartData = overview;
+        })
+        .catch(e => {});
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.refreshList({
+        page: val,
+        name: this.filterForm.name,
+        superior_status: this.filterForm.status
+      });
+    }
+  },
+  watch: {
+    filterForm: {
+      handler: function(v) {
+        const postData = {
+          name: v.name,
+          superior_status: v.status,
+          page: 1
+        };
+        this.refreshList(postData);
+        this.currentPage = 1;
+      },
+      deep: true,
+      immediate: true
     }
   }
 };
 </script>
 <style scoped>
+.appeal-tag {
+  padding: 5px;
+  background: lightcoral;
+  color: white;
+  border-radius: 10px;
+  margin-left: 10px;
+}
 </style>

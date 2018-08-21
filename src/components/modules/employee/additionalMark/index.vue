@@ -2,7 +2,7 @@
   <div class="moreMarksSection">
     <div class="inner-container">
       <span class="label title">{{prefixTitle}}加减分:</span> &nbsp;
-      <span>
+      <span v-if="readOnly">
         {{desc}}
       </span>
       <el-input v-if="!readOnly" :maxlength="200" style="width:80%" type="textarea" :rows="2" placeholder="请输入内容" v-model="innerDesc">

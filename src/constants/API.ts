@@ -10,6 +10,8 @@ import {
   sendPut
 } from "@/utils/base";
 
+const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
+
 // 用户管理
 // 扫码登录
 export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
@@ -48,7 +50,7 @@ export const getAdminsDepartments = () => {
 };
 // 事业部列表
 export const getDepartments = () => {
-  return sendGet(`/admin/api/departments`);
+  return sendGet(`/permission/departments`);
 };
 
 // 评分报告
@@ -146,7 +148,7 @@ export const patchUserScope = (id: String, params: Object) =>
 // 根据部门获取模板列表
 
 export const getTplRuleByDep = (params: Object) =>
-  sendGet(`/performance/admin/department_template`, params);
+  sendPost(`/performance/admin/department_template`, params);
 // 创建评分
 export const postAddPerformanceGrade = (params: Object) =>
   sendPost(`/performance/admin/performance`, params);
@@ -157,8 +159,8 @@ export const getPerformanceList = (params: Object) =>
 export const getPerformanceDepartmentsList = (id: String, page: String) =>
   sendGet(`/performance/admin/${id}/departments?page=${page}`);
 // 绩效评分事业部详情
-export const getPerormanceDepartmentDetails = (id: String) =>
-  sendGet(`/performance/admin/${id}/users`);
+export const getPerormanceDepartmentDetails = (id: String, params: Object) =>
+  sendGet(`/performance/admin/${id}/users`, params);
 // 删除业绩user
 export const delPerformanceUser = (performanceID: String, params: Object) =>
   sendDelete(`/performance/admin/${performanceID}/users`, params);
@@ -192,3 +194,19 @@ export const changePerformanceGrade = (
   uid: String,
   params: Object
 ) => sendPatch(`/performance/admin/${orgID}/users/${uid}/modify`, params);
+
+export const getTeamGradeList = (params: Object) =>
+  sendGet(`${test}/performance/api/superior/performances`, params);
+// 某个评分的团队成员列表
+export const getTeamList = (id: String, params: Object) =>
+  sendGet(`${test}/performance/api/superior/${id}`, params);
+
+export const getTeamUserDetail = (orgID: String, uid: String) =>
+  sendGet(`${test}/performance/api/superior/${orgID}/${uid}`);
+
+// 上级评下级绩效
+export const postUserPerformance = (uid: String, params: Object) =>
+  sendPost(`/performance/api/superior/${uid}`, params);
+
+export const postUserPerformanceDraft = (uid: String, params: Object) =>
+  sendPost(`/performance/api/superior/${uid}/draft`, params);

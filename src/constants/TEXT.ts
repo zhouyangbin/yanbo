@@ -427,11 +427,31 @@ export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
 export const ENUM_PERFORMANCE_FINISH = [
   {
     key: 0,
-    value: "未完成"
+    value: "目标未导入"
   },
   {
-    key: 1,
-    value: "已完成"
+    key: 10,
+    value: "目标已导入"
+  },
+  {
+    key: 20,
+    value: "开始自评"
+  },
+  {
+    key: 30,
+    value: "开始上级评"
+  },
+  {
+    key: 50,
+    value: "申诉中"
+  },
+  {
+    key: 40,
+    value: "待确认"
+  },
+  {
+    key: 60,
+    value: "已确认"
   }
 ];
 
