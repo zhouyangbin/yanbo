@@ -60,8 +60,10 @@ export const PATH_PERFORMANCE_USER_DETAIL = (
 export const PATH_EMPLOYEE_MY = "/employee/my";
 export const PATH_EMPLOYEE_TEAM = "/employee/team";
 
-export const PATH_EMPLYEE_MY_DETAIL = (id: String = ":id") =>
-  `/employee/my/${id}`;
+export const PATH_EMPLYEE_MY_DETAIL = (
+  orgID: String = ":orgID",
+  id: String = ":id"
+) => `/employee/my/${orgID}/${id}`;
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (

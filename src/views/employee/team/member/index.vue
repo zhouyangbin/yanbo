@@ -36,7 +36,7 @@
 <script>
 import { TEAM_GRADE } from "@/constants/TEXT";
 import {
-  getTeamUserDetail,
+  getEmployeeDetail,
   postUserPerformance,
   postUserPerformanceDraft
 } from "@/constants/API";
@@ -56,7 +56,7 @@ export default {
       cardConfig: {
         min: 0,
         max: 5,
-        step: 0.5
+        step: 0.1
       },
       nav: [
         {
@@ -114,7 +114,11 @@ export default {
     saveDraft() {
       const postData = this.getPostData();
 
-      return postUserPerformanceDraft(this.$route.params.uid, postData)
+      return postUserPerformanceDraft(
+        this.$route.params.gradeID,
+        this.$route.params.uid,
+        postData
+      )
         .then(res => {
           this.$message({
             type: "success",
@@ -125,7 +129,7 @@ export default {
         .catch(e => {});
     },
     getDetailInfo() {
-      return getTeamUserDetail(
+      return getEmployeeDetail(
         this.$route.params.gradeID,
         this.$route.params.uid
       )
@@ -239,7 +243,8 @@ export default {
           reason: this.leaderAdditionMark.evaluation || ""
         },
         total_score: this.total,
-        score_level: this.level
+        score_level: this.level,
+        evaluation: this.comments
       };
     }
   },

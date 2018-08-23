@@ -10,7 +10,7 @@ import {
   sendPut
 } from "@/utils/base";
 
-// const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
+const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 
 // 用户管理
 // 扫码登录
@@ -191,7 +191,6 @@ export const getPerformanceUserDetail = (orgID: String, uid: String) =>
   sendGet(`/performance/admin/${orgID}/users/${uid}`);
 
 // 确认分数/修改分数
-
 export const changePerformanceGrade = (
   orgID: String,
   uid: String,
@@ -204,12 +203,35 @@ export const getTeamGradeList = (params: Object) =>
 export const getTeamList = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}`, params);
 
-export const getTeamUserDetail = (orgID: String, uid: String) =>
-  sendGet(`/performance/api/superior/${orgID}/${uid}`);
+// export const getTeamUserDetail = (orgID: String, uid: String) =>
+//   sendGet(`/performance/api/superior/${orgID}/${uid}`);
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>
   sendPost(`/performance/api/superior/${uid}`, params);
 
-export const postUserPerformanceDraft = (uid: String, params: Object) =>
-  sendPost(`/performance/api/superior/${uid}/draft`, params);
+export const postUserPerformanceDraft = (
+  orgID: String,
+  uid: String,
+  params: Object
+) => sendPost(`/performance/api/${orgID}/${uid}/draft`, params);
+
+// 我的绩效评分列表
+
+export const getMyPerformanceList = (params: Object) =>
+  sendGet(`${test}/performance/api/self/index`, params);
+
+export const getEmployeeDetail = (orgID: String, uid: String) =>
+  sendGet(`${test}/performance/api/${orgID}/${uid}`);
+
+// 绩效自评提交接口
+
+export const postSelfPerformance = (uid: String, params: Object) =>
+  sendPost(`/performance/api/self/${uid}`, params);
+// 绩效申诉
+export const postAppealPerformance = (params: Object) =>
+  sendPost(`/performance/api/appeal`, params);
+
+// 绩效取消申诉
+export const delCancelAppeal = (params: Object) =>
+  sendDelete(`/performance/api/appeal`, params);

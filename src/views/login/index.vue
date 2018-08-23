@@ -50,7 +50,10 @@ export default {
     switch (querys.path) {
       case "self":
       case "confirm":
-        dst = PATH_EMPLYEE_MY_DETAIL(querys.performance_id);
+        dst = PATH_EMPLYEE_MY_DETAIL(
+          querys.performance_id,
+          querys.performance_user_id
+        );
         break;
       case "superior_list":
         dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);

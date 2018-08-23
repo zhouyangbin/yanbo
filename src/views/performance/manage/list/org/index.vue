@@ -26,7 +26,7 @@
               <el-steps align-center :active="step">
                 <el-step>
                   <template slot="title">
-                    <el-button :disabled="isImported" @click="dialogImport =true" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
+                    <el-button @click="dialogImport =true" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
                   </template>
                 </el-step>
                 <el-step>
@@ -458,9 +458,9 @@ export default {
     hasSchedule() {
       return this.depInfo.start_time && this.depInfo.end_time;
     },
-    isImported() {
-      return !!this.depInfo.user_status;
-    },
+    // isImported() {
+    //   return !!this.depInfo.user_status
+    // },
     initTime() {
       return {
         startTime: this.depInfo.start_time,
@@ -521,12 +521,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                                                        color: #52ddab;
-                                                                                                                                                        border-color: #52ddab;
-                                                                                                                                                      }
-                                                                                                                                                      .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                                                        color: #52ddab;
-                                                                                                                                                      } */
+                                                                                                                                                            color: #52ddab;
+                                                                                                                                                            border-color: #52ddab;
+                                                                                                                                                          }
+                                                                                                                                                          .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                                                            color: #52ddab;
+                                                                                                                                                          } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;
