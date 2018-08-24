@@ -4,54 +4,9 @@
       {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
     </div>
     <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
-      <div class="section-title">员工信息:</div>
-      <el-form-item prop="num">
-        <el-input :disabled="infoType !== 'add'" size="small" @input="searchME" :placeholder="constants.NUMBER" v-model="infoForm.num"></el-input>
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input size="small" :disabled="true" :placeholder="constants.NAME" v-model="infoForm.name"></el-input>
-      </el-form-item>
-      <el-form-item prop="BU">
-        <el-input size="small" :disabled="true" :placeholder="constants.BASE_OR_BU" v-model="infoForm.BU"></el-input>
-      </el-form-item>
-      <el-form-item prop="dep">
-        <el-input size="small" :disabled="true" :placeholder="constants.DEP_OR_SUB" v-model="infoForm.dep"></el-input>
-      </el-form-item>
-      <el-form-item prop="level">
-        <el-input size="small" :disabled="true" :placeholder="constants.WORK_LEVEL" v-model="infoForm.level"></el-input>
-      </el-form-item>
-      <el-form-item prop="email">
-        <el-input size="small" :placeholder="constants.EMAIL" v-model="infoForm.email"></el-input>
-      </el-form-item>
-      <div class="section-title">上级信息:</div>
-      <el-form-item prop="leaderNum">
-        <el-input size="small" @input="searchLeader" :placeholder="constants.LEADER_NUMBER" v-model="infoForm.leaderNum"></el-input>
-      </el-form-item>
-      <el-form-item prop="leaderName">
-        <el-input size="small" :disabled="true" :placeholder="constants.LEADER_NAME" v-model="infoForm.leaderName"></el-input>
-      </el-form-item>
-      <el-form-item prop="leaderBU">
-        <el-input size="small" :disabled="true" :placeholder="constants.UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.leaderBU"></el-input>
-      </el-form-item>
-      <el-form-item prop="leaderEmail">
-        <el-input size="small" :placeholder="constants.UP_LEVEL+constants.EMAIL" v-model="infoForm.leaderEmail"></el-input>
-      </el-form-item>
-      <div class="section-title">隔级信息:</div>
-      <div>
-        <el-form-item prop="upLeaderNum">
-          <el-input size="small" @input="searchUpLeader" :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
-        </el-form-item>
-        <el-form-item prop="upLeaderName">
-          <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.NAME" v-model="infoForm.upLeaderName"></el-input>
-        </el-form-item>
-        <el-form-item prop="upLeaderBU">
-          <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.upLeaderBU"></el-input>
-        </el-form-item>
-        <el-form-item prop="upLeaderEmail">
-          <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.EMAIL" v-model="infoForm.upLeaderEmail"></el-input>
-        </el-form-item>
-      </div>
-
+      <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>
+      <leader-info :infoForm="infoForm" :infoType="infoType"></leader-info>
+      <up-leader-info :infoForm="infoForm" :infoType="infoType"></up-leader-info>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
@@ -65,24 +20,17 @@
 import {
   ADD,
   MODIFY,
-  NUMBER,
-  NAME,
-  BASE_OR_BU,
-  DEP_OR_SUB,
-  WORK_LEVEL,
-  EMAIL,
-  LEADER_NUMBER,
-  LEADER_NAME,
-  UP_LEVEL,
   EMAIL_VALIATE_MSG,
   NUMBER_REQUIRE_MSG,
   LEADER_NUMBER_REQUIRE_MSG,
   EMAIL_FORMAT_MSG,
-  PLUS_UP_LEVEL,
   CONFIRM,
   CANCEL
 } from "@/constants/TEXT";
-import { postNewUser, postUpdateUser, getUserDetail } from "@/constants/API";
+import { postNewUser, postUpdateUser } from "@/constants/API";
+import EmpInfo from "@/components/common/EmpInfo/index.vue";
+import LeaderInfo from "@/components/common/LeaderInfo/index.vue";
+import UpLeaderInfo from "@/components/common/UpLeaderInfo/index.vue";
 export default {
   props: {
     dialogInfo: {
@@ -111,16 +59,7 @@ export default {
       constants: {
         ADD,
         MODIFY,
-        NUMBER,
-        NAME,
-        BASE_OR_BU,
-        DEP_OR_SUB,
-        WORK_LEVEL,
-        EMAIL,
-        LEADER_NUMBER,
-        LEADER_NAME,
-        UP_LEVEL,
-        PLUS_UP_LEVEL,
+
         CONFIRM,
         CANCEL
       },
@@ -254,87 +193,92 @@ export default {
           return false;
         }
       });
-    },
-    searchME(v) {
-      if (v != "") {
-        getUserDetail({
-          empID: v
-        })
-          .then(res => {
-            if (res) {
-              this.infoForm.name = res.name;
-              this.infoForm.BU = res.department;
-              this.infoForm.dep = res.first_department;
-              this.infoForm.level = res.level;
-              this.infoForm.email = res.email;
-            } else {
-              this.infoForm.name = "";
-              this.infoForm.BU = "";
-              this.infoForm.dep = "";
-              this.infoForm.level = "";
-              this.infoForm.email = "";
-            }
-          })
-          .catch(e => {});
-      } else {
-        this.infoForm.name = "";
-        this.infoForm.BU = "";
-        this.infoForm.dep = "";
-        this.infoForm.level = "";
-        this.infoForm.email = "";
-      }
-    },
-    searchLeader(v) {
-      // console.log(v);
-      if (v != "") {
-        getUserDetail({
-          empID: v
-        })
-          .then(res => {
-            if (res) {
-              this.infoForm.leaderName = res.name;
-              this.infoForm.leaderBU = res.department;
-              this.infoForm.leaderEmail = res.email;
-            } else {
-              this.infoForm.leaderName = "";
-              this.infoForm.leaderBU = "";
-              this.infoForm.leaderEmail = "";
-            }
-          })
-          .catch(e => {});
-      } else {
-        this.infoForm.leaderName = "";
-        this.infoForm.leaderBU = "";
-        this.infoForm.leaderEmail = "";
-      }
-    },
-    searchUpLeader(v) {
-      if (v != "") {
-        getUserDetail({
-          empID: v
-        })
-          .then(res => {
-            if (res) {
-              this.infoForm.upLeaderName = res.name;
-              this.infoForm.upLeaderBU = res.department;
-
-              this.infoForm.upLeaderEmail = res.email;
-            } else {
-              this.infoForm.upLeaderName = "";
-              this.infoForm.upLeaderBU = "";
-              this.infoForm.upLeaderEmail = "";
-            }
-          })
-          .catch(e => {});
-      } else {
-        this.infoForm.upLeaderName = "";
-        this.infoForm.upLeaderBU = "";
-        this.infoForm.upLeaderEmail = "";
-      }
     }
+    // searchME(v) {
+    //   if (v != "") {
+    //     getUserDetail({
+    //       empID: v
+    //     })
+    //       .then(res => {
+    //         if (res) {
+    //           this.infoForm.name = res.name
+    //           this.infoForm.BU = res.department
+    //           this.infoForm.dep = res.first_department
+    //           this.infoForm.level = res.level
+    //           this.infoForm.email = res.email
+    //         } else {
+    //           this.infoForm.name = ""
+    //           this.infoForm.BU = ""
+    //           this.infoForm.dep = ""
+    //           this.infoForm.level = ""
+    //           this.infoForm.email = ""
+    //         }
+    //       })
+    //       .catch(e => {})
+    //   } else {
+    //     this.infoForm.name = ""
+    //     this.infoForm.BU = ""
+    //     this.infoForm.dep = ""
+    //     this.infoForm.level = ""
+    //     this.infoForm.email = ""
+    //   }
+    // },
+    // searchLeader(v) {
+    //   // console.log(v);
+    //   if (v != "") {
+    //     getUserDetail({
+    //       empID: v
+    //     })
+    //       .then(res => {
+    //         if (res) {
+    //           this.infoForm.leaderName = res.name
+    //           this.infoForm.leaderBU = res.department
+    //           this.infoForm.leaderEmail = res.email
+    //         } else {
+    //           this.infoForm.leaderName = ""
+    //           this.infoForm.leaderBU = ""
+    //           this.infoForm.leaderEmail = ""
+    //         }
+    //       })
+    //       .catch(e => {})
+    //   } else {
+    //     this.infoForm.leaderName = ""
+    //     this.infoForm.leaderBU = ""
+    //     this.infoForm.leaderEmail = ""
+    //   }
+    // },
+    // searchUpLeader(v) {
+    //   if (v != "") {
+    //     getUserDetail({
+    //       empID: v
+    //     })
+    //       .then(res => {
+    //         if (res) {
+    //           this.infoForm.upLeaderName = res.name
+    //           this.infoForm.upLeaderBU = res.department
+
+    //           this.infoForm.upLeaderEmail = res.email
+    //         } else {
+    //           this.infoForm.upLeaderName = ""
+    //           this.infoForm.upLeaderBU = ""
+    //           this.infoForm.upLeaderEmail = ""
+    //         }
+    //       })
+    //       .catch(e => {})
+    //   } else {
+    //     this.infoForm.upLeaderName = ""
+    //     this.infoForm.upLeaderBU = ""
+    //     this.infoForm.upLeaderEmail = ""
+    //   }
+    // }
   },
   beforeDestroy() {
     this.resetFilter("infoForm");
+  },
+  components: {
+    "emp-info": EmpInfo,
+    "leader-info": LeaderInfo,
+    "up-leader-info": UpLeaderInfo
   }
 };
 </script>

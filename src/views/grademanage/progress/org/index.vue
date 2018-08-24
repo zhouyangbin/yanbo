@@ -185,7 +185,7 @@
         </el-table>
         <br>
         <el-row type="flex" justify="end">
-          <pagination @current-change="handleCurrentChange" :total="total"></pagination>
+          <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
         </el-row>
         <br>
       </div>
@@ -248,7 +248,7 @@ import {
 import { PATH_GRADE_MANAGE, PATH_GRADE_PROGRESS } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import { delUser, getUserList, postReminder } from "@/constants/API";
-import { defaultCoreCipherList } from "constants";
+// import { defaultCoreCipherList } from "constants";
 import { compact } from "@/utils/obj";
 
 export default {

@@ -10,7 +10,7 @@
               <el-option v-for="item in names" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="level==1">
+          <el-form-item>
             <el-select v-model="evaluation_id" :placeholder="constants.LABEL_SELECT_DEPARTMENT" @change="changeDepartment">
               <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item"></el-option>
             </el-select>
@@ -59,7 +59,7 @@
       </section>
 
       <!-- 各事业部完成率 bar -->
-      <section class="report-echart">
+      <section v-if="department_level!=3" class="report-echart">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{constants.LABEL_REPORT_RATE}}</h1>
@@ -79,7 +79,7 @@
       </section>
 
       <!-- 各事业部总平均分 bar -->
-      <section class="report-echart" v-if="level==1">
+      <section v-if="department_level==1" class="report-echart">
         <h1>{{constants.LABEL_REPORT_AVERAGE_ALL}}</h1>
         <section class="loading-container">
           <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
@@ -93,7 +93,7 @@
       </section>
 
       <!-- 各事业部评分平均分 bar -->
-      <section class="report-echart" v-if="level==1">
+      <section class="report-echart" v-if="department_level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{constants.LABEL_REPORT_AVERAGE_SINGLE}}</h1>
@@ -117,7 +117,7 @@
         </el-row>
       </section>
 
-      <section class="report-echart" v-if="level==1">
+      <section class="report-echart" v-if="department_level==1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{constants.LABEL_REPORT_NUMBER}}</h1>
@@ -205,6 +205,7 @@ export default {
   },
   data() {
     return {
+      department_level: "",
       nav: [
         {
           label: GRADE_REPORT,
@@ -225,7 +226,7 @@ export default {
         LABEL_SELECT_DEPARTMENT,
         LABEL_SELECT_GRAGE
       },
-      level: 0,
+      permissions: [],
       conditionForm: { evaluation_name_id: "", evaluation_id: "" },
       names: [],
       departments: [],
@@ -311,9 +312,12 @@ export default {
         });
       }
     }
+    // canCreateCultureGrade() {
+    //   return this.permissions.includes(201)
+    // }
   },
   created() {
-    this.level = parseInt(localStorage.getItem("talLevel"));
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
     this.getGrades();
   },
   mounted() {
@@ -338,12 +342,12 @@ export default {
           this.conditionForm = Object.assign({}, this.conditionForm, {
             evaluation_name_id: res.evaluations[0].value
           });
-          if (this.level === 1) {
-            this.getDepartments(res.evaluations[0].id);
-          } else {
-            this.currentDepartment = res.user.department.name;
-            this.getReports();
-          }
+          this.getDepartments(res.evaluations[0].id);
+          // if (this.canCreateCultureGrade) {
+          // } else {
+          //   this.currentDepartment = res.user.department.name
+          //   this.getReports()
+          // }
         })
         .catch(err => {});
     },
@@ -477,6 +481,7 @@ export default {
           this.selfNumbers = [...this.selfNumbersA];
           this.supNumbers = [...this.supNumbersA];
           this.numberLineActive = "first";
+          this.department_level = res.department_level;
         })
         .catch(err => {});
     },

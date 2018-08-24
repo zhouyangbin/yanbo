@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { PATH_LOGIN } from "@/constants/URL"
+import { PATH_LOGIN } from "@/constants/URL";
 import {
   LABEL_LOGOUT,
   ATTENTION,
@@ -24,14 +24,14 @@ import {
   LABEL_CANCEL,
   CONST_LOGOUT_SUCCESS,
   CONST_CANCEL_LOGOUT_SUCCESS
-} from "@/constants/TEXT"
-import { logout } from "@/constants/API"
+} from "@/constants/TEXT";
+import { logout } from "@/constants/API";
 export default {
   data() {
     return {
       labe_logout: LABEL_LOGOUT,
       talEmail: localStorage.talEmail
-    }
+    };
   },
   methods: {
     // 退出
@@ -46,53 +46,53 @@ export default {
         .then(() => {
           logout()
             .then(res => {
-              localStorage.setItem("talToken", "")
-              localStorage.setItem("talEmail", "")
-              localStorage.setItem("talLevel", "")
-              this.$router.push({ path: PATH_LOGIN })
+              localStorage.setItem("talToken", "");
+              localStorage.setItem("talEmail", "");
+
+              this.$router.push({ path: PATH_LOGIN });
               this.$message({
                 type: "success",
                 message: CONST_LOGOUT_SUCCESS
-              })
+              });
             })
-            .catch(e => {})
+            .catch(e => {});
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: CONST_CANCEL_LOGOUT_SUCCESS
-          })
-        })
+          });
+        });
     }
   }
-}
+};
 </script>
 <style scoped>
-  .sidebar-container {
-    background-color: #242a36;
-    height: 100%;
-  }
-  .sidebar-container >>> ul {
-    height: calc(100% - 168px);
-  }
-  .sidebar-container >>> .el-menu {
-    border-right-width: 0px;
-  }
-  .container {
-    height: 100%;
-  }
-  .main-container {
-    background-color: #f2f7f9;
-    padding: 0;
-    height: 100%;
-  }
-  .sidebar-logout {
-    height: 60px;
-    margin-bottom: 30px;
-    padding: 0 30px;
-    color: #969798;
-  }
-  .sidebar-logout p {
-    margin: 0;
-  }
+.sidebar-container {
+  background-color: #242a36;
+  height: 100%;
+}
+.sidebar-container >>> ul {
+  height: calc(100% - 168px);
+}
+.sidebar-container >>> .el-menu {
+  border-right-width: 0px;
+}
+.container {
+  height: 100%;
+}
+.main-container {
+  background-color: #f2f7f9;
+  padding: 0;
+  height: 100%;
+}
+.sidebar-logout {
+  height: 60px;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  color: #969798;
+}
+.sidebar-logout p {
+  margin: 0;
+}
 </style>

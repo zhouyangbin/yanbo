@@ -2,25 +2,33 @@
  * api 都集中在这里
  * https://jsonplaceholder.typicode.com/posts/1
  * */
-import { sendDelete, sendGet, sendPost, sendPatch } from "@/utils/base";
+import {
+  sendDelete,
+  sendGet,
+  sendPost,
+  sendPatch,
+  sendPut
+} from "@/utils/base";
+
+const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 
 // 用户管理
-// 登录
+// 扫码登录
 export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
 // 扫码登录
 
-// export const qrLogin = (data: object) => sendPost("/api/login", data);
 // 退出
 export const logout = () => {
   return sendPost("/admin/api/logout", {});
 };
 // 管理员列表
+
 export const getManagers = (params: object) => {
-  return sendGet(`/admin/api/admins`, params);
+  return sendGet(`/permission/users`, params);
 };
-// 添加管理员
+
 export const addManager = (data: object) => {
-  return sendPost(`/admin/api/admins`, data);
+  return sendPost(`/permission/users`, data);
 };
 // 用户搜索(添加管理员)
 export const searchManager = (params: object) => {
@@ -28,15 +36,11 @@ export const searchManager = (params: object) => {
 };
 // 删除管理员
 export const deleteManager = (id: string) => {
-  return sendDelete(`/admin/api/admins/${id}`, {});
+  return sendDelete(`/permission/users/${id}`, {});
 };
-// 修改管理员
+
 export const updateManager = (id: string, data: object) => {
-  return sendPatch(`/admin/api/admins/${id}`, data);
-};
-// 启用|禁用管理员
-export const enableManager = (id: string, data: object) => {
-  return sendPatch(`/admin/api/admins/${id}`, data);
+  return sendPatch(`/permission/users/${id}`, data);
 };
 
 // 部门接口
@@ -46,7 +50,7 @@ export const getAdminsDepartments = () => {
 };
 // 事业部列表
 export const getDepartments = () => {
-  return sendGet(`/admin/api/departments`);
+  return sendGet(`/permission/departments`);
 };
 
 // 评分报告
@@ -105,3 +109,129 @@ export const getUserGradeContent = (uid: string) =>
 
 export const postReminder = (params: object) =>
   sendPost("/admin/api/messages", params);
+
+// 角色列表 全量
+export const getRoleList = () => sendGet(`/permission/users/roles`);
+// 分页
+export const getRoleListByPage = (params: object) =>
+  sendGet(`/permission/roles`, params);
+
+// 模板列表
+export const getTplList = (params: object) =>
+  sendGet(`/performance/admin/templates`, params);
+// 删除模板
+export const delTpl = (id: string) =>
+  sendDelete(`/performance/admin/templates/${id}`, {});
+// 组织架构树
+export const getOrgTree = () => sendGet(`/performance/admin/organization`);
+// 新增模板
+export const postTpl = (params: object) =>
+  sendPost(`/performance/admin/templates`, params);
+// 更新模板
+export const putTpl = (id: string, params: object) =>
+  sendPut(`/performance/admin/templates/${id}`, params);
+// 获取模板详情
+export const getTpl = (id: string) =>
+  sendGet(`/performance/admin/templates/${id}`);
+// 获取规则列表
+export const getRuleList = (params: object) =>
+  sendGet(`/performance/admin/rule`, params);
+// 跟新规则
+
+export const putRule = (id: String, params: Object) =>
+  sendPut(`/performance/admin/rule/${id}`, params);
+// 获取权限组织🌲
+export const getAccessTree = () => sendGet(`/permission/department-tree`);
+// 设置用户部门管理范围
+export const patchUserScope = (id: String, params: Object) =>
+  sendPatch(`/permission/users/${id}/set-department`, params);
+// 根据部门获取模板列表
+
+export const getTplRuleByDep = (params: Object) =>
+  sendPost(`/performance/admin/department_template`, params);
+// 创建评分
+export const postAddPerformanceGrade = (params: Object) =>
+  sendPost(`/performance/admin/performance`, params);
+// 复制评分
+export const postClonePerformanceGrade = (id: String, params: Object) =>
+  sendPost(`/performance/admin/${id}/clone`, params);
+// 绩效评分列表
+export const getPerformanceList = (params: Object) =>
+  sendGet(`/performance/admin/performances`, params);
+// 绩效评分部门列表
+export const getPerformanceDepartmentsList = (id: String, page: String) =>
+  sendGet(`/performance/admin/${id}/departments?page=${page}`);
+// 绩效评分事业部详情
+export const getPerormanceDepartmentDetails = (id: String, params: Object) =>
+  sendGet(`/performance/admin/${id}/users`, params);
+// 删除业绩user
+export const delPerformanceUser = (performanceID: String, params: Object) =>
+  sendDelete(`/performance/admin/${performanceID}/users`, params);
+// 添加业绩user
+export const postPerformanceUser = (orgID: String, params: Object) =>
+  sendPost(`/performance/admin/${orgID}/users`, params);
+// 业绩提醒
+export const postPerformanceReminder = (params: Object) =>
+  sendPost(`/performance/admin/message`, params);
+// 更新业绩 user
+export const pathPerformanceUser = (
+  orgID: String,
+  uid: String,
+  params: Object
+) => sendPatch(`/performance/admin/${orgID}/users/${uid}`, params);
+
+// 设置业绩时间
+export const postPerformanceTime = (orgID: String, params: Object) =>
+  sendPost(`/performance/admin/${orgID}/set-time`, params);
+// 业绩EHR 导入
+export const postPerformanceEHR = (orgID: String, params: Object) =>
+  sendPost(`/performance/admin/${orgID}/import/ehr`, params);
+// 业绩管理 员工详情
+export const getPerformanceUserDetail = (orgID: String, uid: String) =>
+  sendGet(`/performance/admin/${orgID}/users/${uid}`);
+
+// 确认分数/修改分数
+export const changePerformanceGrade = (
+  orgID: String,
+  uid: String,
+  params: Object
+) => sendPatch(`/performance/admin/${orgID}/users/${uid}/modify`, params);
+
+export const getTeamGradeList = (params: Object) =>
+  sendGet(`/performance/api/superior/performances`, params);
+// 某个评分的团队成员列表
+export const getTeamList = (id: String, params: Object) =>
+  sendGet(`/performance/api/superior/${id}`, params);
+
+// export const getTeamUserDetail = (orgID: String, uid: String) =>
+//   sendGet(`/performance/api/superior/${orgID}/${uid}`);
+
+// 上级评下级绩效
+export const postUserPerformance = (uid: String, params: Object) =>
+  sendPost(`/performance/api/superior/${uid}`, params);
+
+export const postUserPerformanceDraft = (
+  orgID: String,
+  uid: String,
+  params: Object
+) => sendPost(`/performance/api/${orgID}/${uid}/draft`, params);
+
+// 我的绩效评分列表
+
+export const getMyPerformanceList = (params: Object) =>
+  sendGet(`${test}/performance/api/self/index`, params);
+
+export const getEmployeeDetail = (orgID: String, uid: String) =>
+  sendGet(`${test}/performance/api/${orgID}/${uid}`);
+
+// 绩效自评提交接口
+
+export const postSelfPerformance = (uid: String, params: Object) =>
+  sendPost(`/performance/api/self/${uid}`, params);
+// 绩效申诉
+export const postAppealPerformance = (params: Object) =>
+  sendPost(`/performance/api/appeal`, params);
+
+// 绩效取消申诉
+export const delCancelAppeal = (params: Object) =>
+  sendDelete(`/performance/api/appeal`, params);
