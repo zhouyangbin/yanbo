@@ -10,7 +10,7 @@ import {
   sendPut
 } from "@/utils/base";
 
-const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
+// const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
 
 // 用户管理
 // 扫码登录
@@ -219,10 +219,10 @@ export const postUserPerformanceDraft = (
 // 我的绩效评分列表
 
 export const getMyPerformanceList = (params: Object) =>
-  sendGet(`${test}/performance/api/self/index`, params);
+  sendGet(`/performance/api/self/index`, params);
 
 export const getEmployeeDetail = (orgID: String, uid: String) =>
-  sendGet(`${test}/performance/api/${orgID}/${uid}`);
+  sendGet(`/performance/api/${orgID}/${uid}`);
 
 // 绩效自评提交接口
 
