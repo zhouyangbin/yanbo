@@ -296,12 +296,12 @@ export default {
       this.copyID = row.id;
 
       this.ruleForm = {
-        name: row.name,
+        // name: row.name,
         property: String(row.type_id),
         tpl: row.template_id,
-        mapping: row.rule_id,
-        startTime: row.start_time,
-        endTime: row.end_time
+        mapping: row.rule_id
+        // startTime: row.start_time,
+        // endTime: row.end_time
       };
 
       const depArr = row.department.split(",");
