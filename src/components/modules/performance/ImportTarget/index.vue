@@ -47,6 +47,7 @@ export default {
           message: `上传内容有部分错误!`
         });
       } else {
+        this.tableData = [];
         this.$notify({
           title: SUCCESS,
           message: UPLOAD_SUCCESS,

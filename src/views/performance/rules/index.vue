@@ -2,11 +2,12 @@
   <div class="rules-setting">
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
-      <el-row type="flex" justify="space-between">
+      <el-row type="flex">
         <el-select v-model="dp" :placeholder="constants.LABEL_SELECT_DIVISION">
           <el-option v-for="item in options" :key="item.department_id" :label="item.name" :value="item.department_id">
           </el-option>
         </el-select>
+        <el-button style="margin-left:30px" round @click="resetForm">重置</el-button>
       </el-row>
       <br>
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
@@ -97,6 +98,9 @@ export default {
       getDepartments().then(res => {
         this.options = res;
       });
+    },
+    resetForm() {
+      this.dp = "";
     }
   },
   components: {
