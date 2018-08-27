@@ -76,7 +76,9 @@ export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (id: String) =>
     token: localStorage.getItem("talToken")
   })}`;
 export const PATH_PERFORMANCE_EXCEL_TPL = (id: String) =>
-  `${base}performance/admin/${id}/users/template`;
+  `${base}performance/admin/${id}/users/template?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
 export const PATH_PERFORMANCE_IMPORT_TARGET = (id: String) =>
   `${base}performance/admin/${id}/target/import`;
 export const PATH_EXPORT_PERFORMANCE_GRADE = (id: String) =>
