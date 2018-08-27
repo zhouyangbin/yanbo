@@ -28,7 +28,7 @@
 <script>
 import { MODIFY, CONFIRM, CANCEL } from "@/constants/TEXT";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
-import { getAccessTree, patchUserScope } from "@/constants/API";
+import { getAccessTree, patchUserScope, getBindInfo } from "@/constants/API";
 
 export default {
   props: {
@@ -59,9 +59,9 @@ export default {
     return {
       // show: true,
       showCultureTree: false,
-      cultureCheckedNodes: this.currentInfo.culture_departments || [],
+      cultureCheckedNodes: [],
       showPerformanceTree: false,
-      performanceCheckedNodes: this.currentInfo.achievement_departments || [],
+      performanceCheckedNodes: [],
       cultureDepartmentTree: [],
       performanceDepartmentTree: [],
       filterText: "",
@@ -132,6 +132,12 @@ export default {
         this.performanceDepartmentTree = achievementDepartmentTree
           ? [achievementDepartmentTree]
           : [];
+      })
+      .catch(e => {});
+    getBindInfo(this.currentInfo.id)
+      .then(res => {
+        this.cultureCheckedNodes = res.culture_departments;
+        this.performanceCheckedNodes = res.achievement_departments;
       })
       .catch(e => {});
   }

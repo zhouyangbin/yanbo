@@ -235,3 +235,7 @@ export const postAppealPerformance = (params: Object) =>
 // 绩效取消申诉
 export const delCancelAppeal = (params: Object) =>
   sendDelete(`/performance/api/appeal`, params);
+
+// 获取用户事业部bind数据
+export const getBindInfo = (uid: string) =>
+  sendGet(`/permission/users/detail/${uid}`);
