@@ -252,7 +252,7 @@ export default {
         .then(res => {
           this.$message({
             type: "success",
-            message: CONST_OPERATIONS_SUCCESS
+            message: user.active == 1 ? "禁用成功" : "启用成功"
           });
           this.getManagers();
         })
