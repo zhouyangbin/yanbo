@@ -5,17 +5,17 @@
     <br>
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="name" label="评分名称">
+        <el-table-column prop="name" :label="constants.GRADE_NAME">
         </el-table-column>
-        <el-table-column prop="type" label="周期类型">
+        <el-table-column prop="type" :label="constants.DURATION_TYPE">
         </el-table-column>
-        <el-table-column prop="end_time" label="截止时间">
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
         </el-table-column>
-        <el-table-column prop="target_status" label="目标状态">
+        <el-table-column prop="target_status" :label="constants.TARGET_STATUS">
         </el-table-column>
-        <el-table-column prop="stage" label="评分状态">
+        <el-table-column prop="stage" :label="constants.GRADE_STATUS">
         </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
           </template>
@@ -32,7 +32,16 @@
 
 
 <script>
-import { MY_GRADE, DETAILS } from "@/constants/TEXT";
+import {
+  MY_GRADE,
+  DETAILS,
+  GRADE_NAME,
+  DURATION_TYPE,
+  FINISHED_DATE,
+  OPERATIONS,
+  GRADE_STATUS,
+  TARGET_STATUS
+} from "@/constants/TEXT";
 import { PATH_EMPLYEE_MY_DETAIL } from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
@@ -48,7 +57,15 @@ export default {
           active: true
         }
       ],
-      constants: { DETAILS }
+      constants: {
+        DETAILS,
+        GRADE_NAME,
+        DURATION_TYPE,
+        FINISHED_DATE,
+        OPERATIONS,
+        GRADE_STATUS,
+        TARGET_STATUS
+      }
     };
   },
   components: {

@@ -5,19 +5,19 @@
       <div class="basic-info">
         <span class="label">基本信息:</span>
         <span>
-          <span class="greycolor">上级工号</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-          <span class="greycolor">上级姓名</span> / 开心</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
       <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :key="i"></card>
       <br>
       <div v-if="showMyAdditional">
-        <addition-mark prefixTitle="自评" :readOnly="readOnly" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="readOnly" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
         <br>
       </div>
       <div v-if="leaderAdditionMark.evaluation">
-        <addition-mark :readOnly="true" prefixTitle="上级评" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+        <addition-mark :readOnly="true" :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
       <div v-if="showTotal">
@@ -29,24 +29,38 @@
         <br>
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">保存草稿</el-button>
-        <el-button round size="medium" @click="submit" type="primary">提交</el-button>
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
       <el-row v-if="canReject" type="flex" justify="center">
         <div>
           到期讲默认确认结果, 如有问题可
-          <el-button @click="visible=true" type="text" size="small">申诉</el-button>
+          <el-button @click="visible=true" type="text" size="small">{{constants.APPEAL}}</el-button>
         </div>
       </el-row>
       <el-row v-if="cancelReject" type="flex" justify="center">
-        <el-button @click="cancel" type="primary" round size="medium">取消申诉</el-button>
+        <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
       </el-row>
       <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>
   </div>
 </template>
 <script>
-import { MY_GRADE } from "@/constants/TEXT";
+import {
+  MY_GRADE,
+  SUBMIT,
+  SAVE_DRAFT,
+  APPEAL,
+  CANCEL_APPEAL,
+  LABEL_SELF,
+  LABEL_SUP,
+  LEADER_NUMBER,
+  LEADER_NAME,
+  ERROR,
+  CONFIRM,
+  CANCEL,
+  CONST_ADD_SUCCESS
+} from "@/constants/TEXT";
 import {
   getEmployeeDetail,
   postUserPerformanceDraft,
@@ -78,7 +92,17 @@ export default {
           label: MY_GRADE,
           active: true
         }
-      ]
+      ],
+      constants: {
+        SUBMIT,
+        SAVE_DRAFT,
+        APPEAL,
+        CANCEL_APPEAL,
+        LABEL_SELF,
+        LABEL_SUP,
+        LEADER_NUMBER,
+        LEADER_NAME
+      }
     };
   },
   components: {
@@ -154,10 +178,12 @@ export default {
             stage,
             self_attach_score,
             superior_attach_score,
-            superior_score
+            superior_score,
+            superior_name
           } = res;
           this.basicInfo = {
-            superior_workcode
+            superior_workcode,
+            superior_name
           };
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
@@ -172,7 +198,7 @@ export default {
       // 自评分不能超过5分
       if (this.checkTotal()) {
         return this.$notify.error({
-          title: "错误",
+          title: ERROR,
           message: "总分已经超过5分"
         });
       }
@@ -182,8 +208,8 @@ export default {
         }分，请确认无误再提交，一经提交无法修改, 是否继续?`,
         "提示",
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
           type: "warning"
         }
       )
@@ -194,7 +220,7 @@ export default {
             .then(res => {
               this.$message({
                 type: "success",
-                message: "提交成功!"
+                message: CONST_ADD_SUCCESS
               });
               this.getInfo();
             })

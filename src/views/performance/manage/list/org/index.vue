@@ -31,19 +31,19 @@
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    自评
+                    {{constants.LABEL_SELF}}
                     <span>({{depInfo.self_status}})</span>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    上级评
+                    {{constants.LABEL_SUP}}
                     <span>({{depInfo.superior_status}})</span>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    申诉
+                    {{constants.APPEAL}}
                     <span>({{depInfo.appeal_status}})</span>
                   </template>
                 </el-step>
@@ -103,7 +103,7 @@
 
           <el-table-column prop="email" :label="constants.EMAIL" width="180">
           </el-table-column>
-          <el-table-column prop="target" label="目标状态">
+          <el-table-column prop="target" :label="constants.TARGET_STATUS">
 
           </el-table-column>
           <el-table-column prop="self" :label="constants.SELF_EVALUATION_STATUS">
@@ -171,7 +171,14 @@ import {
   MODIFY_TIMES,
   CONFIRM,
   CANCEL,
-  ENUM_PERFORMANCE_FINISH
+  ENUM_PERFORMANCE_FINISH,
+  CONST_DELETE_SUCCESS,
+  LABEL_USER_DEL_MSG,
+  LABEL_SELF,
+  LABEL_SUP,
+  APPEAL,
+  TARGET_STATUS,
+  ATTENTION
 } from "@/constants/TEXT";
 import { PATH_PERFORMANCE_USER_DETAIL } from "@/constants/URL";
 import {
@@ -248,7 +255,11 @@ export default {
         SET_TIMES,
         IMPORT_RECORDS,
         WORK_LEVEL,
-        MODIFY_TIMES
+        MODIFY_TIMES,
+        LABEL_SELF,
+        LABEL_SUP,
+        APPEAL,
+        TARGET_STATUS
       },
       tableData: [],
       nav: [
@@ -300,7 +311,7 @@ export default {
     },
     batchDel() {
       // 批量删除
-      this.$confirm("确定删除这些用户?", "提示", {
+      this.$confirm("确定删除这些用户?", ATTENTION, {
         confirmButtonText: CONFIRM,
         cancelButtonText: CANCEL,
         type: "warning",
@@ -312,7 +323,7 @@ export default {
           }).then(res => {
             this.$message({
               type: "success",
-              message: "删除成功!"
+              message: CONST_DELETE_SUCCESS
             });
             this.refreshList(this.getCurrentPostData());
           });
@@ -355,7 +366,7 @@ export default {
       if (this.selection.length == 0) {
         msg = "是否提醒全部?";
       }
-      this.$confirm(msg, "提示", {
+      this.$confirm(msg, ATTENTION, {
         confirmButtonText: CONFIRM,
         cancelButtonText: CANCEL,
         type: "warning",
@@ -380,7 +391,7 @@ export default {
     },
     // 删除某条记录
     delInfo(row) {
-      this.$confirm("确定删除此用户?", "提示", {
+      this.$confirm(LABEL_USER_DEL_MSG, ATTENTION, {
         confirmButtonText: CONFIRM,
         cancelButtonText: CANCEL,
         type: "warning",
@@ -393,7 +404,7 @@ export default {
             .then(res => {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: CONST_DELETE_SUCCESS
               });
               this.refreshList(this.getCurrentPostData());
             })
@@ -521,12 +532,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                                                            color: #52ddab;
-                                                                                                                                                            border-color: #52ddab;
-                                                                                                                                                          }
-                                                                                                                                                          .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                                                            color: #52ddab;
-                                                                                                                                                          } */
+                                                                                                                                                                                                      color: #52ddab;
+                                                                                                                                                                                                      border-color: #52ddab;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                                                                                                      color: #52ddab;
+                                                                                                                                                                                                    } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

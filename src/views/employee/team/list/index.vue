@@ -5,15 +5,15 @@
     <br>
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="name" label="评分名称" min-width="180">
+        <el-table-column prop="name" :label="constants.GRADE_NAME" min-width="180">
         </el-table-column>
-        <el-table-column prop="department" label="目标状态">
+        <el-table-column prop="department" :label="constants.TARGET_STATUS">
         </el-table-column>
-        <el-table-column prop="type" label="周期类型">
+        <el-table-column prop="type" :label="constants.DURATION_TYPE">
         </el-table-column>
-        <el-table-column prop="end_time" label="截止时间">
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
         </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
           </template>
@@ -30,7 +30,15 @@
 
 
 <script>
-import { TEAM_GRADE, DETAILS } from "@/constants/TEXT";
+import {
+  TEAM_GRADE,
+  DETAILS,
+  OPERATIONS,
+  FINISHED_DATE,
+  DURATION_TYPE,
+  GRADE_NAME,
+  TARGET_STATUS
+} from "@/constants/TEXT";
 import { PATH_EMPLOYY_TEAM_GRADE_DETAIL } from "@/constants/URL";
 import { getTeamGradeList } from "@/constants/API";
 
@@ -46,7 +54,14 @@ export default {
           active: true
         }
       ],
-      constants: { DETAILS }
+      constants: {
+        DETAILS,
+        OPERATIONS,
+        FINISHED_DATE,
+        DURATION_TYPE,
+        GRADE_NAME,
+        TARGET_STATUS
+      }
     };
   },
   components: {

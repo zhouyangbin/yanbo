@@ -13,11 +13,11 @@
       <card class="card" :config="cardConfig" v-for="(v,i) of targets" :data="v" v-model="targets[i].mark" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
-        <addition-mark prefixTitle="自评" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
         <br>
       </div>
       <div v-if="leaderAdditionMark.evaluation && hasLeaderAdditionMark">
-        <addition-mark prefixTitle="上级评" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+        <addition-mark :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
       <comments :comments.sync="comments"></comments>
@@ -27,14 +27,25 @@
       <level :readOnly="shouldMapping" v-model="level"></level>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">保存草稿</el-button>
-        <el-button round size="medium" @click="submit" type="primary">提交</el-button>
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
   </div>
 </template>
 <script>
-import { TEAM_GRADE } from "@/constants/TEXT";
+import {
+  TEAM_GRADE,
+  SUBMIT,
+  SAVE_DRAFT,
+  LABEL_SELF,
+  LABEL_SUP,
+  ERROR,
+  CONST_ADD_SUCCESS,
+  CONFIRM,
+  CANCEL,
+  ATTENTION
+} from "@/constants/TEXT";
 import {
   getEmployeeDetail,
   postUserPerformance,
@@ -63,7 +74,13 @@ export default {
           label: TEAM_GRADE,
           active: true
         }
-      ]
+      ],
+      constants: {
+        SUBMIT,
+        SAVE_DRAFT,
+        LABEL_SELF,
+        LABEL_SUP
+      }
     };
   },
   components: {
@@ -166,25 +183,25 @@ export default {
       // 自评分不能超过5分
       if (this.checkTotal()) {
         return this.$notify.error({
-          title: "错误",
+          title: ERROR,
           message: "总分已经超过5分"
         });
       }
       if (this.shouldMapping && !this.level) {
         return this.$notify.error({
-          title: "错误",
+          title: ERROR,
           message: "需要选择等级"
         });
       }
       if (!this.comments) {
         return this.$notify.error({
-          title: "错误",
+          title: ERROR,
           message: "请填写评价"
         });
       }
-      this.$confirm("请确认无误再提交, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      this.$confirm("请确认无误再提交, 是否继续?", ATTENTION, {
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
         type: "warning"
       })
         .then(() => {
@@ -194,7 +211,7 @@ export default {
             .then(res => {
               this.$message({
                 type: "success",
-                message: "提交成功"
+                message: CONST_ADD_SUCCESS
               });
               this.getDetailInfo();
             })

@@ -28,6 +28,7 @@ export const NAV_TAB_TYPE_ONE = "成就客户";
 export const NAV_TAB_TYPE_TWO = "务实";
 export const NAV_TAB_TYPE_THREE = "创新";
 export const NAV_TAB_TYPE_FOUR = "合作";
+export const SUBMIT = "提交";
 
 // 固定头部（table/form）
 export const LABEL_TAL = "TAL";
@@ -197,6 +198,12 @@ export const BIND_DEPARTMENT = "绑定事业部";
 export const APPLIED_DEPARTMENTS = "适用事业部";
 export const DEL_TPL_CONFIRM = "确定要删除这个模板么?";
 export const DURATION_TYPE = "周期类型";
+export const COPY_GRADE = "复制评分";
+export const SAVE_DRAFT = "保存草稿";
+export const APPEAL = "申诉";
+export const CANCEL_APPEAL = "取消申诉";
+export const GRADE_STATUS = "评分状态";
+export const TARGET_STATUS = "目标状态";
 
 export const ENUM_RECORD_STATUS = [
   {
