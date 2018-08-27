@@ -16,6 +16,7 @@
             <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>
+          <el-button style="margin-left:30px" round @click="resetFilter">重置</el-button>
         </div>
         <el-button type="primary" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
       </el-row>
@@ -428,6 +429,12 @@ export default {
     },
     goSubList(row) {
       this.$router.push(PATH_PERFORMANCE_PROGRESS(row.id));
+    },
+    resetFilter() {
+      this.filterForm = {
+        type: "",
+        dp: []
+      };
     }
   },
   computed: {
@@ -479,7 +486,6 @@ export default {
     },
     filterForm: {
       handler: function(v) {
-        console.log(v);
         const filterData = {
           page: 1,
           department_id: v.dp.length > 0 ? v.dp[v.dp.length - 1] : "",

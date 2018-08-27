@@ -14,6 +14,9 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item>
+            <el-button round @click="resetForm">重置</el-button>
+          </el-form-item>
         </el-form>
         <el-button type="primary" @click="addTpl" round>{{constants.LABEL_ADD}}</el-button>
       </el-row>
@@ -163,6 +166,9 @@ export default {
       getDepartments().then(res => {
         this.options = res;
       });
+    },
+    resetForm() {
+      this.tplForm = { name: "", dp: "" };
     }
   },
   watch: {
