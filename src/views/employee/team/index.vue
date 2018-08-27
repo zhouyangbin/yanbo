@@ -20,20 +20,20 @@
         <el-row type="flex" :gutter="20" align="top">
           <el-col :span="18">
             <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column prop="name" label="姓名" min-width="180">
+              <el-table-column prop="name" :label="constants.LABEL_NAME" min-width="180">
                 <template slot-scope="scope">
                   <img :src="scope.row.avatar" alt="">
                   <span>{{scope.row.name}}</span>
-                  <span class="appeal-tag" v-if="scope.row.has_appeal">申诉</span>
+                  <span class="appeal-tag" v-if="scope.row.has_appeal">{{constants.APPEAL}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="self_score" label="自评" width="180">
+              <el-table-column prop="self_score" :label="constants.SELF_EVALUATION" width="180">
               </el-table-column>
-              <el-table-column prop="superior_score" label="上级评">
+              <el-table-column prop="superior_score" :label="constants.LABEL_SUP">
               </el-table-column>
               <el-table-column prop="score_level" label="对应等级">
               </el-table-column>
-              <el-table-column prop="ops" label="操作">
+              <el-table-column prop="ops" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
                 </template>
@@ -53,7 +53,15 @@
   </div>
 </template>
 <script>
-import { TEAM_GRADE, DETAILS } from "@/constants/TEXT";
+import {
+  TEAM_GRADE,
+  DETAILS,
+  SELF_EVALUATION,
+  LABEL_NAME,
+  LABEL_SUP,
+  OPERATIONS,
+  APPEAL
+} from "@/constants/TEXT";
 import { PATH_EMPLOYEE_TEAM_MEMEBER } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import { getTeamList } from "@/constants/API";
@@ -76,7 +84,12 @@ export default {
       ],
       tableData: [],
       constants: {
-        DETAILS
+        DETAILS,
+        SELF_EVALUATION,
+        LABEL_NAME,
+        LABEL_SUP,
+        OPERATIONS,
+        APPEAL
       }
     };
   },

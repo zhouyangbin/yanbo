@@ -12,7 +12,7 @@
         </el-table-column>
         <el-table-column prop="user_status" :label="constants.RECORD_STATUS">
         </el-table-column>
-        <el-table-column prop="target_status" label="目标状态">
+        <el-table-column prop="target_status" :label="constants.TARGET_STATUS">
         </el-table-column>
         <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS">
         </el-table-column>
@@ -45,7 +45,8 @@ import {
   EXPORT_DETAILS,
   RECORD_STATUS,
   SELF_EVALUATION_STATUS,
-  LEADER_EVALUATION_STATUS
+  LEADER_EVALUATION_STATUS,
+  TARGET_STATUS
 } from "@/constants/TEXT";
 import {
   PATH_PERFORMANCE_MANAGER,
@@ -69,7 +70,8 @@ export default {
         EXPORT_DETAILS,
         RECORD_STATUS,
         SELF_EVALUATION_STATUS,
-        LEADER_EVALUATION_STATUS
+        LEADER_EVALUATION_STATUS,
+        TARGET_STATUS
       },
       nav: [
         {

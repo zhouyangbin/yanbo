@@ -41,7 +41,7 @@
           <template slot-scope="scope">
             <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
             <el-button @click="gradeExport(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="copyGrade(scope.row)" type="text" size="small">复制评分</el-button>
+            <el-button @click="copyGrade(scope.row)" type="text" size="small">{{constants.COPY_GRADE}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -122,7 +122,8 @@ import {
   CREATED_DATE,
   OPERATIONS,
   LABEL_SCOPE,
-  TPL
+  TPL,
+  COPY_GRADE
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
@@ -194,7 +195,8 @@ export default {
         CREATED_DATE,
         OPERATIONS,
         LABEL_SCOPE,
-        TPL
+        TPL,
+        COPY_GRADE
       },
       nav: [
         {

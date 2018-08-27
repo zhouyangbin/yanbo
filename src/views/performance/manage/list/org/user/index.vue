@@ -6,18 +6,18 @@
         <span class="label">基本信息:</span>
         <span>
           <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
-          <span class="greycolor">上级姓名</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
       <card :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
-        <addition-mark prefixTitle="自评" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
         <br>
       </div>
       <div v-if="leaderAdditionMark.evaluation">
-        <addition-mark prefixTitle="上级评" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+        <addition-mark :prefixTitle="constants.LABEL_SUP" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
       <div v-if="progressArr.length>1" class="summary-section">
@@ -55,7 +55,7 @@
       <br>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="changeMarks" class="btn-reset">修改</el-button>
+        <el-button round size="medium" @click="changeMarks" class="btn-reset">{{constants.LABEL_MODIFY}}</el-button>
         <el-button round size="medium" @click="submit" type="primary">确认结果</el-button>
       </el-row>
     </section>
@@ -63,7 +63,17 @@
   </div>
 </template>
 <script>
-import { EMPLOYEE_DETAIL } from "@/constants/TEXT";
+import {
+  EMPLOYEE_DETAIL,
+  LABEL_MODIFY,
+  LEADER_NAME,
+  LABEL_SELF,
+  LABEL_SUP,
+  CONFIRM,
+  CANCEL,
+  APPEAL,
+  ATTENTION
+} from "@/constants/TEXT";
 import {
   getPerformanceUserDetail,
   changePerformanceGrade
@@ -87,7 +97,13 @@ export default {
       resultArr: [],
       progressArr: [],
       canEdit: false,
-      showChangeMarkDia: false
+      showChangeMarkDia: false,
+      constants: {
+        LABEL_MODIFY,
+        LEADER_NAME,
+        LABEL_SELF,
+        LABEL_SUP
+      }
     };
   },
   components: {
@@ -107,11 +123,15 @@ export default {
       this.getInfo();
     },
     submit() {
-      this.$confirm("请确认无误再提交，一经提交无法修改, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
+      this.$confirm(
+        "请确认无误再提交，一经提交无法修改, 是否继续?",
+        ATTENTION,
+        {
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
+          type: "warning"
+        }
+      )
         .then(() => {
           const postData = {
             action: 1
@@ -158,13 +178,13 @@ export default {
           this.total = score_level;
           if (self_score && self_score.score) {
             this.resultArr.push({
-              text: "自评",
+              text: LABEL_SELF,
               value: self_score.score
             });
           }
           if (superior_score && superior_score.score_level) {
             this.resultArr.push({
-              text: "上级评",
+              text: LABEL_SUP,
               value: superior_score.score_level
             });
           }
@@ -183,20 +203,20 @@ export default {
 
           if (self_time) {
             this.progressArr.push({
-              text: "自评",
+              text: LABEL_SELF,
               value: self_time
             });
           }
 
           if (superior_time) {
             this.progressArr.push({
-              text: "上级评",
+              text: LABEL_SUP,
               value: superior_time
             });
           }
           if (appeal_time) {
             this.progressArr.push({
-              text: "申诉",
+              text: APPEAL,
               value: appeal_time
             });
           }
