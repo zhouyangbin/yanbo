@@ -130,7 +130,7 @@
         <br>
       </div>
     </section>
-    <target-dialog @close="dialogTarget=false" :visible="dialogTarget"></target-dialog>
+    <target-dialog @close="dialogTarget=false" v-if="dialogTarget" :visible="dialogTarget"></target-dialog>
     <import-dialog @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
     <time-set v-if="dialogTimes" @close="closeTimeSettingDia" :initTime="initTime" :visible="dialogTimes"></time-set>
     <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
@@ -539,12 +539,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                                                                                                                      color: #52ddab;
-                                                                                                                                                                                                                      border-color: #52ddab;
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                                                                                                                      color: #52ddab;
-                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                        color: #52ddab;
+                                                                                                                                                                                                                        border-color: #52ddab;
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                      .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                                                                                                                        color: #52ddab;
+                                                                                                                                                                                                                      } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;
