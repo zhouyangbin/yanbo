@@ -222,7 +222,7 @@ export default {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        scope: [{ validator: scopeValidator }],
+        scope: [{ validator: scopeValidator, trigger: "change" }],
         property: [
           { required: true, message: "请选择绩效属性", trigger: "blur" }
         ],

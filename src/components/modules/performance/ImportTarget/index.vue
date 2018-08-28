@@ -41,7 +41,7 @@ export default {
         response.data.errors &&
         response.data.errors.length > 0
       ) {
-        this.tableData = response.data.errors;
+        this.tableData = response.data.errors.slice();
         this.$notify.error({
           title: ERROR,
           message: `上传内容有部分错误!`
