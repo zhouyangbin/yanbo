@@ -93,7 +93,7 @@ export default {
         "update:userForm",
         Object.assign({}, this.userForm, { name: "" })
       );
-      if (queryString) {
+      if (queryString.trim()) {
         searchManager({ email: queryString })
           .then(res => {
             if (res) {
