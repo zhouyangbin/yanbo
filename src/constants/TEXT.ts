@@ -403,7 +403,7 @@ export const ENUM_PERFORMANCE_TYPE = [
   },
   {
     key: "5",
-    value: "春署秋寒"
+    value: "春暑秋寒"
   },
   {
     key: "6",

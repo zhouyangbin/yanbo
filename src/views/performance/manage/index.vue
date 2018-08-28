@@ -61,7 +61,7 @@
         <el-form-item :label="constants.GRADE_NAME" prop="name">
           <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item v-if="actionType != 'copy'" :label="constants.LABEL_SCOPE" prop="scope">
+        <el-form-item class="is-required" v-if="actionType != 'copy'" :label="constants.LABEL_SCOPE" prop="scope">
           <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
           </el-input>
         </el-form-item>
@@ -71,7 +71,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="绩效周期" prop="endTime">
+        <el-form-item class="is-required" label="绩效周期" prop="endTime">
           <div>
             <el-date-picker @change="calculateEndDate" :disabled="ruleForm.property==''" :clearable="false" :picker-options="startPickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="ruleForm.startTime" type="datetime" placeholder="选择开始时间">
             </el-date-picker>
@@ -235,7 +235,8 @@ export default {
       // select options
       ruleArr: [],
       tplArr: [],
-      dpArr: []
+      dpArr: [],
+      tplOptions: []
     };
   },
   components: {
@@ -320,6 +321,13 @@ export default {
       window.open(PATH_EXPORT_PERFORMANCE_GRADE(row.id), "_blank");
     },
     submitForm(formName) {
+      if (this.tplOptions.length == 0) {
+        this.$message({
+          message: "当前事业部无模版，请联系总管理员",
+          type: "warning"
+        });
+        return;
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           // console.log(this.ruleForm)
@@ -469,9 +477,7 @@ export default {
     scopeSelectedNames() {
       return this.checkedNodes.map(v => v.name).join(", ");
     },
-    tplOptions() {
-      return this.tplArr.filter(v => v.type_id == this.ruleForm.property);
-    },
+
     selectedDep() {
       return this.filterForm.dp.length > 0
         ? this.filterForm.dp[this.filterForm.dp.length - 1]
@@ -499,6 +505,13 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    tplArr: function(arr) {
+      const filterArr = arr.filter(v => v.type_id == this.ruleForm.property);
+      this.tplOptions = filterArr;
+      if (filterArr.length == 0) {
+        this.ruleForm.tpl = "";
+      }
     }
   },
   created() {
