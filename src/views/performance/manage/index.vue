@@ -61,7 +61,7 @@
         <el-form-item :label="constants.GRADE_NAME" prop="name">
           <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item v-if="actionType != 'copy'" :label="constants.LABEL_SCOPE" prop="scope">
+        <el-form-item :required="true" v-if="actionType != 'copy'" :label="constants.LABEL_SCOPE" prop="scope">
           <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
           </el-input>
         </el-form-item>
@@ -71,7 +71,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="绩效周期" prop="endTime">
+        <el-form-item :required="true" label="绩效周期" prop="endTime">
           <div>
             <el-date-picker @change="calculateEndDate" :disabled="ruleForm.property==''" :clearable="false" :picker-options="startPickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="ruleForm.startTime" type="datetime" placeholder="选择开始时间">
             </el-date-picker>
