@@ -297,11 +297,14 @@ export default {
 
       this.ruleForm = {
         // name: row.name,
+        name: "",
         property: String(row.type_id),
         tpl: row.template_id,
-        mapping: row.rule_id
+        mapping: row.rule_id,
         // startTime: row.start_time,
         // endTime: row.end_time
+        startTime: "",
+        endTime: ""
       };
 
       const depArr = row.department.split(",");
