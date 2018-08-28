@@ -61,7 +61,7 @@
           <span>
             <el-button @click="uploadTarget" class="action-btn" icon="el-icon-upload2" type="medium">上传目标</el-button>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="reminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
+            <el-button :disabled="!canReminder" @click="reminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
             <el-button @click="batchDel" :disabled="selection.length===0" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
@@ -192,6 +192,7 @@ import {
   delPerformanceUser,
   postPerformanceReminder
 } from "@/constants/API";
+import { formatTime } from "@/utils/timeFormat";
 
 export default {
   data() {
@@ -479,9 +480,15 @@ export default {
         finalEnd: this.depInfo.performance_name_end_time
       };
     },
-
     step() {
       return 4;
+    },
+    canReminder() {
+      return (
+        this.isImported &&
+        this.initTime.startTime &&
+        formatTime(new Date(this.initTime.startTime)) >= formatTime(new Date())
+      );
     }
   }
 };
@@ -532,12 +539,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                                                                                                            color: #52ddab;
-                                                                                                                                                                                                            border-color: #52ddab;
-                                                                                                                                                                                                          }
-                                                                                                                                                                                                          .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                                                                                                            color: #52ddab;
-                                                                                                                                                                                                          } */
+                                                                                                                                                                                                                      color: #52ddab;
+                                                                                                                                                                                                                      border-color: #52ddab;
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                    .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                                                                                                                      color: #52ddab;
+                                                                                                                                                                                                                    } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;
