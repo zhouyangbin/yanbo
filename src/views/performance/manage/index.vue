@@ -326,7 +326,14 @@ export default {
     submitForm(formName) {
       if (this.tplOptions.length == 0) {
         this.$message({
-          message: "当前事业部无模版，请联系总管理员",
+          message: "当前事业部该绩效属性无模版，请联系总管理员!",
+          type: "warning"
+        });
+        return;
+      }
+      if (this.ruleArr.length == 0) {
+        this.$message({
+          message: "当前事业部无分数对应规则，请联系总管理员!",
           type: "warning"
         });
         return;
