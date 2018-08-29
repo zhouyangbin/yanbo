@@ -15,7 +15,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="resetForm">重置</el-button>
+            <el-button round @click="resetForm">{{constants.LABEL_EMPTY}}</el-button>
           </el-form-item>
         </el-form>
         <el-button type="primary" @click="addTpl" round>{{constants.LABEL_ADD}}</el-button>
@@ -58,7 +58,8 @@ import {
   DEL,
   PERFORMANCE_TYPE,
   APPLIED_DEPARTMENTS,
-  DEL_TPL_CONFIRM
+  DEL_TPL_CONFIRM,
+  LABEL_EMPTY
 } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
 import { getTplList, delTpl, getDepartments } from "@/constants/API";
@@ -92,7 +93,8 @@ export default {
         MODIFY,
         DEL,
         PERFORMANCE_TYPE,
-        APPLIED_DEPARTMENTS
+        APPLIED_DEPARTMENTS,
+        LABEL_EMPTY
       }
     };
   },

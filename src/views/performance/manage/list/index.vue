@@ -8,17 +8,7 @@
         <hr>
       </div>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="department" :label="constants.DEPARTMENT" min-width="180">
-        </el-table-column>
-        <el-table-column prop="user_status" :label="constants.RECORD_STATUS">
-        </el-table-column>
-        <el-table-column prop="target_status" :label="constants.TARGET_STATUS">
-        </el-table-column>
-        <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS">
-        </el-table-column>
-        <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS">
-        </el-table-column>
-        <el-table-column prop="appeal_status" label="申诉状态">
+        <el-table-column v-for="(v,i) of tableColumns" :key="i" :prop="v.prop" :label="v.label" :min-width="i==0?180:''">
         </el-table-column>
         <el-table-column prop="4" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -46,7 +36,8 @@ import {
   RECORD_STATUS,
   SELF_EVALUATION_STATUS,
   LEADER_EVALUATION_STATUS,
-  TARGET_STATUS
+  TARGET_STATUS,
+  APPEAL_STATUS
 } from "@/constants/TEXT";
 import {
   PATH_PERFORMANCE_MANAGER,
@@ -59,19 +50,40 @@ import { getPerformanceDepartmentsList } from "@/constants/API";
 export default {
   data() {
     return {
+      tableColumns: [
+        {
+          prop: "department",
+          label: DEPARTMENT
+        },
+        {
+          prop: "user_status",
+          label: RECORD_STATUS
+        },
+        {
+          prop: "target_status",
+          label: TARGET_STATUS
+        },
+        {
+          prop: "self_status",
+          label: SELF_EVALUATION_STATUS
+        },
+        {
+          prop: "superior_status",
+          label: LEADER_EVALUATION_STATUS
+        },
+        {
+          prop: "appeal_status",
+          label: APPEAL_STATUS
+        }
+      ],
       currentPage: 1,
       total: 0,
       performance_info: {},
       constants: {
         FINISHED_DATE,
-        DEPARTMENT,
         OPERATIONS,
         DETAILS,
-        EXPORT_DETAILS,
-        RECORD_STATUS,
-        SELF_EVALUATION_STATUS,
-        LEADER_EVALUATION_STATUS,
-        TARGET_STATUS
+        EXPORT_DETAILS
       },
       nav: [
         {
