@@ -275,6 +275,9 @@ export default {
         endTime: ""
       };
       this.checkedNodes = [];
+      this.tplOptions = [];
+      this.ruleArr = [];
+      this.tplArr = [];
       this.actionType = "";
       this.copyID = "";
 
@@ -512,6 +515,19 @@ export default {
       if (filterArr.length == 0) {
         this.ruleForm.tpl = "";
       }
+    },
+    ruleForm: {
+      handler: function(f) {
+        const filterArr = this.tplArr.filter(
+          v => v.type_id == this.ruleForm.property
+        );
+        this.tplOptions = filterArr;
+        if (filterArr.length == 0) {
+          this.ruleForm.tpl = "";
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   created() {
