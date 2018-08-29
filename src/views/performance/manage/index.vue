@@ -308,14 +308,12 @@ export default {
       this.actionType = "copy";
       this.copyID = row.id;
 
+      const id = row.template_id;
       this.ruleForm = {
-        // name: row.name,
+        tpl: id,
+        mapping: row.rule_id,
         name: "",
         property: String(row.type_id),
-        tpl: row.template_id,
-        mapping: row.rule_id,
-        // startTime: row.start_time,
-        // endTime: row.end_time
         startTime: "",
         endTime: ""
       };
@@ -529,6 +527,7 @@ export default {
       const filterArr = arr.filter(v => v.type_id == this.ruleForm.property);
       this.tplOptions = filterArr;
       if (filterArr.length == 0) {
+        // console.log("will clear in tplArr")
         this.ruleForm.tpl = "";
       }
     },
@@ -538,7 +537,8 @@ export default {
           v => v.type_id == this.ruleForm.property
         );
         this.tplOptions = filterArr;
-        if (filterArr.length == 0) {
+        if (filterArr.length == 0 && this.tplArr.length != 0) {
+          // console.log(filterArr, this.tplArr, "will clear in ruleForm")
           this.ruleForm.tpl = "";
         }
       },
