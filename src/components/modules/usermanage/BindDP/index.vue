@@ -1,7 +1,7 @@
 <template>
   <el-dialog @close="close" width="650px" :visible="visible" class="bindDPDialog">
     <div slot="title" class="title">
-      {{constants.MODIFY}}
+      绑定事业部
     </div>
     <div>
     </div>
@@ -26,7 +26,7 @@
   </el-dialog>
 </template>
 <script>
-import { MODIFY, CONFIRM, CANCEL } from "@/constants/TEXT";
+import { CONFIRM, CANCEL } from "@/constants/TEXT";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
 import { getAccessTree, patchUserScope, getBindInfo } from "@/constants/API";
 
@@ -66,7 +66,6 @@ export default {
       performanceDepartmentTree: [],
       filterText: "",
       constants: {
-        MODIFY,
         CONFIRM,
         CANCEL
       },
