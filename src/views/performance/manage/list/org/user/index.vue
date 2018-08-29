@@ -72,12 +72,20 @@ import {
   CONFIRM,
   CANCEL,
   APPEAL,
-  ATTENTION
+  ATTENTION,
+  GRADE_MANAGE,
+  GRADE_PROGRESS,
+  ORG_DETAIL
 } from "@/constants/TEXT";
 import {
   getPerformanceUserDetail,
   changePerformanceGrade
 } from "@/constants/API";
+import {
+  PATH_PERFORMANCE_MANAGER,
+  PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_ORG_LIST
+} from "@/constants/URL";
 
 export default {
   data() {
@@ -89,6 +97,21 @@ export default {
       leaderAdditionMark: {},
       appeal: {},
       nav: [
+        {
+          label: GRADE_MANAGE,
+          href: PATH_PERFORMANCE_MANAGER
+        },
+        {
+          label: GRADE_PROGRESS,
+          href: PATH_PERFORMANCE_PROGRESS(this.$route.params.orgID)
+        },
+        {
+          label: ORG_DETAIL,
+          href: PATH_PERFORMANCE_ORG_LIST(
+            this.$route.params.id,
+            this.$route.params.orgID
+          )
+        },
         {
           label: EMPLOYEE_DETAIL,
           active: true
@@ -138,7 +161,7 @@ export default {
           };
           changePerformanceGrade(
             this.$route.params.orgID,
-            this.$route.params.id,
+            this.$route.params.uid,
             postData
           )
             .then(res => {
@@ -151,7 +174,7 @@ export default {
     getInfo() {
       return getPerformanceUserDetail(
         this.$route.params.orgID,
-        this.$route.params.id
+        this.$route.params.uid
       )
         .then(res => {
           // console.log(res)
