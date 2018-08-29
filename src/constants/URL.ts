@@ -52,9 +52,10 @@ export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
 export const PATH_PERFORMANCE_EXCEL_IMPORT = (orgID: String) =>
   `${base}/performance/admin/${orgID}/import/excel`;
 export const PATH_PERFORMANCE_USER_DETAIL = (
+  id: String = ":id",
   orgID: String = ":orgID",
-  id: String = ":id"
-) => `${PATH_PERFORMANCE_MANAGER}/${orgID}/user/${id}`;
+  uid: String = ":uid"
+) => `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}/user/${uid}`;
 
 // 员工评分
 export const PATH_EMPLOYEE_MY = "/employee/my";

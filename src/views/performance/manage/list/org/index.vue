@@ -119,7 +119,7 @@
             <template slot-scope="scope">
               <el-button @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
               <el-button type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
-              <el-button @click="$router.push(constants.PATH_PERFORMANCE_USER_DETAIL($route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
+              <el-button @click="$router.push(constants.PATH_PERFORMANCE_USER_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -539,12 +539,12 @@ hr {
   padding: 10px;
 }
 /* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                                                                                                                            color: #52ddab;
-                                                                                                                                                                                                                            border-color: #52ddab;
-                                                                                                                                                                                                                          }
-                                                                                                                                                                                                                          .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                                                                                                                            color: #52ddab;
-                                                                                                                                                                                                                          } */
+                                                                                                                                                                                                                              color: #52ddab;
+                                                                                                                                                                                                                              border-color: #52ddab;
+                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                            .time-line-panel >>> .el-step__title.is-success {
+                                                                                                                                                                                                                              color: #52ddab;
+                                                                                                                                                                                                                            } */
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;

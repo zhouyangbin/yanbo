@@ -7,7 +7,7 @@
           <el-option v-for="item in options" :key="item.department_id" :label="item.name" :value="item.department_id">
           </el-option>
         </el-select>
-        <el-button style="margin-left:30px" round @click="resetForm">重置</el-button>
+        <el-button style="margin-left:30px" round @click="resetForm">{{constants.LABEL_EMPTY}}</el-button>
       </el-row>
       <br>
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
@@ -36,7 +36,8 @@ import {
   LABEL_SELECT_DIVISION,
   LABEL_STATUS,
   LABEL_OPERATIONS,
-  LABEL_MODIFY
+  LABEL_MODIFY,
+  LABEL_EMPTY
 } from "@/constants/TEXT";
 import { getDepartments, getRuleList } from "@/constants/API";
 
@@ -61,7 +62,8 @@ export default {
         LABEL_SELECT_DIVISION,
         LABEL_STATUS,
         LABEL_OPERATIONS,
-        LABEL_MODIFY
+        LABEL_MODIFY,
+        LABEL_EMPTY
       }
     };
   },

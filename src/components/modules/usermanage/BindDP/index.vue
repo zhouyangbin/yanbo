@@ -1,17 +1,17 @@
 <template>
   <el-dialog @close="close" width="650px" :visible="visible" class="bindDPDialog">
     <div slot="title" class="title">
-      绑定事业部
+      {{constants.BIND_DEPARTMENT}}
     </div>
     <div>
     </div>
     <el-form :inline="true" :rules="bindRules" ref="bindForm" :model="bindForm" class="bindForm">
-      <el-form-item v-if="currentInfo.has_culture_permission" prop="culture" label="文化范围">
-        <el-input style="width:400px" placeholder="请选择事业部" v-model="cultrueSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree">
+      <el-form-item v-if="currentInfo.has_culture_permission" prop="culture" :label="constants.CULTURE_SCOPE">
+        <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="cultrueSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree">
         </el-input>
       </el-form-item>
-      <el-form-item v-if="currentInfo.has_achievement_permission" prop="performance" label="绩效范围">
-        <el-input style="width:400px" placeholder="请选择事业部" v-model="performanceSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree">
+      <el-form-item v-if="currentInfo.has_achievement_permission" prop="performance" :label="constants.PERFORMANCE_SCOPE">
+        <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="performanceSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree">
         </el-input>
       </el-form-item>
     </el-form>
@@ -26,7 +26,14 @@
   </el-dialog>
 </template>
 <script>
-import { CONFIRM, CANCEL } from "@/constants/TEXT";
+import {
+  CONFIRM,
+  CANCEL,
+  CULTURE_SCOPE,
+  PERFORMANCE_SCOPE,
+  LABEL_SELECT_DIVISION,
+  BIND_DEPARTMENT
+} from "@/constants/TEXT";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
 import { getAccessTree, patchUserScope, getBindInfo } from "@/constants/API";
 
@@ -67,7 +74,11 @@ export default {
       filterText: "",
       constants: {
         CONFIRM,
-        CANCEL
+        CANCEL,
+        CULTURE_SCOPE,
+        PERFORMANCE_SCOPE,
+        LABEL_SELECT_DIVISION,
+        BIND_DEPARTMENT
       },
       bindRules: {
         culture: [{ validator: cultureTreeValidator, trigger: "change" }],

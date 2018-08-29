@@ -16,7 +16,7 @@
             <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>
-          <el-button style="margin-left:30px" round @click="resetFilter">重置</el-button>
+          <el-button style="margin-left:30px" round @click="resetFilter">{{constants.LABEL_EMPTY}}</el-button>
         </div>
         <el-button type="primary" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
       </el-row>
@@ -66,7 +66,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="绩效属性" prop="property">
-          <el-select style="width:400px;" v-model="ruleForm.property" placeholder="请选择">
+          <el-select style="width:400px;" v-model="ruleForm.property" :placeholder="constants.PLS_SELECT">
             <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>
@@ -81,13 +81,13 @@
           </div>
         </el-form-item>
         <el-form-item :label="constants.TPL" prop="tpl">
-          <el-select style="width:400px;" v-model="ruleForm.tpl" placeholder="请选择">
+          <el-select style="width:400px;" v-model="ruleForm.tpl" :placeholder="constants.PLS_SELECT">
             <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="分数对应关系" prop="mapping">
-          <el-select style="width:400px;" v-model="ruleForm.mapping" placeholder="请选择">
+          <el-select style="width:400px;" v-model="ruleForm.mapping" :placeholder="constants.PLS_SELECT">
             <el-option v-for="item in ruleArr" :key="item.id" :label="item.type" :value="item.id">
             </el-option>
           </el-select>
@@ -124,7 +124,14 @@ import {
   OPERATIONS,
   LABEL_SCOPE,
   TPL,
-  COPY_GRADE
+  COPY_GRADE,
+  PLS_SELECT_TPL,
+  PLS_SELECT_SCOPE,
+  PLS_SELECT_START_TIME,
+  END_TIME_NOT_LESS_THAN_START_TIME,
+  PLS_SELECT_MAPPING,
+  PLS_SELECT,
+  LABEL_EMPTY
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
@@ -145,9 +152,9 @@ export default {
     const endTimeValidator = (rule, value, callback) => {
       // console.log(value)
       if (!this.ruleForm.startTime) {
-        callback(new Error("请先选择开始时间"));
+        callback(new Error(PLS_SELECT_START_TIME));
       } else if (!!value && value <= this.ruleForm.startTime) {
-        callback(new Error("结束时间不能小于开始时间"));
+        callback(new Error(END_TIME_NOT_LESS_THAN_START_TIME));
       } else {
         callback();
       }
@@ -156,7 +163,7 @@ export default {
     const scopeValidator = (rule, value, callback) => {
       // console.log(value)
       if (this.checkedNodes.length == 0) {
-        callback(new Error("请先选择范围"));
+        callback(new Error(PLS_SELECT_SCOPE));
       } else {
         callback();
       }
@@ -197,7 +204,9 @@ export default {
         OPERATIONS,
         LABEL_SCOPE,
         TPL,
-        COPY_GRADE
+        COPY_GRADE,
+        PLS_SELECT,
+        LABEL_EMPTY
       },
       nav: [
         {
@@ -226,9 +235,9 @@ export default {
         property: [
           { required: true, message: "请选择绩效属性", trigger: "blur" }
         ],
-        tpl: [{ required: true, message: "请选择模板", trigger: "blur" }],
+        tpl: [{ required: true, message: PLS_SELECT_TPL, trigger: "blur" }],
         mapping: [
-          { required: true, message: "请选择对应关系", trigger: "blur" }
+          { required: true, message: PLS_SELECT_MAPPING, trigger: "blur" }
         ],
         endTime: [{ validator: endTimeValidator, trigger: "change" }]
       },

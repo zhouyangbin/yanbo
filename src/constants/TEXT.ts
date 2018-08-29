@@ -476,3 +476,12 @@ export const ENUM_PERFORMANCE_USER_CONFIRM = [
     value: "申诉中"
   }
 ];
+export const PLS_SELECT_TPL = "请选择模板";
+export const PLS_SELECT_SCOPE = "请先选择范围";
+export const PLS_SELECT_START_TIME = "请先选择开始时间";
+export const END_TIME_NOT_LESS_THAN_START_TIME = "结束时间不能小于开始时间";
+export const PLS_SELECT_MAPPING = "请选择对应关系";
+export const CULTURE_SCOPE = "文化范围";
+export const PERFORMANCE_SCOPE = "绩效范围";
+export const PLS_SELECT = "请选择";
+export const APPEAL_STATUS = "申诉状态";

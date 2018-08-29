@@ -60,6 +60,7 @@ export default {
         break;
       case "appeal_hr":
         dst = PATH_PERFORMANCE_USER_DETAIL(
+          querys.performance_name_id,
           querys.performance_id,
           querys.performance_user_id
         );
