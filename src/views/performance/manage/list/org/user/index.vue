@@ -174,7 +174,7 @@ export default {
           this.basicInfo = {
             leaderName: superior_name
           };
-
+          this.resultArr = [];
           this.total = score_level;
           if (self_score && self_score.score) {
             this.resultArr.push({
@@ -194,6 +194,7 @@ export default {
               value: appeal.hr_score_level
             });
           }
+          this.progressArr = [];
           if (target_time) {
             this.progressArr.push({
               text: "目标导入",
