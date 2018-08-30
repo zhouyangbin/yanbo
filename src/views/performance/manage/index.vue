@@ -313,7 +313,7 @@ export default {
         tpl: id,
         mapping: row.rule_id,
         name: "",
-        property: String(row.type_id),
+        property: row.type_id.toString(),
         startTime: "",
         endTime: ""
       };
@@ -539,6 +539,13 @@ export default {
         this.tplOptions = filterArr;
         if (filterArr.length == 0 && this.tplArr.length != 0) {
           // console.log(filterArr, this.tplArr, "will clear in ruleForm")
+          this.ruleForm.tpl = "";
+        }
+
+        if (
+          filterArr.length > 0 &&
+          filterArr.filter(v => v.id == this.ruleForm.tpl).length == 0
+        ) {
           this.ruleForm.tpl = "";
         }
       },
