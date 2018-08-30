@@ -442,11 +442,11 @@ export const ENUM_PERFORMANCE_FINISH = [
   },
   {
     key: 20,
-    value: "开始自评"
+    value: "自评中"
   },
   {
     key: 30,
-    value: "开始上级评"
+    value: "上级评中"
   },
   {
     key: 50,
