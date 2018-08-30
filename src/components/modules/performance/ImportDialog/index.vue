@@ -25,7 +25,7 @@
     </div>
     <div v-if="importTab==='first'" slot="footer" class="dialog-footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" type="primary" @click="importFiles('importForm')">{{constants.CONFIRM}}</el-button>
+        <el-button :disabled="uploading" round size="medium" type="primary" @click="importFiles('importForm')">{{constants.CONFIRM}}</el-button>
         <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
       </el-row>
     </div>
@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       importTab: "first",
+      uploading: false,
       importForm: {
         levels: []
       },
@@ -109,6 +110,7 @@ export default {
         if (valid) {
           // alert("submit!")
           // console.log(this.$route.params.orgID)
+          this.uploading = true;
           const postData = {
             "levels[]": this.importForm.levels
           };
@@ -119,10 +121,12 @@ export default {
                 message: IMPORT_SUCCESS,
                 type: "success"
               });
+              this.uploading = false;
               this.close();
             })
             .catch(e => {
               this.eHRError = e.data.data;
+              this.uploading = false;
               // this.showTableEHR = true
             });
         } else {
