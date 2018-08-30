@@ -5,7 +5,7 @@
       <el-row align="middle" type="flex" justify="space-between">
         <div>
           <span>
-            {{actionType == "copy"?"复制评分":constants.PERFORMANCE_GRADE_LIST}}
+            {{constants.PERFORMANCE_GRADE_LIST}}
           </span>
           <!-- <el-select style="margin-left:30px" v-model="filterForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
             <el-option v-for="item in dpArr" :key="item.value" :label="item.label" :value="item.value">
@@ -54,7 +54,7 @@
     <el-dialog v-if="createGradeDialog" @close="closeDia('ruleForm')" width="650px" :visible.sync="createGradeDialog">
       <span slot="title">
         <el-row type="flex" justify="center" class="dialog-title">
-          {{constants.CREATE_GRADE}}
+          {{actionType == "copy"?"复制评分":constants.CREATE_GRADE}}
         </el-row>
       </span>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="create-form-dialog">
