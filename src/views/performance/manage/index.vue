@@ -5,7 +5,7 @@
       <el-row align="middle" type="flex" justify="space-between">
         <div>
           <span>
-            {{constants.PERFORMANCE_GRADE_LIST}}
+            {{actionType == "copy"?"复制评分":constants.PERFORMANCE_GRADE_LIST}}
           </span>
           <!-- <el-select style="margin-left:30px" v-model="filterForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
             <el-option v-for="item in dpArr" :key="item.value" :label="item.label" :value="item.value">
