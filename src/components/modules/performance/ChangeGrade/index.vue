@@ -64,7 +64,7 @@ export default {
           };
           changePerformanceGrade(
             this.$route.params.orgID,
-            this.$route.params.id,
+            this.$route.params.uid,
             postData
           )
             .then(res => {
