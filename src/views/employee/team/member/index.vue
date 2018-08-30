@@ -160,21 +160,23 @@ export default {
             superior_score,
             need_attach_score,
             score_rule,
-            can_edit
+            stage
           } = res;
+
           this.basicInfo = {
             name,
             workcode,
             self_attach_score
           };
           this.targets = this.normalizeTargets(targets);
+
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-          this.comments = superior_score.evaluation;
-          this.level = superior_score.score_level;
+          this.comments = superior_score && superior_score.evaluation;
+          this.level = superior_score && superior_score.score_level;
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
-          this.canEdit = can_edit == 1;
+          this.canEdit = stage == 30 || stage == 40;
         })
         .catch(e => {});
     },

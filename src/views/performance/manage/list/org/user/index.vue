@@ -38,7 +38,7 @@
           </div>
           <br>
         </div>
-        <div class="inner-container">
+        <div v-if="total" class="inner-container">
           <span class="label">评分结果:</span>
           <span> {{total}} </span>
         </div>
