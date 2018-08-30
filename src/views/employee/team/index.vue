@@ -22,9 +22,11 @@
             <el-table :data="tableData" stripe style="width: 100%">
               <el-table-column prop="name" :label="constants.LABEL_NAME" min-width="180">
                 <template slot-scope="scope">
-                  <img :src="scope.row.avatar" alt="">
-                  <span>{{scope.row.name}}</span>
-                  <span class="appeal-tag" v-if="scope.row.has_appeal">{{constants.APPEAL}}</span>
+                  <el-row type="flex" align="middle">
+                    <img width="30px" height="30px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                    <span>{{scope.row.name}}</span>
+                    <span class="appeal-tag" v-if="scope.row.has_appeal">{{constants.APPEAL}}</span>
+                  </el-row>
                 </template>
               </el-table-column>
               <el-table-column prop="self_score" :label="constants.SELF_EVALUATION" width="180">
