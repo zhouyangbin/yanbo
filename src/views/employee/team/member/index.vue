@@ -103,7 +103,7 @@ export default {
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (this.leaderAdditionMark.score || 0)
+          (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(2);
       // return parseFloat(
       //   this.targets.map(v => v.mark).reduce((pre, next) => pre + next, 0) /
@@ -120,7 +120,9 @@ export default {
     normalizeTargets(arr) {
       return arr.map(v => {
         v.mark =
-          (v.target_superior_score && v.target_superior_score.score) || 0;
+          (v.target_superior_score &&
+            parseFloat(v.target_superior_score.score)) ||
+          0;
         delete v.target_superior_score;
         return v;
       });
