@@ -23,7 +23,7 @@
       <div v-if="progressArr.length>1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
-          <el-steps style="width:80%" :active="progressArr.length">
+          <el-steps style="width:60%" :active="progressArr.length">
             <el-step v-for="(v,i) of progressArr" :key="i">
               <div slot="icon">{{v.text}}</div>
               <div slot="title">{{v.value}}</div>
@@ -44,7 +44,7 @@
         </div>
         <div class="inner-container">
           <span class="label"></span>
-          <el-steps style="width:80%" :active="resultArr.length">
+          <el-steps style="width:60%" :active="resultArr.length">
             <el-step v-for="(v,i) of resultArr" :key="i">
               <div slot="icon">{{v.text}}</div>
               <div slot="title">{{v.value}}</div>
@@ -213,7 +213,7 @@ export default {
           }
           if (appeal && appeal.hr_score_level) {
             this.resultArr.push({
-              text: "BP修改",
+              text: appeal.action == 1 ? "BP确认" : "BP修改",
               value: appeal.hr_score_level
             });
           }
