@@ -100,3 +100,8 @@ export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
     },
     { arrayFormat: "brackets" }
   )}`;
+
+export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
+  `${base}/performance/api/superior/export/${id}?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
