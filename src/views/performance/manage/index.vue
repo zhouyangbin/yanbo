@@ -125,7 +125,8 @@ export default {
       currentPage: 1,
       total: 0,
       initForm: {},
-      dpArr: []
+      dpArr: [],
+      permissions: []
     };
   },
   components: {
@@ -264,6 +265,7 @@ export default {
   },
   created() {
     this.getDepartments();
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
   }
 };
 </script>
