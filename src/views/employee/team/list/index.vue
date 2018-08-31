@@ -16,6 +16,7 @@
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
+            <el-button @click="exportDetail(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -37,10 +38,12 @@ import {
   FINISHED_DATE,
   DURATION_TYPE,
   GRADE_NAME,
-  TARGET_STATUS
+  TARGET_STATUS,
+  EXPORT_DETAILS
 } from "@/constants/TEXT";
 import { PATH_EMPLOYY_TEAM_GRADE_DETAIL } from "@/constants/URL";
 import { getTeamGradeList } from "@/constants/API";
+import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 
 export default {
   data() {
@@ -60,7 +63,8 @@ export default {
         FINISHED_DATE,
         DURATION_TYPE,
         GRADE_NAME,
-        TARGET_STATUS
+        TARGET_STATUS,
+        EXPORT_DETAILS
       }
     };
   },
@@ -87,6 +91,9 @@ export default {
       this.getList({
         page: val
       });
+    },
+    exportDetail(row) {
+      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank");
     }
   },
   created() {
