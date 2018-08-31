@@ -10,13 +10,13 @@
         <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
       </div>
       <br>
-      <card class="card" :config="cardConfig" v-for="(v,i) of targets" :data="v" v-model="targets[i].mark" :key="i"></card>
+      <card class="card" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
         <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
         <br>
       </div>
-      <div v-if="leaderAdditionMark.evaluation && hasLeaderAdditionMark">
+      <div v-if="hasLeaderAdditionMark">
         <addition-mark :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
