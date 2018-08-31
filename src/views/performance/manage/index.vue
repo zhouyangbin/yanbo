@@ -18,7 +18,7 @@
           </el-select>
           <el-button style="margin-left:30px" round @click="resetFilter">{{constants.LABEL_EMPTY}}</el-button>
         </div>
-        <el-button type="primary" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
+        <el-button type="primary" v-if="canCreatePerformanceGrade" @click="createGrade" round>{{constants.CREATE_GRADE}}</el-button>
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
@@ -220,6 +220,9 @@ export default {
       return this.filterForm.dp.length > 0
         ? this.filterForm.dp[this.filterForm.dp.length - 1]
         : "";
+    },
+    canCreatePerformanceGrade() {
+      return this.permissions.includes(301);
     }
   },
 
