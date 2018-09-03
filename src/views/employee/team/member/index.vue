@@ -58,7 +58,7 @@ export default {
       myAdditionMark: {},
       leaderAdditionMark: {},
       comments: "",
-      canEdit: false,
+      stage: 0,
       hasLeaderAdditionMark: false,
       rules: [],
       basicInfo: {},
@@ -114,6 +114,9 @@ export default {
 
     shouldMapping() {
       return this.rules && this.rules.length > 0;
+    },
+    canEdit() {
+      return this.stage == 30 || this.stage == 40;
     }
   },
   methods: {
@@ -162,7 +165,8 @@ export default {
             superior_score,
             need_attach_score,
             score_rule,
-            stage
+            stage,
+            score_level
           } = res;
 
           this.basicInfo = {
@@ -175,10 +179,11 @@ export default {
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.comments = superior_score && superior_score.evaluation;
-          this.level = superior_score && superior_score.score_level;
+          this.level =
+            score_level || (superior_score && superior_score.score_level);
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
-          this.canEdit = stage == 30 || stage == 40;
+          this.stage = stage;
         })
         .catch(e => {});
     },
@@ -275,7 +280,7 @@ export default {
   watch: {
     targets: {
       handler: function() {
-        if (this.shouldMapping) {
+        if (this.shouldMapping && this.stage != 50) {
           this.level = this.findLevel();
         }
       },

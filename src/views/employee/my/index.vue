@@ -25,7 +25,7 @@
         <br>
       </div>
       <div>
-        <level :readOnly="true" v-model="level"></level>
+        <level v-if="level" :readOnly="true" v-model="level"></level>
         <br>
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
@@ -64,8 +64,11 @@ import {
 import {
   getEmployeeDetail,
   postUserPerformanceDraft,
-  postSelfPerformance
+  postSelfPerformance,
+  delCancelAppeal
 } from "@/constants/API";
+
+import { PATH_EMPLOYEE_MY } from "@/constants/URL";
 
 export default {
   data() {
@@ -90,6 +93,10 @@ export default {
       nav: [
         {
           label: MY_GRADE,
+          href: PATH_EMPLOYEE_MY
+        },
+        {
+          label: "评分详情",
           active: true
         }
       ],
@@ -179,7 +186,8 @@ export default {
             self_attach_score,
             superior_attach_score,
             superior_score,
-            superior_name
+            superior_name,
+            score_level
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -188,7 +196,8 @@ export default {
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-          this.level = superior_score && superior_score.score_level;
+          this.level =
+            score_level || (superior_score && superior_score.score_level);
           this.composeData(targets, stage);
         })
         .catch(e => {});
@@ -222,7 +231,8 @@ export default {
                 type: "success",
                 message: CONST_ADD_SUCCESS
               });
-              this.getInfo();
+              this.$router.replace(PATH_EMPLOYEE_MY);
+              // this.getInfo();
             })
             .catch(e => {});
         })

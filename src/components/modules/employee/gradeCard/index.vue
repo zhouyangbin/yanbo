@@ -25,14 +25,14 @@
         </section>
         <br>
       </div>
-      <div v-if="data.target_self_score && data.target_self_score.score">
+      <div v-if="data.target_self_score && data.target_self_score.score!=null">
         <section>
           <span class="label">自评分:</span> &nbsp;
           <span>{{data.target_self_score && data.target_self_score.score}}分</span>
         </section>
         <br>
       </div>
-      <div v-if="data.target_superior_score && data.target_superior_score.score">
+      <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
         <section>
           <span class="label">上级评分:</span> &nbsp;
           <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>

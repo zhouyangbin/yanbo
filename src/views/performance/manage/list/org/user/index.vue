@@ -199,7 +199,7 @@ export default {
           };
           this.resultArr = [];
           this.total = score_level;
-          if (self_score && self_score.score) {
+          if (self_score && self_score.score != null) {
             this.resultArr.push({
               text: LABEL_SELF,
               value: self_score.score
