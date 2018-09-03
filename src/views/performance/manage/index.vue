@@ -42,7 +42,7 @@
           <template slot-scope="scope">
             <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
             <el-button @click="gradeExport(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="copyGrade(scope.row)" type="text" size="small">{{constants.COPY_GRADE}}</el-button>
+            <el-button v-if="canCreatePerformanceGrade" @click="copyGrade(scope.row)" type="text" size="small">{{constants.COPY_GRADE}}</el-button>
           </template>
         </el-table-column>
       </el-table>
