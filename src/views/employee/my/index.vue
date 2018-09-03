@@ -35,7 +35,7 @@
       <el-row v-if="canReject" type="flex" justify="center">
         <div>
           到期讲默认确认结果, 如有问题可
-          <el-button @click="visible=true" type="text" size="small">{{constants.APPEAL}}</el-button>
+          <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
         </div>
       </el-row>
       <el-row v-if="cancelReject" type="flex" justify="center">
@@ -198,6 +198,7 @@ export default {
           this.leaderAdditionMark = superior_attach_score || {};
           this.level =
             score_level || (superior_score && superior_score.score_level);
+
           this.composeData(targets, stage);
         })
         .catch(e => {});
@@ -283,6 +284,7 @@ export default {
             return v;
           });
           this.canReject = true;
+          this.cancelReject = false;
           break;
         case 50:
           this.readOnly = true;
