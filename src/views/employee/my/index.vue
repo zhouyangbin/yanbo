@@ -12,7 +12,7 @@
       <br>
       <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :key="i"></card>
       <br>
-      <div>
+      <div v-if="showComments">
         <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
         <br>
       </div>
@@ -82,6 +82,7 @@ export default {
       canEdit: false,
       canReject: false,
       showTotal: false,
+      showComments: false,
       cancelReject: false,
       myAdditionMark: {},
       leaderAdditionMark: {},
@@ -208,6 +209,7 @@ export default {
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
+          this.showComments = stage == 40;
           this.composeData(targets, stage);
         })
         .catch(e => {});

@@ -237,7 +237,10 @@ export default {
                 type: "success",
                 message: CONST_ADD_SUCCESS
               });
-              this.getDetailInfo();
+              // this.getDetailInfo();
+              this.$router.replace(
+                PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+              );
             })
             .catch(e => {});
         })
