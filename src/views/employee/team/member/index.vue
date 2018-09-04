@@ -10,17 +10,17 @@
         <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
       </div>
       <br>
-      <card class="card" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
+      <card class="card" :readOnly="!canEdit" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
         <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
         <br>
       </div>
       <div v-if="hasLeaderAdditionMark">
-        <addition-mark :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+        <addition-mark :readOnly="!canEdit" :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
-      <comments :comments.sync="comments"></comments>
+      <comments :readOnly="!canEdit" :comments.sync="comments"></comments>
       <br>
       <total-mark :total="total"></total-mark>
       <br>

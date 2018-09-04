@@ -12,6 +12,10 @@
       <br>
       <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :key="i"></card>
       <br>
+      <div>
+        <comments :readOnly="true" :comments.sync="superior_score.evaluation"></comments>
+        <br>
+      </div>
       <div v-if="showMyAdditional">
         <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="readOnly" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
         <br>
@@ -81,6 +85,7 @@ export default {
       cancelReject: false,
       myAdditionMark: {},
       leaderAdditionMark: {},
+      superior_score: {},
       need_attach_score: "",
       visible: false,
       level: "",
@@ -122,19 +127,23 @@ export default {
       import("@/components/modules/employee/totalMark/index.vue"),
     level: () => import("@/components/modules/employee/finalLevel/index.vue"),
     "reject-dialog": () =>
-      import("@/components/modules/employee/appealConfirm/index.vue")
+      import("@/components/modules/employee/appealConfirm/index.vue"),
+    comments: () =>
+      import("@/components/modules/employee/leaderComments/index.vue")
   },
   computed: {
     showMyAdditional() {
       return this.need_attach_score == 1;
     },
     total() {
-      return parseFloat(
-        this.targets
-          .map(v => v.weights * (v.mark || 0))
-          .reduce((pre, next) => pre + next, 0) +
-          (this.myAdditionMark.score || 0)
-      ).toFixed(2);
+      return this.superior_score.score != null
+        ? parseFloat(this.superior_score.score)
+        : parseFloat(
+            this.targets
+              .map(v => v.weights * (v.mark || 0))
+              .reduce((pre, next) => pre + next, 0) +
+              (this.myAdditionMark.score || 0)
+          ).toFixed(2);
     }
   },
   methods: {
@@ -198,7 +207,7 @@ export default {
           this.leaderAdditionMark = superior_attach_score || {};
           this.level =
             score_level || (superior_score && superior_score.score_level);
-
+          this.superior_score = superior_score;
           this.composeData(targets, stage);
         })
         .catch(e => {});
