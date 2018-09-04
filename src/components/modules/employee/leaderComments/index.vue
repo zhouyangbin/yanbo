@@ -1,15 +1,15 @@
 <template>
-    <div class="commentsSection">
-        <div class="leaderComments">
-            <div class="inner-container">
-                <span class="label title">评价:</span>
-                <span v-if="readOnly">{{comments}}</span>
-                <el-input v-else :maxlength="200" style="width:80%" type="textarea" :rows="2" placeholder="请输入内容" v-model="innerDesc">
-                </el-input>
-            </div>
-            <br>
-        </div>
+  <div class="commentsSection">
+    <div class="leaderComments">
+      <div class="inner-container">
+        <span class="label title">上级评价:</span>
+        <span v-if="readOnly">{{comments}}</span>
+        <el-input v-else :maxlength="200" style="width:80%" type="textarea" :rows="2" placeholder="请输入内容" v-model="innerDesc">
+        </el-input>
+      </div>
+      <br>
     </div>
+  </div>
 </template>
 <script>
 export default {

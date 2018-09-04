@@ -4,16 +4,16 @@
     <section class="content-container">
       <section>
         <el-form :inline="true" :model="filterForm" ref="filterForm">
-          <el-form-item>
+          <el-form-item prop="name">
             <el-input placeholder="请输入姓名" v-model="filterForm.name"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="status">
             <el-select v-model="filterForm.status" placeholder="请选择">
               <el-option label="未完成" value="0"></el-option>
               <el-option label="已完成" value="1"></el-option>
-              <!-- <el-option label="区域二" value="beijing"></el-option> -->
             </el-select>
           </el-form-item>
+          <el-button style="margin-left:30px" round @click="resetForm('filterForm')">{{constants.LABEL_EMPTY}}</el-button>
         </el-form>
       </section>
       <section>
@@ -23,7 +23,7 @@
               <el-table-column prop="name" :label="constants.LABEL_NAME" min-width="180">
                 <template slot-scope="scope">
                   <el-row type="flex" align="middle">
-                    <img width="30px" height="30px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                    <img width="30px" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
                     <span>{{scope.row.name}}</span>
                     <span class="appeal-tag" v-if="scope.row.has_appeal">{{constants.APPEAL}}</span>
                   </el-row>
@@ -62,7 +62,8 @@ import {
   LABEL_NAME,
   LABEL_SUP,
   OPERATIONS,
-  APPEAL
+  APPEAL,
+  LABEL_EMPTY
 } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_TEAM_MEMEBER } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -91,7 +92,8 @@ export default {
         LABEL_NAME,
         LABEL_SUP,
         OPERATIONS,
-        APPEAL
+        APPEAL,
+        LABEL_EMPTY
       }
     };
   },
@@ -103,6 +105,9 @@ export default {
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     goDetail(row) {
       this.$router.push(
         PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
