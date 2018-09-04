@@ -44,13 +44,20 @@ import {
   CONST_ADD_SUCCESS,
   CONFIRM,
   CANCEL,
-  ATTENTION
+  ATTENTION,
+  GRADE_DETAIL,
+  GRADE_MANAGE
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
   postUserPerformance,
   postUserPerformanceDraft
 } from "@/constants/API";
+
+import {
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYEE_TEAM
+} from "@/constants/URL";
 
 export default {
   data() {
@@ -72,6 +79,14 @@ export default {
       nav: [
         {
           label: TEAM_GRADE,
+          href: PATH_EMPLOYEE_TEAM
+        },
+        {
+          label: GRADE_MANAGE,
+          href: PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+        },
+        {
+          label: GRADE_DETAIL,
           active: true
         }
       ],

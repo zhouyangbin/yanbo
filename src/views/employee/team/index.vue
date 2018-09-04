@@ -63,9 +63,13 @@ import {
   LABEL_SUP,
   OPERATIONS,
   APPEAL,
-  LABEL_EMPTY
+  LABEL_EMPTY,
+  GRADE_MANAGE
 } from "@/constants/TEXT";
-import { PATH_EMPLOYEE_TEAM_MEMEBER } from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_EMPLOYEE_TEAM
+} from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import { getTeamList } from "@/constants/API";
 
@@ -82,6 +86,10 @@ export default {
       nav: [
         {
           label: TEAM_GRADE,
+          href: PATH_EMPLOYEE_TEAM
+        },
+        {
+          label: GRADE_MANAGE,
           active: true
         }
       ],

@@ -13,7 +13,7 @@
       <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :key="i"></card>
       <br>
       <div>
-        <comments :readOnly="true" :comments.sync="superior_score.evaluation"></comments>
+        <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
         <br>
       </div>
       <div v-if="showMyAdditional">
@@ -136,7 +136,7 @@ export default {
       return this.need_attach_score == 1;
     },
     total() {
-      return this.superior_score.score != null
+      return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)
         : parseFloat(
             this.targets
