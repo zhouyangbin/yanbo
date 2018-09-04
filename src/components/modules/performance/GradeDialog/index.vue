@@ -104,6 +104,9 @@ export default {
     },
     initForm: {
       type: Object
+    },
+    initData: {
+      type: Object
     }
   },
   components: {
@@ -157,9 +160,9 @@ export default {
         endTime: [{ validator: endTimeValidator, trigger: "change" }]
       },
       // select options
-      ruleArr: [],
+      ruleArr: this.initData.rulesArr || [],
       tplArr: [],
-      tplOptions: [],
+      tplOptions: this.initData.tplArr || [],
       constants: {
         COPY_GRADE,
         CREATE_GRADE,
@@ -312,11 +315,11 @@ export default {
       handler: function(f) {
         if (!this.loading) {
           this.ruleForm.tpl = "";
+          const filterArr = this.tplArr.filter(
+            v => v.type_id == this.ruleForm.property
+          );
+          this.tplOptions = filterArr;
         }
-        const filterArr = this.tplArr.filter(
-          v => v.type_id == this.ruleForm.property
-        );
-        this.tplOptions = filterArr;
       },
       deep: true,
       immediate: true

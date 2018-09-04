@@ -51,7 +51,7 @@
         <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
       </el-row>
     </section>
-    <grade-dialog :copyID="copyID" v-if="createGradeDialog" :defaultChecked="checkedNodes" :actionType="actionType" :initForm="initForm" :departmentTree="departmentTree" :visible.sync="createGradeDialog"></grade-dialog>
+    <grade-dialog :copyID="copyID" v-if="createGradeDialog" :initData="initData" :defaultChecked="checkedNodes" :actionType="actionType" :initForm="initForm" :departmentTree="departmentTree" :visible.sync="createGradeDialog"></grade-dialog>
 
   </div>
 </template>
@@ -125,6 +125,7 @@ export default {
       currentPage: 1,
       total: 0,
       initForm: {},
+      initData: {},
       dpArr: [],
       permissions: []
     };
@@ -174,6 +175,15 @@ export default {
         startTime: "",
         endTime: ""
       };
+      let rulesArr = [];
+      for (const k in row.rules) {
+        rulesArr.push({
+          id: parseInt(k),
+          type: row.rules[k]
+        });
+      }
+
+      this.initData = { tplArr: row.templates, rulesArr };
 
       const depArr = row.department.split(",");
       this.checkedNodes = row.department_ids.map((id, i) => {
