@@ -38,7 +38,7 @@
       </el-row>
       <el-row v-if="canReject" type="flex" justify="center">
         <div>
-          到期讲默认确认结果, 如有问题可
+          到期将默认确认结果, 如有问题可
           <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
         </div>
       </el-row>

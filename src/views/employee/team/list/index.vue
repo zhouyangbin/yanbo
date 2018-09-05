@@ -7,7 +7,7 @@
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="name" :label="constants.GRADE_NAME" min-width="180">
         </el-table-column>
-        <el-table-column prop="department" :label="constants.TARGET_STATUS">
+        <el-table-column prop="department" :label="constants.LABEL_DEPARTMENT">
         </el-table-column>
         <el-table-column prop="type" :label="constants.DURATION_TYPE">
         </el-table-column>
@@ -38,8 +38,8 @@ import {
   FINISHED_DATE,
   DURATION_TYPE,
   GRADE_NAME,
-  TARGET_STATUS,
-  EXPORT_DETAILS
+  EXPORT_DETAILS,
+  LABEL_DEPARTMENT
 } from "@/constants/TEXT";
 import { PATH_EMPLOYY_TEAM_GRADE_DETAIL } from "@/constants/URL";
 import { getTeamGradeList } from "@/constants/API";
@@ -63,8 +63,8 @@ export default {
         FINISHED_DATE,
         DURATION_TYPE,
         GRADE_NAME,
-        TARGET_STATUS,
-        EXPORT_DETAILS
+        EXPORT_DETAILS,
+        LABEL_DEPARTMENT
       }
     };
   },
