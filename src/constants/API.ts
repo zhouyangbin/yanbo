@@ -220,10 +220,12 @@ export const postUserPerformanceDraft = (
 
 export const getMyPerformanceList = (params: Object) =>
   sendGet(`/performance/api/self/index`, params);
-
+// 团队里的详情
 export const getEmployeeDetail = (orgID: String, uid: String) =>
   sendGet(`/performance/api/${orgID}/${uid}`);
-
+// 业绩管理 自评详情
+export const getPerformanceEmployeeDetail = (orgID: String, uid: String) =>
+  sendGet(`/performance/api/self/${orgID}/${uid}`);
 // 绩效自评提交接口
 
 export const postSelfPerformance = (uid: String, params: Object) =>
