@@ -66,7 +66,7 @@ import {
   CONST_ADD_SUCCESS
 } from "@/constants/TEXT";
 import {
-  getEmployeeDetail,
+  getPerformanceEmployeeDetail,
   postUserPerformanceDraft,
   postSelfPerformance,
   delCancelAppeal
@@ -185,7 +185,10 @@ export default {
       return parseFloat(this.total) > 5;
     },
     getInfo() {
-      return getEmployeeDetail(this.$route.params.orgID, this.$route.params.id)
+      return getPerformanceEmployeeDetail(
+        this.$route.params.orgID,
+        this.$route.params.id
+      )
         .then(res => {
           // console.log(res)
           const {
