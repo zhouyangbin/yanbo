@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">基本信息:</span>
+        <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
           <span class="greycolor">员工工号</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
           <span class="greycolor">员工姓名</span> / {{basicInfo.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -46,7 +46,8 @@ import {
   CANCEL,
   ATTENTION,
   GRADE_DETAIL,
-  GRADE_MANAGE
+  GRADE_MANAGE,
+  BASIC_INFO
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
@@ -94,7 +95,8 @@ export default {
         SUBMIT,
         SAVE_DRAFT,
         LABEL_SELF,
-        LABEL_SUP
+        LABEL_SUP,
+        BASIC_INFO
       }
     };
   },

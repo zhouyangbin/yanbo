@@ -3,14 +3,14 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">基本信息:</span>
+        <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
           <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
           <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
-      <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :key="i"></card>
+      <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :index="i" :key="i"></card>
       <br>
       <div v-if="showComments">
         <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
@@ -63,7 +63,8 @@ import {
   ERROR,
   CONFIRM,
   CANCEL,
-  CONST_ADD_SUCCESS
+  CONST_ADD_SUCCESS,
+  BASIC_INFO
 } from "@/constants/TEXT";
 import {
   getPerformanceEmployeeDetail,
@@ -114,7 +115,8 @@ export default {
         LABEL_SELF,
         LABEL_SUP,
         LEADER_NUMBER,
-        LEADER_NAME
+        LEADER_NAME,
+        BASIC_INFO
       }
     };
   },

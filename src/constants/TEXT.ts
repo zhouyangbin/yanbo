@@ -485,3 +485,4 @@ export const CULTURE_SCOPE = "文化范围";
 export const PERFORMANCE_SCOPE = "绩效范围";
 export const PLS_SELECT = "请选择";
 export const APPEAL_STATUS = "申诉状态";
+export const BASIC_INFO = "基本信息";

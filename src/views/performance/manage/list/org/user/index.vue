@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">基本信息:</span>
+        <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
           <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
           <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,7 +75,8 @@ import {
   ATTENTION,
   GRADE_MANAGE,
   GRADE_PROGRESS,
-  ORG_DETAIL
+  ORG_DETAIL,
+  BASIC_INFO
 } from "@/constants/TEXT";
 import {
   getPerformanceUserDetail,
@@ -125,7 +126,8 @@ export default {
         LABEL_MODIFY,
         LEADER_NAME,
         LABEL_SELF,
-        LABEL_SUP
+        LABEL_SUP,
+        BASIC_INFO
       }
     };
   },
