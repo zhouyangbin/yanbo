@@ -34,7 +34,7 @@ import {
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL
 } from "@/constants/URL";
-import { qrLogin } from "@/constants/API";
+import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
 
 export default {
@@ -68,27 +68,52 @@ export default {
     }
 
     if (querys.token) {
-      qrLogin({ token: querys.token })
-        .then(res => {
-          localStorage.setItem("talEmail", res.admin.email);
-          localStorage.setItem("talToken", res.token);
-          localStorage.setItem(
-            "permissions",
-            JSON.stringify(res.admin.permissions)
-          );
-          if (querys.fromDingDing) {
-            window.DingTalkPC.biz.util.openLink({
-              url: `${window.location.origin}${dst}`, //要打开链接的地址
-              onSuccess: function(result) {
-                /**/
-              },
-              onFail: function() {}
-            });
-          } else {
-            this.$router.push({ path: dst });
-          }
-        })
-        .catch(e => {});
+      // 仿真
+      if (process.env.NODE_ENV == "development") {
+        return fzLogin({ workcode: "17600297195" })
+          .then(res => {
+            localStorage.setItem("talEmail", res.admin.email);
+            localStorage.setItem("talToken", res.token);
+            localStorage.setItem(
+              "permissions",
+              JSON.stringify(res.admin.permissions)
+            );
+            if (querys.fromDingDing) {
+              window.DingTalkPC.biz.util.openLink({
+                url: `${window.location.origin}${dst}`, //要打开链接的地址
+                onSuccess: function(result) {
+                  /**/
+                },
+                onFail: function() {}
+              });
+            } else {
+              this.$router.push({ path: dst });
+            }
+          })
+          .catch(e => {});
+      } else {
+        qrLogin({ token: querys.token })
+          .then(res => {
+            localStorage.setItem("talEmail", res.admin.email);
+            localStorage.setItem("talToken", res.token);
+            localStorage.setItem(
+              "permissions",
+              JSON.stringify(res.admin.permissions)
+            );
+            if (querys.fromDingDing) {
+              window.DingTalkPC.biz.util.openLink({
+                url: `${window.location.origin}${dst}`, //要打开链接的地址
+                onSuccess: function(result) {
+                  /**/
+                },
+                onFail: function() {}
+              });
+            } else {
+              this.$router.push({ path: dst });
+            }
+          })
+          .catch(e => {});
+      }
     }
     tinfo.init({
       appid: process.env.VUE_APP_APP_ID,
