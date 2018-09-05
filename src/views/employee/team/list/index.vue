@@ -5,7 +5,7 @@
     <br>
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="name" :label="constants.GRADE_NAME" min-width="180">
+        <el-table-column prop="name" :label="constants.GRADE_NAME">
         </el-table-column>
         <el-table-column prop="department" :label="constants.LABEL_DEPARTMENT">
         </el-table-column>

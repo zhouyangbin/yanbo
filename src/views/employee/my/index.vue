@@ -67,7 +67,7 @@ import {
   BASIC_INFO
 } from "@/constants/TEXT";
 import {
-  getPerformanceEmployeeDetail,
+  getEmployeeDetail,
   postUserPerformanceDraft,
   postSelfPerformance,
   delCancelAppeal
@@ -187,9 +187,10 @@ export default {
       return parseFloat(this.total) > 5;
     },
     getInfo() {
-      return getPerformanceEmployeeDetail(
+      return getEmployeeDetail(
         this.$route.params.orgID,
-        this.$route.params.id
+        this.$route.params.id,
+        "self"
       )
         .then(res => {
           // console.log(res)

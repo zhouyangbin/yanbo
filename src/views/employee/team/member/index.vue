@@ -170,7 +170,8 @@ export default {
     getDetailInfo() {
       return getEmployeeDetail(
         this.$route.params.gradeID,
-        this.$route.params.uid
+        this.$route.params.uid,
+        "superior"
       )
         .then(res => {
           const {
