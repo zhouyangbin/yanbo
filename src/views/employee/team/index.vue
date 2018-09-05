@@ -23,7 +23,8 @@
               <el-table-column prop="name" :label="constants.LABEL_NAME" min-width="180">
                 <template slot-scope="scope">
                   <el-row type="flex" align="middle">
-                    <img width="30px" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                    <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                    <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
                     <span>{{scope.row.name}}</span>
                     <span class="appeal-tag" v-if="scope.row.has_appeal">{{constants.APPEAL}}</span>
                   </el-row>
@@ -164,5 +165,16 @@ export default {
   color: white;
   border-radius: 10px;
   margin-left: 10px;
+}
+.stringAvatar {
+  width: 30px;
+  height: 30px;
+  background-color: cornflowerblue;
+  color: white;
+  border-radius: 50%;
+  line-height: 30px;
+  margin-right: 15px;
+  font-size: 12px;
+  text-align: center;
 }
 </style>
