@@ -505,7 +505,6 @@ export default {
 <style scoped>
 .dep-page {
   padding: 20px;
-  /* height: calc(100% - 40px); */
 }
 .bg-white {
   background-color: white;
@@ -527,9 +526,6 @@ hr {
 .time-line-panel >>> .el-step__icon {
   width: 34px;
   height: 34px;
-  /* background-color: #ececec; */
-  /* color: #d5d5d5; */
-  /* border: 2px solid #ececec; */
 }
 .time-line-panel >>> .is-success .el-step__icon {
   color: white;
@@ -547,13 +543,7 @@ hr {
   font-size: 12px;
   padding: 10px;
 }
-/* .time-line-panel >>> .el-step__head.is-success {
-                                                                                                                                                                                                                                                                  color: #52ddab;
-                                                                                                                                                                                                                                                                  border-color: #52ddab;
-                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                .time-line-panel >>> .el-step__title.is-success {
-                                                                                                                                                                                                                                                                  color: #52ddab;
-                                                                                                                                                                                                                                                                } */
+
 .dep-name {
   padding: 8px 20px;
   background-color: #fff4f4;
