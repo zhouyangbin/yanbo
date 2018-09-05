@@ -50,7 +50,7 @@ export default {
         return this.desc;
       },
       set: function(v) {
-        console.log(v);
+        // console.log(v);
         this.$emit("update:desc", v);
       }
     },

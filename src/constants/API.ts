@@ -15,7 +15,9 @@ import {
 // 用户管理
 // 扫码登录
 export const qrLogin = (data: object) => sendPost("/admin/api/login", data);
-// 扫码登录
+// 仿真登录
+export const fzLogin = (params: Object) =>
+  sendPost("/admin/api/login_fz", params);
 
 // 退出
 export const logout = () => {

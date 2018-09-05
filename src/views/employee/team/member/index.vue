@@ -300,7 +300,7 @@ export default {
   watch: {
     targets: {
       handler: function() {
-        if (this.shouldMapping && this.stage != 50) {
+        if (this.shouldMapping && this.stage < 50) {
           this.level = this.findLevel();
         }
       },
