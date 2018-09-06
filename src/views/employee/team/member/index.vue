@@ -208,6 +208,15 @@ export default {
     submit() {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
       // 自评分不能超过5分
+      if (
+        this.leaderAdditionMark.score &&
+        !this.leaderAdditionMark.evaluation
+      ) {
+        return this.$notify.error({
+          title: ERROR,
+          message: "请填写加减分原因"
+        });
+      }
       if (this.checkTotal()) {
         return this.$notify.error({
           title: ERROR,
@@ -253,7 +262,7 @@ export default {
       let i = -1;
       for (let index = 0; index < this.rules.length; index++) {
         const element = parseFloat(this.rules[index]);
-        if (element > this.total) {
+        if (element >= this.total) {
           i = index;
           break;
         }

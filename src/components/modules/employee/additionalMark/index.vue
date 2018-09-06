@@ -12,14 +12,14 @@
     <div v-if="readOnly">
       <div class="inner-container">
         <span class="label">分数:</span>
-        <span>{{mark}}分</span>
+        <span>{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
       </div>
       <br>
     </div>
     <div v-if="!readOnly" class="marks">
       <el-input-number size="large" class="numbers" v-model="innerMark" :min="-0.5" :max="0.5" :step="0.1" label="描述文字"></el-input-number>
       <span class="greyText">您的打分 /
-        <span class="hightlight-mark">{{mark||'0.0'}}分</span>
+        <span class="hightlight-mark">{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
       </span>
     </div>
   </div>
