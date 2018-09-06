@@ -48,17 +48,17 @@ import {
   GRADE_DETAIL,
   GRADE_MANAGE,
   BASIC_INFO
-} from "@/constants/TEXT";
+} from "@/constants/TEXT"
 import {
   getEmployeeDetail,
   postUserPerformance,
   postUserPerformanceDraft
-} from "@/constants/API";
+} from "@/constants/API"
 
 import {
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM
-} from "@/constants/URL";
+} from "@/constants/URL"
 
 export default {
   data() {
@@ -98,7 +98,7 @@ export default {
         LABEL_SUP,
         BASIC_INFO
       }
-    };
+    }
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
@@ -121,7 +121,7 @@ export default {
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
           (parseFloat(this.leaderAdditionMark.score) || 0)
-      ).toFixed(2);
+      ).toFixed(2)
       // return parseFloat(
       //   this.targets.map(v => v.mark).reduce((pre, next) => pre + next, 0) /
       //     this.targets.length +
@@ -130,10 +130,10 @@ export default {
     },
 
     shouldMapping() {
-      return this.rules && this.rules.length > 0;
+      return this.rules && this.rules.length > 0
     },
     canEdit() {
-      return this.stage == 30 || this.stage == 40;
+      return this.stage == 30 || this.stage == 40
     }
   },
   methods: {
@@ -142,16 +142,16 @@ export default {
         v.mark =
           (v.target_superior_score &&
             parseFloat(v.target_superior_score.score)) ||
-          0;
-        delete v.target_superior_score;
-        return v;
-      });
+          0
+        delete v.target_superior_score
+        return v
+      })
     },
     checkTotal() {
-      return parseFloat(this.total) > 5;
+      return parseFloat(this.total) > 5
     },
     saveDraft() {
-      const postData = this.getPostData();
+      const postData = this.getPostData()
 
       return postUserPerformanceDraft(
         this.$route.params.gradeID,
@@ -162,10 +162,10 @@ export default {
           this.$message({
             type: "success",
             message: "草稿保存成功"
-          });
-          this.getDetailInfo();
+          })
+          this.getDetailInfo()
         })
-        .catch(e => {});
+        .catch(e => {})
     },
     getDetailInfo() {
       return getEmployeeDetail(
@@ -185,25 +185,25 @@ export default {
             score_rule,
             stage,
             score_level
-          } = res;
+          } = res
 
           this.basicInfo = {
             name,
             workcode,
             self_attach_score
-          };
-          this.targets = this.normalizeTargets(targets);
+          }
+          this.targets = this.normalizeTargets(targets)
 
-          this.myAdditionMark = self_attach_score || {};
-          this.leaderAdditionMark = superior_attach_score || {};
-          this.comments = superior_score && superior_score.evaluation;
+          this.myAdditionMark = self_attach_score || {}
+          this.leaderAdditionMark = superior_attach_score || {}
+          this.comments = superior_score && superior_score.evaluation
           this.level =
-            score_level || (superior_score && superior_score.score_level);
-          this.hasLeaderAdditionMark = need_attach_score == 1;
-          this.rules = score_rule;
-          this.stage = stage;
+            score_level || (superior_score && superior_score.score_level)
+          this.hasLeaderAdditionMark = need_attach_score == 1
+          this.rules = score_rule
+          this.stage = stage
         })
-        .catch(e => {});
+        .catch(e => {})
     },
     submit() {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
@@ -215,25 +215,25 @@ export default {
         return this.$notify.error({
           title: ERROR,
           message: "请填写加减分原因"
-        });
+        })
       }
       if (this.checkTotal()) {
         return this.$notify.error({
           title: ERROR,
           message: "总分已经超过5分"
-        });
+        })
       }
       if (this.shouldMapping && !this.level) {
         return this.$notify.error({
           title: ERROR,
           message: "需要选择等级"
-        });
+        })
       }
       if (!this.comments) {
         return this.$notify.error({
           title: ERROR,
           message: "请填写评价"
-        });
+        })
       }
       this.$confirm("请确认无误再提交, 是否继续?", ATTENTION, {
         confirmButtonText: CONFIRM,
@@ -241,52 +241,52 @@ export default {
         type: "warning"
       })
         .then(() => {
-          const postData = this.getPostData();
+          const postData = this.getPostData()
 
           return postUserPerformance(this.$route.params.uid, postData)
             .then(res => {
               this.$message({
                 type: "success",
                 message: CONST_ADD_SUCCESS
-              });
+              })
               // this.getDetailInfo();
               this.$router.replace(
                 PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
-              );
+              )
             })
-            .catch(e => {});
+            .catch(e => {})
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     findLevel() {
-      let i = -1;
+      let i = -1
       for (let index = 0; index < this.rules.length; index++) {
-        const element = parseFloat(this.rules[index]);
+        const element = parseFloat(this.rules[index])
         if (element >= this.total) {
-          i = index;
-          break;
+          i = index
+          break
         }
       }
-      let level = "S";
+      let level = "S"
       if (i == -1) {
-        return level;
+        return level
       }
 
       switch (i) {
         case 0:
-          level = "D";
-          break;
+          level = "D"
+          break
         case 1:
-          level = "C";
-          break;
+          level = "C"
+          break
         case 2:
-          level = "B";
-          break;
+          level = "B"
+          break
         case 3:
-          level = "A";
-          break;
+          level = "A"
+          break
       }
-      return level;
+      return level
     },
     getPostData() {
       return {
@@ -301,66 +301,74 @@ export default {
         total_score: this.total,
         score_level: this.level,
         evaluation: this.comments
-      };
+      }
     }
   },
   created() {
-    this.getDetailInfo();
+    this.getDetailInfo()
   },
   watch: {
     targets: {
       handler: function() {
         if (this.shouldMapping && this.stage < 50) {
-          this.level = this.findLevel();
+          this.level = this.findLevel()
+        }
+      },
+      deep: true
+    },
+    leaderAdditionMark: {
+      handler: function() {
+        if (this.shouldMapping && this.stage < 50) {
+          this.level = this.findLevel()
         }
       },
       deep: true
     }
   }
-};
+}
 </script>
 <style scoped>
-.my-grade-page .card {
-  margin-bottom: 20px;
-}
-.my-grade-page .basic-info {
-  background: white;
-  padding: 20px;
-}
-.my-grade-page .summary-section {
-  background: white;
-  padding: 20px 20px 20px 0;
-}
-.my-grade-page .summary-section >>> .el-step__icon.is-text {
-  border: none;
-}
-.my-grade-page .summary-section >>> .el-step__icon {
-  width: 56px;
-}
-.my-grade-page .label {
-  margin-right: 20px;
-  color: #778294;
-  width: 100px;
-  min-width: 100px;
-  height: 26px;
-  box-sizing: border-box;
-  line-height: 26px;
-  padding: 0 10px;
-}
-.my-grade-page .label.title {
-  background-color: #52ddab;
-  color: white;
-  border-radius: 0 13px 13px 0;
-}
-.my-grade-page .tip {
-  color: #ea7754;
-}
-.my-grade-page .greycolor {
-  color: #778294;
-}
+  .my-grade-page .card {
+    margin-bottom: 20px;
+  }
+  .my-grade-page .basic-info {
+    background: white;
+    padding: 20px;
+  }
+  .my-grade-page .summary-section {
+    background: white;
+    padding: 20px 20px 20px 0;
+  }
+  .my-grade-page .summary-section >>> .el-step__icon.is-text {
+    border: none;
+  }
+  .my-grade-page .summary-section >>> .el-step__icon {
+    width: 56px;
+  }
+  .my-grade-page .label {
+    margin-right: 20px;
+    color: #778294;
+    width: 100px;
+    min-width: 100px;
+    height: 26px;
+    box-sizing: border-box;
+    line-height: 26px;
+    padding: 0 10px;
+  }
+  .my-grade-page .label.title {
+    background-color: #52ddab;
+    color: white;
+    border-radius: 0 13px 13px 0;
+  }
+  .my-grade-page .tip {
+    color: #ea7754;
+  }
+  .my-grade-page .greycolor {
+    color: #778294;
+  }
 
-.my-grade-page .inner-container {
-  display: flex;
-  color: grey;
-}
+  .my-grade-page .inner-container {
+    display: flex;
+    color: grey;
+  }
 </style>
