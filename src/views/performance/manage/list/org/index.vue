@@ -103,6 +103,14 @@
 
           <el-table-column prop="email" :label="constants.EMAIL" width="180">
           </el-table-column>
+          <el-table-column prop="superior_workcode" label="上级工号">
+          </el-table-column>
+          <el-table-column prop="superior_name" label="上级姓名">
+          </el-table-column>
+          <el-table-column prop="syb_department" label="上级事业部">
+          </el-table-column>
+          <el-table-column prop="superior_email" label="上级邮箱">
+          </el-table-column>
           <el-table-column prop="target" :label="constants.TARGET_STATUS">
 
           </el-table-column>
