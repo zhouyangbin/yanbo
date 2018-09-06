@@ -143,7 +143,7 @@ export default {
           (v.target_superior_score &&
             parseFloat(v.target_superior_score.score)) ||
           0
-        delete v.target_superior_score
+        // delete v.target_superior_score
         return v
       })
     },
