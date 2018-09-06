@@ -121,7 +121,7 @@ export default {
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
           (parseFloat(this.leaderAdditionMark.score) || 0)
-      ).toFixed(2)
+      ).toFixed(1)
       // return parseFloat(
       //   this.targets.map(v => v.mark).reduce((pre, next) => pre + next, 0) /
       //     this.targets.length +
