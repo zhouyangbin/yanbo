@@ -20,7 +20,8 @@ import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
-  PATH_PERFORMANCE_USER_DETAIL
+  PATH_PERFORMANCE_USER_DETAIL,
+  PATH_MSG_MOBILE
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -183,6 +184,10 @@ const router = new Router({
     {
       path: PATH_LOGIN,
       component: () => import("@/views/login/index.vue")
+    },
+    {
+      path: PATH_MSG_MOBILE,
+      component: () => import("@/views/msg/mobileNotify/index.vue")
     },
     {
       path: "*",

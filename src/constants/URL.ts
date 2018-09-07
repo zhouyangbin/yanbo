@@ -6,6 +6,7 @@ const base = process.env.VUE_APP_API_URL;
 export const PATH_GRADE_REPORT = "/culture/gradereport";
 export const PATH_GRADE_MANAGE = "/culture/grademanage";
 export const PATH_USER_MANAGE = "/access/user";
+export const PATH_MSG_MOBILE = "/msg/mobile";
 
 export const PATH_GRADE_PROGRESS = (id = ":id") => `${PATH_GRADE_MANAGE}/${id}`;
 export const PATH_GRADE_ORG_LIST = (testID = ":id", orgID = ":orgID") =>
