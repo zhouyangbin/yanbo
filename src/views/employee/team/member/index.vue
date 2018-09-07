@@ -209,6 +209,7 @@ export default {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
       // 自评分不能超过5分
       if (
+        this.hasLeaderAdditionMark &&
         this.leaderAdditionMark.score &&
         !this.leaderAdditionMark.evaluation
       ) {
