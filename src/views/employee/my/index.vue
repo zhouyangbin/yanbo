@@ -223,7 +223,11 @@ export default {
     submit() {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
       // 自评分不能超过5分
-      if (this.myAdditionMark.score && !this.myAdditionMark.evaluation) {
+      if (
+        this.showMyAdditional &&
+        this.myAdditionMark.score &&
+        !this.myAdditionMark.evaluation
+      ) {
         return this.$notify.error({
           title: ERROR,
           message: "请填写加减分原因"

@@ -27,7 +27,7 @@
       <level :readOnly="shouldMapping" v-model="level"></level>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button v-if="stage!=40" round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
         <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
@@ -209,6 +209,7 @@ export default {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
       // 自评分不能超过5分
       if (
+        this.hasLeaderAdditionMark &&
         this.leaderAdditionMark.score &&
         !this.leaderAdditionMark.evaluation
       ) {

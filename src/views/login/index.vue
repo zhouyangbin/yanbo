@@ -32,7 +32,8 @@ import {
   PATH_EMPLOYEE_MY,
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_USER_DETAIL,
-  PATH_EMPLOYY_TEAM_GRADE_DETAIL
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_MSG_MOBILE
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -46,6 +47,9 @@ export default {
       ignoreQueryPrefix: true
     });
     // alert(JSON.stringify(querys))
+    if (querys.from_mobile) {
+      this.$router.push({ path: PATH_MSG_MOBILE });
+    }
     let dst = PATH_EMPLOYEE_MY;
     switch (querys.path) {
       case "self":
