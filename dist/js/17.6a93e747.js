@@ -1,2 +1,0 @@
-webpackJsonp([17],{"/dAj":function(e,t){},Ry1E:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var a={},c=function(){var e=this,t=e.$createElement;e._self._c;return e._m(0)},i=[function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"mobileNotify-page"},[n("h1",[e._v("请在PC端打开")])])}],r=n("XyMi");function s(e){n("/dAj")}var u=!1,f=s,l="data-v-47f97b52",o=null,v=Object(r["a"])(a,c,i,u,f,l,o);t["default"]=v.exports}});
-//# sourceMappingURL=17.6a93e747.js.map
