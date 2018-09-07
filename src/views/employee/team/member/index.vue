@@ -27,7 +27,7 @@
       <level :readOnly="shouldMapping" v-model="level"></level>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button v-if="stage!=40" round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
         <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
