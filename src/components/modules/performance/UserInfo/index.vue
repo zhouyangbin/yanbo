@@ -19,7 +19,7 @@
 import {
   ADD,
   MODIFY,
-  EMAIL_VALIATE_MSG,
+  // EMAIL_VALIATE_MSG,
   NUMBER_REQUIRE_MSG,
   LEADER_NUMBER_REQUIRE_MSG,
   EMAIL_FORMAT_MSG,
@@ -62,7 +62,7 @@ export default {
           trigger: "change"
         },
         email: [
-          { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
+          // { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
           {
             type: "email",
             message: EMAIL_FORMAT_MSG,
@@ -78,7 +78,7 @@ export default {
           }
         ],
         leaderEmail: [
-          { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
+          // { required: true, message: EMAIL_VALIATE_MSG, trigger: "blur" },
           {
             type: "email",
             message: EMAIL_FORMAT_MSG,
