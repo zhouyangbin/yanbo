@@ -49,6 +49,7 @@ export default {
     // alert(JSON.stringify(querys))
     if (querys.from_mobile) {
       this.$router.push({ path: PATH_MSG_MOBILE });
+      return;
     }
     let dst = PATH_EMPLOYEE_MY;
     switch (querys.path) {
