@@ -220,49 +220,60 @@ export default {
         })
         .catch(e => {});
     },
-    submit() {
-      // 若模版选择了加减分，需要填写加减分理由，必填上限200
-      // 自评分不能超过5分
-      if (
-        this.showMyAdditional &&
-        this.myAdditionMark.score &&
-        !this.myAdditionMark.evaluation
-      ) {
-        return this.$notify.error({
-          title: ERROR,
-          message: "请填写加减分原因"
-        });
-      }
-      if (this.checkTotal()) {
-        return this.$notify.error({
-          title: ERROR,
-          message: "总分已经超过5分"
-        });
-      }
-      this.$confirm(
-        `自评分为${
-          this.total
-        }分，请确认无误再提交，一经提交无法修改, 是否继续?`,
-        "提示",
-        {
-          confirmButtonText: CONFIRM,
-          cancelButtonText: CANCEL,
-          type: "warning"
+    beforeSubmitCheck() {
+      return new Promise((resolve, reject) => {
+        // 若模版选择了加减分，需要填写加减分理由，必填上限200
+        // 自评分不能超过5分
+        if (
+          this.showMyAdditional &&
+          this.myAdditionMark.score &&
+          !this.myAdditionMark.evaluation
+        ) {
+          this.$notify.error({
+            title: ERROR,
+            message: "请填写加减分原因"
+          });
+          reject(true);
         }
-      )
+        if (this.checkTotal()) {
+          this.$notify.error({
+            title: ERROR,
+            message: "总分已经超过5分"
+          });
+          reject(true);
+        }
+        resolve(true);
+      });
+    },
+    submit() {
+      return this.beforeSubmitCheck()
         .then(() => {
-          let postData = this.getPostData();
-          delete postData.total_score;
-          return postSelfPerformance(this.$route.params.id, postData)
-            .then(res => {
-              this.$message({
-                type: "success",
-                message: CONST_ADD_SUCCESS
-              });
-              this.$router.replace(PATH_EMPLOYEE_MY);
-              // this.getInfo();
+          this.$confirm(
+            `自评分为${
+              this.total
+            }分，请确认无误再提交，一经提交无法修改, 是否继续?`,
+            "提示",
+            {
+              confirmButtonText: CONFIRM,
+              cancelButtonText: CANCEL,
+              type: "warning"
+            }
+          )
+            .then(() => {
+              let postData = this.getPostData();
+              delete postData.total_score;
+              return postSelfPerformance(this.$route.params.id, postData)
+                .then(res => {
+                  this.$message({
+                    type: "success",
+                    message: CONST_ADD_SUCCESS
+                  });
+                  this.$router.replace(PATH_EMPLOYEE_MY);
+                  // this.getInfo();
+                })
+                .catch(e => {});
             })
-            .catch(e => {});
+            .catch(() => {});
         })
         .catch(() => {});
     },

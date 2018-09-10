@@ -173,6 +173,68 @@ export default {
         })
         .catch(() => {});
     },
+    composeResultArr(self_score, superior_score, appeal) {
+      this.resultArr = [];
+      if (self_score && self_score.score != null) {
+        this.resultArr.push({
+          text: LABEL_SELF,
+          value: self_score.score
+        });
+      }
+      if (superior_score && superior_score.score_level) {
+        this.resultArr.push({
+          text: LABEL_SUP,
+          value: superior_score.score_level
+        });
+      }
+      if (appeal && appeal.hr_score_level) {
+        this.resultArr.push({
+          text: appeal.action == 1 ? "BP确认" : "BP修改",
+          value: appeal.hr_score_level
+        });
+      }
+    },
+    composeProgressArr(
+      target_time,
+      self_time,
+      superior_time,
+      appeal_time,
+      end_time
+    ) {
+      this.progressArr = [];
+      if (target_time) {
+        this.progressArr.push({
+          text: "目标导入",
+          value: target_time
+        });
+      }
+
+      if (self_time) {
+        this.progressArr.push({
+          text: LABEL_SELF,
+          value: self_time
+        });
+      }
+
+      if (superior_time) {
+        this.progressArr.push({
+          text: LABEL_SUP,
+          value: superior_time
+        });
+      }
+      if (appeal_time) {
+        this.progressArr.push({
+          text: APPEAL,
+          value: appeal_time
+        });
+      }
+      if (end_time) {
+        this.progressArr.push({
+          text: "结束",
+          value: end_time
+        });
+      }
+    },
     getInfo() {
       return getPerformanceUserDetail(
         this.$route.params.orgID,
@@ -199,59 +261,16 @@ export default {
           this.basicInfo = {
             leaderName: superior_name
           };
-          this.resultArr = [];
+
           this.total = score_level;
-          if (self_score && self_score.score != null) {
-            this.resultArr.push({
-              text: LABEL_SELF,
-              value: self_score.score
-            });
-          }
-          if (superior_score && superior_score.score_level) {
-            this.resultArr.push({
-              text: LABEL_SUP,
-              value: superior_score.score_level
-            });
-          }
-          if (appeal && appeal.hr_score_level) {
-            this.resultArr.push({
-              text: appeal.action == 1 ? "BP确认" : "BP修改",
-              value: appeal.hr_score_level
-            });
-          }
-          this.progressArr = [];
-          if (target_time) {
-            this.progressArr.push({
-              text: "目标导入",
-              value: target_time
-            });
-          }
-
-          if (self_time) {
-            this.progressArr.push({
-              text: LABEL_SELF,
-              value: self_time
-            });
-          }
-
-          if (superior_time) {
-            this.progressArr.push({
-              text: LABEL_SUP,
-              value: superior_time
-            });
-          }
-          if (appeal_time) {
-            this.progressArr.push({
-              text: APPEAL,
-              value: appeal_time
-            });
-          }
-          if (end_time) {
-            this.progressArr.push({
-              text: "结束",
-              value: end_time
-            });
-          }
+          this.composeResultArr(self_score, superior_score, appeal);
+          this.composeProgressArr(
+            target_time,
+            self_time,
+            superior_time,
+            appeal_time,
+            end_time
+          );
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};

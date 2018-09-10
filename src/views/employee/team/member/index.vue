@@ -5,8 +5,8 @@
       <div class="basic-info">
         <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
-          <span class="greycolor">员工工号</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
-          <span class="greycolor">员工姓名</span> / {{basicInfo.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
+          <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
         <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
       </div>
       <br>
@@ -47,7 +47,10 @@ import {
   ATTENTION,
   GRADE_DETAIL,
   GRADE_MANAGE,
-  BASIC_INFO
+  BASIC_INFO,
+  EMPLOYEE_WORKCODE,
+  EMPYEE_NAME,
+  DRAFT_SAVE_SUCCESSFULLY
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
@@ -96,7 +99,9 @@ export default {
         SAVE_DRAFT,
         LABEL_SELF,
         LABEL_SUP,
-        BASIC_INFO
+        BASIC_INFO,
+        EMPLOYEE_WORKCODE,
+        EMPYEE_NAME
       }
     };
   },
@@ -114,19 +119,13 @@ export default {
   },
   computed: {
     total() {
-      // if (this.hasWeight) {
-      // }
+      // sum(目标分数*权重) + 上级加减分
       return parseFloat(
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
           (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(2);
-      // return parseFloat(
-      //   this.targets.map(v => v.mark).reduce((pre, next) => pre + next, 0) /
-      //     this.targets.length +
-      //     this.leaderAdditionMark.mark
-      // ).toFixed(2)
     },
 
     shouldMapping() {
@@ -161,7 +160,7 @@ export default {
         .then(res => {
           this.$message({
             type: "success",
-            message: "草稿保存成功"
+            message: DRAFT_SAVE_SUCCESSFULLY
           });
           this.getDetailInfo();
         })
@@ -205,57 +204,70 @@ export default {
         })
         .catch(e => {});
     },
-    submit() {
+    beforeSubmitCheck() {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
       // 自评分不能超过5分
-      if (
-        this.hasLeaderAdditionMark &&
-        this.leaderAdditionMark.score &&
-        !this.leaderAdditionMark.evaluation
-      ) {
-        return this.$notify.error({
-          title: ERROR,
-          message: "请填写加减分原因"
-        });
-      }
-      if (this.checkTotal()) {
-        return this.$notify.error({
-          title: ERROR,
-          message: "总分已经超过5分"
-        });
-      }
-      if (this.shouldMapping && !this.level) {
-        return this.$notify.error({
-          title: ERROR,
-          message: "需要选择等级"
-        });
-      }
-      if (!this.comments) {
-        return this.$notify.error({
-          title: ERROR,
-          message: "请填写评价"
-        });
-      }
-      this.$confirm("请确认无误再提交, 是否继续?", ATTENTION, {
-        confirmButtonText: CONFIRM,
-        cancelButtonText: CANCEL,
-        type: "warning"
-      })
+      return new Promise((resolve, reject) => {
+        if (
+          this.hasLeaderAdditionMark &&
+          this.leaderAdditionMark.score &&
+          !this.leaderAdditionMark.evaluation
+        ) {
+          this.$notify.error({
+            title: ERROR,
+            message: "请填写加减分原因"
+          });
+          reject(false);
+        }
+        if (this.checkTotal()) {
+          this.$notify.error({
+            title: ERROR,
+            message: "总分已经超过5分"
+          });
+          reject(false);
+        }
+        if (!this.shouldMapping && !this.level) {
+          this.$notify.error({
+            title: ERROR,
+            message: "需要选择等级"
+          });
+          reject(false);
+        }
+        if (!this.comments) {
+          this.$notify.error({
+            title: ERROR,
+            message: "请填写评价"
+          });
+          reject(false);
+        }
+        resolve(true);
+      });
+    },
+    submit() {
+      return this.beforeSubmitCheck()
         .then(() => {
-          const postData = this.getPostData();
+          return this.$confirm("请确认无误再提交, 是否继续?", ATTENTION, {
+            confirmButtonText: CONFIRM,
+            cancelButtonText: CANCEL,
+            type: "warning"
+          })
+            .then(() => {
+              const postData = this.getPostData();
 
-          return postUserPerformance(this.$route.params.uid, postData)
-            .then(res => {
-              this.$message({
-                type: "success",
-                message: CONST_ADD_SUCCESS
-              });
-              // this.getDetailInfo();
-              this.$router.replace(
-                PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
-              );
+              return postUserPerformance(this.$route.params.uid, postData)
+                .then(res => {
+                  this.$message({
+                    type: "success",
+                    message: CONST_ADD_SUCCESS
+                  });
+                  // this.getDetailInfo();
+                  this.$router.replace(
+                    PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+                  );
+                })
+                .catch(e => {});
             })
-            .catch(e => {});
+            .catch(() => {});
         })
         .catch(() => {});
     },
@@ -272,21 +284,8 @@ export default {
       if (i == -1) {
         return level;
       }
-
-      switch (i) {
-        case 0:
-          level = "D";
-          break;
-        case 1:
-          level = "C";
-          break;
-        case 2:
-          level = "B";
-          break;
-        case 3:
-          level = "A";
-          break;
-      }
+      const levelArr = ["D", "C", "B", "A"];
+      level = levelArr[i] || level;
       return level;
     },
     getPostData() {

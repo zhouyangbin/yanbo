@@ -486,3 +486,6 @@ export const PERFORMANCE_SCOPE = "绩效范围";
 export const PLS_SELECT = "请选择";
 export const APPEAL_STATUS = "申诉状态";
 export const BASIC_INFO = "基本信息";
+export const EMPLOYEE_WORKCODE = "员工工号";
+export const EMPYEE_NAME = "员工姓名";
+export const DRAFT_SAVE_SUCCESSFULLY = "草稿保存成功";

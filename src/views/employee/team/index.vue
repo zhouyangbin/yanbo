@@ -8,7 +8,7 @@
             <el-input placeholder="请输入姓名" v-model="filterForm.name"></el-input>
           </el-form-item>
           <el-form-item prop="status">
-            <el-select v-model="filterForm.status" placeholder="请选择">
+            <el-select v-model="filterForm.status" :placeholder="constants.PLS_SELECT">
               <el-option label="未完成" value="0"></el-option>
               <el-option label="已完成" value="1"></el-option>
             </el-select>
@@ -65,7 +65,8 @@ import {
   OPERATIONS,
   APPEAL,
   LABEL_EMPTY,
-  GRADE_MANAGE
+  GRADE_MANAGE,
+  PLS_SELECT
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
@@ -102,7 +103,8 @@ export default {
         LABEL_SUP,
         OPERATIONS,
         APPEAL,
-        LABEL_EMPTY
+        LABEL_EMPTY,
+        PLS_SELECT
       }
     };
   },
