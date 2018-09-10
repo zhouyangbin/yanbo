@@ -24,7 +24,7 @@
       <br>
       <total-mark :total="total"></total-mark>
       <br>
-      <level :readOnly="shouldMapping||stage==60" v-model="level"></level>
+      <level :readOnly="shouldMapping||stage>=50" v-model="level"></level>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
         <el-button v-if="stage!=40" round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
