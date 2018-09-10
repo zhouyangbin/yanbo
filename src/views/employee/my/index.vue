@@ -233,16 +233,16 @@ export default {
             title: ERROR,
             message: "请填写加减分原因"
           });
-          reject(true);
+          return reject(true);
         }
         if (this.checkTotal()) {
           this.$notify.error({
             title: ERROR,
             message: "总分已经超过5分"
           });
-          reject(true);
+          return reject(true);
         }
-        resolve(true);
+        return resolve(true);
       });
     },
     submit() {
