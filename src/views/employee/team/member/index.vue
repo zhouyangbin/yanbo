@@ -24,7 +24,7 @@
       <br>
       <total-mark :total="total"></total-mark>
       <br>
-      <level :readOnly="shouldMapping" v-model="level"></level>
+      <level :readOnly="shouldMapping||stage==60" v-model="level"></level>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
         <el-button v-if="stage!=40" round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
@@ -217,30 +217,30 @@ export default {
             title: ERROR,
             message: "请填写加减分原因"
           });
-          reject(false);
+          return reject(false);
         }
         if (this.checkTotal()) {
           this.$notify.error({
             title: ERROR,
             message: "总分已经超过5分"
           });
-          reject(false);
+          return reject(false);
         }
         if (!this.shouldMapping && !this.level) {
           this.$notify.error({
             title: ERROR,
             message: "需要选择等级"
           });
-          reject(false);
+          return reject(false);
         }
         if (!this.comments) {
           this.$notify.error({
             title: ERROR,
             message: "请填写评价"
           });
-          reject(false);
+          return reject(false);
         }
-        resolve(true);
+        return resolve(true);
       });
     },
     submit() {
