@@ -83,7 +83,9 @@ export default {
   },
   methods: {
     markChange(v) {
-      this.$emit("input", v);
+      const value = (v && parseFloat(v).toFixed(1)) || 0;
+      this.defaultValue = value;
+      this.$emit("input", parseFloat(value));
     }
   }
 };
