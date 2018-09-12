@@ -43,11 +43,11 @@ export default {
   data() {
     const endTimeValidator = (rule, value, callback) => {
       // console.log(value)
-      if (!this.timeForm.startTime) {
-        callback(new Error("请先选择开始时间"));
-      } else if (!value) {
-        callback(new Error("请先选择结束时间"));
-      } else if (value <= this.timeForm.startTime) {
+      if (
+        this.timeForm.startTime &&
+        value &&
+        value <= this.timeForm.startTime
+      ) {
         callback(new Error("结束时间不能小于开始时间"));
       } else {
         callback();
@@ -75,6 +75,20 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           //   console.log(this.timeForm)
+          if (!this.timeForm.startTime) {
+            return this.$notify({
+              title: "警告",
+              message: "开始时间不能为空!",
+              type: "warning"
+            });
+          }
+          if (!this.timeForm.endTime) {
+            return this.$notify({
+              title: "警告",
+              message: "结束时间不能为空!",
+              type: "warning"
+            });
+          }
           const { startTime, endTime } = this.timeForm;
           return postPerformanceTime(this.$route.params.orgID, {
             start_time: startTime,
