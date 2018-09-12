@@ -3,9 +3,11 @@ import qs from "qs";
 
 const base = process.env.VUE_APP_API_URL;
 
-export const PATH_GRADE_REPORT = "/gradereport";
-export const PATH_GRADE_MANAGE = "/grademanage";
-export const PATH_USER_MANAGE = "/userManage";
+export const PATH_GRADE_REPORT = "/culture/gradereport";
+export const PATH_GRADE_MANAGE = "/culture/grademanage";
+export const PATH_USER_MANAGE = "/access/user";
+export const PATH_MSG_MOBILE = "/msg/mobile";
+
 export const PATH_GRADE_PROGRESS = (id = ":id") => `${PATH_GRADE_MANAGE}/${id}`;
 export const PATH_GRADE_ORG_LIST = (testID = ":id", orgID = ":orgID") =>
   `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}`;
@@ -39,6 +41,68 @@ export const PATH_EXCEL_TPL = `${base}/admin/api/export/template?token=${localSt
   "talToken"
 )}`;
 
-export const PATH_ABOUT = "/about";
-export const PATH_TEST = "/test";
-export const PATH_AUTH = "/auth";
+export const PATH_PERFORMANCE_REPORT = "/performance/report";
+export const PATH_PERFORMANCE_MANAGER = "/performance/manage";
+export const PATH_PERFORMANCE_TPL = "/performance/tpl";
+export const PATH_PERFORMANCE_RULES = "/performance/rules";
+export const PATH_ACCESS_ROLES = "/access/roles";
+export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
+  `${PATH_PERFORMANCE_MANAGER}/${id}`;
+export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
+  `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;
+export const PATH_PERFORMANCE_EXCEL_IMPORT = (orgID: String) =>
+  `${base}/performance/admin/${orgID}/import/excel`;
+export const PATH_PERFORMANCE_USER_DETAIL = (
+  id: String = ":id",
+  orgID: String = ":orgID",
+  uid: String = ":uid"
+) => `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}/user/${uid}`;
+
+// 员工评分
+export const PATH_EMPLOYEE_MY = "/employee/my";
+export const PATH_EMPLOYEE_TEAM = "/employee/team";
+
+export const PATH_EMPLYEE_MY_DETAIL = (
+  orgID: String = ":orgID",
+  id: String = ":id"
+) => `/employee/my/${orgID}/${id}`;
+export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
+  `/employee/team/${id}`;
+export const PATH_EMPLOYEE_TEAM_MEMEBER = (
+  gradeID: String = ":gradeID",
+  uid: String = ":uid"
+) => `/employee/team/${gradeID}/user/${uid}`;
+
+export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (id: String) =>
+  `${base}performance/admin/${id}/target/template?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+export const PATH_PERFORMANCE_EXCEL_TPL = (id: String) =>
+  `${base}performance/admin/${id}/users/template?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+export const PATH_PERFORMANCE_IMPORT_TARGET = (id: String) =>
+  `${base}performance/admin/${id}/target/import`;
+export const PATH_EXPORT_PERFORMANCE_GRADE = (id: String) =>
+  `${base}performance/admin/export?performance_name_id=${id}&${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+export const PATH_EXPORT_PERFORMANCE_DEPARTMENT = (id: String, did: String) =>
+  `${base}performance/admin/export?performance_name_id=${id}&performance_id=${did}&${qs.stringify(
+    {
+      token: localStorage.getItem("talToken")
+    }
+  )}`;
+export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
+  `${base}performance/admin/export?performance_name_id=${id}&${qs.stringify(
+    {
+      user_ids: uids,
+      token: localStorage.getItem("talToken")
+    },
+    { arrayFormat: "brackets" }
+  )}`;
+
+export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
+  `${base}/performance/api/superior/export/${id}?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;

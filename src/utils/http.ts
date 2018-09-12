@@ -1,10 +1,11 @@
 // 引入axios用来封装http请求
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
+// import Raven from "raven-js";
 // token失效|禁用跳转登录页
 import router from "../router";
 // 提示信息常量引入，方便统一更改
 import {
-  HTTP_STATUS_MSG_404,
+  // HTTP_STATUS_MSG_404,
   HTTP_STATUS_MSG_401,
   HTTP_STATUS_MSG_5XX,
   HTTP_STATUS_TITLE_ERROR,
@@ -13,7 +14,7 @@ import {
 // Content-Type:application/x-www-form-urlencoded时 对json数据字符串处理，JSON.stringify()不是很理想
 import qs from "qs";
 // 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框
-import { Notification, Loading } from "element-ui";
+import { Notification } from "element-ui";
 import { PATH_LOGIN } from "@/constants/URL";
 
 // 创建axios实例常量配置
@@ -40,7 +41,7 @@ const postHeaders = "application/x-www-form-urlencoded";
 
 // 创建axios实例
 const http = axios.create(axiosCreate);
-let loadingInstance: any;
+// let loadingInstance: any;
 
 /**
  * axios request拦截器
@@ -90,7 +91,22 @@ http.interceptors.response.use(
         duration: 3000
       });
       router.push({ path: PATH_LOGIN });
-    } else if (error.response.status >= 400 && error.response.status < 500) {
+    } else if (error.response.status === 422) {
+      Notification({
+        type: "error",
+        title: HTTP_STATUS_TITLE_ERROR,
+        message:
+          error.response.data.data[
+            Object.keys(error.response.data.data)[0]
+          ][0] || HTTP_STATUS_TITLE_ERROR,
+        duration: 3000
+      });
+      // router.push({ path: PATH_LOGIN });
+    } else if (
+      error.response.status >= 400 &&
+      error.response.status !== 422 &&
+      error.response.status < 500
+    ) {
       Notification({
         type: "error",
         title: HTTP_STATUS_TITLE_ERROR,
@@ -105,30 +121,10 @@ http.interceptors.response.use(
         message: HTTP_STATUS_MSG_5XX,
         duration: 3000
       });
+      // Raven.captureException(error);
     }
 
     return Promise.reject(error.response);
   }
 );
-// 与后端约定后，以下数据返回结构暂时不用。
-// function isSuccess(config: AxiosResponse<any>) {
-//   if (config.data) {
-//     return config.data;             // success === true成功 请求接口会拿到需要的数据
-//   } else {
-//     return isReturn(config);        // 不成功，但是有可能根据config.data.errcode的不同有不同的处理逻辑，函数抽离出去，根据项目更改isReturn函数中内容即可
-//   }
-// }
-// function isReturn(config: AxiosResponse<any>) {
-//   if (config.data.errcode === "1") {        // errcode === '1'时单纯的我只是把后端的errmsg弹了出来
-//     Notification({
-//       type: "error",
-//       title: "哎呀",
-//       message: config.data.errmsg,
-//       duration: 3000   // 弹框自动消失时间
-//     });
-//     return { ...config, data: null };      // 业务处理时判断data为空即可不做任何处理
-//   } else {
-//     return config;                         // 其他情况自己根据实际业务特殊处理去。如上图展示一般
-//   }
-// }
 export default http;

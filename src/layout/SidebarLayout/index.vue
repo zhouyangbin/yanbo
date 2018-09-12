@@ -48,7 +48,7 @@ export default {
             .then(res => {
               localStorage.setItem("talToken", "");
               localStorage.setItem("talEmail", "");
-              localStorage.setItem("talLevel", "");
+
               this.$router.push({ path: PATH_LOGIN });
               this.$message({
                 type: "success",

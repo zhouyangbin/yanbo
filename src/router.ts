@@ -7,7 +7,21 @@ import {
   PATH_USER_MANAGE,
   PATH_GRADE_PROGRESS,
   PATH_GRADE_ORG_LIST,
-  PATH_GRADE_EMP_DETAIL
+  PATH_GRADE_EMP_DETAIL,
+  // PATH_PERFORMANCE_REPORT,
+  PATH_PERFORMANCE_MANAGER,
+  PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_ORG_LIST,
+  PATH_PERFORMANCE_TPL,
+  PATH_PERFORMANCE_RULES,
+  PATH_ACCESS_ROLES,
+  PATH_EMPLOYEE_MY,
+  PATH_EMPLOYEE_TEAM,
+  PATH_EMPLYEE_MY_DETAIL,
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_PERFORMANCE_USER_DETAIL,
+  PATH_MSG_MOBILE
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -17,7 +31,7 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      redirect: PATH_GRADE_REPORT
+      redirect: PATH_EMPLOYEE_MY
     },
     {
       path: PATH_GRADE_REPORT,
@@ -65,6 +79,99 @@ const router = new Router({
             default: () => import("@/views/usermanage/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
+        },
+        // {
+        //   path: PATH_PERFORMANCE_REPORT,
+        //   components: {
+        //     default: () => import("@/views/performance/report/index.vue"),
+        //     sidebar: () => import("@/components/common/Sidebar/index.vue")
+        //   }
+        // },
+        {
+          path: PATH_PERFORMANCE_MANAGER,
+          components: {
+            default: () => import("@/views/performance/manage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_PROGRESS(),
+          components: {
+            default: () => import("@/views/performance/manage/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_ORG_LIST(),
+          components: {
+            default: () =>
+              import("@/views/performance/manage/list/org/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TPL,
+          components: {
+            default: () => import("@/views/performance/tpl/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_RULES,
+          components: {
+            default: () => import("@/views/performance/rules/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_ACCESS_ROLES,
+          components: {
+            default: () => import("@/views/rolemanage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_MY,
+          components: {
+            default: () => import("@/views/employee/my/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_TEAM,
+          components: {
+            default: () => import("@/views/employee/team/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYY_TEAM_GRADE_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/team/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLYEE_MY_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/my/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_TEAM_MEMEBER(),
+          components: {
+            default: () => import("@/views/employee/team/member/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_USER_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/performance/manage/list/org/user/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
         }
       ]
     },
@@ -77,6 +184,10 @@ const router = new Router({
     {
       path: PATH_LOGIN,
       component: () => import("@/views/login/index.vue")
+    },
+    {
+      path: PATH_MSG_MOBILE,
+      component: () => import("@/views/msg/mobileNotify/index.vue")
     },
     {
       path: "*",

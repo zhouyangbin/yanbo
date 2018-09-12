@@ -13,46 +13,16 @@
               </el-checkbox-group>
             </el-form-item>
           </el-form>
-          <el-table v-if="showTableEHR" class="err-table" max-height="250" :data="eHRError" style="width: 100%">
-            <el-table-column prop="workcode" label="工号">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名">
-            </el-table-column>
-            <el-table-column prop="reason" label="原因">
-              <template class="reason" slot-scope="scope">
-                {{scope.row.reason.join(" ")}}
-              </template>
-            </el-table-column>
-          </el-table>
+          <err-table :errorData="eHRError"></err-table>
         </el-tab-pane>
         <el-tab-pane :label="constants.EXCEL_IMPORT" name="second">
-          <el-upload :on-success="uploadSuccess" :on-error="uploadErr" class="uploader" :headers="uploadHeader" :data="uploadData" drag :action="constants.PATH_IMPORT_BY_EXCEL">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">{{constants.DRAG_FILE}}
-              <em>{{constants.CLICK_TO_UPLOAD}}</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">
-              <a style="cursor: pointer;" @click="downloadTpl">{{constants.DOWNLOAD_EXCEL_TEMPLATE}}</a>
-            </div>
-          </el-upload>
-          <el-table v-if="showTable" class="err-table" max-height="250" :data="tableData" style="width: 100%">
-            <el-table-column prop="workcode" label="工号">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名">
-            </el-table-column>
-            <el-table-column prop="reason" label="原因">
-              <template class="reason" slot-scope="scope">
-                {{scope.row.reason.join(" ")}}
-              </template>
-            </el-table-column>
-          </el-table>
+          <import-excel :uploadSuccess="uploadSuccess" :uploadErr="uploadErr" :errorData="tableData" :uploadHeader="uploadHeader" :uploadData="uploadData" :actionURL="constants.PATH_IMPORT_BY_EXCEL" :downloadURL="constants.PATH_EXCEL_TPL"></import-excel>
         </el-tab-pane>
       </el-tabs>
       <span class="tips">
         {{constants.IMPORT_TIPS}}
       </span>
     </div>
-
     <div v-if="importTab==='first'" slot="footer" class="dialog-footer">
       <el-row type="flex" justify="center">
         <el-button round size="medium" type="primary" @click="importFiles('importForm')">{{constants.CONFIRM}}</el-button>
@@ -70,9 +40,6 @@ import {
   WORK_LEVEL,
   ENUM_LEVELS,
   EXCEL_IMPORT,
-  DRAG_FILE,
-  CLICK_TO_UPLOAD,
-  DOWNLOAD_EXCEL_TEMPLATE,
   CONFIRM,
   CANCEL,
   IMPORT_SUCCESS,
@@ -83,6 +50,9 @@ import {
 } from "@/constants/TEXT";
 import { postEHR } from "@/constants/API";
 import { PATH_IMPORT_BY_EXCEL, PATH_EXCEL_TPL } from "@/constants/URL";
+
+import ImportByExcel from "@/components/common/ImportByExcel/index.vue";
+import ImportErrTable from "@/components/common/ImportErrTable/index.vue";
 
 export default {
   props: {
@@ -114,9 +84,6 @@ export default {
         WORK_LEVEL,
         ENUM_LEVELS,
         EXCEL_IMPORT,
-        DRAG_FILE,
-        CLICK_TO_UPLOAD,
-        DOWNLOAD_EXCEL_TEMPLATE,
         CONFIRM,
         CANCEL,
         PATH_IMPORT_BY_EXCEL,
@@ -184,10 +151,6 @@ export default {
         type: "success"
       });
       this.close();
-    },
-    downloadTpl() {
-      const url = PATH_EXCEL_TPL;
-      window.open(url, "_blank");
     }
   },
   computed: {
@@ -204,6 +167,10 @@ export default {
   },
   created() {
     this.initImportLevels();
+  },
+  components: {
+    "import-excel": ImportByExcel,
+    "err-table": ImportErrTable
   }
 };
 </script>

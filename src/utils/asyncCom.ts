@@ -1,5 +1,5 @@
 import loadingCom from "@/components/common/Loading/index.vue";
-import error from "@/components/common/Error/index.vue";
+// import error from "@/components/common/Error/index.vue";
 export const AsyncComp = (com: Promise<any>) => () => ({
   // 需要加载的组件。应当是一个 Promise
   component: com,
