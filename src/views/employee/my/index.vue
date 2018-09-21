@@ -65,15 +65,15 @@ import {
   CANCEL,
   CONST_ADD_SUCCESS,
   BASIC_INFO
-} from "@/constants/TEXT";
+} from "@/constants/TEXT"
 import {
   getEmployeeDetail,
   postUserPerformanceDraft,
   postSelfPerformance,
   delCancelAppeal
-} from "@/constants/API";
+} from "@/constants/API"
 
-import { PATH_EMPLOYEE_MY } from "@/constants/URL";
+import { PATH_EMPLOYEE_MY } from "@/constants/URL"
 
 export default {
   data() {
@@ -118,7 +118,7 @@ export default {
         LEADER_NAME,
         BASIC_INFO
       }
-    };
+    }
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
@@ -136,7 +136,7 @@ export default {
   },
   computed: {
     showMyAdditional() {
-      return this.need_attach_score == 1;
+      return this.need_attach_score == 1
     },
     total() {
       return this.superior_score && this.superior_score.score != null
@@ -146,12 +146,12 @@ export default {
               .map(v => v.weights * (v.mark || 0))
               .reduce((pre, next) => pre + next, 0) +
               (parseFloat(this.myAdditionMark.score) || 0)
-          ).toFixed(2);
+          ).toFixed(2)
     }
   },
   methods: {
     saveDraft() {
-      const postData = this.getPostData();
+      const postData = this.getPostData()
 
       return postUserPerformanceDraft(
         this.$route.params.orgID,
@@ -162,10 +162,10 @@ export default {
           this.$message({
             type: "success",
             message: "草稿保存成功"
-          });
-          this.getDetailInfo();
+          })
+          this.getDetailInfo()
         })
-        .catch(e => {});
+        .catch(e => {})
     },
     getPostData() {
       // console.log(this.$route.params)
@@ -181,10 +181,10 @@ export default {
         total_score: this.total
         // score_level: this.level,
         // evaluation: this.comments
-      };
+      }
     },
     checkTotal() {
-      return parseFloat(this.total) > 5;
+      return parseFloat(this.total) > 5
     },
     getInfo() {
       return getEmployeeDetail(
@@ -203,22 +203,26 @@ export default {
             superior_attach_score,
             superior_score,
             superior_name,
-            score_level
-          } = res;
+            score_level,
+            score
+          } = res
           this.basicInfo = {
             superior_workcode,
             superior_name
-          };
-          this.need_attach_score = need_attach_score;
-          this.myAdditionMark = self_attach_score || {};
-          this.leaderAdditionMark = superior_attach_score || {};
+          }
+          this.need_attach_score = need_attach_score
+          this.myAdditionMark = self_attach_score || {}
+          this.leaderAdditionMark = superior_attach_score || {}
           this.level =
-            score_level || (superior_score && superior_score.score_level);
-          this.superior_score = superior_score;
-          this.showComments = stage >= 40;
-          this.composeData(targets, stage);
+            score_level || (superior_score && superior_score.score_level)
+          this.superior_score = superior_score
+          this.showComments = stage >= 40
+          this.composeData(targets, stage)
+          if (stage == 60 && !score) {
+            this.showTotal = false
+          }
         })
-        .catch(e => {});
+        .catch(e => {})
     },
     beforeSubmitCheck() {
       return new Promise((resolve, reject) => {
@@ -232,18 +236,18 @@ export default {
           this.$notify.error({
             title: ERROR,
             message: "请填写加减分原因"
-          });
-          return reject(true);
+          })
+          return reject(true)
         }
         if (this.checkTotal()) {
           this.$notify.error({
             title: ERROR,
             message: "总分已经超过5分"
-          });
-          return reject(true);
+          })
+          return reject(true)
         }
-        return resolve(true);
-      });
+        return resolve(true)
+      })
     },
     submit() {
       return this.beforeSubmitCheck()
@@ -260,92 +264,92 @@ export default {
             }
           )
             .then(() => {
-              let postData = this.getPostData();
-              delete postData.total_score;
+              let postData = this.getPostData()
+              delete postData.total_score
               return postSelfPerformance(this.$route.params.id, postData)
                 .then(res => {
                   this.$message({
                     type: "success",
                     message: CONST_ADD_SUCCESS
-                  });
-                  this.$router.replace(PATH_EMPLOYEE_MY);
+                  })
+                  this.$router.replace(PATH_EMPLOYEE_MY)
                   // this.getInfo();
                 })
-                .catch(e => {});
+                .catch(e => {})
             })
-            .catch(() => {});
+            .catch(() => {})
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     composeData(targets, stage) {
       switch (stage) {
         case 10:
           // 已导入
-          this.readOnly = true;
+          this.readOnly = true
           this.targets = targets.map(v => {
-            delete v.target_self_score;
-            delete v.target_superior_score;
-            return v;
-          });
-          this.need_attach_score = "";
-          this.canEdit = false;
-          this.showTotal = false;
-          break;
+            delete v.target_self_score
+            delete v.target_superior_score
+            return v
+          })
+          this.need_attach_score = ""
+          this.canEdit = false
+          this.showTotal = false
+          break
         case 20:
-          this.readOnly = false;
-          this.canEdit = true;
-          this.showTotal = true;
+          this.readOnly = false
+          this.canEdit = true
+          this.showTotal = true
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
-            delete v.target_self_score;
-            delete v.target_superior_score;
-            return v;
-          });
-          break;
+            v.mark = (v.target_self_score && v.target_self_score.score) || 0
+            delete v.target_self_score
+            delete v.target_superior_score
+            return v
+          })
+          break
         case 30:
-          this.readOnly = true;
-          this.canEdit = false;
-          this.showTotal = true;
+          this.readOnly = true
+          this.canEdit = false
+          this.showTotal = true
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
-            return v;
-          });
-          break;
+            v.mark = (v.target_self_score && v.target_self_score.score) || 0
+            return v
+          })
+          break
         case 40:
-          this.readOnly = true;
-          this.canEdit = false;
-          this.showTotal = true;
+          this.readOnly = true
+          this.canEdit = false
+          this.showTotal = true
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
-            return v;
-          });
-          this.canReject = true;
-          this.cancelReject = false;
-          break;
+            v.mark = (v.target_self_score && v.target_self_score.score) || 0
+            return v
+          })
+          this.canReject = true
+          this.cancelReject = false
+          break
         case 50:
-          this.readOnly = true;
-          this.canEdit = false;
-          this.showTotal = true;
+          this.readOnly = true
+          this.canEdit = false
+          this.showTotal = true
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
-            return v;
-          });
-          this.canReject = false;
-          this.cancelReject = true;
-          break;
+            v.mark = (v.target_self_score && v.target_self_score.score) || 0
+            return v
+          })
+          this.canReject = false
+          this.cancelReject = true
+          break
         default:
-          this.readOnly = true;
-          this.canEdit = false;
-          this.showTotal = true;
+          this.readOnly = true
+          this.canEdit = false
+          this.showTotal = true
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
-            return v;
-          });
-          this.canReject = false;
-          this.cancelReject = false;
+            v.mark = (v.target_self_score && v.target_self_score.score) || 0
+            return v
+          })
+          this.canReject = false
+          this.cancelReject = false
       }
     },
     cancel() {
@@ -356,59 +360,59 @@ export default {
           this.$message({
             type: "success",
             message: "取消成功!"
-          });
-          this.getInfo();
+          })
+          this.getInfo()
         })
-        .catch(e => {});
+        .catch(e => {})
     }
   },
   created() {
-    this.getInfo();
+    this.getInfo()
   }
-};
+}
 </script>
 <style scoped>
-.my-grade-page .card {
-  margin-bottom: 20px;
-}
-.my-grade-page .basic-info {
-  background: white;
-  padding: 20px;
-}
-.my-grade-page .summary-section {
-  background: white;
-  padding: 20px 20px 20px 0;
-}
-.my-grade-page .summary-section >>> .el-step__icon.is-text {
-  border: none;
-}
-.my-grade-page .summary-section >>> .el-step__icon {
-  width: 56px;
-}
-.my-grade-page .label {
-  margin-right: 20px;
-  color: #778294;
-  width: 100px;
-  min-width: 100px;
-  height: 26px;
-  box-sizing: border-box;
-  line-height: 26px;
-  padding: 0 10px;
-}
-.my-grade-page .label.title {
-  background-color: #52ddab;
-  color: white;
-  border-radius: 0 13px 13px 0;
-}
-.my-grade-page .tip {
-  color: #ea7754;
-}
-.my-grade-page .greycolor {
-  color: #778294;
-}
+  .my-grade-page .card {
+    margin-bottom: 20px;
+  }
+  .my-grade-page .basic-info {
+    background: white;
+    padding: 20px;
+  }
+  .my-grade-page .summary-section {
+    background: white;
+    padding: 20px 20px 20px 0;
+  }
+  .my-grade-page .summary-section >>> .el-step__icon.is-text {
+    border: none;
+  }
+  .my-grade-page .summary-section >>> .el-step__icon {
+    width: 56px;
+  }
+  .my-grade-page .label {
+    margin-right: 20px;
+    color: #778294;
+    width: 100px;
+    min-width: 100px;
+    height: 26px;
+    box-sizing: border-box;
+    line-height: 26px;
+    padding: 0 10px;
+  }
+  .my-grade-page .label.title {
+    background-color: #52ddab;
+    color: white;
+    border-radius: 0 13px 13px 0;
+  }
+  .my-grade-page .tip {
+    color: #ea7754;
+  }
+  .my-grade-page .greycolor {
+    color: #778294;
+  }
 
-.my-grade-page .inner-container {
-  display: flex;
-  color: grey;
-}
+  .my-grade-page .inner-container {
+    display: flex;
+    color: grey;
+  }
 </style>
