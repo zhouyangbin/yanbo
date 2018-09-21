@@ -104,7 +104,7 @@ export default {
         },
         {
           label: GRADE_PROGRESS,
-          href: PATH_PERFORMANCE_PROGRESS(this.$route.params.orgID)
+          href: PATH_PERFORMANCE_PROGRESS(this.$route.params.id)
         },
         {
           label: ORG_DETAIL,
