@@ -165,7 +165,8 @@ export default {
       this.$refs[formName].resetFields();
     },
     goDetail(row) {
-      this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
+      window.open(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id), "_blank");
+      // this.$router.push();
     },
     exportFile(row) {
       window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
