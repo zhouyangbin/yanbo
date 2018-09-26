@@ -70,8 +70,8 @@
           <span>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||isFinished" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -177,8 +177,8 @@
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
-              <el-button v-if="canbeEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button v-if="canbeEdit" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
+              <el-button v-if="!isFinished" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
+              <el-button v-if="!isFinished" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
               <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
@@ -485,6 +485,9 @@ export default {
       // 修改某个人的信息
       this.infoType = "modify";
       this.currentInfo = row;
+      this.currentInfo.stage = this.stage;
+      this.currentInfo.canEditLeaderInfo = this.canEditLeaderInfo;
+      this.currentInfo.canEdit = this.canEdit;
       this.dialogInfo = true;
     },
     // 拉取列表数据
@@ -567,13 +570,28 @@ export default {
     },
     canbeReminder() {
       return (
-        (this.stage == 30 && this.canbeEdit) ||
+        (this.stage == 30 && this.canAdd) ||
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
     },
-    canbeEdit() {
+    isFinished() {
+      return this.stage == 70;
+    },
+    canAdd() {
       return this.depInfo.self_status != 2;
+    },
+    canEdit() {
+      return (
+        this.stage < 50 ||
+        (this.stage == 50 && this.depInfo.highlevel_status != 2)
+      );
+    },
+    canEditLeaderInfo() {
+      return (
+        this.stage < 40 ||
+        (this.stage == 40 && this.depInfo.superior_status != 2)
+      );
     },
     step() {
       // return 5

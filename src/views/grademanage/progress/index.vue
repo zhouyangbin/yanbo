@@ -104,6 +104,7 @@ import {
   RESET,
   DEP_NAME
 } from "@/constants/TEXT";
+
 import {
   PATH_GRADE_MANAGE,
   PATH_GRADE_ORG_LIST,
@@ -111,6 +112,7 @@ import {
 } from "@/constants/URL";
 import { getProgressList } from "@/constants/API";
 import { compact } from "@/utils/obj";
+
 export default {
   data() {
     return {
