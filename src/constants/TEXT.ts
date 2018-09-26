@@ -489,3 +489,4 @@ export const BASIC_INFO = "基本信息";
 export const EMPLOYEE_WORKCODE = "员工工号";
 export const EMPYEE_NAME = "员工姓名";
 export const DRAFT_SAVE_SUCCESSFULLY = "草稿保存成功";
+export const DEP_NAME = "部门名称";

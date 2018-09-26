@@ -8,7 +8,7 @@
         <hr>
         <el-form :inline="true" ref="filter-form" :model="searchForm" class="form-search">
           <el-form-item prop="name">
-            <el-input v-model="searchForm.name" placeholder="部门名称"></el-input>
+            <el-input v-model="searchForm.name" :placeholder="constants.DEP_NAME"></el-input>
           </el-form-item>
           <el-form-item prop="recordStatus">
             <el-select v-model="searchForm.recordStatus" :placeholder="constants.RECORD_STATUS">
@@ -101,7 +101,8 @@ import {
   OPERATIONS,
   DETAILS,
   EXPORT_DETAILS,
-  RESET
+  RESET,
+  DEP_NAME
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_MANAGE,
@@ -131,7 +132,8 @@ export default {
         OPERATIONS,
         DETAILS,
         EXPORT_DETAILS,
-        RESET
+        RESET,
+        DEP_NAME
       },
       searchForm: {
         recordStatus: "",
