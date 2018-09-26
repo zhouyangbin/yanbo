@@ -7,6 +7,9 @@
         <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate}}</span>
         <hr>
         <el-form :inline="true" ref="filter-form" :model="searchForm" class="form-search">
+          <el-form-item prop="name">
+            <el-input v-model="searchForm.name" placeholder="部门名称"></el-input>
+          </el-form-item>
           <el-form-item prop="recordStatus">
             <el-select v-model="searchForm.recordStatus" :placeholder="constants.RECORD_STATUS">
               <el-option v-for="v of constants.ENUM_RECORD_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
@@ -135,7 +138,8 @@ export default {
         selfStatus: "",
         leaderStatus: "",
         upLeaderStatus: "",
-        faceStatus: ""
+        faceStatus: "",
+        name: ""
       },
       nav: [
         {
@@ -184,6 +188,7 @@ export default {
         superior_status: this.searchForm.leaderStatus,
         highlevel_status: this.searchForm.upLeaderStatus,
         feedback_status: this.searchForm.faceStatus,
+        name: this.searchForm.name,
         page: val
       };
       this.refreshList(postData);
@@ -193,11 +198,12 @@ export default {
     searchForm: {
       handler: function(v) {
         const postData = {
-          import_status: this.searchForm.recordStatus,
-          self_status: this.searchForm.selfStatus,
-          superior_status: this.searchForm.leaderStatus,
-          highlevel_status: this.searchForm.upLeaderStatus,
-          feedback_status: this.searchForm.faceStatus,
+          import_status: v.recordStatus,
+          self_status: v.selfStatus,
+          superior_status: v.leaderStatus,
+          highlevel_status: v.upLeaderStatus,
+          feedback_status: v.faceStatus,
+          name: v.name,
           page: 1
         };
         this.currentPage = 1;
