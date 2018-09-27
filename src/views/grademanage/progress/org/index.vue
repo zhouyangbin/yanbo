@@ -191,7 +191,7 @@
       </div>
     </section>
 
-    <import-dialog @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
+    <import-dialog :isManagerGrade="isManagerGrade" @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
     <time-setting :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
     <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
   </div>
@@ -255,6 +255,8 @@ export default {
   data() {
     return {
       currentPage: 1,
+      // 是否是高管评分
+      isManagerGrade: false,
       stage: 10,
       //导入状态
       import_status: 0,

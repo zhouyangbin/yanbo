@@ -9,7 +9,7 @@
           <el-form label-width="80px" :rules="importRules" ref="importForm" :model="importForm" class="importForm">
             <el-form-item :label="constants.WORK_LEVEL" prop="levels">
               <el-checkbox-group v-model="importForm.levels">
-                <el-checkbox v-for="v of constants.ENUM_LEVELS" :key="v.key" :label="v.value" name="levels"></el-checkbox>
+                <el-checkbox v-for="v of levels" :key="v.key" :label="v.value" name="levels"></el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-form>
@@ -59,6 +59,10 @@ export default {
     dialogImport: {
       type: Boolean,
       default: false
+    },
+    isManagerGrade: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -97,6 +101,12 @@ export default {
   },
   methods: {
     initImportLevels() {
+      if (!this.isManagerGrade) {
+        this.importForm.levels = ENUM_LEVELS.filter(
+          v => parseFloat(v.value) <= 3.3
+        ).map(v => v.value);
+        return;
+      }
       this.importForm.levels = ENUM_LEVELS.filter(
         v => parseFloat(v.value) > 3.0
       ).map(v => v.value);
@@ -163,6 +173,11 @@ export default {
       return {
         Authorization: `Bearer ${localStorage.getItem("talToken")}`
       };
+    },
+    levels() {
+      return this.isManagerGrade
+        ? this.constants.ENUM_LEVELS
+        : this.constants.ENUM_LEVELS.filter(v => v.value <= 3.3);
     }
   },
   created() {
