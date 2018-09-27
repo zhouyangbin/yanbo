@@ -203,7 +203,8 @@ export default {
             superior_attach_score,
             superior_score,
             superior_name,
-            score_level
+            score_level,
+            score
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -217,6 +218,9 @@ export default {
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
           this.composeData(targets, stage);
+          if (stage == 60 && !score) {
+            this.showTotal = false;
+          }
         })
         .catch(e => {});
     },
