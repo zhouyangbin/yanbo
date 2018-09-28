@@ -107,9 +107,7 @@ export default {
         ).map(v => v.value);
         return;
       }
-      this.importForm.levels = ENUM_LEVELS.filter(
-        v => parseFloat(v.value) > 3.0
-      ).map(v => v.value);
+      this.importForm.levels = ENUM_LEVELS.map(v => v.value);
     },
     // 导入操作提交
     importFiles(formName) {
