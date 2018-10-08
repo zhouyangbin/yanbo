@@ -8,7 +8,6 @@ import {
   PATH_GRADE_PROGRESS,
   PATH_GRADE_ORG_LIST,
   PATH_GRADE_EMP_DETAIL,
-  // PATH_PERFORMANCE_REPORT,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
   PATH_PERFORMANCE_ORG_LIST,
@@ -21,7 +20,12 @@ import {
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_USER_DETAIL,
-  PATH_MSG_MOBILE
+  PATH_MSG_MOBILE,
+  PATH_MY_CULTURE_GRADE,
+  PATH_MEMEBER_CULTURE_GRADE,
+  PATH_MEMBER_CULTURE_LIST,
+  PATH_DOWN_MEMEBER_CULTURE_GRADE,
+  PATH_DOWN_MEMBER_CULTURE_LIST
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -80,13 +84,6 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
-        // {
-        //   path: PATH_PERFORMANCE_REPORT,
-        //   components: {
-        //     default: () => import("@/views/performance/report/index.vue"),
-        //     sidebar: () => import("@/components/common/Sidebar/index.vue")
-        //   }
-        // },
         {
           path: PATH_PERFORMANCE_MANAGER,
           components: {
@@ -172,15 +169,47 @@ const router = new Router({
               import("@/views/performance/manage/list/org/user/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
+        },
+        {
+          path: PATH_MY_CULTURE_GRADE,
+          components: {
+            default: () => import("@/views/myculture/self/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_MEMEBER_CULTURE_GRADE,
+          components: {
+            default: () => import("@/views/myculture/members/grades/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_DOWN_MEMEBER_CULTURE_GRADE,
+          components: {
+            default: () =>
+              import("@/views/myculture/downmembers/grades/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_MEMBER_CULTURE_LIST(),
+          components: {
+            default: () =>
+              import("@/views/myculture/members/grades/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_DOWN_MEMBER_CULTURE_LIST(),
+          components: {
+            default: () =>
+              import("@/views/myculture/downmembers/grades/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
         }
       ]
     },
-    // {
-    //   path: PATH_AUTH,
-    //   props: { iconCls: "el-icon-location", label: NAV_AUTH_PAGE },
-    //   meta: { requiresAuth: true },
-    //   component: () => import("@/views/Test.vue")
-    // },
     {
       path: PATH_LOGIN,
       component: () => import("@/views/login/index.vue")
@@ -196,33 +225,5 @@ const router = new Router({
     }
   ]
 });
-
-// router.beforeEach(async (to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     // this route requires auth, check if logged in
-//     // if not, redirect to login page.
-
-//     try {
-//       const logined = await Auth.isLogined();
-//       console.log(logined);
-//       if (logined) {
-//         // 如果判断是已登录情况,则继续
-//         next();
-//       } else {
-//         // 假设这里的about页是未登录情况下跳转的地方
-//         console.log("not authrized");
-//         next({
-//           path: PATH_LOGIN
-//         });
-//       }
-//     } catch (error) {
-//       console.log("get user auth 500");
-//       // 如果请求报错,一般是500的时候,应该停留在当前页面
-//       next(false);
-//     }
-//   } else {
-//     next();
-//   }
-// });
 
 export default router;

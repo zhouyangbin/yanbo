@@ -106,3 +106,13 @@ export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
   `${base}/performance/api/superior/export/${id}?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
+
+// 员工文化评分
+
+export const PATH_MY_CULTURE_GRADE = "/culture/my";
+export const PATH_MEMEBER_CULTURE_GRADE = "/culture/membersgrades";
+export const PATH_DOWN_MEMEBER_CULTURE_GRADE = "/culture/downmembersgrades";
+export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>
+  `/culture/membersgrades/${id}`;
+export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id") =>
+  `/culture/downmembersgrades/${id}`;

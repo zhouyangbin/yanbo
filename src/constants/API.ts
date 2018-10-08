@@ -11,7 +11,7 @@ import {
 } from "@/utils/base";
 import qs from "qs";
 
-// const test = "https://www.easy-mock.com/mock/5b62572dbf26d2748cff3d03/pr";
+const test = "https://www.easy-mock.com/mock/5baf1a129edac201fec52f0f";
 
 // 用户管理
 // 扫码登录
@@ -252,3 +252,9 @@ export const delCancelAppeal = (params: Object) =>
 // 获取用户事业部bind数据
 export const getBindInfo = (uid: string) =>
   sendGet(`/permission/users/detail/${uid}`);
+
+//  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//  我的文化评分
+
+export const getMyCultureList = (params: Object) =>
+  sendGet(`${test}/culture/web/evaluations`, params);

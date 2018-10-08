@@ -490,3 +490,48 @@ export const EMPLOYEE_WORKCODE = "员工工号";
 export const EMPYEE_NAME = "员工姓名";
 export const DRAFT_SAVE_SUCCESSFULLY = "草稿保存成功";
 export const DEP_NAME = "部门名称";
+export const MY_CULTURE = "我的文化";
+export const MY_MEMBERS = "我的下级";
+export const MEMBERS_GRADE_LIST = "下级评分列表";
+export const DOWN_MEMBERS_GRADE_LIST = "隔级评分列表";
+export const MY_DOWN_MEMBER = "我的隔级";
+
+export const MY_DOWN_MEMBER_RULE = `
+隔级确认阶段规则：<br>
+<br>
+1、 根据员工自评和上级评的详情，对文化评分分数和标签无异议，则点击确认；<br>
+2、 对于员工文化评分分数和标签有异议，点击驳回，由员工的直接上级进行更改，驳回需要填写理由；<br>
+3、 隔级对于员工的评分标签有异议，需要线下与员工的直接上级沟通后通过点击“修改”进行标签的更改，更改完成后点击确认，系统会自动通知员工的直接上级；<br>
+4、 对于隔级未操作的情况，隔级评阶段结束时系统会自动默认通过；
+`;
+
+export const MY_MEMBER_RULE = `
+上级评阶段规则: <br>
+<br>
+1、 评分以0.5分为单位；<br>
+2、 调整员工自评分数必须填写理由；<br>
+3、文化评分标签为必填项，分别显示为top（代表团队前20%的人）、middle（代表中间70%的人）、bottom（代表末尾10%的人），系统将根据实际团队人数自动校验比例分布，请按照系统提醒操作；<br>
+4、分数说明如下：<br><br>
+<table style="width:80%;border: 1px solid black;border-collapse: collapse;">
+  <tr style="border: 1px solid black;border-collapse: collapse;">
+    <th style="border: 1px solid black;border-collapse: collapse;">总分</th>
+    <th>标准</th> 
+  </tr>
+  <tr style="border: 1px solid black;border-collapse: collapse;">
+    <td style="border: 1px solid black;border-collapse: collapse;">大于等于12分</td>
+    <td>部分超出预期，文化考核为优秀</td>
+  </tr>
+  <tr style="border: 1px solid black;border-collapse: collapse;">
+    <td style="border: 1px solid black;border-collapse: collapse;">8分（含）至12分，且每项大于等于2分</td>
+    <td>基本胜任，文化考核为过关</td>
+  </tr>
+  <tr style="border: 1px solid black;border-collapse: collapse;">
+    <td style="border: 1px solid black;border-collapse: collapse;">4分（含）至8分，或任意一项为1分</td>
+    <td>不胜任，需指定改进计划，连续两期需降级</td>
+  </tr>
+  <tr style="border: 1px solid black;border-collapse: collapse;">
+    <td style="border: 1px solid black;border-collapse: collapse;">4分以下，或任意一项为0分</td>
+    <td>不可接受，价值观考核不合格，绩效考核整体不合格，需要书面警告，限期改进，两期则淘汰</td>
+  </tr>
+</table>
+`;
