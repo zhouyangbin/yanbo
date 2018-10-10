@@ -173,7 +173,7 @@ export default {
       // this.$router.push();
     },
     exportFile(row) {
-      window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
+      window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank", "noopener");
     },
     refreshList(params) {
       getProgressList(this.$route.params.id, compact(params))

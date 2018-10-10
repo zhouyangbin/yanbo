@@ -391,7 +391,7 @@ export default {
     },
     exportData() {
       const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
-      window.open(url, "_blank");
+      window.open(url, "_blank", "noopener");
       // window.location.href = url
     },
     batchDel() {

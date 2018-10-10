@@ -113,7 +113,8 @@ export default {
     exportFile(row) {
       window.open(
         PATH_EXPORT_PERFORMANCE_DEPARTMENT(this.$route.params.id, row.id),
-        "_blank"
+        "_blank",
+        "noopener"
       );
     },
     handleCurrentChange(val) {
