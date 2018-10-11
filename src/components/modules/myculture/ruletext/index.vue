@@ -16,6 +16,8 @@ export default {
 </script>
 <style scoped>
 .rules-text {
-  color: rgb(109, 110, 111);
+  font-size: 14px;
+  color: #9b9b9b;
+  line-height: 30px;
 }
 </style>

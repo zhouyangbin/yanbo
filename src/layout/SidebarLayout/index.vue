@@ -82,7 +82,7 @@ export default {
   height: 100%;
 }
 .main-container {
-  background-color: #f2f7f9;
+  background-color: rgb(245, 245, 245);
   padding: 0;
   height: 100%;
 }

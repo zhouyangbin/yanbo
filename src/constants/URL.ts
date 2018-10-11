@@ -110,6 +110,8 @@ export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
 // 员工文化评分
 
 export const PATH_MY_CULTURE_GRADE = "/culture/my";
+export const PATH_MY_CULTURE_GRADE_DETAILS = (id: string = ":id") =>
+  `/culture/my/${id}`;
 export const PATH_MEMEBER_CULTURE_GRADE = "/culture/membersgrades";
 export const PATH_DOWN_MEMEBER_CULTURE_GRADE = "/culture/downmembersgrades";
 export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>

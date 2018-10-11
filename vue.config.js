@@ -40,6 +40,8 @@ const projectRoot = path.resolve(__dirname);
 // };
 
 module.exports = {
+  // baseUrl: "/",
+  productionSourceMap: false,
   devServer: {
     // proxy: "http://api.gamesife.com"
     proxy: "http://test-pingfen-api.100tal.com"
@@ -60,11 +62,11 @@ module.exports = {
     //     }
     //   }
     // })
-    config.plugin("html").tap(args => {
-      args[0].favicon = "./public/favicon.ico";
-      return args;
-    });
-    config.plugins.delete("prefetch");
+    // config.plugin("html").tap(args => {
+    //   args[0].favicon = "./public/favicon.ico";
+    //   return args;
+    // });
+    // config.plugins.delete("prefetch");
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));
 
     // config.externals({

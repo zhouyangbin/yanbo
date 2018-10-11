@@ -1,29 +1,29 @@
 <template>
-    <div class="my-grade-list">
-        <nav-bar :list="nav"></nav-bar>
-        <br>
-        <br>
-        <section class="content-container">
-            <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="name" :label="constants.GRADE_NAME">
-                </el-table-column>
-                <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
-                </el-table-column>
-                <el-table-column prop="stage_name" :label="constants.GRADE_STATUS">
-                </el-table-column>
-                <el-table-column prop="address" :label="constants.OPERATIONS">
-                    <template slot-scope="scope">
-                        <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <br>
-            <el-row type="flex" justify="end">
-                <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
-            </el-row>
-            <br>
-        </section>
-    </div>
+  <div class="my-grade-list">
+    <nav-bar :list="nav"></nav-bar>
+    <br>
+    <br>
+    <section class="content-container">
+      <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column prop="name" :label="constants.GRADE_NAME">
+        </el-table-column>
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
+        </el-table-column>
+        <el-table-column prop="stage_name" :label="constants.GRADE_STATUS">
+        </el-table-column>
+        <el-table-column prop="address" :label="constants.OPERATIONS">
+          <template slot-scope="scope">
+            <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <br>
+      <el-row type="flex" justify="end">
+        <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+      </el-row>
+      <br>
+    </section>
+  </div>
 </template>
 
 
@@ -37,6 +37,7 @@ import {
   GRADE_STATUS
 } from "@/constants/TEXT";
 import { getMyCultureList } from "@/constants/API";
+import { PATH_MY_CULTURE_GRADE_DETAILS } from "@/constants/URL";
 
 export default {
   data() {
@@ -65,10 +66,8 @@ export default {
   },
   methods: {
     goDetail(row) {
-      // TODO:go detail
-      // this.$router.push(
-      //     PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
-      // );
+      // console.log(row)
+      this.$router.push(PATH_MY_CULTURE_GRADE_DETAILS(row.id));
     },
     handleCurrentChange() {
       this.currentPage = val;
