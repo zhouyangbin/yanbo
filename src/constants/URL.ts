@@ -118,3 +118,8 @@ export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>
   `/culture/membersgrades/${id}`;
 export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id") =>
   `/culture/downmembersgrades/${id}`;
+
+export const PATH_MEMBER_CULTURE_DETAILS = (
+  id: string = ":id",
+  uid: string = ":uid"
+) => `/culture/membersgrades/${id}/${uid}`;

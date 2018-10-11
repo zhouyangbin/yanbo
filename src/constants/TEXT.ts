@@ -511,29 +511,11 @@ export const MY_MEMBER_RULE = `
 1、 评分以0.5分为单位；<br>
 2、 调整员工自评分数必须填写理由；<br>
 3、文化评分标签为必填项，分别显示为top（代表团队前20%的人）、middle（代表中间70%的人）、bottom（代表末尾10%的人），系统将根据实际团队人数自动校验比例分布，请按照系统提醒操作；<br>
-4、分数说明如下：<br><br>
-<table style="width:80%;border: 1px solid black;border-collapse: collapse;">
-  <tr style="border: 1px solid black;border-collapse: collapse;">
-    <th style="border: 1px solid black;border-collapse: collapse;">总分</th>
-    <th>标准</th> 
-  </tr>
-  <tr style="border: 1px solid black;border-collapse: collapse;">
-    <td style="border: 1px solid black;border-collapse: collapse;">大于等于12分</td>
-    <td>部分超出预期，文化考核为优秀</td>
-  </tr>
-  <tr style="border: 1px solid black;border-collapse: collapse;">
-    <td style="border: 1px solid black;border-collapse: collapse;">8分（含）至12分，且每项大于等于2分</td>
-    <td>基本胜任，文化考核为过关</td>
-  </tr>
-  <tr style="border: 1px solid black;border-collapse: collapse;">
-    <td style="border: 1px solid black;border-collapse: collapse;">4分（含）至8分，或任意一项为1分</td>
-    <td>不胜任，需指定改进计划，连续两期需降级</td>
-  </tr>
-  <tr style="border: 1px solid black;border-collapse: collapse;">
-    <td style="border: 1px solid black;border-collapse: collapse;">4分以下，或任意一项为0分</td>
-    <td>不可接受，价值观考核不合格，绩效考核整体不合格，需要书面警告，限期改进，两期则淘汰</td>
-  </tr>
-</table>
+4、分数说明如下：<br>
+总分大于等于12分：部分超出预期，文化考核为优秀<br>
+总分8分（含）至12分，且每项大于等于2分：基本胜任，文化考核为过关<br>
+总分4分（含）至8分，或任意一项为1分：不胜任，需指定改进计划，连续两期需降级<br>
+总分4分以下，或任意一项为0分：不可接受，价值观考核不合格，绩效考核整体不合格，需要书面警告，限期改进，两期则淘汰
 `;
 export const MY_RULE = `
 自评阶段规则：<br>

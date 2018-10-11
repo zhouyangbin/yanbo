@@ -26,7 +26,8 @@ import {
   PATH_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_LIST,
-  PATH_MY_CULTURE_GRADE_DETAILS
+  PATH_MY_CULTURE_GRADE_DETAILS,
+  PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -198,6 +199,14 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/myculture/members/grades/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_MEMBER_CULTURE_DETAILS(),
+          components: {
+            default: () =>
+              import("@/views/myculture/members/grades/details/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

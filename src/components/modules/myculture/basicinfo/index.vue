@@ -9,22 +9,22 @@
         <span class="number">
           079097
         </span>
-        <span class="number">
+        <span v-show="!forMember" class="number">
           我的上级:
         </span>
-        <span class="name">
+        <span v-show="!forMember" class="name">
           甄凯欣
         </span>
-        <span class="number">
+        <span v-show="!forMember" class="number">
           079097
         </span>
-        <span class="number">
+        <span v-show="!forMember" class="number">
           隔级上级:
         </span>
-        <span class="name">
+        <span v-show="!forMember" class="name">
           甄凯欣
         </span>
-        <span class="number">
+        <span v-show="!forMember" class="number">
           079097
         </span>
       </div>
@@ -41,6 +41,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    forMember: {
+      type: Boolean,
+      default: false
     }
   }
 };
