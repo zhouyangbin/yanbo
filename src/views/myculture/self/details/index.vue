@@ -26,7 +26,7 @@ import { PATH_MY_CULTURE_GRADE } from "@/constants/URL";
 
 const ruleMap = {
   "self-grade": MY_RULE,
-  "self-report": MY_UNCONFIRMED_RULE
+  "self-unconfirm": MY_UNCONFIRMED_RULE
 };
 export default {
   data() {
@@ -41,7 +41,7 @@ export default {
           active: true
         }
       ],
-      currentTabComponent: "self-report"
+      currentTabComponent: "self-unconfirm"
     };
   },
   components: {
@@ -52,8 +52,8 @@ export default {
       import("@/components/modules/myculture/ruletext/index.vue"),
     "self-grade": () =>
       import("@/components/modules/myculture/selfgrade/index.vue"),
-    "self-report": () =>
-      import("@/components/modules/myculture/selfreport/index.vue")
+    "self-unconfirm": () =>
+      import("@/components/modules/myculture/selfunconfirm/index.vue")
   },
   computed: {
     ruleText() {

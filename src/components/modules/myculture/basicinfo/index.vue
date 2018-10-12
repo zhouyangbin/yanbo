@@ -57,7 +57,6 @@ export default {
   line-height: 28px;
   font-size: 16px;
   color: #4a4a4a;
-  margin-left: 38px;
   margin-right: 20px;
   .org-info {
     & span {
