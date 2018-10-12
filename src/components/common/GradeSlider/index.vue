@@ -49,7 +49,7 @@ export default {
     hoverStyle() {
       return {
         width: `${
-          this.hoverValue ? this.hoverValue / this.step * this.number + 1 : 0
+          this.hoverValue ? (this.hoverValue / this.step) * this.number + 1 : 0
         }%`
       };
     },

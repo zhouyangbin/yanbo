@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Vue, { Component } from "vue";
+import Router, { RouteConfig } from "vue-router";
 import {
   PATH_LOGIN,
   PATH_GRADE_REPORT,
@@ -240,7 +240,7 @@ const router = new Router({
       name: "notfound",
       component: () => import("@/views/404.vue")
     }
-  ]
+  ] as RouteConfig[]
 });
 
 export default router;

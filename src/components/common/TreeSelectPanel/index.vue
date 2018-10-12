@@ -49,7 +49,7 @@ export default {
       el.style.width = "0px";
       el.style.padding = "0px";
     },
-    treeChange: debounce(function(data, checked, indeterminate) {
+    treeChange: debounce(function (data, checked, indeterminate) {
       const nodes = this.$refs.tree.getCheckedNodes();
       if (this.exclusive) {
         if (checked) {
@@ -151,18 +151,18 @@ export default {
   },
   directives: {
     "click-outside": {
-      bind: function(el, binding, vNode) {
+      bind: function (el, binding, vNode) {
         // Provided expression must evaluate to a function.
         if (typeof binding.value !== "function") {
           const compName = vNode.context.name;
           let warn = `[Vue-click-outside:] provided expression '${
             binding.expression
-          }' is not a function, but has to be`;
+            }' is not a function, but has to be`;
           if (compName) {
             warn += `Found in component '${compName}'`;
           }
 
-          console.warn(warn);
+          // console.warn(warn);
         }
         // Define Handler and cache it on the element
         const bubble = binding.modifiers.bubble;
@@ -177,7 +177,7 @@ export default {
         document.addEventListener("click", handler);
       },
 
-      unbind: function(el, binding) {
+      unbind: function (el, binding) {
         // Remove Event Listeners
         document.removeEventListener("click", el.__vueClickOutside__);
         el.__vueClickOutside__ = null;
@@ -187,28 +187,28 @@ export default {
 };
 </script>
 <style scoped>
-.objectTree-container {
-  position: fixed;
-  overflow: auto;
-  right: 0;
-  top: 0;
-  z-index: 100;
-  background: rgba(242, 247, 249, 0.9);
-  padding: 60px 20px 20px 20px;
-  height: 100%;
-  box-sizing: border-box;
-  transition: all 1s;
-  opacity: 1;
-}
+  .objectTree-container {
+    position: fixed;
+    overflow: auto;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    background: rgba(242, 247, 249, 0.9);
+    padding: 60px 20px 20px 20px;
+    height: 100%;
+    box-sizing: border-box;
+    transition: all 1s;
+    opacity: 1;
+  }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 1s;
-  width: 30%;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-  width: 0;
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 1s;
+    width: 30%;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+    width: 0;
+  }
 </style>
