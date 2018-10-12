@@ -29,9 +29,8 @@
         </span>
       </div>
       <div class="finished-time">
-        自评截止时间：2018年10月10日
+        {{unConfirmed?'待确认截止时间':'自评截止时间：'}} 2018年10月10日
       </div>
-
     </el-row>
   </div>
 </template>
@@ -43,6 +42,10 @@ export default {
       default: () => ({})
     },
     forMember: {
+      type: Boolean,
+      default: false
+    },
+    unConfirmed: {
       type: Boolean,
       default: false
     }
