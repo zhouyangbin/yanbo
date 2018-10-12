@@ -37,17 +37,29 @@
         </el-row>
       </section>
       <br>
-      <el-row class="mark">
-        <el-col :span="12">
+      <div class="mark-flag-container">
+        <div class="mark-section">
           <div class="mark-label">
             为甄凯欣的成就客户项目评分
           </div>
           <br>
           <grade-slider v-model="grade"></grade-slider>
-        </el-col>
-        <el-col :span="6">
-          xxxx
-        </el-col>
+        </div>
+        <div style="width:20px;"></div>
+        <div class="flag-section">
+          <div class="mark-label">
+            为甄凯欣设计等级标签
+          </div>
+          <br>
+          <level-selector v-model="level"></level-selector>
+        </div>
+      </div>
+      <br>
+      <case-area v-model="case1"></case-area>
+      <br>
+      <el-row type="flex" justify="end">
+        <el-button type="primary">保存草稿</el-button>
+        <el-button type="primary">提交</el-button>
       </el-row>
     </section>
   </div>
@@ -81,6 +93,7 @@ export default {
           active: true
         }
       ],
+      level: "",
       grade: "",
       selectGradeItem: 0,
       gradeItems: [
@@ -114,7 +127,9 @@ export default {
       import("@/components/modules/myculture/ruletext/index.vue"),
     "case-area": () => import("@/components/common/CaseArea/index.vue"),
     "grade-items": () => import("@/components/common/GradeItem/index.vue"),
-    "grade-slider": () => import("@/components/common/GradeSlider/index.vue")
+    "grade-slider": () => import("@/components/common/GradeSlider/index.vue"),
+    "level-selector": () =>
+      import("@/components/common/LevelSelector/index.vue")
   }
 };
 </script>
@@ -138,6 +153,19 @@ export default {
     font-size: 14px;
     color: #9b9b9b;
     line-height: 30px;
+  }
+  & .mark-flag-container {
+    display: flex;
+    & .mark-section {
+      flex: 15;
+      background: white;
+      padding: 20px;
+    }
+    & .flag-section {
+      flex: 8;
+      background: white;
+      padding: 20px;
+    }
   }
 }
 </style>
