@@ -3,7 +3,7 @@
   <div class="self-details-page">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container">
+    <section class="content-container" style="padding:40px">
       <basic-info :unConfirmed="true"></basic-info>
       <br>
       <hr>
@@ -41,7 +41,7 @@ export default {
           active: true
         }
       ],
-      currentTabComponent: "self-unconfirm"
+      currentTabComponent: "self-grade"
     };
   },
   components: {
@@ -63,9 +63,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.self-details-page {
-  &.content-container {
-    padding: 20px;
+  .self-details-page {
+    &.content-container {
+      padding: 20px;
+    }
   }
-}
 </style>

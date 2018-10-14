@@ -1,4 +1,4 @@
-import Vue, { Component } from "vue";
+import Vue from "vue";
 import Router, { RouteConfig } from "vue-router";
 import {
   PATH_LOGIN,
@@ -27,7 +27,8 @@ import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_MY_CULTURE_GRADE_DETAILS,
-  PATH_MEMBER_CULTURE_DETAILS
+  PATH_MEMBER_CULTURE_DETAILS,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -222,6 +223,14 @@ const router = new Router({
           path: PATH_MY_CULTURE_GRADE_DETAILS(),
           components: {
             default: () => import("@/views/myculture/self/details/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_DOWN_MEMBER_CULTURE_DETAILS(),
+          components: {
+            default: () =>
+              import("@/views/myculture/downmembers/grades/details/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
