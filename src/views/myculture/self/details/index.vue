@@ -4,13 +4,15 @@
     <nav-bar :list="nav"></nav-bar>
     <br>
     <section class="content-container" style="padding:40px">
-      <basic-info :unConfirmed="true"></basic-info>
+      <basic-info :isReport="true"></basic-info>
       <br>
       <hr>
       <br>
-      <rule-text :text="ruleText"></rule-text>
-      <br>
-      <br>
+      <div v-if="showRules">
+        <rule-text :text="ruleText"></rule-text>
+        <br>
+        <br>
+      </div>
       <component v-bind:is="currentTabComponent"></component>
     </section>
   </div>
@@ -41,7 +43,7 @@ export default {
           active: true
         }
       ],
-      currentTabComponent: "self-grade"
+      currentTabComponent: "self-report"
     };
   },
   components: {
@@ -53,11 +55,16 @@ export default {
     "self-grade": () =>
       import("@/components/modules/myculture/selfgrade/index.vue"),
     "self-unconfirm": () =>
-      import("@/components/modules/myculture/selfunconfirm/index.vue")
+      import("@/components/modules/myculture/selfunconfirm/index.vue"),
+    "self-report": () =>
+      import("@/components/modules/myculture/selfreport/index.vue")
   },
   computed: {
     ruleText() {
       return ruleMap[this.currentTabComponent];
+    },
+    showRules() {
+      return this.currentTabComponent != "self-report";
     }
   }
 };

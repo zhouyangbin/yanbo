@@ -9,26 +9,26 @@
         <span class="number">
           079097
         </span>
-        <span v-show="!forMember && downMember" class="number">
+        <span v-show="!forMember && downMember||isReport" class="number">
           {{downMember ? '他的上级' : '我的上级' }}:
         </span>
-        <span v-show="downMember&&!forMember" class="name">
+        <span v-show="downMember&&!forMember ||isReport" class="name">
           甄凯欣
         </span>
-        <span v-show="!forMember && downMember" class="number">
+        <span v-show="!forMember && downMember ||isReport" class="number">
           079097
         </span>
-        <span v-show="!forMember && !downMember" class="number">
+        <span v-show="!forMember && !downMember||isReport" class="number">
           隔级上级:
         </span>
-        <span v-show="!forMember && !downMember" class="name">
+        <span v-show="!forMember && !downMember||isReport" class="name">
           甄凯欣
         </span>
-        <span v-show="!forMember && !downMember" class="number">
+        <span v-show="!forMember && !downMember||isReport" class="number">
           079097
         </span>
       </div>
-      <div class="finished-time">
+      <div v-if="!isReport" class="finished-time">
         {{unConfirmed?'待确认截止时间': downMember?'隔级评截止时间':'自评截止时间'}}: 2018年10月10日
       </div>
     </el-row>
@@ -50,6 +50,10 @@ export default {
       default: false
     },
     downMember: {
+      type: Boolean,
+      default: false
+    },
+    isReport: {
       type: Boolean,
       default: false
     }
