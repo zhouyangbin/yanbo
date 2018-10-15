@@ -61,10 +61,13 @@
 <script>
 import {
   MY_DOWN_MEMBER,
-  DOWN_MEMBERS_GRADE_LIST,
+  DOWN_MEMBERS_GRADE_LIST
   // MY_DOWN_MEMBER_RULE
 } from "@/constants/TEXT";
-import { PATH_DOWN_MEMEBER_CULTURE_GRADE, PATH_DOWN_MEMBER_CULTURE_DETAILS } from "@/constants/URL";
+import {
+  PATH_DOWN_MEMEBER_CULTURE_GRADE,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS
+} from "@/constants/URL";
 
 export default {
   data() {
@@ -102,7 +105,7 @@ export default {
   },
   watch: {
     memberForm: {
-      handler: function (v) {
+      handler: function(v) {
         this.currentPage = 1;
         this.getData();
       },
@@ -126,40 +129,40 @@ export default {
 };
 </script>
 <style scoped>
-  .my-grade-list .content-container {
-    padding: 20px;
-  }
-  .my-grade-list .bg-white {
-    background-color: white;
-  }
+.my-grade-list .content-container {
+  padding: 20px;
+}
+.my-grade-list .bg-white {
+  background-color: white;
+}
 
-  .member-grade-info {
-    display: flex;
-    align-content: center;
-    align-items: center;
-  }
-  .member-grade-info .name {
-    margin-right: 15px;
-  }
-  .member-grade-info .finish_time {
-    font-size: 10px;
-    color: grey;
-  }
-  .members-list-filter {
-    margin-left: 20px;
+.member-grade-info {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+.member-grade-info .name {
+  margin-right: 15px;
+}
+.member-grade-info .finish_time {
+  font-size: 10px;
+  color: grey;
+}
+.members-list-filter {
+  margin-left: 20px;
 
-    display: flex;
-  }
-  .list-filter-form {
-    display: inline-block;
-    margin-right: 40px;
-  }
-  .list-filter-form >>> .el-form-item {
-    margin-bottom: 0;
-  }
+  display: flex;
+}
+.list-filter-form {
+  display: inline-block;
+  margin-right: 40px;
+}
+.list-filter-form >>> .el-form-item {
+  margin-bottom: 0;
+}
 
-  hr.dash {
-    border-style: dashed;
-    border-color: grey;
-  }
+hr.dash {
+  border-style: dashed;
+  border-color: grey;
+}
 </style>

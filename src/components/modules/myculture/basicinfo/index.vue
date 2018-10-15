@@ -57,26 +57,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .basicinfo-page {
-    line-height: 28px;
-    font-size: 16px;
-    color: #4a4a4a;
-    margin-right: 20px;
-    .org-info {
-      & span {
-        margin-right: 8px;
-      }
-    }
-    .name {
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .number {
-      color: #000000;
-    }
-    .finished-time {
-      text-align: right;
+.basicinfo-page {
+  line-height: 28px;
+  font-size: 16px;
+  color: #4a4a4a;
+  margin-right: 20px;
+  .org-info {
+    & span {
+      margin-right: 8px;
     }
   }
+  .name {
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .number {
+    color: #000000;
+  }
+  .finished-time {
+    text-align: right;
+  }
+}
 </style>
