@@ -288,3 +288,6 @@ export const getMyDownMemberCultureDetails = (id: String) =>
 // 文化隔级成员list
 export const getDownMembersList = (id: String, params: Object) =>
   sendGet(`${test}/culture/web/${id}/team/highlevel`, params);
+// 文化下级成员list
+export const getMembersList = (id: String, params: Object) =>
+  sendGet(`${test}/culture/web/${id}/team/superior`, params);

@@ -4,8 +4,8 @@
     <div v-if="data.top" class="top">
       ({{data.top}}人, {{topP}}%)
     </div>
-    <div v-if="data.medium" class="medium">
-      ({{data.medium}}人, {{mediumP}}%)
+    <div v-if="data.middle" class="medium">
+      ({{data.middle}}人, {{mediumP}}%)
     </div>
     <div v-if="data.bottom" class="bottom">
       ({{data.bottom}}人, {{bottomP}}%)
@@ -17,18 +17,20 @@ export default {
   props: {
     data: {
       type: Object,
-      default: () => ({ top: 0, medium: 0, bottom: 0 })
+      default: () => ({ top: 0, middle: 0, bottom: 0 })
     }
   },
   computed: {
     total() {
-      return this.data.top + this.data.medium + this.data.bottom;
+      return this.data.top + this.data.middle + this.data.bottom;
     },
     topP() {
       return parseFloat(this.data.top / this.total).toFixed(4) * 100;
     },
     mediumP() {
-      return parseFloat(this.data.medium / this.total).toFixed(4) * 100;
+      return (
+        parseFloat(parseFloat(this.data.middle / this.total).toFixed(4)) * 100
+      );
     },
     bottomP() {
       return parseFloat(this.data.bottom / this.total).toFixed(4) * 100;

@@ -19,27 +19,39 @@
         <br>
         <div class="members-list-filter">
           <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
-            <el-form-item prop="name">
-              <el-input placeholder="请输入姓名" v-model="memberForm.name"></el-input>
+            <el-form-item prop="nemployee_nameame">
+              <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="memberForm.status" placeholder="上级评状态">
-                <el-option label="区域一" value="shanghai"></el-option>
+              <el-select v-model="memberForm.superior_status" placeholder="上级评状态">
+                <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
             </el-form-item>
           </el-form>
-          <distribute-summary :data="summary"></distribute-summary>
+          <distribute-summary :data="overview"></distribute-summary>
         </div>
         <br>
         <hr class="dash">
         <br>
         <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column prop="self" label="自评分数"></el-table-column>
-          <el-table-column prop="self" label="上级评分数"></el-table-column>
-          <el-table-column prop="self" label="271等级"></el-table-column>
-          <el-table-column prop="self" label="上级评状态"></el-table-column>
-          <el-table-column prop="self" label="状态"></el-table-column>
+          <el-table-column prop="name" label="姓名">
+            <template slot-scope="scope">
+              <el-row type="flex" align="middle">
+                <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
+                {{scope.row.name}}
+              </el-row>
+            </template>
+          </el-table-column>
+          <el-table-column prop="score" label="自评分数"></el-table-column>
+          <el-table-column prop="superior_score" label="上级评分数"></el-table-column>
+          <el-table-column prop="self" label="271等级">
+            <template slot-scope="scope">
+              {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="superior_status" label="上级评状态"></el-table-column>
+          <el-table-column prop="status" label="状态"></el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="goDetail(scope.row)" size="small">查看详情</el-button>
@@ -59,32 +71,31 @@
 import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
-  MY_MEMBER_RULE
+  MY_MEMBER_RULE,
+  BREF_HIGH_LEVEL_STATUS,
+  LEVEL_ALIAS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
+import { getMembersList } from "@/constants/API";
 
 export default {
   data() {
     return {
-      total: 50,
+      overview: {},
+      total: 0,
       currentPage: 1,
-      tableData: [
-        {
-          id: 2
-        }
-      ],
-      summary: {
-        top: 2,
-        medium: 13,
-        bottom: 2
-      },
+      tableData: [],
+      // summary: {
+      //   top: 2,
+      //   medium: 13,
+      //   bottom: 2
+      // },
       memberForm: {
-        name: "",
-        memberForm: "",
-        status: ""
+        employee_name: "",
+        superior_status: ""
       },
       nav: [
         {
@@ -97,7 +108,8 @@ export default {
         }
       ],
       constants: {
-        MY_MEMBER_RULE
+        MY_MEMBER_RULE,
+        BREF_HIGH_LEVEL_STATUS
       }
     };
   },
@@ -113,23 +125,39 @@ export default {
     memberForm: {
       handler: function(v) {
         this.currentPage = 1;
-        this.getData();
+        this.getData({ page: 1, ...v });
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    getData() {
-      console.log("get data");
+    getData(data) {
+      getMembersList(this.$route.params.id, data).then(res => {
+        console.log(res);
+        const { total, data, overview } = res;
+        this.tableData = data;
+        this.total = total;
+        this.postOverview(overview);
+      });
+    },
+    postOverview(data) {
+      let obj = {};
+      for (const i of data) {
+        obj[i.key] = parseInt(i.count);
+      }
+      this.overview = { ...obj };
     },
     currentChange(v) {
-      console.log(v);
+      this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
       this.$router.push(
         PATH_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
       );
+    },
+    getLevelText(num) {
+      return LEVEL_ALIAS[num];
     }
   }
 };
@@ -194,5 +222,16 @@ export default {
 hr.dash {
   border-style: dashed;
   border-color: grey;
+}
+.stringAvatar {
+  width: 30px;
+  height: 30px;
+  background-color: cornflowerblue;
+  color: white;
+  border-radius: 50%;
+  line-height: 30px;
+  margin-right: 15px;
+  font-size: 12px;
+  text-align: center;
 }
 </style>

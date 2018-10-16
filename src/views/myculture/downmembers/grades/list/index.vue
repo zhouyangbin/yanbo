@@ -38,7 +38,15 @@
         <hr class="dash">
         <br>
         <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column prop="name" label="姓名"></el-table-column>
+          <el-table-column prop="name" label="姓名">
+            <template slot-scope="scope">
+              <el-row type="flex" align="middle">
+                <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
+                {{scope.row.name}}
+              </el-row>
+            </template>
+          </el-table-column>
           <el-table-column prop="name" label="上级姓名"></el-table-column>
           <el-table-column prop="score" label="自评分数"></el-table-column>
           <el-table-column prop="leader_score" label="上级评分数"></el-table-column>
@@ -185,5 +193,16 @@ export default {
 hr.dash {
   border-style: dashed;
   border-color: grey;
+}
+.stringAvatar {
+  width: 30px;
+  height: 30px;
+  background-color: cornflowerblue;
+  color: white;
+  border-radius: 50%;
+  line-height: 30px;
+  margin-right: 15px;
+  font-size: 12px;
+  text-align: center;
 }
 </style>
