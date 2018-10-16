@@ -70,7 +70,7 @@ export default {
     }
   },
   created() {
-    return getMyCultureStatus(14).then(res => {
+    return getMyCultureStatus(this.$route.params.uid).then(res => {
       // console.log(res)
       this.isManager = res.evaluation_type == 2;
       if (res.status == 2) {

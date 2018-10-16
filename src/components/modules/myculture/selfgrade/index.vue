@@ -40,7 +40,7 @@
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button type="primary">保存草稿</el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">保存草稿</el-button>
       <el-button @click="submitGrade" type="primary">提交</el-button>
     </el-row>
 
@@ -52,6 +52,8 @@ export default {
   data() {
     return {
       selectGradeItem: 0,
+      // 从没提交过
+      neverSubmit: true,
       questions: [
         {
           cases: []
@@ -69,9 +71,17 @@ export default {
     getGradeInfo() {
       const id = this.$route.params.id;
       getMyEvaluation(id).then(res => {
-        console.log(res);
-        this.questions = res.questions;
-        this.readOnly = res.can_edit == 0 ? true : false;
+        this.neverSubmit = res.status == 10;
+        const key = `uid_self_${this.$route.params.id}_draft_culture`;
+        const savedDraft = window.localStorage.getItem(key);
+        if (res.status == 10 && savedDraft) {
+          const id = `uid_self_${this.$route.params.id}_draft_culture`;
+          // console.log(JSON.parse(savedDraft))
+          this.questions = JSON.parse(savedDraft);
+        } else {
+          this.questions = res.questions;
+        }
+        this.readOnly = res.can_edit == 0;
       });
     },
     validateGrade() {
@@ -101,13 +111,13 @@ export default {
     composeData() {
       let result = {};
       this.questions.forEach(v => {
-        // console.log(v)
         result[v.question_id] = {
           score: v.score
         };
         if (v.cases && v.cases.length != 0) {
           result[v.question_id].cases = v.cases.slice(0, 3 - v.score);
         }
+        // TODO: filter unused cases
       });
       return result;
     },
@@ -118,8 +128,23 @@ export default {
       }
       const postData = this.composeData();
       selfMarking(postData, this.$route.params.id).then(res => {
+        this.clearDraft();
         this.getGradeInfo();
       });
+    },
+    saveDraft() {
+      // console.log("draft", this.questions)
+      const id = `uid_self_${this.$route.params.id}_draft_culture`;
+      window.localStorage.setItem(id, JSON.stringify(this.questions));
+      this.$notify({
+        title: "成功",
+        message: "草稿保存成功",
+        type: "success"
+      });
+    },
+    clearDraft() {
+      const id = `uid_self_${this.$route.params.id}_draft_culture`;
+      window.localStorage.removeItem(id);
     }
   },
   computed: {
