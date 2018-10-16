@@ -45,7 +45,7 @@ export default {
           active: true
         }
       ],
-      currentTabComponent: "self-report"
+      currentTabComponent: ""
     };
   },
   components: {

@@ -76,12 +76,11 @@ export default {
       });
     },
     refreshList(data) {
-      // TODO: need paginationg
       return getMyCultureList(data)
         .then(res => {
-          const { total, list } = res;
+          const { total, data } = res;
           this.total = total;
-          this.tableData = list;
+          this.tableData = data;
         })
         .catch(e => {});
     }

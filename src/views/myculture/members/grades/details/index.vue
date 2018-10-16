@@ -3,17 +3,17 @@
   <div class="member-grade-details">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container">
-      <basic-info :forMember="true"></basic-info>
+    <section class="content-container" style="padding:40px">
+      <basic-info :data="basicInfo" :forMember="true"></basic-info>
       <br>
       <hr>
       <br>
       <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
       <br>
       <br>
-      <case-area v-model="case1"></case-area>
+      <case-area :readOnly="readOnly" v-model="advantage"></case-area>
       <br>
-      <case-area v-model="case1"></case-area>
+      <case-area :readOnly="readOnly" v-model="promotion"></case-area>
       <br>
       <section class="mark">
         <el-row align="middle" type="flex">
@@ -21,16 +21,16 @@
             <div class="mark-label">
               自评分数
             </div>
-            <grade-items :items="gradeItems" v-model="selectGradeItem"></grade-items>
+            <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
 
           </el-col>
           <el-col style="padding-left:50px;">
-            <div v-for="n in 3" :key="n" class="mark-reason">
+            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
               <div>
-                3分理由:
+                {{i+3}}分理由:
               </div>
               <div>
-                3分理由 3分理由 3分理由 3分理由
+                {{n}}
               </div>
             </div>
           </el-col>
@@ -40,24 +40,24 @@
       <div class="mark-flag-container">
         <div class="mark-section">
           <div class="mark-label">
-            为甄凯欣的成就客户项目评分
+            为{{employee_name}}的成就客户项目评分
           </div>
           <br>
-          <grade-slider v-model="grade"></grade-slider>
+          <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
         </div>
         <div style="width:20px;"></div>
         <div class="flag-section">
           <div class="mark-label">
-            为甄凯欣设计等级标签
+            为{{employee_name}}设计等级标签
           </div>
           <br>
-          <level-selector v-model="level"></level-selector>
+          <level-selector :disabled="readOnly" v-model="level"></level-selector>
         </div>
       </div>
       <br>
-      <case-area v-model="case1"></case-area>
+      <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
       <br>
-      <el-row type="flex" justify="end">
+      <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button type="primary">保存草稿</el-button>
         <el-button type="primary">提交</el-button>
       </el-row>
@@ -68,17 +68,20 @@
 import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
-  MY_MEMBER_RULE
+  MY_MEMBER_RULE,
+  LEVEL_ALIAS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
   PATH_MEMBER_CULTURE_LIST
 } from "@/constants/URL";
+import { getMyMemberCultureDetails } from "@/constants/API";
 
 export default {
   data() {
     return {
-      case1: "",
+      employee_name: "",
+      basicInfo: {},
       nav: [
         {
           label: MEMBERS_GRADE_LIST,
@@ -94,24 +97,13 @@ export default {
         }
       ],
       level: "",
-      grade: "",
+      advantage: "",
+      promotion: "",
       selectGradeItem: 0,
-      gradeItems: [
+      readOnly: false,
+      scores: [
         {
-          text: "成就客户",
-          total: 12
-        },
-        {
-          text: "务实",
-          total: 12
-        },
-        {
-          text: "创新",
-          total: 12
-        },
-        {
-          text: "合作",
-          total: 12
+          cases: []
         }
       ],
       constants: {
@@ -130,6 +122,44 @@ export default {
     "grade-slider": () => import("@/components/common/GradeSlider/index.vue"),
     "level-selector": () =>
       import("@/components/common/LevelSelector/index.vue")
+  },
+  methods: {
+    getMemberDetail() {
+      getMyMemberCultureDetails(this.$route.params.uid).then(res => {
+        const {
+          advantage,
+          promotion,
+          scores,
+          employee_name,
+          employee_workcode,
+          end_time,
+          _271_level
+        } = res;
+        this.advantage = advantage;
+        this.promotion = promotion;
+        this.employee_name = employee_name;
+        this.readOnly = res.can_submit == 0;
+        this.basicInfo = {
+          name: employee_name,
+          workcode: employee_workcode,
+          finishedTime: end_time
+        };
+        this.level = LEVEL_ALIAS[_271_level].toLowerCase();
+        this.scores = scores.map(s => {
+          s.score = s.self_score;
+          delete s.self_score;
+          return s;
+        });
+      });
+    }
+  },
+  created() {
+    this.getMemberDetail();
+  },
+  computed: {
+    reasons() {
+      return this.scores[this.selectGradeItem].self_cases;
+    }
   }
 };
 </script>

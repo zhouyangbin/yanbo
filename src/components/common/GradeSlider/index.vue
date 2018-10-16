@@ -2,7 +2,7 @@
 <template>
   <div class="GradeSlider-page">
     <div @click="readOnly?undefined:$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" data-num="0" :style="{left: `0`}"></div>
-    <div @click="readOnly?undefined:$emit('input',x*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue==x*step,'selected':value==x*step,'invisible':value>x*step && !onHover,'half-invisible':hoverValue>x*step}" @mouseover="hoverDot" v-for="x in max" :data-num="x*step" :key="x" class="dot" :style="{left: `${x*100/max}%`}"></div>
+    <div @click="readOnly?undefined:$emit('input',x*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue==x*step,'selected':value==x*step,'invisible':value>x*step && !onHover,'half-invisible':hoverValue>x*step}" @mouseover="hoverDot" v-for="x in max/step" :data-num="x*step" :key="x" class="dot" :style="{left: `${x*100/max*step}%`}"></div>
 
     <div v-show="!onHover" :style="selectedStyle" class="selected-wrapper"></div>
     <div v-show="onHover" :style="hoverStyle" class="hover-wrapper"></div>
@@ -42,17 +42,19 @@ export default {
     selectedStyle() {
       return {
         width: `${
-          this.value ? (this.value * 100) / this.max / this.step + 1 : 0
-        }%`
+          this.value
+            ? ((this.value / this.step) * 100) / (this.max / this.step) + 1
+            : 0
+        }% `
       };
     },
     hoverStyle() {
       return {
         width: `${
           this.hoverValue
-            ? (this.hoverValue * 100) / this.max / this.step + 1
+            ? ((this.hoverValue / this.step) * 100) / (this.max / this.step) + 1
             : 0
-        }%`
+        }% `
       };
     },
     onHover() {

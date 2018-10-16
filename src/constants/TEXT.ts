@@ -532,3 +532,16 @@ export const MY_UNCONFIRMED_RULE = `
 第一次申诉，通知上级和hrbp处理<br>
 第二次申诉，通知隔级和hrbp处理（如没有隔级上级，只能进行一次申诉）<br>
 `;
+
+export const LEVEL_ALIAS = ["无", "Bottom", "Middle", "Top"];
+
+export const BREF_HIGH_LEVEL_STATUS = [
+  {
+    key: "0",
+    value: "未评"
+  },
+  {
+    key: "1",
+    value: "已评"
+  }
+];

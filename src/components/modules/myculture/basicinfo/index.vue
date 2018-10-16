@@ -4,19 +4,19 @@
     <el-row justify="space-between" type="flex">
       <div class="org-info">
         <span class="name">
-          甄凯欣
+          {{data.name}}
         </span>
         <span class="number">
-          079097
+          {{data.workcode}}
         </span>
         <span v-show="!forMember && downMember||isReport" class="number">
           {{downMember ? '他的上级' : '我的上级' }}:
         </span>
         <span v-show="downMember&&!forMember ||isReport" class="name">
-          甄凯欣
+          {{data.superior_name}}
         </span>
         <span v-show="!forMember && downMember ||isReport" class="number">
-          079097
+          {{data.superior_workcode}}
         </span>
         <span v-show="!forMember && !downMember||isReport" class="number">
           隔级上级:
@@ -29,7 +29,7 @@
         </span>
       </div>
       <div v-if="!isReport" class="finished-time">
-        {{unConfirmed?'待确认截止时间': downMember?'隔级评截止时间':'自评截止时间'}}: 2018年10月10日
+        {{unConfirmed?'待确认': downMember?'隔级评':forMember?'上级评':'自评'}}截止时间: {{data.finishedTime}}
       </div>
     </el-row>
   </div>

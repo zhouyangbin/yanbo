@@ -19,15 +19,16 @@
         <br>
         <div class="members-list-filter">
           <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
-            <el-form-item prop="membername">
-              <el-input placeholder="请输入下级姓名" v-model="memberForm.memberName"></el-input>
+            <el-form-item prop="superior_name">
+              <el-input placeholder="请输入下级姓名" v-model="memberForm.superior_name"></el-input>
             </el-form-item>
-            <el-form-item prop="downMemberName">
-              <el-input placeholder="隔级姓名" v-model="memberForm.downMemberName"></el-input>
+            <el-form-item prop="employee_name">
+              <el-input placeholder="隔级姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="memberForm.status" placeholder="上级评状态">
-                <el-option label="区域一" value="shanghai"></el-option>
+              <el-select v-model="memberForm.highlevel_status" placeholder="上级评状态">
+                <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
+                <!-- <el-option label="区域一" value="shanghai"></el-option> -->
               </el-select>
             </el-form-item>
           </el-form>
@@ -39,11 +40,19 @@
         <el-table :data="tableData" stripe style="width: 100%">
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="name" label="上级姓名"></el-table-column>
-          <el-table-column prop="self" label="自评分数"></el-table-column>
-          <el-table-column prop="self" label="上级评分数"></el-table-column>
-          <el-table-column prop="self" label="271等级"></el-table-column>
-          <el-table-column prop="self" label="上级评状态"></el-table-column>
-          <el-table-column prop="self" label="状态"></el-table-column>
+          <el-table-column prop="score" label="自评分数"></el-table-column>
+          <el-table-column prop="leader_score" label="上级评分数"></el-table-column>
+          <el-table-column prop="_271_level" label="271等级">
+            <template slot-scope="scope">
+              {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="superior_status" label="上级评状态">
+            <template slot-scope="scope">
+              {{scope.row.superior_status ? '未评':"已评"}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="状态"></el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
               <el-button @click="goDetail(scope.row)" type="text" size="small">查看详情</el-button>
@@ -61,29 +70,31 @@
 <script>
 import {
   MY_DOWN_MEMBER,
-  DOWN_MEMBERS_GRADE_LIST
-  // MY_DOWN_MEMBER_RULE
+  DOWN_MEMBERS_GRADE_LIST,
+  LEVEL_ALIAS,
+  BREF_HIGH_LEVEL_STATUS
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
+import { getDownMembersList } from "@/constants/API";
 
 export default {
   data() {
     return {
-      total: 50,
+      total: 0,
       currentPage: 1,
-      tableData: [{ id: 1 }],
+      tableData: [],
       summary: {
         top: 2,
         medium: 13,
         bottom: 2
       },
       memberForm: {
-        memberName: "",
-        downMemberName: "",
-        status: ""
+        superior_name: "",
+        employee_name: "",
+        highlevel_status: ""
       },
       nav: [
         {
@@ -94,7 +105,10 @@ export default {
           label: MY_DOWN_MEMBER,
           active: true
         }
-      ]
+      ],
+      constants: {
+        BREF_HIGH_LEVEL_STATUS
+      }
     };
   },
   components: {
@@ -107,23 +121,30 @@ export default {
     memberForm: {
       handler: function(v) {
         this.currentPage = 1;
-        this.getData();
+        this.refreshData({ page: 1, ...v });
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    getData() {
-      console.log("get data");
-    },
     currentChange(v) {
-      console.log(v);
+      this.refreshData({ page: v, ...this.memberForm });
+    },
+    refreshData(data) {
+      getDownMembersList(this.$route.params.id, data).then(res => {
+        const { total, data } = res;
+        this.total = total;
+        this.tableData = data;
+      });
     },
     goDetail(row) {
       this.$router.push(
         PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
       );
+    },
+    getLevelText(num) {
+      return LEVEL_ALIAS[num];
     }
   }
 };

@@ -255,15 +255,36 @@ export const getBindInfo = (uid: string) =>
 
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  我的文化评分
-
 export const getMyCultureList = (params: Object) =>
   sendGet(`${test}/culture/web/evaluations`, params);
+// 下级评分列表
+export const getMyMembersCultureList = (params: Object) =>
+  sendGet(`${test}/culture/web/team/subordinate-evaluations`, params);
 
-// 获取评分状态
+// 文化隔级评分列表
+export const getMyDownMembersCultureList = (params: Object) =>
+  sendGet(`${test}/culture/web/team/interval-evaluations`, params);
+
+// 获取文化评分状态
 export const getMyCultureStatus = (id: String) =>
   sendGet(`${test}/culture/web/${id}/evaluation-status`);
 
-// 获取自评评测信息
+// 获取文化自评评测信息
 export const getMyEvaluation = (id: string) => {
   return sendGet(`${test}/culture/web/${id}/my-evaluation`);
 };
+// 文化自评打分
+export const selfMarking = (data: object, id: string) => {
+  return sendPost(`${test}/culture/web/${id}/self-marking`, data);
+};
+
+// 文化上级评详情
+export const getMyMemberCultureDetails = (id: String) =>
+  sendGet(`${test}/culture/web/superior-detail/${id}`);
+
+// 文化隔级详情
+export const getMyDownMemberCultureDetails = (id: String) =>
+  sendGet(`${test}/culture/web/highlevel-detail/${id}`);
+// 文化隔级成员list
+export const getDownMembersList = (id: String, params: Object) =>
+  sendGet(`${test}/culture/web/${id}/team/highlevel`, params);

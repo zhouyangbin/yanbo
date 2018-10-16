@@ -47,7 +47,7 @@
   </div>
 </template>
 <script>
-import { getMyEvaluation } from "@/constants/API";
+import { getMyEvaluation, selfMarking } from "@/constants/API";
 export default {
   data() {
     return {
@@ -98,10 +98,28 @@ export default {
       }
       return false;
     },
+    composeData() {
+      let result = {};
+      this.questions.forEach(v => {
+        // console.log(v)
+        result[v.question_id] = {
+          score: v.score
+        };
+        if (v.cases && v.cases.length != 0) {
+          result[v.question_id].cases = v.cases.slice(0, 3 - v.score);
+        }
+      });
+      return result;
+    },
     submitGrade() {
       const isInValid = this.validateGrade();
-      // console.log(isInValid)
-      this.$message.error("请填写完整案例信息");
+      if (isInValid) {
+        return this.$message.error("请填写完整案例信息");
+      }
+      const postData = this.composeData();
+      selfMarking(postData, this.$route.params.id).then(res => {
+        this.getGradeInfo();
+      });
     }
   },
   computed: {
