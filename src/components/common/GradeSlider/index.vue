@@ -1,8 +1,8 @@
 
 <template>
   <div class="GradeSlider-page">
-    <div @click="$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" data-num="0" :style="{left: `0`}"></div>
-    <div @click="$emit('input',x)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue==x*step,'selected':value==x,'invisible':value>x && !onHover,'half-invisible':hoverValue>x*step}" @mouseover="hoverDot" v-for="x in number" :data-num="x*step" :key="x" class="dot" :style="{left: `${x*number}%`}"></div>
+    <div @click="readOnly?undefined:$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" data-num="0" :style="{left: `0`}"></div>
+    <div @click="readOnly?undefined:$emit('input',x*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue==x*step,'selected':value==x*step,'invisible':value>x*step && !onHover,'half-invisible':hoverValue>x*step}" @mouseover="hoverDot" v-for="x in max" :data-num="x*step" :key="x" class="dot" :style="{left: `${x*100/max}%`}"></div>
 
     <div v-show="!onHover" :style="selectedStyle" class="selected-wrapper"></div>
     <div v-show="onHover" :style="hoverStyle" class="hover-wrapper"></div>
@@ -19,19 +19,17 @@ export default {
       type: Number,
       default: 0.5
     },
-    number: {
-      type: Number,
-      default: 10
-    },
     value: {
       type: String | Number,
       default: ""
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      // number: 10,
-      // value: '',
       hoverValue: ""
     };
   },
@@ -43,13 +41,17 @@ export default {
   computed: {
     selectedStyle() {
       return {
-        width: `${this.value ? this.value * this.number + 1 : 0}%`
+        width: `${
+          this.value ? (this.value * 100) / this.max / this.step + 1 : 0
+        }%`
       };
     },
     hoverStyle() {
       return {
         width: `${
-          this.hoverValue ? (this.hoverValue / this.step) * this.number + 1 : 0
+          this.hoverValue
+            ? (this.hoverValue * 100) / this.max / this.step + 1
+            : 0
         }%`
       };
     },

@@ -25,6 +25,7 @@ import {
   MY_UNCONFIRMED_RULE
 } from "@/constants/TEXT";
 import { PATH_MY_CULTURE_GRADE } from "@/constants/URL";
+import { getMyCultureStatus } from "@/constants/API";
 
 const ruleMap = {
   "self-grade": MY_RULE,
@@ -33,6 +34,7 @@ const ruleMap = {
 export default {
   data() {
     return {
+      isManager: false,
       nav: [
         {
           label: MY_GRADE,
@@ -66,6 +68,20 @@ export default {
     showRules() {
       return this.currentTabComponent != "self-report";
     }
+  },
+  created() {
+    return getMyCultureStatus(14).then(res => {
+      // console.log(res)
+      this.isManager = res.evaluation_type == 2;
+      if (res.status == 2) {
+        this.currentTabComponent = "self-report";
+      } else if (res.status == 1 && res.stage == 60) {
+        this.currentTabComponent = "self-unconfirm";
+      } else {
+        this.currentTabComponent = "self-grade";
+      }
+      return res;
+    });
   }
 };
 </script>

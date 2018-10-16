@@ -3,7 +3,7 @@
   <div class="GradeItem-page">
     <div v-for="(v,i) of items" :key="i">
       <el-badge :value="totalMark(v)" :class="value===Number(i) ? 'selected':''">
-        <el-button @click="select(i)">{{v.text}}</el-button>
+        <el-button @click="select(i)">{{v.question_name}}</el-button>
       </el-badge>
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     totalMark(v) {
-      return v.total == undefined ? "" : `${v.total}分`;
+      return v.score == undefined ? "" : `${v.score}分`;
     },
     select(i) {
       this.$emit("input", i);

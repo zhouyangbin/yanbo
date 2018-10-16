@@ -258,3 +258,12 @@ export const getBindInfo = (uid: string) =>
 
 export const getMyCultureList = (params: Object) =>
   sendGet(`${test}/culture/web/evaluations`, params);
+
+// 获取评分状态
+export const getMyCultureStatus = (id: String) =>
+  sendGet(`${test}/culture/web/${id}/evaluation-status`);
+
+// 获取自评评测信息
+export const getMyEvaluation = (id: string) => {
+  return sendGet(`${test}/culture/web/${id}/my-evaluation`);
+};

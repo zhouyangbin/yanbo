@@ -1,71 +1,121 @@
 <template>
-    <div class="self-grade-component">
-        <section class="mark">
-            <el-row align="middle" type="flex">
-                <el-col style="padding:20px;border-right: 1px solid #979797;">
-                    <div class="mark-label">
-                        请选择评分项目
-                    </div>
-                    <grade-items :items="gradeItems" v-model="selectGradeItem"></grade-items>
-                    <br>
-                    <br>
-                    <div class="mark-label">
-                        请评分
-                    </div>
-                    <grade-slider v-model="grade"></grade-slider>
-                </el-col>
-                <el-col style="padding-left:50px;">
-                    <div class="mark-score">
-                        5分
-                    </div>
-                    <div class="mark-desc">
-                        在工作汇总有签好字那一世
-                    </div>
-                </el-col>
-            </el-row>
-        </section>
+  <div class="self-grade-component">
+    <section class="mark">
+      <el-row align="middle" type="flex">
+        <el-col style="padding:20px;border-right: 1px solid #979797;">
+          <div class="mark-label">
+            请选择评分项目
+          </div>
+          <grade-items :items="questions" v-model="selectGradeItem"></grade-items>
+          <br>
+          <br>
+          <div class="mark-label">
+            请评分
+          </div>
+          <br>
+          <grade-slider :readOnly="readOnly" :step="1" :max="5" v-model="questions[selectGradeItem].score"></grade-slider>
+        </el-col>
+        <el-col style="padding-left:50px;">
+          <div class="mark-score">
+            {{questions[selectGradeItem].score}}分
+          </div>
+          <div class="mark-desc">
+            {{contentForCurScore}}
+          </div>
+        </el-col>
+      </el-row>
+    </section>
+    <br>
+    <div v-show="questions[selectGradeItem].score>=3">
+      <case-area :readOnly="readOnly" placeholder="请填写我的3分案例" v-model="questions[selectGradeItem].cases[0]"></case-area>
+      <br>
+      <div v-show="questions[selectGradeItem].score>=4">
+        <case-area :readOnly="readOnly" placeholder="请填写我的4分案例" v-model="questions[selectGradeItem].cases[1]"></case-area>
         <br>
-        <case-area v-model="case1"></case-area>
-        <br>
-
-        <el-row type="flex" justify="end">
-            <el-button type="primary">保存草稿</el-button>
-            <el-button type="primary">提交</el-button>
-        </el-row>
-
+        <div v-show="questions[selectGradeItem].score>=5">
+          <case-area :readOnly="readOnly" placeholder="请填写我的5分案例" v-model="questions[selectGradeItem].cases[2]"></case-area>
+          <br>
+        </div>
+      </div>
     </div>
+
+    <el-row v-show="!readOnly" type="flex" justify="end">
+      <el-button type="primary">保存草稿</el-button>
+      <el-button @click="submitGrade" type="primary">提交</el-button>
+    </el-row>
+
+  </div>
 </template>
 <script>
+import { getMyEvaluation } from "@/constants/API";
 export default {
   data() {
     return {
-      selectGradeItem: "",
-      grade: "",
-      case1: "",
-      gradeItems: [
+      selectGradeItem: 0,
+      questions: [
         {
-          text: "成就客户",
-          total: 12
-        },
-        {
-          text: "务实",
-          total: 12
-        },
-        {
-          text: "创新",
-          total: 12
-        },
-        {
-          text: "合作",
-          total: 12
+          cases: []
         }
-      ]
+      ],
+      readOnly: false
     };
   },
   components: {
     "grade-items": () => import("@/components/common/GradeItem/index.vue"),
     "grade-slider": () => import("@/components/common/GradeSlider/index.vue"),
     "case-area": () => import("@/components/common/CaseArea/index.vue")
+  },
+  methods: {
+    getGradeInfo() {
+      const id = this.$route.params.id;
+      getMyEvaluation(id).then(res => {
+        console.log(res);
+        this.questions = res.questions;
+        this.readOnly = res.can_edit == 0 ? true : false;
+      });
+    },
+    validateGrade() {
+      return this.questions.some(i => {
+        if (i.score === 3) {
+          // return i.cases[0] == undefined || i.cases[0].length == 0
+          return this.caseValidate(i, 3);
+        }
+        if (i.score === 4) {
+          return this.caseValidate(i, 4);
+        }
+        if (i.score === 5) {
+          return this.caseValidate(i, 5);
+        }
+        return false;
+      });
+    },
+    caseValidate(item, score) {
+      const max = score - 3;
+      for (let index = 0; index <= max; index++) {
+        if (item.cases[index] == undefined || item.cases[index].length == 0) {
+          return true;
+        }
+      }
+      return false;
+    },
+    submitGrade() {
+      const isInValid = this.validateGrade();
+      // console.log(isInValid)
+      this.$message.error("请填写完整案例信息");
+    }
+  },
+  computed: {
+    contentForCurScore() {
+      return (
+        (this.questions[this.selectGradeItem].topics || []).filter(t => {
+          return t.score == this.questions[this.selectGradeItem].score;
+        })[0] || {}
+      ).content;
+    }
+  },
+
+  created() {
+    this.getGradeInfo();
   }
 };
 </script>
