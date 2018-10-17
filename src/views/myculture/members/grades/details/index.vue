@@ -58,8 +58,8 @@
       <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
       <br>
       <el-row v-if="!readOnly" type="flex" justify="end">
-        <el-button type="primary">保存草稿</el-button>
-        <el-button type="primary">提交</el-button>
+        <el-button v-if="!submited" @click="saveDraft" type="primary">保存草稿</el-button>
+        <el-button @click="submit" type="primary">提交</el-button>
       </el-row>
     </section>
   </div>
@@ -75,7 +75,7 @@ import {
   PATH_MEMEBER_CULTURE_GRADE,
   PATH_MEMBER_CULTURE_LIST
 } from "@/constants/URL";
-import { getMyMemberCultureDetails } from "@/constants/API";
+import { getMyMemberCultureDetails, postMemberGrade } from "@/constants/API";
 
 export default {
   data() {
@@ -100,6 +100,7 @@ export default {
       advantage: "",
       promotion: "",
       selectGradeItem: 0,
+      submited: false,
       readOnly: false,
       scores: [
         {
@@ -133,7 +134,8 @@ export default {
           employee_name,
           employee_workcode,
           end_time,
-          _271_level
+          _271_level,
+          status
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
@@ -145,12 +147,61 @@ export default {
           finishedTime: end_time
         };
         this.level = LEVEL_ALIAS[_271_level].toLowerCase();
-        this.scores = scores.map(s => {
-          s.score = s.self_score;
-          delete s.self_score;
-          return s;
-        });
+        const submited = status != 20;
+        this.submited = submited;
+        const key = `culture_member_draft_${this.$route.params.uid}`;
+        const s = window.localStorage.getItem(key);
+        if (submited || !s) {
+          this.scores = scores.map(s => {
+            s.score = s.self_score;
+            delete s.self_score;
+            return s;
+          });
+        } else {
+          this.scores = JSON.parse(s);
+        }
       });
+    },
+    composePostData() {
+      let result = {};
+      this.scores.forEach(v => {
+        result[v.question_id] = {
+          score: v.superior_score,
+          case: [v.superior_case]
+        };
+      });
+      return result;
+    },
+    validateData() {
+      //TODO: validateData
+    },
+
+    saveDraft() {
+      const key = `culture_member_draft_${this.$route.params.uid}`;
+      window.localStorage.setItem(key, JSON.stringify(this.scores));
+      this.$message({
+        message: "保存草稿成功!",
+        type: "success"
+      });
+    },
+    submit() {
+      this.$confirm("是否确定提交, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          postMemberGrade(this.$route.params.uid, this.composePostData()).then(
+            res => {
+              this.$message({
+                message: "提交成功",
+                type: "success"
+              });
+              this.getMemberDetail();
+            }
+          );
+        })
+        .catch(() => {});
     }
   },
   created() {

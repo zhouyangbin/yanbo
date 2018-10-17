@@ -300,3 +300,6 @@ export const getMyCultureUnConfirmedDetail = (id: String) =>
 // 文化申诉/确认
 export const postConfirm = (params: Object) =>
   sendPost(`/culture/web/confirm-feedback`, params);
+// 文化上级打分
+export const postMemberGrade = (id: String, params: Object) =>
+  sendPost(`/culture/web/superior-evaluate/${id}`, params);
