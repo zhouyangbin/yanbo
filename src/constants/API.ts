@@ -297,3 +297,6 @@ export const getMyCultureReport = (id: String) =>
 // 文化个人待确认详情
 export const getMyCultureUnConfirmedDetail = (id: String) =>
   sendGet(`${test}/culture/web/${id}/feedback-confirmed`);
+// 文化申诉/确认
+export const postConfirm = (params: Object) =>
+  sendPost(`/culture/web/confirm-feedback`, params);

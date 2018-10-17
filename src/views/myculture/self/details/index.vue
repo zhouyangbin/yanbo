@@ -74,7 +74,6 @@ export default {
     // this.currentTabComponent = "self-unconfirm";
     // return;
     return getMyCultureStatus(this.$route.params.uid).then(res => {
-      // console.log(res)
       this.isManager = res.evaluation_type == 2;
       if (res.status == 2) {
         this.currentTabComponent = "self-report";

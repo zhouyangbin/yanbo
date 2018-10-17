@@ -26,17 +26,26 @@
     <br>
     <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
     <el-row type="flex" justify="end">
-      <el-button type="primary">申诉</el-button>
-      <el-button type="primary">确认</el-button>
+      <el-popover placement="top" trigger="click">
+        <el-input type="textarea" :rows="2" placeholder="请输入申诉理由" v-model="reason">
+        </el-input>
+        <br>
+        <br>
+        <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">确认</el-button>
+        <el-button style="margin-right:20px" slot="reference" type="primary">申诉</el-button>
+      </el-popover>
+
+      <el-button @click="confirm" type="primary">确认</el-button>
     </el-row>
   </div>
 </template>
 <script>
-import { getMyCultureUnConfirmedDetail } from "@/constants/API";
+import { getMyCultureUnConfirmedDetail, postConfirm } from "@/constants/API";
 
 export default {
   data() {
     return {
+      reason: "",
       name: "",
       advantage: "",
       promotion: "",
@@ -47,6 +56,48 @@ export default {
     "case-item": () => import("./caseitem/index.vue")
   },
   methods: {
+    complain() {
+      if (!this.reason) {
+        this.$message({
+          message: "请填写申诉理由",
+          type: "warning"
+        });
+        return;
+      }
+      const postData = {
+        evaluation_name_id: this.$route.params.id,
+        action: 1,
+        reason: this.reason
+      };
+      postConfirm(postData).then(res => {
+        this.$message({
+          message: "操作成功!",
+          type: "success"
+        });
+        this.getInfo();
+      });
+    },
+    confirm() {
+      this.$confirm("是否确认提交, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          const postData = {
+            evaluation_name_id: this.$route.params.id,
+            action: 2
+          };
+          postConfirm(postData).then(res => {
+            this.$message({
+              message: "操作成功!",
+              type: "success"
+            });
+            this.getInfo();
+          });
+        })
+        .catch(() => {});
+    },
     getInfo() {
       getMyCultureUnConfirmedDetail(this.$route.params.id).then(res => {
         const {
