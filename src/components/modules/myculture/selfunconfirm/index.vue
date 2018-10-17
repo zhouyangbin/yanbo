@@ -2,7 +2,7 @@
 <template>
   <div class="self-report-component">
     <div class="title">
-      2018年文化评分
+      {{name}}
     </div>
     <hr>
     <br>
@@ -11,7 +11,7 @@
         优势: &nbsp;
       </span>
       <span class="content">
-        评价人的优势评价人的优势评价人的优势评价人的优势评价人的
+        {{advantage}}
       </span>
     </div>
     <br>
@@ -20,11 +20,11 @@
         待提升: &nbsp;
       </span>
       <span class="content">
-        评价人的优势评价人的优势评价人的优势评价人的优势评价人的
+        {{promotion}}
       </span>
     </div>
     <br>
-    <case-item v-for="n in 3" :key="n"></case-item>
+    <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
     <el-row type="flex" justify="end">
       <el-button type="primary">申诉</el-button>
       <el-button type="primary">确认</el-button>
@@ -32,9 +32,48 @@
   </div>
 </template>
 <script>
+import { getMyCultureUnConfirmedDetail } from "@/constants/API";
+
 export default {
+  data() {
+    return {
+      name: "",
+      advantage: "",
+      promotion: "",
+      scores: []
+    };
+  },
   components: {
     "case-item": () => import("./caseitem/index.vue")
+  },
+  methods: {
+    getInfo() {
+      getMyCultureUnConfirmedDetail(this.$route.params.id).then(res => {
+        const {
+          employee_name,
+          employee_workcode,
+          highlevel_name,
+          highlevel_workcode,
+          advantage,
+          promotion,
+          scores,
+          name
+        } = res;
+        this.promotion = promotion;
+        this.advantage = advantage;
+        this.scores = scores;
+        this.name = name;
+        this.$parent.basicInfo = {
+          name: employee_name,
+          workcode: employee_workcode,
+          highlevel_name,
+          highlevel_workcode
+        };
+      });
+    }
+  },
+  created() {
+    this.getInfo();
   }
 };
 </script>

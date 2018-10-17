@@ -294,3 +294,6 @@ export const getMembersList = (id: String, params: Object) =>
 // 文化个人报告
 export const getMyCultureReport = (id: String) =>
   sendGet(`${test}/culture/web/${id}/evaluation-report`);
+// 文化个人待确认详情
+export const getMyCultureUnConfirmedDetail = (id: String) =>
+  sendGet(`${test}/culture/web/${id}/feedback-confirmed`);
