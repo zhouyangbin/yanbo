@@ -147,7 +147,7 @@ export default {
   methods: {
     getData(data) {
       getMembersList(this.$route.params.id, data).then(res => {
-        console.log(res);
+        // console.log(res);
         const { total, data, overview } = res;
         this.tableData = data;
         this.total = total;

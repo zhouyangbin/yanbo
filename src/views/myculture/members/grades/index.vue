@@ -36,8 +36,10 @@ import {
   EXPORT_DETAILS
 } from "@/constants/TEXT";
 import { getMyMembersCultureList } from "@/constants/API";
-
-import { PATH_MEMBER_CULTURE_LIST } from "@/constants/URL";
+import {
+  PATH_MEMBER_CULTURE_LIST,
+  PATH_EXPORT_CULTURE_GRADE
+} from "@/constants/URL";
 
 export default {
   data() {
@@ -84,7 +86,7 @@ export default {
         .catch(e => {});
     },
     exportMore(row) {
-      // TODO:
+      window.open(PATH_EXPORT_CULTURE_GRADE(row.id, 1), "_blank", "noopener");
     }
   },
   created() {

@@ -128,3 +128,9 @@ export const PATH_DOWN_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",
   uid: String = ":uid"
 ) => `/culture/downmembersgrades/${id}/${uid}`;
+
+// 我的文化评分导出
+export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
+  `${base}culture/web/${id}/team/export?${qs.stringify({
+    type: type
+  })}`;
