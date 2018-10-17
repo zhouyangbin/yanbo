@@ -84,7 +84,20 @@ import { getMembersList } from "@/constants/API";
 export default {
   data() {
     return {
-      overview: {},
+      overview: {
+        top: {
+          count: 0,
+          expected: 0
+        },
+        middle: {
+          count: 0,
+          expected: 0
+        },
+        bottom: {
+          count: 0,
+          expected: 0
+        }
+      },
       total: 0,
       currentPage: 1,
       tableData: [],
@@ -144,7 +157,10 @@ export default {
     postOverview(data) {
       let obj = {};
       for (const i of data) {
-        obj[i.key] = parseInt(i.count);
+        obj[i.key] = {
+          count: parseInt(i.count),
+          expected: i.expected_value
+        };
       }
       this.overview = { ...obj };
     },

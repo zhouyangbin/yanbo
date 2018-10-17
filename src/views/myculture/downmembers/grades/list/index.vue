@@ -95,9 +95,18 @@ export default {
       currentPage: 1,
       tableData: [],
       summary: {
-        top: 2,
-        medium: 13,
-        bottom: 2
+        top: {
+          count: 0,
+          expected: 0
+        },
+        middle: {
+          count: 0,
+          expected: 0
+        },
+        bottom: {
+          count: 0,
+          expected: 0
+        }
       },
       memberForm: {
         superior_name: "",
@@ -141,15 +150,26 @@ export default {
     },
     refreshData(data) {
       getDownMembersList(this.$route.params.id, data).then(res => {
-        const { total, data } = res;
+        const { total, data, overview } = res;
         this.total = total;
         this.tableData = data;
+        this.postSummary(overview);
       });
     },
     goDetail(row) {
       this.$router.push(
         PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
       );
+    },
+    postSummary(data) {
+      let obj = {};
+      for (const i of data) {
+        obj[i.key] = {
+          count: parseInt(i.count),
+          expected: i.expected_value
+        };
+      }
+      this.summary = { ...obj };
     },
     getLevelText(num) {
       return LEVEL_ALIAS[num];
