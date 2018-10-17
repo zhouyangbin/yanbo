@@ -48,6 +48,7 @@
 </template>
 <script>
 import { getMyEvaluation, selfMarking } from "@/constants/API";
+
 export default {
   data() {
     return {
@@ -56,7 +57,16 @@ export default {
       neverSubmit: true,
       questions: [
         {
-          cases: []
+          cases: ["", "", ""]
+        },
+        {
+          cases: ["", "", ""]
+        },
+        {
+          cases: ["", "", ""]
+        },
+        {
+          cases: ["", "", ""]
         }
       ],
       readOnly: false
@@ -76,12 +86,40 @@ export default {
         const savedDraft = window.localStorage.getItem(key);
         if (res.status == 10 && savedDraft) {
           const id = `uid_self_${this.$route.params.id}_draft_culture`;
-          // console.log(JSON.parse(savedDraft))
-          this.questions = JSON.parse(savedDraft);
+          this.preProcessQuestions(JSON.parse(savedDraft));
         } else {
-          this.questions = res.questions;
+          this.preProcessQuestions(res.questions);
         }
+        const {
+          employee_name,
+          employee_workcode,
+          highlevel_name,
+          highlevel_workcode
+        } = res;
+        this.$parent.basicInfo = {
+          name: employee_name,
+          workcode: employee_workcode,
+          highlevel_name,
+          highlevel_workcode
+        };
         this.readOnly = res.can_edit == 0;
+        this.$forceUpdate();
+      });
+    },
+    preProcessQuestions(arr) {
+      // console.log(arr)
+      arr.map((a, i) => {
+        if (!a.cases) {
+          a.cases = new Array(3).fill("");
+          this.$set(this.questions, i, { ...a });
+          return;
+        }
+        if (a.cases.length != 3) {
+          for (let index = 0; index <= 3 - a.cases.length; index++) {
+            a.cases[a.cases.length + index] = "";
+          }
+        }
+        this.$set(this.questions, i, { ...a });
       });
     },
     validateGrade() {
@@ -110,16 +148,24 @@ export default {
     },
     composeData() {
       let result = {};
-      this.questions.forEach(v => {
+      this.filterCases(this.questions).forEach(v => {
         result[v.question_id] = {
-          score: v.score
+          score: v.score,
+          cases: v.cases
         };
-        if (v.cases && v.cases.length != 0) {
-          result[v.question_id].cases = v.cases.slice(0, 3 - v.score);
-        }
-        // TODO: filter unused cases
       });
+      // console.log(result)
       return result;
+    },
+    filterCases(arr) {
+      // 根据分数, 干掉多余的case
+      return arr.map(q => {
+        if (q.cases && q.cases.length != 0) {
+          // console.log(q.cases, 4 - q.score)
+          q.cases = q.cases.slice(0, q.score - 2);
+        }
+        return q;
+      });
     },
     submitGrade() {
       const isInValid = this.validateGrade();
@@ -129,13 +175,20 @@ export default {
       const postData = this.composeData();
       selfMarking(postData, this.$route.params.id).then(res => {
         this.clearDraft();
+        this.$notify({
+          title: "成功",
+          message: "提交成功",
+          type: "success"
+        });
         this.getGradeInfo();
       });
     },
     saveDraft() {
-      // console.log("draft", this.questions)
       const id = `uid_self_${this.$route.params.id}_draft_culture`;
-      window.localStorage.setItem(id, JSON.stringify(this.questions));
+      window.localStorage.setItem(
+        id,
+        JSON.stringify(this.filterCases(this.questions))
+      );
       this.$notify({
         title: "成功",
         message: "草稿保存成功",
