@@ -2,22 +2,29 @@
 <template>
   <div class="plane-page">
     <img src="@assets/img/plane.png" alt="">
-    <div data-score="3分" class="circle wushi">
+    <div :data-score="`${planeScore.wsScore}分`" class="circle wushi">
       务实
     </div>
-    <div data-score="3分" class="circle hezuo">
+    <div :data-score="`${planeScore.hzScore}分`" class="circle hezuo">
       合作
     </div>
-    <div data-score="3分" class="circle chuangxin">
+    <div :data-score="`${planeScore.cxScore}分`" class="circle chuangxin">
       创新
     </div>
-    <div data-score="3.5分" class="circle kehu">
+    <div :data-score="`${planeScore.cjkhScore}分`" class="circle kehu">
       成就客户
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    planeScore: {
+      type: Object,
+      default: () => ({})
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .plane-page {

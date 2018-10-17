@@ -12,14 +12,14 @@
     <section class="plane-chart">
       <div class="total-section">
         <div>
-          您的总分 <span class="score">12.5分</span>
+          您的总分 <span class="score">{{total}}分</span>
         </div>
         <br>
         <div>
           等级标签 <el-button class="selector selected">Top</el-button>
         </div>
       </div>
-      <plane></plane>
+      <plane :planeScore="planeScore"></plane>
     </section>
     <br>
     <div>
@@ -27,7 +27,7 @@
         优势: &nbsp;
       </span>
       <span class="content">
-        评价人的优势评价人的优势评价人的优势评价人的优势评价人的
+        {{advantage}}
       </span>
     </div>
     <br>
@@ -36,7 +36,7 @@
         待提升: &nbsp;
       </span>
       <span class="content">
-        评价人的优势评价人的优势评价人的优势评价人的优势评价人的
+        {{promotion}}
       </span>
     </div>
     <br>
@@ -46,19 +46,90 @@
       评分详情 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
     </div>
     <br>
-    <case-item v-show="!detailHide" v-for="n in 3" :key="n"></case-item>
+    <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
   </div>
 </template>
 <script>
+import { getMyCultureReport } from "@/constants/API";
+
 export default {
   data() {
     return {
-      detailHide: true
+      detailHide: true,
+      advantage: "",
+      promotion: "",
+      total: "",
+      scores: []
     };
   },
   components: {
     plane: () => import("@/components/modules/myculture/plane/index.vue"),
     "case-item": () => import("../selfunconfirm/caseitem/index.vue")
+  },
+  methods: {
+    getReportInfo() {
+      getMyCultureReport(this.$route.params.id).then(res => {
+        // console.log(res);
+        const {
+          employee_name,
+          employee_workcode,
+          highlevel_workcode,
+          highlevel_name,
+          superior_name,
+          superior_workcode,
+          advantage,
+          promotion,
+          total_score,
+          scores
+        } = res;
+        const basicInfo = {
+          name: employee_name,
+          workcode: employee_workcode,
+          highlevel_workcode,
+          highlevel_name,
+          superior_name,
+          superior_workcode
+        };
+        this.$parent.basicInfo = basicInfo;
+        this.advantage = advantage;
+        this.promotion = promotion;
+        this.total = total_score;
+        this.scores = scores;
+      });
+    }
+  },
+  created() {
+    this.getReportInfo();
+  },
+  computed: {
+    wsScore() {
+      return this.scores.find(function(o) {
+        return o.question_name == "务实";
+      }).self_score;
+    },
+    hzScore() {
+      return this.scores.find(function(o) {
+        return o.question_name == "合作";
+      }).self_score;
+    },
+    cxScore() {
+      return this.scores.find(function(o) {
+        return o.question_name == "创新";
+      }).self_score;
+    },
+    cjkhScore() {
+      return this.scores.find(function(o) {
+        return o.question_name == "成就客户";
+      }).self_score;
+    },
+    planeScore() {
+      return {
+        wsScore: this.wsScore,
+        hzScore: this.hzScore,
+        cxScore: this.cxScore,
+        cjkhScore: this.cjkhScore
+      };
+    }
   }
 };
 </script>

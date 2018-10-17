@@ -4,7 +4,7 @@
     <nav-bar :list="nav"></nav-bar>
     <br>
     <section class="content-container" style="padding:40px">
-      <basic-info :isReport="true"></basic-info>
+      <basic-info :data="basicInfo" :isReport="true"></basic-info>
       <br>
       <hr>
       <br>
@@ -45,7 +45,8 @@ export default {
           active: true
         }
       ],
-      currentTabComponent: ""
+      currentTabComponent: "",
+      basicInfo: {}
     };
   },
   components: {

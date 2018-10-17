@@ -291,3 +291,6 @@ export const getDownMembersList = (id: String, params: Object) =>
 // 文化下级成员list
 export const getMembersList = (id: String, params: Object) =>
   sendGet(`${test}/culture/web/${id}/team/superior`, params);
+// 文化个人报告
+export const getMyCultureReport = (id: String) =>
+  sendGet(`${test}/culture/web/${id}/evaluation-report`);

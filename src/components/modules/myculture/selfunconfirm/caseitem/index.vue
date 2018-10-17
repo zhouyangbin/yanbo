@@ -5,15 +5,15 @@
     <br>
     <div class="case-container">
       <div class="sub-title">
-        成就客户
+        {{data.question_name}}
       </div>
       <div class="case-info">
         <div class="grade-info">
           <span class="self">
-            自评分数: 3分
+            自评分数: {{data.self_score}}分
           </span>
           <span class="leader">
-            上级评分数: 3分
+            上级评分数: {{data.superior_score}}分
           </span>
         </div>
         <br>
@@ -22,16 +22,16 @@
             上级评理由：
           </div>
           <div class="reason">
-            由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由
+            {{data.superior_case||'无'}}
           </div>
         </div>
         <br>
-        <div v-for="n in 3" :key="n" class="my-case">
+        <div v-for="(v,i) in (data.self_case||[])" :key="i" class="my-case">
           <div class="label">
-            上级评理由：
+            我的{{i+3}}分理由：
           </div>
           <div class="reason">
-            由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由理由
+            {{v}}
           </div>
         </div>
         <br>

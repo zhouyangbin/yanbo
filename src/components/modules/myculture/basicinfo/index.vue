@@ -22,10 +22,10 @@
           隔级上级:
         </span>
         <span v-show="!forMember && !downMember||isReport" class="name">
-          甄凯欣
+          {{data.highlevel_name}}
         </span>
         <span v-show="!forMember && !downMember||isReport" class="number">
-          079097
+          {{data.highlevel_workcode}}
         </span>
       </div>
       <div v-if="!isReport" class="finished-time">
