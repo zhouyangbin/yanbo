@@ -81,7 +81,7 @@ export default {
           this.total = total;
           this.tableData = data;
         })
-        .catch(e => { });
+        .catch(e => {});
     }
   },
   created() {
@@ -90,7 +90,7 @@ export default {
 };
 </script>
 <style scoped>
-  .my-grade-list .content-container {
-    padding: 20px;
-  }
+.my-grade-list .content-container {
+  padding: 20px;
+}
 </style>

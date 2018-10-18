@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --open ",
     "build": "vue-cli-service lint &&vue-cli-service build",
     "dev-build": "vue-cli-service lint &&vue-cli-service build --mode development",
-    "staging-build": "vue-cli-service lint &&vue-cli-service build --mode staging",
+    "test-build": "vue-cli-service lint &&vue-cli-service build --mode staging",
     "lint": "vue-cli-service lint --fix",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },

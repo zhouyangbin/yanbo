@@ -89,9 +89,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .self-details-page {
-    &.content-container {
-      padding: 20px;
-    }
+.self-details-page {
+  &.content-container {
+    padding: 20px;
   }
+}
 </style>
