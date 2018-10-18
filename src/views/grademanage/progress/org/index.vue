@@ -192,7 +192,7 @@
     </section>
 
     <import-dialog :isManagerGrade="isManagerGrade" @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
-    <time-setting :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
+    <time-setting :isManagerGrade="isManagerGrade" :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
     <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
   </div>
 </template>
@@ -515,7 +515,7 @@ export default {
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
           // console.log(res.info)
-          this.isManagerGrade = res.info == 2;
+          this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;
           this.depInfo.name = res.info.department_name;
@@ -663,7 +663,8 @@ export default {
         feedback_start_time: this.gradeInfo.feedback_start_time,
         feedback_end_time: this.gradeInfo.feedback_end_time,
         checked_271: this.gradeInfo.checked_271,
-        finishedDate: this.gradeInfo.finishedDate
+        finishedDate: this.gradeInfo.finishedDate,
+        visible_271: this.gradeInfo.visible_271
       };
     }
   }

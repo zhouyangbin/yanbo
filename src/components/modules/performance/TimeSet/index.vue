@@ -20,7 +20,6 @@
           <el-button @click="close" round>{{constants.CANCEL}}</el-button>
         </el-row>
       </el-form-item>
-
     </el-form>
   </el-dialog>
 </template>
@@ -38,6 +37,10 @@ export default {
     initTime: {
       type: Object,
       default: () => ({})
+    },
+    isManagerGrade: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
