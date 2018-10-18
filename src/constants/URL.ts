@@ -148,3 +148,6 @@ export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
   `${base}culture/web/${id}/team/export?${qs.stringify({
     type: type
   })}`;
+// 事业部271
+
+export const PATH_CULTURE_LEVEL = `/culture/manager/levels`;
