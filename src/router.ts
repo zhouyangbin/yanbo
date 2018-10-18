@@ -28,7 +28,9 @@ import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_MY_CULTURE_GRADE_DETAILS,
   PATH_MEMBER_CULTURE_DETAILS,
-  PATH_DOWN_MEMBER_CULTURE_DETAILS
+  PATH_DOWN_MEMBER_CULTURE_DETAILS,
+  PATH_GRADE_EMP_DETAIL_CHANGE,
+  PATH_GRADE_EMP_DETAIL_HISTORY
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -76,7 +78,23 @@ const router = new Router({
           path: PATH_GRADE_EMP_DETAIL(),
           components: {
             default: () =>
-              import("@/views/grademanage/progress/org/user/index.vue"),
+              import("@/views/grademanage/progress/org/user/new.index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_GRADE_EMP_DETAIL_CHANGE(),
+          components: {
+            default: () =>
+              import("@/views/grademanage/progress/org/user/modify/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_GRADE_EMP_DETAIL_HISTORY(),
+          components: {
+            default: () =>
+              import("@/views/grademanage/progress/org/user/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

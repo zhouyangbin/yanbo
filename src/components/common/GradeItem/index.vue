@@ -57,6 +57,8 @@ export default {
     font-size: 16px;
     color: #9b9b9b;
     width: 120px;
+    height: 36px;
+    padding: 8px 12px;
 
     &:hover {
       background: #f18d23;

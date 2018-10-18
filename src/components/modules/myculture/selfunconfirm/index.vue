@@ -34,7 +34,6 @@
         <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">确认</el-button>
         <el-button style="margin-right:20px" slot="reference" type="primary">申诉</el-button>
       </el-popover>
-
       <el-button @click="confirm" type="primary">确认</el-button>
     </el-row>
   </div>
@@ -43,6 +42,11 @@
 import { getMyCultureUnConfirmedDetail, postConfirm } from "@/constants/API";
 
 export default {
+  props: {
+    stage: {
+      type: Number
+    }
+  },
   data() {
     return {
       reason: "",
@@ -114,11 +118,16 @@ export default {
         this.advantage = advantage;
         this.scores = scores;
         this.name = name;
+        // FIXME: data
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
+          leaderLabel: "我的上级",
+          superior_name: "xxxx",
+          superior_workcode: "xxxx",
           highlevel_name,
-          highlevel_workcode
+          highlevel_workcode,
+          finishedTime: `xxxx:xxx`
         };
       });
     }

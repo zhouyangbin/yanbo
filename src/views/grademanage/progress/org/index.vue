@@ -514,6 +514,8 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
+          // console.log(res.info)
+          this.isManagerGrade = res.info == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;
           this.depInfo.name = res.info.department_name;

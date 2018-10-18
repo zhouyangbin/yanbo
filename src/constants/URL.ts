@@ -16,6 +16,20 @@ export const PATH_GRADE_EMP_DETAIL = (
   orgID = ":orgID",
   uid = ":uid"
 ) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}`;
+// 修改评分
+export const PATH_GRADE_EMP_DETAIL_CHANGE = (
+  testID = ":id",
+  orgID = ":orgID",
+  uid = ":uid"
+) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}/modify`;
+
+// 修改评分
+export const PATH_GRADE_EMP_DETAIL_HISTORY = (
+  testID = ":id",
+  orgID = ":orgID",
+  uid = ":uid"
+) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}/history`;
+
 export const PATH_LOGIN = "/login";
 // 导出评测
 export const PATH_EXPORT_GRADE = (id: string) =>

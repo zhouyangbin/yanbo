@@ -1,8 +1,7 @@
 
 <template>
   <div class="self-report-case-item-component">
-    <hr>
-    <br>
+
     <div class="case-container">
       <div class="sub-title">
         {{data.question_name}}
@@ -34,10 +33,10 @@
             {{v}}
           </div>
         </div>
-        <br>
       </div>
     </div>
-
+    <hr>
+    <br>
   </div>
 </template>
 <script>

@@ -9,27 +9,27 @@
         <span class="number">
           {{data.workcode}}
         </span>
-        <span v-show="!forMember && downMember||isReport" class="number">
-          {{downMember ? '他的上级' : '我的上级' }}:
+        <span v-show="data.leaderLabel" class="number">
+          {{data.leaderLabel }}:
         </span>
-        <span v-show="downMember&&!forMember ||isReport" class="name">
+        <span v-show="data.superior_name" class="name">
           {{data.superior_name}}
         </span>
-        <span v-show="!forMember && downMember ||isReport" class="number">
+        <span v-show="data.superior_workcode" class="number">
           {{data.superior_workcode}}
         </span>
-        <span v-show="!forMember && !downMember||isReport" class="number">
-          隔级上级:
+        <span v-show="data.hightlevelLabel" class="number">
+          {{data.hightlevelLabel}}:
         </span>
-        <span v-show="!forMember && !downMember||isReport" class="name">
+        <span v-show="data.highlevel_name" class="name">
           {{data.highlevel_name}}
         </span>
-        <span v-show="!forMember && !downMember||isReport" class="number">
+        <span v-show="data.highlevel_workcode" class="number">
           {{data.highlevel_workcode}}
         </span>
       </div>
-      <div v-if="!isReport" class="finished-time">
-        {{unConfirmed?'待确认': downMember?'隔级评':forMember?'上级评':'自评'}}截止时间: {{data.finishedTime}}
+      <div v-if="data.finishedTime" class="finished-time">
+        {{data.finishedTime}}
       </div>
     </el-row>
   </div>
@@ -40,22 +40,6 @@ export default {
     data: {
       type: Object,
       default: () => ({})
-    },
-    forMember: {
-      type: Boolean,
-      default: false
-    },
-    unConfirmed: {
-      type: Boolean,
-      default: false
-    },
-    downMember: {
-      type: Boolean,
-      default: false
-    },
-    isReport: {
-      type: Boolean,
-      default: false
     }
   }
 };

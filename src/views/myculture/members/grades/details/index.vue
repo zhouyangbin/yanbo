@@ -4,7 +4,7 @@
     <nav-bar :list="nav"></nav-bar>
     <br>
     <section class="content-container" style="padding:40px">
-      <basic-info :data="basicInfo" :forMember="true"></basic-info>
+      <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
       <br>

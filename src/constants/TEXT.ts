@@ -545,3 +545,9 @@ export const BREF_HIGH_LEVEL_STATUS = [
     value: "已评"
   }
 ];
+
+export const LEVELMAP = {
+  top: 3,
+  middle: 2,
+  bottom: 1
+};

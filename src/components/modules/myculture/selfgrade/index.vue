@@ -96,11 +96,14 @@ export default {
           highlevel_name,
           highlevel_workcode
         } = res;
+        // FIXME: 时间
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
+          leaderLabel: "我的上级",
           highlevel_name,
-          highlevel_workcode
+          highlevel_workcode,
+          finishedTime: `自评截止时间: ${"xxxxx"}`
         };
         this.readOnly = res.can_edit == 0;
         this.$forceUpdate();

@@ -107,7 +107,7 @@ export const postTimeSettings = (eid: string, params: object) =>
   sendPost(`/admin/api/evaluation/set-time/${eid}`, params);
 // 获取个人的评测详情
 export const getUserGradeContent = (uid: string) =>
-  sendGet(`/admin/api/user_list/detail/${uid}`);
+  sendGet(`${test}/admin/api/user_list/detail/${uid}`);
 // 发出提醒
 
 export const postReminder = (params: object) =>
@@ -303,3 +303,10 @@ export const postConfirm = (params: Object) =>
 // 文化上级打分
 export const postMemberGrade = (id: String, params: Object) =>
   sendPost(`/culture/web/superior-evaluate/${id}`, params);
+
+// 历史修改记录
+export const getHistoryModifyList = (id: String) =>
+  sendGet(`${test}/admin/api/user_list/${id}/evaluation-record`);
+// 高管修改评分
+export const postManagerModify = (id: String, params: Object) =>
+  sendPost(`/admin/api/superior-modify/${id}`, params);

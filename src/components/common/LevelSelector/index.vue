@@ -26,6 +26,8 @@ export default {
   .selector {
     position: relative;
     width: 120px;
+    height: 36px;
+    padding: 8px 12px;
     &.disabled {
       cursor: not-allowed;
       color: #dcdfe6;

@@ -4,7 +4,7 @@
     <nav-bar :list="nav"></nav-bar>
     <br>
     <section class="content-container" style="padding:40px">
-      <basic-info :data="basicInfo" :isReport="true"></basic-info>
+      <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
       <br>
@@ -13,7 +13,7 @@
         <br>
         <br>
       </div>
-      <component v-bind:is="currentTabComponent"></component>
+      <component :stage="stage" v-bind:is="currentTabComponent"></component>
     </section>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       isManager: false,
+      stage: 30,
       nav: [
         {
           label: MY_GRADE,
@@ -71,8 +72,6 @@ export default {
     }
   },
   created() {
-    // this.currentTabComponent = "self-unconfirm";
-    // return;
     return getMyCultureStatus(this.$route.params.uid).then(res => {
       this.isManager = res.evaluation_type == 2;
       if (res.status == 2) {
@@ -82,6 +81,8 @@ export default {
       } else {
         this.currentTabComponent = "self-grade";
       }
+      this.stage = res.stage;
+      // TODO: 中断的时候
       return res;
     });
   }
