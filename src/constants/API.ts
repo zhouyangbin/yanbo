@@ -11,7 +11,7 @@ import {
 } from "@/utils/base";
 import qs from "qs";
 
-const test = "https://www.easy-mock.com/mock/5baf1a129edac201fec52f0f";
+// const test = "https://www.easy-mock.com/mock/5baf1a129edac201fec52f0f";
 
 // 用户管理
 // 扫码登录
@@ -107,7 +107,7 @@ export const postTimeSettings = (eid: string, params: object) =>
   sendPost(`/admin/api/evaluation/set-time/${eid}`, params);
 // 获取个人的评测详情
 export const getUserGradeContent = (uid: string) =>
-  sendGet(`${test}/admin/api/user_list/detail/${uid}`);
+  sendGet(`/admin/api/user_list/detail/${uid}`);
 // 发出提醒
 
 export const postReminder = (params: object) =>
@@ -256,47 +256,47 @@ export const getBindInfo = (uid: string) =>
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  我的文化评分
 export const getMyCultureList = (params: Object) =>
-  sendGet(`${test}/culture/web/evaluations`, params);
+  sendGet(`/culture/web/evaluations`, params);
 // 下级评分列表
 export const getMyMembersCultureList = (params: Object) =>
-  sendGet(`${test}/culture/web/team/subordinate-evaluations`, params);
+  sendGet(`/culture/web/team/subordinate-evaluations`, params);
 
 // 文化隔级评分列表
 export const getMyDownMembersCultureList = (params: Object) =>
-  sendGet(`${test}/culture/web/team/interval-evaluations`, params);
+  sendGet(`/culture/web/team/interval-evaluations`, params);
 
 // 获取文化评分状态
 export const getMyCultureStatus = (id: String) =>
-  sendGet(`${test}/culture/web/${id}/evaluation-status`);
+  sendGet(`/culture/web/${id}/evaluation-status`);
 
 // 获取文化自评评测信息
 export const getMyEvaluation = (id: string) => {
-  return sendGet(`${test}/culture/web/${id}/my-evaluation`);
+  return sendGet(`/culture/web/${id}/my-evaluation`);
 };
 // 文化自评打分
 export const selfMarking = (data: object, id: string) => {
-  return sendPost(`${test}/culture/web/${id}/self-marking`, data);
+  return sendPost(`/culture/web/${id}/self-marking`, data);
 };
 
 // 文化上级评详情
 export const getMyMemberCultureDetails = (id: String) =>
-  sendGet(`${test}/culture/web/superior-detail/${id}`);
+  sendGet(`/culture/web/superior-detail/${id}`);
 
 // 文化隔级详情
 export const getMyDownMemberCultureDetails = (id: String) =>
-  sendGet(`${test}/culture/web/highlevel-detail/${id}`);
+  sendGet(`/culture/web/highlevel-detail/${id}`);
 // 文化隔级成员list
 export const getDownMembersList = (id: String, params: Object) =>
-  sendGet(`${test}/culture/web/${id}/team/highlevel`, params);
+  sendGet(`/culture/web/${id}/team/highlevel`, params);
 // 文化下级成员list
 export const getMembersList = (id: String, params: Object) =>
-  sendGet(`${test}/culture/web/${id}/team/superior`, params);
+  sendGet(`/culture/web/${id}/team/superior`, params);
 // 文化个人报告
 export const getMyCultureReport = (id: String) =>
-  sendGet(`${test}/culture/web/${id}/evaluation-report`);
+  sendGet(`/culture/web/${id}/evaluation-report`);
 // 文化个人待确认详情
 export const getMyCultureUnConfirmedDetail = (id: String) =>
-  sendGet(`${test}/culture/web/${id}/feedback-confirmed`);
+  sendGet(`/culture/web/${id}/feedback-confirmed`);
 // 文化申诉/确认
 export const postConfirm = (params: Object) =>
   sendPost(`/culture/web/confirm-feedback`, params);
@@ -306,7 +306,7 @@ export const postMemberGrade = (id: String, params: Object) =>
 
 // 历史修改记录
 export const getHistoryModifyList = (id: String) =>
-  sendGet(`${test}/admin/api/user_list/${id}/evaluation-record`);
+  sendGet(`/admin/api/user_list/${id}/evaluation-record`);
 // 高管修改评分
 export const postManagerModify = (id: String, params: Object) =>
   sendPost(`/admin/api/superior-modify/${id}`, params);

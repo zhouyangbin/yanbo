@@ -50,40 +50,40 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.self-report-case-item-component {
-  .case-container {
-    display: flex;
-    .sub-title {
-      font-size: 24px;
-      color: #4bc8aa;
-      margin-right: 50px;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-    .case-info {
-      font-size: 14px;
-      color: #9b9b9b;
-      line-height: 30px;
-
-      .grade-info {
-        font-size: 20px;
+  .self-report-case-item-component {
+    .case-container {
+      display: flex;
+      .sub-title {
+        font-size: 24px;
+        color: #4bc8aa;
+        margin-right: 50px;
         font-weight: bold;
-        .self {
-          color: #4a4a4a;
-          margin-right: 90px;
-        }
-        .leader {
-          color: #f18d23;
-        }
+        flex-shrink: 0;
       }
-      .leader-reason,
-      .my-case {
+      .case-info {
         font-size: 14px;
-        .label {
-          color: #4a4a4a;
+        color: #9b9b9b;
+        line-height: 30px;
+
+        .grade-info {
+          font-size: 20px;
+          font-weight: bold;
+          .self {
+            color: #4a4a4a;
+            margin-right: 90px;
+          }
+          .leader {
+            color: #f18d23;
+          }
+        }
+        .leader-reason,
+        .my-case {
+          font-size: 14px;
+          .label {
+            color: #4a4a4a;
+          }
         }
       }
     }
   }
-}
 </style>

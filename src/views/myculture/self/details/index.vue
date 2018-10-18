@@ -72,7 +72,7 @@ export default {
     }
   },
   created() {
-    return getMyCultureStatus(this.$route.params.uid).then(res => {
+    return getMyCultureStatus(this.$route.params.id).then(res => {
       this.isManager = res.evaluation_type == 2;
       if (res.status == 2) {
         this.currentTabComponent = "self-report";
@@ -89,9 +89,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.self-details-page {
-  &.content-container {
-    padding: 20px;
+  .self-details-page {
+    &.content-container {
+      padding: 20px;
+    }
   }
-}
 </style>

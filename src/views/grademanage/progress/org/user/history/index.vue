@@ -61,124 +61,127 @@
 </template>
 <script>
 import {
-  PATH_GRADE_MANAGE,
-  PATH_GRADE_PROGRESS,
-  PATH_GRADE_ORG_LIST,
-  PATH_GRADE_EMP_DETAIL
+    PATH_GRADE_MANAGE,
+    PATH_GRADE_PROGRESS,
+    PATH_GRADE_ORG_LIST,
+    PATH_GRADE_EMP_DETAIL
 } from "@/constants/URL";
 
 import {
-  GRADE_PROGRESS,
-  GRADE_MANAGE,
-  ORG_DETAIL,
-  GRADE_DETAIL,
-  LEVEL_ALIAS
+    GRADE_PROGRESS,
+    GRADE_MANAGE,
+    ORG_DETAIL,
+    GRADE_DETAIL,
+    LEVEL_ALIAS
 } from "@/constants/TEXT";
 import { getHistoryModifyList } from "@/constants/API";
 
 export default {
-  data() {
-    return {
-      // FIXME: data
-      basicInfo: {
-        name: "xx",
-        workcode: "xxx"
-      },
-      selectedIndex: 0,
-      selectGradeItem: 0,
-      readOnly: true,
-      nav: [
-        {
-          label: GRADE_MANAGE,
-          href: PATH_GRADE_MANAGE
-        },
-        {
-          label: GRADE_PROGRESS,
-          href: PATH_GRADE_PROGRESS(this.$route.params.id)
-        },
-        {
-          label: ORG_DETAIL,
-          href: PATH_GRADE_ORG_LIST(
-            this.$route.params.id,
-            this.$route.params.orgID
-          )
-        },
-        {
-          label: GRADE_DETAIL,
-          href: PATH_GRADE_EMP_DETAIL(
-            this.$route.params.id,
-            this.$route.params.orgID,
-            this.$route.params.uid
-          )
-        },
-        {
-          label: "修改历史",
-          active: true
+    data() {
+        return {
+            // FIXME: data
+            basicInfo: {
+
+            },
+            selectedIndex: 0,
+            selectGradeItem: 0,
+            readOnly: true,
+            nav: [
+                {
+                    label: GRADE_MANAGE,
+                    href: PATH_GRADE_MANAGE
+                },
+                {
+                    label: GRADE_PROGRESS,
+                    href: PATH_GRADE_PROGRESS(this.$route.params.id)
+                },
+                {
+                    label: ORG_DETAIL,
+                    href: PATH_GRADE_ORG_LIST(
+                        this.$route.params.id,
+                        this.$route.params.orgID
+                    )
+                },
+                {
+                    label: GRADE_DETAIL,
+                    href: PATH_GRADE_EMP_DETAIL(
+                        this.$route.params.id,
+                        this.$route.params.orgID,
+                        this.$route.params.uid
+                    )
+                },
+                {
+                    label: "修改历史",
+                    active: true
+                }
+            ],
+            list: [
+                {
+                    scores: [{}]
+                }
+            ]
+        };
+    },
+    components: {
+        "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+        "basic-info": () =>
+            import("@/components/modules/myculture/basicinfo/index.vue"),
+        "history-cards": () => import("@/components/common/HistoryCard/index.vue"),
+        "case-area": () => import("@/components/common/CaseArea/index.vue"),
+        "grade-items": () => import("@/components/common/GradeItem/index.vue"),
+        "grade-slider": () => import("@/components/common/GradeSlider/index.vue")
+    },
+    methods: {
+        getHistory() {
+            getHistoryModifyList(this.$route.params.uid).then(res => {
+                const { records, info } = res
+                this.list = records;
+                this.basicInfo = {
+                    ...info
+                }
+            });
         }
-      ],
-      list: [
-        {
-          scores: [{}]
+    },
+    created() {
+        this.getHistory();
+    },
+    computed: {
+        reasons() {
+            return this.list[this.selectedIndex].scores[this.selectGradeItem]
+                .self_cases;
         }
-      ]
-    };
-  },
-  components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "basic-info": () =>
-      import("@/components/modules/myculture/basicinfo/index.vue"),
-    "history-cards": () => import("@/components/common/HistoryCard/index.vue"),
-    "case-area": () => import("@/components/common/CaseArea/index.vue"),
-    "grade-items": () => import("@/components/common/GradeItem/index.vue"),
-    "grade-slider": () => import("@/components/common/GradeSlider/index.vue")
-  },
-  methods: {
-    getHistory() {
-      getHistoryModifyList(this.$route.params.uid).then(res => {
-        this.list = res;
-      });
     }
-  },
-  created() {
-    this.getHistory();
-  },
-  computed: {
-    reasons() {
-      return this.list[this.selectedIndex].scores[this.selectGradeItem]
-        .self_cases;
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>
-.culture-hr-details-history-page {
-  & .mark {
-    padding: 20px;
-    background: white;
-  }
-  & .mark-label {
-    font-size: 24px;
-    color: #4a4a4a;
-    margin-bottom: 15px;
-  }
+    .culture-hr-details-history-page {
+      & .mark {
+        padding: 20px;
+        background: white;
+      }
+      & .mark-label {
+        font-size: 24px;
+        color: #4a4a4a;
+        margin-bottom: 15px;
+      }
 
-  & .mark-reason {
-    font-size: 14px;
-    color: #9b9b9b;
-    line-height: 30px;
-  }
-  & .mark-flag-container {
-    display: flex;
-    & .mark-section {
-      flex: 15;
-      background: white;
-      padding: 20px;
+      & .mark-reason {
+        font-size: 14px;
+        color: #9b9b9b;
+        line-height: 30px;
+      }
+      & .mark-flag-container {
+        display: flex;
+        & .mark-section {
+          flex: 15;
+          background: white;
+          padding: 20px;
+        }
+        & .flag-section {
+          flex: 8;
+          background: white;
+          padding: 20px;
+        }
+      }
     }
-    & .flag-section {
-      flex: 8;
-      background: white;
-      padding: 20px;
-    }
-  }
-}
 </style>
