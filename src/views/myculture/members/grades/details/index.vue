@@ -55,7 +55,7 @@
         </div>
       </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
+      <case-area v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score" :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
       <br>
       <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button v-if="!submited" @click="saveDraft" type="primary">保存草稿</el-button>
@@ -69,7 +69,8 @@ import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
   MY_MEMBER_RULE,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  LEVELMAP
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -141,13 +142,14 @@ export default {
         this.promotion = promotion;
         this.employee_name = employee_name;
         this.readOnly = res.can_submit == 0;
+        this._271_is_necessary = !!res._271_is_necessary;
         this.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
-          finishedTime: end_time
+          finishedTime: `上级评截止时间: ${end_time}`
         };
         this.level = LEVEL_ALIAS[_271_level].toLowerCase();
-        const submited = status != 20;
+        const submited = status == 20;
         this.submited = submited;
         const key = `culture_member_draft_${this.$route.params.uid}`;
         const s = window.localStorage.getItem(key);
@@ -158,48 +160,96 @@ export default {
             return s;
           });
         } else {
-          this.scores = JSON.parse(s);
+          const draft = JSON.parse(s);
+          // console.log(draft)
+          this.initFromLocal(draft);
         }
       });
+    },
+    initFromLocal(data) {
+      // 读取草稿
+      this.scores = data.scores;
+      this.level = data.level;
+      this.advantage = data.advantage;
+      this.promotion = data.promotion;
     },
     composePostData() {
       let result = {};
       this.scores.forEach(v => {
         result[v.question_id] = {
           score: v.superior_score,
-          case: [v.superior_case]
+          cases: [v.superior_case]
         };
       });
+      result.promotion = this.promotion;
+      result.advantage = this.advantage;
+      result._271_level = LEVELMAP[this.level];
       return result;
     },
     validateData() {
-      //TODO: validateData
+      if (!this.advantage || !this.promotion) {
+        this.$message({
+          message: "请填写优点和待提升部分",
+          type: "warning"
+        });
+        return;
+      }
+      if (!this.level && this._271_is_necessary) {
+        this.$message({
+          message: "请选择等级!",
+          type: "warning"
+        });
+        return;
+      }
+      return this.checkReason();
     },
-
+    checkReason() {
+      // console.log(this.scores)
+      // 自评和上级评分数不一样,必须有原因
+      return !this.scores.some(v => {
+        return v.score != v.superior_score && !v.superior_case;
+      });
+    },
     saveDraft() {
       const key = `culture_member_draft_${this.$route.params.uid}`;
-      window.localStorage.setItem(key, JSON.stringify(this.scores));
+      window.localStorage.setItem(
+        key,
+        JSON.stringify({
+          scores: this.scores,
+          level: this.level,
+          advantage: this.advantage,
+          promotion: this.promotion
+        })
+      );
       this.$message({
         message: "保存草稿成功!",
         type: "success"
       });
     },
     submit() {
+      const valid = this.validateData();
+      if (!valid) {
+        this.$message({
+          message: "请填写完整理由!",
+          type: "warning"
+        });
+        return;
+      }
       this.$confirm("是否确定提交, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          postMemberGrade(this.$route.params.uid, this.composePostData()).then(
-            res => {
+          postMemberGrade(this.$route.params.uid, this.composePostData())
+            .then(res => {
               this.$message({
                 message: "提交成功",
                 type: "success"
               });
               this.getMemberDetail();
-            }
-          );
+            })
+            .catch(e => {});
         })
         .catch(() => {});
     }

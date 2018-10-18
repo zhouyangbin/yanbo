@@ -3,15 +3,15 @@
     <nav-bar :list="nav"></nav-bar>
     <br>
     <section class="content-container">
-      <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
+      <!-- <rule-text :text="constants.MY_MEMBER_RULE"></rule-text> -->
       <br>
       <section class="content-container bg-white">
         <header class="member-grade-info">
           <div class="name">
-            &nbsp;&nbsp;&nbsp; 2018年文化评分
+            &nbsp;&nbsp;&nbsp; {{evaluation_name}}
           </div>
           <div class="finish_time">
-            截止时间: xxx年 xx 约xx 日 22:99
+            截止时间: {{end_time}}
           </div>
         </header>
         <br>
@@ -71,7 +71,7 @@
 import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
-  MY_MEMBER_RULE,
+  // MY_MEMBER_RULE,
   BREF_HIGH_LEVEL_STATUS,
   LEVEL_ALIAS
 } from "@/constants/TEXT";
@@ -98,6 +98,8 @@ export default {
           expected: 0
         }
       },
+      evaluation_name: "",
+      end_time: "",
       total: 0,
       currentPage: 1,
       tableData: [],
@@ -121,7 +123,7 @@ export default {
         }
       ],
       constants: {
-        MY_MEMBER_RULE,
+        // MY_MEMBER_RULE,
         BREF_HIGH_LEVEL_STATUS
       }
     };
@@ -148,9 +150,11 @@ export default {
     getData(data) {
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);
-        const { total, data, overview } = res;
+        const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;
         this.total = total;
+        this.evaluation_name = evaluation_name;
+        this.end_time = end_time;
         this.postOverview(overview);
       });
     },
@@ -202,7 +206,7 @@ export default {
 }
 .members-list-filter {
   margin-left: 20px;
-
+  align-items: center;
   display: flex;
 }
 .list-filter-form {

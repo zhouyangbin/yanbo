@@ -81,7 +81,7 @@ export default {
     getGradeInfo() {
       const id = this.$route.params.id;
       getMyEvaluation(id).then(res => {
-        this.neverSubmit = res.status == 10;
+        this.neverSubmit = res.status == 0;
         const key = `uid_self_${this.$route.params.id}_draft_culture`;
         const savedDraft = window.localStorage.getItem(key);
         if (res.status == 10 && savedDraft) {
@@ -94,16 +94,16 @@ export default {
           employee_name,
           employee_workcode,
           highlevel_name,
-          highlevel_workcode
+          highlevel_workcode,
+          self_end_time
         } = res;
-        // FIXME: 时间
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
           leaderLabel: "我的上级",
           highlevel_name,
           highlevel_workcode,
-          finishedTime: `自评截止时间: ${"xxxxx"}`
+          finishedTime: `自评截止时间: ${self_end_time}`
         };
         this.readOnly = res.can_edit == 0;
         this.$forceUpdate();

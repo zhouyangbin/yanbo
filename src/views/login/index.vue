@@ -75,27 +75,31 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        return fzLogin({ workcode: "076533" })
-          .then(res => {
-            localStorage.setItem("talEmail", res.admin.email);
-            localStorage.setItem("talToken", res.token);
-            localStorage.setItem(
-              "permissions",
-              JSON.stringify(res.admin.permissions)
-            );
-            if (querys.fromDingDing) {
-              window.DingTalkPC.biz.util.openLink({
-                url: `${window.location.origin}${dst}`, //要打开链接的地址
-                onSuccess: function(result) {
-                  /**/
-                },
-                onFail: function() {}
-              });
-            } else {
-              this.$router.push({ path: dst });
-            }
-          })
-          .catch(e => {});
+        return (
+          fzLogin({ workcode: "17600297195" })
+            // 076533
+            // 17600297195
+            .then(res => {
+              localStorage.setItem("talEmail", res.admin.email);
+              localStorage.setItem("talToken", res.token);
+              localStorage.setItem(
+                "permissions",
+                JSON.stringify(res.admin.permissions)
+              );
+              if (querys.fromDingDing) {
+                window.DingTalkPC.biz.util.openLink({
+                  url: `${window.location.origin}${dst}`, //要打开链接的地址
+                  onSuccess: function(result) {
+                    /**/
+                  },
+                  onFail: function() {}
+                });
+              } else {
+                this.$router.push({ path: dst });
+              }
+            })
+            .catch(e => {})
+        );
       } else {
         qrLogin({ token: querys.token })
           .then(res => {

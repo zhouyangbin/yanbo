@@ -16,7 +16,7 @@
       <el-menu-item :class="{'is-active':[constants.PATH_MY_CULTURE_GRADE].includes($route.path)}" :index="constants.PATH_MY_CULTURE_GRADE">我的评分</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_MEMEBER_CULTURE_GRADE,constants.PATH_MEMBER_CULTURE_LIST($route.params.id)].includes($route.path)}" :index="constants.PATH_MEMEBER_CULTURE_GRADE">我的下级</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_DOWN_MEMEBER_CULTURE_GRADE,constants.PATH_DOWN_MEMBER_CULTURE_LIST($route.params.id)].includes($route.path)}" :index="constants.PATH_DOWN_MEMEBER_CULTURE_GRADE">我的隔级</el-menu-item>
-      <el-menu-item :class="{'is-active':[constants.PATH_CULTURE_LEVEL].includes($route.path)}" :index="constants.PATH_CULTURE_LEVEL">事业部271</el-menu-item>
+      <el-menu-item v-if="show271" :class="{'is-active':[constants.PATH_CULTURE_LEVEL].includes($route.path)}" :index="constants.PATH_CULTURE_LEVEL">事业部271</el-menu-item>
 
     </el-submenu>
     <el-submenu v-if="canManageCultureGrade" :index="constants.PATH_GRADE_REPORT">
@@ -132,7 +132,9 @@ export default {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
   },
   computed: {
-    // TODO: 271 事业部权限
+    show271() {
+      return this.permissions.includes(220);
+    },
 
     showRole() {
       return this.permissions.includes(101);

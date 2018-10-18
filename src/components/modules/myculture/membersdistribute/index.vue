@@ -1,6 +1,6 @@
 
 <template>
-  <div :data-summary="summary" class="members-distribute-number">
+  <div :data-summary="summary" :class="{hide:!total}" class="members-distribute-number">
     <div v-if="data.top.count" :style="{flex:data.top.count}" :data-p="topP" class="top">
       Top
     </div>
@@ -69,6 +69,9 @@ export default {
   flex: 1;
   color: white;
   position: relative;
+  &.hide {
+    height: 0px;
+  }
   &::before {
     content: attr(data-summary);
     position: absolute;
