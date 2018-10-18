@@ -70,8 +70,8 @@
           <span>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||isFinished" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -152,22 +152,22 @@
           </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
             <template slot-scope="scope">
-              {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+              {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_is_agree" :label="constants.RESULT_CONFIRM">
@@ -177,8 +177,8 @@
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
-              <el-button v-if="canbeEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button v-if="canbeEdit" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
+              <el-button v-if="!isFinished" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
+              <el-button v-if="!isFinished" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
               <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
@@ -191,7 +191,7 @@
       </div>
     </section>
 
-    <import-dialog @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
+    <import-dialog :isManagerGrade="isManagerGrade" @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
     <time-setting :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
     <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
   </div>
@@ -255,6 +255,8 @@ export default {
   data() {
     return {
       currentPage: 1,
+      // 是否是高管评分
+      isManagerGrade: false,
       stage: 10,
       //导入状态
       import_status: 0,
@@ -389,7 +391,7 @@ export default {
     },
     exportData() {
       const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
-      window.open(url, "_blank");
+      window.open(url, "_blank", "noopener");
       // window.location.href = url
     },
     batchDel() {
@@ -485,6 +487,9 @@ export default {
       // 修改某个人的信息
       this.infoType = "modify";
       this.currentInfo = row;
+      this.currentInfo.stage = this.stage;
+      this.currentInfo.canEditLeaderInfo = this.canEditLeaderInfo;
+      this.currentInfo.canEdit = this.canEdit;
       this.dialogInfo = true;
     },
     // 拉取列表数据
@@ -509,6 +514,8 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
+          // console.log(res.info)
+          this.isManagerGrade = res.info == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;
           this.depInfo.name = res.info.department_name;
@@ -567,13 +574,28 @@ export default {
     },
     canbeReminder() {
       return (
-        (this.stage == 30 && this.canbeEdit) ||
+        (this.stage == 30 && this.canAdd) ||
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
     },
-    canbeEdit() {
+    isFinished() {
+      return this.stage == 70;
+    },
+    canAdd() {
       return this.depInfo.self_status != 2;
+    },
+    canEdit() {
+      return (
+        this.stage < 50 ||
+        (this.stage == 50 && this.depInfo.highlevel_status != 2)
+      );
+    },
+    canEditLeaderInfo() {
+      return (
+        this.stage < 40 ||
+        (this.stage == 40 && this.depInfo.superior_status != 2)
+      );
     },
     step() {
       // return 5

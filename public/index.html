@@ -7,8 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="renderer" content="webkit">
-  <link rel="shortcut icon" href="./favicon.ico">
-  <script src="//api.service.100tal.com/jssdk/tinfo.js"></script>
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <!-- <link rel="stylesheet" href="http://api.service.100tal.com/jssdk/css/login-common.css?ver="> -->
+  <script defer src="//api.service.100tal.com/jssdk/tinfo.js"></script>
   <script src="https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js"></script>
 
   <!-- </script> -->
@@ -117,12 +118,15 @@
       15% {
         transform: translateX(0);
       }
+
       45% {
         transform: translateX(230px);
       }
+
       65% {
         transform: translateX(230px);
       }
+
       95% {
         transform: translateX(0);
       }
@@ -132,12 +136,15 @@
       0% {
         content: "Loading";
       }
+
       25% {
         content: "Loading.";
       }
+
       50% {
         content: "Loading..";
       }
+
       75% {
         content: "Loading...";
       }
@@ -148,7 +155,8 @@
 
 <body>
   <noscript>
-    <strong>We're sorry but my-project-vuecli doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    <strong>We're sorry but my-project-vuecli doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
   </noscript>
   <div class="loaders-container">
     <div class='container'>

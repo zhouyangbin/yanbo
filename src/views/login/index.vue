@@ -75,7 +75,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        return fzLogin({ workcode: "18310787064" })
+        return fzLogin({ workcode: "076533" })
           .then(res => {
             localStorage.setItem("talEmail", res.admin.email);
             localStorage.setItem("talToken", res.token);

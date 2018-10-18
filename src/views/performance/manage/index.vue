@@ -195,7 +195,7 @@ export default {
       this.createGrade();
     },
     gradeExport(row) {
-      window.open(PATH_EXPORT_PERFORMANCE_GRADE(row.id), "_blank");
+      window.open(PATH_EXPORT_PERFORMANCE_GRADE(row.id), "_blank", "noopener");
     },
 
     getOrgList(cb) {

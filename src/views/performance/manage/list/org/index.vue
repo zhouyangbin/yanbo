@@ -315,7 +315,7 @@ export default {
         this.$route.params.id,
         this.selection.map(v => v.id)
       );
-      window.open(url, "_blank");
+      window.open(url, "_blank", "noopener");
       // window.location.href = url
     },
     batchDel() {

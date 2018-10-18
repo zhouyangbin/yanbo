@@ -67,7 +67,7 @@ export default {
   methods: {
     downloadTpl() {
       if (this.downloadURL) {
-        window.open(this.downloadURL, "_blank");
+        window.open(this.downloadURL, "_blank", "noopener");
       }
     }
   },

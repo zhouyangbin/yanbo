@@ -7,6 +7,9 @@
         <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate}}</span>
         <hr>
         <el-form :inline="true" ref="filter-form" :model="searchForm" class="form-search">
+          <el-form-item prop="name">
+            <el-input v-model="searchForm.name" :placeholder="constants.DEP_NAME"></el-input>
+          </el-form-item>
           <el-form-item prop="recordStatus">
             <el-select v-model="searchForm.recordStatus" :placeholder="constants.RECORD_STATUS">
               <el-option v-for="v of constants.ENUM_RECORD_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
@@ -98,8 +101,10 @@ import {
   OPERATIONS,
   DETAILS,
   EXPORT_DETAILS,
-  RESET
+  RESET,
+  DEP_NAME
 } from "@/constants/TEXT";
+
 import {
   PATH_GRADE_MANAGE,
   PATH_GRADE_ORG_LIST,
@@ -107,6 +112,7 @@ import {
 } from "@/constants/URL";
 import { getProgressList } from "@/constants/API";
 import { compact } from "@/utils/obj";
+
 export default {
   data() {
     return {
@@ -128,14 +134,16 @@ export default {
         OPERATIONS,
         DETAILS,
         EXPORT_DETAILS,
-        RESET
+        RESET,
+        DEP_NAME
       },
       searchForm: {
         recordStatus: "",
         selfStatus: "",
         leaderStatus: "",
         upLeaderStatus: "",
-        faceStatus: ""
+        faceStatus: "",
+        name: ""
       },
       nav: [
         {
@@ -161,10 +169,11 @@ export default {
       this.$refs[formName].resetFields();
     },
     goDetail(row) {
-      this.$router.push(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id));
+      window.open(PATH_GRADE_ORG_LIST(this.$route.params.id, row.id), "_blank");
+      // this.$router.push();
     },
     exportFile(row) {
-      window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank");
+      window.open(PATH_EXPORT_DEP_GRADE(row.id), "_blank", "noopener");
     },
     refreshList(params) {
       getProgressList(this.$route.params.id, compact(params))
@@ -184,6 +193,7 @@ export default {
         superior_status: this.searchForm.leaderStatus,
         highlevel_status: this.searchForm.upLeaderStatus,
         feedback_status: this.searchForm.faceStatus,
+        name: this.searchForm.name,
         page: val
       };
       this.refreshList(postData);
@@ -193,11 +203,12 @@ export default {
     searchForm: {
       handler: function(v) {
         const postData = {
-          import_status: this.searchForm.recordStatus,
-          self_status: this.searchForm.selfStatus,
-          superior_status: this.searchForm.leaderStatus,
-          highlevel_status: this.searchForm.upLeaderStatus,
-          feedback_status: this.searchForm.faceStatus,
+          import_status: v.recordStatus,
+          self_status: v.selfStatus,
+          superior_status: v.leaderStatus,
+          highlevel_status: v.upLeaderStatus,
+          feedback_status: v.faceStatus,
+          name: v.name,
           page: 1
         };
         this.currentPage = 1;
