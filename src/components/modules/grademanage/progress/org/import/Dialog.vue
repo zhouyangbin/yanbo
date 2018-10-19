@@ -118,7 +118,7 @@ export default {
           const postData = {
             evaluation_id: this.$route.params.orgID,
             // department_id: this.$route.params.orgID,
-            "levels[]": this.importForm.levels
+            levels: this.importForm.levels
           };
           // console.log(postData)
           postEHR(postData)

@@ -17,7 +17,7 @@
       <el-row class="mark-section" align="middle" type="flex">
         <el-col style="border-right: 1px solid #979797;">
           <div class="mark-label">
-            上级评分数: <span class="score">15.5分</span>
+            上级评分数: <span class="score">{{total}}分</span>
           </div>
           <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
           <br>
@@ -25,8 +25,11 @@
           <div class="mark-label">
             等级标签
           </div>
-          <level-selector :disabled="true" v-model="level">
-            <el-button style="margin-left:20px" type="primary" round>修改</el-button>
+          <level-selector :disabled="!levelEditable" v-model="level">
+            <span v-if="!readOnly">
+              <el-button v-if="!levelEditable" @click="levelEditable=true" style="margin-left:20px" type="primary" round>修改</el-button>
+              <el-button @click="levelChange" v-else style="margin-left:20px" type="primary" round>确定</el-button>
+            </span>
           </level-selector>
           <br>
         </el-col>
@@ -55,11 +58,18 @@
         </el-col>
       </el-row>
       <br>
-      <case-area placeholder="请您填写驳回理由" v-model="rejectReason"></case-area>
+
       <br>
-      <el-row v-if="!readOnly" type="flex" justify="end">
-        <el-button type="primary">驳回</el-button>
-        <el-button type="primary">确认</el-button>
+      <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
+        <el-popover @hide="rejectReason=''" placement="top" width="400" trigger="click">
+          <case-area placeholder="请您填写驳回理由" v-model="rejectReason"></case-area>
+          <br>
+          <el-row type="flex" justify="center">
+            <el-button @click="reject" type="primary">提交</el-button>
+          </el-row>
+          <el-button slot="reference" type="primary">驳回</el-button>
+        </el-popover>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">确认</el-button>
       </el-row>
     </section>
   </div>
@@ -69,7 +79,8 @@ import {
   MY_DOWN_MEMBER,
   DOWN_MEMBERS_GRADE_LIST,
   MY_DOWN_MEMBER_RULE,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  LEVELMAP
 } from "@/constants/TEXT";
 
 import {
@@ -77,15 +88,22 @@ import {
   PATH_DOWN_MEMBER_CULTURE_LIST
 } from "@/constants/URL";
 
-import { getMyDownMemberCultureDetails } from "@/constants/API";
+import {
+  getMyDownMemberCultureDetails,
+  postReject,
+  setLvFromHighLv
+} from "@/constants/API";
 
 export default {
   data() {
     return {
+      levelEditable: false,
       advantage: "",
       promotion: "",
       rejectReason: "",
+      levelNecessary: false,
       basicInfo: {},
+      audit_status: 0,
       scores: [
         {
           cases: []
@@ -109,24 +127,7 @@ export default {
       level: "",
       readOnly: false,
       selectGradeItem: 0,
-      gradeItems: [
-        {
-          text: "成就客户",
-          total: 12
-        },
-        {
-          text: "务实",
-          total: 12
-        },
-        {
-          text: "创新",
-          total: 12
-        },
-        {
-          text: "合作",
-          total: 12
-        }
-      ],
+      gradeItems: [],
       constants: {
         MY_DOWN_MEMBER_RULE
       }
@@ -155,14 +156,18 @@ export default {
           end_time,
           scores,
           _271_level,
-          total_score
+          total_score,
+          audit_status,
+          _271_is_necessary,
+          stage
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
+        this.levelNecessary = !!_271_is_necessary;
         this.basicInfo = {
           superior_workcode,
           superior_name,
-          finishedTime: end_time
+          finishedTime: `隔级评截止时间: ${end_time}`
         };
         this.scores = scores.map(s => {
           s.score = s.superior_score;
@@ -170,9 +175,77 @@ export default {
           return s;
         });
         this.total = total_score;
+        this.audit_status = audit_status;
         this.level = LEVEL_ALIAS[_271_level].toLowerCase();
         this.readOnly = res.can_submit == 0;
       });
+    },
+    levelChange() {
+      if (this.levelNecessary && !this.leve) {
+        this.$message({
+          message: "请选择等级!",
+          type: "warning"
+        });
+        return;
+      }
+      setLvFromHighLv({
+        id: this.$route.params.uid,
+        level: LEVELMAP[this.level]
+      })
+        .then(res => {
+          this.$message({
+            message: "等级设置成功!",
+            type: "success"
+          });
+        })
+        .catch(e => {});
+    },
+    pass() {
+      this.$confirm("确认通过此评分么, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.reqPass();
+        })
+        .catch(() => {});
+    },
+    reject() {
+      if (!this.rejectReason) {
+        this.$message({
+          message: "请填写理由!",
+          type: "warning"
+        });
+        return;
+      }
+      postReject({
+        ids: [this.$route.params.uid],
+        type: 1,
+        reason: this.rejectReason
+      })
+        .then(res => {
+          this.$message({
+            message: "操作成功!",
+            type: "success"
+          });
+          this.getDetailInfo();
+        })
+        .catch(e => {});
+    },
+    reqPass() {
+      postReject({
+        ids: [this.$route.params.uid],
+        type: 2
+      })
+        .then(res => {
+          this.$message({
+            message: "操作成功!",
+            type: "success"
+          });
+          this.getDetailInfo();
+        })
+        .catch(e => {});
     }
   },
   created() {
@@ -190,6 +263,15 @@ export default {
     },
     curItemName() {
       return this.scores[this.selectGradeItem].question_name;
+    },
+    isRejected() {
+      return this.audit_status == 1;
+    },
+    isPassed() {
+      return this.audit_status == 2;
+    },
+    isUnTouched() {
+      return this.audit_status == 0;
     }
   }
 };

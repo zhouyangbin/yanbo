@@ -151,3 +151,10 @@ export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
 // 事业部271
 
 export const PATH_CULTURE_LEVEL = `/culture/manager/levels`;
+
+// 事业部271 导出
+export const PATH_CULTURE_LV_EXPORT = (params: Object) =>
+  `${base}/culture/web/rank-manage/export?${qs.stringify({
+    ...params,
+    token: localStorage.getItem("talToken")
+  })}`;

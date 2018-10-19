@@ -71,7 +71,7 @@
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||isFinished" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -177,8 +177,8 @@
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
-              <el-button v-if="!isFinished" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button v-if="!isFinished" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
+              <el-button v-if="canEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
+              <el-button v-if="canAdd" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
               <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
@@ -578,9 +578,6 @@ export default {
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
-    },
-    isFinished() {
-      return this.stage == 70;
     },
     canAdd() {
       return this.depInfo.self_status != 2;

@@ -103,24 +103,32 @@ export default {
   },
   computed: {
     wsScore() {
-      return this.scores.find(function(o) {
-        return o.question_name == "务实";
-      }).self_score;
+      return (
+        this.scores.find(function(o) {
+          return o.question_name == "务实";
+        }) || {}
+      ).self_score;
     },
     hzScore() {
-      return this.scores.find(function(o) {
-        return o.question_name == "合作";
-      }).self_score;
+      return (
+        this.scores.find(function(o) {
+          return o.question_name == "合作";
+        }) || {}
+      ).self_score;
     },
     cxScore() {
-      return this.scores.find(function(o) {
-        return o.question_name == "创新";
-      }).self_score;
+      return (
+        this.scores.find(function(o) {
+          return o.question_name == "创新";
+        }) || {}
+      ).self_score;
     },
     cjkhScore() {
-      return this.scores.find(function(o) {
-        return o.question_name == "成就客户";
-      }).self_score;
+      return (
+        this.scores.find(function(o) {
+          return o.question_name == "成就客户";
+        }) || {}
+      ).self_score;
     },
     planeScore() {
       return {

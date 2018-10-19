@@ -26,7 +26,7 @@
     <br>
     <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
     <el-row type="flex" justify="end">
-      <el-popover placement="top" trigger="click">
+      <el-popover @hide="reason=''" placement="top" trigger="click">
         <el-input type="textarea" :rows="2" placeholder="请输入申诉理由" v-model="reason">
         </el-input>
         <br>
@@ -36,6 +36,7 @@
       </el-popover>
       <el-button @click="confirm" type="primary">确认</el-button>
     </el-row>
+    <impression-dialog v-if="showImpressionDialog" :visible.sync="showImpressionDialog"></impression-dialog>
   </div>
 </template>
 <script>
@@ -49,15 +50,18 @@ export default {
   },
   data() {
     return {
+      showImpressionDialog: false,
       reason: "",
       name: "",
       advantage: "",
       promotion: "",
-      scores: []
+      scores: [],
+      isManager: false
     };
   },
   components: {
-    "case-item": () => import("./caseitem/index.vue")
+    "case-item": () => import("./caseitem/index.vue"),
+    "impression-dialog": () => import("../impressiondialog/index.vue")
   },
   methods: {
     complain() {
@@ -82,25 +86,29 @@ export default {
       });
     },
     confirm() {
-      this.$confirm("是否确认提交, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          const postData = {
-            evaluation_name_id: this.$route.params.id,
-            action: 2
-          };
-          postConfirm(postData).then(res => {
-            this.$message({
-              message: "操作成功!",
-              type: "success"
-            });
-            this.getInfo();
-          });
+      if (this.isManager) {
+        this.showImpressionDialog = true;
+      } else {
+        this.$confirm("是否确认提交, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-        .catch(() => {});
+          .then(() => {
+            const postData = {
+              evaluation_name_id: this.$route.params.id,
+              action: 2
+            };
+            postConfirm(postData).then(res => {
+              this.$message({
+                message: "操作成功!",
+                type: "success"
+              });
+              this.getInfo();
+            });
+          })
+          .catch(() => {});
+      }
     },
     getInfo() {
       getMyCultureUnConfirmedDetail(this.$route.params.id).then(res => {
@@ -109,25 +117,29 @@ export default {
           employee_workcode,
           highlevel_name,
           highlevel_workcode,
+          superior_name,
+          superior_workcode,
           advantage,
           promotion,
           scores,
-          name
+          name,
+          end_time,
+          evaluation_type
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
         this.scores = scores;
         this.name = name;
-        // FIXME: data
+        this.isManager = evaluation_type == 2;
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
           leaderLabel: "我的上级",
-          superior_name: "xxxx",
-          superior_workcode: "xxxx",
+          superior_name: superior_name,
+          superior_workcode: superior_workcode,
           highlevel_name,
           highlevel_workcode,
-          finishedTime: `xxxx:xxx`
+          finishedTime: `待确认截止时间 :${end_time}`
         };
       });
     }

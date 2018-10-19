@@ -1,77 +1,79 @@
 <template>
-    <div class="culture-hr-details-page">
-        <nav-bar :list="nav"></nav-bar>
-        <section class="content-container" style="padding:40px">
-            <basic-info :data="basicInfo"></basic-info>
-            <br>
-            <hr>
-            <br>
-            <div class="grade-name">{{evaluation_name}}</div>
-            <br>
-            <br>
-            <el-row type="flex" justify="space-between" align="middle">
-                <div>
-                    <span class="label">总分</span>
-                    <span class="total-score">
-                        12.5分
-                    </span>
-                    <br>
-                    <br>
-                    <br>
-                    <grade-items :items="scores"></grade-items>
-                    <br>
-                    <br>
-                    <br>
-                    <span class="label">等级标签</span>
-                    <el-button style="margin-left:50px" class="selected selector">{{level}}</el-button>
-                </div>
-                <div>
-                    <div v-if="has_history">
-                        <el-button @click="goHistory" style="margin-bottom:30px" type="primary">修改记录</el-button>
-                    </div>
-                    <div v-if="isEditable">
-                        <el-button style="margin-bottom:30px" @click="goModify" type="primary">修改评分</el-button>
-                    </div>
-                    <div v-if="isRejectOrComplian">
-                        <el-button @click="goComplain" type="primary">申诉处理</el-button>
-                    </div>
-                </div>
-            </el-row>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div>
-                <span class="sub-title">
-                    优势: &nbsp;
-                </span>
-                <span class="content">
-                    {{advantage}}
-                </span>
-            </div>
-            <br>
-            <div>
-                <span class="sub-title">
-                    待提升: &nbsp;
-                </span>
-                <span class="content">
-                    {{promotion}}
-                </span>
-            </div>
-            <div>
+  <div class="culture-hr-details-page">
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container" style="padding:40px">
+      <basic-info :data="basicInfo"></basic-info>
+      <br>
+      <hr>
+      <br>
+      <div class="grade-name">{{evaluation_name}}</div>
+      <br>
+      <br>
+      <el-row type="flex" justify="space-between" align="middle">
+        <div>
+          <span class="label">总分</span>
+          <span class="total-score">
+            12.5分
+          </span>
+          <br>
+          <br>
+          <br>
+          <grade-items :items="scores"></grade-items>
+          <br>
+          <br>
+          <br>
+          <div v-if="level">
+            <span class="label">等级标签</span>
+            <el-button style="margin-left:50px" class="selected selector">{{level}}</el-button>
+          </div>
+        </div>
+        <div>
+          <div v-if="has_history">
+            <el-button @click="goHistory" style="margin-bottom:30px" type="primary">修改记录</el-button>
+          </div>
+          <div v-if="isEditable">
+            <el-button style="margin-bottom:30px" @click="goModify" type="primary">修改评分</el-button>
+          </div>
+          <div v-if="isRejectOrComplian">
+            <el-button @click="goComplain" type="primary">申诉处理</el-button>
+          </div>
+        </div>
+      </el-row>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div>
+        <span class="sub-title">
+          优势: &nbsp;
+        </span>
+        <span class="content">
+          {{advantage}}
+        </span>
+      </div>
+      <br>
+      <div>
+        <span class="sub-title">
+          待提升: &nbsp;
+        </span>
+        <span class="content">
+          {{promotion}}
+        </span>
+      </div>
+      <div>
 
-            </div>
-            <br>
-            <hr>
-            <br>
-            <div class="detail-header" @click="detailHide =!detailHide">
-                评分详情 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
-            </div>
-            <br>
-            <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
-        </section>
+      </div>
+      <br>
+      <hr>
+      <br>
+      <div class="detail-header" @click="detailHide =!detailHide">
+        评分详情 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+      </div>
+      <br>
+      <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
+    </section>
 
-    </div>
+  </div>
 </template>
 <script>
 import {
@@ -196,10 +198,8 @@ export default {
         this.promotion = promotion;
         this.advantage = advantage;
         this.has_history = has_history;
-        this.scores = scores.map(s => {
-          s.score = s.self_score;
-          return s;
-        });
+        // console.log(superior_name)
+        this.isManager = evaluation_type == 2;
         this.level = LEVEL_ALIAS[_271_level];
         this.evaluation_name = evaluation_name;
         this.basicInfo = {
@@ -212,7 +212,10 @@ export default {
           highlevel_name,
           highlevel_workcode
         };
-        this.isManager = evaluation_type == 2;
+        this.scores = scores.map(s => {
+          s.score = s.self_score;
+          return s;
+        });
       });
     }
   },

@@ -8,10 +8,10 @@
       <section class="content-container bg-white">
         <header class="member-grade-info">
           <div class="name">
-            &nbsp;&nbsp;&nbsp; 2018年文化评分
+            &nbsp;&nbsp;&nbsp; {{evaluation_name}}
           </div>
           <div class="finish_time">
-            截止时间: xxx年 xx 约xx 日 22:99
+            截止时间: {{end_time}}
           </div>
         </header>
         <br>
@@ -49,7 +49,7 @@
           </el-table-column>
           <el-table-column prop="name" label="上级姓名"></el-table-column>
           <el-table-column prop="score" label="自评分数"></el-table-column>
-          <el-table-column prop="leader_score" label="上级评分数"></el-table-column>
+          <el-table-column prop="superior_score" label="上级评分数"></el-table-column>
           <el-table-column prop="_271_level" label="271等级">
             <template slot-scope="scope">
               {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
@@ -93,6 +93,8 @@ export default {
     return {
       total: 0,
       currentPage: 1,
+      evaluation_name: "",
+      end_time: "",
       tableData: [],
       summary: {
         top: {
@@ -150,9 +152,11 @@ export default {
     },
     refreshData(data) {
       getDownMembersList(this.$route.params.id, data).then(res => {
-        const { total, data, overview } = res;
+        const { total, data, overview, evaluation_name, end_time } = res;
         this.total = total;
         this.tableData = data;
+        this.evaluation_name = evaluation_name;
+        this.end_time = end_time;
         this.postSummary(overview);
       });
     },

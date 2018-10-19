@@ -149,6 +149,7 @@ export default {
           finishedTime: `上级评截止时间: ${end_time}`
         };
         this.level = LEVEL_ALIAS[_271_level].toLowerCase();
+        // console.log(LEVEL_ALIAS[_271_level])
         const submited = status == 20;
         this.submited = submited;
         const key = `culture_member_draft_${this.$route.params.uid}`;

@@ -301,6 +301,10 @@ export const ENUM_WAIT_CONFIRM = [
 
 export const ENUM_LEVELS = [
   {
+    key: "1",
+    value: "1"
+  },
+  {
     key: "1.1",
     value: "1.1"
   },
@@ -373,8 +377,8 @@ export const ENUM_LEVELS = [
     value: "6.3"
   },
   {
-    key: "7.0",
-    value: "7.0"
+    key: "7",
+    value: "7"
   }
 ];
 

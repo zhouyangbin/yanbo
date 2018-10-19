@@ -310,3 +310,14 @@ export const getHistoryModifyList = (id: String) =>
 // 高管修改评分
 export const postManagerModify = (id: String, params: Object) =>
   sendPost(`/admin/api/superior-modify/${id}`, params);
+// 隔级操作驳回/通过, 支持批量
+export const postReject = (params: Object) =>
+  sendPost(`/culture/web/team/approval`, params);
+export const setLvFromHighLv = (params: Object) =>
+  sendPost(`/culture/web/team/highlevel-set-level`, params);
+// 事业部271列表
+export const getManagerLvList = (params: Object) =>
+  sendGet(`/culture/web/rank-manage`, params);
+// 事业部271修改lv
+export const changeManagerLv = (id: String, params: Object) =>
+  sendPost(`/culture/web/rank-manage/${id}`, params);

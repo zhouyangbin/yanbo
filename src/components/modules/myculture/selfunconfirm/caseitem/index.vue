@@ -59,6 +59,7 @@ export default {
       margin-right: 50px;
       font-weight: bold;
       flex-shrink: 0;
+      flex-basis: 96px;
     }
     .case-info {
       font-size: 14px;
