@@ -1,63 +1,63 @@
 <template>
-    <div class="culture-hr-details-history-page">
-        <nav-bar :list="nav"></nav-bar>
-        <br>
-        <section class="content-container" style="padding:40px">
-            <basic-info :data="basicInfo"></basic-info>
-            <br>
-            <hr>
-            <br>
-            <history-cards :selectedIndex.sync="selectedIndex" :data="list"></history-cards>
-            <br>
-            <case-area :readOnly="readOnly" v-model="list[selectedIndex].change_reason"></case-area>
-            <br>
-            <case-area :readOnly="readOnly" v-model="list[selectedIndex].advantage"></case-area>
-            <br>
-            <case-area :readOnly="readOnly" v-model="list[selectedIndex].promotion"></case-area>
-            <br>
-            <section class="mark">
-                <el-row align="middle" type="flex">
-                    <el-col style="padding:20px;border-right: 1px solid #979797;">
-                        <div class="mark-label">
-                            自评分数
-                        </div>
-                        <grade-items :items="list[selectedIndex].scores||[]" v-model="selectGradeItem"></grade-items>
-                    </el-col>
-                    <el-col style="padding-left:50px;">
-                        <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
-                            <div>
-                                {{i+3}}分理由:
-                            </div>
-                            <div>
-                                {{n}}
-                            </div>
-                        </div>
-                    </el-col>
-                </el-row>
-            </section>
-            <br>
-            <div class="mark-flag-container">
-                <div class="mark-section">
-                    <div class="mark-label">
-                        为{{basicInfo.name}}的成就客户项目评分
-                    </div>
-                    <br>
-                    <grade-slider :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_score"></grade-slider>
-                </div>
-                <div style="width:20px;"></div>
-                <div class="flag-section">
-                    <div class="mark-label">
-                        为{{basicInfo.name}}设计等级标签
-                    </div>
-                    <br>
-                    <!-- <level-selector :disabled="readOnly" v-model="level"></level-selector> -->
-                </div>
+  <div class="culture-hr-details-history-page">
+    <nav-bar :list="nav"></nav-bar>
+    <br>
+    <section class="content-container" style="padding:40px">
+      <basic-info :data="basicInfo"></basic-info>
+      <br>
+      <hr>
+      <br>
+      <history-cards :selectedIndex.sync="selectedIndex" :data="list"></history-cards>
+      <br>
+      <case-area :readOnly="readOnly" v-model="list[selectedIndex].change_reason"></case-area>
+      <br>
+      <case-area :readOnly="readOnly" v-model="list[selectedIndex].advantage"></case-area>
+      <br>
+      <case-area :readOnly="readOnly" v-model="list[selectedIndex].promotion"></case-area>
+      <br>
+      <section class="mark">
+        <el-row align="middle" type="flex">
+          <el-col style="padding:20px;border-right: 1px solid #979797;">
+            <div class="mark-label">
+              自评分数
             </div>
-            <br>
-            <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
-            <br>
-        </section>
-    </div>
+            <grade-items :items="gradeItems" v-model="selectGradeItem"></grade-items>
+          </el-col>
+          <el-col style="padding-left:50px;">
+            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
+              <div>
+                {{i+3}}分理由:
+              </div>
+              <div>
+                {{n}}
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </section>
+      <br>
+      <div class="mark-flag-container">
+        <div class="mark-section">
+          <div class="mark-label">
+            为{{basicInfo.name}}的成就客户项目评分
+          </div>
+          <br>
+          <grade-slider :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_score"></grade-slider>
+        </div>
+        <div style="width:20px;"></div>
+        <div class="flag-section">
+          <div class="mark-label">
+            为{{basicInfo.name}}设计等级标签
+          </div>
+          <br>
+          <level-selector :disabled="readOnly" v-model="currentLv"></level-selector>
+        </div>
+      </div>
+      <br>
+      <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
+      <br>
+    </section>
+  </div>
 </template>
 <script>
 import {
@@ -79,11 +79,11 @@ import { getHistoryModifyList } from "@/constants/API";
 export default {
   data() {
     return {
-      // FIXME: data
       basicInfo: {},
       selectedIndex: 0,
       selectGradeItem: 0,
       readOnly: true,
+      level: "",
       nav: [
         {
           label: GRADE_MANAGE,
@@ -117,7 +117,10 @@ export default {
         {
           scores: [{}]
         }
-      ]
+      ],
+      constants: {
+        LEVEL_ALIAS
+      }
     };
   },
   components: {
@@ -127,7 +130,9 @@ export default {
     "history-cards": () => import("@/components/common/HistoryCard/index.vue"),
     "case-area": () => import("@/components/common/CaseArea/index.vue"),
     "grade-items": () => import("@/components/common/GradeItem/index.vue"),
-    "grade-slider": () => import("@/components/common/GradeSlider/index.vue")
+    "grade-slider": () => import("@/components/common/GradeSlider/index.vue"),
+    "level-selector": () =>
+      import("@/components/common/LevelSelector/index.vue")
   },
   methods: {
     getHistory() {
@@ -135,7 +140,9 @@ export default {
         const { records, info } = res;
         this.list = records;
         this.basicInfo = {
-          ...info
+          ...info,
+          leaderLabel: "上级",
+          hightlevelLabel: "隔级上级"
         };
       });
     }
@@ -146,7 +153,19 @@ export default {
   computed: {
     reasons() {
       return this.list[this.selectedIndex].scores[this.selectGradeItem]
-        .self_cases;
+        .self_case;
+    },
+    currentLv() {
+      return (
+        this.constants.LEVEL_ALIAS[this.list[this.selectedIndex]._271_level] ||
+        ""
+      ).toLowerCase();
+    },
+    gradeItems() {
+      return (this.list[this.selectedIndex].scores || []).map(v => {
+        v.score = v.self_score;
+        return v;
+      });
     }
   }
 };

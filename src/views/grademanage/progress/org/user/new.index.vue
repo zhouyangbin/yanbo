@@ -195,13 +195,15 @@ export default {
           highlevel_name,
           highlevel_workcode,
           evaluation_type,
-          total_score
+          total_score,
+          status
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
         this.has_history = has_history;
         // console.log(superior_name)
         this.isManager = evaluation_type == 2;
+        this.status = status;
         this.level = LEVEL_ALIAS[_271_level];
         this.evaluation_name = evaluation_name;
         this.total_score = total_score;

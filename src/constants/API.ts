@@ -321,3 +321,6 @@ export const getManagerLvList = (params: Object) =>
 // 事业部271修改lv
 export const changeManagerLv = (id: String, params: Object) =>
   sendPost(`/culture/web/rank-manage/${id}`, params);
+//hr重新打分接口（被驳回或申诉时）
+export const reevaluate = (id: String, params: Object) =>
+  sendPost(`/admin/api/user_list/${id}/reevaluate`, params);

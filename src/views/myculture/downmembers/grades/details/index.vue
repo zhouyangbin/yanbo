@@ -100,9 +100,10 @@ export default {
       levelEditable: false,
       advantage: "",
       promotion: "",
-      rejectReason: "",
+
       levelNecessary: false,
       basicInfo: {},
+      reject_reason: [],
       audit_status: 0,
       scores: [
         {
@@ -166,6 +167,7 @@ export default {
         this.advantage = advantage;
         this.promotion = promotion;
         this.levelNecessary = !!_271_is_necessary;
+
         this.basicInfo = {
           name: employee_name,
           superior_workcode,
@@ -186,7 +188,7 @@ export default {
       });
     },
     levelChange() {
-      if (this.levelNecessary && !this.leve) {
+      if (this.levelNecessary && !this.level) {
         this.$message({
           message: "请选择等级!",
           type: "warning"

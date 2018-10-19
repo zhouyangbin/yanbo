@@ -37,6 +37,10 @@
         </el-row>
       </section>
       <br>
+      <div v-for="(v,i) of rejectReason" :key="i">
+        <reject-reason :data="v.reason"></reject-reason>
+        <br>
+      </div>
       <div class="mark-flag-container">
         <div class="mark-section">
           <div class="mark-label">
@@ -82,6 +86,7 @@ export default {
   data() {
     return {
       employee_name: "",
+      rejectReason: "",
       basicInfo: {},
       nav: [
         {
@@ -123,7 +128,9 @@ export default {
     "grade-items": () => import("@/components/common/GradeItem/index.vue"),
     "grade-slider": () => import("@/components/common/GradeSlider/index.vue"),
     "level-selector": () =>
-      import("@/components/common/LevelSelector/index.vue")
+      import("@/components/common/LevelSelector/index.vue"),
+    "reject-reason": () =>
+      import("@/components/modules/myculture/rejectreason/index.vue")
   },
   methods: {
     getMemberDetail() {
@@ -136,8 +143,10 @@ export default {
           employee_workcode,
           end_time,
           _271_level,
-          status
+          status,
+          reject_record
         } = res;
+        this.rejectReason = reject_record;
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = employee_name;
