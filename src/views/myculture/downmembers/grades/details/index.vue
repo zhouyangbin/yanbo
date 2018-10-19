@@ -153,6 +153,8 @@ export default {
           promotion,
           superior_name,
           superior_workcode,
+          employee_workcode,
+          employee_name,
           end_time,
           scores,
           _271_level,
@@ -165,7 +167,10 @@ export default {
         this.promotion = promotion;
         this.levelNecessary = !!_271_is_necessary;
         this.basicInfo = {
+          name: employee_name,
           superior_workcode,
+          workcode: employee_workcode,
+          leaderLabel: "他的上级",
           superior_name,
           finishedTime: `隔级评截止时间: ${end_time}`
         };

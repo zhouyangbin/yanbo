@@ -13,7 +13,7 @@
             请评分
           </div>
           <br>
-          <grade-slider :readOnly="readOnly" :step="1" :max="5" v-model="questions[selectGradeItem].score"></grade-slider>
+          <grade-slider :min="1" :readOnly="readOnly" :step="1" :max="5" v-model="questions[selectGradeItem].score"></grade-slider>
         </el-col>
         <el-col style="padding-left:50px;">
           <div class="mark-score">

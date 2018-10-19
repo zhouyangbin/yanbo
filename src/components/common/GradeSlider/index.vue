@@ -1,8 +1,9 @@
 
 <template>
   <div class="GradeSlider-page">
-    <div @click="readOnly?undefined:$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" data-num="0" :style="{left: `0`}"></div>
-    <div @click="readOnly?undefined:$emit('input',x*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue==x*step,'selected':value==x*step,'invisible':value>x*step && !onHover,'half-invisible':hoverValue>x*step}" @mouseover="hoverDot" v-for="x in max/step" :data-num="x*step" :key="x" class="dot" :style="{left: `${x*100/max*step}%`}"></div>
+    <div v-if="min==0" @click="readOnly?undefined:$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" :data-num="0" :style="{left: `0`}"></div>
+    <div @click="readOnly?undefined:$emit('input',(x-1+min)*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue===(x-1+min)*step,'selected':value==(x-1+min)*step,'invisible':value>(x-1+min)*step && !onHover,'half-invisible':hoverValue>(x-1+min)*step}" @mouseover="hoverDot" v-for="x in diff/step" :data-num="(x-1+min)*step" :key="x" class="dot" :style="{left: `${100/(diff/step-1)*(x-1)}%`}">
+    </div>
 
     <div v-show="!onHover" :style="selectedStyle" class="selected-wrapper"></div>
     <div v-show="onHover" :style="hoverStyle" class="hover-wrapper"></div>
@@ -11,6 +12,10 @@
 <script>
 export default {
   props: {
+    min: {
+      type: Number,
+      default: 0
+    },
     max: {
       type: Number,
       default: 5
@@ -22,6 +27,10 @@ export default {
     value: {
       type: String | Number,
       default: ""
+    },
+    self: {
+      type: Boolean,
+      default: false
     },
     readOnly: {
       type: Boolean,
@@ -43,7 +52,9 @@ export default {
       return {
         width: `${
           this.value
-            ? ((this.value / this.step) * 100) / (this.max / this.step) + 1
+            ? (100 / (this.diff / this.step - 1)) *
+                ((this.value - this.min) / this.step) +
+              1
             : 0
         }% `
       };
@@ -52,13 +63,18 @@ export default {
       return {
         width: `${
           this.hoverValue
-            ? ((this.hoverValue / this.step) * 100) / (this.max / this.step) + 1
+            ? (100 / (this.diff / this.step - 1)) *
+                ((this.hoverValue - this.min) / this.step) +
+              1
             : 0
         }% `
       };
     },
     onHover() {
       return this.hoverValue != "";
+    },
+    diff() {
+      return this.max - this.min + this.step;
     }
   }
 };

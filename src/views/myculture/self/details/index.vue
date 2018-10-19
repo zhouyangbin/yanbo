@@ -72,6 +72,8 @@ export default {
     }
   },
   created() {
+    // this.currentTabComponent = "self-grade";
+    // return;
     return getMyCultureStatus(this.$route.params.id).then(res => {
       this.isManager = res.evaluation_type == 2;
       if (res.status == 2) {
