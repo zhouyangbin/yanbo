@@ -13,7 +13,7 @@
         <div>
           <span class="label">总分</span>
           <span class="total-score">
-            12.5分
+            {{total_score}}分
           </span>
           <br>
           <br>
@@ -102,6 +102,7 @@ export default {
       advantage: "",
       promotion: "",
       has_history: 1,
+      total_score: "",
       level: "",
       scores: [],
       nav: [
@@ -193,7 +194,8 @@ export default {
           superior_workcode,
           highlevel_name,
           highlevel_workcode,
-          evaluation_type
+          evaluation_type,
+          total_score
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
@@ -202,6 +204,7 @@ export default {
         this.isManager = evaluation_type == 2;
         this.level = LEVEL_ALIAS[_271_level];
         this.evaluation_name = evaluation_name;
+        this.total_score = total_score;
         this.basicInfo = {
           name,
           workcode,

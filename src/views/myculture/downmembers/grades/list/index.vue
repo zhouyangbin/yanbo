@@ -28,16 +28,26 @@
             <el-form-item>
               <el-select v-model="memberForm.highlevel_status" placeholder="上级评状态">
                 <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
-                <!-- <el-option label="区域一" value="shanghai"></el-option> -->
               </el-select>
             </el-form-item>
           </el-form>
+          <el-popover @hide="reason=''" placement="top" width="160" v-model="showReasonPop">
+            <case-area v-model="reason" placeholder="请填写驳回理由"></case-area>
+            <br>
+            <el-row type="flex" justify="center">
+              <el-button @click="batchReject" type="primary" round>提交</el-button>
+            </el-row>
+            <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem" round>批量驳回</el-button>
+          </el-popover>
+
+          <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem" type="primary" round>批量通过</el-button>
           <distribute-summary :data="summary"></distribute-summary>
         </div>
         <br>
         <hr class="dash">
         <br>
-        <el-table :data="tableData" stripe style="width: 100%">
+        <el-table @selection-change="selectionChange" :data="tableData" stripe style="width: 100%">
+          <el-table-column type="selection"></el-table-column>
           <el-table-column prop="name" label="姓名">
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
@@ -86,7 +96,7 @@ import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
-import { getDownMembersList } from "@/constants/API";
+import { getDownMembersList, postReject } from "@/constants/API";
 
 export default {
   data() {
@@ -95,6 +105,9 @@ export default {
       currentPage: 1,
       evaluation_name: "",
       end_time: "",
+      selectedArr: [],
+      reason: "",
+      showReasonPop: false,
       tableData: [],
       summary: {
         top: {
@@ -134,7 +147,8 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
     "distribute-summary": () =>
-      import("@/components/modules/myculture/membersdistribute/index.vue")
+      import("@/components/modules/myculture/membersdistribute/index.vue"),
+    "case-area": () => import("@/components/common/CaseArea/index.vue")
   },
   watch: {
     memberForm: {
@@ -147,6 +161,58 @@ export default {
     }
   },
   methods: {
+    selectionChange(s) {
+      this.selectedArr = s.map(v => v.id);
+    },
+    batchPass() {
+      this.$confirm("是否批量通过, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          postReject({
+            ids: this.selectedArr,
+            type: 2
+          })
+            .then(res => {
+              this.$message({
+                message: "操作成功",
+                type: "success"
+              });
+              this.refreshData({ page: 1, ...this.memberForm });
+              this.page = 1;
+              this.selectedArr = [];
+            })
+            .catch(e => {});
+        })
+        .catch(() => {});
+    },
+    batchReject() {
+      if (!this.reason) {
+        this.$message({
+          message: "请填写驳回理由!",
+          type: "warning"
+        });
+        return;
+      }
+      postReject({
+        ids: this.selectedArr,
+        type: 1,
+        reason: this.reason
+      })
+        .then(res => {
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
+          this.refreshData({ page: 1, ...this.memberForm });
+          this.page = 1;
+          this.showReasonPop = false;
+          this.selectedArr = [];
+        })
+        .catch(e => {});
+    },
     currentChange(v) {
       this.refreshData({ page: v, ...this.memberForm });
     },
@@ -178,6 +244,11 @@ export default {
     getLevelText(num) {
       return LEVEL_ALIAS[num];
     }
+  },
+  computed: {
+    hasSelectedItem() {
+      return this.selectedArr.length > 0;
+    }
   }
 };
 </script>
@@ -203,7 +274,7 @@ export default {
 }
 .members-list-filter {
   margin-left: 20px;
-
+  align-items: center;
   display: flex;
 }
 .list-filter-form {

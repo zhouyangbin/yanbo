@@ -2,7 +2,7 @@
 <template>
   <div class="self-report-page">
     <div class="grade-name">
-      2018年第二次文化评分报告
+      {{gradeName}}
     </div>
     <br>
     <hr>
@@ -15,8 +15,8 @@
           您的总分 <span class="score">{{total}}分</span>
         </div>
         <br>
-        <div>
-          等级标签 <el-button class="selector selected">Top</el-button>
+        <div v-if="visible_271">
+          等级标签 <el-button class="selector selected">{{constants.LEVELMAP[level]}}</el-button>
         </div>
       </div>
       <plane :planeScore="planeScore"></plane>
@@ -51,6 +51,7 @@
 </template>
 <script>
 import { getMyCultureReport } from "@/constants/API";
+import { LEVELMAP } from "@/constants/TEXT";
 
 export default {
   data() {
@@ -59,7 +60,13 @@ export default {
       advantage: "",
       promotion: "",
       total: "",
-      scores: []
+      scores: [],
+      gradeName: "",
+      visible_271: false,
+      level: "",
+      constants: {
+        LEVELMAP
+      }
     };
   },
   components: {
@@ -80,8 +87,14 @@ export default {
           advantage,
           promotion,
           total_score,
-          scores
+          scores,
+          name,
+          visible_271,
+          _271_level
         } = res;
+        this.level = _271_level;
+        this.gradeName = name;
+        this.visible_271 = visible_271 == 1;
         const basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
