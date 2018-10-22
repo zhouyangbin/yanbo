@@ -56,10 +56,10 @@ export default {
     }
     let dst;
     if (querys.source == "culture") {
-      dst = this.getCulturePath();
+      dst = this.getCulturePath(querys);
     } else {
       // 目标通知跳转
-      let dst = this.getPerformancePath();
+      let dst = this.getPerformancePath(querys);
     }
 
     if (querys.token) {
@@ -128,7 +128,7 @@ export default {
     });
   },
   methods: {
-    getPerformancePath() {
+    getPerformancePath(querys) {
       let dst = PATH_EMPLOYEE_MY;
       switch (querys.url) {
         case "self":
@@ -151,7 +151,7 @@ export default {
       }
       return dst;
     },
-    getCulturePath() {
+    getCulturePath(querys) {
       let dst;
       switch (querys.path) {
         case "self":
