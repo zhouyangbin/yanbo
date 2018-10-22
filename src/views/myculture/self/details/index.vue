@@ -4,16 +4,18 @@
     <nav-bar :list="nav"></nav-bar>
     <br>
     <section class="content-container" style="padding:40px">
-      <basic-info :data="basicInfo"></basic-info>
-      <br>
-      <hr>
-      <br>
-      <div v-if="showRules">
+      <basic-info v-if="!isError" :data="basicInfo"></basic-info>
+      <div v-if="!isError">
+        <br>
+        <hr>
+        <br>
+      </div>
+      <div v-if="!isError && showRules">
         <rule-text :text="ruleText"></rule-text>
         <br>
         <br>
       </div>
-      <component :stage="stage" v-bind:is="currentTabComponent"></component>
+      <component :msg="msg" :stage="stage" v-bind:is="currentTabComponent"></component>
     </section>
   </div>
 </template>
@@ -46,6 +48,7 @@ export default {
           active: true
         }
       ],
+      msg: "",
       currentTabComponent: "",
       basicInfo: {}
     };
@@ -61,7 +64,9 @@ export default {
     "self-unconfirm": () =>
       import("@/components/modules/myculture/selfunconfirm/index.vue"),
     "self-report": () =>
-      import("@/components/modules/myculture/selfreport/index.vue")
+      import("@/components/modules/myculture/selfreport/index.vue"),
+    "self-msg": () =>
+      import("@/components/modules/myculture/interrupted/index.vue")
   },
   computed: {
     ruleText() {
@@ -69,14 +74,21 @@ export default {
     },
     showRules() {
       return this.currentTabComponent != "self-report";
+    },
+    isError() {
+      return this.currentTabComponent == "self-msg";
     }
   },
   created() {
-    // this.currentTabComponent = "self-grade";
+    // this.currentTabComponent = "self-msg";
+    // this.msg = "res.exception_msg"
     // return;
     return getMyCultureStatus(this.$route.params.id).then(res => {
       this.isManager = res.evaluation_type == 2;
-      if (res.status == 2) {
+      if (res.status == -1) {
+        this.currentTabComponent = "self-msg";
+        this.msg = res.exception_msg;
+      } else if (res.status == 2) {
         this.currentTabComponent = "self-report";
       } else if (res.status == 1 && res.stage == 60) {
         this.currentTabComponent = "self-unconfirm";
@@ -84,7 +96,6 @@ export default {
         this.currentTabComponent = "self-grade";
       }
       this.stage = res.stage;
-      // TODO: 中断的时候
       return res;
     });
   }
