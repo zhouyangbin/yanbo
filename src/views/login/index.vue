@@ -33,7 +33,11 @@ import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
-  PATH_MSG_MOBILE
+  PATH_MSG_MOBILE,
+  PATH_MY_CULTURE_GRADE_DETAILS,
+  PATH_MEMBER_CULTURE_LIST,
+  PATH_DOWN_MEMBER_CULTURE_LIST,
+  PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -46,30 +50,16 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
-    // alert(JSON.stringify(querys))
     if (querys.from_mobile) {
       this.$router.push({ path: PATH_MSG_MOBILE });
       return;
     }
-    let dst = PATH_EMPLOYEE_MY;
-    switch (querys.path) {
-      case "self":
-      case "confirm":
-        dst = PATH_EMPLYEE_MY_DETAIL(
-          querys.performance_id,
-          querys.performance_user_id
-        );
-        break;
-      case "superior_list":
-        dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
-        break;
-      case "appeal_hr":
-        dst = PATH_PERFORMANCE_USER_DETAIL(
-          querys.performance_name_id,
-          querys.performance_id,
-          querys.performance_user_id
-        );
-        break;
+    let dst;
+    if (querys.source == "culture") {
+      dst = this.getCulturePath();
+    } else {
+      // 目标通知跳转
+      let dst = this.getPerformancePath();
     }
 
     if (querys.token) {
@@ -136,6 +126,53 @@ export default {
       },
       title: "钉钉登录评分系统"
     });
+  },
+  methods: {
+    getPerformancePath() {
+      let dst = PATH_EMPLOYEE_MY;
+      switch (querys.url) {
+        case "self":
+        case "confirm":
+          dst = PATH_EMPLYEE_MY_DETAIL(
+            querys.performance_id,
+            querys.performance_user_id
+          );
+          break;
+        case "superior_list":
+          dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
+          break;
+        case "appeal_hr":
+          dst = PATH_PERFORMANCE_USER_DETAIL(
+            querys.performance_name_id,
+            querys.performance_id,
+            querys.performance_user_id
+          );
+          break;
+      }
+      return dst;
+    },
+    getCulturePath() {
+      let dst;
+      switch (querys.path) {
+        case "self":
+        case "interview":
+          dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
+          break;
+        case "superior":
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          break;
+        case "highlevel":
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          break;
+        case "reject":
+          dst = PATH_MEMBER_CULTURE_DETAILS(
+            querys.evaluation_name_id,
+            querys.user_id
+          );
+          break;
+      }
+      return dst;
+    }
   }
 };
 </script>

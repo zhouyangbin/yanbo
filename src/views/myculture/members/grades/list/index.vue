@@ -51,7 +51,19 @@
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
-          <el-table-column prop="status" :label="constants.LABEL_STATUS"></el-table-column>
+          <el-table-column prop="status" :label="constants.LABEL_STATUS">
+            <template slot-scope="scope">
+              <div class="reject_status" v-if="scope.row.reject_status ==1">
+                {{constants.REJECT}}
+              </div>
+              <div class="complain_status" v-if="scope.row.reject_status ==2">
+                {{constants.APPEAL}}
+              </div>
+              <div v-if="scope.row.reject_status ==0">
+                {{ scope.row.status}}
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
               <el-button type="text" @click="goDetail(scope.row)" size="small">{{constants.VIEW_DETAILS}}</el-button>
@@ -80,7 +92,9 @@ import {
   SELF_SCORE,
   LEADER_SOCRE,
   LABEL_OPERATIONS,
-  VIEW_DETAILS
+  VIEW_DETAILS,
+  REJECT,
+  APPEAL
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -134,7 +148,9 @@ export default {
         SELF_SCORE,
         LEADER_SOCRE,
         LABEL_OPERATIONS,
-        VIEW_DETAILS
+        VIEW_DETAILS,
+        REJECT,
+        APPEAL
       }
     };
   },
@@ -263,5 +279,29 @@ hr.dash {
   margin-right: 15px;
   font-size: 12px;
   text-align: center;
+}
+.reject_status {
+  border-radius: 20px;
+  border: solid 2px #e94a2d;
+  color: #e94a2d;
+  text-align: center;
+  width: 60px;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotateZ(-12deg);
+  left: 0;
+}
+.complain_status {
+  border-radius: 20px;
+  border: solid 2px #46beeb;
+  color: #46beeb;
+  text-align: center;
+  width: 60px;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotateZ(-12deg);
+  left: 0;
 }
 </style>
