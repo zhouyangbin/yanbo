@@ -5,23 +5,19 @@
       <el-col :span="12" class="login-logo">
         <img src="@assets/img/login_logo.png" alt="好文来文化评分">
       </el-col>
-
       <!-- login form -->
-
       <el-col :span="12" class="col-bg">
-
         <el-row type="flex" justify="center" align="middle" class="row-bg">
           <el-col style="width:310px">
             <el-container class="login-form">
-
               <div id="qr_scan">
-
               </div>
-
             </el-container>
           </el-col>
         </el-row>
-
+        <button v-show="false" type="button" @click="dingOpen" ref="myBtn">
+          Click Me!
+        </button>
       </el-col>
     </el-row>
   </div>
@@ -46,7 +42,7 @@ export default {
   data() {
     return {};
   },
-  created() {
+  mounted() {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
@@ -77,13 +73,9 @@ export default {
                 JSON.stringify(res.admin.permissions)
               );
               if (querys.fromDingDing) {
-                window.DingTalkPC.biz.util.openLink({
-                  url: `${window.location.origin}${dst}`, //要打开链接的地址
-                  onSuccess: function(result) {
-                    /**/
-                  },
-                  onFail: function() {}
-                });
+                window.dst = `${window.location.origin} ${dst}`;
+                const elem = this.$refs.myBtn;
+                elem.click();
               } else {
                 this.$router.push({ path: dst });
               }
@@ -100,13 +92,9 @@ export default {
               JSON.stringify(res.admin.permissions)
             );
             if (querys.fromDingDing) {
-              window.DingTalkPC.biz.util.openLink({
-                url: `${window.location.origin}${dst}`, //要打开链接的地址
-                onSuccess: function(result) {
-                  /**/
-                },
-                onFail: function() {}
-              });
+              window.dst = `${window.location.origin} ${dst}`;
+              const elem = this.$els.myBtn;
+              elem.click();
             } else {
               this.$router.push({ path: dst });
             }
@@ -128,6 +116,15 @@ export default {
     });
   },
   methods: {
+    dingOpen() {
+      window.DingTalkPC.biz.util.openLink({
+        url: window.dst, //要打开链接的地址
+        onSuccess: function(result) {
+          /**/
+        },
+        onFail: function() {}
+      });
+    },
     getPerformancePath(querys) {
       let dst;
       switch (querys.path) {
