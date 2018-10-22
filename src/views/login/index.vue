@@ -55,7 +55,7 @@ export default {
       return;
     }
     let dst = PATH_EMPLOYEE_MY;
-    if (querys.source == "culture") {
+    if (querys.project == "culture") {
       dst = this.getCulturePath(querys);
     } else {
       // 目标通知跳转
