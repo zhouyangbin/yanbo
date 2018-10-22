@@ -54,7 +54,7 @@ export default {
       this.$router.push({ path: PATH_MSG_MOBILE });
       return;
     }
-    let dst;
+    let dst = PATH_EMPLOYEE_MY;
     if (querys.source == "culture") {
       dst = this.getCulturePath(querys);
     } else {
@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     getPerformancePath(querys) {
-      let dst = PATH_EMPLOYEE_MY;
+      let dst;
       switch (querys.url) {
         case "self":
         case "confirm":
