@@ -130,7 +130,7 @@ export default {
   methods: {
     getPerformancePath(querys) {
       let dst;
-      switch (querys.url) {
+      switch (querys.path) {
         case "self":
         case "confirm":
           dst = PATH_EMPLYEE_MY_DETAIL(
@@ -153,7 +153,7 @@ export default {
     },
     getCulturePath(querys) {
       let dst;
-      switch (querys.path) {
+      switch (querys.url) {
         case "self":
         case "interview":
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
