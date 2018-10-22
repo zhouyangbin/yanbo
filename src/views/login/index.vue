@@ -73,7 +73,7 @@ export default {
                 JSON.stringify(res.admin.permissions)
               );
               if (querys.fromDingDing) {
-                window.dst = `${window.location.origin} ${dst}`;
+                window.dst = `${window.location.origin}${dst}`;
                 const elem = this.$refs.myBtn;
                 elem.click();
               } else {
@@ -92,7 +92,7 @@ export default {
               JSON.stringify(res.admin.permissions)
             );
             if (querys.fromDingDing) {
-              window.dst = `${window.location.origin} ${dst}`;
+              window.dst = `${window.location.origin}${dst}`;
               const elem = this.$els.myBtn;
               elem.click();
             } else {
