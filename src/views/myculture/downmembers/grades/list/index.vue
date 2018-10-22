@@ -11,7 +11,7 @@
             &nbsp;&nbsp;&nbsp; {{evaluation_name}}
           </div>
           <div class="finish_time">
-            截止时间: {{end_time}}
+            {{constants.FINISHED_DATE}}: {{end_time}}
           </div>
         </header>
         <br>
@@ -26,7 +26,7 @@
               <el-input placeholder="隔级姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="memberForm.highlevel_status" placeholder="上级评状态">
+              <el-select v-model="memberForm.highlevel_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
                 <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
             </el-form-item>
@@ -35,12 +35,12 @@
             <case-area v-model="reason" placeholder="请填写驳回理由"></case-area>
             <br>
             <el-row type="flex" justify="center">
-              <el-button @click="batchReject" type="primary" round>提交</el-button>
+              <el-button @click="batchReject" type="primary" round>{{constants.SUBMIT}}</el-button>
             </el-row>
-            <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem" round>批量驳回</el-button>
+            <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem" round>{{constants.BATCH_REJECT}}</el-button>
           </el-popover>
 
-          <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem" type="primary" round>批量通过</el-button>
+          <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem" type="primary" round>{{constants.BATCH_PASS}}</el-button>
           <distribute-summary :data="summary"></distribute-summary>
         </div>
         <br>
@@ -48,7 +48,7 @@
         <br>
         <el-table @selection-change="selectionChange" :data="tableData" stripe style="width: 100%">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="name" label="姓名">
+          <el-table-column prop="name" :label="constants.LABEL_NAME">
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
                 <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
@@ -57,10 +57,10 @@
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="上级姓名"></el-table-column>
-          <el-table-column prop="score" label="自评分数"></el-table-column>
+          <el-table-column prop="name" :label="constants.NAME"></el-table-column>
+          <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
           <el-table-column prop="superior_score" label="上级评分数"></el-table-column>
-          <el-table-column prop="_271_level" label="271等级">
+          <el-table-column prop="_271_level" :label="constants.LEADER_EVALUATION_STATUS">
             <template slot-scope="scope">
               {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
             </template>
@@ -73,7 +73,7 @@
           <el-table-column prop="status" label="状态"></el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
-              <el-button @click="goDetail(scope.row)" type="text" size="small">查看详情</el-button>
+              <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.VIEW_DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -90,7 +90,19 @@ import {
   MY_DOWN_MEMBER,
   DOWN_MEMBERS_GRADE_LIST,
   LEVEL_ALIAS,
-  BREF_HIGH_LEVEL_STATUS
+  BREF_HIGH_LEVEL_STATUS,
+  FINISHED_DATE,
+  CONST_OPERATIONS_SUCCESS,
+  SUBMIT,
+  BATCH_REJECT,
+  BATCH_PASS,
+  LABEL_NAME,
+  LEADER_EVALUATION_STATUS,
+  SELF_SCORE,
+  NAME,
+  VIEW_DETAILS,
+  CONFIRM,
+  CANCEL
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
@@ -139,7 +151,16 @@ export default {
         }
       ],
       constants: {
-        BREF_HIGH_LEVEL_STATUS
+        BREF_HIGH_LEVEL_STATUS,
+        FINISHED_DATE,
+        SUBMIT,
+        BATCH_REJECT,
+        BATCH_PASS,
+        LABEL_NAME,
+        LEADER_EVALUATION_STATUS,
+        SELF_SCORE,
+        NAME,
+        VIEW_DETAILS
       }
     };
   },
@@ -166,8 +187,8 @@ export default {
     },
     batchPass() {
       this.$confirm("是否批量通过, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
         type: "warning"
       })
         .then(() => {
@@ -177,7 +198,7 @@ export default {
           })
             .then(res => {
               this.$message({
-                message: "操作成功",
+                message: CONST_OPERATIONS_SUCCESS,
                 type: "success"
               });
               this.refreshData({ page: 1, ...this.memberForm });
@@ -203,7 +224,7 @@ export default {
       })
         .then(res => {
           this.$message({
-            message: "操作成功",
+            message: CONST_OPERATIONS_SUCCESS,
             type: "success"
           });
           this.refreshData({ page: 1, ...this.memberForm });

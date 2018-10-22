@@ -16,7 +16,7 @@
         </div>
         <br>
         <div v-if="visible_271">
-          等级标签 <el-button class="selector selected">{{constants.LEVELMAP[level]}}</el-button>
+          {{constants.LEVEL_TAG}} <el-button class="selector selected">{{constants.LEVELMAP[level]}}</el-button>
         </div>
       </div>
       <plane :planeScore="planeScore"></plane>
@@ -24,7 +24,7 @@
     <br>
     <div>
       <span class="sub-title">
-        优势: &nbsp;
+        {{constants.ADVANTAGE}}: &nbsp;
       </span>
       <span class="content">
         {{advantage}}
@@ -33,7 +33,7 @@
     <br>
     <div>
       <span class="sub-title">
-        待提升: &nbsp;
+        {{constants.PROMOTION}}: &nbsp;
       </span>
       <span class="content">
         {{promotion}}
@@ -43,7 +43,7 @@
     <hr>
     <br>
     <div class="detail-header" @click="detailHide =!detailHide">
-      评分详情 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+      {{constants.GRADE_DETAIL}} <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
     </div>
     <br>
     <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
@@ -51,7 +51,13 @@
 </template>
 <script>
 import { getMyCultureReport } from "@/constants/API";
-import { LEVELMAP } from "@/constants/TEXT";
+import {
+  LEVELMAP,
+  LEVEL_TAG,
+  ADVANTAGE,
+  PROMOTION,
+  GRADE_DETAIL
+} from "@/constants/TEXT";
 
 export default {
   data() {
@@ -65,7 +71,11 @@ export default {
       visible_271: false,
       level: "",
       constants: {
-        LEVELMAP
+        LEVELMAP,
+        LEVEL_TAG,
+        ADVANTAGE,
+        PROMOTION,
+        GRADE_DETAIL
       }
     };
   },

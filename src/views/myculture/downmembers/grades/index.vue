@@ -5,9 +5,7 @@
     <br>
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="name" :label="constants.GRADE_NAME">
-        </el-table-column>
-        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
+        <el-table-column v-for="(v,i) of columns" :key="i" :prop="v.prop" :label="v.label">
         </el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -56,11 +54,19 @@ export default {
       ],
       constants: {
         DETAILS,
-        GRADE_NAME,
-        FINISHED_DATE,
         OPERATIONS,
         EXPORT_DETAILS
-      }
+      },
+      columns: [
+        {
+          prop: "name",
+          label: GRADE_NAME
+        },
+        {
+          prop: "end_time",
+          label: FINISHED_DATE
+        }
+      ]
     };
   },
   components: {

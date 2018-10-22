@@ -17,7 +17,7 @@
       <el-row class="mark-section" align="middle" type="flex">
         <el-col style="border-right: 1px solid #979797;">
           <div class="mark-label">
-            上级评分数: <span class="score">{{total}}分</span>
+            {{constants.LEADER_SOCRE}}: <span class="score">{{total}}分</span>
           </div>
           <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
           <br>
@@ -27,8 +27,8 @@
           </div>
           <level-selector :disabled="!levelEditable" v-model="level">
             <span v-if="!readOnly">
-              <el-button v-if="!levelEditable" @click="levelEditable=true" style="margin-left:20px" type="primary" round>修改</el-button>
-              <el-button @click="levelChange" v-else style="margin-left:20px" type="primary" round>确定</el-button>
+              <el-button v-if="!levelEditable" @click="levelEditable=true" style="margin-left:20px" type="primary" round>{{constants.LABEL_MODIFY}}</el-button>
+              <el-button @click="levelChange" v-else style="margin-left:20px" type="primary" round>{{constants.CONFIRM}}</el-button>
             </span>
           </level-selector>
           <br>
@@ -65,11 +65,11 @@
           <case-area placeholder="请您填写驳回理由" v-model="rejectReason"></case-area>
           <br>
           <el-row type="flex" justify="center">
-            <el-button @click="reject" type="primary">提交</el-button>
+            <el-button @click="reject" type="primary">{{constants.SUBMIT}}</el-button>
           </el-row>
-          <el-button slot="reference" type="primary">驳回</el-button>
+          <el-button slot="reference" type="primary">{{constants.REJECT}}</el-button>
         </el-popover>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">确认</el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">{{constants.CONFIRM}}</el-button>
       </el-row>
     </section>
   </div>
@@ -80,7 +80,12 @@ import {
   DOWN_MEMBERS_GRADE_LIST,
   MY_DOWN_MEMBER_RULE,
   LEVEL_ALIAS,
-  LEVELMAP
+  LEVELMAP,
+  LABEL_MODIFY,
+  CONFIRM,
+  SUBMIT,
+  REJECT,
+  LEADER_SOCRE
 } from "@/constants/TEXT";
 
 import {
@@ -130,7 +135,12 @@ export default {
       selectGradeItem: 0,
       gradeItems: [],
       constants: {
-        MY_DOWN_MEMBER_RULE
+        MY_DOWN_MEMBER_RULE,
+        LABEL_MODIFY,
+        CONFIRM,
+        SUBMIT,
+        REJECT,
+        LEADER_SOCRE
       }
     };
   },

@@ -40,14 +40,21 @@
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">保存草稿</el-button>
-      <el-button @click="submitGrade" type="primary">提交</el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{constants.SAVE_DRAFT}}</el-button>
+      <el-button @click="submitGrade" type="primary">{{constants.SUBMIT}}</el-button>
     </el-row>
 
   </div>
 </template>
 <script>
 import { getMyEvaluation, selfMarking } from "@/constants/API";
+import {
+  SUBMIT,
+  SAVE_DRAFT,
+  SUCCESS,
+  CONST_ADD_SUCCESS,
+  DRAFT_SAVE_SUCCESSFULLY
+} from "@/constants/TEXT";
 
 export default {
   data() {
@@ -69,7 +76,11 @@ export default {
           cases: ["", "", ""]
         }
       ],
-      readOnly: false
+      readOnly: false,
+      constants: {
+        SUBMIT,
+        SAVE_DRAFT
+      }
     };
   },
   components: {
@@ -179,8 +190,8 @@ export default {
       selfMarking(postData, this.$route.params.id).then(res => {
         this.clearDraft();
         this.$notify({
-          title: "成功",
-          message: "提交成功",
+          title: SUCCESS,
+          message: CONST_ADD_SUCCESS,
           type: "success"
         });
         this.getGradeInfo();
@@ -193,8 +204,8 @@ export default {
         JSON.stringify(this.filterCases(this.questions))
       );
       this.$notify({
-        title: "成功",
-        message: "草稿保存成功",
+        title: SUCCESS,
+        message: DRAFT_SAVE_SUCCESSFULLY,
         type: "success"
       });
     },

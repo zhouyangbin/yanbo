@@ -11,7 +11,7 @@
             &nbsp;&nbsp;&nbsp; {{evaluation_name}}
           </div>
           <div class="finish_time">
-            截止时间: {{end_time}}
+            {{constants.FINISHED_DATE}}: {{end_time}}
           </div>
         </header>
         <br>
@@ -23,7 +23,7 @@
               <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="memberForm.superior_status" placeholder="上级评状态">
+              <el-select v-model="memberForm.superior_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
                 <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
             </el-form-item>
@@ -34,7 +34,7 @@
         <hr class="dash">
         <br>
         <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column prop="name" label="姓名">
+          <el-table-column prop="name" :label="constants.NAME">
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
                 <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
@@ -43,18 +43,18 @@
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column prop="score" label="自评分数"></el-table-column>
-          <el-table-column prop="superior_score" label="上级评分数"></el-table-column>
+          <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
+          <el-table-column prop="superior_score" :label="constants.LEADER_SOCRE"></el-table-column>
           <el-table-column prop="self" label="271等级">
             <template slot-scope="scope">
               {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
             </template>
           </el-table-column>
-          <el-table-column prop="superior_status" label="上级评状态"></el-table-column>
-          <el-table-column prop="status" label="状态"></el-table-column>
-          <el-table-column fixed="right" label="操作">
+          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
+          <el-table-column prop="status" :label="constants.LABEL_STATUS"></el-table-column>
+          <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
-              <el-button type="text" @click="goDetail(scope.row)" size="small">查看详情</el-button>
+              <el-button type="text" @click="goDetail(scope.row)" size="small">{{constants.VIEW_DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -71,9 +71,16 @@
 import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
-  // MY_MEMBER_RULE,
+  FINISHED_DATE,
   BREF_HIGH_LEVEL_STATUS,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  LEADER_EVALUATION_STATUS,
+  LABEL_STATUS,
+  NAME,
+  SELF_SCORE,
+  LEADER_SOCRE,
+  LABEL_OPERATIONS,
+  VIEW_DETAILS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -103,11 +110,7 @@ export default {
       total: 0,
       currentPage: 1,
       tableData: [],
-      // summary: {
-      //   top: 2,
-      //   medium: 13,
-      //   bottom: 2
-      // },
+
       memberForm: {
         employee_name: "",
         superior_status: ""
@@ -123,8 +126,15 @@ export default {
         }
       ],
       constants: {
-        // MY_MEMBER_RULE,
-        BREF_HIGH_LEVEL_STATUS
+        BREF_HIGH_LEVEL_STATUS,
+        FINISHED_DATE,
+        LEADER_EVALUATION_STATUS,
+        LABEL_STATUS,
+        NAME,
+        SELF_SCORE,
+        LEADER_SOCRE,
+        LABEL_OPERATIONS,
+        VIEW_DETAILS
       }
     };
   },

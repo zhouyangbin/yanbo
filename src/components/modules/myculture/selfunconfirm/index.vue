@@ -8,7 +8,7 @@
     <br>
     <div>
       <span class="sub-title">
-        优势: &nbsp;
+        {{constants.ADVANTAGE}}: &nbsp;
       </span>
       <span class="content">
         {{advantage}}
@@ -17,7 +17,7 @@
     <br>
     <div>
       <span class="sub-title">
-        待提升: &nbsp;
+        {{constants.PROMOTION}}: &nbsp;
       </span>
       <span class="content">
         {{promotion}}
@@ -31,16 +31,24 @@
         </el-input>
         <br>
         <br>
-        <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">确认</el-button>
-        <el-button style="margin-right:20px" slot="reference" type="primary">申诉</el-button>
+        <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">{{constants.CONFIRM}}</el-button>
+        <el-button style="margin-right:20px" slot="reference" type="primary">{{constants.APPEAL}}</el-button>
       </el-popover>
-      <el-button @click="confirm" type="primary">确认</el-button>
+      <el-button @click="confirm" type="primary">{{constants.CONFIRM}}</el-button>
     </el-row>
     <impression-dialog v-if="showImpressionDialog" :visible.sync="showImpressionDialog"></impression-dialog>
   </div>
 </template>
 <script>
 import { getMyCultureUnConfirmedDetail, postConfirm } from "@/constants/API";
+import {
+  ADVANTAGE,
+  PROMOTION,
+  CONFIRM,
+  APPEAL,
+  CONST_OPERATIONS_SUCCESS,
+  CANCEL
+} from "@/constants/TEXT";
 
 export default {
   props: {
@@ -56,7 +64,13 @@ export default {
       advantage: "",
       promotion: "",
       scores: [],
-      isManager: false
+      isManager: false,
+      constants: {
+        ADVANTAGE,
+        PROMOTION,
+        CONFIRM,
+        APPEAL
+      }
     };
   },
   components: {
@@ -79,7 +93,7 @@ export default {
       };
       postConfirm(postData).then(res => {
         this.$message({
-          message: "操作成功!",
+          message: CONST_OPERATIONS_SUCCESS,
           type: "success"
         });
         this.getInfo();
@@ -90,8 +104,8 @@ export default {
         this.showImpressionDialog = true;
       } else {
         this.$confirm("是否确认提交, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
           type: "warning"
         })
           .then(() => {
@@ -101,7 +115,7 @@ export default {
             };
             postConfirm(postData).then(res => {
               this.$message({
-                message: "操作成功!",
+                message: CONST_OPERATIONS_SUCCESS,
                 type: "success"
               });
               this.getInfo();

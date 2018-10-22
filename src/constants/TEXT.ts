@@ -555,3 +555,15 @@ export const LEVELMAP = {
   middle: 2,
   bottom: 1
 };
+
+export const IMPRESSIONS = "心得体会";
+export const DOWN_MEMBER_REJECT_REASON = "隔级驳回理由";
+export const LEVEL_TAG = "等级标签";
+export const ADVANTAGE = "优势";
+export const PROMOTION = "待提升";
+export const SELF_SCORE = "自评分数";
+export const LEADER_SOCRE = "上级评分数";
+export const VIEW_DETAILS = "查看详情";
+export const BATCH_REJECT = "批量驳回";
+export const BATCH_PASS = "批量通过";
+export const REJECT = "驳回";

@@ -19,7 +19,7 @@
         <el-row align="middle" type="flex">
           <el-col style="padding:20px;border-right: 1px solid #979797;">
             <div class="mark-label">
-              自评分数
+              {{constants.SELF_SCORE}}
             </div>
             <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
 
@@ -62,8 +62,8 @@
       <case-area v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score" :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
       <br>
       <el-row v-if="!readOnly" type="flex" justify="end">
-        <el-button v-if="!submited" @click="saveDraft" type="primary">保存草稿</el-button>
-        <el-button @click="submit" type="primary">提交</el-button>
+        <el-button v-if="!submited" @click="saveDraft" type="primary">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
   </div>
@@ -74,7 +74,14 @@ import {
   MEMBERS_GRADE_LIST,
   MY_MEMBER_RULE,
   LEVEL_ALIAS,
-  LEVELMAP
+  LEVELMAP,
+  SELF_SCORE,
+  SAVE_DRAFT,
+  SUBMIT,
+  DRAFT_SAVE_SUCCESSFULLY,
+  CONFIRM,
+  CANCEL,
+  CONST_ADD_SUCCESS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -114,7 +121,10 @@ export default {
         }
       ],
       constants: {
-        MY_MEMBER_RULE
+        MY_MEMBER_RULE,
+        SELF_SCORE,
+        SAVE_DRAFT,
+        SUBMIT
       }
     };
   },
@@ -232,7 +242,7 @@ export default {
         })
       );
       this.$message({
-        message: "保存草稿成功!",
+        message: DRAFT_SAVE_SUCCESSFULLY,
         type: "success"
       });
     },
@@ -246,15 +256,15 @@ export default {
         return;
       }
       this.$confirm("是否确定提交, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
         type: "warning"
       })
         .then(() => {
           postMemberGrade(this.$route.params.uid, this.composePostData())
             .then(res => {
               this.$message({
-                message: "提交成功",
+                message: CONST_ADD_SUCCESS,
                 type: "success"
               });
               this.getMemberDetail();

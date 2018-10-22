@@ -1,16 +1,24 @@
 <template>
-    <div class="reject-reason-components">
-        <span class="label">隔级驳回理由</span>
-        <span>{{data}}</span>
-    </div>
+  <div class="reject-reason-components">
+    <span class="label">{{constants.DOWN_MEMBER_REJECT_REASON}}</span>
+    <span>{{data}}</span>
+  </div>
 </template>
 <script>
+import { DOWN_MEMBER_REJECT_REASON } from "@/constants/TEXT";
 export default {
   props: {
     data: {
       type: String,
       default: ""
     }
+  },
+  data() {
+    return {
+      constants: {
+        DOWN_MEMBER_REJECT_REASON
+      }
+    };
   }
 };
 </script>
