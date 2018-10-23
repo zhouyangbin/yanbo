@@ -545,7 +545,7 @@ export const BREF_HIGH_LEVEL_STATUS = [
     value: "未评"
   },
   {
-    key: "1",
+    key: "2",
     value: "已评"
   }
 ];
