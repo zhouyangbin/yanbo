@@ -54,7 +54,7 @@ export default {
       this.$router.push({ path: PATH_MSG_MOBILE });
       return;
     }
-    let dst = PATH_EMPLOYEE_MY;
+    let dst;
     if (querys.project == "culture") {
       dst = this.getCulturePath(querys);
     } else {
@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     getPerformancePath(querys) {
-      let dst;
+      let dst = PATH_EMPLOYEE_MY;
       switch (querys.path) {
         case "self":
         case "confirm":
@@ -152,7 +152,7 @@ export default {
       return dst;
     },
     getCulturePath(querys) {
-      let dst;
+      let dst = PATH_EMPLOYEE_MY;
       switch (querys.url) {
         case "self":
         case "interview":
@@ -171,6 +171,7 @@ export default {
           );
           break;
       }
+      // console.log(querys.evaluation_name_id, querys.user_id, dst)
       return dst;
     }
   }
