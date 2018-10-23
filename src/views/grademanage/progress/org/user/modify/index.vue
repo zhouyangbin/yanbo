@@ -84,7 +84,7 @@ import {
   LEVELMAP
 } from "@/constants/TEXT";
 import {
-  getMyMemberCultureDetails,
+  getUserGradeContent,
   postManagerModify,
   reevaluate
 } from "@/constants/API";
@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     getMemberDetail() {
-      getMyMemberCultureDetails(this.$route.params.uid).then(res => {
+      getUserGradeContent(this.$route.params.uid).then(res => {
         const {
           advantage,
           promotion,

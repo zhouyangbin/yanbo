@@ -37,7 +37,8 @@ import {
   PATH_MY_CULTURE_GRADE_DETAILS,
   PATH_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMBER_CULTURE_LIST,
-  PATH_MEMBER_CULTURE_DETAILS
+  PATH_MEMBER_CULTURE_DETAILS,
+  PATH_GRADE_EMP_DETAIL
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -167,6 +168,13 @@ export default {
         case "reject":
           dst = PATH_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
+            querys.user_id
+          );
+          break;
+        case "hr_detail":
+          dst = PATH_GRADE_EMP_DETAIL(
+            querys.evaluation_name_id,
+            querys.evaluation_id,
             querys.user_id
           );
           break;
