@@ -59,7 +59,7 @@ export default {
       dst = this.getCulturePath(querys);
     } else {
       // 目标通知跳转
-      let dst = this.getPerformancePath(querys);
+      dst = this.getPerformancePath(querys);
     }
 
     if (querys.token) {
