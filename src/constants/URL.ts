@@ -146,7 +146,8 @@ export const PATH_DOWN_MEMBER_CULTURE_DETAILS = (
 // 我的文化评分导出
 export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
   `${base}culture/web/${id}/team/export?${qs.stringify({
-    type: type
+    type: type,
+    token: localStorage.getItem("talToken")
   })}`;
 // 事业部271
 
