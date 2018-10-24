@@ -576,6 +576,7 @@ export default {
       return (
         (this.stage == 30 && this.canAdd) ||
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
+        (this.stage == 50 && this.depInfo.highlevel_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
     },
