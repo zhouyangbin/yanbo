@@ -95,7 +95,7 @@ export default {
         this.neverSubmit = res.status == 0;
         const key = `uid_self_${this.$route.params.id}_draft_culture`;
         const savedDraft = window.localStorage.getItem(key);
-        if (res.status == 10 && savedDraft) {
+        if (res.status == 0 && savedDraft) {
           const id = `uid_self_${this.$route.params.id}_draft_culture`;
           this.preProcessQuestions(JSON.parse(savedDraft));
         } else {
@@ -106,13 +106,18 @@ export default {
           employee_workcode,
           highlevel_name,
           highlevel_workcode,
-          self_end_time
+          self_end_time,
+          superior_name,
+          superior_workcode
         } = res;
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
           leaderLabel: "我的上级",
+          superior_name,
           highlevel_name,
+          superior_workcode,
+          hightlevelLabel: "隔级上级",
           highlevel_workcode,
           finishedTime: `自评截止时间: ${self_end_time}`
         };
@@ -138,6 +143,9 @@ export default {
     },
     validateGrade() {
       return this.questions.some(i => {
+        if (!i.score) {
+          return true;
+        }
         if (i.score === 3) {
           // return i.cases[0] == undefined || i.cases[0].length == 0
           return this.caseValidate(i, 3);
