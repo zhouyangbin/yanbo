@@ -19,13 +19,16 @@
         <br>
         <div class="members-list-filter">
           <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
-            <el-form-item prop="nemployee_nameame">
+            <el-form-item prop="employee_name">
               <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item prop="superior_status">
               <el-select v-model="memberForm.superior_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
                 <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="resetForm('ruleForm')">{{constants.RESET}}</el-button>
             </el-form-item>
           </el-form>
           <distribute-summary :data="overview"></distribute-summary>
@@ -94,7 +97,8 @@ import {
   LABEL_OPERATIONS,
   VIEW_DETAILS,
   REJECT,
-  APPEAL
+  APPEAL,
+  RESET
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -150,7 +154,8 @@ export default {
         LABEL_OPERATIONS,
         VIEW_DETAILS,
         REJECT,
-        APPEAL
+        APPEAL,
+        RESET
       }
     };
   },
@@ -173,6 +178,9 @@ export default {
     }
   },
   methods: {
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     getData(data) {
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);

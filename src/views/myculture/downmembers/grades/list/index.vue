@@ -25,10 +25,13 @@
             <el-form-item prop="employee_name">
               <el-input placeholder="隔级姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item prop="highlevel_status">
               <el-select v-model="memberForm.highlevel_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
                 <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="resetForm('ruleForm')">{{constants.RESET}}</el-button>
             </el-form-item>
           </el-form>
           <el-popover @hide="reason=''" placement="top" width="160" v-model="showReasonPop">
@@ -102,7 +105,8 @@ import {
   NAME,
   VIEW_DETAILS,
   CONFIRM,
-  CANCEL
+  CANCEL,
+  RESET
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
@@ -160,7 +164,8 @@ export default {
         LEADER_EVALUATION_STATUS,
         SELF_SCORE,
         NAME,
-        VIEW_DETAILS
+        VIEW_DETAILS,
+        RESET
       }
     };
   },
@@ -182,6 +187,9 @@ export default {
     }
   },
   methods: {
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     selectionChange(s) {
       this.selectedArr = s.map(v => v.id);
     },
