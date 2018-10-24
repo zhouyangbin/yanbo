@@ -40,10 +40,10 @@
             <el-row type="flex" justify="center">
               <el-button @click="batchReject" type="primary" round>{{constants.SUBMIT}}</el-button>
             </el-row>
-            <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem" round>{{constants.BATCH_REJECT}}</el-button>
+            <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem || notAllowedBatch" round>{{constants.BATCH_REJECT}}</el-button>
           </el-popover>
 
-          <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem" type="primary" round>{{constants.BATCH_PASS}}</el-button>
+          <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem || notAllowedBatch" type="primary" round>{{constants.BATCH_PASS}}</el-button>
           <distribute-summary :data="summary"></distribute-summary>
         </div>
         <br>
@@ -191,7 +191,7 @@ export default {
       this.$refs[formName].resetFields();
     },
     selectionChange(s) {
-      this.selectedArr = s.map(v => v.id);
+      this.selectedArr = s;
     },
     batchPass() {
       this.$confirm("是否批量通过, 是否继续?", "提示", {
@@ -201,7 +201,7 @@ export default {
       })
         .then(() => {
           postReject({
-            ids: this.selectedArr,
+            ids: this.selectedArr.map(v => v.id),
             type: 2
           })
             .then(res => {
@@ -226,7 +226,7 @@ export default {
         return;
       }
       postReject({
-        ids: this.selectedArr,
+        ids: this.selectedArr.map(v => v.id),
         type: 1,
         reason: this.reason
       })
@@ -277,6 +277,9 @@ export default {
   computed: {
     hasSelectedItem() {
       return this.selectedArr.length > 0;
+    },
+    notAllowedBatch() {
+      return this.selectedArr.some(i => i.stage != 50);
     }
   }
 };
