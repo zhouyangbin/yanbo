@@ -113,7 +113,7 @@ export default {
       levelEditable: false,
       advantage: "",
       promotion: "",
-
+      rejectReason: "",
       levelNecessary: false,
       basicInfo: {},
       reject_reason: [],
