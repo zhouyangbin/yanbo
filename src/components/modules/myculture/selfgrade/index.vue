@@ -143,18 +143,33 @@ export default {
     },
     validateGrade() {
       return this.questions.some(i => {
+        console.log(i);
+        // debugger
         if (!i.score) {
+          this.$message.error(`${i.question_name}评分为选择!`);
           return true;
         }
-        if (i.score === 3) {
+        if (i.score == 3) {
           // return i.cases[0] == undefined || i.cases[0].length == 0
-          return this.caseValidate(i, 3);
+          const index = this.caseValidate(i, 3);
+          if (index != -1) {
+            this.$message.error(`${i.question_name}${index + 2}评分为选择!`);
+            return true;
+          }
         }
-        if (i.score === 4) {
-          return this.caseValidate(i, 4);
+        if (i.score == 4) {
+          const index = this.caseValidate(i, 4);
+          if (index != -1) {
+            this.$message.error(`${i.question_name}${index + 2}评分为选择!`);
+            return true;
+          }
         }
-        if (i.score === 5) {
-          return this.caseValidate(i, 5);
+        if (i.score == 5) {
+          const index = this.caseValidate(i, 5);
+          if (index != -1) {
+            this.$message.error(`${i.question_name}${index + 2}评分为选择!`);
+            return true;
+          }
         }
         return false;
       });
@@ -163,10 +178,10 @@ export default {
       const max = score - 3;
       for (let index = 0; index <= max; index++) {
         if (item.cases[index] == undefined || item.cases[index].length == 0) {
-          return true;
+          return index;
         }
       }
-      return false;
+      return -1;
     },
     composeData() {
       let result = {};
@@ -192,7 +207,7 @@ export default {
     submitGrade() {
       const isInValid = this.validateGrade();
       if (isInValid) {
-        return this.$message.error("请填写完整案例信息");
+        return;
       }
       const postData = this.composeData();
       selfMarking(postData, this.$route.params.id).then(res => {
