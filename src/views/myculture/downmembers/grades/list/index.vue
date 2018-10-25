@@ -60,21 +60,21 @@
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column prop="name" :label="constants.NAME"></el-table-column>
+          <el-table-column prop="superior_name" :label="constants.LEADER_NAME"></el-table-column>
           <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
-          <el-table-column prop="superior_score" label="上级评分数"></el-table-column>
-          <el-table-column prop="_271_level" :label="constants.LEADER_EVALUATION_STATUS">
+          <el-table-column prop="superior_score" :label="constants.LEADER_SOCRE"></el-table-column>
+          <el-table-column prop="_271_level" label="271等级">
             <template slot-scope="scope">
               {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
             </template>
           </el-table-column>
-          <el-table-column prop="superior_status" label="上级评状态">
+          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS">
             <template slot-scope="scope">
               {{scope.row.superior_status ? '未评':"已评"}}
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="状态"></el-table-column>
-          <el-table-column fixed="right" label="操作">
+          <el-table-column prop="status" :label="constants.LABEL_STATUS"></el-table-column>
+          <el-table-column fixed="right" :label="constants.OPERATIONS">
             <template slot-scope="scope">
               <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.VIEW_DETAILS}}</el-button>
             </template>
@@ -106,7 +106,11 @@ import {
   VIEW_DETAILS,
   CONFIRM,
   CANCEL,
-  RESET
+  RESET,
+  LEADER_NAME,
+  LEADER_SOCRE,
+  LABEL_STATUS,
+  OPERATIONS
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
@@ -165,7 +169,11 @@ export default {
         SELF_SCORE,
         NAME,
         VIEW_DETAILS,
-        RESET
+        RESET,
+        LEADER_NAME,
+        LEADER_SOCRE,
+        LABEL_STATUS,
+        OPERATIONS
       }
     };
   },
