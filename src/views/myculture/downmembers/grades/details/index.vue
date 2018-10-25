@@ -10,9 +10,15 @@
       <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
       <br>
       <br>
-      <case-area :readOnly="true" v-model="advantage"></case-area>
+      <div>
+        <h3>{{constants.ADVANTAGE}}:</h3>
+        <case-area :readOnly="true" v-model="advantage"></case-area>
+      </div>
       <br>
-      <case-area :readOnly="true" v-model="promotion"></case-area>
+      <div>
+        <h3>{{constants.PROMOTION}}:</h3>
+        <case-area :readOnly="true" v-model="promotion"></case-area>
+      </div>
       <br>
       <el-row class="mark-section" align="middle" type="flex">
         <el-col style="border-right: 1px solid #979797;">
@@ -85,7 +91,9 @@ import {
   CONFIRM,
   SUBMIT,
   REJECT,
-  LEADER_SOCRE
+  LEADER_SOCRE,
+  ADVANTAGE,
+  PROMOTION
 } from "@/constants/TEXT";
 
 import {
@@ -140,7 +148,9 @@ export default {
         CONFIRM,
         SUBMIT,
         REJECT,
-        LEADER_SOCRE
+        LEADER_SOCRE,
+        ADVANTAGE,
+        PROMOTION
       }
     };
   },

@@ -11,9 +11,15 @@
       <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
       <br>
       <br>
-      <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+      <div>
+        <h3>{{constants.ADVANTAGE}}:</h3>
+        <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+      </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+      <div>
+        <h3>{{constants.PROMOTION}}:</h3>
+        <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+      </div>
       <br>
       <section class="mark">
         <el-row align="middle" type="flex">
@@ -81,7 +87,9 @@ import {
   DRAFT_SAVE_SUCCESSFULLY,
   CONFIRM,
   CANCEL,
-  CONST_ADD_SUCCESS
+  CONST_ADD_SUCCESS,
+  ADVANTAGE,
+  PROMOTION
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -124,7 +132,9 @@ export default {
         MY_MEMBER_RULE,
         SELF_SCORE,
         SAVE_DRAFT,
-        SUBMIT
+        SUBMIT,
+        ADVANTAGE,
+        PROMOTION
       }
     };
   },
