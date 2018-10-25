@@ -143,28 +143,34 @@ export default {
     validateGrade() {
       return this.questions.some(i => {
         if (!i.score) {
-          this.$message.error(`${i.question_name}评分为选择!`);
+          this.$message.error(`${i.question_name}评分未选择!`);
           return true;
         }
         if (i.score == 3) {
           // return i.cases[0] == undefined || i.cases[0].length == 0
           const index = this.caseValidate(i, 3);
           if (index != -1) {
-            this.$message.error(`${i.question_name}${index + 2}评分为选择!`);
+            this.$message.error(
+              `${i.question_name}${index + 2}分理由未填写，请填写后提交!`
+            );
             return true;
           }
         }
         if (i.score == 4) {
           const index = this.caseValidate(i, 4);
           if (index != -1) {
-            this.$message.error(`${i.question_name}${index + 2}评分为选择!`);
+            this.$message.error(
+              `${i.question_name}${index + 2}分理由未填写，请填写后提交!`
+            );
             return true;
           }
         }
         if (i.score == 5) {
           const index = this.caseValidate(i, 5);
           if (index != -1) {
-            this.$message.error(`${i.question_name}${index + 2}评分为选择!`);
+            this.$message.error(
+              `${i.question_name}${index + 2}分理由未填写，请填写后提交!`
+            );
             return true;
           }
         }
