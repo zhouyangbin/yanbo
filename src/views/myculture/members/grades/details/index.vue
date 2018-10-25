@@ -61,7 +61,7 @@
             为{{employee_name}}设置等级标签
           </div>
           <br>
-          <level-selector :disabled="readOnly" v-model="level"></level-selector>
+          <level-selector :disabled="readOnly" :pre="hasRejectReasons?preLv:''" v-model="level"></level-selector>
         </div>
       </div>
       <br>
@@ -118,6 +118,7 @@ export default {
         }
       ],
       level: "",
+      preLv: "",
       advantage: "",
       promotion: "",
       selectGradeItem: 0,
@@ -177,7 +178,7 @@ export default {
           workcode: employee_workcode,
           finishedTime: `上级评截止时间: ${end_time}`
         };
-        this.level = LEVEL_ALIAS[_271_level].toLowerCase();
+        this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
         // console.log(LEVEL_ALIAS[_271_level])
         const submited = status == 20;
         this.submited = submited;
@@ -291,6 +292,9 @@ export default {
   computed: {
     reasons() {
       return this.scores[this.selectGradeItem].self_cases;
+    },
+    hasRejectReasons() {
+      return this.rejectReason.length > 0;
     }
   }
 };
