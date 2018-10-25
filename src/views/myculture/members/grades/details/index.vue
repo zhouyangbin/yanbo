@@ -68,7 +68,7 @@
       <case-area v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score" :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
       <br>
       <el-row v-if="!readOnly" type="flex" justify="end">
-        <el-button v-if="!submited" @click="saveDraft" type="primary">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button v-if="!submited && !hasRejectReasons" @click="saveDraft" type="primary">{{constants.SAVE_DRAFT}}</el-button>
         <el-button @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
