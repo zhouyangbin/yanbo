@@ -567,3 +567,4 @@ export const VIEW_DETAILS = "查看详情";
 export const BATCH_REJECT = "批量驳回";
 export const BATCH_PASS = "批量通过";
 export const REJECT = "驳回";
+export const HIGHLV_STATUS = "隔级评状态";

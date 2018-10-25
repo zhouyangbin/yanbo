@@ -26,7 +26,7 @@
               <el-input placeholder="隔级姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
             <el-form-item prop="highlevel_status">
-              <el-select v-model="memberForm.highlevel_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
+              <el-select v-model="memberForm.highlevel_status" :placeholder="constants.HIGHLV_STATUS">
                 <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
             </el-form-item>
@@ -68,7 +68,7 @@
               {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
             </template>
           </el-table-column>
-          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS">
+          <el-table-column prop="superior_status" :label="constants.HIGHLV_STATUS">
             <template slot-scope="scope">
               {{scope.row.superior_status ? '未评':"已评"}}
             </template>
@@ -110,7 +110,8 @@ import {
   LEADER_NAME,
   LEADER_SOCRE,
   LABEL_STATUS,
-  OPERATIONS
+  OPERATIONS,
+  HIGHLV_STATUS
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
@@ -173,7 +174,8 @@ export default {
         LEADER_NAME,
         LEADER_SOCRE,
         LABEL_STATUS,
-        OPERATIONS
+        OPERATIONS,
+        HIGHLV_STATUS
       }
     };
   },
