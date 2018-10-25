@@ -47,7 +47,7 @@
         <div style="width:20px;"></div>
         <div class="flag-section">
           <div class="mark-label">
-            为{{employee_name}}设计等级标签
+            为{{employee_name}}设置等级标签
           </div>
           <br>
           <level-selector :pre="preLv" :disabled="readOnly" v-model="level"></level-selector>

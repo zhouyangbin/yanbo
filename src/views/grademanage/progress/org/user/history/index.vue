@@ -47,7 +47,7 @@
         <div style="width:20px;"></div>
         <div class="flag-section">
           <div class="mark-label">
-            为{{basicInfo.name}}设计等级标签
+            为{{basicInfo.name}}设置等级标签
           </div>
           <br>
           <level-selector :disabled="readOnly" v-model="currentLv"></level-selector>
