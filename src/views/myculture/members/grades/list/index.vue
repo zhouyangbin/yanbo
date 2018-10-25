@@ -54,7 +54,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
-          <el-table-column prop="status" :label="constants.LABEL_STATUS">
+          <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
             <template slot-scope="scope">
               <div class="reject_status" v-if="scope.row.reject_status ==1">
                 {{constants.REJECT}}

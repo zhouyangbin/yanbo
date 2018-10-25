@@ -73,7 +73,7 @@
               {{scope.row.superior_status ? '未评':"已评"}}
             </template>
           </el-table-column>
-          <el-table-column prop="status" :label="constants.LABEL_STATUS"></el-table-column>
+          <el-table-column prop="stage_name" :label="constants.LABEL_STATUS"></el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS">
             <template slot-scope="scope">
               <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.VIEW_DETAILS}}</el-button>
@@ -289,7 +289,7 @@ export default {
       return this.selectedArr.length > 0;
     },
     notAllowedBatch() {
-      return this.selectedArr.some(i => i.stage != 50);
+      return this.selectedArr.some(i => i.stage != 50 || i.status == 100);
     }
   }
 };
