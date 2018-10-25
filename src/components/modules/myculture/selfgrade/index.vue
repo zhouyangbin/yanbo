@@ -126,7 +126,6 @@ export default {
       });
     },
     preProcessQuestions(arr) {
-      // console.log(arr)
       arr.map((a, i) => {
         if (!a.cases) {
           a.cases = new Array(3).fill("");
@@ -143,8 +142,6 @@ export default {
     },
     validateGrade() {
       return this.questions.some(i => {
-        console.log(i);
-        // debugger
         if (!i.score) {
           this.$message.error(`${i.question_name}评分为选择!`);
           return true;
