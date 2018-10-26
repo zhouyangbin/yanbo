@@ -69,9 +69,6 @@
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.HIGHLV_STATUS">
-            <template slot-scope="scope">
-              {{scope.row.superior_status ? '未评':"已评"}}
-            </template>
           </el-table-column>
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS"></el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS">
