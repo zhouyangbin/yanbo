@@ -149,6 +149,9 @@
           <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
           </el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">
+            <template slot-scope="scope">
+              {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+            </template>
           </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
@@ -239,7 +242,8 @@ import {
   ENUM_LEADER_PLUS_EVALUATION_STATUS,
   MODIFY_TIMES,
   CONFIRM,
-  CANCEL
+  CANCEL,
+  LEVEL_ALIAS
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_EMP_DETAIL,
@@ -353,7 +357,8 @@ export default {
         ENUM_FACE_EVALUATION_STATUS,
         ENUM_LEADER_PLUS_EVALUATION_STATUS,
         MODIFY_TIMES,
-        PATH_GRADE_EMP_DETAIL
+        PATH_GRADE_EMP_DETAIL,
+        LEVEL_ALIAS
       },
       tableData: [],
       nav: [
