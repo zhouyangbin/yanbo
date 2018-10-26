@@ -1,29 +1,30 @@
 <template>
-  <div class="reject-reason-components">
-    <span class="label">{{constants.DOWN_MEMBER_REJECT_REASON}}</span>
-    <span>{{data}}</span>
+  <div class="appeal-reason-components">
+    <span class="label">{{constants.APPEAL_REASON}}</span>
+    <span>{{data.reason}}</span>
+    <span class="appeal-time">{{data.time}}</span>
   </div>
 </template>
 <script>
-import { DOWN_MEMBER_REJECT_REASON } from "@/constants/TEXT";
+import { APPEAL_REASON } from "@/constants/TEXT";
 export default {
   props: {
     data: {
-      type: String,
-      default: ""
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
     return {
       constants: {
-        DOWN_MEMBER_REJECT_REASON
+        APPEAL_REASON
       }
     };
   }
 };
 </script>
 <style lang="scss" scoped>
-.reject-reason-components {
+.appeal-reason-components {
   padding: 30px 36px;
   display: flex;
   //   justify-content: center;
@@ -32,10 +33,16 @@ export default {
   font-size: 14px;
   line-height: 30px;
   background: #f18d23;
+  position: relative;
   & .label {
     font-size: 24px;
     margin-right: 32px;
     flex-shrink: 0;
+  }
+  .appeal-time {
+    position: absolute;
+    right: 30px;
+    top: 0;
   }
 }
 </style>

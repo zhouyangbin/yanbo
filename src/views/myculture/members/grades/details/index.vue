@@ -67,6 +67,9 @@
       <br>
       <case-area v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score" :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
       <br>
+      <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
+        <appeal-reaosn :data="item"></appeal-reaosn>
+      </div>
       <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button v-if="!submited && !hasRejectReasons" @click="saveDraft" type="primary">{{constants.SAVE_DRAFT}}</el-button>
         <el-button @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
@@ -102,6 +105,7 @@ export default {
     return {
       employee_name: "",
       rejectReason: "",
+      appealReason: [],
       basicInfo: {},
       nav: [
         {
@@ -151,7 +155,9 @@ export default {
     "level-selector": () =>
       import("@/components/common/LevelSelector/index.vue"),
     "reject-reason": () =>
-      import("@/components/modules/myculture/rejectreason/index.vue")
+      import("@/components/modules/myculture/rejectreason/index.vue"),
+    "appeal-reaosn": () =>
+      import("@/components/modules/myculture/appealreason/index.vue")
   },
   methods: {
     getMemberDetail() {
@@ -165,13 +171,15 @@ export default {
           end_time,
           _271_level,
           status,
-          reject_record
+          reject_record,
+          appeal_record
         } = res;
         this.rejectReason = reject_record;
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = employee_name;
         this.readOnly = res.can_submit == 0;
+        this.appealReason = appeal_record || [];
         this._271_is_necessary = !!res._271_is_necessary;
         this.basicInfo = {
           name: employee_name,
