@@ -70,7 +70,7 @@
               {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
             </template>
           </el-table-column>
-          <el-table-column prop="superior_status" :label="constants.HIGHLV_STATUS">
+          <el-table-column prop="highlevel_status_name" :label="constants.HIGHLV_STATUS">
           </el-table-column>
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS"></el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS">
@@ -288,7 +288,9 @@ export default {
       return this.selectedArr.length > 0;
     },
     notAllowedBatch() {
-      return this.selectedArr.some(i => i.stage != 50 || i.status == 100);
+      return this.selectedArr.some(
+        i => i.stage != 50 || (i.status == 100 || i.status == 30)
+      );
     }
   }
 };
