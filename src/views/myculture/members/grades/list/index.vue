@@ -63,7 +63,7 @@
                 {{constants.APPEAL}}
               </div>
               <div v-if="scope.row.reject_status ==0">
-                {{ scope.row.status}}
+                {{ scope.row.stage_name}}
               </div>
             </template>
           </el-table-column>
