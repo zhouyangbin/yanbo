@@ -309,7 +309,8 @@ hr.dash {
   z-index: 2;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%) rotateZ(-12deg);
+  transform: translateY(-50%);
+  transform: rotateZ(-12deg);
   left: 0;
 }
 </style>

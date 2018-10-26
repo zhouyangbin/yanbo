@@ -34,16 +34,18 @@
               <el-button @click="resetForm('ruleForm')">{{constants.RESET}}</el-button>
             </el-form-item>
           </el-form>
-          <el-popover @hide="reason=''" placement="top" width="160" v-model="showReasonPop">
-            <case-area v-model="reason" placeholder="请填写驳回理由"></case-area>
-            <br>
-            <el-row type="flex" justify="center">
-              <el-button @click="batchReject" type="primary" round>{{constants.SUBMIT}}</el-button>
-            </el-row>
-            <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem || notAllowedBatch" round>{{constants.BATCH_REJECT}}</el-button>
-          </el-popover>
+          <div>
+            <el-popover @hide="reason=''" placement="top" width="160" v-model="showReasonPop">
+              <case-area v-model="reason" placeholder="请填写驳回理由"></case-area>
+              <br>
+              <el-row type="flex" justify="center">
+                <el-button @click="batchReject" type="primary" round>{{constants.SUBMIT}}</el-button>
+              </el-row>
+              <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem || notAllowedBatch" round>{{constants.BATCH_REJECT}}</el-button>
+            </el-popover>
 
-          <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem || notAllowedBatch" type="primary" round>{{constants.BATCH_PASS}}</el-button>
+            <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem || notAllowedBatch" type="primary" round>{{constants.BATCH_PASS}}</el-button>
+          </div>
           <distribute-summary :data="summary"></distribute-summary>
         </div>
         <br>
@@ -315,6 +317,7 @@ export default {
   margin-left: 20px;
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
 }
 .list-filter-form {
   display: inline-block;

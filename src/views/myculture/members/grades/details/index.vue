@@ -190,7 +190,7 @@ export default {
         };
         this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
         // console.log(LEVEL_ALIAS[_271_level])
-        const submited = status == 20;
+        const submited = status >= 20;
         this.submited = submited;
         const key = `culture_member_draft_${this.$route.params.uid}`;
         const s = window.localStorage.getItem(key);
@@ -339,6 +339,8 @@ export default {
     }
     & .flag-section {
       flex: 8;
+      flex-basis: 80px;
+      flex-shrink: 0;
       background: white;
       padding: 20px;
     }

@@ -64,6 +64,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .members-distribute-number {
+  min-width: 440px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   flex: 1;
