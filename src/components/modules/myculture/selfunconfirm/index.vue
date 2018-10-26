@@ -25,7 +25,7 @@
     </div>
     <br>
     <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
-    <el-row type="flex" justify="end">
+    <el-row v-if="canSubmit" type="flex" justify="end">
       <el-popover @hide="reason=''" placement="top" trigger="click">
         <el-input type="textarea" :rows="2" placeholder="请输入申诉理由" v-model="reason">
         </el-input>
@@ -63,6 +63,7 @@ export default {
       name: "",
       advantage: "",
       promotion: "",
+      canSubmit: false,
       scores: [],
       isManager: false,
       constants: {
@@ -138,11 +139,13 @@ export default {
           scores,
           name,
           end_time,
-          evaluation_type
+          evaluation_type,
+          can_submit
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
         this.scores = scores;
+        this.canSubmit = can_submit == 1;
         this.name = name;
         this.isManager = evaluation_type == 2;
         this.$parent.basicInfo = {
