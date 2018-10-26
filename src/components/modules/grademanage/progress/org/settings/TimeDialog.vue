@@ -64,7 +64,7 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item v-if="isManagerGrade" label="" prop="visible_271">
+      <el-form-item label="" prop="visible_271">
         <el-checkbox :true-label="1" :false-label="0" v-model="timesForm.visible_271">271等级员工本人可见</el-checkbox>
       </el-form-item>
     </el-form>
