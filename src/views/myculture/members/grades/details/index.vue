@@ -70,6 +70,8 @@
       <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
         <appeal-reaosn :data="item"></appeal-reaosn>
       </div>
+      <br>
+      <br>
       <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button v-if="!submited && !hasRejectReasons" @click="saveDraft" type="primary">{{constants.SAVE_DRAFT}}</el-button>
         <el-button @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
