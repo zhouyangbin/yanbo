@@ -3,7 +3,7 @@
     <el-submenu :index="constants.PATH_EMPLOYEE_MY">
       <template slot="title">
         <i class="el-icon-star-off"></i>
-        <span>{{constants.EMPLOYEE_GRADE}}</span>
+        <span>{{constants.MY_PERFORMANCE}}</span>
       </template>
       <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{constants.MY_GRADE}}</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_EMPLOYEE_TEAM].includes($route.path)}" :index="constants.PATH_EMPLOYEE_TEAM">{{constants.TEAM_GRADE}}</el-menu-item>
@@ -58,10 +58,10 @@ import {
   ACCESS_SETTING,
   ROLE_SETTING,
   CULTURE_GRADE,
-  EMPLOYEE_GRADE,
   MY_GRADE,
   TEAM_GRADE,
-  MY_CULTURE
+  MY_CULTURE,
+  MY_PERFORMANCE
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
@@ -94,7 +94,6 @@ export default {
       constants: {
         MY_GRADE,
         TEAM_GRADE,
-        EMPLOYEE_GRADE,
         GRADE_REPORT,
         GRADE_MANAGE,
         USER_MANAGE,
@@ -124,7 +123,8 @@ export default {
         PATH_PERFORMANCE_ORG_LIST,
         PATH_MEMBER_CULTURE_LIST,
         PATH_DOWN_MEMBER_CULTURE_LIST,
-        PATH_CULTURE_LEVEL
+        PATH_CULTURE_LEVEL,
+        MY_PERFORMANCE
       }
     };
   },

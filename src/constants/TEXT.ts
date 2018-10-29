@@ -569,3 +569,4 @@ export const BATCH_PASS = "批量通过";
 export const REJECT = "驳回";
 export const HIGHLV_STATUS = "隔级评状态";
 export const APPEAL_REASON = "申诉理由";
+export const MY_PERFORMANCE = "我的业绩";
