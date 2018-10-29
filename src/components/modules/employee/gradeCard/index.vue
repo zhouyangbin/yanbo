@@ -32,6 +32,13 @@
         </section>
         <br>
       </div>
+      <div v-if="data.target_self_score && data.target_self_score.description!=null">
+        <section>
+          <span class="label">自评分理由:</span> &nbsp;
+          <span>{{data.target_self_score && data.target_self_score.description}}</span>
+        </section>
+        <br>
+      </div>
       <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
         <section>
           <span class="label">上级评分:</span> &nbsp;
@@ -39,12 +46,24 @@
         </section>
         <br>
       </div>
+      <div v-if="data.target_superior_score && data.target_superior_score.description!=null">
+        <section>
+          <span class="label">上级评分理由:</span> &nbsp;
+          <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
+        </section>
+        <br>
+      </div>
     </div>
     <div v-if="!readOnly" class="marks">
-      <el-input-number :precision="1" size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
-      <span class="greyText">您的打分 /
-        <span class="hightlight-mark">{{value&& parseFloat(value).toFixed(1)}}分</span>
-      </span>
+      <div class="target-desc">
+        <case-area :rows="2" :value="desc" @input="$emit('update:desc',$event)" :readOnly="readOnly"></case-area>
+      </div>
+      <div>
+        <el-input-number :precision="1" size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
+        <span class="greyText">您的打分 /
+          <span class="hightlight-mark">{{value&& parseFloat(value).toFixed(1)}}分</span>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +72,10 @@ export default {
   props: {
     value: {
       type: Number | String,
+      default: ""
+    },
+    desc: {
+      type: String,
       default: ""
     },
     config: {
@@ -87,6 +110,9 @@ export default {
       this.defaultValue = value;
       this.$emit("input", parseFloat(value));
     }
+  },
+  components: {
+    "case-area": () => import("@/components/common/CaseArea/index.vue")
   }
 };
 </script>
@@ -104,11 +130,16 @@ export default {
 .grade-card-container .marks {
   margin-right: 10px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 .grade-card-container .marks .numbers {
   margin-right: 30px;
+}
+.grade-card-container .marks .target-desc {
+  flex: 1;
+  margin-right: 40px;
+  margin-left: 10px;
 }
 .grade-card-container .label {
   margin-right: 20px;

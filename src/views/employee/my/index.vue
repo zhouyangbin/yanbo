@@ -10,7 +10,7 @@
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
-      <card :readOnly="readOnly" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :index="i" :key="i"></card>
+      <card :readOnly="readOnly" :desc.sync="targets[i].desc" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :index="i" :key="i"></card>
       <br>
       <div v-if="showComments">
         <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
@@ -170,9 +170,10 @@ export default {
     getPostData() {
       // console.log(this.$route.params)
       return {
-        score: this.targets.map(({ id, mark }) => ({
+        score: this.targets.map(({ id, mark, desc }) => ({
           target_id: id,
-          score: mark
+          score: mark,
+          description: desc
         })),
         attach_score: {
           score: this.myAdditionMark.score || 0,
@@ -228,6 +229,14 @@ export default {
       return new Promise((resolve, reject) => {
         // 若模版选择了加减分，需要填写加减分理由，必填上限200
         // 自评分不能超过5分
+        // 自评理由必填
+        if (this.targets.some(v => !v.desc)) {
+          this.$notify.error({
+            title: ERROR,
+            message: "请填写自评理由!"
+          });
+          return reject(true);
+        }
         if (
           this.showMyAdditional &&
           this.myAdditionMark.score &&
@@ -301,6 +310,8 @@ export default {
           this.showTotal = true;
           this.targets = targets.map(v => {
             v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.desc =
+              (v.target_self_score && v.target_self_score.description) || "";
             delete v.target_self_score;
             delete v.target_superior_score;
             return v;
@@ -313,6 +324,8 @@ export default {
           // this.targets = targets
           this.targets = targets.map(v => {
             v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.desc =
+              (v.target_self_score && v.target_self_score.description) || "";
             return v;
           });
           break;
@@ -323,6 +336,8 @@ export default {
           // this.targets = targets
           this.targets = targets.map(v => {
             v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.desc =
+              (v.target_self_score && v.target_self_score.description) || "";
             return v;
           });
           this.canReject = true;
@@ -335,6 +350,8 @@ export default {
           // this.targets = targets
           this.targets = targets.map(v => {
             v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.desc =
+              (v.target_self_score && v.target_self_score.description) || "";
             return v;
           });
           this.canReject = false;
@@ -346,6 +363,8 @@ export default {
           this.showTotal = true;
           this.targets = targets.map(v => {
             v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.desc =
+              (v.target_self_score && v.target_self_score.description) || "";
             return v;
           });
           this.canReject = false;
