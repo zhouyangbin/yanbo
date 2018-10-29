@@ -544,6 +544,7 @@ export default {
           this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
           this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
           this.gradeInfo.checked_271 = res.info._271_is_necessary;
+          this.gradeInfo.visible_271 = res.info.visible_271;
           this.stage = parseInt(res.info.stage);
           this.import_status = parseInt(res.info.import_status);
         })

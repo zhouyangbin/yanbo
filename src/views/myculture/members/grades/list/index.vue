@@ -57,10 +57,14 @@
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
             <template slot-scope="scope">
               <div class="reject_status" v-if="scope.row.reject_status ==1">
-                {{constants.REJECT}}
+                <div>
+                  {{constants.REJECT}}
+                </div>
               </div>
               <div class="complain_status" v-if="scope.row.reject_status ==2">
-                {{constants.APPEAL}}
+                <div>
+                  {{constants.APPEAL}}
+                </div>
               </div>
               <div v-if="scope.row.reject_status ==0">
                 {{ scope.row.stage_name}}
@@ -288,29 +292,47 @@ hr.dash {
   font-size: 12px;
   text-align: center;
 }
-.reject_status {
+/* .reject_status {
+      border-radius: 20px;
+      border: solid 2px #e94a2d;
+      color: #e94a2d;
+      text-align: center;
+      width: 60px;
+      z-index: 2;
+      position: absolute;
+      top: 50%;
+
+      -webkit-transform: translateY(-50%) rotateZ(-12deg);
+      -moz-transform: translateY(-50%) rotateZ(-12deg);
+      -ms-transform: translateY(-50%) rotateZ(-12deg);
+      -o-transform: translateY(-50%) rotateZ(-12deg);
+      transform: translateY(-50%) rotateZ(-12deg);
+      left: 0;
+    } */
+.reject_status div {
   border-radius: 20px;
   border: solid 2px #e94a2d;
   color: #e94a2d;
-  text-align: center;
   width: 60px;
+  transform: rotateZ(-12deg);
+}
+.complain_status,
+.reject_status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   z-index: 2;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%) rotateZ(-12deg);
+  height: 100%;
   left: 0;
+  top: 0;
 }
-.complain_status {
+.complain_status div {
   border-radius: 20px;
   border: solid 2px #46beeb;
   color: #46beeb;
-  text-align: center;
   width: 60px;
-  z-index: 2;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   transform: rotateZ(-12deg);
-  left: 0;
 }
 </style>
