@@ -520,7 +520,7 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
-          console.log(res.info);
+          // console.log(res.info);
 
           this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
