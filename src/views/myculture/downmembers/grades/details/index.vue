@@ -51,7 +51,7 @@
           </div>
           <br>
           <div>
-            员工自评分数: {{total}}分, {{curItemName}}: {{selfScore}}分
+            员工自评分数: {{selfTotal}}分, {{curItemName}}: {{selfScore}}分
           </div>
           <div v-for="(n,i) in selfCases" :key="i" class="mark-reason">
             <div>
@@ -299,6 +299,11 @@ export default {
     },
     isUnTouched() {
       return this.audit_status == 0;
+    },
+    selfTotal() {
+      return this.scores
+        .map(s => (s.self_score ? parseFloat(s.self_score) : 0))
+        .reduce((pre, cur) => pre + cur, 0);
     }
   }
 };
