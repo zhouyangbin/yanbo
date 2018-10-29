@@ -57,7 +57,7 @@ export default {
         position: absolute;
         color: #006fbc;
         content: attr(data-score);
-        right: -50px;
+        right: -80px;
       }
     }
     &.hezuo {
@@ -79,7 +79,7 @@ export default {
         position: absolute;
         color: #f18d23;
         content: attr(data-score);
-        right: -50px;
+        right: -80px;
       }
     }
     &.chuangxin {

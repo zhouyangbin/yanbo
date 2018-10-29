@@ -15,8 +15,8 @@
           您的总分 <span class="score">{{total}}分</span>
         </div>
         <br>
-        <div v-if="visible_271">
-          {{constants.LEVEL_TAG}} <el-button class="selector selected">{{constants.LEVELMAP[level]}}</el-button>
+        <div v-if="visible_271 && level">
+          {{constants.LEVEL_TAG}} <el-button class="selector selected">{{constants.LEVEL_ALIAS[level]}}</el-button>
         </div>
       </div>
       <plane :planeScore="planeScore"></plane>
@@ -52,7 +52,7 @@
 <script>
 import { getMyCultureReport } from "@/constants/API";
 import {
-  LEVELMAP,
+  LEVEL_ALIAS,
   LEVEL_TAG,
   ADVANTAGE,
   PROMOTION,
@@ -71,7 +71,7 @@ export default {
       visible_271: false,
       level: "",
       constants: {
-        LEVELMAP,
+        LEVEL_ALIAS,
         LEVEL_TAG,
         ADVANTAGE,
         PROMOTION,
@@ -130,28 +130,28 @@ export default {
         this.scores.find(function(o) {
           return o.question_name == "务实";
         }) || {}
-      ).self_score;
+      ).superior_score;
     },
     hzScore() {
       return (
         this.scores.find(function(o) {
           return o.question_name == "合作";
         }) || {}
-      ).self_score;
+      ).superior_score;
     },
     cxScore() {
       return (
         this.scores.find(function(o) {
           return o.question_name == "创新";
         }) || {}
-      ).self_score;
+      ).superior_score;
     },
     cjkhScore() {
       return (
         this.scores.find(function(o) {
           return o.question_name == "成就客户";
         }) || {}
-      ).self_score;
+      ).superior_score;
     },
     planeScore() {
       return {
