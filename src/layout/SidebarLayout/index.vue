@@ -79,6 +79,11 @@ export default {
     height: 100%;
     width: 160px !important;
   }
+  .sidebar-container img {
+    /* background-color: #242a36;
+        height: 100%; */
+    width: 160px !important;
+  }
 }
 .sidebar-container >>> ul {
   height: calc(100% - 168px);
