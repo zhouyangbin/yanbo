@@ -171,8 +171,8 @@ export default {
           advantage,
           promotion,
           scores,
-          employee_name,
-          employee_workcode,
+          name,
+          workcode,
           end_time,
           _271_level,
           status,
@@ -180,10 +180,10 @@ export default {
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
-        this.employee_name = employee_name;
+        this.employee_name = name;
         this.basicInfo = {
-          name: employee_name,
-          workcode: employee_workcode
+          name: name,
+          workcode: workcode
           // finishedTime: end_time
         };
         this.lv_necessary = _271_is_necessary == 1;
