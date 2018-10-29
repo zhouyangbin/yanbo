@@ -303,14 +303,16 @@ export default {
   & .mark-flag-container {
     display: flex;
     & .mark-section {
-      flex: 15;
+      flex: 14;
       background: white;
       padding: 20px;
     }
     & .flag-section {
-      flex: 8;
+      flex: 9;
       background: white;
+      flex-shrink: 0;
       padding: 20px;
+      flex-basis: 80px;
     }
   }
 }
