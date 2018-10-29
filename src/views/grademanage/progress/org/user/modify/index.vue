@@ -54,7 +54,7 @@
         </div>
       </div>
       <br>
-      <div v-if="scores[selectGradeItem].superior_cases">
+      <div v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score">
         <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_cases"></case-area>
         <br>
       </div>
