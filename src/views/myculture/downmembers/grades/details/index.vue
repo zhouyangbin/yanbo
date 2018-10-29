@@ -20,6 +20,10 @@
         <case-area :readOnly="true" v-model="promotion"></case-area>
       </div>
       <br>
+      <div v-for="(v,i) of rejectReasons" :key="i">
+        <reject-reason :data="v.reason"></reject-reason>
+        <br>
+      </div>
       <el-row class="mark-section" align="middle" type="flex">
         <el-col style="border-right: 1px solid #979797;">
           <div class="mark-label">
@@ -64,7 +68,11 @@
         </el-col>
       </el-row>
       <br>
-
+      <br>
+      <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
+        <appeal-reaosn :data="item"></appeal-reaosn>
+      </div>
+      <br>
       <br>
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
         <el-popover @hide="rejectReason=''" placement="top" width="400" trigger="click">
@@ -114,9 +122,11 @@ export default {
       advantage: "",
       promotion: "",
       rejectReason: "",
+      rejectReasons: [],
       levelNecessary: false,
       basicInfo: {},
       reject_reason: [],
+      appealReason: [],
       audit_status: 0,
       scores: [
         {
@@ -163,7 +173,11 @@ export default {
     "case-area": () => import("@/components/common/CaseArea/index.vue"),
     "grade-items": () => import("@/components/common/GradeItem/index.vue"),
     "level-selector": () =>
-      import("@/components/common/LevelSelector/index.vue")
+      import("@/components/common/LevelSelector/index.vue"),
+    "appeal-reaosn": () =>
+      import("@/components/modules/myculture/appealreason/index.vue"),
+    "reject-reason": () =>
+      import("@/components/modules/myculture/rejectreason/index.vue")
   },
   methods: {
     getDetailInfo() {
@@ -182,11 +196,15 @@ export default {
           total_score,
           audit_status,
           _271_is_necessary,
-          stage
+          stage,
+          appeal_record,
+          reject_record
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
         this.levelNecessary = !!_271_is_necessary;
+        this.appealReason = appeal_record || [];
+        this.rejectReasons = reject_record || [];
 
         this.basicInfo = {
           name: employee_name,
