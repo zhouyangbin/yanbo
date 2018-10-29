@@ -289,7 +289,8 @@ export default {
         highlevel_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
-        checked_271: 0
+        checked_271: 0,
+        visible_271: 0
       },
       // 事业部信息
       depInfo: {
@@ -519,7 +520,8 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
-          // console.log(res.info)
+          console.log(res.info);
+
           this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;
