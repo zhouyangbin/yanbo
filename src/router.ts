@@ -79,7 +79,7 @@ const router = new Router({
           path: PATH_GRADE_EMP_DETAIL(),
           components: {
             default: () =>
-              import("@/views/grademanage/progress/org/user/new.index.vue"),
+              import("@/views/grademanage/progress/org/user/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

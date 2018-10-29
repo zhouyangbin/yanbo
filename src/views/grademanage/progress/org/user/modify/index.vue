@@ -54,8 +54,10 @@
         </div>
       </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
-      <br>
+      <div v-if="scores[selectGradeItem].superior_cases">
+        <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_cases"></case-area>
+        <br>
+      </div>
       <div v-if="!forReject">
         <case-area :readOnly="readOnly" placeholder="请填写修改理由" v-model="reason"></case-area>
         <br>
