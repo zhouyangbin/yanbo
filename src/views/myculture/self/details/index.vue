@@ -24,7 +24,8 @@ import {
   MY_GRADE,
   GRADE_DETAIL,
   MY_RULE,
-  MY_UNCONFIRMED_RULE
+  MY_UNCONFIRMED_RULE,
+  MY_MANAGER_RULE
 } from "@/constants/TEXT";
 import { PATH_MY_CULTURE_GRADE } from "@/constants/URL";
 import { getMyCultureStatus } from "@/constants/API";
@@ -70,7 +71,9 @@ export default {
   },
   computed: {
     ruleText() {
-      return ruleMap[this.currentTabComponent];
+      return this.isManager
+        ? MY_MANAGER_RULE
+        : ruleMap[this.currentTabComponent];
     },
     showRules() {
       return this.currentTabComponent != "self-report";
