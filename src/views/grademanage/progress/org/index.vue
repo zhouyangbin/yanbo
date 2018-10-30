@@ -71,7 +71,7 @@
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||!canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">

@@ -199,10 +199,6 @@ export default {
     submit() {
       const valid = this.validate();
       if (!valid) {
-        this.$message({
-          message: "请填写完整理由!",
-          type: "warning"
-        });
         return;
       }
       let postData = this.composePostData();
@@ -259,7 +255,13 @@ export default {
       // console.log(this.scores)
       // 自评和上级评分数不一样,必须有原因
       return !this.scores.some(v => {
-        return v.score != v.superior_score && !v.superior_case;
+        const err = v.score != v.superior_score && !v.superior_case;
+        if (err) {
+          this.$message.error(
+            `${v.question_name}评分理由未填写，请填写后提交!`
+          );
+        }
+        return err;
       });
     },
     composePostData() {

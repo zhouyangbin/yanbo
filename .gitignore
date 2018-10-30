@@ -1,5 +1,8 @@
 .DS_Store
 node_modules
+nginx
+.dockerignore
+Dockerfile
 # dist
 
 # local env files
