@@ -15,7 +15,7 @@
             <span class="dep-name">
               {{depInfo.name}}
             </span>
-            <el-button :disabled="total==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
+            <el-button :disabled="realTotal==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
               {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
             </el-button>
           </el-row>
@@ -264,7 +264,10 @@ export default {
       stage: 10,
       //导入状态
       import_status: 0,
+      // 筛选结果总数,分页用的
       total: 0,
+      // 评分总人数
+      realTotal: 0,
       // info框内的数据
       currentInfo: {},
       // 导入的弹框
@@ -521,7 +524,7 @@ export default {
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
           // console.log(res.info);
-
+          this.realTotal = res.total;
           this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;
