@@ -40,16 +40,20 @@ export default {
       );
     },
     topP() {
-      return `${parseFloat(this.data.top.count / this.total).toFixed(4) *
+      return `${(parseFloat(this.data.top.count / this.total).toFixed(4) *
+        10000) /
         100}%`;
     },
     mediumP() {
-      return `${parseFloat(
+      return `${(parseFloat(
         parseFloat(this.data.middle.count / this.total).toFixed(4)
-      ) * 100}%`;
+      ) *
+        10000) /
+        100}%`;
     },
     bottomP() {
-      return `${parseFloat(this.data.bottom.count / this.total).toFixed(4) *
+      return `${(parseFloat(this.data.bottom.count / this.total).toFixed(4) *
+        10000) /
         100}%`;
     },
     summary() {

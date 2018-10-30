@@ -293,22 +293,22 @@ hr.dash {
   text-align: center;
 }
 /* .reject_status {
-      border-radius: 20px;
-      border: solid 2px #e94a2d;
-      color: #e94a2d;
-      text-align: center;
-      width: 60px;
-      z-index: 2;
-      position: absolute;
-      top: 50%;
+              border-radius: 20px;
+              border: solid 2px #e94a2d;
+              color: #e94a2d;
+              text-align: center;
+              width: 60px;
+              z-index: 2;
+              position: absolute;
+              top: 50%;
 
-      -webkit-transform: translateY(-50%) rotateZ(-12deg);
-      -moz-transform: translateY(-50%) rotateZ(-12deg);
-      -ms-transform: translateY(-50%) rotateZ(-12deg);
-      -o-transform: translateY(-50%) rotateZ(-12deg);
-      transform: translateY(-50%) rotateZ(-12deg);
-      left: 0;
-    } */
+              -webkit-transform: translateY(-50%) rotateZ(-12deg);
+              -moz-transform: translateY(-50%) rotateZ(-12deg);
+              -ms-transform: translateY(-50%) rotateZ(-12deg);
+              -o-transform: translateY(-50%) rotateZ(-12deg);
+              transform: translateY(-50%) rotateZ(-12deg);
+              left: 0;
+            } */
 .reject_status div {
   border-radius: 20px;
   border: solid 2px #e94a2d;
