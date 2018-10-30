@@ -23,7 +23,7 @@
           <br>
           <br>
           <div v-if="level">
-            <span class="label">等级标签</span>
+            <span class="label">{{constants.LEVEL_TAG}}</span>
             <el-button style="margin-left:50px" class="selected selector">{{level}}</el-button>
           </div>
         </div>
@@ -41,11 +41,37 @@
       </el-row>
       <br>
       <br>
-      <br>
-      <br>
+      <div>
+        <div v-if="showAppealAndRefuse" class="appeal-and-refuse">
+          <div v-for="(v,i) of appeal_record" :key="i">
+            <span class="label">
+              申诉理由:
+            </span>
+            <span class="content">
+              {{v.reason}}
+            </span>
+            <span class="time">
+              {{v.time}}
+            </span>
+          </div>
+          <div v-for="(v,i) of reject_record" :key="i">
+            <span class="label">
+              驳回理由:
+            </span>
+            <span class="content">
+              {{v.reason}}
+            </span>
+            <span class="time">
+              {{v.time}}
+            </span>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
       <div>
         <span class="sub-title">
-          优势: &nbsp;
+          {{constants.ADVANTAGE}}: &nbsp;
         </span>
         <span class="content">
           {{advantage}}
@@ -54,7 +80,7 @@
       <br>
       <div>
         <span class="sub-title">
-          待提升: &nbsp;
+          {{constants.PROMOTION}}: &nbsp;
         </span>
         <span class="content">
           {{promotion}}
@@ -89,7 +115,10 @@ import {
   GRADE_MANAGE,
   ORG_DETAIL,
   GRADE_DETAIL,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  LEVEL_TAG,
+  ADVANTAGE,
+  PROMOTION
 } from "@/constants/TEXT";
 import { getUserGradeContent } from "@/constants/API";
 
@@ -99,6 +128,8 @@ export default {
       status: 0,
       isManager: false,
       detailHide: true,
+      appeal_record: [],
+      reject_record: [],
       advantage: "",
       promotion: "",
       has_history: 1,
@@ -136,7 +167,12 @@ export default {
         highlevel_name: "",
         highlevel_workcode: ""
       },
-      evaluation_name: ""
+      evaluation_name: "",
+      constants: {
+        LEVEL_TAG,
+        ADVANTAGE,
+        PROMOTION
+      }
     };
   },
   components: {
@@ -195,9 +231,13 @@ export default {
           highlevel_workcode,
           evaluation_type,
           total_score,
-          status
+          status,
+          appeal_record,
+          reject_record
         } = res;
         this.promotion = promotion;
+        this.appeal_record = appeal_record || [];
+        this.reject_record = reject_record || [];
         this.advantage = advantage;
         this.has_history = has_history;
         // console.log(superior_name)
@@ -232,6 +272,9 @@ export default {
     },
     isEditable() {
       return this.isManager && this.status >= 20 && this.status < 100;
+    },
+    showAppealAndRefuse() {
+      return this.appeal_record.length > 0 || this.reject_record.length > 0;
     }
   }
 };
@@ -294,6 +337,26 @@ export default {
   }
   & /deep/ .GradeItem-page .el-button {
     background: transparent;
+  }
+  .appeal-and-refuse {
+    padding: 20px;
+    background: white;
+    & > div {
+      position: relative;
+    }
+    & .label {
+      font-size: 24px;
+      color: #f18d23;
+      line-height: 30px;
+    }
+    & .content {
+      font-size: 14px;
+      color: #000000;
+    }
+    & .time {
+      position: absolute;
+      right: 0;
+    }
   }
 }
 </style>
