@@ -255,8 +255,9 @@ export default {
       // console.log(this.scores)
       // 自评和上级评分数不一样,必须有原因
       return !this.scores.some(v => {
-        const err = v.score != v.superior_score && !v.superior_case;
+        const err = v.score != v.superior_score && !v.superior_cases;
         if (err) {
+          // console.log(v)
           this.$message.error(
             `${v.question_name}评分理由未填写，请填写后提交!`
           );
@@ -269,7 +270,7 @@ export default {
       this.scores.forEach(v => {
         result[v.question_id] = {
           score: v.superior_score,
-          cases: [v.superior_case]
+          cases: [v.superior_cases]
         };
       });
       result.promotion = this.promotion;
