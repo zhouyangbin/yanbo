@@ -63,8 +63,10 @@
         </div>
       </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
-      <br>
+      <div v-if="list[selectedIndex].scores[selectGradeItem].self_score!=list[selectedIndex].scores[selectGradeItem].superior_score">
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
+        <br>
+      </div>
     </section>
   </div>
 </template>
