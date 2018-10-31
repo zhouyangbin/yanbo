@@ -61,7 +61,7 @@
       </div>
       <br>
       <div v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score">
-        <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_cases"></case-area>
+        <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
         <br>
       </div>
       <div v-if="!forReject">
@@ -171,7 +171,7 @@ export default {
   },
   computed: {
     reasons() {
-      return this.scores[this.selectGradeItem].self_cases;
+      return this.scores[this.selectGradeItem].self_case;
     }
   },
   methods: {
@@ -265,7 +265,7 @@ export default {
       // console.log(this.scores)
       // 自评和上级评分数不一样,必须有原因
       return !this.scores.some(v => {
-        const err = v.score != v.superior_score && !v.superior_cases;
+        const err = v.score != v.superior_score && !v.superior_case;
         if (err) {
           // console.log(v)
           this.$message.error(
@@ -280,7 +280,7 @@ export default {
       this.scores.forEach(v => {
         result[v.question_id] = {
           score: v.superior_score,
-          cases: [v.superior_cases]
+          cases: [v.superior_case]
         };
       });
       result.promotion = this.promotion;
