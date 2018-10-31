@@ -97,7 +97,7 @@ export default {
           message: CONST_OPERATIONS_SUCCESS,
           type: "success"
         });
-        this.getInfo();
+        this.$parent.getStatus();
       });
     },
     confirm() {
@@ -119,7 +119,7 @@ export default {
                 message: CONST_OPERATIONS_SUCCESS,
                 type: "success"
               });
-              this.getInfo();
+              this.$parent.getStatus();
             });
           })
           .catch(() => {});
