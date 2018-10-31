@@ -155,22 +155,22 @@
           </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未完成':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value }}
             </template>
           </el-table-column>
           <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
             <template slot-scope="scope">
-              {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value }}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_is_agree" :label="constants.RESULT_CONFIRM">
