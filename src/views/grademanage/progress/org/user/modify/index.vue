@@ -10,9 +10,15 @@
       <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
       <br>
       <br>
-      <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+      <div>
+        <h3>{{constants.ADVANTAGE}}:</h3>
+        <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+      </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+      <div>
+        <h3>{{constants.PROMOTION}}:</h3>
+        <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+      </div>
       <br>
       <section class="mark">
         <el-row align="middle" type="flex">
@@ -83,7 +89,9 @@ import {
   GRADE_DETAIL,
   MY_MEMBER_RULE,
   LEVEL_ALIAS,
-  LEVELMAP
+  LEVELMAP,
+  ADVANTAGE,
+  PROMOTION
 } from "@/constants/TEXT";
 import {
   getUserGradeContent,
@@ -143,7 +151,9 @@ export default {
         }
       ],
       constants: {
-        MY_MEMBER_RULE
+        MY_MEMBER_RULE,
+        ADVANTAGE,
+        PROMOTION
       }
     };
   },
