@@ -83,21 +83,26 @@ export default {
     }
   },
   created() {
-    return getMyCultureStatus(this.$route.params.id).then(res => {
-      this.isManager = res.evaluation_type == 2;
-      if (res.status == -1) {
-        this.currentTabComponent = "self-msg";
-        this.msg = res.exception_msg;
-      } else if (res.status == 2) {
-        this.currentTabComponent = "self-report";
-      } else if (res.status == 1 && res.stage == 60) {
-        this.currentTabComponent = "self-unconfirm";
-      } else {
-        this.currentTabComponent = "self-grade";
-      }
-      this.stage = res.stage;
-      return res;
-    });
+    this.getStatus();
+  },
+  methods: {
+    getStatus() {
+      getMyCultureStatus(this.$route.params.id).then(res => {
+        this.isManager = res.evaluation_type == 2;
+        if (res.status == -1) {
+          this.currentTabComponent = "self-msg";
+          this.msg = res.exception_msg;
+        } else if (res.status == 2) {
+          this.currentTabComponent = "self-report";
+        } else if (res.status == 1 && res.stage == 60) {
+          this.currentTabComponent = "self-unconfirm";
+        } else {
+          this.currentTabComponent = "self-grade";
+        }
+        this.stage = res.stage;
+        return res;
+      });
+    }
   }
 };
 </script>

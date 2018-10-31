@@ -51,7 +51,7 @@ export default {
             type: "success"
           });
           this.$emit("update:visible", false);
-          this.$parent.getInfo();
+          this.$parent.$parent.getStatus();
         });
       }
     },
