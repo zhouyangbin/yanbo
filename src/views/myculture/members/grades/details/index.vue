@@ -301,7 +301,7 @@ export default {
   },
   computed: {
     reasons() {
-      return this.scores[this.selectGradeItem].self_case;
+      return this.scores[this.selectGradeItem].self_cases;
     },
     hasRejectReasons() {
       return this.rejectReason.length > 0;

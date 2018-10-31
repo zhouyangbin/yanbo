@@ -25,7 +25,7 @@
           </div>
         </div>
         <br>
-        <div v-for="(v,i) in (data.self_case||[])" :key="i" class="my-case">
+        <div v-for="(v,i) in (data.self_cases||[])" :key="i" class="my-case">
           <div class="label">
             我的{{i+3}}分理由：
           </div>

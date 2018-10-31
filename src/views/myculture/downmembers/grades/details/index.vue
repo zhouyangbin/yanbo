@@ -301,7 +301,7 @@ export default {
       return this.scores[this.selectGradeItem].superior_case;
     },
     selfCases() {
-      return this.scores[this.selectGradeItem].self_case;
+      return this.scores[this.selectGradeItem].self_cases;
     },
     selfScore() {
       return this.scores[this.selectGradeItem].self_score;

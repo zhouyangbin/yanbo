@@ -170,7 +170,7 @@ export default {
   computed: {
     reasons() {
       return this.list[this.selectedIndex].scores[this.selectGradeItem]
-        .self_case;
+        .self_cases;
     },
     currentLv() {
       return (

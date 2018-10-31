@@ -171,7 +171,7 @@ export default {
   },
   computed: {
     reasons() {
-      return this.scores[this.selectGradeItem].self_case;
+      return this.scores[this.selectGradeItem].self_cases;
     }
   },
   methods: {
