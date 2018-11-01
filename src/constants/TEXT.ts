@@ -579,3 +579,5 @@ export const HIGHLV_STATUS = "隔级评状态";
 export const APPEAL_REASON = "申诉理由";
 export const MY_PERFORMANCE = "我的业绩";
 export const CHANGE_REASON = "修改理由";
+export const REJECT_REASON = "驳回理由";
+export const TOTAL_SCORES = "总分";

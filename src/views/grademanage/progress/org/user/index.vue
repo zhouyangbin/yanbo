@@ -11,7 +11,7 @@
       <br>
       <el-row type="flex" justify="space-between" align="middle">
         <div>
-          <span class="label">总分</span>
+          <span class="label">{{constants.TOTAL_SCORES}}</span>
           <span class="total-score">
             {{total_score}}分
           </span>
@@ -35,7 +35,7 @@
             <el-button style="margin-bottom:30px" @click="goModify" type="primary">修改评分</el-button>
           </div>
           <div v-if="isRejectOrComplian">
-            <el-button @click="goComplain" type="primary">申诉处理</el-button>
+            <el-button @click="goComplain" type="primary">{{constants.APPEAL_REASON}}</el-button>
           </div>
         </div>
       </el-row>
@@ -45,7 +45,7 @@
         <div v-if="showAppealAndRefuse" class="appeal-and-refuse">
           <div v-for="(v,i) of appeal_record" :key="i">
             <span class="label">
-              申诉理由:
+              {{constants.APPEAL_REASON}}:
             </span>
             <span class="content">
               {{v.reason}}
@@ -56,13 +56,24 @@
           </div>
           <div v-for="(v,i) of reject_record" :key="i">
             <span class="label">
-              驳回理由:
+              {{constants.REJECT_REASON}}:
             </span>
             <span class="content">
               {{v.reason}}
             </span>
             <span class="time">
               {{v.time}}
+            </span>
+          </div>
+          <div v-if="feedback_feeling">
+            <span class="label">
+              {{constants.IMPRESSIONS}}:
+            </span>
+            <span class="content">
+              {{feedback_feeling.content}}
+            </span>
+            <span class="time">
+              {{feedback_feeling.time}}
             </span>
           </div>
         </div>
@@ -93,7 +104,7 @@
       <hr>
       <br>
       <div class="detail-header" @click="detailHide =!detailHide">
-        评分详情 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        {{constants.GRADE_DETAIL}} <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
       </div>
       <br>
       <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
@@ -118,7 +129,11 @@ import {
   LEVEL_ALIAS,
   LEVEL_TAG,
   ADVANTAGE,
-  PROMOTION
+  PROMOTION,
+  IMPRESSIONS,
+  APPEAL_REASON,
+  REJECT_REASON,
+  TOTAL_SCORES
 } from "@/constants/TEXT";
 import { getUserGradeContent } from "@/constants/API";
 
@@ -134,6 +149,7 @@ export default {
       promotion: "",
       has_history: 1,
       total_score: "",
+      feedback_feeling: null,
       level: "",
       scores: [],
       nav: [
@@ -171,7 +187,12 @@ export default {
       constants: {
         LEVEL_TAG,
         ADVANTAGE,
-        PROMOTION
+        PROMOTION,
+        IMPRESSIONS,
+        GRADE_DETAIL,
+        APPEAL_REASON,
+        REJECT_REASON,
+        TOTAL_SCORES
       }
     };
   },
@@ -233,13 +254,15 @@ export default {
           total_score,
           status,
           appeal_record,
-          reject_record
+          reject_record,
+          feedback_feeling
         } = res;
         this.promotion = promotion;
         this.appeal_record = appeal_record || [];
         this.reject_record = reject_record || [];
         this.advantage = advantage;
         this.has_history = has_history;
+        this.feedback_feeling = feedback_feeling;
         // console.log(superior_name)
         this.isManager = evaluation_type == 2;
         this.status = status;

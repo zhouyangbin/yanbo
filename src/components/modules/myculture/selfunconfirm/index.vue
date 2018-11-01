@@ -47,7 +47,8 @@ import {
   CONFIRM,
   APPEAL,
   CONST_OPERATIONS_SUCCESS,
-  CANCEL
+  CANCEL,
+  ATTENTION
 } from "@/constants/TEXT";
 
 export default {
@@ -104,7 +105,7 @@ export default {
       if (this.isManager) {
         this.showImpressionDialog = true;
       } else {
-        this.$confirm("是否确认提交, 是否继续?", "提示", {
+        this.$confirm("是否确认提交, 是否继续?", ATTENTION, {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
           type: "warning"
