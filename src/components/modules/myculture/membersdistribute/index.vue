@@ -40,19 +40,19 @@ export default {
       );
     },
     topP() {
-      return `${(
-        parseFloat(this.data.top.count / this.total) * 100
-      ).toPrecision(4)}%`;
+      return `${parseFloat(
+        (parseFloat(this.data.top.count / this.total) * 100).toPrecision(4)
+      ).toFixed(2)}%`;
     },
     mediumP() {
-      return `${(
-        parseFloat(this.data.middle.count / this.total) * 100
-      ).toPrecision(4)}%`;
+      return `${parseFloat(
+        (parseFloat(this.data.middle.count / this.total) * 100).toPrecision(4)
+      ).toFixed(2)}%`;
     },
     bottomP() {
-      return `${(
-        parseFloat(this.data.bottom.count / this.total) * 100
-      ).toPrecision(4)}%`;
+      return `${parseFloat(
+        (parseFloat(this.data.bottom.count / this.total) * 100).toPrecision(4)
+      ).toFixed(2)}%`;
     },
     summary() {
       return `理想比例271比例分布：Top（${
