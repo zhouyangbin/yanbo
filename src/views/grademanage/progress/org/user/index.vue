@@ -280,7 +280,7 @@ export default {
           highlevel_workcode
         };
         this.scores = scores.map(s => {
-          s.score = s.self_score;
+          s.score = s.superior_score;
           return s;
         });
       });
