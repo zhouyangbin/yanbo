@@ -117,6 +117,7 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getDownMembersList, postReject } from "@/constants/API";
+import { formatTime } from "@/utils/timeFormat";
 
 export default {
   data() {
@@ -200,6 +201,7 @@ export default {
       this.$refs[formName].resetFields();
     },
     selectionChange(s) {
+      // console.log(formatTime(new Date()))
       this.selectedArr = s;
     },
     batchPass() {
@@ -289,7 +291,10 @@ export default {
     },
     notAllowedBatch() {
       return this.selectedArr.some(
-        i => i.stage != 50 || (i.status == 100 || i.status == 30)
+        i =>
+          i.stage != 50 ||
+          (i.status == 100 || i.status == 30) ||
+          (i.stage == 50 && formatTime(new Date()) >= i.highlevel_end_time)
       );
     }
   }
