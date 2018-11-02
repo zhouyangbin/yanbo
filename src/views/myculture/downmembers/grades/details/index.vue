@@ -257,7 +257,7 @@ export default {
         .catch(() => {});
     },
     reject() {
-      if (!this.rejectReason) {
+      if (!this.rejectReason.trim()) {
         this.$message({
           message: "请填写理由!",
           type: "warning"
