@@ -19,11 +19,11 @@
         <br>
         <div class="members-list-filter">
           <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
-            <el-form-item prop="superior_name">
-              <el-input placeholder="请输入下级姓名" v-model="memberForm.superior_name"></el-input>
-            </el-form-item>
             <el-form-item prop="employee_name">
-              <el-input placeholder="隔级姓名" v-model="memberForm.employee_name"></el-input>
+              <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
+            </el-form-item>
+            <el-form-item prop="superior_name">
+              <el-input placeholder="请输入上级姓名" v-model="memberForm.superior_name"></el-input>
             </el-form-item>
             <el-form-item prop="highlevel_status">
               <el-select v-model="memberForm.highlevel_status" :placeholder="constants.HIGHLV_STATUS">
