@@ -550,6 +550,20 @@ export const LEVEL_ALIAS = ["无", "Bottom", "Middle", "Top"];
 export const BREF_HIGH_LEVEL_STATUS = [
   {
     key: "0",
+    value: "未操作"
+  },
+  {
+    key: "1",
+    value: "驳回"
+  },
+  {
+    key: "2",
+    value: "通过"
+  }
+];
+export const BREF_LEADER_STATUS = [
+  {
+    key: "0",
     value: "未评"
   },
   {
