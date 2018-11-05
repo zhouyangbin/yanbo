@@ -55,7 +55,7 @@ export default {
   methods: {
     searchLeader(v) {
       // console.log(v);
-      if (v != "") {
+      if (v != "" && v.length >= 6) {
         getUserDetail({
           empID: v
         })
