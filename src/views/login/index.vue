@@ -67,11 +67,12 @@ export default {
       // 仿真
       if (process.env.NODE_ENV == "development") {
         return (
-          fzLogin({ workcode: "18310787064" })
+          fzLogin({ workcode: "094203" })
             // 076533
             // 17600297195
             // 074036
             // 108321
+            // 18310787064
             .then(res => {
               localStorage.setItem("talEmail", res.admin.email);
               localStorage.setItem("talToken", res.token);
