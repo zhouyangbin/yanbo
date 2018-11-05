@@ -6,7 +6,7 @@
     <section class="content-container">
       <div class="levels-header">
         <span>{{gradeName}}</span>&nbsp;
-        <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate}}</span>
+        <span class="tips">{{constants.START_TIME}} {{startedDate}}</span>
         <hr>
         <br>
         <el-form :model="searchForm" class="search-form" :inline="true" ref="searchForm">
@@ -67,7 +67,7 @@
 </template>
 <script>
 import {
-  FINISHED_DATE,
+  START_TIME,
   LEVELMAP,
   LEVEL_ALIAS,
   EXPORT_DETAILS,
@@ -101,7 +101,7 @@ export default {
         level: ""
       },
       gradeName: "",
-      finishedDate: "",
+      startedDate: "",
       nav: [
         {
           label: "事业部271",
@@ -109,7 +109,7 @@ export default {
         }
       ],
       constants: {
-        FINISHED_DATE,
+        START_TIME,
         LEVELMAP,
         LEVEL_ALIAS,
         EXPORT_DETAILS,
@@ -155,10 +155,10 @@ export default {
     fetchList(data) {
       getManagerLvList(data).then(res => {
         const { info, list } = res;
-        const { evaluation_name_id, id, name, end_time } = info;
+        const { evaluation_name_id, id, name, feedback_start_time } = info;
         this.tableData = list.data;
         this.evaluation_name_id = evaluation_name_id;
-        this.finishedDate = end_time;
+        this.startedDate = feedback_start_time;
         this.gradeName = name;
         this.id = id;
       });
