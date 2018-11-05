@@ -21,7 +21,10 @@
               <el-option v-for="(k,v) of constants.LEVELMAP" :key="k" :label="v" :value="k"></el-option>
             </el-select>
           </el-form-item>
-          <el-button @click="exportFile" style="margin-left:30px" type="primary" round>{{constants.EXPORT_DETAILS}}</el-button>
+          <el-form-item>
+            <el-button @click="resetForm('searchForm')" style="margin-left:30px" type="primary" round>{{constants.RESET}}</el-button>
+            <el-button @click="exportFile" style="margin-left:30px" type="primary" round>{{constants.EXPORT_DETAILS}}</el-button>
+          </el-form-item>
         </el-form>
         <br>
         <br>
@@ -37,8 +40,8 @@
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
               <el-button @click="goDetail(scope.row)" type="text" style="margin-right:15px;" size="small">{{constants.VIEW_DETAILS}}</el-button>
-              <el-popover v-model="showLvForm" placement="top">
-                <el-form :model="levelForm" :inline="true" ref="searchForm">
+              <el-popover :ref="`level_pop${scope.row.id}`" placement="top">
+                <el-form :model="levelForm" :inline="true">
                   <el-form-item prop="levels">
                     <el-select v-model="levelForm.level" placeholder="271等级">
                       <el-option v-for="(k,v) of constants.LEVELMAP" :key="k" :label="v" :value="k"></el-option>
@@ -75,7 +78,8 @@ import {
   VIEW_DETAILS,
   SUBMIT,
   LABEL_OPERATIONS,
-  LABEL_MODIFY
+  LABEL_MODIFY,
+  RESET
 } from "@/constants/TEXT";
 import { getManagerLvList, changeManagerLv } from "@/constants/API";
 import { PATH_CULTURE_LV_EXPORT, PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
@@ -85,7 +89,6 @@ export default {
     return {
       total: 0,
       currentPage: 1,
-      showLvForm: false,
       evaluation_name_id: "",
       id: "",
 
@@ -113,7 +116,8 @@ export default {
         VIEW_DETAILS,
         SUBMIT,
         LABEL_OPERATIONS,
-        LABEL_MODIFY
+        LABEL_MODIFY,
+        RESET
       },
       tableData: [],
       columns: [
@@ -141,6 +145,10 @@ export default {
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
+    resetForm(formName) {
+      // console.log(this.$refs)
+      this.$refs[formName].resetFields();
+    },
     openLevelForm(row) {
       this.levelForm.level = row._271_level;
     },
@@ -161,11 +169,12 @@ export default {
     updateLv(row) {
       changeManagerLv(row.id, { _271_level: this.levelForm.level }).then(
         res => {
-          this.showLvForm = false;
+          this.$refs[`level_pop${row.id}`].doToggle();
           this.$message({
             message: "等级修改成功!",
             type: "success"
           });
+
           this.fetchList({ page: 1, ...this.searchForm });
         }
       );
