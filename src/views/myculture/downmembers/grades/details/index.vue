@@ -101,7 +101,8 @@ import {
   REJECT,
   LEADER_SOCRE,
   ADVANTAGE,
-  PROMOTION
+  PROMOTION,
+  BREAK_STATUS
 } from "@/constants/TEXT";
 
 import {
@@ -198,7 +199,8 @@ export default {
           _271_is_necessary,
           stage,
           appeal_record,
-          reject_record
+          reject_record,
+          break_status
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
@@ -209,6 +211,7 @@ export default {
         this.basicInfo = {
           name: employee_name,
           superior_workcode,
+          breakStatus: BREAK_STATUS[break_status],
           workcode: employee_workcode,
           leaderLabel: "他的上级",
           superior_name,

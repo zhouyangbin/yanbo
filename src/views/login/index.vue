@@ -67,7 +67,7 @@ export default {
       // 仿真
       if (process.env.NODE_ENV == "development") {
         return (
-          fzLogin({ workcode: "094203" })
+          fzLogin({ workcode: "17600297195" })
             // 076533
             // 17600297195
             // 074036

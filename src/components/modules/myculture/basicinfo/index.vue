@@ -27,6 +27,9 @@
         <span v-show="data.highlevel_workcode" class="number">
           {{data.highlevel_workcode}}
         </span>
+        <span v-if="data.breakStatus" class="name">
+          {{data.breakStatus}}
+        </span>
       </div>
       <div v-if="data.finishedTime" class="finished-time">
         {{data.finishedTime}}

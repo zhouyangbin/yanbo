@@ -94,7 +94,8 @@ import {
   CANCEL,
   CONST_ADD_SUCCESS,
   ADVANTAGE,
-  PROMOTION
+  PROMOTION,
+  BREAK_STATUS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -174,7 +175,8 @@ export default {
           _271_level,
           status,
           reject_record,
-          appeal_record
+          appeal_record,
+          break_status
         } = res;
         this.rejectReason = reject_record;
         this.advantage = advantage;
@@ -186,6 +188,7 @@ export default {
         this.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
+          breakStatus: BREAK_STATUS[break_status],
           finishedTime: `上级评截止时间: ${end_time}`
         };
         this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();

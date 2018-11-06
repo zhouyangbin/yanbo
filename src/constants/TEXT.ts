@@ -595,3 +595,12 @@ export const MY_PERFORMANCE = "我的业绩";
 export const CHANGE_REASON = "修改理由";
 export const REJECT_REASON = "驳回理由";
 export const TOTAL_SCORES = "总分";
+
+export const BREAK_STATUS = [
+  "",
+  "未自评",
+  "未上级评",
+  "隔级驳回上级未修改",
+  "申诉上级未修改",
+  "面谈未确认"
+];
