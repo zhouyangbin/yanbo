@@ -83,16 +83,16 @@ export default {
               if (querys.fromDingDing) {
                 window.DingTalkPC.biz.util.openLink({
                   url: `${window.location.origin}${dst}`, //要打开链接的地址
-                  onSuccess: function(result) {
+                  onSuccess: function (result) {
                     /**/
                   },
-                  onFail: function() {}
+                  onFail: function () { }
                 });
               } else {
                 this.$router.push({ path: dst });
               }
             })
-            .catch(e => {})
+            .catch(e => { })
         );
       } else {
         qrLogin({ token: querys.token })
@@ -106,16 +106,16 @@ export default {
             if (querys.fromDingDing) {
               window.DingTalkPC.biz.util.openLink({
                 url: `${window.location.origin}${dst}`, //要打开链接的地址
-                onSuccess: function(result) {
+                onSuccess: function (result) {
                   /**/
                 },
-                onFail: function() {}
+                onFail: function () { }
               });
             } else {
               this.$router.push({ path: dst });
             }
           })
-          .catch(e => {});
+          .catch(e => { });
       }
     }
     tinfo.init({
@@ -190,22 +190,22 @@ export default {
 </script>
 
 <style scoped>
-.login {
-  width: 100%;
-  height: 100%;
-  background-image: url(../../assets/img/login_bg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.row-bg,
-.col-bg {
-  height: 100%;
-}
-.login-logo {
-  padding: 40px 35px;
-}
-.login-form {
-  background-color: #fff;
-  border-radius: 5px;
-}
+  .login {
+    width: 100%;
+    height: 100%;
+    background-image: url(../../assets/img/login_bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .row-bg,
+  .col-bg {
+    height: 100%;
+  }
+  .login-logo {
+    padding: 40px 35px;
+  }
+  .login-form {
+    background-color: #fff;
+    border-radius: 5px;
+  }
 </style>

@@ -151,7 +151,7 @@ export default {
           const index = this.caseValidate(i, 3);
           if (index != -1) {
             this.$message.error(
-              `${i.question_name}${index + 2}分理由未填写，请填写后提交!`
+              `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
             );
             return true;
           }
@@ -160,7 +160,7 @@ export default {
           const index = this.caseValidate(i, 4);
           if (index != -1) {
             this.$message.error(
-              `${i.question_name}${index + 2}分理由未填写，请填写后提交!`
+              `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
             );
             return true;
           }
@@ -169,7 +169,7 @@ export default {
           const index = this.caseValidate(i, 5);
           if (index != -1) {
             this.$message.error(
-              `${i.question_name}${index + 2}分理由未填写，请填写后提交!`
+              `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
             );
             return true;
           }
