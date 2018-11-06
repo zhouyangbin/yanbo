@@ -297,7 +297,11 @@ export default {
       return this.isManager && this.status >= 20 && this.status < 100;
     },
     showAppealAndRefuse() {
-      return this.appeal_record.length > 0 || this.reject_record.length > 0;
+      return (
+        this.appeal_record.length > 0 ||
+        this.reject_record.length > 0 ||
+        this.feedback_feeling
+      );
     }
   }
 };
