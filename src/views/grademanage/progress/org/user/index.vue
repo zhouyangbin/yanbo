@@ -35,7 +35,7 @@
             <el-button style="margin-bottom:30px" @click="goModify" type="primary">修改评分</el-button>
           </div>
           <div v-if="isRejectOrComplian">
-            <el-button @click="goComplain" type="primary">{{constants.APPEAL_REASON}}</el-button>
+            <el-button @click="goComplain" type="primary">申诉处理</el-button>
           </div>
         </div>
       </el-row>
@@ -291,7 +291,7 @@ export default {
   },
   computed: {
     isRejectOrComplian() {
-      return this.status == 30 || this.status == 70;
+      return this.status == 70;
     },
     isEditable() {
       return this.isManager && this.status >= 20 && this.status < 100;
