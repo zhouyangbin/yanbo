@@ -243,7 +243,7 @@ export const ENUM_GENERIC_COMPLETE_STATUS = [
 export const ENUM_LEADER_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未完成"
+    value: "未开始"
   },
   {
     key: "1",
