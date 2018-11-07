@@ -75,17 +75,11 @@
       <br>
       <br>
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-popover @hide="rejectReason=''" placement="top" width="400" trigger="click">
-          <case-area placeholder="请您填写驳回理由" v-model="rejectReason"></case-area>
-          <br>
-          <el-row type="flex" justify="center">
-            <el-button @click="reject" type="primary">{{constants.SUBMIT}}</el-button>
-          </el-row>
-          <el-button slot="reference" type="primary">{{constants.REJECT}}</el-button>
-        </el-popover>
+        <el-button @click="showRejectDialog=true" type="primary">{{constants.REJECT}}</el-button>
         <el-button style="margin-left:20px;" @click="pass" type="primary">{{constants.CONFIRM}}</el-button>
       </el-row>
     </section>
+    <reject-dialog v-if="showRejectDialog" :visible.sync="showRejectDialog"></reject-dialog>
   </div>
 </template>
 <script>
@@ -120,9 +114,9 @@ export default {
   data() {
     return {
       levelEditable: false,
+      showRejectDialog: false,
       advantage: "",
       promotion: "",
-      rejectReason: "",
       rejectReasons: [],
       levelNecessary: false,
       basicInfo: {},
@@ -178,7 +172,9 @@ export default {
     "appeal-reaosn": () =>
       import("@/components/modules/myculture/appealreason/index.vue"),
     "reject-reason": () =>
-      import("@/components/modules/myculture/rejectreason/index.vue")
+      import("@/components/modules/myculture/rejectreason/index.vue"),
+    "reject-dialog": () =>
+      import("@/components/modules/myculture/rejectDialog/index.vue")
   },
   methods: {
     getDetailInfo() {
@@ -260,28 +256,7 @@ export default {
         })
         .catch(() => {});
     },
-    reject() {
-      if (!this.rejectReason.trim()) {
-        this.$message({
-          message: "请填写理由!",
-          type: "warning"
-        });
-        return;
-      }
-      postReject({
-        ids: [this.$route.params.uid],
-        type: 1,
-        reason: this.rejectReason
-      })
-        .then(res => {
-          this.$message({
-            message: "操作成功!",
-            type: "success"
-          });
-          this.getDetailInfo();
-        })
-        .catch(e => {});
-    },
+
     reqPass() {
       postReject({
         ids: [this.$route.params.uid],
