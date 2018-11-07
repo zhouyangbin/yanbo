@@ -245,6 +245,7 @@ export default {
             message: "等级设置成功!",
             type: "success"
           });
+          this.levelEditable = false;
         })
         .catch(e => {});
     },

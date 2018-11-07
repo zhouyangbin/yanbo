@@ -35,7 +35,7 @@ export default {
   display: flex;
   // justify-content: space-between;
   & > div {
-    margin-right: 30px;
+    margin-right: 36px;
   }
   .selected {
     background: #f18d23;
