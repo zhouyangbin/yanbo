@@ -80,7 +80,9 @@ export default {
                 "permissions",
                 JSON.stringify(res.admin.permissions)
               );
+              // this.$router.push({ path: dst });
               if (querys.fromDingDing) {
+                console.log(DingTalkPC.ua);
                 window.DingTalkPC.biz.util.openLink({
                   url: `${window.location.origin}${dst}`, //要打开链接的地址
                   onSuccess: function(result) {
@@ -103,18 +105,19 @@ export default {
               "permissions",
               JSON.stringify(res.admin.permissions)
             );
-            this.$router.push({ path: dst });
-            // if (querys.fromDingDing) {
-            //   window.DingTalkPC.biz.util.openLink({
-            //     url: `${window.location.origin}${dst}`, //要打开链接的地址
-            //     onSuccess: function (result) {
-            //       /**/
-            //     },
-            //     onFail: function () { }
-            //   });
-            // } else {
-            //   this.$router.push({ path: dst });
-            // }
+            // this.$router.push({ path: dst });
+            if (querys.fromDingDing) {
+              console.log(DingTalkPC.ua);
+              window.DingTalkPC.biz.util.openLink({
+                url: `${window.location.origin}${dst}`, //要打开链接的地址
+                onSuccess: function(result) {
+                  /**/
+                },
+                onFail: function() {}
+              });
+            } else {
+              this.$router.push({ path: dst });
+            }
           })
           .catch(e => {});
       }
