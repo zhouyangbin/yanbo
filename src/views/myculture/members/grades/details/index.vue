@@ -292,7 +292,7 @@ export default {
                 message: CONST_ADD_SUCCESS,
                 type: "success"
               });
-              this.getMemberDetail();
+              this.$router.back();
             })
             .catch(e => {});
         })
