@@ -67,7 +67,7 @@ export default {
       // 仿真
       if (process.env.NODE_ENV == "development") {
         return (
-          fzLogin({ workcode: "17600297195" })
+          fzLogin({ workcode: "076344" })
             // 076533
             // 17600297195
             // 074036
@@ -103,17 +103,18 @@ export default {
               "permissions",
               JSON.stringify(res.admin.permissions)
             );
-            if (querys.fromDingDing) {
-              window.DingTalkPC.biz.util.openLink({
-                url: `${window.location.origin}${dst}`, //要打开链接的地址
-                onSuccess: function(result) {
-                  /**/
-                },
-                onFail: function() {}
-              });
-            } else {
-              this.$router.push({ path: dst });
-            }
+            this.$router.push({ path: dst });
+            // if (querys.fromDingDing) {
+            //   window.DingTalkPC.biz.util.openLink({
+            //     url: `${window.location.origin}${dst}`, //要打开链接的地址
+            //     onSuccess: function (result) {
+            //       /**/
+            //     },
+            //     onFail: function () { }
+            //   });
+            // } else {
+            //   this.$router.push({ path: dst });
+            // }
           })
           .catch(e => {});
       }
