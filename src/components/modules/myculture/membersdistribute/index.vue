@@ -55,11 +55,9 @@ export default {
       ).toFixed(2)}%`;
     },
     summary() {
-      return `理想比例271比例分布：Top（${
-        this.data.top.expected
-      }人）、Middle（${this.data.middle.expected}人）、Bottom（${
-        this.data.bottom.expected
-      }人）`;
+      return `理想271比例分布：Top（${this.data.top.expected}人）、Middle（${
+        this.data.middle.expected
+      }人）、Bottom（${this.data.bottom.expected}人）`;
     }
   }
 };
