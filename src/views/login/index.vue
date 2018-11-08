@@ -81,8 +81,13 @@ export default {
                 JSON.stringify(res.admin.permissions)
               );
               // this.$router.push({ path: dst });
-              if (querys.fromDingDing) {
-                console.log(DingTalkPC.ua);
+              if (
+                querys.fromDingDing &&
+                window.DingTalkPC &&
+                window.DingTalkPC.ua &&
+                window.DingTalkPC.ua.isInDingTalk
+              ) {
+                // console.log();
                 window.DingTalkPC.biz.util.openLink({
                   url: `${window.location.origin}${dst}`, //要打开链接的地址
                   onSuccess: function(result) {
@@ -106,8 +111,13 @@ export default {
               JSON.stringify(res.admin.permissions)
             );
             // this.$router.push({ path: dst });
-            if (querys.fromDingDing) {
-              console.log(DingTalkPC.ua);
+            if (
+              querys.fromDingDing &&
+              window.DingTalkPC &&
+              window.DingTalkPC.ua &&
+              window.DingTalkPC.ua.isInDingTalk
+            ) {
+              // console.log();
               window.DingTalkPC.biz.util.openLink({
                 url: `${window.location.origin}${dst}`, //要打开链接的地址
                 onSuccess: function(result) {
