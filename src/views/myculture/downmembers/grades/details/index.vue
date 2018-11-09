@@ -196,18 +196,25 @@ export default {
           stage,
           appeal_record,
           reject_record,
-          break_status
+          break_status,
+          highlevel_start_time
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
         this.levelNecessary = !!_271_is_necessary;
         this.appealReason = appeal_record || [];
         this.rejectReasons = reject_record || [];
-
+        let breakStatus;
+        if (break_status == 0) {
+          breakStatus =
+            new Date() <= new Date(highlevel_start_time) ? "未开始" : "";
+        } else {
+          breakStatus = BREAK_STATUS[break_status];
+        }
         this.basicInfo = {
           name: employee_name,
           superior_workcode,
-          breakStatus: BREAK_STATUS[break_status],
+          breakStatus,
           workcode: employee_workcode,
           leaderLabel: "他的上级",
           superior_name,

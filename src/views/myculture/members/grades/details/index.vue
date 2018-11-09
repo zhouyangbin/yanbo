@@ -176,7 +176,8 @@ export default {
           status,
           reject_record,
           appeal_record,
-          break_status
+          break_status,
+          superior_start_time
         } = res;
         this.rejectReason = reject_record;
         this.advantage = advantage;
@@ -185,10 +186,18 @@ export default {
         this.readOnly = res.can_submit == 0;
         this.appealReason = appeal_record || [];
         this._271_is_necessary = !!res._271_is_necessary;
+        let breakStatus;
+        if (break_status == 0) {
+          breakStatus =
+            new Date() <= new Date(superior_start_time) ? "未开始" : "";
+        } else {
+          breakStatus = BREAK_STATUS[break_status];
+        }
+
         this.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
-          breakStatus: BREAK_STATUS[break_status],
+          breakStatus,
           finishedTime: `上级评截止时间: ${end_time}`
         };
         this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
