@@ -32,7 +32,7 @@
         </el-row>
       </el-form-item>
       <el-form-item label="" prop="levelRequired">
-        <el-checkbox :disabled="leader_start_disable" :true-label="1" :false-label="0" v-model="timesForm.levelRequired">{{constants.REQUIRE_271}}</el-checkbox>
+        <el-checkbox :disabled="!isManagerGrade ||leader_start_disable" :true-label="1" :false-label="0" v-model="timesForm.levelRequired">{{constants.REQUIRE_271}}</el-checkbox>
       </el-form-item>
       <el-form-item :label="constants.LEADER_PLUS_EVALUATION_TIME" required>
         <el-row type="flex">
@@ -63,6 +63,9 @@
             </el-form-item>
           </el-col>
         </el-row>
+      </el-form-item>
+      <el-form-item label="" prop="visible_271">
+        <el-checkbox :true-label="1" :false-label="0" v-model="timesForm.visible_271">271等级员工本人可见</el-checkbox>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -103,6 +106,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isManagerGrade: {
+      type: Boolean,
+      default: false
+    },
     status: {
       type: Object,
       default: () => ({
@@ -123,7 +130,8 @@ export default {
         highlevel_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
-        checked_271: 0
+        checked_271: 0,
+        visible_271: 0
       })
     }
   },
@@ -252,8 +260,9 @@ export default {
         upLeader_end: "",
         face_start: "",
         face_end: "",
-        levelRequired: 0,
-        finishedDate: ""
+        levelRequired: 1,
+        finishedDate: "",
+        visible_271: 1
       },
       timesRules: {
         self_start: [
@@ -350,15 +359,14 @@ export default {
             highlevel_end_time: this.timesForm.upLeader_end,
             feedback_start_time: this.timesForm.face_start,
             feedback_end_time: this.timesForm.face_end,
-            _271_is_necessary: this.timesForm.levelRequired
+            _271_is_necessary: this.timesForm.levelRequired,
+            visible_271: this.timesForm.visible_271
           })
             .then(res => {
               this.close();
             })
             .catch(e => {});
-          // console.log("valid")
         } else {
-          // console.log("error submit!!")
           return false;
         }
       });
@@ -375,6 +383,7 @@ export default {
     this.timesForm.face_end = this.timeData.feedback_end_time;
     this.timesForm.levelRequired = this.timeData.checked_271;
     this.timesForm.finishedDate = this.timeData.finishedDate;
+    this.timesForm.visible_271 = this.timeData.visible_271;
   },
   beforeDestroy() {
     this.resetFilter("timesForm");

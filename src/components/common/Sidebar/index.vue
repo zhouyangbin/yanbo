@@ -3,10 +3,21 @@
     <el-submenu :index="constants.PATH_EMPLOYEE_MY">
       <template slot="title">
         <i class="el-icon-star-off"></i>
-        <span>{{constants.EMPLOYEE_GRADE}}</span>
+        <span>{{constants.MY_PERFORMANCE}}</span>
       </template>
       <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{constants.MY_GRADE}}</el-menu-item>
       <el-menu-item :class="{'is-active':[constants.PATH_EMPLOYEE_TEAM].includes($route.path)}" :index="constants.PATH_EMPLOYEE_TEAM">{{constants.TEAM_GRADE}}</el-menu-item>
+    </el-submenu>
+    <el-submenu :index="constants.PATH_MY_CULTURE_GRADE">
+      <template slot="title">
+        <i class="el-icon-star-off"></i>
+        <span>{{constants.MY_CULTURE}}</span>
+      </template>
+      <el-menu-item :class="{'is-active':[constants.PATH_MY_CULTURE_GRADE].includes($route.path)}" :index="constants.PATH_MY_CULTURE_GRADE">我的评分</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_MEMEBER_CULTURE_GRADE,constants.PATH_MEMBER_CULTURE_LIST($route.params.id)].includes($route.path)}" :index="constants.PATH_MEMEBER_CULTURE_GRADE">我的下级</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_DOWN_MEMEBER_CULTURE_GRADE,constants.PATH_DOWN_MEMBER_CULTURE_LIST($route.params.id)].includes($route.path)}" :index="constants.PATH_DOWN_MEMEBER_CULTURE_GRADE">我的隔级</el-menu-item>
+      <el-menu-item v-if="show271" :class="{'is-active':[constants.PATH_CULTURE_LEVEL].includes($route.path)}" :index="constants.PATH_CULTURE_LEVEL">事业部271</el-menu-item>
+
     </el-submenu>
     <el-submenu v-if="canManageCultureGrade" :index="constants.PATH_GRADE_REPORT">
       <template slot="title">
@@ -22,7 +33,7 @@
         <span>{{constants.PERFORMANCE_GRADE}}</span>
       </template>
       <!-- <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_REPORT].includes($route.path)}" :index="constants.PATH_PERFORMANCE_REPORT">{{constants.GRADE_REPORT}}</el-menu-item> -->
-      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_MANAGER].includes($route.path)}" :index="constants.PATH_PERFORMANCE_MANAGER">{{constants.GRADE_MANAGE}}</el-menu-item>
+      <el-menu-item :class="{'is-active':[constants.PATH_PERFORMANCE_MANAGER,constants.PATH_PERFORMANCE_PROGRESS($route.params.id),constants.PATH_PERFORMANCE_ORG_LIST($route.params.id,$route.params.orgID)].includes($route.path)}" :index="constants.PATH_PERFORMANCE_MANAGER">{{constants.GRADE_MANAGE}}</el-menu-item>
       <el-menu-item v-if="canSetTpl" :class="{'is-active':[constants.PATH_PERFORMANCE_TPL].includes($route.path)}" :index="constants.PATH_PERFORMANCE_TPL">{{constants.TPL_SETTING}}</el-menu-item>
       <el-menu-item v-if="canSetRules" :class="{'is-active':[constants.PATH_PERFORMANCE_RULES].includes($route.path)}" :index="constants.PATH_PERFORMANCE_RULES">{{constants.RULES_SETTING}}</el-menu-item>
     </el-submenu>
@@ -47,9 +58,10 @@ import {
   ACCESS_SETTING,
   ROLE_SETTING,
   CULTURE_GRADE,
-  EMPLOYEE_GRADE,
   MY_GRADE,
-  TEAM_GRADE
+  TEAM_GRADE,
+  MY_CULTURE,
+  MY_PERFORMANCE
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
@@ -64,7 +76,15 @@ import {
   PATH_PERFORMANCE_RULES,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
-  PATH_EMPLOYEE_TEAM
+  PATH_EMPLOYEE_TEAM,
+  PATH_MY_CULTURE_GRADE,
+  PATH_MEMEBER_CULTURE_GRADE,
+  PATH_DOWN_MEMEBER_CULTURE_GRADE,
+  PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_ORG_LIST,
+  PATH_MEMBER_CULTURE_LIST,
+  PATH_DOWN_MEMBER_CULTURE_LIST,
+  PATH_CULTURE_LEVEL
 } from "@/constants/URL";
 
 export default {
@@ -74,7 +94,6 @@ export default {
       constants: {
         MY_GRADE,
         TEAM_GRADE,
-        EMPLOYEE_GRADE,
         GRADE_REPORT,
         GRADE_MANAGE,
         USER_MANAGE,
@@ -84,7 +103,6 @@ export default {
         PATH_GRADE_PROGRESS,
         PATH_GRADE_ORG_LIST,
         PATH_GRADE_EMP_DETAIL,
-        // PATH_PERFORMANCE_REPORT,
         PERFORMANCE_GRADE,
         PATH_PERFORMANCE_MANAGER,
         TPL_SETTING,
@@ -96,7 +114,17 @@ export default {
         PATH_ACCESS_ROLES,
         CULTURE_GRADE,
         PATH_EMPLOYEE_MY,
-        PATH_EMPLOYEE_TEAM
+        PATH_EMPLOYEE_TEAM,
+        PATH_MY_CULTURE_GRADE,
+        MY_CULTURE,
+        PATH_MEMEBER_CULTURE_GRADE,
+        PATH_DOWN_MEMEBER_CULTURE_GRADE,
+        PATH_PERFORMANCE_PROGRESS,
+        PATH_PERFORMANCE_ORG_LIST,
+        PATH_MEMBER_CULTURE_LIST,
+        PATH_DOWN_MEMBER_CULTURE_LIST,
+        PATH_CULTURE_LEVEL,
+        MY_PERFORMANCE
       }
     };
   },
@@ -104,6 +132,10 @@ export default {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
   },
   computed: {
+    show271() {
+      return this.permissions.includes(220);
+    },
+
     showRole() {
       return this.permissions.includes(101);
     },

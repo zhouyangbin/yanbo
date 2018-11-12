@@ -15,7 +15,7 @@
             <span class="dep-name">
               {{depInfo.name}}
             </span>
-            <el-button :disabled="total==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
+            <el-button :disabled="realTotal==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
               {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
             </el-button>
           </el-row>
@@ -70,8 +70,8 @@
           <span>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" :disabled="!canbeEdit" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||!canbeEdit" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||!canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -149,15 +149,18 @@
           <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
           </el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">
+            <template slot-scope="scope">
+              {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+            </template>
           </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未完成':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value }}
             </template>
           </el-table-column>
           <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
@@ -167,7 +170,7 @@
           </el-table-column>
           <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
             <template slot-scope="scope">
-              {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value }}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_is_agree" :label="constants.RESULT_CONFIRM">
@@ -177,8 +180,8 @@
           </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
-              <el-button v-if="canbeEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button v-if="canbeEdit" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
+              <el-button v-if="canEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
+              <el-button v-if="canAdd" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
               <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
             </template>
           </el-table-column>
@@ -191,8 +194,8 @@
       </div>
     </section>
 
-    <import-dialog @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
-    <time-setting :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
+    <import-dialog :isManagerGrade="isManagerGrade" @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
+    <time-setting :isManagerGrade="isManagerGrade" :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
     <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
   </div>
 </template>
@@ -239,7 +242,8 @@ import {
   ENUM_LEADER_PLUS_EVALUATION_STATUS,
   MODIFY_TIMES,
   CONFIRM,
-  CANCEL
+  CANCEL,
+  LEVEL_ALIAS
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_EMP_DETAIL,
@@ -255,10 +259,15 @@ export default {
   data() {
     return {
       currentPage: 1,
+      // 是否是高管评分
+      isManagerGrade: false,
       stage: 10,
       //导入状态
       import_status: 0,
+      // 筛选结果总数,分页用的
       total: 0,
+      // 评分总人数
+      realTotal: 0,
       // info框内的数据
       currentInfo: {},
       // 导入的弹框
@@ -283,7 +292,8 @@ export default {
         highlevel_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
-        checked_271: 0
+        checked_271: 0,
+        visible_271: 0
       },
       // 事业部信息
       depInfo: {
@@ -351,7 +361,8 @@ export default {
         ENUM_FACE_EVALUATION_STATUS,
         ENUM_LEADER_PLUS_EVALUATION_STATUS,
         MODIFY_TIMES,
-        PATH_GRADE_EMP_DETAIL
+        PATH_GRADE_EMP_DETAIL,
+        LEVEL_ALIAS
       },
       tableData: [],
       nav: [
@@ -389,7 +400,7 @@ export default {
     },
     exportData() {
       const url = PATH_EXPORT_USERS_GRADE(this.selection.map(v => v.id));
-      window.open(url, "_blank");
+      window.open(url, "_blank", "noopener");
       // window.location.href = url
     },
     batchDel() {
@@ -485,6 +496,9 @@ export default {
       // 修改某个人的信息
       this.infoType = "modify";
       this.currentInfo = row;
+      this.currentInfo.stage = this.stage;
+      this.currentInfo.canEditLeaderInfo = this.canEditLeaderInfo;
+      this.currentInfo.canEdit = this.canEdit;
       this.dialogInfo = true;
     },
     // 拉取列表数据
@@ -509,6 +523,9 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
+          // console.log(res.info);
+          this.realTotal = res.total;
+          this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;
           this.depInfo.name = res.info.department_name;
@@ -532,6 +549,7 @@ export default {
           this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
           this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
           this.gradeInfo.checked_271 = res.info._271_is_necessary;
+          this.gradeInfo.visible_271 = res.info.visible_271;
           this.stage = parseInt(res.info.stage);
           this.import_status = parseInt(res.info.import_status);
         })
@@ -567,13 +585,26 @@ export default {
     },
     canbeReminder() {
       return (
-        (this.stage == 30 && this.canbeEdit) ||
+        (this.stage == 30 && this.canAdd) ||
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
+        (this.stage == 50 && this.depInfo.highlevel_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
     },
-    canbeEdit() {
+    canAdd() {
       return this.depInfo.self_status != 2;
+    },
+    canEdit() {
+      return (
+        this.stage < 50 ||
+        (this.stage == 50 && this.depInfo.highlevel_status != 2)
+      );
+    },
+    canEditLeaderInfo() {
+      return (
+        this.stage < 40 ||
+        (this.stage == 40 && this.depInfo.superior_status != 2)
+      );
     },
     step() {
       // return 5
@@ -641,7 +672,8 @@ export default {
         feedback_start_time: this.gradeInfo.feedback_start_time,
         feedback_end_time: this.gradeInfo.feedback_end_time,
         checked_271: this.gradeInfo.checked_271,
-        finishedDate: this.gradeInfo.finishedDate
+        finishedDate: this.gradeInfo.finishedDate,
+        visible_271: this.gradeInfo.visible_271
       };
     }
   }

@@ -301,6 +301,10 @@ export const ENUM_WAIT_CONFIRM = [
 
 export const ENUM_LEVELS = [
   {
+    key: "1",
+    value: "1"
+  },
+  {
     key: "1.1",
     value: "1.1"
   },
@@ -373,8 +377,8 @@ export const ENUM_LEVELS = [
     value: "6.3"
   },
   {
-    key: "7.0",
-    value: "7.0"
+    key: "7",
+    value: "7"
   }
 ];
 
@@ -489,3 +493,119 @@ export const BASIC_INFO = "基本信息";
 export const EMPLOYEE_WORKCODE = "员工工号";
 export const EMPYEE_NAME = "员工姓名";
 export const DRAFT_SAVE_SUCCESSFULLY = "草稿保存成功";
+export const DEP_NAME = "部门名称";
+export const MY_CULTURE = "我的文化";
+export const MY_MEMBERS = "我的下级";
+export const MEMBERS_GRADE_LIST = "下级评分列表";
+export const DOWN_MEMBERS_GRADE_LIST = "隔级评分列表";
+export const MY_DOWN_MEMBER = "我的隔级";
+
+export const MY_DOWN_MEMBER_RULE = `
+隔级确认阶段规则：<br>
+1、 根据员工自评和上级评的详情，对文化评分分数和标签无异议，则点击确认；<br>
+2、 对于员工文化评分分数和标签有异议，点击驳回，由员工的直接上级进行更改，驳回需要填写理由；<br>
+3、 隔级对于员工的评分标签有异议，需要线下与员工的直接上级沟通后通过点击“修改”进行标签的更改，更改完成后点击确认，系统会自动通知员工的直接上级；<br>
+4、 对于隔级未操作的情况，隔级评阶段结束时系统会自动默认通过；
+`;
+
+export const MY_MEMBER_RULE = `
+上级评阶段规则: <br>
+1、 评分以0.5分为单位；<br>
+2、 调整员工自评分数必须填写理由；<br>
+3、文化评分标签为必填项，分别显示为top（代表团队前20%的人）、middle（代表中间70%的人）、bottom（代表末尾10%的人），系统将根据实际团队人数自动校验比例分布，请按照系统提醒操作；<br>
+4、等级标签规则：<br>
+以上级的实际团队人数为基数，分别按照团队人数的20%、70%和10%的计算<br>
+top标签的人数≤团队人数 ╳ 20%，且允许四舍五入<br>
+bottom标签的人数≥团队人数 ╳ 10%，且只允许四舍但不可五入<br>
+middle标签的人数=团队总人数 – top人数 – bottom人数；<br>
+5、分数说明如下：<br>
+总分大于等于12分：部分超出预期，文化考核为优秀<br>
+总分8分（含）至12分，且每项大于等于2分：基本胜任，文化考核为过关<br>
+总分4分（含）至8分，或任意一项为1分：不胜任，需指定改进计划，连续两期需降级<br>
+总分4分以下，或任意一项为0分：不可接受，价值观考核不合格，绩效考核整体不合格，需要书面警告，限期改进，两期则淘汰
+`;
+export const MY_RULE = `
+自评阶段规则：<br>
+1分：文化红线，有负面案例即视为不符合，不符合会被淘汰；<br>
+2分：胜任要求，有负面案例即视为不符合，不符合会影响绩效或被降级；<br>
+3分：文化优秀，具有主动意识，个人的行为能够产生正面影响，需列举1个案例；<br>
+4分：能力要求，有进取心并不断突破，行为由己到人，能够带动和影响他人，需列举1个案例；<br>
+5分：有前瞻性，有高度也有落地的方法，能够系统的解决问题并产生深远的影响，需列举1个案例；<br>
+注意：<br>
+1、评分实行通关制原则，只有满足低分要求后才能选择高分，中间不可跳级（如：1分满足才能考虑2分，2分满足才能考虑3分）<br>
+2、3分（含）以上需要提供案例，自评分为1分或2分不需要填写案例（如：您的自评分为3分，则需要提供1个3分案例；您的评分为4分，则需要填写1个3分案例和1个4分案例；您的自评为5分，则需要填写1个3分案例、1个4分案例和1个5分案例）
+`;
+export const MY_MANAGER_RULE = `
+自评阶段规则：<br>
+1分：文化红线，有负面案例即视为不符合，不符合会被淘汰；<br>
+2分：胜任要求，有负面案例即视为不符合，不符合会影响绩效或被降级；<br>
+3分：有影响力，要体现对团队、组织的影响力，需列举1个案例；<br>
+4分：建立机制，要体现通过建立机制从根本上解决问题，需列举1个案例；<br>
+5分：要有战功，要体现给业务或工作带来的突破性贡献和价值，需列举1个案例。<br>
+`;
+
+export const MY_UNCONFIRMED_RULE = `
+本次文化评分结果如下，如无异议请点击确认，如有异议可以进行申诉，申诉规则如下：<br>
+第一次申诉，通知上级和hrbp处理<br>
+第二次申诉，通知隔级和hrbp处理（如没有隔级上级，只能进行一次申诉）<br>
+`;
+
+export const LEVEL_ALIAS = ["无", "Bottom", "Middle", "Top"];
+
+export const BREF_HIGH_LEVEL_STATUS = [
+  {
+    key: "0",
+    value: "未操作"
+  },
+  {
+    key: "1",
+    value: "驳回"
+  },
+  {
+    key: "2",
+    value: "通过"
+  }
+];
+export const BREF_LEADER_STATUS = [
+  {
+    key: "0",
+    value: "未评"
+  },
+  {
+    key: "2",
+    value: "已评"
+  }
+];
+
+export const LEVELMAP = {
+  top: 3,
+  middle: 2,
+  bottom: 1
+};
+
+export const IMPRESSIONS = "心得体会";
+export const DOWN_MEMBER_REJECT_REASON = "隔级驳回理由";
+export const LEVEL_TAG = "等级标签";
+export const ADVANTAGE = "优势";
+export const PROMOTION = "待提升";
+export const SELF_SCORE = "自评分数";
+export const LEADER_SOCRE = "上级评分数";
+export const VIEW_DETAILS = "查看详情";
+export const BATCH_REJECT = "批量驳回";
+export const BATCH_PASS = "批量通过";
+export const REJECT = "驳回";
+export const HIGHLV_STATUS = "隔级评状态";
+export const APPEAL_REASON = "申诉理由";
+export const MY_PERFORMANCE = "我的业绩";
+export const CHANGE_REASON = "修改理由";
+export const REJECT_REASON = "驳回理由";
+export const TOTAL_SCORES = "总分";
+
+export const BREAK_STATUS = [
+  "",
+  "未自评",
+  "未上级评",
+  "隔级驳回上级未修改",
+  "申诉上级未修改",
+  "面谈未确认"
+];

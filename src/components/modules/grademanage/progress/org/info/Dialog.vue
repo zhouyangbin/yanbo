@@ -5,8 +5,8 @@
     </div>
     <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
       <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>
-      <leader-info :infoForm="infoForm" :infoType="infoType"></leader-info>
-      <up-leader-info :infoForm="infoForm" :infoType="infoType"></up-leader-info>
+      <leader-info :canEdit="currentInfo.canEditLeaderInfo" :infoForm="infoForm" :infoType="infoType"></leader-info>
+      <up-leader-info :canEdit="currentInfo.canEdit" :infoForm="infoForm" :infoType="infoType"></up-leader-info>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
@@ -189,88 +189,10 @@ export default {
               .catch(e => {});
           }
         } else {
-          // console.log("error submit!!")
           return false;
         }
       });
     }
-    // searchME(v) {
-    //   if (v != "") {
-    //     getUserDetail({
-    //       empID: v
-    //     })
-    //       .then(res => {
-    //         if (res) {
-    //           this.infoForm.name = res.name
-    //           this.infoForm.BU = res.department
-    //           this.infoForm.dep = res.first_department
-    //           this.infoForm.level = res.level
-    //           this.infoForm.email = res.email
-    //         } else {
-    //           this.infoForm.name = ""
-    //           this.infoForm.BU = ""
-    //           this.infoForm.dep = ""
-    //           this.infoForm.level = ""
-    //           this.infoForm.email = ""
-    //         }
-    //       })
-    //       .catch(e => {})
-    //   } else {
-    //     this.infoForm.name = ""
-    //     this.infoForm.BU = ""
-    //     this.infoForm.dep = ""
-    //     this.infoForm.level = ""
-    //     this.infoForm.email = ""
-    //   }
-    // },
-    // searchLeader(v) {
-    //   // console.log(v);
-    //   if (v != "") {
-    //     getUserDetail({
-    //       empID: v
-    //     })
-    //       .then(res => {
-    //         if (res) {
-    //           this.infoForm.leaderName = res.name
-    //           this.infoForm.leaderBU = res.department
-    //           this.infoForm.leaderEmail = res.email
-    //         } else {
-    //           this.infoForm.leaderName = ""
-    //           this.infoForm.leaderBU = ""
-    //           this.infoForm.leaderEmail = ""
-    //         }
-    //       })
-    //       .catch(e => {})
-    //   } else {
-    //     this.infoForm.leaderName = ""
-    //     this.infoForm.leaderBU = ""
-    //     this.infoForm.leaderEmail = ""
-    //   }
-    // },
-    // searchUpLeader(v) {
-    //   if (v != "") {
-    //     getUserDetail({
-    //       empID: v
-    //     })
-    //       .then(res => {
-    //         if (res) {
-    //           this.infoForm.upLeaderName = res.name
-    //           this.infoForm.upLeaderBU = res.department
-
-    //           this.infoForm.upLeaderEmail = res.email
-    //         } else {
-    //           this.infoForm.upLeaderName = ""
-    //           this.infoForm.upLeaderBU = ""
-    //           this.infoForm.upLeaderEmail = ""
-    //         }
-    //       })
-    //       .catch(e => {})
-    //   } else {
-    //     this.infoForm.upLeaderName = ""
-    //     this.infoForm.upLeaderBU = ""
-    //     this.infoForm.upLeaderEmail = ""
-    //   }
-    // }
   },
   beforeDestroy() {
     this.resetFilter("infoForm");

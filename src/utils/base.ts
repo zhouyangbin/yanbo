@@ -60,6 +60,6 @@ export function sendDelete(url: string, params: object) {
  * @param iterable 是一个可以迭代的参数如数组等
  * @param callback 要等到所有请求都完成才会执行
  */
-export function sendAll(iterable: any[], callback: () => Promise<any>) {
+export function sendAll(iterable: any[], callback: (value: any[]) => any) {
   return axios.all(iterable).then(axios.spread(callback));
 }

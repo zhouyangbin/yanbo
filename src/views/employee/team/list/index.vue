@@ -93,7 +93,7 @@ export default {
       });
     },
     exportDetail(row) {
-      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank");
+      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
     }
   },
   created() {

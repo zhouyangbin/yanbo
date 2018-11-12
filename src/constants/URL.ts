@@ -16,6 +16,20 @@ export const PATH_GRADE_EMP_DETAIL = (
   orgID = ":orgID",
   uid = ":uid"
 ) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}`;
+// 修改评分
+export const PATH_GRADE_EMP_DETAIL_CHANGE = (
+  testID = ":id",
+  orgID = ":orgID",
+  uid = ":uid"
+) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}/modify`;
+
+// 修改评分
+export const PATH_GRADE_EMP_DETAIL_HISTORY = (
+  testID = ":id",
+  orgID = ":orgID",
+  uid = ":uid"
+) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}/history`;
+
 export const PATH_LOGIN = "/login";
 // 导出评测
 export const PATH_EXPORT_GRADE = (id: string) =>
@@ -104,5 +118,46 @@ export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
 
 export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
   `${base}/performance/api/superior/export/${id}?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+
+// 员工文化评分
+
+export const PATH_MY_CULTURE_GRADE = "/culture/my";
+export const PATH_MY_CULTURE_GRADE_DETAILS = (id: string = ":id") =>
+  `/culture/my/${id}`;
+export const PATH_MEMEBER_CULTURE_GRADE = "/culture/membersgrades";
+export const PATH_DOWN_MEMEBER_CULTURE_GRADE = "/culture/downmembersgrades";
+export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>
+  `/culture/membersgrades/${id}`;
+export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id") =>
+  `/culture/downmembersgrades/${id}`;
+
+export const PATH_MEMBER_CULTURE_DETAILS = (
+  id: string = ":id",
+  uid: string = ":uid"
+) => `/culture/membersgrades/${id}/${uid}`;
+
+export const PATH_DOWN_MEMBER_CULTURE_DETAILS = (
+  id: string = ":id",
+  uid: String = ":uid"
+) => `/culture/downmembersgrades/${id}/${uid}`;
+
+// 我的文化评分导出
+export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
+  `${base}culture/web/${id}/team/export?${qs.stringify({
+    type: type,
+    token: localStorage.getItem("talToken")
+  })}`;
+// 事业部271
+
+export const PATH_CULTURE_LEVEL = `/culture/manager/levels`;
+// 个人中断状态
+export const PATH_CULTURE_SELF_INTERRUPTED = `/culture/my/msg`;
+
+// 事业部271 导出
+export const PATH_CULTURE_LV_EXPORT = (params: Object) =>
+  `${base}/culture/web/rank-manage/export?${qs.stringify({
+    ...params,
     token: localStorage.getItem("talToken")
   })}`;

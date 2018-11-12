@@ -1,6 +1,6 @@
 <template>
   <el-container class="container">
-    <el-aside class="sidebar-container" width="230">
+    <el-aside class="sidebar-container">
       <img src="@assets/img/bg_logo.png" alt="">
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
@@ -71,6 +71,19 @@ export default {
 .sidebar-container {
   background-color: #242a36;
   height: 100%;
+  width: 230px !important;
+}
+@media only screen and (max-width: 1400px) {
+  .sidebar-container {
+    background-color: #242a36;
+    height: 100%;
+    width: 160px !important;
+  }
+  .sidebar-container img {
+    /* background-color: #242a36;
+        height: 100%; */
+    width: 160px !important;
+  }
 }
 .sidebar-container >>> ul {
   height: calc(100% - 168px);
@@ -82,7 +95,7 @@ export default {
   height: 100%;
 }
 .main-container {
-  background-color: #f2f7f9;
+  background-color: rgb(245, 245, 245);
   padding: 0;
   height: 100%;
 }
