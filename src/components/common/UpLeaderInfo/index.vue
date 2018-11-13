@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     searchUpLeader(v) {
-      if (v != "") {
+      if (v != "" && v.length >= 6) {
         getUserDetail({
           empID: v
         })

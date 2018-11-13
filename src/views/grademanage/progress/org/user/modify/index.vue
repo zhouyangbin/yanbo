@@ -10,9 +10,15 @@
       <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
       <br>
       <br>
-      <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+      <div>
+        <h3>{{constants.ADVANTAGE}}:</h3>
+        <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+      </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+      <div>
+        <h3>{{constants.PROMOTION}}:</h3>
+        <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+      </div>
       <br>
       <section class="mark">
         <el-row align="middle" type="flex">
@@ -55,7 +61,7 @@
       </div>
       <br>
       <div v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score">
-        <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_cases"></case-area>
+        <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
         <br>
       </div>
       <div v-if="!forReject">
@@ -83,7 +89,9 @@ import {
   GRADE_DETAIL,
   MY_MEMBER_RULE,
   LEVEL_ALIAS,
-  LEVELMAP
+  LEVELMAP,
+  ADVANTAGE,
+  PROMOTION
 } from "@/constants/TEXT";
 import {
   getUserGradeContent,
@@ -143,7 +151,9 @@ export default {
         }
       ],
       constants: {
-        MY_MEMBER_RULE
+        MY_MEMBER_RULE,
+        ADVANTAGE,
+        PROMOTION
       }
     };
   },
@@ -199,10 +209,6 @@ export default {
     submit() {
       const valid = this.validate();
       if (!valid) {
-        this.$message({
-          message: "请填写完整理由!",
-          type: "warning"
-        });
         return;
       }
       let postData = this.composePostData();
@@ -259,7 +265,14 @@ export default {
       // console.log(this.scores)
       // 自评和上级评分数不一样,必须有原因
       return !this.scores.some(v => {
-        return v.score != v.superior_score && !v.superior_case;
+        const err = v.score != v.superior_score && !v.superior_case;
+        if (err) {
+          // console.log(v)
+          this.$message.error(
+            `${v.question_name}评分理由未填写，请填写后提交!`
+          );
+        }
+        return err;
       });
     },
     composePostData() {

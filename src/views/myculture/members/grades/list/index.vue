@@ -24,7 +24,7 @@
             </el-form-item>
             <el-form-item prop="superior_status">
               <el-select v-model="memberForm.superior_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
-                <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
+                <el-option v-for="v of constants.BREF_LEADER_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -91,7 +91,7 @@ import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
   FINISHED_DATE,
-  BREF_HIGH_LEVEL_STATUS,
+  BREF_LEADER_STATUS,
   LEVEL_ALIAS,
   LEADER_EVALUATION_STATUS,
   LABEL_STATUS,
@@ -148,7 +148,7 @@ export default {
         }
       ],
       constants: {
-        BREF_HIGH_LEVEL_STATUS,
+        BREF_LEADER_STATUS,
         FINISHED_DATE,
         LEADER_EVALUATION_STATUS,
         LABEL_STATUS,
@@ -293,22 +293,22 @@ hr.dash {
   text-align: center;
 }
 /* .reject_status {
-      border-radius: 20px;
-      border: solid 2px #e94a2d;
-      color: #e94a2d;
-      text-align: center;
-      width: 60px;
-      z-index: 2;
-      position: absolute;
-      top: 50%;
+                border-radius: 20px;
+                border: solid 2px #e94a2d;
+                color: #e94a2d;
+                text-align: center;
+                width: 60px;
+                z-index: 2;
+                position: absolute;
+                top: 50%;
 
-      -webkit-transform: translateY(-50%) rotateZ(-12deg);
-      -moz-transform: translateY(-50%) rotateZ(-12deg);
-      -ms-transform: translateY(-50%) rotateZ(-12deg);
-      -o-transform: translateY(-50%) rotateZ(-12deg);
-      transform: translateY(-50%) rotateZ(-12deg);
-      left: 0;
-    } */
+                -webkit-transform: translateY(-50%) rotateZ(-12deg);
+                -moz-transform: translateY(-50%) rotateZ(-12deg);
+                -ms-transform: translateY(-50%) rotateZ(-12deg);
+                -o-transform: translateY(-50%) rotateZ(-12deg);
+                transform: translateY(-50%) rotateZ(-12deg);
+                left: 0;
+              } */
 .reject_status div {
   border-radius: 20px;
   border: solid 2px #e94a2d;

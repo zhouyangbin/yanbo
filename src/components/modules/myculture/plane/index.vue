@@ -101,7 +101,7 @@ export default {
         position: absolute;
         color: #f18d23;
         content: attr(data-score);
-        left: -50px;
+        left: -60px;
       }
     }
     &.kehu {

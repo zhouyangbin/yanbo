@@ -15,7 +15,7 @@
             <span class="dep-name">
               {{depInfo.name}}
             </span>
-            <el-button :disabled="total==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
+            <el-button :disabled="realTotal==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
               {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
             </el-button>
           </el-row>
@@ -71,7 +71,7 @@
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button @click="batchDel" :disabled="selection.length===0||!canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
         <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
@@ -155,22 +155,22 @@
           </el-table-column>
           <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
             <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未完成':'已完成'}}
             </template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value }}
             </template>
           </el-table-column>
           <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
             <template slot-scope="scope">
-              {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value !='已完成'?'未开始':'已完成'}}
+              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value }}
             </template>
           </el-table-column>
           <el-table-column prop="feedback_is_agree" :label="constants.RESULT_CONFIRM">
@@ -264,7 +264,10 @@ export default {
       stage: 10,
       //导入状态
       import_status: 0,
+      // 筛选结果总数,分页用的
       total: 0,
+      // 评分总人数
+      realTotal: 0,
       // info框内的数据
       currentInfo: {},
       // 导入的弹框
@@ -521,7 +524,7 @@ export default {
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
           // console.log(res.info);
-
+          this.realTotal = res.total;
           this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
           this.total = res.list.total;

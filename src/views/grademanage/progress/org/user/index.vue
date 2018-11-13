@@ -11,7 +11,7 @@
       <br>
       <el-row type="flex" justify="space-between" align="middle">
         <div>
-          <span class="label">总分</span>
+          <span class="label">{{constants.TOTAL_SCORES}}</span>
           <span class="total-score">
             {{total_score}}分
           </span>
@@ -23,7 +23,7 @@
           <br>
           <br>
           <div v-if="level">
-            <span class="label">等级标签</span>
+            <span class="label">{{constants.LEVEL_TAG}}</span>
             <el-button style="margin-left:50px" class="selected selector">{{level}}</el-button>
           </div>
         </div>
@@ -41,11 +41,48 @@
       </el-row>
       <br>
       <br>
-      <br>
-      <br>
+      <div>
+        <div v-if="showAppealAndRefuse" class="appeal-and-refuse">
+          <div v-for="(v,i) of appeal_record" :key="i">
+            <span class="label">
+              {{constants.APPEAL_REASON}}:
+            </span>
+            <span class="content">
+              {{v.reason}}
+            </span>
+            <span class="time">
+              {{v.time}}
+            </span>
+          </div>
+          <div v-for="(v,i) of reject_record" :key="i">
+            <span class="label">
+              {{constants.REJECT_REASON}}:
+            </span>
+            <span class="content">
+              {{v.reason}}
+            </span>
+            <span class="time">
+              {{v.time}}
+            </span>
+          </div>
+          <div v-if="feedback_feeling">
+            <span class="label">
+              {{constants.IMPRESSIONS}}:
+            </span>
+            <span class="content">
+              {{feedback_feeling.content}}
+            </span>
+            <span class="time">
+              {{feedback_feeling.time}}
+            </span>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
       <div>
         <span class="sub-title">
-          优势: &nbsp;
+          {{constants.ADVANTAGE}}: &nbsp;
         </span>
         <span class="content">
           {{advantage}}
@@ -54,7 +91,7 @@
       <br>
       <div>
         <span class="sub-title">
-          待提升: &nbsp;
+          {{constants.PROMOTION}}: &nbsp;
         </span>
         <span class="content">
           {{promotion}}
@@ -67,7 +104,7 @@
       <hr>
       <br>
       <div class="detail-header" @click="detailHide =!detailHide">
-        评分详情 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        {{constants.GRADE_DETAIL}} <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
       </div>
       <br>
       <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
@@ -89,7 +126,14 @@ import {
   GRADE_MANAGE,
   ORG_DETAIL,
   GRADE_DETAIL,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  LEVEL_TAG,
+  ADVANTAGE,
+  PROMOTION,
+  IMPRESSIONS,
+  APPEAL_REASON,
+  REJECT_REASON,
+  TOTAL_SCORES
 } from "@/constants/TEXT";
 import { getUserGradeContent } from "@/constants/API";
 
@@ -99,10 +143,13 @@ export default {
       status: 0,
       isManager: false,
       detailHide: true,
+      appeal_record: [],
+      reject_record: [],
       advantage: "",
       promotion: "",
       has_history: 1,
       total_score: "",
+      feedback_feeling: null,
       level: "",
       scores: [],
       nav: [
@@ -136,7 +183,17 @@ export default {
         highlevel_name: "",
         highlevel_workcode: ""
       },
-      evaluation_name: ""
+      evaluation_name: "",
+      constants: {
+        LEVEL_TAG,
+        ADVANTAGE,
+        PROMOTION,
+        IMPRESSIONS,
+        GRADE_DETAIL,
+        APPEAL_REASON,
+        REJECT_REASON,
+        TOTAL_SCORES
+      }
     };
   },
   components: {
@@ -195,11 +252,17 @@ export default {
           highlevel_workcode,
           evaluation_type,
           total_score,
-          status
+          status,
+          appeal_record,
+          reject_record,
+          feedback_feeling
         } = res;
         this.promotion = promotion;
+        this.appeal_record = appeal_record || [];
+        this.reject_record = reject_record || [];
         this.advantage = advantage;
         this.has_history = has_history;
+        this.feedback_feeling = feedback_feeling;
         // console.log(superior_name)
         this.isManager = evaluation_type == 2;
         this.status = status;
@@ -217,7 +280,7 @@ export default {
           highlevel_workcode
         };
         this.scores = scores.map(s => {
-          s.score = s.self_score;
+          s.score = s.superior_score;
           return s;
         });
       });
@@ -228,10 +291,17 @@ export default {
   },
   computed: {
     isRejectOrComplian() {
-      return this.status == 30 || this.status == 70;
+      return this.status == 70;
     },
     isEditable() {
       return this.isManager && this.status >= 20 && this.status < 100;
+    },
+    showAppealAndRefuse() {
+      return (
+        this.appeal_record.length > 0 ||
+        this.reject_record.length > 0 ||
+        this.feedback_feeling
+      );
     }
   }
 };
@@ -294,6 +364,26 @@ export default {
   }
   & /deep/ .GradeItem-page .el-button {
     background: transparent;
+  }
+  .appeal-and-refuse {
+    padding: 20px;
+    background: white;
+    & > div {
+      position: relative;
+    }
+    & .label {
+      font-size: 24px;
+      color: #f18d23;
+      line-height: 30px;
+    }
+    & .content {
+      font-size: 14px;
+      color: #000000;
+    }
+    & .time {
+      position: absolute;
+      right: 0;
+    }
   }
 }
 </style>

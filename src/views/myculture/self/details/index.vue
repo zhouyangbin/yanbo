@@ -24,7 +24,8 @@ import {
   MY_GRADE,
   GRADE_DETAIL,
   MY_RULE,
-  MY_UNCONFIRMED_RULE
+  MY_UNCONFIRMED_RULE,
+  MY_MANAGER_RULE
 } from "@/constants/TEXT";
 import { PATH_MY_CULTURE_GRADE } from "@/constants/URL";
 import { getMyCultureStatus } from "@/constants/API";
@@ -70,7 +71,9 @@ export default {
   },
   computed: {
     ruleText() {
-      return ruleMap[this.currentTabComponent];
+      return this.isManager
+        ? MY_MANAGER_RULE
+        : ruleMap[this.currentTabComponent];
     },
     showRules() {
       return this.currentTabComponent != "self-report";
@@ -80,21 +83,27 @@ export default {
     }
   },
   created() {
-    return getMyCultureStatus(this.$route.params.id).then(res => {
-      this.isManager = res.evaluation_type == 2;
-      if (res.status == -1) {
-        this.currentTabComponent = "self-msg";
-        this.msg = res.exception_msg;
-      } else if (res.status == 2) {
-        this.currentTabComponent = "self-report";
-      } else if (res.status == 1 && res.stage == 60) {
-        this.currentTabComponent = "self-unconfirm";
-      } else {
-        this.currentTabComponent = "self-grade";
-      }
-      this.stage = res.stage;
-      return res;
-    });
+    this.getStatus();
+  },
+  methods: {
+    getStatus() {
+      this.currentTabComponent = "";
+      getMyCultureStatus(this.$route.params.id).then(res => {
+        this.isManager = res.evaluation_type == 2;
+        if (res.status == -1) {
+          this.currentTabComponent = "self-msg";
+          this.msg = res.exception_msg;
+        } else if (res.status == 2) {
+          this.currentTabComponent = "self-report";
+        } else if (res.status == 1 && res.stage == 60) {
+          this.currentTabComponent = "self-unconfirm";
+        } else {
+          this.currentTabComponent = "self-grade";
+        }
+        this.stage = res.stage;
+        return res;
+      });
+    }
   }
 };
 </script>

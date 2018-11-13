@@ -75,17 +75,11 @@
       <br>
       <br>
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-popover @hide="rejectReason=''" placement="top" width="400" trigger="click">
-          <case-area placeholder="请您填写驳回理由" v-model="rejectReason"></case-area>
-          <br>
-          <el-row type="flex" justify="center">
-            <el-button @click="reject" type="primary">{{constants.SUBMIT}}</el-button>
-          </el-row>
-          <el-button slot="reference" type="primary">{{constants.REJECT}}</el-button>
-        </el-popover>
+        <el-button @click="showRejectDialog=true" type="primary">{{constants.REJECT}}</el-button>
         <el-button style="margin-left:20px;" @click="pass" type="primary">{{constants.CONFIRM}}</el-button>
       </el-row>
     </section>
+    <reject-dialog v-if="showRejectDialog" :visible.sync="showRejectDialog"></reject-dialog>
   </div>
 </template>
 <script>
@@ -101,7 +95,8 @@ import {
   REJECT,
   LEADER_SOCRE,
   ADVANTAGE,
-  PROMOTION
+  PROMOTION,
+  BREAK_STATUS
 } from "@/constants/TEXT";
 
 import {
@@ -119,9 +114,9 @@ export default {
   data() {
     return {
       levelEditable: false,
+      showRejectDialog: false,
       advantage: "",
       promotion: "",
-      rejectReason: "",
       rejectReasons: [],
       levelNecessary: false,
       basicInfo: {},
@@ -177,7 +172,9 @@ export default {
     "appeal-reaosn": () =>
       import("@/components/modules/myculture/appealreason/index.vue"),
     "reject-reason": () =>
-      import("@/components/modules/myculture/rejectreason/index.vue")
+      import("@/components/modules/myculture/rejectreason/index.vue"),
+    "reject-dialog": () =>
+      import("@/components/modules/myculture/rejectDialog/index.vue")
   },
   methods: {
     getDetailInfo() {
@@ -198,17 +195,26 @@ export default {
           _271_is_necessary,
           stage,
           appeal_record,
-          reject_record
+          reject_record,
+          break_status,
+          highlevel_start_time
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
         this.levelNecessary = !!_271_is_necessary;
         this.appealReason = appeal_record || [];
         this.rejectReasons = reject_record || [];
-
+        let breakStatus;
+        if (break_status == 0) {
+          breakStatus =
+            new Date() <= new Date(highlevel_start_time) ? "未开始" : "";
+        } else {
+          breakStatus = BREAK_STATUS[break_status];
+        }
         this.basicInfo = {
           name: employee_name,
           superior_workcode,
+          breakStatus,
           workcode: employee_workcode,
           leaderLabel: "他的上级",
           superior_name,
@@ -242,6 +248,7 @@ export default {
             message: "等级设置成功!",
             type: "success"
           });
+          this.levelEditable = false;
         })
         .catch(e => {});
     },
@@ -256,28 +263,7 @@ export default {
         })
         .catch(() => {});
     },
-    reject() {
-      if (!this.rejectReason) {
-        this.$message({
-          message: "请填写理由!",
-          type: "warning"
-        });
-        return;
-      }
-      postReject({
-        ids: [this.$route.params.uid],
-        type: 1,
-        reason: this.rejectReason
-      })
-        .then(res => {
-          this.$message({
-            message: "操作成功!",
-            type: "success"
-          });
-          this.getDetailInfo();
-        })
-        .catch(e => {});
-    },
+
     reqPass() {
       postReject({
         ids: [this.$route.params.uid],
@@ -288,7 +274,7 @@ export default {
             message: "操作成功!",
             type: "success"
           });
-          this.getDetailInfo();
+          this.$router.back();
         })
         .catch(e => {});
     }

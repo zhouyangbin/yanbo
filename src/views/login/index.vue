@@ -67,11 +67,12 @@ export default {
       // 仿真
       if (process.env.NODE_ENV == "development") {
         return (
-          fzLogin({ workcode: "17600297195" })
+          fzLogin({ workcode: "076344" })
             // 076533
             // 17600297195
             // 074036
             // 108321
+            // 18310787064
             .then(res => {
               localStorage.setItem("talEmail", res.admin.email);
               localStorage.setItem("talToken", res.token);
@@ -79,7 +80,14 @@ export default {
                 "permissions",
                 JSON.stringify(res.admin.permissions)
               );
-              if (querys.fromDingDing) {
+              // this.$router.push({ path: dst });
+              if (
+                querys.fromDingDing &&
+                window.DingTalkPC &&
+                window.DingTalkPC.ua &&
+                window.DingTalkPC.ua.isInDingTalk
+              ) {
+                // console.log();
                 window.DingTalkPC.biz.util.openLink({
                   url: `${window.location.origin}${dst}`, //要打开链接的地址
                   onSuccess: function(result) {
@@ -102,7 +110,14 @@ export default {
               "permissions",
               JSON.stringify(res.admin.permissions)
             );
-            if (querys.fromDingDing) {
+            // this.$router.push({ path: dst });
+            if (
+              querys.fromDingDing &&
+              window.DingTalkPC &&
+              window.DingTalkPC.ua &&
+              window.DingTalkPC.ua.isInDingTalk
+            ) {
+              // console.log();
               window.DingTalkPC.biz.util.openLink({
                 url: `${window.location.origin}${dst}`, //要打开链接的地址
                 onSuccess: function(result) {

@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     searchME(v) {
-      if (v != "") {
+      if (v != "" && v.length >= 6) {
         getUserDetail({
           empID: v
         })

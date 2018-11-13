@@ -9,11 +9,20 @@
       <br>
       <history-cards :selectedIndex.sync="selectedIndex" :data="list"></history-cards>
       <br>
-      <case-area :readOnly="readOnly" v-model="list[selectedIndex].change_reason"></case-area>
+      <div>
+        <h3>{{constants.CHANGE_REASON}}:</h3>
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].change_reason"></case-area>
+      </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="list[selectedIndex].advantage"></case-area>
+      <div>
+        <h3>{{constants.ADVANTAGE}}:</h3>
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].advantage"></case-area>
+      </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="list[selectedIndex].promotion"></case-area>
+      <div>
+        <h3>{{constants.PROMOTION}}:</h3>
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].promotion"></case-area>
+      </div>
       <br>
       <section class="mark">
         <el-row align="middle" type="flex">
@@ -54,8 +63,10 @@
         </div>
       </div>
       <br>
-      <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
-      <br>
+      <div v-if="list[selectedIndex].scores[selectGradeItem].self_score!=list[selectedIndex].scores[selectGradeItem].superior_score">
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
+        <br>
+      </div>
     </section>
   </div>
 </template>
@@ -72,7 +83,10 @@ import {
   GRADE_MANAGE,
   ORG_DETAIL,
   GRADE_DETAIL,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  ADVANTAGE,
+  PROMOTION,
+  CHANGE_REASON
 } from "@/constants/TEXT";
 import { getHistoryModifyList } from "@/constants/API";
 
@@ -119,7 +133,10 @@ export default {
         }
       ],
       constants: {
-        LEVEL_ALIAS
+        LEVEL_ALIAS,
+        ADVANTAGE,
+        PROMOTION,
+        CHANGE_REASON
       }
     };
   },
@@ -153,7 +170,7 @@ export default {
   computed: {
     reasons() {
       return this.list[this.selectedIndex].scores[this.selectGradeItem]
-        .self_case;
+        .self_cases;
     },
     currentLv() {
       return (

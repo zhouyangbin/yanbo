@@ -40,24 +40,24 @@ export default {
       );
     },
     topP() {
-      return `${parseFloat(this.data.top.count / this.total).toFixed(4) *
-        100}%`;
+      return `${parseFloat(
+        (parseFloat(this.data.top.count / this.total) * 100).toPrecision(4)
+      ).toFixed(2)}%`;
     },
     mediumP() {
       return `${parseFloat(
-        parseFloat(this.data.middle.count / this.total).toFixed(4)
-      ) * 100}%`;
+        (parseFloat(this.data.middle.count / this.total) * 100).toPrecision(4)
+      ).toFixed(2)}%`;
     },
     bottomP() {
-      return `${parseFloat(this.data.bottom.count / this.total).toFixed(4) *
-        100}%`;
+      return `${parseFloat(
+        (parseFloat(this.data.bottom.count / this.total) * 100).toPrecision(4)
+      ).toFixed(2)}%`;
     },
     summary() {
-      return `理想比例271比例分布：Top（${
-        this.data.top.expected
-      }人）、Middle（${this.data.middle.expected}人）、Bottom（${
-        this.data.bottom.expected
-      }人）`;
+      return `理想271比例分布：Top（${this.data.top.expected}人）、Middle（${
+        this.data.middle.expected
+      }人）、Bottom（${this.data.bottom.expected}人）`;
     }
   }
 };

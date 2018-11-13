@@ -26,17 +26,19 @@
     <br>
     <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
     <el-row v-if="canSubmit" type="flex" justify="end">
-      <el-popover @hide="reason=''" placement="top" trigger="click">
+      <!-- <el-popover @hide="reason=''" placement="top" trigger="click">
         <el-input type="textarea" :rows="2" placeholder="请输入申诉理由" v-model="reason">
         </el-input>
         <br>
         <br>
         <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">{{constants.CONFIRM}}</el-button>
-        <el-button style="margin-right:20px" slot="reference" type="primary">{{constants.APPEAL}}</el-button>
-      </el-popover>
+
+      </el-popover> -->
+      <el-button @click="showComplainDia=true" type="primary">{{constants.APPEAL}}</el-button>
       <el-button @click="confirm" type="primary">{{constants.CONFIRM}}</el-button>
     </el-row>
     <impression-dialog v-if="showImpressionDialog" :visible.sync="showImpressionDialog"></impression-dialog>
+    <complain-dialog :visible.sync="showComplainDia" :submit="complain" v-model="reason" v-if="showComplainDia"></complain-dialog>
   </div>
 </template>
 <script>
@@ -47,7 +49,8 @@ import {
   CONFIRM,
   APPEAL,
   CONST_OPERATIONS_SUCCESS,
-  CANCEL
+  CANCEL,
+  ATTENTION
 } from "@/constants/TEXT";
 
 export default {
@@ -59,6 +62,7 @@ export default {
   data() {
     return {
       showImpressionDialog: false,
+      showComplainDia: false,
       reason: "",
       name: "",
       advantage: "",
@@ -76,7 +80,8 @@ export default {
   },
   components: {
     "case-item": () => import("./caseitem/index.vue"),
-    "impression-dialog": () => import("../impressiondialog/index.vue")
+    "impression-dialog": () => import("../impressiondialog/index.vue"),
+    "complain-dialog": () => import("../complaindialog/index.vue")
   },
   methods: {
     complain() {
@@ -97,14 +102,14 @@ export default {
           message: CONST_OPERATIONS_SUCCESS,
           type: "success"
         });
-        this.getInfo();
+        this.$parent.getStatus();
       });
     },
     confirm() {
       if (this.isManager) {
         this.showImpressionDialog = true;
       } else {
-        this.$confirm("是否确认提交, 是否继续?", "提示", {
+        this.$confirm("是否确认提交, 是否继续?", ATTENTION, {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
           type: "warning"
@@ -119,7 +124,7 @@ export default {
                 message: CONST_OPERATIONS_SUCCESS,
                 type: "success"
               });
-              this.getInfo();
+              this.$parent.getStatus();
             });
           })
           .catch(() => {});

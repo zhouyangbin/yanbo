@@ -19,11 +19,11 @@
         <br>
         <div class="members-list-filter">
           <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
-            <el-form-item prop="superior_name">
-              <el-input placeholder="请输入下级姓名" v-model="memberForm.superior_name"></el-input>
-            </el-form-item>
             <el-form-item prop="employee_name">
-              <el-input placeholder="隔级姓名" v-model="memberForm.employee_name"></el-input>
+              <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
+            </el-form-item>
+            <el-form-item prop="superior_name">
+              <el-input placeholder="请输入上级姓名" v-model="memberForm.superior_name"></el-input>
             </el-form-item>
             <el-form-item prop="highlevel_status">
               <el-select v-model="memberForm.highlevel_status" :placeholder="constants.HIGHLV_STATUS">
@@ -117,6 +117,7 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getDownMembersList, postReject } from "@/constants/API";
+import { formatTime } from "@/utils/timeFormat";
 
 export default {
   data() {
@@ -200,6 +201,7 @@ export default {
       this.$refs[formName].resetFields();
     },
     selectionChange(s) {
+      // console.log(formatTime(new Date()))
       this.selectedArr = s;
     },
     batchPass() {
@@ -289,7 +291,10 @@ export default {
     },
     notAllowedBatch() {
       return this.selectedArr.some(
-        i => i.stage != 50 || (i.status == 100 || i.status == 30)
+        i =>
+          i.stage != 50 ||
+          (i.status == 100 || i.status == 30) ||
+          (i.stage == 50 && formatTime(new Date()) >= i.highlevel_end_time)
       );
     }
   }
