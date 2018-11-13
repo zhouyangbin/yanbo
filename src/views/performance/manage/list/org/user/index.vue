@@ -20,6 +20,10 @@
         <addition-mark :prefixTitle="constants.LABEL_SUP" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
+      <div>
+        <comments :readOnly="!canEdit" :comments.sync="comments"></comments>
+        <br>
+      </div>
       <div v-if="progressArr.length>1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
@@ -96,6 +100,7 @@ export default {
       targets: [],
       myAdditionMark: {},
       leaderAdditionMark: {},
+      comments: "",
       appeal: {},
       nav: [
         {
@@ -138,7 +143,9 @@ export default {
     "addition-mark": () =>
       import("@/components/modules/employee/additionalMark/index.vue"),
     "change-mark": () =>
-      import("@/components/modules/performance/ChangeGrade/index.vue")
+      import("@/components/modules/performance/ChangeGrade/index.vue"),
+    comments: () =>
+      import("@/components/modules/employee/leaderComments/index.vue")
   },
   methods: {
     changeMarks() {
@@ -263,6 +270,7 @@ export default {
           };
 
           this.total = score_level;
+          this.comments = superior_score && superior_score.evaluation;
           this.composeResultArr(self_score, superior_score, appeal);
           this.composeProgressArr(
             target_time,
