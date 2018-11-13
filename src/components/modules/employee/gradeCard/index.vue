@@ -46,7 +46,7 @@
         </section>
         <br>
       </div>
-      <div v-if="data.target_superior_score && data.target_superior_score.description!=null">
+      <div v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null">
         <section>
           <span class="label">上级评分理由:</span> &nbsp;
           <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
@@ -56,7 +56,7 @@
     </div>
     <div v-if="!readOnly" class="marks">
       <div class="target-desc">
-        <case-area :rows="2" :value="desc" @input="$emit('update:desc',$event)" :readOnly="readOnly"></case-area>
+        <case-area :rows="2" :placeholder="placeholder" :value="desc" @input="$emit('update:desc',$event)" :readOnly="readOnly"></case-area>
       </div>
       <div>
         <el-input-number :precision="1" size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
@@ -97,6 +97,10 @@ export default {
     index: {
       type: Number,
       default: 1
+    },
+    placeholder: {
+      type: String,
+      default: "请输入内容"
     }
   },
   data() {
@@ -144,12 +148,13 @@ export default {
 .grade-card-container .label {
   margin-right: 20px;
   color: #778294;
-  width: 100px;
-  min-width: 100px;
+  width: 110px;
+  min-width: 110px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;
   padding: 0 10px;
+  flex-shrink: 0;
 }
 .greyText {
   color: #778294;

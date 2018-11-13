@@ -10,7 +10,7 @@
         <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
       </div>
       <br>
-      <card class="card" :readOnly="!canEdit" :desc.sync="targets[i].desc" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
+      <card class="card" :readOnly="!canEdit" :desc.sync="targets[i].desc" placeholder="请评价该项目的完成情况（非必填)" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
         <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
