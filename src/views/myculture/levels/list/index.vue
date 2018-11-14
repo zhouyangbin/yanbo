@@ -42,7 +42,7 @@
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
-              <el-button @click="goDetail(scope.row)" type="text" style="margin-right:15px;" size="small">{{constants.VIEW_DETAILS}}</el-button>
+              <el-button :disabled="!canOps" @click="goDetail(scope.row)" type="text" style="margin-right:15px;" size="small">{{constants.VIEW_DETAILS}}</el-button>
               <el-popover :ref="`level_pop${scope.row.id}`" placement="top">
                 <el-form :model="levelForm" :inline="true">
                   <el-form-item prop="levels">
@@ -52,9 +52,9 @@
                   </el-form-item>
                 </el-form>
                 <el-row v-show="levelForm.level" type="flex" justify="center">
-                  <el-button @click="updateLv(scope.row)" type="primary" round>{{constants.SUBMIT}}</el-button>
+                  <el-button :disabled="!canOps" @click="updateLv(scope.row)" type="primary" round>{{constants.SUBMIT}}</el-button>
                 </el-row>
-                <el-button @click="openLevelForm(scope.row)" slot="reference" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
+                <el-button :disabled="!canOps" @click="openLevelForm(scope.row)" slot="reference" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
               </el-popover>
             </template>
           </el-table-column>
@@ -86,6 +86,7 @@ import {
 } from "@/constants/TEXT";
 import { getManagerLvList, changeManagerLv } from "@/constants/API";
 import { PATH_CULTURE_LV_EXPORT, PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import { formatTime } from "@/utils/timeFormat";
 
 export default {
   data() {
@@ -239,6 +240,11 @@ export default {
       },
       deep: true,
       immediate: true
+    }
+  },
+  computed: {
+    canOps() {
+      return this.startedDate < formatTime(new Date());
     }
   }
 };
