@@ -7,7 +7,10 @@
       <br>
       <hr>
       <br>
-      <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
+      <el-row type="flex" justify="space-between">
+        <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
+        <el-button @click="goHistory" style="align-self:flex-start" type="primary">{{constants.CHANGE_RECORDS}}</el-button>
+      </el-row>
       <br>
       <br>
       <div>
@@ -96,12 +99,14 @@ import {
   LEADER_SOCRE,
   ADVANTAGE,
   PROMOTION,
-  BREAK_STATUS
+  BREAK_STATUS,
+  CHANGE_RECORDS
 } from "@/constants/TEXT";
 
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
-  PATH_DOWN_MEMBER_CULTURE_LIST
+  PATH_DOWN_MEMBER_CULTURE_LIST,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY
 } from "@/constants/URL";
 
 import {
@@ -155,7 +160,8 @@ export default {
         REJECT,
         LEADER_SOCRE,
         ADVANTAGE,
-        PROMOTION
+        PROMOTION,
+        CHANGE_RECORDS
       }
     };
   },
@@ -277,6 +283,14 @@ export default {
           this.$router.back();
         })
         .catch(e => {});
+    },
+    goHistory() {
+      this.$router.push(
+        PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(
+          this.$route.params.id,
+          this.$route.params.uid
+        )
+      );
     }
   },
   created() {

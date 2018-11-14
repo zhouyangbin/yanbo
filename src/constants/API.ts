@@ -305,8 +305,8 @@ export const postMemberGrade = (id: String, params: Object) =>
   sendPost(`/culture/web/superior-evaluate/${id}`, params);
 
 // 历史修改记录
-export const getHistoryModifyList = (id: String) =>
-  sendGet(`/admin/api/user_list/${id}/evaluation-record`);
+export const getHistoryModifyList = (id: String, params: Object) =>
+  sendGet(`/admin/api/user_list/${id}/evaluation-record`, params);
 // 高管修改评分
 export const postManagerModify = (id: String, params: Object) =>
   sendPost(`/admin/api/superior-modify/${id}`, params);
