@@ -21,7 +21,7 @@
         <br>
       </div>
       <div v-if="comments">
-        <comments :readOnly="!canEdit" :comments.sync="comments"></comments>
+        <comments :readOnly="true" :comments.sync="comments"></comments>
         <br>
       </div>
       <div v-if="progressArr.length>1" class="summary-section">
