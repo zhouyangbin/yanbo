@@ -20,7 +20,7 @@
         <addition-mark :prefixTitle="constants.LABEL_SUP" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
         <br>
       </div>
-      <div>
+      <div v-if="comments">
         <comments :readOnly="!canEdit" :comments.sync="comments"></comments>
         <br>
       </div>
