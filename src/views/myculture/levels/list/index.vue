@@ -34,7 +34,9 @@
 
           <el-table-column prop="_271_level" label="271等级">
             <template slot-scope="scope">
-              {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+              <div :class="`${constants.LEVEL_ALIAS[scope.row._271_level]}-container`">
+                {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+              </div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
@@ -194,7 +196,7 @@ export default {
   },
   watch: {
     searchForm: {
-      handler: function(v) {
+      handler: function (v) {
         this.currentPage = 1;
         this.fetchList({ page: 1, ...v });
       },
@@ -205,19 +207,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.my-manager-levels {
-  .levels-header {
-    background-color: white;
-    padding: 20px 10px 10px 10px;
+  .my-manager-levels {
+    .levels-header {
+      background-color: white;
+      padding: 20px 10px 10px 10px;
+    }
+    .search-form {
+      background-color: #f8f8f8;
+      padding: 20px;
+      padding-bottom: 0px;
+    }
+    .tips {
+      font-size: 10px;
+      color: #afafaf;
+    }
+    .Bottom-container {
+      color: #e94a2d;
+    }
+    .Middle-container {
+      color: #f5d323;
+    }
+    .Top-container {
+      color: #7ed321;
+    }
   }
-  .search-form {
-    background-color: #f8f8f8;
-    padding: 20px;
-    padding-bottom: 0px;
-  }
-  .tips {
-    font-size: 10px;
-    color: #afafaf;
-  }
-}
 </style>
