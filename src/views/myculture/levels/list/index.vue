@@ -27,6 +27,7 @@
           </el-form-item>
         </el-form>
         <br>
+        <distribute-summary :data="overview"></distribute-summary>
         <br>
         <el-table :data="tableData" stripe style="width: 100%">
 
@@ -139,12 +140,29 @@ export default {
           prop: "superior_score",
           label: LEADER_SOCRE
         }
-      ]
+      ],
+      // 271分布数据
+      overview: {
+        top: {
+          count: 0,
+          expected: 0
+        },
+        middle: {
+          count: 0,
+          expected: 0
+        },
+        bottom: {
+          count: 0,
+          expected: 0
+        }
+      }
     };
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    pagination: () => import("@/components/common/Pagination/index.vue"),
+    "distribute-summary": () =>
+      import("@/components/modules/myculture/membersdistribute/index.vue")
   },
   methods: {
     resetForm(formName) {
@@ -157,12 +175,19 @@ export default {
     fetchList(data) {
       getManagerLvList(data).then(res => {
         const { info, list } = res;
-        const { evaluation_name_id, id, name, feedback_start_time } = info;
+        const {
+          evaluation_name_id,
+          id,
+          name,
+          feedback_start_time,
+          overview
+        } = info;
         this.tableData = list.data;
         this.evaluation_name_id = evaluation_name_id;
         this.startedDate = feedback_start_time;
         this.gradeName = name;
         this.id = id;
+        this.postOverview(overview);
       });
     },
     currentChange(v) {
@@ -192,11 +217,23 @@ export default {
       this.$router.push(
         PATH_GRADE_EMP_DETAIL(this.evaluation_name_id, this.id, row.id)
       );
+    },
+    postOverview(data) {
+      if (data) {
+        let obj = {};
+        for (const i of data) {
+          obj[i.key] = {
+            count: parseInt(i.count),
+            expected: i.expected_value
+          };
+        }
+        this.overview = { ...obj };
+      }
     }
   },
   watch: {
     searchForm: {
-      handler: function (v) {
+      handler: function(v) {
         this.currentPage = 1;
         this.fetchList({ page: 1, ...v });
       },
@@ -207,28 +244,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .my-manager-levels {
-    .levels-header {
-      background-color: white;
-      padding: 20px 10px 10px 10px;
-    }
-    .search-form {
-      background-color: #f8f8f8;
-      padding: 20px;
-      padding-bottom: 0px;
-    }
-    .tips {
-      font-size: 10px;
-      color: #afafaf;
-    }
-    .Bottom-container {
-      color: #e94a2d;
-    }
-    .Middle-container {
-      color: #f5d323;
-    }
-    .Top-container {
-      color: #7ed321;
-    }
+.my-manager-levels {
+  .levels-header {
+    background-color: white;
+    padding: 20px 10px 10px 10px;
   }
+  .search-form {
+    background-color: #f8f8f8;
+    padding: 20px;
+    padding-bottom: 0px;
+  }
+  .tips {
+    font-size: 10px;
+    color: #afafaf;
+  }
+  .Bottom-container {
+    color: #e94a2d;
+  }
+  .Middle-container {
+    color: #f5d323;
+  }
+  .Top-container {
+    color: #7ed321;
+  }
+}
 </style>
