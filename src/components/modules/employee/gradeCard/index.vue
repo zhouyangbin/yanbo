@@ -14,7 +14,9 @@
       <div v-if="data.metrics">
         <section>
           <span class="label">衡量标准:</span> &nbsp;
-          <span>{{data.metrics}}</span>
+          <span v-html="data.metrics.replace(/\n/g, '<br/>')">
+            <!-- {{}} -->
+          </span>
         </section>
         <br>
       </div>
