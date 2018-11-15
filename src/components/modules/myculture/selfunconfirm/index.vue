@@ -34,7 +34,7 @@
         <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">{{constants.CONFIRM}}</el-button>
 
       </el-popover> -->
-      <el-button @click="showComplainDia=true" type="primary">{{constants.APPEAL}}</el-button>
+      <el-button v-if="can_appeal" @click="showComplainDia=true" type="primary">{{constants.APPEAL}}</el-button>
       <el-button @click="confirm" type="primary">{{constants.CONFIRM}}</el-button>
     </el-row>
     <impression-dialog v-if="showImpressionDialog" :visible.sync="showImpressionDialog"></impression-dialog>
@@ -70,6 +70,7 @@ export default {
       canSubmit: false,
       scores: [],
       isManager: false,
+      can_appeal: false,
       constants: {
         ADVANTAGE,
         PROMOTION,
@@ -145,7 +146,8 @@ export default {
           name,
           end_time,
           evaluation_type,
-          can_submit
+          can_submit,
+          can_appeal
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
@@ -153,6 +155,7 @@ export default {
         this.canSubmit = can_submit == 1;
         this.name = name;
         this.isManager = evaluation_type == 2;
+        this.can_appeal = can_appeal == 1;
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,

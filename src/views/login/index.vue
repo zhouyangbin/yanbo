@@ -67,7 +67,7 @@ export default {
       // 仿真
       if (process.env.NODE_ENV == "development") {
         return (
-          fzLogin({ workcode: "17600297195" })
+          fzLogin({ workcode: "076533" })
             // 076533
             // 17600297195
             // 074036
@@ -183,7 +183,14 @@ export default {
           dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
           break;
         case "reject":
+        case "superior_detail":
           dst = PATH_MEMBER_CULTURE_DETAILS(
+            querys.evaluation_name_id,
+            querys.user_id
+          );
+          break;
+        case "highlevel_detail":
+          dst = PATH_DOWN_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
             querys.user_id
           );

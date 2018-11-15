@@ -91,13 +91,19 @@ import {
 import { getHistoryModifyList } from "@/constants/API";
 
 export default {
+  props: {
+    type: {
+      type: Number,
+      default: 1
+    }
+  },
   data() {
     return {
       basicInfo: {},
       selectedIndex: 0,
       selectGradeItem: 0,
       readOnly: true,
-      level: "",
+      // level: "",
       nav: [
         {
           label: GRADE_MANAGE,
@@ -153,15 +159,17 @@ export default {
   },
   methods: {
     getHistory() {
-      getHistoryModifyList(this.$route.params.uid).then(res => {
-        const { records, info } = res;
-        this.list = records;
-        this.basicInfo = {
-          ...info,
-          leaderLabel: "上级",
-          hightlevelLabel: "隔级上级"
-        };
-      });
+      getHistoryModifyList(this.$route.params.uid, { type: this.type }).then(
+        res => {
+          const { records, info } = res;
+          this.list = records;
+          this.basicInfo = {
+            ...info,
+            leaderLabel: "上级",
+            hightlevelLabel: "隔级上级"
+          };
+        }
+      );
     }
   },
   created() {

@@ -27,6 +27,8 @@
           </el-form-item>
         </el-form>
         <br>
+        <distribute-summary :data="overview"></distribute-summary>
+        <br>
         <br>
         <el-table :data="tableData" stripe style="width: 100%">
 
@@ -34,12 +36,14 @@
 
           <el-table-column prop="_271_level" label="271等级">
             <template slot-scope="scope">
-              {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+              <div :class="`${constants.LEVEL_ALIAS[scope.row._271_level]}-container`">
+                {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+              </div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
-              <el-button @click="goDetail(scope.row)" type="text" style="margin-right:15px;" size="small">{{constants.VIEW_DETAILS}}</el-button>
+              <el-button :disabled="!canOps" @click="goDetail(scope.row)" type="text" style="margin-right:15px;" size="small">{{constants.VIEW_DETAILS}}</el-button>
               <el-popover :ref="`level_pop${scope.row.id}`" placement="top">
                 <el-form :model="levelForm" :inline="true">
                   <el-form-item prop="levels">
@@ -49,9 +53,9 @@
                   </el-form-item>
                 </el-form>
                 <el-row v-show="levelForm.level" type="flex" justify="center">
-                  <el-button @click="updateLv(scope.row)" type="primary" round>{{constants.SUBMIT}}</el-button>
+                  <el-button :disabled="!canOps" @click="updateLv(scope.row)" type="primary" round>{{constants.SUBMIT}}</el-button>
                 </el-row>
-                <el-button @click="openLevelForm(scope.row)" slot="reference" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
+                <el-button :disabled="!canOps" @click="openLevelForm(scope.row)" slot="reference" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
               </el-popover>
             </template>
           </el-table-column>
@@ -83,6 +87,7 @@ import {
 } from "@/constants/TEXT";
 import { getManagerLvList, changeManagerLv } from "@/constants/API";
 import { PATH_CULTURE_LV_EXPORT, PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import { formatTime } from "@/utils/timeFormat";
 
 export default {
   data() {
@@ -137,12 +142,29 @@ export default {
           prop: "superior_score",
           label: LEADER_SOCRE
         }
-      ]
+      ],
+      // 271分布数据
+      overview: {
+        top: {
+          count: 0,
+          expected: 0
+        },
+        middle: {
+          count: 0,
+          expected: 0
+        },
+        bottom: {
+          count: 0,
+          expected: 0
+        }
+      }
     };
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    pagination: () => import("@/components/common/Pagination/index.vue"),
+    "distribute-summary": () =>
+      import("@/components/modules/myculture/membersdistribute/index.vue")
   },
   methods: {
     resetForm(formName) {
@@ -154,13 +176,14 @@ export default {
     },
     fetchList(data) {
       getManagerLvList(data).then(res => {
-        const { info, list } = res;
+        const { info, list, overview } = res;
         const { evaluation_name_id, id, name, feedback_start_time } = info;
         this.tableData = list.data;
         this.evaluation_name_id = evaluation_name_id;
         this.startedDate = feedback_start_time;
         this.gradeName = name;
         this.id = id;
+        this.postOverview(overview);
       });
     },
     currentChange(v) {
@@ -190,6 +213,18 @@ export default {
       this.$router.push(
         PATH_GRADE_EMP_DETAIL(this.evaluation_name_id, this.id, row.id)
       );
+    },
+    postOverview(data) {
+      if (data) {
+        let obj = {};
+        for (const i of data) {
+          obj[i.key] = {
+            count: parseInt(i.count),
+            expected: i.expected_value
+          };
+        }
+        this.overview = { ...obj };
+      }
     }
   },
   watch: {
@@ -200,6 +235,11 @@ export default {
       },
       deep: true,
       immediate: true
+    }
+  },
+  computed: {
+    canOps() {
+      return this.startedDate > formatTime(new Date());
     }
   }
 };
@@ -218,6 +258,15 @@ export default {
   .tips {
     font-size: 10px;
     color: #afafaf;
+  }
+  .Bottom-container {
+    color: #e94a2d;
+  }
+  .Middle-container {
+    color: #f5d323;
+  }
+  .Top-container {
+    color: #7ed321;
   }
 }
 </style>

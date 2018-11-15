@@ -7,7 +7,10 @@
       <br>
       <hr>
       <br>
-      <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
+      <el-row type="flex" justify="space-between">
+        <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
+        <el-button v-if="has_history" @click="goHistory" style="align-self:flex-start" type="primary">{{constants.CHANGE_RECORDS}}</el-button>
+      </el-row>
       <br>
       <br>
       <div>
@@ -96,12 +99,14 @@ import {
   LEADER_SOCRE,
   ADVANTAGE,
   PROMOTION,
-  BREAK_STATUS
+  BREAK_STATUS,
+  CHANGE_RECORDS
 } from "@/constants/TEXT";
 
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
-  PATH_DOWN_MEMBER_CULTURE_LIST
+  PATH_DOWN_MEMBER_CULTURE_LIST,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY
 } from "@/constants/URL";
 
 import {
@@ -146,6 +151,7 @@ export default {
       level: "",
       readOnly: false,
       selectGradeItem: 0,
+      has_history: false,
       gradeItems: [],
       constants: {
         MY_DOWN_MEMBER_RULE,
@@ -155,7 +161,8 @@ export default {
         REJECT,
         LEADER_SOCRE,
         ADVANTAGE,
-        PROMOTION
+        PROMOTION,
+        CHANGE_RECORDS
       }
     };
   },
@@ -197,7 +204,8 @@ export default {
           appeal_record,
           reject_record,
           break_status,
-          highlevel_start_time
+          highlevel_start_time,
+          has_history
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
@@ -205,6 +213,7 @@ export default {
         this.appealReason = appeal_record || [];
         this.rejectReasons = reject_record || [];
         let breakStatus;
+        this.has_history = has_history == 1;
         if (break_status == 0) {
           breakStatus =
             new Date() <= new Date(highlevel_start_time) ? "未开始" : "";
@@ -277,6 +286,14 @@ export default {
           this.$router.back();
         })
         .catch(e => {});
+    },
+    goHistory() {
+      this.$router.push(
+        PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(
+          this.$route.params.id,
+          this.$route.params.uid
+        )
+      );
     }
   },
   created() {
