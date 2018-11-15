@@ -1,5 +1,23 @@
-<a name="0.1.1"></a>
-## [0.1.1](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/0.1.2...0.1.1) (2018-11-12)
+<a name="0.1.5"></a>
+## [0.1.5](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.4...v0.1.5) (2018-11-15)
+
+
+### Bug Fixes
+
+* **业绩:** 评分卡组件,衡量标准显示 ([a712e86](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a712e86))
+* **业绩hr:** 个人详情 ([926cb56](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/926cb56))
+* **业绩hr:** 详情页, 上级评价 ([ce568af](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ce568af))
+* **绩效hr:** 详情页不能编辑上级评价 ([a6ddcd3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a6ddcd3))
+
+
+### Features
+
+* **api接口联调:** 小样式修改 ([ce5890f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ce5890f))
+
+
+
+<a name="0.1.4"></a>
+## [0.1.4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/0.1.2...v0.1.4) (2018-11-12)
 
 
 ### Bug Fixes
@@ -105,6 +123,8 @@
 * **hr文化:** 详情页 ([817a8f2](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/817a8f2))
 * **上级评草稿:** 草稿保存逻辑, 提交接口 ([b1f34ba](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/b1f34ba))
 * **下级评详情:** UI基本准备 ([c74597c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c74597c))
+* **业绩:** 上级评详情 ([9cfaeae](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/9cfaeae))
+* **业绩:** 自评详情 ([8fcb32b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8fcb32b))
 * **个人待确认页面:** UI ([0c1ac86](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0c1ac86))
 * **个人报告:** 文化个人报告页面 ([5aa6258](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/5aa6258))
 * **个人报告页:** UI ([53f774c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/53f774c))
