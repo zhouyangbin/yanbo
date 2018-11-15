@@ -29,6 +29,7 @@
         <br>
         <distribute-summary :data="overview"></distribute-summary>
         <br>
+        <br>
         <el-table :data="tableData" stripe style="width: 100%">
 
           <el-table-column v-for="(v,i) of columns" :key="i" :prop="v.prop" :label="v.label"></el-table-column>
@@ -175,14 +176,8 @@ export default {
     },
     fetchList(data) {
       getManagerLvList(data).then(res => {
-        const { info, list } = res;
-        const {
-          evaluation_name_id,
-          id,
-          name,
-          feedback_start_time,
-          overview
-        } = info;
+        const { info, list, overview } = res;
+        const { evaluation_name_id, id, name, feedback_start_time } = info;
         this.tableData = list.data;
         this.evaluation_name_id = evaluation_name_id;
         this.startedDate = feedback_start_time;
@@ -244,7 +239,7 @@ export default {
   },
   computed: {
     canOps() {
-      return this.startedDate < formatTime(new Date());
+      return this.startedDate > formatTime(new Date());
     }
   }
 };
