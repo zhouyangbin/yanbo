@@ -183,7 +183,14 @@ export default {
           dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
           break;
         case "reject":
+        case "superior_detail":
           dst = PATH_MEMBER_CULTURE_DETAILS(
+            querys.evaluation_name_id,
+            querys.user_id
+          );
+          break;
+        case "highlevel_detail":
+          dst = PATH_DOWN_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
             querys.user_id
           );
