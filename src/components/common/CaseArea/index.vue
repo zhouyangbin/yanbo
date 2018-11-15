@@ -1,7 +1,7 @@
 
 <template>
   <div class="CaseArea-page">
-    <el-input :maxlength="200" :readonly="readOnly" type="textarea" :resize="'none'" @change="$emit('input',$event)" :rows="4" :placeholder="placeholder" :value="value">
+    <el-input :maxlength="200" :readonly="readOnly" type="textarea" :resize="'none'" @change="$emit('input',$event)" :rows="rows" :placeholder="placeholder" :value="value">
     </el-input>
   </div>
 </template>
@@ -19,6 +19,10 @@ export default {
     readOnly: {
       type: Boolean,
       default: false
+    },
+    rows: {
+      type: Number,
+      default: 4
     }
   }
 };

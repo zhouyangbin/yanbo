@@ -10,7 +10,7 @@
         <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
       </div>
       <br>
-      <card class="card" :readOnly="!canEdit" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
+      <card class="card" :readOnly="!canEdit" :desc.sync="targets[i].desc" placeholder="请评价该项目的完成情况（非必填)" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
         <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
@@ -142,6 +142,9 @@ export default {
           (v.target_superior_score &&
             parseFloat(v.target_superior_score.score)) ||
           0;
+        v.desc =
+          (v.target_superior_score && v.target_superior_score.description) ||
+          "";
         // delete v.target_superior_score
         return v;
       });
@@ -290,9 +293,10 @@ export default {
     },
     getPostData() {
       return {
-        score: this.targets.map(({ id, mark }) => ({
+        score: this.targets.map(({ id, mark, desc }) => ({
           target_id: id,
-          score: mark
+          score: mark,
+          description: desc
         })),
         attach_score: {
           score: this.leaderAdditionMark.score || 0,
