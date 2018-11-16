@@ -38,6 +38,7 @@ import {
   PATH_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS,
   PATH_GRADE_EMP_DETAIL
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
