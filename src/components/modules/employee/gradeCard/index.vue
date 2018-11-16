@@ -2,12 +2,12 @@
   <div class="grade-card-container">
     <div class="info">
       <section>
-        <span class="label title">绩效目标{{index+1}}:</span>
+        <span class="label title">{{constants.PERFORMANCE_TARGET}}{{index+1}}:</span>
         <div>{{data.target}}</div>
       </section>
       <br>
       <section>
-        <span class="label">权重:</span>
+        <span class="label">{{constants.TARGET_WEIGH}}:</span>
         <span>{{data.weights*100}}%</span>
       </section>
       <br>
@@ -70,6 +70,7 @@
   </div>
 </template>
 <script>
+import { PERFORMANCE_TARGET, TARGET_WEIGH } from "@/constants/TEXT";
 export default {
   props: {
     value: {
@@ -107,7 +108,11 @@ export default {
   },
   data() {
     return {
-      defaultValue: this.value || ""
+      defaultValue: this.value || "",
+      constants: {
+        PERFORMANCE_TARGET,
+        TARGET_WEIGH
+      }
     };
   },
   methods: {

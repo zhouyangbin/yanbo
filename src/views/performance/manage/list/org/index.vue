@@ -59,7 +59,7 @@
             {{constants.SELECTION_TIPS(total,selection.length)}}
           </span>
           <span>
-            <el-button :disabled="afterEnd || tableData.length==0" @click="uploadTarget" class="action-btn" icon="el-icon-upload2" type="medium">上传目标</el-button>
+            <el-button :disabled="afterEnd || tableData.length==0" @click="uploadTarget" class="action-btn" icon="el-icon-upload2" type="medium">{{constants.UPLOAD_TARGET}}</el-button>
             <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
             <el-button :disabled="!canReminder||afterEnd" @click="reminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
             <el-button class="action-btn" :disabled="afterEnd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
@@ -186,7 +186,8 @@ import {
   LABEL_SUP,
   APPEAL,
   TARGET_STATUS,
-  ATTENTION
+  ATTENTION,
+  UPLOAD_TARGET
 } from "@/constants/TEXT";
 import { PATH_PERFORMANCE_USER_DETAIL } from "@/constants/URL";
 import {
@@ -268,7 +269,8 @@ export default {
         LABEL_SELF,
         LABEL_SUP,
         APPEAL,
-        TARGET_STATUS
+        TARGET_STATUS,
+        UPLOAD_TARGET
       },
       tableData: [],
       nav: [

@@ -610,3 +610,7 @@ export const BREAK_STATUS = [
   "面谈未确认"
 ];
 export const CHANGE_RECORDS = "修改记录";
+export const ADD_TARGET = "添加目标";
+export const UPLOAD_TARGET = "上传目标";
+export const PERFORMANCE_TARGET = "绩效目标";
+export const TARGET_WEIGH = "权重";

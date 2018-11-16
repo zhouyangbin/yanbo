@@ -67,41 +67,39 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        return (
-          fzLogin({ workcode: "076533" })
-            // 076533
-            // 17600297195
-            // 074036
-            // 108321
-            // 18310787064
-            .then(res => {
-              localStorage.setItem("talEmail", res.admin.email);
-              localStorage.setItem("talToken", res.token);
-              localStorage.setItem(
-                "permissions",
-                JSON.stringify(res.admin.permissions)
-              );
-              // this.$router.push({ path: dst });
-              if (
-                querys.fromDingDing &&
-                window.DingTalkPC &&
-                window.DingTalkPC.ua &&
-                window.DingTalkPC.ua.isInDingTalk
-              ) {
-                // console.log();
-                window.DingTalkPC.biz.util.openLink({
-                  url: `${window.location.origin}${dst}`, //要打开链接的地址
-                  onSuccess: function(result) {
-                    /**/
-                  },
-                  onFail: function() {}
-                });
-              } else {
-                this.$router.push({ path: dst });
-              }
-            })
-            .catch(e => {})
-        );
+        fzLogin({ workcode: "076533" })
+          // 076533
+          // 17600297195
+          // 074036
+          // 108321
+          // 18310787064
+          .then(res => {
+            localStorage.setItem("talEmail", res.admin.email);
+            localStorage.setItem("talToken", res.token);
+            localStorage.setItem(
+              "permissions",
+              JSON.stringify(res.admin.permissions)
+            );
+            // this.$router.push({ path: dst });
+            if (
+              querys.fromDingDing &&
+              window.DingTalkPC &&
+              window.DingTalkPC.ua &&
+              window.DingTalkPC.ua.isInDingTalk
+            ) {
+              // console.log();
+              window.DingTalkPC.biz.util.openLink({
+                url: `${window.location.origin}${dst}`, //要打开链接的地址
+                onSuccess: function(result) {
+                  /**/
+                },
+                onFail: function() {}
+              });
+            } else {
+              this.$router.push({ path: dst });
+            }
+          })
+          .catch(e => {});
       } else {
         qrLogin({ token: querys.token })
           .then(res => {
