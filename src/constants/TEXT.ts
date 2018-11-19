@@ -415,7 +415,7 @@ export const ENUM_PERFORMANCE_TYPE = [
   }
 ];
 
-// 1 权重，2 完成期限，3 衡量标准，4 加减分
+// 1 权重，2 完成期限，3 衡量标准，4 加减分, 5 具体工作/任务描述
 export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
   {
     key: "1",
@@ -432,6 +432,10 @@ export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
   {
     key: "4",
     value: "加减分"
+  },
+  {
+    key: "5",
+    value: "具体工作/任务描述"
   }
 ];
 
