@@ -6,7 +6,7 @@
     <section class="content-container">
       <div class="levels-header">
         <span>{{gradeName}}</span>&nbsp;
-        <span class="tips">{{constants.START_TIME}} {{startedDate}}</span>
+        <span class="tips">{{constants.END_TIME}} {{startedDate}}</span>
         <hr>
         <br>
         <el-form :model="searchForm" class="search-form" :inline="true" ref="searchForm">
@@ -71,7 +71,7 @@
 </template>
 <script>
 import {
-  START_TIME,
+  END_TIME,
   LEVELMAP,
   LEVEL_ALIAS,
   EXPORT_DETAILS,
@@ -114,7 +114,7 @@ export default {
         }
       ],
       constants: {
-        START_TIME,
+        END_TIME,
         LEVELMAP,
         LEVEL_ALIAS,
         EXPORT_DETAILS,
