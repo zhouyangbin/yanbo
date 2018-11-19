@@ -82,7 +82,7 @@
         <el-button style="margin-left:20px;" @click="pass" type="primary">{{constants.CONFIRM}}</el-button>
       </el-row>
     </section>
-    <reject-dialog v-if="showRejectDialog" :visible.sync="showRejectDialog"></reject-dialog>
+    <reject-dialog :callback="afterReject" v-if="showRejectDialog" :visible.sync="showRejectDialog"></reject-dialog>
   </div>
 </template>
 <script>
@@ -239,6 +239,9 @@ export default {
         this.level = LEVEL_ALIAS[_271_level].toLowerCase();
         this.readOnly = res.can_submit == 0;
       });
+    },
+    afterReject() {
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id));
     },
     levelChange() {
       if (this.levelNecessary && !this.level) {

@@ -18,6 +18,12 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    callback: {
+      type: Function,
+      default: function() {
+        this.$router.back();
+      }
     }
   },
   data() {
@@ -40,20 +46,22 @@ export default {
         });
         return;
       }
-      postReject({
-        ids: [this.$route.params.uid],
-        type: 1,
-        reason: this.rejectReason
-      })
-        .then(res => {
-          this.$message({
-            message: "操作成功!",
-            type: "success"
-          });
-          this.$emit("update:visible", false);
-          this.$router.back();
-        })
-        .catch(e => {});
+      this.callback();
+      // postReject({
+      //   ids: [this.$route.params.uid],
+      //   type: 1,
+      //   reason: this.rejectReason
+      // })
+      //   .then(res => {
+      //     this.$message({
+      //       message: "操作成功!",
+      //       type: "success"
+      //     });
+      //     this.callback()
+      //     this.$emit("update:visible", false);
+
+      //   })
+      //   .catch(e => { });
     }
   },
   components: {
