@@ -258,6 +258,7 @@ export default {
             type: "success"
           });
           this.levelEditable = false;
+          this.getDetailInfo();
         })
         .catch(e => {});
     },
