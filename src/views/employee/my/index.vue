@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-bar :list="nav"></nav-bar>
-    <component :is="currentComponent"></component>
+    <component ref="child" :is="currentComponent"></component>
   </div>
 </template>
 <script>
@@ -28,6 +28,13 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "set-targets": () =>
       import("@/components/modules/employee/setTargets/index.vue")
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.currentComponent == "set-targets") {
+      this.$refs["child"].beforeRouteLeave(to, from, next);
+    } else {
+      next();
+    }
   }
 };
 </script>

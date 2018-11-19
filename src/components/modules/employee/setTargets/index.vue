@@ -1,39 +1,39 @@
 <template>
-    <div class="set-target-page">
-        <section class="content-container">
-            <div class="basic-info">
-                <div>
-                    <span class="label">{{constants.BASIC_INFO}}:</span>
-                    <span>
-                        <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-                        <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
-                </div>
-                <div v-if="!readOnly">
-                    <el-button :disabled="!canPlus" @click="targets.push({})" icon="el-icon-plus" type="text">
-                        {{constants.ADD_TARGET}}
-                    </el-button>
-                    <el-button icon="el-icon-upload" type="text">
-                        {{constants.UPLOAD_TARGET}}
-                    </el-button>
-                </div>
-                <div v-else>
-                    <el-button icon="el-icon-edit-outline" type="text">
-                        重新设定目标
-                    </el-button>
-                </div>
-            </div>
-            <target-card :readOnly="readOnly" @delete="deleteTarget" :data.sync="targets[index]" :index="index" v-for="(item, index) in targets" :key="index">
+  <div class="set-target-page">
+    <section class="content-container">
+      <div class="basic-info">
+        <div>
+          <span class="label">{{constants.BASIC_INFO}}:</span>
+          <span>
+            <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
+            <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
+        </div>
+        <div v-if="!readOnly">
+          <el-button :disabled="!canPlus" @click="targets.push({})" icon="el-icon-plus" type="text">
+            {{constants.ADD_TARGET}}
+          </el-button>
+          <el-button icon="el-icon-upload" type="text">
+            {{constants.UPLOAD_TARGET}}
+          </el-button>
+        </div>
+        <div v-else>
+          <el-button icon="el-icon-edit-outline" type="text">
+            重新设定目标
+          </el-button>
+        </div>
+      </div>
+      <target-card :readOnly="readOnly" @delete="deleteTarget" :data.sync="targets[index]" :index="index" v-for="(item, index) in targets" :key="index">
 
-            </target-card>
-            <br>
-            <el-row type="flex" justify="center">
-                <el-button>{{constants.SAVE_DRAFT}}</el-button>
-                <el-button type="primary">{{constants.SUBMIT}}</el-button>
-            </el-row>
-        </section>
-        <import-target @refresh="getTargets" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
-    </div>
+      </target-card>
+      <br>
+      <el-row type="flex" justify="center">
+        <el-button>{{constants.SAVE_DRAFT}}</el-button>
+        <el-button type="primary">{{constants.SUBMIT}}</el-button>
+      </el-row>
+    </section>
+    <import-target @refresh="getTargets" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
+  </div>
 </template>
 <script>
 import {
@@ -59,7 +59,7 @@ export default {
         SAVE_DRAFT,
         SUBMIT
       },
-      targets: [{}, {}],
+      targets: [{}, {}, {}],
       readOnly: false
     };
   },
@@ -76,6 +76,24 @@ export default {
     getTargets() {
       // TODO: getTargets api
       console.log("getTargets");
+    },
+    beforeRouteLeave(to, from, next) {
+      // FIXME: 文案可能会修改, 要确认
+      if (!this.readOnly) {
+        this.$confirm("修改完成后请提交，否则修改记录将不被保存?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            next();
+          })
+          .catch(() => {
+            next(false);
+          });
+      } else {
+        next();
+      }
     }
   },
   computed: {
