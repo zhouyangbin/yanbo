@@ -58,7 +58,7 @@
     </div>
     <div v-if="!readOnly" class="marks">
       <div class="target-desc">
-        <case-area :rows="2" :placeholder="placeholder" :value="desc" @input="$emit('update:desc',$event)" :readOnly="readOnly"></case-area>
+        <case-area :maxlength="maxlength" :rows="2" :placeholder="placeholder" :value="desc" @input="$emit('update:desc',$event)" :readOnly="readOnly"></case-area>
       </div>
       <div>
         <el-input-number :precision="1" size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
@@ -103,6 +103,10 @@ export default {
     placeholder: {
       type: String,
       default: "请输入内容"
+    },
+    maxlength: {
+      type: Number,
+      default: 200
     }
   },
   data() {

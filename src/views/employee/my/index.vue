@@ -10,7 +10,7 @@
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
-      <card :readOnly="readOnly" placeholder="请描述该项目标的实际完成情况" :desc.sync="targets[i].desc" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :index="i" :key="i"></card>
+      <card :maxlength="1000" :readOnly="readOnly" placeholder="请描述该项目标的实际完成情况" :desc.sync="targets[i].desc" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :index="i" :key="i"></card>
       <br>
       <div v-if="showComments">
         <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>

@@ -1,7 +1,7 @@
 
 <template>
   <div class="CaseArea-page">
-    <el-input :maxlength="200" :readonly="readOnly" type="textarea" :resize="'none'" @change="$emit('input',$event)" :rows="rows" :placeholder="placeholder" :value="value">
+    <el-input :maxlength="maxlength" :readonly="readOnly" type="textarea" @change="$emit('input',$event)" :rows="rows" :placeholder="placeholder" :value="value">
     </el-input>
   </div>
 </template>
@@ -23,6 +23,10 @@ export default {
     rows: {
       type: Number,
       default: 4
+    },
+    maxlength: {
+      type: Number,
+      default: 200
     }
   }
 };
