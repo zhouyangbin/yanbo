@@ -4,7 +4,16 @@
       设置时间
     </div>
     <el-form label-width="100px" :rules="timeFormRules" ref="timeForm" :model="timeForm" class="timeForm">
-      <el-form-item label="评分时间" prop="endTime">
+      <el-form-item :required="true" label="目标设定" prop="targetEndTime">
+        <div>
+          <el-date-picker :disabled="startTargetDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.targetStartTime" type="datetime" placeholder="选择开始时间">
+          </el-date-picker>
+          <span>&nbsp; 至 &nbsp; </span>
+          <el-date-picker :disabled="endTargetDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.targetEndTime" type="datetime" placeholder="选择结束时间">
+          </el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item :required="true" label="评分时间" prop="endTime">
         <div>
           <el-date-picker :disabled="startDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.startTime" type="datetime" placeholder="选择开始时间">
           </el-date-picker>
@@ -56,13 +65,29 @@ export default {
         callback();
       }
     };
+    const targetEndTimeValidator = (rule, value, callback) => {
+      if (
+        this.timeForm.targetStartTime &&
+        value &&
+        value <= this.timeForm.targetStartTime
+      ) {
+        callback(new Error("结束时间不能小于开始时间"));
+      } else {
+        callback();
+      }
+    };
     return {
       timeForm: {
+        targetStartTime: this.initTime.target_start_time || "",
+        targetEndTime: this.initTime.target_end_time || "",
         startTime: this.initTime.startTime || "",
         endTime: this.initTime.endTime || ""
       },
       timeFormRules: {
-        endTime: [{ validator: endTimeValidator, trigger: "change" }]
+        endTime: [{ validator: endTimeValidator, trigger: "change" }],
+        targetEndTime: [
+          { validator: targetEndTimeValidator, trigger: "change" }
+        ]
       },
       constants: {
         CANCEL,
@@ -78,34 +103,72 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           //   console.log(this.timeForm)
-          if (!this.timeForm.startTime) {
-            return this.$notify({
-              title: "警告",
-              message: "开始时间不能为空!",
-              type: "warning"
-            });
-          }
-          if (!this.timeForm.endTime) {
-            return this.$notify({
-              title: "警告",
-              message: "结束时间不能为空!",
-              type: "warning"
-            });
-          }
-          const { startTime, endTime } = this.timeForm;
-          return postPerformanceTime(this.$route.params.orgID, {
-            start_time: startTime,
-            end_time: endTime
-          })
-            .then(res => {
-              //   console.log(res)
-              this.close();
+          if (this.formCheck()) {
+            const {
+              startTime,
+              endTime,
+              targetStartTime,
+              targetEndTime
+            } = this.timeForm;
+            return postPerformanceTime(this.$route.params.orgID, {
+              start_time: startTime,
+              end_time: endTime,
+              target_start_time: targetStartTime,
+              target_end_time: targetEndTime
             })
-            .catch(e => {});
+              .then(res => {
+                //   console.log(res)
+                this.close();
+              })
+              .catch(e => {});
+          }
         } else {
           return false;
         }
       });
+    },
+    formCheck() {
+      if (!this.timeForm.targetStartTime) {
+        this.$notify({
+          title: "警告",
+          message: "目标设定开始时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.targetEndTime) {
+        this.$notify({
+          title: "警告",
+          message: "目标设定结束时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.startTime) {
+        this.$notify({
+          title: "警告",
+          message: "评分开始时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.endTime) {
+        this.$notify({
+          title: "警告",
+          message: "评分结束时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (this.timeForm.startTime < this.timeForm.targetEndTime) {
+        this.$notify({
+          title: "警告",
+          message: "目标设定结束时间不能大于评分开始!",
+          type: "warning"
+        });
+        return false;
+      }
+      return true;
     }
   },
   computed: {
@@ -125,6 +188,13 @@ export default {
         }
       };
     },
+    startTargetDisable() {
+      return (
+        this.initTime.targetStartTime &&
+        formatTime(new Date(this.initTime.targetStartTime)) <
+          formatTime(new Date())
+      );
+    },
     startDisable() {
       return (
         this.initTime.startTime &&
@@ -135,6 +205,13 @@ export default {
       return (
         this.initTime.endTime &&
         formatTime(new Date(this.initTime.endTime)) < formatTime(new Date())
+      );
+    },
+    endTargetDisable() {
+      return (
+        this.initTime.targetEndTime &&
+        formatTime(new Date(this.initTime.targetEndTime)) <
+          formatTime(new Date())
       );
     }
   }

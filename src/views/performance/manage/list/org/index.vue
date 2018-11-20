@@ -488,6 +488,8 @@ export default {
       return {
         startTime: this.depInfo.start_time,
         endTime: this.depInfo.end_time,
+        targetStartTime: this.depInfo.target_start_time,
+        targetEndTime: this.depInfo.target_end_time,
         finalEnd: this.depInfo.performance_name_end_time
       };
     },
