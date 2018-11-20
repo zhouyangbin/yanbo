@@ -46,22 +46,20 @@ export default {
         });
         return;
       }
-      this.callback();
-      // postReject({
-      //   ids: [this.$route.params.uid],
-      //   type: 1,
-      //   reason: this.rejectReason
-      // })
-      //   .then(res => {
-      //     this.$message({
-      //       message: "操作成功!",
-      //       type: "success"
-      //     });
-      //     this.callback()
-      //     this.$emit("update:visible", false);
-
-      //   })
-      //   .catch(e => { });
+      postReject({
+        ids: [this.$route.params.uid],
+        type: 1,
+        reason: this.rejectReason
+      })
+        .then(res => {
+          this.$message({
+            message: "操作成功!",
+            type: "success"
+          });
+          this.callback();
+          this.$emit("update:visible", false);
+        })
+        .catch(e => {});
     }
   },
   components: {
