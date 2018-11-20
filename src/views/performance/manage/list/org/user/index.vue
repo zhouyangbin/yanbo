@@ -10,7 +10,7 @@
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
-      <card :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
+      <card :maxlength="1000" :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
         <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
