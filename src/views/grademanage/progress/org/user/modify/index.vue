@@ -45,7 +45,7 @@
       <div class="mark-flag-container">
         <div class="mark-section">
           <div class="mark-label">
-            为{{employee_name}}的成就客户项目评分
+            为{{employee_name}}的{{scores[selectGradeItem].question_name}}项目评分
           </div>
           <br>
           <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
