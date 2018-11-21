@@ -45,7 +45,7 @@
       <el-row v-if="cancelReject" type="flex" justify="center">
         <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
       </el-row>
-      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
+      <reject-dialog @close="getInfo" @callback="afterReject" :visible.sync="visible"></reject-dialog>
     </section>
   </div>
 </template>

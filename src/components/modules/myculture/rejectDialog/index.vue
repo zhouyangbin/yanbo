@@ -18,6 +18,12 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    callback: {
+      type: Function,
+      default: function() {
+        this.$router.back();
+      }
     }
   },
   data() {
@@ -50,8 +56,8 @@ export default {
             message: "操作成功!",
             type: "success"
           });
+          this.callback();
           this.$emit("update:visible", false);
-          this.$router.back();
         })
         .catch(e => {});
     }
