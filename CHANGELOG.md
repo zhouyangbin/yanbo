@@ -1,3 +1,27 @@
+<a name="0.1.6"></a>
+## [0.1.6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.5...v0.1.6) (2018-11-21)
+
+
+### Bug Fixes
+
+* **271:** 文案 ([fc9a303](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/fc9a303))
+* **hotfix:** 字符限制 ([9e7165b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/9e7165b))
+* **文化:** 隔级详情, 通过后跳转 ([e8686b9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/e8686b9))
+* **文化:** 隔级详情,修改标签,后刷新数据 ([1500eb4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/1500eb4))
+* **文化:** 隔级详情,驳回ajax ([3984b6e](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/3984b6e))
+* **文化:** 隔级驳回,后路由回退cb ([ead54d7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ead54d7))
+* **目标:** hotfix ([d2e2e42](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/d2e2e42))
+* **目标:** 上级,hr 完成情况 字数限制 ([625ee85](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/625ee85))
+* **目标:** 我的目标,完成情况 1000字符限制 ([f57ceba](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/f57ceba))
+* **通知:** 路径引入 ([be4b95b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/be4b95b))
+
+
+### Features
+
+* **文化271:** overview字段位置 ([06bd432](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/06bd432))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.4...v0.1.5) (2018-11-15)
 
@@ -12,7 +36,14 @@
 
 ### Features
 
+* **271:** 是否可以操作判断 ([1e5d1e0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/1e5d1e0))
 * **api接口联调:** 小样式修改 ([ce5890f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ce5890f))
+* **文化:** 待确认 ([ae134fb](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ae134fb))
+* **文化:** 添加通知路由判断 ([20c4e1c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/20c4e1c))
+* **文化:** 隔级详情 ([edfd869](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/edfd869))
+* **文化:** 隔级详情 ([401d9d8](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/401d9d8))
+* **文化271:** 271分布图 ([dc6dee9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/dc6dee9))
+* **文化271:** level显示 ([50312bc](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/50312bc))
 
 
 
