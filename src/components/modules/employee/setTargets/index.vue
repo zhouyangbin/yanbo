@@ -18,7 +18,7 @@
           </el-button>
         </div>
         <div v-else>
-          <el-button icon="el-icon-edit-outline" type="text">
+          <el-button @click="readOnly=false" icon="el-icon-edit-outline" type="text">
             重新设定目标
           </el-button>
         </div>
@@ -194,7 +194,7 @@ export default {
           this.submitted = false;
           return this.getDraft();
         }
-
+        this.readOnly = true;
         this.targets = targets.map(t => {
           t.weights = parseInt(t.weights * 100);
           return t;

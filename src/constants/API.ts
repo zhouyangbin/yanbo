@@ -240,7 +240,7 @@ export const postSetSelfTargets = (uid: string, params: object) =>
   sendPost(`/performance/api/self/${uid}/set-targets`, params);
 
 export const postSetSelfTargetsDraft = (uid: string, params: object) =>
-  sendPost(`/performance/api/self/${uid}/set-targets`, params);
+  sendPost(`/performance/api/self/${uid}/draft`, params);
 // 获取个人目标草稿
 export const getSelfTargetsDraft = (uid: string) =>
   sendGet(`/performance/api/self/${uid}/draft`);

@@ -11,7 +11,7 @@
           </span>&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div>
-          <el-button type="primary">确认</el-button>
+          <el-button @click="passReview" type="primary">确认</el-button>
           <el-button>返回修改</el-button>
         </div>
       </div>
@@ -158,6 +158,17 @@ export default {
     },
     checkTotal() {
       return parseFloat(this.total) > 5;
+    },
+    passReview() {
+      const data = {
+        performance_user_id: this.$route.params.uid,
+        type: 2
+      };
+      postTargetReview(data)
+        .then(res => {
+          this.getDetailInfo();
+        })
+        .catch(e => {});
     },
     saveDraft() {
       const postData = this.getPostData();

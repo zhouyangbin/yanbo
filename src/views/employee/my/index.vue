@@ -8,6 +8,7 @@
 import { MY_GRADE } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
 import { getEmployeeDetail } from "@/constants/API";
+
 export default {
   data() {
     return {
@@ -39,6 +40,8 @@ export default {
   },
   methods: {
     getStatus() {
+      // this.currentComponent = "set-targets";
+      // return
       this.currentComponent = "";
       getEmployeeDetail(
         this.$route.params.orgID,
