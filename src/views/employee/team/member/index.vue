@@ -11,8 +11,8 @@
           </span>&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div>
-          <el-button @click="passReview" type="primary">确认</el-button>
-          <el-button>返回修改</el-button>
+          <el-button @click="passReview" type="primary">{{constants.LABEL_CONFIRM}}</el-button>
+          <el-button @click="showReviewDia=true">返回修改</el-button>
         </div>
       </div>
       <br>
@@ -37,6 +37,7 @@
         <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
+    <review-dialog :callback="postReviewResult" v-if="showReviewDia" :visible.sync="showReviewDia"></review-dialog>
   </div>
 </template>
 <script>
@@ -56,7 +57,8 @@ import {
   BASIC_INFO,
   EMPLOYEE_WORKCODE,
   EMPYEE_NAME,
-  DRAFT_SAVE_SUCCESSFULLY
+  DRAFT_SAVE_SUCCESSFULLY,
+  LABEL_CONFIRM
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
@@ -108,8 +110,10 @@ export default {
         LABEL_SUP,
         BASIC_INFO,
         EMPLOYEE_WORKCODE,
-        EMPYEE_NAME
-      }
+        EMPYEE_NAME,
+        LABEL_CONFIRM
+      },
+      showReviewDia: false
     };
   },
   components: {
@@ -122,7 +126,9 @@ export default {
       import("@/components/modules/employee/totalMark/index.vue"),
     comments: () =>
       import("@/components/modules/employee/leaderComments/index.vue"),
-    level: () => import("@/components/modules/employee/finalLevel/index.vue")
+    level: () => import("@/components/modules/employee/finalLevel/index.vue"),
+    "review-dialog": () =>
+      import("@/components/modules/employee/ReviewReasonDialog/index.vue")
   },
   computed: {
     total() {
@@ -160,13 +166,20 @@ export default {
       return parseFloat(this.total) > 5;
     },
     passReview() {
-      const data = {
+      this.postReviewResult(2);
+    },
+    postReviewResult(type, value = "") {
+      let data = {
         performance_user_id: this.$route.params.uid,
-        type: 2
+        type
       };
-      postTargetReview(data)
+      if (type == 1) {
+        data.reason = value;
+      }
+      return postTargetReview(data)
         .then(res => {
-          this.getDetailInfo();
+          this.showReviewDia = false;
+          return this.getDetailInfo();
         })
         .catch(e => {});
     },
