@@ -10,7 +10,7 @@
             <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}
           </span>&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <div>
+        <div v-if="needsReview">
           <el-button @click="passReview" type="primary">{{constants.LABEL_CONFIRM}}</el-button>
           <el-button @click="showReviewDia=true">返回修改</el-button>
         </div>
@@ -146,6 +146,9 @@ export default {
     },
     canEdit() {
       return this.stage == 30 || this.stage == 40;
+    },
+    needsReview() {
+      return this.stage == 5;
     }
   },
   methods: {
