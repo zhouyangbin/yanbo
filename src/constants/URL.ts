@@ -121,6 +121,11 @@ export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
     token: localStorage.getItem("talToken")
   })}`;
 
+export const PATH_IMPORT_SELF_TARGETS = (uid: string) =>
+  `${base}/performance/api/self/${uid}/import-targets?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+
 // 员工文化评分
 
 export const PATH_MY_CULTURE_GRADE = "/culture/my";

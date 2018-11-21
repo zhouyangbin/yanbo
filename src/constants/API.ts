@@ -234,6 +234,16 @@ export const getEmployeeDetail = (
       attach_for
     })}`
   );
+
+// 个人设置目标
+export const postSetSelfTargets = (uid: string, params: object) =>
+  sendPost(`/performance/api/self/${uid}/set-targets`, params);
+
+export const postSetSelfTargetsDraft = (uid: string, params: object) =>
+  sendPost(`/performance/api/self/${uid}/set-targets`, params);
+// 获取个人目标草稿
+export const getSelfTargetsDraft = (uid: string) =>
+  sendGet(`/performance/api/self/${uid}/draft`);
 // 业绩管理 自评详情
 // export const getPerformanceEmployeeDetail = (orgID: String, uid: String) =>
 //   sendGet(`/performance/api/self/${orgID}/${uid}`);
@@ -252,6 +262,10 @@ export const delCancelAppeal = (params: Object) =>
 // 获取用户事业部bind数据
 export const getBindInfo = (uid: string) =>
   sendGet(`/permission/users/detail/${uid}`);
+
+// 上级审核员工目标
+export const postTargetReview = (params: object) =>
+  sendPost("/performance/api/target-review", params);
 
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  我的文化评分

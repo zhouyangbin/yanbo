@@ -1,12 +1,13 @@
 <template>
   <div>
     <nav-bar :list="nav"></nav-bar>
-    <component ref="child" :is="currentComponent"></component>
+    <component @refresh="getStatus" ref="child" :is="currentComponent"></component>
   </div>
 </template>
 <script>
 import { MY_GRADE } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
+import { getEmployeeDetail } from "@/constants/API";
 export default {
   data() {
     return {
@@ -35,6 +36,27 @@ export default {
     } else {
       next();
     }
+  },
+  methods: {
+    getStatus() {
+      this.currentComponent = "";
+      getEmployeeDetail(
+        this.$route.params.orgID,
+        this.$route.params.id,
+        "self"
+      ).then(res => {
+        const { stage } = res;
+
+        if (stage >= 20) {
+          this.currentComponent = "grade";
+        } else {
+          this.currentComponent = "set-targets";
+        }
+      });
+    }
+  },
+  created() {
+    this.getStatus();
   }
 };
 </script>

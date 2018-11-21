@@ -3,11 +3,17 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">{{constants.BASIC_INFO}}:</span>
-        <span>
-          <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
-          <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-        <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
+        <div>
+          <span class="label">{{constants.BASIC_INFO}}:</span>
+          <span>
+            <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
+            <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div>
+          <el-button type="primary">确认</el-button>
+          <el-button>返回修改</el-button>
+        </div>
       </div>
       <br>
       <card class="card" :readOnly="!canEdit" :desc.sync="targets[i].desc" placeholder="请评价该项目的完成情况（非必填)" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
@@ -55,7 +61,8 @@ import {
 import {
   getEmployeeDetail,
   postUserPerformance,
-  postUserPerformanceDraft
+  postUserPerformanceDraft,
+  postTargetReview
 } from "@/constants/API";
 
 import {
@@ -338,6 +345,8 @@ export default {
 .my-grade-page .basic-info {
   background: white;
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 .my-grade-page .summary-section {
   background: white;

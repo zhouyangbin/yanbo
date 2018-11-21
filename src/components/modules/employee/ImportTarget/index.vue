@@ -3,17 +3,16 @@
     <div slot="title" class="title">
       导入目标
     </div>
-    <import-excel :uploadSuccess="uploadSuccess" :uploadHeader="uploadHeader" :errorData="tableData" :uploadErr="uploadErr" :actionURL="constants.PATH_PERFORMANCE_IMPORT_TARGET($route.params.orgID)" :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID)"></import-excel>
+    <import-excel :uploadSuccess="uploadSuccess" :uploadHeader="uploadHeader" :errorData="tableData" :uploadErr="uploadErr" :actionURL="constants.PATH_IMPORT_SELF_TARGETS($route.params.id)" :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID)"></import-excel>
   </el-dialog>
 </template>
 <script>
 import ImportByExcel from "@/components/common/ImportByExcel/index.vue";
 import {
   PATH_PERFORMANCE_EXCEL_TARGET_TPL,
-  PATH_PERFORMANCE_IMPORT_TARGET
+  PATH_IMPORT_SELF_TARGETS
 } from "@/constants/URL";
 import { UPLOAD_FAIL, UPLOAD_SUCCESS, SUCCESS, ERROR } from "@/constants/TEXT";
-// FIXME: api
 export default {
   props: {
     visible: {
@@ -66,7 +65,7 @@ export default {
     return {
       constants: {
         PATH_PERFORMANCE_EXCEL_TARGET_TPL,
-        PATH_PERFORMANCE_IMPORT_TARGET
+        PATH_IMPORT_SELF_TARGETS
       },
       tableData: []
     };

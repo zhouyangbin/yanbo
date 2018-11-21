@@ -13,7 +13,7 @@
           <el-button :disabled="!canPlus" @click="targets.push({})" icon="el-icon-plus" type="text">
             {{constants.ADD_TARGET}}
           </el-button>
-          <el-button icon="el-icon-upload" type="text">
+          <el-button @click="showImportDia=true" icon="el-icon-upload" type="text">
             {{constants.UPLOAD_TARGET}}
           </el-button>
         </div>
@@ -23,16 +23,16 @@
           </el-button>
         </div>
       </div>
-      <target-card :readOnly="readOnly" @delete="deleteTarget" :data.sync="targets[index]" :index="index" v-for="(item, index) in targets" :key="index">
+      <target-card :keys="keys" :readOnly="readOnly" @delete="deleteTarget" :data.sync="targets[index]" :index="index" v-for="(item, index) in targets" :key="index">
 
       </target-card>
       <br>
       <el-row type="flex" justify="center">
-        <el-button>{{constants.SAVE_DRAFT}}</el-button>
-        <el-button type="primary">{{constants.SUBMIT}}</el-button>
+        <el-button v-if="!submitted" @click="saveDraft">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button @click="sumbit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
-    <import-target @refresh="getTargets" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
+    <import-target @refresh="getInfo" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
   </div>
 </template>
 <script>
@@ -45,6 +45,13 @@ import {
   ADD_TARGET,
   UPLOAD_TARGET
 } from "@/constants/TEXT";
+
+import {
+  getEmployeeDetail,
+  postSetSelfTargets,
+  postSetSelfTargetsDraft,
+  getSelfTargetsDraft
+} from "@/constants/API";
 export default {
   data() {
     return {
@@ -60,7 +67,9 @@ export default {
         SUBMIT
       },
       targets: [{}, {}, {}],
-      readOnly: false
+      keys: [],
+      readOnly: false,
+      submitted: true
     };
   },
   components: {
@@ -72,10 +81,6 @@ export default {
   methods: {
     deleteTarget(i) {
       this.targets.splice(i, 1);
-    },
-    getTargets() {
-      // TODO: getTargets api
-      console.log("getTargets");
     },
     beforeRouteLeave(to, from, next) {
       // FIXME: 文案可能会修改, 要确认
@@ -94,12 +99,130 @@ export default {
       } else {
         next();
       }
+    },
+    saveDraft() {
+      postSetSelfTargetsDraft(this.$route.params.id, {
+        target: this.targets.map(t => {
+          t.target_name = t.target;
+          delete t.target;
+          return t;
+        })
+      })
+        .then(res => {
+          this.$message({
+            message: "草稿保存成功",
+            type: "success"
+          });
+        })
+        .catch(e => {});
+    },
+    isAllFilled() {
+      return !this.targets.some(t => {
+        return this.keys
+          .map(v => {
+            if (v == "name") {
+              return "target";
+            }
+            return v;
+          })
+          .some(k => {
+            return !t[k];
+          });
+      });
+    },
+    checkWeightsSum() {
+      return (
+        this.targets
+          .map(v => v.weights)
+          .reduce((p, c) => parseInt(p) + parseInt(c), 0) == 100
+      );
+    },
+    sumbit() {
+      if (this.isAllFilled()) {
+        if (this.checkWeightsSum()) {
+          postSetSelfTargets(this.$route.params.id, {
+            target: this.targets.map(t => {
+              t.target_name = t.target;
+              delete t.target;
+              return t;
+            })
+          })
+            .then(res => {
+              this.$emit("refresh");
+            })
+            .catch(e => {});
+        } else {
+          this.$message({
+            message: "请将目标权重总和应为100!",
+            type: "warning"
+          });
+        }
+      } else {
+        this.$message({
+          message: "请将目标填写完整后再提交!",
+          type: "warning"
+        });
+      }
+    },
+    getInfo() {
+      getEmployeeDetail(
+        this.$route.params.orgID,
+        this.$route.params.id,
+        "self"
+      ).then(res => {
+        const {
+          stage,
+          superior_workcode,
+          superior_name,
+          targets,
+          template
+        } = res;
+        this.basicInfo = {
+          superior_workcode,
+          superior_name
+        };
+        this.keys = Object.keys(
+          template || {
+            name: "",
+            metrics: "",
+            weights: 0,
+            deadlines: ""
+          }
+        );
+        // TODO: 关于是否是readOnly
+        if (stage == 0) {
+          this.submitted = false;
+          return this.getDraft();
+        }
+
+        this.targets = targets.map(t => {
+          t.weights = parseInt(t.weights * 100);
+          return t;
+        });
+      });
+    },
+    getDraft() {
+      getSelfTargetsDraft(this.$route.params.id)
+        .then(res => {
+          const { targets } = res;
+          this.targets = targets.map(t => {
+            t.weights = parseInt(t.weights * 100);
+            return t;
+          });
+        })
+        .catch(e => {});
     }
   },
   computed: {
     canPlus() {
-      return this.targets.length < 10;
+      return this.targetNum < 10;
+    },
+    targetNum() {
+      return this.targets.length;
     }
+  },
+  created() {
+    this.getInfo();
   }
 };
 </script>
