@@ -103,8 +103,7 @@ export default {
     saveDraft() {
       postSetSelfTargetsDraft(this.$route.params.id, {
         target: this.targets.map(t => {
-          t.target_name = t.target;
-          delete t.target;
+          t.weights = t.weights / 100;
           return t;
         })
       })
@@ -118,16 +117,9 @@ export default {
     },
     isAllFilled() {
       return !this.targets.some(t => {
-        return this.keys
-          .map(v => {
-            if (v == "name") {
-              return "target";
-            }
-            return v;
-          })
-          .some(k => {
-            return !t[k];
-          });
+        return this.keys.some(k => {
+          return !t[k];
+        });
       });
     },
     checkWeightsSum() {
@@ -142,8 +134,7 @@ export default {
         if (this.checkWeightsSum()) {
           postSetSelfTargets(this.$route.params.id, {
             target: this.targets.map(t => {
-              t.target_name = t.target;
-              delete t.target;
+              t.weights = t.weights / 100;
               return t;
             })
           })
@@ -181,15 +172,8 @@ export default {
           superior_workcode,
           superior_name
         };
-        this.keys = Object.keys(
-          template || {
-            name: "",
-            metrics: "",
-            weights: 0,
-            deadlines: ""
-          }
-        );
-        // TODO: 关于是否是readOnly
+        this.keys = Object.keys(template || {});
+
         if (stage == 0) {
           this.submitted = false;
           return this.getDraft();

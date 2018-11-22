@@ -12,7 +12,7 @@
           </span>
         </div>
       </section>
-      <section v-if="containKey('name')">
+      <section v-if="containKey('target')">
         <span class="label">{{constants.PERFORMANCE_TARGET}}:</span>
         <el-input v-if="!readOnly" @input="handleChange('target',$event)" class="input-frame" :value="data.target" placeholder="请输入绩效目标"></el-input>
         <span v-else>
