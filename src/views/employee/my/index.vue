@@ -41,7 +41,7 @@ export default {
   methods: {
     getStatus() {
       // this.currentComponent = "set-targets";
-      // return
+      // return;
       this.currentComponent = "";
       getEmployeeDetail(
         this.$route.params.orgID,

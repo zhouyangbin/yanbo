@@ -87,9 +87,13 @@ export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   uid: String = ":uid"
 ) => `/employee/team/${gradeID}/user/${uid}`;
 
-export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (id: String) =>
+export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (
+  id: String,
+  params: object = {}
+) =>
   `${base}performance/admin/${id}/target/template?${qs.stringify({
-    token: localStorage.getItem("talToken")
+    token: localStorage.getItem("talToken"),
+    ...params
   })}`;
 export const PATH_PERFORMANCE_EXCEL_TPL = (id: String) =>
   `${base}performance/admin/${id}/users/template?${qs.stringify({
