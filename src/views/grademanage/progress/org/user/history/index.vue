@@ -67,6 +67,13 @@
         <case-area :readOnly="readOnly" v-model="list[selectedIndex].scores[selectGradeItem].superior_case"></case-area>
         <br>
       </div>
+      <br><br>
+      <div v-if="hasChanges" class="detail-header" @click="detailHide =!detailHide">
+        修改记录 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        <div class="change-item" v-if="!detailHide" v-for="(v,i) of changes" :key="i">
+          {{v}}
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -137,7 +144,9 @@ export default {
         ADVANTAGE,
         PROMOTION,
         CHANGE_REASON
-      }
+      },
+      changes: [],
+      detailHide: true
     };
   },
   components: {
@@ -155,6 +164,7 @@ export default {
     getHistory() {
       getHistoryModifyList(this.$route.params.uid).then(res => {
         const { records, info } = res;
+        // this.changes = info.changes || []
         this.list = records;
         this.basicInfo = {
           ...info,
@@ -183,6 +193,9 @@ export default {
         v.score = v.self_score;
         return v;
       });
+    },
+    hasChanges() {
+      return this.changes.length > 0;
     }
   }
 };
@@ -215,6 +228,16 @@ export default {
       flex: 8;
       background: white;
       padding: 20px;
+    }
+  }
+  .detail-header {
+    font-size: 36px;
+    color: #4bc8aa;
+    text-align: center;
+    .change-item {
+      color: #4a4a4a;
+      font-size: 20px;
+      text-align: left;
     }
   }
 }
