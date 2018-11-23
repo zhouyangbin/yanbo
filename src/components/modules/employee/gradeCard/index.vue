@@ -106,7 +106,7 @@ export default {
     },
     maxlength: {
       type: Number,
-      default: 200
+      default: 1000
     }
   },
   data() {
