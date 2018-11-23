@@ -10,11 +10,9 @@
       <br>
       <el-row type="flex" justify="space-between">
         <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
-        <div>
-          <el-button type="primary">
-            修改记录
-          </el-button>
-        </div>
+        <el-button style="align-self:flex-start" v-if="has_history" @click="goHistory" type="primary">
+          修改记录
+        </el-button>
       </el-row>
       <br>
       <div class="feeback-container" v-if="feedback_feeling">
@@ -120,7 +118,8 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
-  PATH_MEMBER_CULTURE_LIST
+  PATH_MEMBER_CULTURE_LIST,
+  PATH_MEMBER_CULTURE_DETAILS_HISTORY
 } from "@/constants/URL";
 import { getMyMemberCultureDetails, postMemberGrade } from "@/constants/API";
 
@@ -266,6 +265,14 @@ export default {
       result.advantage = this.advantage;
       result._271_level = LEVELMAP[this.level];
       return result;
+    },
+    goHistory() {
+      this.$router.push(
+        PATH_MEMBER_CULTURE_DETAILS_HISTORY(
+          this.$route.params.id,
+          this.$route.params.uid
+        )
+      );
     },
     validateData() {
       if (!this.advantage || !this.promotion) {

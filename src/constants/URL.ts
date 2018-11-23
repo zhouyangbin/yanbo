@@ -137,7 +137,10 @@ export const PATH_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",
   uid: string = ":uid"
 ) => `/culture/membersgrades/${id}/${uid}`;
-
+export const PATH_MEMBER_CULTURE_DETAILS_HISTORY = (
+  id: string = ":id",
+  uid: String = ":uid"
+) => `/culture/membersgrades/${id}/${uid}/history`;
 export const PATH_DOWN_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",
   uid: String = ":uid"

@@ -5,14 +5,14 @@
 </template>
 <script>
 import {
-  DOWN_MEMBERS_GRADE_LIST,
-  MY_DOWN_MEMBER,
+  MEMBERS_GRADE_LIST,
+  MY_MEMBERS,
   CHANGE_RECORDS
 } from "@/constants/TEXT";
 import {
-  PATH_DOWN_MEMEBER_CULTURE_GRADE,
-  PATH_DOWN_MEMBER_CULTURE_LIST,
-  PATH_DOWN_MEMBER_CULTURE_DETAILS
+  PATH_MEMEBER_CULTURE_GRADE,
+  PATH_MEMBER_CULTURE_LIST,
+  PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import history from "@/views/grademanage/progress/org/user/history/index.vue";
 
@@ -21,16 +21,16 @@ export default {
     return {
       nav: [
         {
-          label: DOWN_MEMBERS_GRADE_LIST,
-          href: PATH_DOWN_MEMEBER_CULTURE_GRADE
+          label: MEMBERS_GRADE_LIST,
+          href: PATH_MEMEBER_CULTURE_GRADE
         },
         {
-          label: MY_DOWN_MEMBER,
-          href: PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id)
+          label: MY_MEMBERS,
+          href: PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
         },
         {
-          label: "隔级详情",
-          href: PATH_DOWN_MEMBER_CULTURE_DETAILS(
+          label: "下级详情",
+          href: PATH_MEMBER_CULTURE_DETAILS(
             this.$route.params.id,
             this.$route.params.uid
           )
