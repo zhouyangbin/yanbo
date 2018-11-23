@@ -8,8 +8,28 @@
       <br>
       <hr>
       <br>
-      <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
+      <el-row type="flex" justify="space-between">
+        <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
+        <div>
+          <el-button type="primary">
+            修改记录
+          </el-button>
+        </div>
+      </el-row>
       <br>
+      <div class="feeback-container" v-if="feedback_feeling">
+        <div>
+          <span class="label">
+            {{constants.IMPRESSIONS}}:
+          </span>
+          <span class="content">
+            {{feedback_feeling.content}}
+          </span>
+          <span class="time">
+            {{feedback_feeling.time}}
+          </span>
+        </div>
+      </div>
       <br>
       <div>
         <h3>{{constants.ADVANTAGE}}:</h3>
@@ -95,7 +115,8 @@ import {
   CONST_ADD_SUCCESS,
   ADVANTAGE,
   PROMOTION,
-  BREAK_STATUS
+  BREAK_STATUS,
+  IMPRESSIONS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -142,8 +163,11 @@ export default {
         SAVE_DRAFT,
         SUBMIT,
         ADVANTAGE,
-        PROMOTION
-      }
+        PROMOTION,
+        IMPRESSIONS
+      },
+      feedback_feeling: null,
+      has_history: false
     };
   },
   components: {
@@ -177,8 +201,12 @@ export default {
           reject_record,
           appeal_record,
           break_status,
-          superior_start_time
+          superior_start_time,
+          feedback_feeling,
+          has_history
         } = res;
+        this.has_history = has_history == 1;
+        this.feedback_feeling = feedback_feeling;
         this.rejectReason = reject_record;
         this.advantage = advantage;
         this.promotion = promotion;
@@ -355,6 +383,27 @@ export default {
       flex-shrink: 0;
       background: white;
       padding: 20px;
+    }
+  }
+  .feeback-container {
+    padding: 20px;
+    background: white;
+    position: relative;
+    & > div {
+      position: relative;
+    }
+    & .label {
+      font-size: 24px;
+      color: #f18d23;
+      line-height: 30px;
+    }
+    & .content {
+      font-size: 14px;
+      color: #000000;
+    }
+    & .time {
+      position: absolute;
+      right: 0;
     }
   }
 }

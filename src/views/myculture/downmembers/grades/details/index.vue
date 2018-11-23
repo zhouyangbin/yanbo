@@ -12,6 +12,19 @@
         <el-button v-if="has_history" @click="goHistory" style="align-self:flex-start" type="primary">{{constants.CHANGE_RECORDS}}</el-button>
       </el-row>
       <br>
+      <div class="feeback-container" v-if="feedback_feeling">
+        <div>
+          <span class="label">
+            {{constants.IMPRESSIONS}}:
+          </span>
+          <span class="content">
+            {{feedback_feeling.content}}
+          </span>
+          <span class="time">
+            {{feedback_feeling.time}}
+          </span>
+        </div>
+      </div>
       <br>
       <div>
         <h3>{{constants.ADVANTAGE}}:</h3>
@@ -100,7 +113,8 @@ import {
   ADVANTAGE,
   PROMOTION,
   BREAK_STATUS,
-  CHANGE_RECORDS
+  CHANGE_RECORDS,
+  IMPRESSIONS
 } from "@/constants/TEXT";
 
 import {
@@ -151,6 +165,7 @@ export default {
       level: "",
       readOnly: false,
       selectGradeItem: 0,
+      feedback_feeling: null,
       has_history: false,
       gradeItems: [],
       constants: {
@@ -162,7 +177,8 @@ export default {
         LEADER_SOCRE,
         ADVANTAGE,
         PROMOTION,
-        CHANGE_RECORDS
+        CHANGE_RECORDS,
+        IMPRESSIONS
       }
     };
   },
@@ -205,7 +221,8 @@ export default {
           reject_record,
           break_status,
           highlevel_start_time,
-          has_history
+          has_history,
+          feedback_feeling
         } = res;
         this.advantage = advantage;
         this.promotion = promotion;
@@ -214,6 +231,7 @@ export default {
         this.rejectReasons = reject_record || [];
         let breakStatus;
         this.has_history = has_history == 1;
+        this.feedback_feeling = feedback_feeling;
         if (break_status == 0) {
           breakStatus =
             new Date() <= new Date(highlevel_start_time) ? "未开始" : "";
@@ -351,6 +369,27 @@ export default {
     font-size: 14px;
     color: #9b9b9b;
     line-height: 30px;
+  }
+  .feeback-container {
+    padding: 20px;
+    background: white;
+    position: relative;
+    & > div {
+      position: relative;
+    }
+    & .label {
+      font-size: 24px;
+      color: #f18d23;
+      line-height: 30px;
+    }
+    & .content {
+      font-size: 14px;
+      color: #000000;
+    }
+    & .time {
+      position: absolute;
+      right: 0;
+    }
   }
 }
 </style>
