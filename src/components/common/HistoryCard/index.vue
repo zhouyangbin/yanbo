@@ -28,8 +28,10 @@ export default {
 <style lang="scss" scoped>
 .history-card-component {
   display: flex;
+  flex-wrap: wrap;
   & .card {
     width: 500px;
+    min-width: 500px;
     height: 80px;
     background: white;
     padding: 23px 26px 18px 26px;
@@ -40,6 +42,7 @@ export default {
     box-sizing: border-box;
     color: #4bc8aa;
     border-radius: 5px;
+    margin-bottom: 8px;
     cursor: pointer;
     &.selected {
       background: #4bc8aa;

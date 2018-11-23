@@ -164,7 +164,7 @@ export default {
     getHistory() {
       getHistoryModifyList(this.$route.params.uid).then(res => {
         const { records, info } = res;
-        // this.changes = info.changes || []
+        this.changes = info.changes || [];
         this.list = records;
         this.basicInfo = {
           ...info,
