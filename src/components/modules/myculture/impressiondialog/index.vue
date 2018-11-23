@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog @close="$emit('update:visible',false)" :visible="visible" width="30%">
-      <el-input type="textarea" :rows="2" :placeholder="`请输入${constants.IMPRESSIONS}`" v-model="textarea">
+      <el-input type="textarea" :maxlength="2000" :rows="2" :placeholder="`请输入${constants.IMPRESSIONS}`" v-model="textarea">
       </el-input>
       <br>
       <br>

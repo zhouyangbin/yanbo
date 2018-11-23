@@ -26,14 +26,6 @@
     <br>
     <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
     <el-row v-if="canSubmit" type="flex" justify="end">
-      <!-- <el-popover @hide="reason=''" placement="top" trigger="click">
-        <el-input type="textarea" :rows="2" placeholder="请输入申诉理由" v-model="reason">
-        </el-input>
-        <br>
-        <br>
-        <el-button style="margin-left:50%;transform:translateX(-50%)" @click="complain" type="primary">{{constants.CONFIRM}}</el-button>
-
-      </el-popover> -->
       <el-button v-if="can_appeal" @click="showComplainDia=true" type="primary">{{constants.APPEAL}}</el-button>
       <el-button @click="confirm" type="primary">{{constants.CONFIRM}}</el-button>
     </el-row>

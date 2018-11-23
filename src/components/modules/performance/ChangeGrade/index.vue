@@ -7,7 +7,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="原因" prop="reason">
-        <el-input type="textarea" maxlength="200" v-model="gradeForm.reason"></el-input>
+        <el-input type="textarea" :maxlength="1000" v-model="gradeForm.reason"></el-input>
       </el-form-item>
     </el-form>
     <span class="gradeForm-footer" slot="footer">

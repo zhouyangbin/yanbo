@@ -5,7 +5,7 @@
       <span v-if="readOnly">
         {{desc}}
       </span>
-      <el-input v-if="!readOnly" :maxlength="200" style="width:80%" type="textarea" :rows="2" placeholder="请输入内容" v-model="innerDesc">
+      <el-input v-if="!readOnly" :maxlength="1000" style="width:80%" type="textarea" :rows="2" placeholder="请输入内容" v-model="innerDesc">
       </el-input>
     </div>
     <br>
