@@ -70,9 +70,9 @@
       <br><br>
       <div v-if="hasChanges" class="detail-header" @click="detailHide =!detailHide">
         修改记录 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
-        <div class="change-item" v-if="!detailHide" v-for="(v,i) of changes" :key="i">
+        <li class="change-item" v-if="!detailHide" v-for="(v,i) of changes" :key="i">
           {{v}}
-        </div>
+        </li>
       </div>
     </section>
   </div>
@@ -236,7 +236,7 @@ export default {
     text-align: center;
     .change-item {
       color: #4a4a4a;
-      font-size: 20px;
+      font-size: 18px;
       text-align: left;
     }
   }
