@@ -252,7 +252,7 @@ const router = new Router({
           path: PATH_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import("@/views/myculture/downmembers/grades/details/history/index.vue"),
+              import("@/views/myculture/members/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
