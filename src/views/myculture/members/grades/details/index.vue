@@ -3,19 +3,33 @@
   <div class="member-grade-details">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container" style="padding:40px">
+    <section
+      class="content-container"
+      style="padding:40px"
+    >
       <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
       <br>
-      <el-row type="flex" justify="space-between">
+      <el-row
+        type="flex"
+        justify="space-between"
+      >
         <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
-        <el-button style="align-self:flex-start" v-if="has_history" @click="goHistory" type="primary">
+        <el-button
+          style="align-self:flex-start"
+          v-if="has_history"
+          @click="goHistory"
+          type="primary"
+        >
           修改记录
         </el-button>
       </el-row>
       <br>
-      <div class="feeback-container" v-if="feedback_feeling">
+      <div
+        class="feeback-container"
+        v-if="feedback_feeling"
+      >
         <div>
           <span class="label">
             {{constants.IMPRESSIONS}}:
@@ -31,25 +45,41 @@
       <br>
       <div>
         <h3>{{constants.ADVANTAGE}}:</h3>
-        <case-area :readOnly="readOnly" v-model="advantage"></case-area>
+        <case-area
+          :readOnly="readOnly"
+          v-model="advantage"
+        ></case-area>
       </div>
       <br>
       <div>
         <h3>{{constants.PROMOTION}}:</h3>
-        <case-area :readOnly="readOnly" v-model="promotion"></case-area>
+        <case-area
+          :readOnly="readOnly"
+          v-model="promotion"
+        ></case-area>
       </div>
       <br>
       <section class="mark">
-        <el-row align="middle" type="flex">
+        <el-row
+          align="middle"
+          type="flex"
+        >
           <el-col style="padding:20px;border-right: 1px solid #979797;">
             <div class="mark-label">
               {{constants.SELF_SCORE}}
             </div>
-            <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
+            <grade-items
+              :items="scores"
+              v-model="selectGradeItem"
+            ></grade-items>
 
           </el-col>
           <el-col style="padding-left:50px;">
-            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
+            <div
+              v-for="(n,i) in reasons"
+              :key="i"
+              class="mark-reason"
+            >
               <div>
                 {{i+3}}分理由:
               </div>
@@ -61,7 +91,10 @@
         </el-row>
       </section>
       <br>
-      <div v-for="(v,i) of rejectReason" :key="i">
+      <div
+        v-for="(v,i) of rejectReason"
+        :key="i"
+      >
         <reject-reason :data="v.reason"></reject-reason>
         <br>
       </div>
@@ -71,7 +104,10 @@
             为{{employee_name}}的{{scores[selectGradeItem].question_name}}项目评分
           </div>
           <br>
-          <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
+          <grade-slider
+            :readOnly="readOnly"
+            v-model="scores[selectGradeItem].superior_score"
+          ></grade-slider>
         </div>
         <div style="width:20px;"></div>
         <div class="flag-section">
@@ -79,20 +115,42 @@
             为{{employee_name}}设置等级标签
           </div>
           <br>
-          <level-selector :disabled="readOnly" :pre="hasRejectReasons?preLv:''" v-model="level"></level-selector>
+          <level-selector
+            :disabled="readOnly"
+            :pre="hasRejectReasons?preLv:''"
+            v-model="level"
+          ></level-selector>
         </div>
       </div>
       <br>
-      <case-area v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score" :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
+      <case-area
+        v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score"
+        :readOnly="readOnly"
+        v-model="scores[selectGradeItem].superior_case"
+      ></case-area>
       <br>
-      <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
+      <div
+        v-for="(item, index) in appealReason"
+        :key="`${index}${item.time}`"
+      >
         <appeal-reaosn :data="item"></appeal-reaosn>
       </div>
       <br>
       <br>
-      <el-row v-if="!readOnly" type="flex" justify="end">
-        <el-button v-if="!submited && !hasRejectReasons" @click="saveDraft" type="primary">{{constants.SAVE_DRAFT}}</el-button>
-        <el-button @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
+      <el-row
+        v-if="!readOnly"
+        type="flex"
+        justify="end"
+      >
+        <el-button
+          v-if="!submited && !hasRejectReasons"
+          @click="saveDraft"
+          type="primary"
+        >{{constants.SAVE_DRAFT}}</el-button>
+        <el-button
+          @click="submit"
+          type="primary"
+        >{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
   </div>
@@ -336,7 +394,9 @@ export default {
                 message: CONST_ADD_SUCCESS,
                 type: "success"
               });
-              this.$router.back();
+              this.$router.replace(
+                PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+              );
             })
             .catch(e => {});
         })
