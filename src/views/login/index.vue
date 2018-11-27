@@ -2,15 +2,29 @@
   <div class="login">
     <el-row class="row-bg">
       <!--  FE-PC-TDC logo and title-->
-      <el-col :span="12" class="login-logo">
-        <img src="@assets/img/login_logo.png" alt="好文来文化评分">
+      <el-col
+        :span="12"
+        class="login-logo"
+      >
+        <img
+          src="@assets/img/login_logo.png"
+          alt="好文来文化评分"
+        >
       </el-col>
 
       <!-- login form -->
 
-      <el-col :span="12" class="col-bg">
+      <el-col
+        :span="12"
+        class="col-bg"
+      >
 
-        <el-row type="flex" justify="center" align="middle" class="row-bg">
+        <el-row
+          type="flex"
+          justify="center"
+          align="middle"
+          class="row-bg"
+        >
           <el-col style="width:310px">
             <el-container class="login-form">
 
@@ -171,9 +185,10 @@ export default {
       return dst;
     },
     getCulturePath(querys) {
-      let dst = PATH_EMPLOYEE_MY;
+      let dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
       switch (querys.url) {
         case "self":
+        case "detail":
         case "interview":
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
           break;
