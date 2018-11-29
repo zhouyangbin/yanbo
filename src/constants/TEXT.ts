@@ -609,4 +609,4 @@ export const BREAK_STATUS = [
   "申诉上级未修改",
   "面谈未确认"
 ];
-export const CHANGE_RECORDS = "修改记录";
+export const CHANGE_RECORDS = "修改日志";

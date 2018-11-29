@@ -1,13 +1,32 @@
 
 <template>
-  <div :data-summary="summary" :class="{hide:!total}" class="members-distribute-number">
-    <div v-if="data.top.count" :style="{flex:data.top.count}" :data-p="topP" class="top">
+  <div
+    :data-summary="summary"
+    :class="{hide:!total}"
+    class="members-distribute-number"
+  >
+    <div
+      v-if="data.top.count"
+      :style="{flex:data.top.count}"
+      :data-p="topP"
+      class="top"
+    >
       Top
     </div>
-    <div v-if="data.middle.count" :style="{flex:data.middle.count}" :data-p="mediumP" class="medium">
+    <div
+      v-if="data.middle.count"
+      :style="{flex:data.middle.count}"
+      :data-p="mediumP"
+      class="medium"
+    >
       Middle
     </div>
-    <div v-if="data.bottom.count" :style="{flex:data.bottom.count}" :data-p="bottomP" class="bottom">
+    <div
+      v-if="data.bottom.count"
+      :style="{flex:data.bottom.count}"
+      :data-p="bottomP"
+      class="bottom"
+    >
       Bottom
     </div>
   </div>
@@ -57,7 +76,7 @@ export default {
     summary() {
       return `理想271比例分布：Top（${this.data.top.expected}人）、Middle（${
         this.data.middle.expected
-      }人）、Bottom（${this.data.bottom.expected}人）`;
+      }人）、Bottom（${this.data.bottom.expected}人） 实际分布如下`;
     }
   }
 };

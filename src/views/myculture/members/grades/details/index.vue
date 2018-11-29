@@ -22,7 +22,7 @@
           @click="goHistory"
           type="primary"
         >
-          修改记录
+          修改日志
         </el-button>
       </el-row>
       <br>

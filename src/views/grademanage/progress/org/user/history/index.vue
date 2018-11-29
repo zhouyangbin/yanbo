@@ -69,7 +69,7 @@
       </div>
       <br><br>
       <div v-if="hasChanges" class="detail-header" @click="detailHide =!detailHide">
-        修改记录 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        修改日志 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
         <li class="change-item" v-if="!detailHide" v-for="(v,i) of changes" :key="i">
           {{v}}
         </li>

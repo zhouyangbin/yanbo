@@ -29,7 +29,7 @@
         </div>
         <div>
           <div v-if="has_history">
-            <el-button @click="goHistory" style="margin-bottom:30px" type="primary">修改记录</el-button>
+            <el-button @click="goHistory" style="margin-bottom:30px" type="primary">修改日志</el-button>
           </div>
           <div v-if="isEditable">
             <el-button style="margin-bottom:30px" @click="goModify" type="primary">修改评分</el-button>
