@@ -1,7 +1,4 @@
-/**
- * api 都集中在这里
- * https://jsonplaceholder.typicode.com/posts/1
- * */
+// api 都集中在这里
 import {
   sendDelete,
   sendGet,

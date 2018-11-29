@@ -1,8 +1,4 @@
-/**
- * Typescript常量声明
- * const声明一个只读的常量，大写，具体使用含义单词拼接
- * 后续可以考虑拆分为多个文件及模块 HTTP/NAV/ENUM/LABEL/ERROR
- * */
+//Typescript常量声明 const声明一个只读的常量，大写，具体使用含义单词拼接
 
 export const FAIL = "失败";
 export const ERROR = "错误";
