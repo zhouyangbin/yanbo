@@ -1,3 +1,29 @@
+<a name="0.1.7"></a>
+## [0.1.7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.6...v0.1.7) (2018-11-30)
+
+
+### Bug Fixes
+
+* **hotfix:** 评分选项卡 ([bc93b13](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/bc93b13))
+* **textarea:** 默认1000 遗漏 ([0f1f7b0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0f1f7b0))
+* **文化:** text ([ccccd84](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ccccd84))
+* **文化:** 下级历史,跳转地址修复 ([8e3d241](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8e3d241))
+* **文化:** 下级详情,提交跳转 ([a189d23](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a189d23))
+* **文化:** 修改通知,跳转 ([0167ffd](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0167ffd))
+* **文化:** 评分选项卡显示 ([af3c664](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/af3c664))
+
+
+### Features
+
+* **merge master:** merge hotfix ([482940b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/482940b))
+* **textarea:** 默认字数1000, 心得体会2000 ([5aff021](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/5aff021))
+* **文化:** 历史记录style ([21bbb05](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/21bbb05))
+* **文化:** 历史记录页,添加记录数据 ([49ca351](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/49ca351))
+* **文化:** 详情修改历史跳转 ([ddd4ed2](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ddd4ed2))
+* **文化:** 隔级详情添加心得体会 ([66f7414](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/66f7414))
+
+
+
 <a name="0.1.6"></a>
 ## [0.1.6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.5...v0.1.6) (2018-11-21)
 
