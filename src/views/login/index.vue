@@ -53,7 +53,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS,
   PATH_DOWN_MEMBER_CULTURE_DETAILS,
-  PATH_GRADE_EMP_DETAIL
+  PATH_GRADE_EMP_DETAIL,
+  PATH_EMPLOYEE_TEAM_MEMEBER
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -130,6 +131,12 @@ export default {
           dst = PATH_PERFORMANCE_USER_DETAIL(
             querys.performance_name_id,
             querys.performance_id,
+            querys.performance_user_id
+          );
+          break;
+        case "review":
+          dst = PATH_EMPLOYEE_TEAM_MEMEBER(
+            querys.performance_name_id,
             querys.performance_user_id
           );
           break;
