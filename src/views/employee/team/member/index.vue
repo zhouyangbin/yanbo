@@ -11,33 +11,87 @@
           </span>&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">{{constants.LABEL_CONFIRM}}</el-button>
+          <el-button
+            @click="passReview"
+            type="primary"
+          >{{constants.LABEL_CONFIRM}}</el-button>
           <el-button @click="showReviewDia=true">返回修改</el-button>
         </div>
       </div>
       <br>
-      <card class="card" :readOnly="!canEdit" :desc.sync="targets[i].desc" placeholder="请评价该项目的完成情况（非必填)" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
+      <card
+        class="card"
+        :readOnly="!canEdit"
+        :desc.sync="targets[i].desc"
+        placeholder="请评价该项目的完成情况（非必填)"
+        :config="cardConfig"
+        v-for="(v,i) of targets"
+        :data="v"
+        :index="i"
+        v-model="targets[i].mark"
+        :key="i"
+      ></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
-        <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <addition-mark
+          :prefixTitle="constants.LABEL_SELF"
+          :readOnly="true"
+          :desc.sync="myAdditionMark.evaluation"
+          :mark.sync="myAdditionMark.score"
+        ></addition-mark>
         <br>
       </div>
-      <div v-if="hasLeaderAdditionMark">
-        <addition-mark :readOnly="!canEdit" :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+      <div v-if="hasLeaderAdditionMark && !inReviewStage">
+        <addition-mark
+          :readOnly="!canEdit"
+          :prefixTitle="constants.LABEL_SUP"
+          :desc.sync="leaderAdditionMark.evaluation"
+          :mark.sync="leaderAdditionMark.score"
+        ></addition-mark>
         <br>
       </div>
-      <comments :readOnly="!canEdit" :comments.sync="comments"></comments>
+      <comments
+        v-if="!inReviewStage"
+        :readOnly="!canEdit"
+        :comments.sync="comments"
+      ></comments>
       <br>
-      <total-mark :total="total"></total-mark>
+      <total-mark
+        v-if="!inReviewStage"
+        :total="total"
+      ></total-mark>
       <br>
-      <level :readOnly="shouldMapping||stage>=50" v-model="level"></level>
+      <level
+        v-if="!inReviewStage"
+        :readOnly="shouldMapping||stage>=50"
+        v-model="level"
+      ></level>
       <br>
-      <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button v-if="stage!=40" round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
+      <el-row
+        v-if="canEdit"
+        type="flex"
+        justify="center"
+      >
+        <el-button
+          v-if="stage!=40"
+          round
+          size="medium"
+          @click="saveDraft"
+          class="btn-reset"
+        >{{constants.SAVE_DRAFT}}</el-button>
+        <el-button
+          round
+          size="medium"
+          @click="submit"
+          type="primary"
+        >{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
-    <review-dialog :callback="postReviewResult" v-if="showReviewDia" :visible.sync="showReviewDia"></review-dialog>
+    <review-dialog
+      :callback="postReviewResult"
+      v-if="showReviewDia"
+      :visible.sync="showReviewDia"
+    ></review-dialog>
   </div>
 </template>
 <script>
@@ -149,6 +203,9 @@ export default {
     },
     needsReview() {
       return this.stage == 5;
+    },
+    inReviewStage() {
+      return this.stage <= 20;
     }
   },
   methods: {

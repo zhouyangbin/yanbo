@@ -1,9 +1,24 @@
 <template>
-  <el-dialog @close="close" width="500px" :visible="visible" class="dialogImport">
-    <div slot="title" class="title">
+  <el-dialog
+    @close="close"
+    width="500px"
+    :visible="visible"
+    class="dialogImport"
+  >
+    <div
+      slot="title"
+      class="title"
+    >
       导入目标
     </div>
-    <import-excel :uploadSuccess="uploadSuccess" :uploadHeader="uploadHeader" :errorData="tableData" :uploadErr="uploadErr" :actionURL="constants.PATH_IMPORT_SELF_TARGETS($route.params.id)" :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID,{performance_user_id:$route.params.id})"></import-excel>
+    <import-excel
+      :uploadSuccess="uploadSuccess"
+      :uploadHeader="uploadHeader"
+      :errorData="tableData"
+      :uploadErr="uploadErr"
+      :actionURL="constants.PATH_IMPORT_SELF_TARGETS($route.params.id)"
+      :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID,{performance_user_id:$route.params.id})"
+    ></import-excel>
   </el-dialog>
 </template>
 <script>
@@ -25,13 +40,18 @@ export default {
       this.$emit("update:visible", false);
     },
     uploadErr(err, file, fileList) {
-      // console.log(err, file, fileList)
-      // const errObj = JSON.parse(err.message)
+      const errObj = JSON.parse(err.message);
       // this.tableData = errObj.data
       // this.showTable = true
+      let msg;
+      if (errObj.status == 435 && errObj.data && errObj.data.errors) {
+        msg = errObj.data.errors[Object.keys(errObj.data.errors)[0]];
+      } else {
+        msg = errObj.message;
+      }
       this.$notify.error({
         title: ERROR,
-        message: `${file.name}${UPLOAD_FAIL}`
+        message: msg || `${file.name}${UPLOAD_FAIL}`
       });
     },
     uploadSuccess(response, file, fileList) {

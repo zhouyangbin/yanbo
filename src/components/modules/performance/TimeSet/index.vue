@@ -1,32 +1,103 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="timeDialog">
-    <div slot="title" class="title">
+  <el-dialog
+    @close="close"
+    width="650px"
+    :visible="visible"
+    class="timeDialog"
+  >
+    <div
+      slot="title"
+      class="title"
+    >
       设置时间
     </div>
-    <el-form label-width="100px" :rules="timeFormRules" ref="timeForm" :model="timeForm" class="timeForm">
-      <el-form-item :required="true" label="目标设定" prop="targetEndTime">
+    <el-form
+      label-width="100px"
+      :rules="timeFormRules"
+      ref="timeForm"
+      :model="timeForm"
+      class="timeForm"
+    >
+      <el-form-item
+        label="目标设定"
+        prop="targetEndTime"
+      >
         <div>
-          <el-date-picker :disabled="startTargetDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.targetStartTime" type="datetime" placeholder="选择开始时间">
+          <el-date-picker
+            :disabled="startTargetDisable"
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.targetStartTime"
+            type="datetime"
+            placeholder="选择开始时间"
+          >
           </el-date-picker>
           <span>&nbsp; 至 &nbsp; </span>
-          <el-date-picker :disabled="endTargetDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.targetEndTime" type="datetime" placeholder="选择结束时间">
+          <el-date-picker
+            :disabled="endTargetDisable"
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.targetEndTime"
+            type="datetime"
+            placeholder="选择结束时间"
+          >
           </el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item :required="true" label="评分时间" prop="endTime">
+      <el-form-item
+        label="评分时间"
+        prop="endTime"
+      >
         <div>
-          <el-date-picker :disabled="startDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.startTime" type="datetime" placeholder="选择开始时间">
+          <el-date-picker
+            :disabled="startDisable"
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.startTime"
+            type="datetime"
+            placeholder="选择开始时间"
+          >
           </el-date-picker>
           <span>&nbsp; 至 &nbsp; </span>
-          <el-date-picker :disabled="endDisable" :clearable="false" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="timeForm.endTime" type="datetime" placeholder="选择结束时间">
+          <el-date-picker
+            :disabled="endDisable"
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.endTime"
+            type="datetime"
+            placeholder="选择结束时间"
+          >
           </el-date-picker>
         </div>
       </el-form-item>
       <br>
       <el-form-item label-width="0px">
-        <el-row type="flex" justify="center">
-          <el-button :disabled="endDisable" round type="primary" @click="submitForm('timeForm')">{{constants.CONFIRM}}</el-button>
-          <el-button @click="close" round>{{constants.CANCEL}}</el-button>
+        <el-row
+          type="flex"
+          justify="center"
+        >
+          <el-button
+            :disabled="endDisable"
+            round
+            type="primary"
+            @click="submitForm('timeForm')"
+          >{{constants.CONFIRM}}</el-button>
+          <el-button
+            @click="close"
+            round
+          >{{constants.CANCEL}}</el-button>
         </el-row>
       </el-form-item>
     </el-form>
@@ -78,8 +149,8 @@ export default {
     };
     return {
       timeForm: {
-        targetStartTime: this.initTime.target_start_time || "",
-        targetEndTime: this.initTime.target_end_time || "",
+        targetStartTime: this.initTime.targetStartTime || "",
+        targetEndTime: this.initTime.targetEndTime || "",
         startTime: this.initTime.startTime || "",
         endTime: this.initTime.endTime || ""
       },

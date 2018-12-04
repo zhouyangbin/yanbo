@@ -10,29 +10,64 @@
           <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
         </div>
         <div v-if="!readOnly">
-          <el-button :disabled="!canPlus" @click="targets.push({})" icon="el-icon-plus" type="text">
+          <el-button
+            :disabled="!canPlus"
+            @click="targets.push({})"
+            icon="el-icon-plus"
+            type="text"
+          >
             {{constants.ADD_TARGET}}
           </el-button>
-          <el-button @click="showImportDia=true" icon="el-icon-upload" type="text">
+          <el-button
+            @click="showImportDia=true"
+            icon="el-icon-upload"
+            type="text"
+          >
             {{constants.UPLOAD_TARGET}}
           </el-button>
         </div>
-        <div v-else>
-          <el-button @click="readOnly=false" icon="el-icon-edit-outline" type="text">
+        <div v-if="readOnly && can_edit_target">
+          <el-button
+            @click="readOnly=false"
+            icon="el-icon-edit-outline"
+            type="text"
+          >
             重新设定目标
           </el-button>
         </div>
       </div>
-      <target-card :keys="keys" :readOnly="readOnly" @delete="deleteTarget" :data.sync="targets[index]" :index="index" v-for="(item, index) in targets" :key="index">
+      <target-card
+        :keys="keys"
+        :readOnly="readOnly"
+        @delete="deleteTarget"
+        :data.sync="targets[index]"
+        :index="index"
+        v-for="(item, index) in targets"
+        :key="index"
+      >
 
       </target-card>
       <br>
-      <el-row type="flex" justify="center">
-        <el-button v-if="!submitted" @click="saveDraft">{{constants.SAVE_DRAFT}}</el-button>
-        <el-button @click="sumbit" type="primary">{{constants.SUBMIT}}</el-button>
+      <el-row
+        type="flex"
+        justify="center"
+      >
+        <el-button
+          v-if="!submitted"
+          @click="saveDraft"
+        >{{constants.SAVE_DRAFT}}</el-button>
+        <el-button
+          v-if=" !readOnly && can_edit_target"
+          @click="sumbit"
+          type="primary"
+        >{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
-    <import-target @refresh="getInfo" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
+    <import-target
+      @refresh="getInfo"
+      v-if="showImportDia"
+      :visible.sync="showImportDia"
+    ></import-target>
   </div>
 </template>
 <script>
@@ -69,7 +104,8 @@ export default {
       targets: [{}, {}, {}],
       keys: [],
       readOnly: false,
-      submitted: true
+      submitted: true,
+      can_edit_target: true
     };
   },
   components: {
@@ -101,17 +137,20 @@ export default {
       }
     },
     saveDraft() {
+      const postData = this.targets.map(t => {
+        let o = { ...t };
+        o.weights = o.weights / 100;
+        return o;
+      });
       postSetSelfTargetsDraft(this.$route.params.id, {
-        target: this.targets.map(t => {
-          t.weights = t.weights / 100;
-          return t;
-        })
+        target: postData
       })
         .then(res => {
           this.$message({
             message: "草稿保存成功",
             type: "success"
           });
+          // this.getInfo()
         })
         .catch(e => {});
     },
@@ -134,8 +173,9 @@ export default {
         if (this.checkWeightsSum()) {
           postSetSelfTargets(this.$route.params.id, {
             target: this.targets.map(t => {
-              t.weights = t.weights / 100;
-              return t;
+              let o = { ...t };
+              o.weights = o.weights / 100;
+              return o;
             })
           })
             .then(res => {
@@ -166,14 +206,15 @@ export default {
           superior_workcode,
           superior_name,
           targets,
-          template
+          template,
+          can_edit_target
         } = res;
         this.basicInfo = {
           superior_workcode,
           superior_name
         };
         this.keys = Object.keys(template || {});
-
+        this.can_edit_target = can_edit_target == 1;
         if (stage == 0) {
           this.submitted = false;
           return this.getDraft();
