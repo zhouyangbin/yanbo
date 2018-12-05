@@ -44,9 +44,6 @@ export default {
   },
   methods: {
     getStatus() {
-      // FIXME:
-      this.currentComponent = "grade";
-      return;
       this.currentComponent = "";
       getEmployeeDetail(
         this.$route.params.orgID,

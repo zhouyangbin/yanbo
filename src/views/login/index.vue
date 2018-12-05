@@ -91,13 +91,13 @@ export default {
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => { });
+          .catch(e => {});
       } else {
         qrLogin({ token: querys.token })
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => { });
+          .catch(e => {});
       }
     }
     tinfo.init({
@@ -138,6 +138,12 @@ export default {
           dst = PATH_EMPLOYEE_TEAM_MEMEBER(
             querys.performance_name_id,
             querys.performance_user_id
+          );
+          break;
+        case "performance_detail":
+          dst = PATH_PERFORMANCE_ORG_LIST(
+            querys.performance_name_id,
+            querys.performance_id
           );
           break;
       }
@@ -198,10 +204,10 @@ export default {
       ) {
         window.DingTalkPC.biz.util.openLink({
           url: `${window.location.origin}${dst}`, //要打开链接的地址
-          onSuccess: function (result) {
+          onSuccess: function(result) {
             /**/
           },
-          onFail: function () { }
+          onFail: function() {}
         });
       } else {
         this.$router.push({ path: dst });

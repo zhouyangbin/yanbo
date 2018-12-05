@@ -190,11 +190,11 @@ export default {
       return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)
         : parseFloat(
-          this.targets
-            .map(v => v.weights * (v.mark || 0))
-            .reduce((pre, next) => pre + next, 0) +
-          (parseFloat(this.myAdditionMark.score) || 0)
-        ).toFixed(2);
+            this.targets
+              .map(v => v.weights * (v.mark || 0))
+              .reduce((pre, next) => pre + next, 0) +
+              (parseFloat(this.myAdditionMark.score) || 0)
+          ).toFixed(2);
     }
   },
   methods: {
@@ -213,7 +213,7 @@ export default {
           });
           this.getDetailInfo();
         })
-        .catch(e => { });
+        .catch(e => {});
     },
     getPostData() {
       // console.log(this.$route.params)
@@ -271,7 +271,7 @@ export default {
             this.showTotal = false;
           }
         })
-        .catch(e => { });
+        .catch(e => {});
     },
     beforeSubmitCheck() {
       return new Promise((resolve, reject) => {
@@ -311,7 +311,7 @@ export default {
         .then(() => {
           this.$confirm(
             `自评分为${
-            this.total
+              this.total
             }分，请确认无误再提交，一经提交无法修改, 是否继续?`,
             "提示",
             {
@@ -331,11 +331,11 @@ export default {
                   });
                   this.$router.replace(PATH_EMPLOYEE_MY);
                 })
-                .catch(e => { });
+                .catch(e => {});
             })
-            .catch(() => { });
+            .catch(() => {});
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     composeData(targets, stage) {
       switch (stage) {
@@ -429,7 +429,7 @@ export default {
           });
           this.getInfo();
         })
-        .catch(e => { });
+        .catch(e => {});
     }
   },
   created() {
