@@ -1,53 +1,114 @@
 <template>
-    <div class="my-grade-page">
-        <!-- <nav-bar :list="nav"></nav-bar> -->
-        <section class="content-container">
-            <div class="basic-info">
-                <span class="label">{{constants.BASIC_INFO}}:</span>
-                <span>
-                    <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-                    <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
-            </div>
-            <br>
-            <card :readOnly="readOnly" placeholder="请描述该项目标的实际完成情况" :desc.sync="targets[i].desc" :config="cardConfig" class="card" v-for="(v,i) of targets" v-model="targets[i].mark" :data="v" :index="i" :key="i"></card>
-            <br>
-            <div v-if="showComments">
-                <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
-                <br>
-            </div>
-            <div v-if="showMyAdditional">
-                <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="readOnly" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
-                <br>
-            </div>
-            <div v-if="leaderAdditionMark.evaluation">
-                <addition-mark :readOnly="true" :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
-                <br>
-            </div>
-            <div v-if="showTotal">
-                <total-mark :total="total"></total-mark>
-                <br>
-            </div>
-            <div>
-                <level v-if="level" :readOnly="true" v-model="level"></level>
-                <br>
-            </div>
-            <el-row v-if="canEdit" type="flex" justify="center">
-                <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
-                <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
-            </el-row>
-            <el-row v-if="canReject" type="flex" justify="center">
-                <div>
-                    到期将默认确认结果, 如有问题可
-                    <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
-                </div>
-            </el-row>
-            <el-row v-if="cancelReject" type="flex" justify="center">
-                <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
-            </el-row>
-            <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
-        </section>
-    </div>
+  <div class="my-grade-page">
+    <!-- <nav-bar :list="nav"></nav-bar> -->
+    <section class="content-container">
+      <div class="basic-info">
+        <span class="label">{{constants.BASIC_INFO}}:</span>
+        <span>
+          <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
+      </div>
+      <br>
+      <card
+        :readOnly="readOnly"
+        placeholder="请描述该项目标的实际完成情况"
+        :desc.sync="targets[i].desc"
+        :config="cardConfig"
+        class="card"
+        v-for="(v,i) of targets"
+        v-model="targets[i].mark"
+        :data="v"
+        :index="i"
+        :key="i"
+      ></card>
+      <br>
+      <div v-if="showComments">
+        <comments
+          :readOnly="true"
+          :comments.sync="superior_score&&superior_score.evaluation"
+        ></comments>
+        <br>
+      </div>
+      <div v-if="showMyAdditional">
+        <addition-mark
+          :prefixTitle="constants.LABEL_SELF"
+          :readOnly="readOnly"
+          :desc.sync="myAdditionMark.evaluation"
+          :mark.sync="myAdditionMark.score"
+        ></addition-mark>
+        <br>
+      </div>
+      <div v-if="leaderAdditionMark.evaluation">
+        <addition-mark
+          :readOnly="true"
+          :prefixTitle="constants.LABEL_SUP"
+          :desc.sync="leaderAdditionMark.evaluation"
+          :mark.sync="leaderAdditionMark.score"
+        ></addition-mark>
+        <br>
+      </div>
+      <div v-if="showTotal">
+        <total-mark :total="total"></total-mark>
+        <br>
+      </div>
+      <div>
+        <level
+          v-if="level"
+          :readOnly="true"
+          v-model="level"
+        ></level>
+        <br>
+      </div>
+      <el-row
+        v-if="canEdit"
+        type="flex"
+        justify="center"
+      >
+        <el-button
+          round
+          size="medium"
+          @click="saveDraft"
+          class="btn-reset"
+        >{{constants.SAVE_DRAFT}}</el-button>
+        <el-button
+          round
+          size="medium"
+          @click="submit"
+          type="primary"
+        >{{constants.SUBMIT}}</el-button>
+      </el-row>
+      <el-row
+        v-if="canReject"
+        type="flex"
+        justify="center"
+      >
+        <div>
+          到期将默认确认结果, 如有问题可
+          <el-button
+            @click="visible=true"
+            type="text"
+          >{{constants.APPEAL}}</el-button>
+        </div>
+      </el-row>
+      <el-row
+        v-if="cancelReject"
+        type="flex"
+        justify="center"
+      >
+        <el-button
+          @click="cancel"
+          type="primary"
+          round
+          size="medium"
+        >{{constants.CANCEL_APPEAL}}</el-button>
+      </el-row>
+      <reject-dialog
+        @close="getInfo"
+        :visible.sync="visible"
+      ></reject-dialog>
+    </section>
+  </div>
 </template>
 <script>
 import {
@@ -129,11 +190,11 @@ export default {
       return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)
         : parseFloat(
-            this.targets
-              .map(v => v.weights * (v.mark || 0))
-              .reduce((pre, next) => pre + next, 0) +
-              (parseFloat(this.myAdditionMark.score) || 0)
-          ).toFixed(2);
+          this.targets
+            .map(v => v.weights * (v.mark || 0))
+            .reduce((pre, next) => pre + next, 0) +
+          (parseFloat(this.myAdditionMark.score) || 0)
+        ).toFixed(2);
     }
   },
   methods: {
@@ -152,7 +213,7 @@ export default {
           });
           this.getDetailInfo();
         })
-        .catch(e => {});
+        .catch(e => { });
     },
     getPostData() {
       // console.log(this.$route.params)
@@ -210,7 +271,7 @@ export default {
             this.showTotal = false;
           }
         })
-        .catch(e => {});
+        .catch(e => { });
     },
     beforeSubmitCheck() {
       return new Promise((resolve, reject) => {
@@ -250,7 +311,7 @@ export default {
         .then(() => {
           this.$confirm(
             `自评分为${
-              this.total
+            this.total
             }分，请确认无误再提交，一经提交无法修改, 是否继续?`,
             "提示",
             {
@@ -269,13 +330,12 @@ export default {
                     message: CONST_ADD_SUCCESS
                   });
                   this.$router.replace(PATH_EMPLOYEE_MY);
-                  // this.getInfo();
                 })
-                .catch(e => {});
+                .catch(e => { });
             })
-            .catch(() => {});
+            .catch(() => { });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     composeData(targets, stage) {
       switch (stage) {
@@ -369,7 +429,7 @@ export default {
           });
           this.getInfo();
         })
-        .catch(e => {});
+        .catch(e => { });
     }
   },
   created() {
