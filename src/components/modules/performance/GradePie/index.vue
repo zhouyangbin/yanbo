@@ -1,5 +1,9 @@
 <template>
-  <div ref="echartPie" class="echart-pie-performance" id="echart-pie-performance"></div>
+  <div
+    ref="echartPie"
+    class="echart-pie-performance"
+    id="echart-pie-performance"
+  ></div>
 </template>
 <script>
 // ECharts 主模块
@@ -37,7 +41,9 @@ export default {
             // name: "评价等级",
             type: "pie",
             radius: "55%",
-            center: ["50%", "60%"],
+            center: ["50%", "40%"],
+            clockwise: false,
+            // roseType: true,
             data: this.data,
             itemStyle: {
               emphasis: {
@@ -45,7 +51,8 @@ export default {
                 shadowOffsetX: 0,
                 shadowColor: "rgba(0, 0, 0, 0.5)"
               }
-            }
+            },
+            color: ["#6CC4B4", " #A2D03C", "#F4DB5D", "#A886C6", "#DF7E6B"]
           }
         ]
       };
