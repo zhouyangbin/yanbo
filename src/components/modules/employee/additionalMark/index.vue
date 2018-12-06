@@ -36,10 +36,10 @@
           </div>
           <br>
         </div>
-        <div
-          v-else
-          class="marks"
-        >
+        <div v-else>
+          <div>您的打分 /
+            <span class="hightlight-mark">{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
+          </div>
           <el-input-number
             size="large"
             class="numbers"
@@ -49,9 +49,7 @@
             :step="0.1"
             label="描述文字"
           ></el-input-number>
-          <span class="greyText">您的打分 /
-            <span class="hightlight-mark">{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
-          </span>
+
         </div>
       </div>
     </el-row>
@@ -127,6 +125,7 @@ export default {
 }
 .moreMarksSection .marks .numbers {
   margin-right: 30px;
+  margin-top: 10px;
 }
 .moreMarksSection {
   background: white;
@@ -137,12 +136,13 @@ export default {
 }
 .hightlight-mark {
   font-size: 1.3em;
-  color: #52ddab;
+  color: #f18d23;
 }
 .hilight {
   font-size: 20px;
   line-height: 36px;
   font-weight: 600;
+  color: #f18d23;
   margin-right: 100px;
 }
 .hilight .label {
