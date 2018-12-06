@@ -27,24 +27,20 @@
               <section>
                 <span class="label">衡量标准:</span> &nbsp;
                 <span v-html="data.metrics.replace(/\n/g, '<br/>')">
-                  <!-- {{}} -->
                 </span>
               </section>
-              <!-- <br> -->
             </div>
             <div v-if="data.target_self_score && data.target_self_score.description!=null">
               <section>
                 <span class="label">自评分理由:</span> &nbsp;
                 <span>{{data.target_self_score && data.target_self_score.description}}</span>
               </section>
-              <!-- <br> -->
             </div>
             <div v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null">
               <section>
                 <span class="label">上级评分理由:</span> &nbsp;
                 <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
               </section>
-              <!-- <br> -->
             </div>
 
             <div v-if="data.deadlines">
@@ -61,28 +57,24 @@
                 <span class="label">权重:</span> &nbsp;
                 <span>{{data.weights*100}}%</span>
               </section>
-              <!-- <br> -->
             </div>
             <div v-if="data.target_self_score && data.target_self_score.score!=null">
               <section>
                 <span class="label">自评分:</span> &nbsp;
                 <span>{{data.target_self_score && data.target_self_score.score}}分</span>
               </section>
-              <!-- <br> -->
             </div>
             <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
               <section class="colorful">
                 <span class="label">上级评分:</span> &nbsp;
                 <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>
               </section>
-              <!-- <br> -->
             </div>
-            <div v-if="value">
+            <div v-if="false">
               <section class="colorful">
                 <span class="label">您的打分:</span> &nbsp;
                 <span>{{value&& parseFloat(value).toFixed(1)}}分</span>
               </section>
-              <!-- <br> -->
             </div>
           </div>
 
