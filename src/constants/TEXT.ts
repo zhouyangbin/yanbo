@@ -411,7 +411,7 @@ export const ENUM_PERFORMANCE_TYPE = [
   }
 ];
 
-// 1 权重，2 完成期限，3 衡量标准，4 加减分
+// 1 权重，2 完成期限，3 衡量标准，4 加减分, 5 具体工作/任务描述
 export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
   {
     key: "1",
@@ -428,6 +428,10 @@ export const ENUM_PERFORMANCE_CONFIG_PROPERTY = [
   {
     key: "4",
     value: "加减分"
+  },
+  {
+    key: "5",
+    value: "具体工作/任务描述"
   }
 ];
 
@@ -605,4 +609,8 @@ export const BREAK_STATUS = [
   "申诉上级未修改",
   "面谈未确认"
 ];
+export const ADD_TARGET = "添加目标";
+export const UPLOAD_TARGET = "上传目标";
+export const PERFORMANCE_TARGET = "绩效目标";
+export const TARGET_WEIGH = "权重";
 export const CHANGE_RECORDS = "修改日志";

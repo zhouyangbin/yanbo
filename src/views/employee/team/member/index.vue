@@ -3,34 +3,95 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">{{constants.BASIC_INFO}}:</span>
-        <span>
-          <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
-          <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-        <!-- <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span> -->
+        <div>
+          <span class="label">{{constants.BASIC_INFO}}:</span>
+          <span>
+            <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
+            <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div v-if="needsReview">
+          <el-button
+            @click="passReview"
+            type="primary"
+          >{{constants.LABEL_CONFIRM}}</el-button>
+          <el-button @click="showReviewDia=true">返回修改</el-button>
+        </div>
       </div>
       <br>
-      <card :maxlength="1000" class="card" :readOnly="!canEdit" :desc.sync="targets[i].desc" placeholder="请评价该项目的完成情况（非必填)" :config="cardConfig" v-for="(v,i) of targets" :data="v" :index="i" v-model="targets[i].mark" :key="i"></card>
+      <card
+        class="card"
+        :readOnly="!canEdit"
+        :desc.sync="targets[i].desc"
+        placeholder="请评价该项目的完成情况（非必填)"
+        :config="cardConfig"
+        v-for="(v,i) of targets"
+        :data="v"
+        :index="i"
+        v-model="targets[i].mark"
+        :key="i"
+      ></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
-        <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <addition-mark
+          :prefixTitle="constants.LABEL_SELF"
+          :readOnly="true"
+          :desc.sync="myAdditionMark.evaluation"
+          :mark.sync="myAdditionMark.score"
+        ></addition-mark>
         <br>
       </div>
-      <div v-if="hasLeaderAdditionMark">
-        <addition-mark :readOnly="!canEdit" :prefixTitle="constants.LABEL_SUP" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+      <div v-if="hasLeaderAdditionMark && !inReviewStage">
+        <addition-mark
+          :readOnly="!canEdit"
+          :prefixTitle="constants.LABEL_SUP"
+          :desc.sync="leaderAdditionMark.evaluation"
+          :mark.sync="leaderAdditionMark.score"
+        ></addition-mark>
         <br>
       </div>
-      <comments :readOnly="!canEdit" :comments.sync="comments"></comments>
+      <comments
+        v-if="!inReviewStage"
+        :readOnly="!canEdit"
+        :comments.sync="comments"
+      ></comments>
       <br>
-      <total-mark :total="total"></total-mark>
+      <total-mark
+        v-if="!inReviewStage"
+        :total="total"
+      ></total-mark>
       <br>
-      <level :readOnly="shouldMapping||stage>=50" v-model="level"></level>
+      <level
+        v-if="!inReviewStage"
+        :readOnly="shouldMapping||stage>=50"
+        v-model="level"
+      ></level>
       <br>
-      <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button v-if="stage!=40" round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
+      <el-row
+        v-if="canEdit"
+        type="flex"
+        justify="center"
+      >
+        <el-button
+          v-if="stage!=40"
+          round
+          size="medium"
+          @click="saveDraft"
+          class="btn-reset"
+        >{{constants.SAVE_DRAFT}}</el-button>
+        <el-button
+          round
+          size="medium"
+          @click="submit"
+          type="primary"
+        >{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
+    <review-dialog
+      :callback="postReviewResult"
+      v-if="showReviewDia"
+      :visible.sync="showReviewDia"
+    ></review-dialog>
   </div>
 </template>
 <script>
@@ -50,12 +111,14 @@ import {
   BASIC_INFO,
   EMPLOYEE_WORKCODE,
   EMPYEE_NAME,
-  DRAFT_SAVE_SUCCESSFULLY
+  DRAFT_SAVE_SUCCESSFULLY,
+  LABEL_CONFIRM
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
   postUserPerformance,
-  postUserPerformanceDraft
+  postUserPerformanceDraft,
+  postTargetReview
 } from "@/constants/API";
 
 import {
@@ -101,8 +164,10 @@ export default {
         LABEL_SUP,
         BASIC_INFO,
         EMPLOYEE_WORKCODE,
-        EMPYEE_NAME
-      }
+        EMPYEE_NAME,
+        LABEL_CONFIRM
+      },
+      showReviewDia: false
     };
   },
   components: {
@@ -115,7 +180,9 @@ export default {
       import("@/components/modules/employee/totalMark/index.vue"),
     comments: () =>
       import("@/components/modules/employee/leaderComments/index.vue"),
-    level: () => import("@/components/modules/employee/finalLevel/index.vue")
+    level: () => import("@/components/modules/employee/finalLevel/index.vue"),
+    "review-dialog": () =>
+      import("@/components/modules/employee/ReviewReasonDialog/index.vue")
   },
   computed: {
     total() {
@@ -133,6 +200,12 @@ export default {
     },
     canEdit() {
       return this.stage == 30 || this.stage == 40;
+    },
+    needsReview() {
+      return this.stage == 5;
+    },
+    inReviewStage() {
+      return this.stage <= 20;
     }
   },
   methods: {
@@ -151,6 +224,24 @@ export default {
     },
     checkTotal() {
       return parseFloat(this.total) > 5;
+    },
+    passReview() {
+      this.postReviewResult(2);
+    },
+    postReviewResult(type, value = "") {
+      let data = {
+        performance_user_id: this.$route.params.uid,
+        type
+      };
+      if (type == 1) {
+        data.reason = value;
+      }
+      return postTargetReview(data)
+        .then(res => {
+          this.showReviewDia = false;
+          return this.getDetailInfo();
+        })
+        .catch(e => {});
     },
     saveDraft() {
       const postData = this.getPostData();
@@ -338,6 +429,8 @@ export default {
 .my-grade-page .basic-info {
   background: white;
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 .my-grade-page .summary-section {
   background: white;

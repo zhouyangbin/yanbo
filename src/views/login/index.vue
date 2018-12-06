@@ -53,7 +53,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS,
   PATH_DOWN_MEMBER_CULTURE_DETAILS,
-  PATH_GRADE_EMP_DETAIL
+  PATH_GRADE_EMP_DETAIL,
+  PATH_EMPLOYEE_TEAM_MEMEBER
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -81,68 +82,20 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        return (
-          fzLogin({ workcode: "17600297195" })
-            // 076533
-            // 17600297195
-            // 074036
-            // 108321
-            // 18310787064
-            .then(res => {
-              localStorage.setItem("talEmail", res.admin.email);
-              localStorage.setItem("talToken", res.token);
-              localStorage.setItem(
-                "permissions",
-                JSON.stringify(res.admin.permissions)
-              );
-              // this.$router.push({ path: dst });
-              if (
-                querys.fromDingDing &&
-                window.DingTalkPC &&
-                window.DingTalkPC.ua &&
-                window.DingTalkPC.ua.isInDingTalk
-              ) {
-                // console.log();
-                window.DingTalkPC.biz.util.openLink({
-                  url: `${window.location.origin}${dst}`, //要打开链接的地址
-                  onSuccess: function(result) {
-                    /**/
-                  },
-                  onFail: function() {}
-                });
-              } else {
-                this.$router.push({ path: dst });
-              }
-            })
-            .catch(e => {})
-        );
+        fzLogin({ workcode: "17600297195" })
+          // 076533
+          // 17600297195
+          // 074036
+          // 108321
+          // 18310787064
+          .then(res => {
+            this.callback(res, dst, querys);
+          })
+          .catch(e => {});
       } else {
         qrLogin({ token: querys.token })
           .then(res => {
-            localStorage.setItem("talEmail", res.admin.email);
-            localStorage.setItem("talToken", res.token);
-            localStorage.setItem(
-              "permissions",
-              JSON.stringify(res.admin.permissions)
-            );
-            // this.$router.push({ path: dst });
-            if (
-              querys.fromDingDing &&
-              window.DingTalkPC &&
-              window.DingTalkPC.ua &&
-              window.DingTalkPC.ua.isInDingTalk
-            ) {
-              // console.log();
-              window.DingTalkPC.biz.util.openLink({
-                url: `${window.location.origin}${dst}`, //要打开链接的地址
-                onSuccess: function(result) {
-                  /**/
-                },
-                onFail: function() {}
-              });
-            } else {
-              this.$router.push({ path: dst });
-            }
+            this.callback(res, dst, querys);
           })
           .catch(e => {});
       }
@@ -179,6 +132,18 @@ export default {
             querys.performance_name_id,
             querys.performance_id,
             querys.performance_user_id
+          );
+          break;
+        case "review":
+          dst = PATH_EMPLOYEE_TEAM_MEMEBER(
+            querys.performance_name_id,
+            querys.performance_user_id
+          );
+          break;
+        case "performance_detail":
+          dst = PATH_PERFORMANCE_ORG_LIST(
+            querys.performance_name_id,
+            querys.performance_id
           );
           break;
       }
@@ -221,6 +186,33 @@ export default {
       }
       // console.log(querys.evaluation_name_id, querys.user_id, dst)
       return dst;
+    },
+    callback(res, dst, querys) {
+      localStorage.setItem("talEmail", res.admin.email);
+      localStorage.setItem("talToken", res.token);
+      localStorage.setItem(
+        "permissions",
+        JSON.stringify(res.admin.permissions)
+      );
+      // console.log(res);
+
+      // this.$router.push({ path: dst });
+      if (
+        querys.fromDingDing &&
+        window.DingTalkPC &&
+        window.DingTalkPC.ua &&
+        window.DingTalkPC.ua.isInDingTalk
+      ) {
+        window.DingTalkPC.biz.util.openLink({
+          url: `${window.location.origin}${dst}`, //要打开链接的地址
+          onSuccess: function(result) {
+            /**/
+          },
+          onFail: function() {}
+        });
+      } else {
+        this.$router.push({ path: dst });
+      }
     }
   }
 };
