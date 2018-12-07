@@ -33,7 +33,8 @@ import {
   PATH_MEMBER_CULTURE_DETAILS,
   PATH_DOWN_MEMBER_CULTURE_DETAILS,
   PATH_GRADE_EMP_DETAIL,
-  PATH_EMPLOYEE_TEAM_MEMEBER
+  PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_PERFORMANCE_ORG_LIST
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
