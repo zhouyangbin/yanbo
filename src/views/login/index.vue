@@ -2,40 +2,19 @@
   <div class="login">
     <el-row class="row-bg">
       <!--  FE-PC-TDC logo and title-->
-      <el-col
-        :span="12"
-        class="login-logo"
-      >
-        <img
-          src="@assets/img/login_logo.png"
-          alt="好文来文化评分"
-        >
+      <el-col :span="12" class="login-logo">
+        <img src="@assets/img/login_logo.png" alt="好文来文化评分">
       </el-col>
 
       <!-- login form -->
-
-      <el-col
-        :span="12"
-        class="col-bg"
-      >
-
-        <el-row
-          type="flex"
-          justify="center"
-          align="middle"
-          class="row-bg"
-        >
+      <el-col :span="12" class="col-bg">
+        <el-row type="flex" justify="center" align="middle" class="row-bg">
           <el-col style="width:310px">
             <el-container class="login-form">
-
-              <div id="qr_scan">
-
-              </div>
-
+              <div id="qr_scan"></div>
             </el-container>
           </el-col>
         </el-row>
-
       </el-col>
     </el-row>
   </div>
@@ -82,7 +61,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "076533" })
+        fzLogin({ workcode: "094203" })
           // 076533
           // 17600297195
           // 074036
