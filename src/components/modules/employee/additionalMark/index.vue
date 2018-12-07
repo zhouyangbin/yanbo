@@ -1,22 +1,14 @@
 <template>
   <div class="moreMarksSection">
     <div class="inner-container">
-      <span class="label title">{{prefixTitle}}加减分:</span> &nbsp;
+      <span class="label title">{{prefixTitle}}加减分:</span>
 
+       &nbsp;
     </div>
     <br>
-    <el-row
-      style="margin-left:110px"
-      type="flex"
-      justify="space-between"
-    >
-      <div
-        class="delight"
-        style="flex: 1;"
-      >
-        <span v-if="readOnly">
-          {{desc}}
-        </span>
+    <el-row style="margin-left:110px" type="flex" justify="space-between">
+      <div class="delight" style="flex: 1;">
+        <span v-if="readOnly">{{desc}}</span>
         <el-input
           v-if="!readOnly"
           :maxlength="1000"
@@ -25,8 +17,7 @@
           :rows="4"
           placeholder="请输入内容"
           v-model="innerDesc"
-        >
-        </el-input>
+        ></el-input>
       </div>
       <div class="hilight">
         <div v-if="readOnly">
@@ -37,7 +28,8 @@
           <br>
         </div>
         <div v-else>
-          <div>您的打分 /
+          <div>
+            您的打分 /
             <span class="hightlight-mark">{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
           </div>
           <el-input-number
@@ -49,11 +41,9 @@
             :step="0.1"
             label="描述文字"
           ></el-input-number>
-
         </div>
       </div>
     </el-row>
-
   </div>
 </template>
 <script>
@@ -105,8 +95,8 @@ export default {
 .moreMarksSection .label {
   margin-right: 20px;
   color: #778294;
-  width: 110px;
-  min-width: 100px;
+  width: 130px;
+  min-width: 130px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;

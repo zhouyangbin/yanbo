@@ -614,3 +614,4 @@ export const UPLOAD_TARGET = "上传目标";
 export const PERFORMANCE_TARGET = "绩效目标";
 export const TARGET_WEIGH = "权重";
 export const CHANGE_RECORDS = "修改日志";
+export const FINISH_DATE = "完成期限";

@@ -5,8 +5,13 @@
         <div>
           <span class="label">{{constants.BASIC_INFO}}:</span>
           <span>
-            <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-            <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="greycolor">{{constants.LEADER_NUMBER}}</span>
+            / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
+            <span
+              class="greycolor"
+            >{{constants.LEADER_NAME}}</span>
+            / {{basicInfo.superior_name}}
+          </span>&nbsp;&nbsp;&nbsp;&nbsp;
           <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
         </div>
         <div v-if="!readOnly">
@@ -15,25 +20,15 @@
             @click="targets.push({})"
             icon="el-icon-plus"
             type="text"
-          >
-            {{constants.ADD_TARGET}}
-          </el-button>
+          >{{constants.ADD_TARGET}}</el-button>
           <el-button
             @click="showImportDia=true"
             icon="el-icon-upload"
             type="text"
-          >
-            {{constants.UPLOAD_TARGET}}
-          </el-button>
+          >{{constants.UPLOAD_TARGET}}</el-button>
         </div>
         <div v-if="readOnly && can_edit_target">
-          <el-button
-            @click="readOnly=false"
-            icon="el-icon-edit-outline"
-            type="text"
-          >
-            重新设定目标
-          </el-button>
+          <el-button @click="readOnly=false" icon="el-icon-edit-outline" type="text">重新设定目标</el-button>
         </div>
       </div>
       <target-card
@@ -44,18 +39,10 @@
         :index="index"
         v-for="(item, index) in targets"
         :key="index"
-      >
-
-      </target-card>
+      ></target-card>
       <br>
-      <el-row
-        type="flex"
-        justify="center"
-      >
-        <el-button
-          v-if="!submitted"
-          @click="saveDraft"
-        >{{constants.SAVE_DRAFT}}</el-button>
+      <el-row type="flex" justify="center">
+        <el-button v-if="!submitted" @click="saveDraft">{{constants.SAVE_DRAFT}}</el-button>
         <el-button
           v-if=" !readOnly && can_edit_target"
           @click="sumbit"
@@ -63,11 +50,7 @@
         >{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
-    <import-target
-      @refresh="getInfo"
-      v-if="showImportDia"
-      :visible.sync="showImportDia"
-    ></import-target>
+    <import-target @refresh="getInfo" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
   </div>
 </template>
 <script>
@@ -78,7 +61,11 @@ import {
   SUBMIT,
   LEADER_NAME,
   ADD_TARGET,
-  UPLOAD_TARGET
+  UPLOAD_TARGET,
+  ATTENTION,
+  CONFIRM,
+  CANCEL,
+  DRAFT_SAVE_SUCCESSFULLY
 } from "@/constants/TEXT";
 
 import {
@@ -120,9 +107,9 @@ export default {
     },
     beforeRouteLeave(to, from, next) {
       if (!this.readOnly) {
-        this.$confirm("修改完成后请提交，否则修改将不被保存?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+        this.$confirm("修改完成后请提交，否则修改将不被保存?", ATTENTION, {
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
           type: "warning"
         })
           .then(() => {
@@ -146,7 +133,7 @@ export default {
       })
         .then(res => {
           this.$message({
-            message: "草稿保存成功",
+            message: DRAFT_SAVE_SUCCESSFULLY,
             type: "success"
           });
           // this.getInfo()
@@ -168,6 +155,12 @@ export default {
       );
     },
     sumbit() {
+      if (!this.targetNum) {
+        return this.$message({
+          message: "请填写至少一个目标ß",
+          type: "warning"
+        });
+      }
       if (this.isAllFilled()) {
         if (this.checkWeightsSum()) {
           postSetSelfTargets(this.$route.params.id, {
