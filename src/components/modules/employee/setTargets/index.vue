@@ -157,7 +157,7 @@ export default {
     sumbit() {
       if (!this.targetNum) {
         return this.$message({
-          message: "请填写至少一个目标ß",
+          message: "请填写至少一个目标",
           type: "warning"
         });
       }
@@ -207,15 +207,16 @@ export default {
         };
         this.keys = Object.keys(template || {});
         this.can_edit_target = can_edit_target == 1;
-        if (stage == 0) {
-          this.submitted = false;
-          return this.getDraft();
+        if (targets && targets.length > 0) {
+          this.readOnly = true;
+          this.targets = targets.map(t => {
+            t.weights = parseInt(t.weights * 100);
+            return t;
+          });
+          return;
         }
-        this.readOnly = true;
-        this.targets = targets.map(t => {
-          t.weights = parseInt(t.weights * 100);
-          return t;
-        });
+        this.submitted = false;
+        this.getDraft();
       });
     },
     getDraft() {
