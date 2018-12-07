@@ -7,14 +7,9 @@
       </section>
       <br>
       <section>
-
         <span class="label"></span>
 
-        <el-row
-          style="flex:1"
-          type="flex"
-          justify="space-between"
-        >
+        <el-row style="flex:1" type="flex" justify="space-between">
           <div class="delight">
             <div v-if="data.description">
               <section>
@@ -26,8 +21,7 @@
             <div v-if="data.metrics">
               <section>
                 <span class="label">衡量标准:</span> &nbsp;
-                <span v-html="data.metrics.replace(/\n/g, '<br/>')">
-                </span>
+                <span v-html="data.metrics.replace(/\n/g, '<br/>')"></span>
               </section>
             </div>
             <div v-if="data.target_self_score && data.target_self_score.description!=null">
@@ -36,7 +30,9 @@
                 <span>{{data.target_self_score && data.target_self_score.description}}</span>
               </section>
             </div>
-            <div v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null">
+            <div
+              v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null"
+            >
               <section>
                 <span class="label">上级评分理由:</span> &nbsp;
                 <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
@@ -45,7 +41,7 @@
 
             <div v-if="data.deadlines">
               <section>
-                <span class="label">完成期限:</span>
+                <span class="label">{{constants.FINISH_DATE}}:</span>
                 <span>{{data.deadlines}}</span>
               </section>
               <br>
@@ -54,19 +50,19 @@
           <div class="hilight">
             <div v-if="data.weights">
               <section>
-                <span class="label">权重:</span> &nbsp;
+                <span class="label">{{constants.TARGET_WEIGH}}:</span> &nbsp;
                 <span>{{data.weights*100}}%</span>
               </section>
             </div>
             <div v-if="data.target_self_score && data.target_self_score.score!=null">
               <section>
-                <span class="label">自评分:</span> &nbsp;
+                <span class="label">{{constants.SELF_SCORE}}:</span> &nbsp;
                 <span>{{data.target_self_score && data.target_self_score.score}}分</span>
               </section>
             </div>
             <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
               <section class="colorful">
-                <span class="label">上级评分:</span> &nbsp;
+                <span class="label">{{constants.LEADER_SOCRE}}:</span> &nbsp;
                 <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>
               </section>
             </div>
@@ -77,17 +73,11 @@
               </section>
             </div>
           </div>
-
         </el-row>
-
       </section>
       <br>
-
     </div>
-    <div
-      v-if="!readOnly"
-      class="marks"
-    >
+    <div v-if="!readOnly" class="marks">
       <div class="target-desc">
         <case-area
           :rows="2"
@@ -111,13 +101,19 @@
         ></el-input-number>
         <!-- <span class="greyText">您的打分 /
           <span class="hightlight-mark">{{value&& parseFloat(value).toFixed(1)}}分</span>
-        </span> -->
+        </span>-->
       </div>
     </div>
   </div>
 </template>
 <script>
-import { PERFORMANCE_TARGET, TARGET_WEIGH } from "@/constants/TEXT";
+import {
+  PERFORMANCE_TARGET,
+  TARGET_WEIGH,
+  FINISH_DATE,
+  SELF_SCORE,
+  LEADER_SOCRE
+} from "@/constants/TEXT";
 export default {
   props: {
     value: {
@@ -162,7 +158,10 @@ export default {
       defaultValue: this.value || "",
       constants: {
         PERFORMANCE_TARGET,
-        TARGET_WEIGH
+        TARGET_WEIGH,
+        FINISH_DATE,
+        SELF_SCORE,
+        LEADER_SOCRE
       }
     };
   },
@@ -206,8 +205,8 @@ export default {
 .grade-card-container .label {
   margin-right: 20px;
   color: #778294;
-  width: 110px;
-  min-width: 110px;
+  width: 130px;
+  min-width: 130px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;
