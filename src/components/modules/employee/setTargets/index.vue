@@ -31,6 +31,18 @@
           <el-button @click="readOnly=false" icon="el-icon-edit-outline" type="text">重新设定目标</el-button>
         </div>
       </div>
+      <div v-if="hasRejectedReasons">
+        <el-row
+          class="rejectFrame"
+          type="flex"
+          justify="space-between"
+          v-for="(v,i) of target_reject"
+          :key="i"
+        >
+          <div class="reason">{{v.reason}}</div>
+          <div>{{v.created_at}}</div>
+        </el-row>
+      </div>
       <target-card
         :keys="keys"
         :readOnly="readOnly"
@@ -92,7 +104,9 @@ export default {
       keys: [],
       readOnly: false,
       submitted: true,
-      can_edit_target: true
+      can_edit_target: true,
+      // 审批拒绝理由
+      target_reject: []
     };
   },
   components: {
@@ -199,7 +213,8 @@ export default {
           superior_name,
           targets,
           template,
-          can_edit_target
+          can_edit_target,
+          target_reject
         } = res;
         this.basicInfo = {
           superior_workcode,
@@ -207,6 +222,7 @@ export default {
         };
         this.keys = Object.keys(template || {});
         this.can_edit_target = can_edit_target == 1;
+        this.target_reject = target_reject || [];
         if (targets && targets.length > 0) {
           this.readOnly = true;
           this.targets = targets.map(t => {
@@ -237,6 +253,9 @@ export default {
     },
     targetNum() {
       return this.targets.length;
+    },
+    hasRejectedReasons() {
+      return this.target_reject.length > 0;
     }
   },
   created() {
@@ -266,6 +285,18 @@ export default {
     }
     .greycolor {
       color: #778294;
+    }
+  }
+  .rejectFrame {
+    padding: 10px;
+    background: white;
+    margin: 10px 0;
+    align-items: center;
+    color: grey;
+    .reason {
+      color: #ea7754;
+      font-weight: 600;
+      font-size: 20px;
     }
   }
 }
