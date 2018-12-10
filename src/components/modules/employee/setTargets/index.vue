@@ -138,7 +138,10 @@ export default {
     },
     saveDraft() {
       const postData = this.targets.map(t => {
-        let o = { ...t };
+        let o = {};
+        this.keys.forEach(k => {
+          o[k] = t[k];
+        });
         if (this.keys.includes("weights")) {
           o.weights = o.weights / 100;
         }
@@ -186,7 +189,10 @@ export default {
         }
         postSetSelfTargets(this.$route.params.id, {
           target: this.targets.map(t => {
-            let o = { ...t };
+            let o = {};
+            this.keys.forEach(k => {
+              o[k] = t[k];
+            });
             if (this.keys.includes("weights")) {
               o.weights = o.weights / 100;
             }
