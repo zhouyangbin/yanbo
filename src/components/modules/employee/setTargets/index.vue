@@ -139,7 +139,9 @@ export default {
     saveDraft() {
       const postData = this.targets.map(t => {
         let o = { ...t };
-        o.weights = o.weights / 100;
+        if (this.keys.includes("weights")) {
+          o.weights = o.weights / 100;
+        }
         return o;
       });
       postSetSelfTargetsDraft(this.$route.params.id, {
@@ -176,24 +178,25 @@ export default {
         });
       }
       if (this.isAllFilled()) {
-        if (this.checkWeightsSum()) {
-          postSetSelfTargets(this.$route.params.id, {
-            target: this.targets.map(t => {
-              let o = { ...t };
-              o.weights = o.weights / 100;
-              return o;
-            })
-          })
-            .then(res => {
-              this.$emit("refresh");
-            })
-            .catch(e => {});
-        } else {
-          this.$message({
+        if (this.keys.includes("weights") && !this.checkWeightsSum()) {
+          return this.$message({
             message: "请将目标权重总和应为100!",
             type: "warning"
           });
         }
+        postSetSelfTargets(this.$route.params.id, {
+          target: this.targets.map(t => {
+            let o = { ...t };
+            if (this.keys.includes("weights")) {
+              o.weights = o.weights / 100;
+            }
+            return o;
+          })
+        })
+          .then(res => {
+            this.$emit("refresh");
+          })
+          .catch(e => {});
       } else {
         this.$message({
           message: "请将目标填写完整后再提交!",
@@ -220,13 +223,16 @@ export default {
           superior_workcode,
           superior_name
         };
-        this.keys = Object.keys(template || {});
+        const keys = Object.keys(template || {});
+        this.keys = keys;
         this.can_edit_target = can_edit_target == 1;
         this.target_reject = target_reject || [];
         if (targets && targets.length > 0) {
           this.readOnly = true;
           this.targets = targets.map(t => {
-            t.weights = parseInt(t.weights * 100);
+            if (keys.includes("weights")) {
+              t.weights = parseInt(t.weights * 100);
+            }
             return t;
           });
           return;
@@ -240,7 +246,9 @@ export default {
         .then(res => {
           const { targets } = res;
           this.targets = targets.map(t => {
-            t.weights = parseInt(t.weights * 100);
+            if (this.keys.includes("weights")) {
+              t.weights = parseInt(t.weights * 100);
+            }
             return t;
           });
         })
