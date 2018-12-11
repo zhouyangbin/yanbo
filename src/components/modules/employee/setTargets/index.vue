@@ -152,7 +152,7 @@ export default {
         this.keys.forEach(k => {
           o[k] = t[k];
         });
-        if (this.keys.includes("weights")) {
+        if (this.keys.includes("weights") && o.weights) {
           o.weights = o.weights / 100;
         }
         return o;
@@ -203,7 +203,7 @@ export default {
             this.keys.forEach(k => {
               o[k] = t[k];
             });
-            if (this.keys.includes("weights")) {
+            if (this.keys.includes("weights") && o.weights) {
               o.weights = o.weights / 100;
             }
             return o;
@@ -246,7 +246,7 @@ export default {
         if (targets && targets.length > 0) {
           this.readOnly = true;
           this.targets = targets.map(t => {
-            if (keys.includes("weights")) {
+            if (keys.includes("weights") && t.weights) {
               t.weights = parseInt(t.weights * 100);
             }
             return t;
@@ -262,7 +262,7 @@ export default {
         .then(res => {
           const { targets } = res;
           this.targets = targets.map(t => {
-            if (this.keys.includes("weights")) {
+            if (this.keys.includes("weights") && t.weights) {
               t.weights = parseInt(t.weights * 100);
             }
             return t;
