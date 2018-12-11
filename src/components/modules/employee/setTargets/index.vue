@@ -119,7 +119,15 @@ export default {
   },
   methods: {
     deleteTarget(i) {
-      this.targets.splice(i, 1);
+      this.$confirm("此操作将永久删除该目标, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.targets.splice(i, 1);
+        })
+        .catch(() => {});
     },
     beforeRouteLeave(to, from, next) {
       if (!this.readOnly) {
