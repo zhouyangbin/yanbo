@@ -8,7 +8,7 @@
       <br>
       <section>
         <span class="label">权重:</span>
-        <span>{{data.weights*100}}%</span>
+        <span>{{parseInt(data.weights*100)}}%</span>
       </section>
       <br>
       <div v-if="data.metrics">
@@ -48,7 +48,9 @@
         </section>
         <br>
       </div>
-      <div v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null">
+      <div
+        v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null"
+      >
         <section>
           <span class="label">上级评分理由:</span> &nbsp;
           <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
@@ -58,11 +60,29 @@
     </div>
     <div v-if="!readOnly" class="marks">
       <div class="target-desc">
-        <case-area :maxlength="maxlength" :rows="2" :placeholder="placeholder" :value="desc" @input="$emit('update:desc',$event)" :readOnly="readOnly"></case-area>
+        <case-area
+          :maxlength="maxlength"
+          :rows="2"
+          :placeholder="placeholder"
+          :value="desc"
+          @input="$emit('update:desc',$event)"
+          :readOnly="readOnly"
+        ></case-area>
       </div>
       <div>
-        <el-input-number :precision="1" size="large" class="numbers" @change="markChange" v-model="defaultValue" :min="this.config.min" :max="this.config.max" :step="this.config.step" label="描述文字"></el-input-number>
-        <span class="greyText">您的打分 /
+        <el-input-number
+          :precision="1"
+          size="large"
+          class="numbers"
+          @change="markChange"
+          v-model="defaultValue"
+          :min="this.config.min"
+          :max="this.config.max"
+          :step="this.config.step"
+          label="描述文字"
+        ></el-input-number>
+        <span class="greyText">
+          您的打分 /
           <span class="hightlight-mark">{{value&& parseFloat(value).toFixed(1)}}分</span>
         </span>
       </div>
