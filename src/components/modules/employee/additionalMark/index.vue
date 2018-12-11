@@ -134,6 +134,7 @@ export default {
   color: #f18d23;
   margin-right: 100px;
   flex-shrink: 0;
+  margin-left: 40px;
 }
 .hilight .label {
   line-height: 36px;
