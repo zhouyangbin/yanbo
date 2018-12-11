@@ -16,12 +16,6 @@
         </div>
         <div v-if="!readOnly">
           <el-button
-            :disabled="!canPlus"
-            @click="targets.push({})"
-            icon="el-icon-plus"
-            type="text"
-          >{{constants.ADD_TARGET}}</el-button>
-          <el-button
             @click="showImportDia=true"
             icon="el-icon-upload"
             type="text"
@@ -53,6 +47,14 @@
         :key="index"
       ></target-card>
       <br>
+      <div v-if="!readOnly">
+        <el-button
+          style
+          :disabled="!canPlus"
+          @click="targets.push({})"
+          type="primary"
+        >{{constants.ADD_TARGET}}</el-button>
+      </div>
       <el-row type="flex" justify="center">
         <el-button v-if="!submitted" @click="saveDraft">{{constants.SAVE_DRAFT}}</el-button>
         <el-button
