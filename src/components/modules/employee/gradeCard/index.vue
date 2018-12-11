@@ -51,7 +51,7 @@
             <div v-if="data.weights">
               <section>
                 <span class="label">{{constants.TARGET_WEIGH}}:</span> &nbsp;
-                <span>{{data.weights*100}}%</span>
+                <span>{{parseInt(data.weights*100)}}%</span>
               </section>
             </div>
             <div v-if="data.target_self_score && data.target_self_score.score!=null">
@@ -205,8 +205,8 @@ export default {
 .grade-card-container .label {
   margin-right: 20px;
   color: #778294;
-  width: 130px;
-  min-width: 130px;
+  width: 150px;
+  min-width: 150px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;
@@ -241,6 +241,7 @@ export default {
   font-weight: 600;
   margin-right: 100px;
   flex-shrink: 0;
+  margin-left: 40px;
 }
 .grade-card-container .hilight .colorful,
 .grade-card-container .colorful .label {

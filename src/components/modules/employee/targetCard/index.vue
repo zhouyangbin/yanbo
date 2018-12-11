@@ -147,8 +147,8 @@ export default {
     .label {
       margin-right: 20px;
       color: #778294;
-      width: 145px;
-      min-width: 145px;
+      width: 150px;
+      min-width: 150px;
       height: 26px;
       box-sizing: border-box;
       line-height: 26px;
