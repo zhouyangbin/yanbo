@@ -13,7 +13,7 @@
           <div class="delight">
             <div v-if="data.description">
               <section>
-                <span class="label">目标描述:</span> &nbsp;
+                <span class="label">具体工作/任务描述:</span> &nbsp;
                 <span>{{data.description}}</span>
               </section>
               <!-- <br> -->
