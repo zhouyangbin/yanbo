@@ -116,7 +116,7 @@ export default {
           break;
         case "review":
           dst = PATH_EMPLOYEE_TEAM_MEMEBER(
-            querys.performance_name_id,
+            querys.performance_id,
             querys.performance_user_id
           );
           break;
