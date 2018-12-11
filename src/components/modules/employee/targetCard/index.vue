@@ -5,7 +5,10 @@
       <section class="header">
         <span class="label title">{{constants.PERFORMANCE_TARGET}}{{index+1}}:</span>
         <div v-if="containKey('weights')">
-          <span class="label">{{constants.TARGET_WEIGH}} <span v-if="!readOnly">%</span>:</span>
+          <span class="label">
+            {{constants.TARGET_WEIGH}}
+            <span v-if="!readOnly">%</span>:
+          </span>
           <el-input-number
             v-if="!readOnly"
             @change="handleChange('weights',$event)"
@@ -16,9 +19,7 @@
             controls-position="right"
             :value="data.weights"
           ></el-input-number>
-          <span v-else>
-            {{data.weights}} %
-          </span>
+          <span v-else>{{data.weights}} %</span>
         </div>
       </section>
       <section v-if="containKey('target')">
@@ -30,27 +31,7 @@
           :value="data.target"
           placeholder="请输入绩效目标"
         ></el-input>
-        <span v-else>
-          {{data.target}}
-        </span>
-      </section>
-      <section v-if="containKey('metrics')">
-        <span class="label">衡量标准:</span>
-        <el-input
-          :maxlength="1000"
-          v-if="!readOnly"
-          @input="handleChange('metrics',$event)"
-          class="input-frame"
-          :value="data.metrics"
-          type="textarea"
-          :rows="2"
-          placeholder="请输入衡量标准"
-        ></el-input>
-        <span
-          v-html="data.metrics&&data.metrics.replace(/\n/g, '<br/>')"
-          v-else
-        >
-        </span>
+        <span v-else>{{data.target}}</span>
       </section>
       <section v-if="containKey('description')">
         <span class="label">具体工作/任务描述:</span>
@@ -64,12 +45,23 @@
           :rows="2"
           placeholder="具体工作/任务描述"
         ></el-input>
-        <span
-          v-html="data.description&&data.description.replace(/\n/g, '<br/>')"
-          v-else
-        >
-        </span>
+        <span v-html="data.description&&data.description.replace(/\n/g, '<br/>')" v-else></span>
       </section>
+      <section v-if="containKey('metrics')">
+        <span class="label">衡量标准:</span>
+        <el-input
+          :maxlength="1000"
+          v-if="!readOnly"
+          @input="handleChange('metrics',$event)"
+          class="input-frame"
+          :value="data.metrics"
+          type="textarea"
+          :rows="2"
+          placeholder="请输入衡量标准"
+        ></el-input>
+        <span v-html="data.metrics&&data.metrics.replace(/\n/g, '<br/>')" v-else></span>
+      </section>
+
       <section v-if="containKey('deadlines')">
         <span class="label">完成期限:</span>
         <el-date-picker
@@ -80,11 +72,8 @@
           :value="data.deadlines"
           type="date"
           placeholder="选择日期"
-        >
-        </el-date-picker>
-        <span v-else>
-          {{data.deadlines}}
-        </span>
+        ></el-date-picker>
+        <span v-else>{{data.deadlines}}</span>
       </section>
       <el-button
         v-if="!readOnly"
