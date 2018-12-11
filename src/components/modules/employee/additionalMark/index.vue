@@ -2,8 +2,7 @@
   <div class="moreMarksSection">
     <div class="inner-container">
       <span class="label title">{{prefixTitle}}加减分:</span>
-
-       &nbsp;
+      &nbsp;
     </div>
     <br>
     <el-row style="margin-left:110px" type="flex" justify="space-between">
@@ -134,6 +133,7 @@ export default {
   font-weight: 600;
   color: #f18d23;
   margin-right: 100px;
+  flex-shrink: 0;
 }
 .hilight .label {
   line-height: 36px;

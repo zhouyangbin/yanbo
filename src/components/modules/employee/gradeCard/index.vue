@@ -240,6 +240,7 @@ export default {
   line-height: 36px;
   font-weight: 600;
   margin-right: 100px;
+  flex-shrink: 0;
 }
 .grade-card-container .hilight .colorful,
 .grade-card-container .colorful .label {
