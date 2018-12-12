@@ -245,6 +245,7 @@ export default {
         this.target_reject = target_reject || [];
         if (targets && targets.length > 0) {
           this.readOnly = true;
+          this.submitted = true;
           this.targets = targets.map(t => {
             if (keys.includes("weights") && t.weights) {
               t.weights = parseInt(t.weights * 100);
