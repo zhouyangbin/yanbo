@@ -5,8 +5,13 @@
       <div class="basic-info">
         <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
-          <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-          <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NUMBER}}</span>
+          / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
+          <span
+            class="greycolor"
+          >{{constants.LEADER_NAME}}</span>
+          / {{basicInfo.superior_name}}
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
@@ -16,18 +21,15 @@
         :desc.sync="targets[i].desc"
         :config="cardConfig"
         class="card"
-        v-for="(v,i) of targets"
+        v-for="(v,i) of cardData"
         v-model="targets[i].mark"
         :data="v"
         :index="i"
         :key="i"
       ></card>
       <br>
-      <div v-if="showComments">
-        <comments
-          :readOnly="true"
-          :comments.sync="superior_score&&superior_score.evaluation"
-        ></comments>
+      <div v-if="showComments && published">
+        <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
         <br>
       </div>
       <div v-if="showMyAdditional">
@@ -39,7 +41,7 @@
         ></addition-mark>
         <br>
       </div>
-      <div v-if="leaderAdditionMark.evaluation">
+      <div v-if="leaderAdditionMark.evaluation && published">
         <addition-mark
           :readOnly="true"
           :prefixTitle="constants.LABEL_SUP"
@@ -48,65 +50,27 @@
         ></addition-mark>
         <br>
       </div>
-      <div v-if="showTotal">
+      <div v-if="showTotal && published">
         <total-mark :total="total"></total-mark>
         <br>
       </div>
       <div>
-        <level
-          v-if="level"
-          :readOnly="true"
-          v-model="level"
-        ></level>
+        <level v-if="level && published" :readOnly="true" v-model="level"></level>
         <br>
       </div>
-      <el-row
-        v-if="canEdit"
-        type="flex"
-        justify="center"
-      >
-        <el-button
-          round
-          size="medium"
-          @click="saveDraft"
-          class="btn-reset"
-        >{{constants.SAVE_DRAFT}}</el-button>
-        <el-button
-          round
-          size="medium"
-          @click="submit"
-          type="primary"
-        >{{constants.SUBMIT}}</el-button>
+      <el-row v-if="canEdit" type="flex" justify="center">
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
-      <el-row
-        v-if="canReject"
-        type="flex"
-        justify="center"
-      >
-        <div>
-          到期将默认确认结果, 如有问题可
-          <el-button
-            @click="visible=true"
-            type="text"
-          >{{constants.APPEAL}}</el-button>
+      <el-row v-if="canReject && published" type="flex" justify="center">
+        <div>到期将默认确认结果, 如有问题可
+          <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
         </div>
       </el-row>
-      <el-row
-        v-if="cancelReject"
-        type="flex"
-        justify="center"
-      >
-        <el-button
-          @click="cancel"
-          type="primary"
-          round
-          size="medium"
-        >{{constants.CANCEL_APPEAL}}</el-button>
+      <el-row v-if="cancelReject && published" type="flex" justify="center">
+        <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
       </el-row>
-      <reject-dialog
-        @close="getInfo"
-        :visible.sync="visible"
-      ></reject-dialog>
+      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>
   </div>
 </template>
@@ -150,6 +114,7 @@ export default {
       superior_score: {},
       need_attach_score: "",
       visible: false,
+      published: false,
       level: "",
       targets: [],
       cardConfig: {
@@ -195,9 +160,19 @@ export default {
               .reduce((pre, next) => pre + next, 0) +
               (parseFloat(this.myAdditionMark.score) || 0)
           ).toFixed(2);
+    },
+    cardData() {
+      return this.published ? this.targets : this.hideLeaderInfo(this.targets);
     }
   },
   methods: {
+    hideLeaderInfo(cards) {
+      return cards.map(v => {
+        let m = { ...v };
+        delete m.target_superior_score;
+        return m;
+      });
+    },
     saveDraft() {
       const postData = this.getPostData();
 
@@ -253,12 +228,14 @@ export default {
             superior_score,
             superior_name,
             score_level,
-            score
+            score,
+            published
           } = res;
           this.basicInfo = {
             superior_workcode,
             superior_name
           };
+          this.published = published == 1;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
