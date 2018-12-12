@@ -1,16 +1,6 @@
 <template>
-  <el-dialog
-    @close="close"
-    width="500px"
-    :visible="visible"
-    class="dialogImport"
-  >
-    <div
-      slot="title"
-      class="title"
-    >
-      导入目标
-    </div>
+  <el-dialog @close="close" width="500px" :visible="visible" class="dialogImport">
+    <div slot="title" class="title">导入目标</div>
     <import-excel
       :uploadSuccess="uploadSuccess"
       :uploadHeader="uploadHeader"
@@ -45,7 +35,7 @@ export default {
       // this.showTable = true
       let msg;
       if (errObj.status == 435 && errObj.data && errObj.data.errors) {
-        msg = errObj.data.errors[Object.keys(errObj.data.errors)[0]];
+        msg = errObj.data.errors[Object.keys(errObj.data.errors)[0]].join("/");
       } else {
         msg = errObj.message;
       }
