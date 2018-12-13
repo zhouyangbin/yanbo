@@ -2,66 +2,84 @@
   <div class="grade-card-container">
     <div class="info">
       <section>
-        <span class="label title">绩效目标{{index+1}}:</span>
-        <div>{{data.target}}</div>
+        <span class="label title">{{constants.PERFORMANCE_TARGET}}{{index+1}}:</span>
+        <div class="target-name">{{data.target}}</div>
       </section>
       <br>
       <section>
-        <span class="label">权重:</span>
-        <span>{{parseInt(data.weights*100)}}%</span>
+        <span class="label"></span>
+
+        <el-row style="flex:1" type="flex" justify="space-between">
+          <div class="delight">
+            <div v-if="data.description">
+              <section>
+                <span class="label">具体工作/任务描述:</span> &nbsp;
+                <span>{{data.description}}</span>
+              </section>
+              <!-- <br> -->
+            </div>
+            <div v-if="data.metrics">
+              <section>
+                <span class="label">衡量标准:</span> &nbsp;
+                <span v-html="data.metrics.replace(/\n/g, '<br/>')"></span>
+              </section>
+            </div>
+            <div v-if="data.target_self_score && data.target_self_score.description!=null">
+              <section>
+                <span class="label">自评分理由:</span> &nbsp;
+                <span>{{data.target_self_score && data.target_self_score.description}}</span>
+              </section>
+            </div>
+            <div
+              v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null"
+            >
+              <section>
+                <span class="label">上级评分理由:</span> &nbsp;
+                <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
+              </section>
+            </div>
+
+            <div v-if="data.deadlines">
+              <section>
+                <span class="label">{{constants.FINISH_DATE}}:</span>
+                <span>{{data.deadlines}}</span>
+              </section>
+              <br>
+            </div>
+          </div>
+          <div class="hilight">
+            <div v-if="data.weights">
+              <section>
+                <span class="label">{{constants.TARGET_WEIGH}}:</span> &nbsp;
+                <span>{{parseInt(data.weights*100)}}%</span>
+              </section>
+            </div>
+            <div v-if="data.target_self_score && data.target_self_score.score!=null">
+              <section>
+                <span class="label">{{constants.SELF_SCORE}}:</span> &nbsp;
+                <span>{{data.target_self_score && data.target_self_score.score}}分</span>
+              </section>
+            </div>
+            <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
+              <section class="colorful">
+                <span class="label">{{constants.LEADER_SOCRE}}:</span> &nbsp;
+                <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>
+              </section>
+            </div>
+            <div v-if="false">
+              <section class="colorful">
+                <span class="label">您的打分:</span> &nbsp;
+                <span>{{value&& parseFloat(value).toFixed(1)}}分</span>
+              </section>
+            </div>
+          </div>
+        </el-row>
       </section>
       <br>
-      <div v-if="data.metrics">
-        <section>
-          <span class="label">衡量标准:</span> &nbsp;
-          <span v-html="data.metrics.replace(/\n/g, '<br/>')">
-            <!-- {{}} -->
-          </span>
-        </section>
-        <br>
-      </div>
-      <div v-if="data.deadlines">
-        <section>
-          <span class="label">完成期限:</span>
-          <span>{{data.deadlines}}</span>
-        </section>
-        <br>
-      </div>
-      <div v-if="data.target_self_score && data.target_self_score.score!=null">
-        <section>
-          <span class="label">自评分:</span> &nbsp;
-          <span>{{data.target_self_score && data.target_self_score.score}}分</span>
-        </section>
-        <br>
-      </div>
-      <div v-if="data.target_self_score && data.target_self_score.description!=null">
-        <section>
-          <span class="label">自评分理由:</span> &nbsp;
-          <span>{{data.target_self_score && data.target_self_score.description}}</span>
-        </section>
-        <br>
-      </div>
-      <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
-        <section>
-          <span class="label">上级评分:</span> &nbsp;
-          <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>
-        </section>
-        <br>
-      </div>
-      <div
-        v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null"
-      >
-        <section>
-          <span class="label">上级评分理由:</span> &nbsp;
-          <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
-        </section>
-        <br>
-      </div>
     </div>
     <div v-if="!readOnly" class="marks">
       <div class="target-desc">
         <case-area
-          :maxlength="maxlength"
           :rows="2"
           :placeholder="placeholder"
           :value="desc"
@@ -81,15 +99,21 @@
           :step="this.config.step"
           label="描述文字"
         ></el-input-number>
-        <span class="greyText">
-          您的打分 /
+        <!-- <span class="greyText">您的打分 /
           <span class="hightlight-mark">{{value&& parseFloat(value).toFixed(1)}}分</span>
-        </span>
+        </span>-->
       </div>
     </div>
   </div>
 </template>
 <script>
+import {
+  PERFORMANCE_TARGET,
+  TARGET_WEIGH,
+  FINISH_DATE,
+  SELF_SCORE,
+  LEADER_SOCRE
+} from "@/constants/TEXT";
 export default {
   props: {
     value: {
@@ -131,7 +155,14 @@ export default {
   },
   data() {
     return {
-      defaultValue: this.value || ""
+      defaultValue: this.value || "",
+      constants: {
+        PERFORMANCE_TARGET,
+        TARGET_WEIGH,
+        FINISH_DATE,
+        SELF_SCORE,
+        LEADER_SOCRE
+      }
     };
   },
   methods: {
@@ -164,18 +195,18 @@ export default {
   align-items: center;
 }
 .grade-card-container .marks .numbers {
-  margin-right: 30px;
+  margin-right: 100px;
 }
 .grade-card-container .marks .target-desc {
   flex: 1;
   margin-right: 40px;
-  margin-left: 10px;
+  margin-left: 100px;
 }
 .grade-card-container .label {
   margin-right: 20px;
   color: #778294;
-  width: 110px;
-  min-width: 110px;
+  width: 150px;
+  min-width: 150px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;
@@ -193,5 +224,30 @@ export default {
 .hightlight-mark {
   font-size: 1.3em;
   color: #52ddab;
+}
+.target-name {
+  align-self: center;
+  padding: 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.delight {
+  font-size: 14px;
+  line-height: 30px;
+}
+.hilight {
+  font-size: 20px;
+  line-height: 36px;
+  font-weight: 600;
+  margin-right: 100px;
+  flex-shrink: 0;
+  margin-left: 40px;
+}
+.grade-card-container .hilight .colorful,
+.grade-card-container .colorful .label {
+  color: #f18d23;
+}
+.grade-card-container .hilight .label {
+  line-height: 36px;
 }
 </style>

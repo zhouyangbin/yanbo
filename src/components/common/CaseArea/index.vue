@@ -1,7 +1,16 @@
 
 <template>
   <div class="CaseArea-page">
-    <el-input :maxlength="maxlength" :readonly="readOnly" type="textarea" @change="$emit('input',$event)" :rows="rows" :placeholder="placeholder" :value="value">
+    <el-input
+      :maxlength="maxlength"
+      :readonly="readOnly"
+      type="textarea"
+      :resize="'none'"
+      @change="$emit('input',$event)"
+      :rows="rows"
+      :placeholder="placeholder"
+      :value="value"
+    >
     </el-input>
   </div>
 </template>

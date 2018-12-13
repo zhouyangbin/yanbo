@@ -1,10 +1,17 @@
 <template>
-  <el-row type="flex" justify="end" class="total-section">
+  <el-row
+    type="flex"
+    justify="end"
+    class="total-section"
+  >
     <el-col :span="4">
       <span>
         总分/
       </span>
-      <span :class="over?'beat':''" class="total-mark">{{total}}</span>
+      <span
+        :class="over?'beat':''"
+        class="total-mark"
+      >{{total}}</span>
     </el-col>
   </el-row>
 
@@ -51,7 +58,7 @@ export default {
 }
 .total-section .total-mark {
   font-size: 22px;
-  color: #0fbd90;
+  color: #f18d23;
   display: inline-block;
 }
 .total-section .beat {

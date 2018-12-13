@@ -87,9 +87,13 @@ export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   uid: String = ":uid"
 ) => `/employee/team/${gradeID}/user/${uid}`;
 
-export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (id: String) =>
+export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (
+  id: String,
+  params: object = {}
+) =>
   `${base}performance/admin/${id}/target/template?${qs.stringify({
-    token: localStorage.getItem("talToken")
+    token: localStorage.getItem("talToken"),
+    ...params
   })}`;
 export const PATH_PERFORMANCE_EXCEL_TPL = (id: String) =>
   `${base}performance/admin/${id}/users/template?${qs.stringify({
@@ -118,6 +122,11 @@ export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
 
 export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
   `${base}/performance/api/superior/export/${id}?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+
+export const PATH_IMPORT_SELF_TARGETS = (uid: string) =>
+  `${base}/performance/api/self/${uid}/import-targets?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
 
