@@ -269,6 +269,10 @@ export const postTargetReview = (params: object) =>
 export const postPublish = (params: object) =>
   sendPost(`/performance/admin/publish`, params);
 
+// 获取发布时的提示信息
+export const getPublishMsg = (params: object) =>
+  sendPost(`/performance/admin/publish-verify`, params);
+
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  我的文化评分
 export const getMyCultureList = (params: Object) =>

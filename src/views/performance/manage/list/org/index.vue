@@ -276,7 +276,8 @@ import {
   getPerormanceDepartmentDetails,
   delPerformanceUser,
   postPerformanceReminder,
-  postPublish
+  postPublish,
+  getPublishMsg
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 
@@ -384,27 +385,32 @@ export default {
   },
   methods: {
     publish() {
-      // FIXME: 获取未完成人数
-      this.$confirm("尚有XX人未完成，将发布全部结果，确认此操作?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          let postData = {
-            performance_id: this.$route.params.orgID
-          };
-          if (this.selection > 0) {
-            postData.performance_user_ids = this.selection.map(v => v.id);
-          }
-          postPublish(postData)
-            .then(res => {
-              this.selection = [];
-              this.refreshList(this.getCurrentPostData());
-            })
-            .catch(e => {});
+      let postData = {
+        performance_id: this.$route.params.orgID
+      };
+      if (this.selection > 0) {
+        postData.performance_user_ids = this.selection.map(v => v.id);
+      }
+      getPublishMsg(postData).then(res => {
+        // 发布提示
+        const msg = `尚有${res.undone_count ||
+          0}人未完成，将发布全部结果，确认此操作?`;
+        this.$confirm(msg, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-        .catch(() => {});
+          .then(() => {
+            // 发布
+            postPublish(postData)
+              .then(res => {
+                this.selection = [];
+                this.refreshList(this.getCurrentPostData());
+              })
+              .catch(e => {});
+          })
+          .catch(() => {});
+      });
     },
     resetFilter(formName) {
       this.$refs[formName].resetFields();
@@ -615,7 +621,7 @@ export default {
     canPublish() {
       return (
         this.initTime.startTime &&
-        formatTime(new Date(this.initTime.startTimes)) <= formatTime(new Date())
+        formatTime(new Date(this.initTime.startTime)) <= formatTime(new Date())
       );
     }
   }
