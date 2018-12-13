@@ -1,3 +1,54 @@
+<a name="0.1.8"></a>
+## [0.1.8](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.7...v0.1.8) (2018-12-13)
+
+
+### Bug Fixes
+
+* **hotfix:** 目标 小数点显示 ([5c5489f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/5c5489f))
+* **目标:** post 数据 ([97a62b6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/97a62b6))
+* **目标:** post 数据 ([c752a78](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c752a78))
+* **目标:** typo ([2bdbc17](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/2bdbc17))
+* **目标:** 上传后更新状态 ([0b6d245](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0b6d245))
+* **目标:** 上传后更新状态 ([a811f1b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a811f1b))
+* **目标:** 上级评价显示条件 ([e243293](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/e243293))
+* **目标:** 上级评价显示条件 ([1e95431](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/1e95431))
+* **目标:** 上级评分显示 ([6223f4f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/6223f4f))
+* **目标:** 上级评分显示 ([8873cb2](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8873cb2))
+* **目标:** 个人目标 是否是草稿判断 ([7b82c58](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/7b82c58))
+* **目标:** 个人目标 是否是草稿判断 ([72e3c8d](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/72e3c8d))
+* **目标:** 个人设定, 模板无权重的时候校验修改 ([aed2fe3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/aed2fe3))
+* **目标:** 个人详情, 初始化组件清空 ([d75477a](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/d75477a))
+* **目标:** 中间阶段, 有目标要显示 ([35bcf49](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/35bcf49))
+* **目标:** 中间阶段, 有目标要显示 ([9c1ac4d](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/9c1ac4d))
+* **目标:** 导入报错信息抽取 435 ([661e368](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/661e368))
+* **目标:** 导入报错信息抽取 435 ([142df33](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/142df33))
+* **目标:** 小数展示 ([2599e48](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/2599e48))
+* **目标:** 小数展示 ([f6ab8a6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/f6ab8a6))
+* **目标:** 报错草稿,权重数据处理 ([8709cf5](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8709cf5))
+* **目标:** 报错草稿,权重数据处理 ([ba3858f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ba3858f))
+* **目标:** 目标阶段判断, 中间时间段处理 ([dcc838c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/dcc838c))
+* **目标:** 目标阶段判断, 中间时间段处理 ([e67644b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/e67644b))
+* **通知:** add path ([e23a6ae](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/e23a6ae))
+* **通知:** params ([df33525](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/df33525))
+* **通知:** params ([4d49440](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/4d49440))
+
+
+### Features
+
+* **目标:** 个人目标设定api ([c08f6b9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c08f6b9))
+* **目标:** 个人详情显示,驳回理由 ([47786ea](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/47786ea))
+* **目标:** 个人详情显示,驳回理由 ([0ad3191](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0ad3191))
+* **目标:** 删除目标二次确认 ([60df4d7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/60df4d7))
+* **目标:** 团队pie ([ae4bbca](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ae4bbca))
+* **目标:** 添加一个通知跳转 ([2aeab02](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/2aeab02))
+* **目标:** 目标card style ([c07229c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c07229c))
+* **目标:** 设定目标 style ([ff10e2c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ff10e2c))
+* **目标:** 设定目标 style ([c46cad0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c46cad0))
+* **目标hr:** 提醒条件修改 ([7c4fc46](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/7c4fc46))
+* **通知:** 上级review目标 ([85dba45](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/85dba45))
+
+
+
 <a name="0.1.7"></a>
 ## [0.1.7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.6...v0.1.7) (2018-11-30)
 
@@ -11,6 +62,7 @@
 * **文化:** 下级详情,提交跳转 ([a189d23](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a189d23))
 * **文化:** 修改通知,跳转 ([0167ffd](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0167ffd))
 * **文化:** 评分选项卡显示 ([af3c664](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/af3c664))
+* **目标:** 个人目标,字段变化 ([73de05c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/73de05c))
 
 
 ### Features
@@ -21,6 +73,7 @@
 * **文化:** 历史记录页,添加记录数据 ([49ca351](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/49ca351))
 * **文化:** 详情修改历史跳转 ([ddd4ed2](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ddd4ed2))
 * **文化:** 隔级详情添加心得体会 ([66f7414](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/66f7414))
+* **目标:** 个人目标模板下载 ([f756ee7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/f756ee7))
 
 
 
@@ -45,6 +98,14 @@
 ### Features
 
 * **文化271:** overview字段位置 ([06bd432](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/06bd432))
+* **目标:** 上级review action显示条件 ([6a4ae34](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/6a4ae34))
+* **目标:** 上级review 驳回原因 ([8a3a7cf](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8a3a7cf))
+* **目标:** 上级review通过 ([f55647a](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/f55647a))
+* **目标:** 个人目标设定, 大部分api ([6c60f7d](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/6c60f7d))
+* **目标:** 个人详情, 编辑目标,离开需确认 ([b7374b8](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/b7374b8))
+* **目标:** 添加模板字段 ([c656b2a](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c656b2a))
+* **目标hr:** 目标时间设定 ([ed46d25](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ed46d25))
+* **绩效:** 填写目标页 ([5532db6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/5532db6))
 
 
 
