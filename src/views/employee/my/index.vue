@@ -46,9 +46,9 @@ export default {
         this.$route.params.id,
         "self"
       ).then(res => {
-        const { stage } = res;
+        const { performance_status } = res;
 
-        if (stage >= 20) {
+        if (performance_status >= 30) {
           this.currentComponent = "grade";
         } else {
           this.currentComponent = "set-targets";
