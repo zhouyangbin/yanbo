@@ -250,7 +250,12 @@ export default {
         if (!isInProgress) {
           this.readOnly = true;
           this.submitted = true;
-          this.targets = [];
+          this.targets = targets.map(t => {
+            if (keys.includes("weights") && t.weights) {
+              t.weights = parseInt(t.weights * 100);
+            }
+            return t;
+          });
           return;
         }
         if (targets && targets.length > 0) {
