@@ -5,8 +5,13 @@
       <div class="basic-info">
         <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
-          <span class="greycolor">{{constants.LEADER_NUMBER}}</span> / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-          <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.superior_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NUMBER}}</span>
+          / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
+          <span
+            class="greycolor"
+          >{{constants.LEADER_NAME}}</span>
+          / {{basicInfo.superior_name}}
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
@@ -23,11 +28,8 @@
         :key="i"
       ></card>
       <br>
-      <div v-if="showComments">
-        <comments
-          :readOnly="true"
-          :comments.sync="superior_score&&superior_score.evaluation"
-        ></comments>
+      <div v-if="showComments&&superior_score&&superior_score.evaluation">
+        <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
         <br>
       </div>
       <div v-if="showMyAdditional">
@@ -53,60 +55,22 @@
         <br>
       </div>
       <div>
-        <level
-          v-if="level"
-          :readOnly="true"
-          v-model="level"
-        ></level>
+        <level v-if="level" :readOnly="true" v-model="level"></level>
         <br>
       </div>
-      <el-row
-        v-if="canEdit"
-        type="flex"
-        justify="center"
-      >
-        <el-button
-          round
-          size="medium"
-          @click="saveDraft"
-          class="btn-reset"
-        >{{constants.SAVE_DRAFT}}</el-button>
-        <el-button
-          round
-          size="medium"
-          @click="submit"
-          type="primary"
-        >{{constants.SUBMIT}}</el-button>
+      <el-row v-if="canEdit" type="flex" justify="center">
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
-      <el-row
-        v-if="canReject"
-        type="flex"
-        justify="center"
-      >
-        <div>
-          到期将默认确认结果, 如有问题可
-          <el-button
-            @click="visible=true"
-            type="text"
-          >{{constants.APPEAL}}</el-button>
+      <el-row v-if="canReject" type="flex" justify="center">
+        <div>到期将默认确认结果, 如有问题可
+          <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
         </div>
       </el-row>
-      <el-row
-        v-if="cancelReject"
-        type="flex"
-        justify="center"
-      >
-        <el-button
-          @click="cancel"
-          type="primary"
-          round
-          size="medium"
-        >{{constants.CANCEL_APPEAL}}</el-button>
+      <el-row v-if="cancelReject" type="flex" justify="center">
+        <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
       </el-row>
-      <reject-dialog
-        @close="getInfo"
-        :visible.sync="visible"
-      ></reject-dialog>
+      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>
   </div>
 </template>
