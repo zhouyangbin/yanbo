@@ -302,6 +302,7 @@ export default {
     },
     calculateEndDate: debounce(function(date) {
       if (!this.ruleForm.endTime) {
+        console.log(date);
         let dateObj = new Date(date.replace(/-/gi, "/"));
         switch (this.ruleForm.property) {
           case "1":
@@ -385,7 +386,7 @@ export default {
       return {
         disabledDate(date) {
           // 小于当前日期的disable
-          const dt = formatTime(new Date(date.replace(/-/gi, "/")));
+          const dt = formatTime(new Date(date));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
 
           return dt < now;
@@ -395,7 +396,7 @@ export default {
     endPickerOptions() {
       return {
         disabledDate: date => {
-          const dt = formatTime(new Date(date.replace(/-/gi, "/")));
+          const dt = formatTime(new Date(date));
           let now = formatTime(new Date()).split(" ")[0] + " 00:00";
           if (this.ruleForm.startTime) {
             // 小于开始时间的disable
