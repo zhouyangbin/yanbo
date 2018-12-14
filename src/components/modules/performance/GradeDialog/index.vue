@@ -2,43 +2,91 @@
 <template>
   <el-dialog @close="closeDia('ruleForm')" width="650px" :visible="visible">
     <span slot="title">
-      <el-row type="flex" justify="center" class="dialog-title">
-        {{actionType == "copy"?constants.COPY_GRADE:constants.CREATE_GRADE}}
-      </el-row>
+      <el-row
+        type="flex"
+        justify="center"
+        class="dialog-title"
+      >{{actionType == "copy"?constants.COPY_GRADE:constants.CREATE_GRADE}}</el-row>
     </span>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="create-form-dialog">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="120px"
+      class="create-form-dialog"
+    >
       <el-form-item :label="constants.GRADE_NAME" prop="name">
         <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item class="is-required" v-if="actionType != 'copy'" :label="constants.LABEL_SCOPE" prop="scope">
-        <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="scopeSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showScopeTree = !showScopeTree">
-        </el-input>
+      <el-form-item
+        class="is-required"
+        v-if="actionType != 'copy'"
+        :label="constants.LABEL_SCOPE"
+        prop="scope"
+      >
+        <el-input
+          style="width:400px"
+          :placeholder="constants.LABEL_SELECT_DIVISION"
+          v-model="scopeSelectedNames"
+          icon="caret-bottom"
+          readonly="readonly"
+          @click.native="showScopeTree = !showScopeTree"
+        ></el-input>
       </el-form-item>
       <el-form-item label="绩效属性" prop="property">
-        <el-select style="width:400px;" v-model="ruleForm.property" :placeholder="constants.PLS_SELECT">
-          <el-option v-for="item in constants.ENUM_PERFORMANCE_TYPE" :key="item.key" :label="item.value" :value="item.key">
-          </el-option>
+        <el-select
+          style="width:400px;"
+          v-model="ruleForm.property"
+          :placeholder="constants.PLS_SELECT"
+        >
+          <el-option
+            v-for="item in constants.ENUM_PERFORMANCE_TYPE"
+            :key="item.key"
+            :label="item.value"
+            :value="item.key"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item class="is-required" label="绩效周期" prop="endTime">
         <div>
-          <el-date-picker @change="calculateEndDate" :disabled="ruleForm.property==''" :clearable="false" :picker-options="startPickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="ruleForm.startTime" type="datetime" placeholder="选择开始时间">
-          </el-date-picker>
-          <span>&nbsp; 至 &nbsp; </span>
-          <el-date-picker :disabled="ruleForm.property==''" :clearable="false" :picker-options="endPickerOptions" value-format="yyyy-MM-dd HH:mm" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" v-model="ruleForm.endTime" type="datetime" placeholder="选择结束时间">
-          </el-date-picker>
+          <el-date-picker
+            @change="calculateEndDate"
+            :disabled="ruleForm.property==''"
+            :clearable="false"
+            :picker-options="startPickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="ruleForm.startTime"
+            type="datetime"
+            placeholder="选择开始时间"
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
+          <el-date-picker
+            :disabled="ruleForm.property==''"
+            :clearable="false"
+            :picker-options="endPickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="ruleForm.endTime"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
         </div>
       </el-form-item>
       <el-form-item :label="constants.TPL" prop="tpl">
         <el-select style="width:400px;" v-model="ruleForm.tpl" :placeholder="constants.PLS_SELECT">
-          <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id">
-          </el-option>
+          <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="分数对应关系" prop="mapping">
-        <el-select style="width:400px;" v-model="ruleForm.mapping" :placeholder="constants.PLS_SELECT">
-          <el-option v-for="item in ruleArr" :key="item.id" :label="item.type" :value="item.id">
-          </el-option>
+        <el-select
+          style="width:400px;"
+          v-model="ruleForm.mapping"
+          :placeholder="constants.PLS_SELECT"
+        >
+          <el-option v-for="item in ruleArr" :key="item.id" :label="item.type" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <br>
@@ -49,12 +97,17 @@
         </el-row>
       </el-form-item>
     </el-form>
-    <dp-panel :exclusive="true" v-if="showScopeTree" :checkedNodes.sync="checkedNodes" :visible.sync="showScopeTree" :data="departmentTree"></dp-panel>
+    <dp-panel
+      :exclusive="true"
+      v-if="showScopeTree"
+      :checkedNodes.sync="checkedNodes"
+      :visible.sync="showScopeTree"
+      :data="departmentTree"
+    ></dp-panel>
   </el-dialog>
 </template>
 <script>
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
-const debounce = require("lodash.debounce");
 import { formatTime } from "@/utils/timeFormat";
 import {
   MSG_FILL_GRADE_NAME,
@@ -79,6 +132,8 @@ import {
   postAddPerformanceGrade,
   postClonePerformanceGrade
 } from "@/constants/API";
+
+const debounce = require("lodash.debounce");
 
 export default {
   props: {
@@ -245,9 +300,10 @@ export default {
       }
       return this.add7Days(dateObj);
     },
-    calculateEndDate(date) {
+    calculateEndDate: debounce(function(date) {
       if (!this.ruleForm.endTime) {
-        let dateObj = new Date(date);
+        console.log(date);
+        let dateObj = new Date(date.replace(/-/gi, "/"));
         switch (this.ruleForm.property) {
           case "1":
             dateObj.setFullYear(dateObj.getFullYear() + 1);
@@ -273,7 +329,7 @@ export default {
         }
         this.ruleForm.endTime = formatTime(dateObj);
       }
-    },
+    }, 500),
     getTplList: debounce(function(ids) {
       getTplRuleByDep({
         department_ids: ids

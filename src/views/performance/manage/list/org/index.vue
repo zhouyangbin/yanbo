@@ -612,14 +612,16 @@ export default {
     isStarted() {
       return (
         this.initTime.targetStartTime &&
-        formatTime(new Date(this.initTime.targetStartTime)) <=
-          formatTime(new Date())
+        formatTime(
+          new Date(this.initTime.targetStartTime.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     },
     afterEnd() {
       return (
         this.initTime.endTime &&
-        formatTime(new Date(this.initTime.endTime)) <= formatTime(new Date())
+        formatTime(new Date(this.initTime.endTime.replace(/-/gi, "/"))) <=
+          formatTime(new Date())
       );
     },
     canPublish() {
