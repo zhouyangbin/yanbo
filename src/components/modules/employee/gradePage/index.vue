@@ -28,7 +28,7 @@
         :key="i"
       ></card>
       <br>
-      <div v-if="showComments && published">
+      <div v-if="showComments&&superior_score&&superior_score.evaluation && published">
         <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
         <br>
       </div>
@@ -56,6 +56,7 @@
       </div>
       <div>
         <level v-if="level && published" :readOnly="true" v-model="level"></level>
+
         <br>
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
@@ -235,7 +236,8 @@ export default {
             superior_workcode,
             superior_name
           };
-          this.published = publish_status == 1;
+          const published = publish_status == 1;
+          this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
@@ -246,6 +248,10 @@ export default {
           this.composeData(targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;
+          }
+          if (published) {
+            this.readOnly = true;
+            this.canEdit = false;
           }
         })
         .catch(e => {});

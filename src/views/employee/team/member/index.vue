@@ -6,15 +6,16 @@
         <div>
           <span class="label">{{constants.BASIC_INFO}}:</span>
           <span>
-            <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span> / {{basicInfo.workcode}} &nbsp;&nbsp;
-            <span class="greycolor">{{constants.EMPYEE_NAME}}</span> / {{basicInfo.name}}
+            <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span>
+            / {{basicInfo.workcode}} &nbsp;&nbsp;
+            <span
+              class="greycolor"
+            >{{constants.EMPYEE_NAME}}</span>
+            / {{basicInfo.name}}
           </span>&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div v-if="needsReview">
-          <el-button
-            @click="passReview"
-            type="primary"
-          >{{constants.LABEL_CONFIRM}}</el-button>
+          <el-button @click="passReview" type="primary">{{constants.LABEL_CONFIRM}}</el-button>
           <el-button @click="showReviewDia=true">返回修改</el-button>
         </div>
       </div>
@@ -51,27 +52,16 @@
         <br>
       </div>
       <comments
-        v-if="!inReviewStage"
+        v-if="!inReviewStage&&((!canEdit && comments )||canEdit)"
         :readOnly="!canEdit"
         :comments.sync="comments"
       ></comments>
       <br>
-      <total-mark
-        v-if="!inReviewStage"
-        :total="total"
-      ></total-mark>
+      <total-mark v-if="!inReviewStage" :total="total"></total-mark>
       <br>
-      <level
-        v-if="!inReviewStage"
-        :readOnly="shouldMapping||stage>=50"
-        v-model="level"
-      ></level>
+      <level v-if="!inReviewStage" :readOnly="shouldMapping||stage>=50" v-model="level"></level>
       <br>
-      <el-row
-        v-if="canEdit"
-        type="flex"
-        justify="center"
-      >
+      <el-row v-if="canEdit" type="flex" justify="center">
         <el-button
           v-if="stage!=40"
           round
@@ -79,19 +69,10 @@
           @click="saveDraft"
           class="btn-reset"
         >{{constants.SAVE_DRAFT}}</el-button>
-        <el-button
-          round
-          size="medium"
-          @click="submit"
-          type="primary"
-        >{{constants.SUBMIT}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
     </section>
-    <review-dialog
-      :callback="postReviewResult"
-      v-if="showReviewDia"
-      :visible.sync="showReviewDia"
-    ></review-dialog>
+    <review-dialog :callback="postReviewResult" v-if="showReviewDia" :visible.sync="showReviewDia"></review-dialog>
   </div>
 </template>
 <script>

@@ -405,6 +405,10 @@ export default {
             postPublish(postData)
               .then(res => {
                 this.selection = [];
+                this.$message({
+                  message: "发布成功!",
+                  type: "success"
+                });
                 this.refreshList(this.getCurrentPostData());
               })
               .catch(e => {});

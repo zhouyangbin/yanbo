@@ -108,7 +108,8 @@ export default {
       submitted: true,
       can_edit_target: true,
       // 审批拒绝理由
-      target_reject: []
+      target_reject: [],
+      performance_status: 0
     };
   },
   components: {
@@ -233,16 +234,30 @@ export default {
           targets,
           template,
           can_edit_target,
-          target_reject
+          target_reject,
+          performance_status
         } = res;
         this.basicInfo = {
           superior_workcode,
           superior_name
         };
+        this.performance_status = performance_status;
         const keys = Object.keys(template || {});
         this.keys = keys;
         this.can_edit_target = can_edit_target == 1;
         this.target_reject = target_reject || [];
+        const isInProgress = performance_status < 20;
+        if (!isInProgress) {
+          this.readOnly = true;
+          this.submitted = true;
+          this.targets = targets.map(t => {
+            if (keys.includes("weights") && t.weights) {
+              t.weights = parseInt(t.weights * 100);
+            }
+            return t;
+          });
+          return;
+        }
         if (targets && targets.length > 0) {
           this.readOnly = true;
           this.submitted = true;
@@ -281,6 +296,9 @@ export default {
     },
     hasRejectedReasons() {
       return this.target_reject.length > 0;
+    },
+    inProgress() {
+      return this.performance_status < 20;
     }
   },
   created() {
