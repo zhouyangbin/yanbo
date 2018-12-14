@@ -1,16 +1,6 @@
 <template>
-  <el-dialog
-    @close="close"
-    width="650px"
-    :visible="visible"
-    class="timeDialog"
-  >
-    <div
-      slot="title"
-      class="title"
-    >
-      设置时间
-    </div>
+  <el-dialog @close="close" width="650px" :visible="visible" class="timeDialog">
+    <div slot="title" class="title">设置时间</div>
     <el-form
       label-width="100px"
       :rules="timeFormRules"
@@ -18,10 +8,7 @@
       :model="timeForm"
       class="timeForm"
     >
-      <el-form-item
-        label="目标设定"
-        prop="targetEndTime"
-      >
+      <el-form-item label="目标设定" prop="targetEndTime">
         <div>
           <el-date-picker
             :disabled="startTargetDisable"
@@ -33,9 +20,8 @@
             v-model="timeForm.targetStartTime"
             type="datetime"
             placeholder="选择开始时间"
-          >
-          </el-date-picker>
-          <span>&nbsp; 至 &nbsp; </span>
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :disabled="endTargetDisable"
             :clearable="false"
@@ -46,14 +32,10 @@
             v-model="timeForm.targetEndTime"
             type="datetime"
             placeholder="选择结束时间"
-          >
-          </el-date-picker>
+          ></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item
-        label="评分时间"
-        prop="endTime"
-      >
+      <el-form-item label="评分时间" prop="endTime">
         <div>
           <el-date-picker
             :disabled="startDisable"
@@ -65,9 +47,8 @@
             v-model="timeForm.startTime"
             type="datetime"
             placeholder="选择开始时间"
-          >
-          </el-date-picker>
-          <span>&nbsp; 至 &nbsp; </span>
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :disabled="endDisable"
             :clearable="false"
@@ -78,26 +59,19 @@
             v-model="timeForm.endTime"
             type="datetime"
             placeholder="选择结束时间"
-          >
-          </el-date-picker>
+          ></el-date-picker>
         </div>
       </el-form-item>
       <br>
       <el-form-item label-width="0px">
-        <el-row
-          type="flex"
-          justify="center"
-        >
+        <el-row type="flex" justify="center">
           <el-button
             :disabled="endDisable"
             round
             type="primary"
             @click="submitForm('timeForm')"
           >{{constants.CONFIRM}}</el-button>
-          <el-button
-            @click="close"
-            round
-          >{{constants.CANCEL}}</el-button>
+          <el-button @click="close" round>{{constants.CANCEL}}</el-button>
         </el-row>
       </el-form-item>
     </el-form>
@@ -247,13 +221,15 @@ export default {
       return {
         disabledDate: date => {
           // 小于当前日期的disable
-          const dt = formatTime(new Date(date));
+          const dt = formatTime(new Date(date.replace(/-/gi, "/")));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
 
           return (
             dt < now ||
             dt >
-              formatTime(new Date(this.initTime.finalEnd)).split(" ")[0] +
+              formatTime(
+                new Date(this.initTime.finalEnd.replace(/-/gi, "/"))
+              ).split(" ")[0] +
                 " 00:00"
           );
         }
@@ -262,26 +238,29 @@ export default {
     startTargetDisable() {
       return (
         this.initTime.targetStartTime &&
-        formatTime(new Date(this.initTime.targetStartTime)) <
-          formatTime(new Date())
+        formatTime(
+          new Date(this.initTime.targetStartTime.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
       );
     },
     startDisable() {
       return (
         this.initTime.startTime &&
-        formatTime(new Date(this.initTime.startTime)) < formatTime(new Date())
+        formatTime(new Date(this.initTime.startTime.replace(/-/gi, "/"))) <
+          formatTime(new Date())
       );
     },
     endDisable() {
       return (
         this.initTime.endTime &&
-        formatTime(new Date(this.initTime.endTime)) < formatTime(new Date())
+        formatTime(new Date(this.initTime.endTime.replace(/-/gi, "/"))) <
+          formatTime(new Date())
       );
     },
     endTargetDisable() {
       return (
         this.initTime.targetEndTime &&
-        formatTime(new Date(this.initTime.targetEndTime)) <
+        formatTime(new Date(this.initTime.targetEndTime.replace(/-/gi, "/"))) <
           formatTime(new Date())
       );
     }
