@@ -3,25 +3,14 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container dep-page">
       <div class="bg-white">
-        <el-row
-          type="flex"
-          justify="space-between"
-          class="header"
-        >
+        <el-row type="flex" justify="space-between" class="header">
           <span>{{depInfo.name}}</span>
-          <span class="tip">
-            {{constants.FINISHED_DATE}} {{depInfo.performance_name_end_time}}
-          </span>
+          <span class="tip">{{constants.FINISHED_DATE}} {{depInfo.performance_name_end_time}}</span>
         </el-row>
         <hr>
         <div class="time-line-panel bg-white">
-          <el-row
-            type="flex"
-            justify="space-between"
-          >
-            <span class="dep-name">
-              {{depInfo.department_path}}
-            </span>
+          <el-row type="flex" justify="space-between">
+            <span class="dep-name">{{depInfo.department_path}}</span>
             <el-button
               :disabled="!isImported"
               @click="dialogTimes =true"
@@ -29,21 +18,13 @@
               type="primary"
               round
               style="margin-right:20px"
-            >
-              {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
-            </el-button>
+            >{{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}</el-button>
           </el-row>
           <br>
           <br>
-          <el-row
-            type="flex"
-            justify="center"
-          >
+          <el-row type="flex" justify="center">
             <el-col :span="20">
-              <el-steps
-                align-center
-                :active="step"
-              >
+              <el-steps align-center :active="step">
                 <el-step>
                   <template slot="title">
                     <el-button
@@ -80,15 +61,8 @@
       </div>
       <br>
       <div class="bg-white">
-        <el-row
-          align="middle"
-          class="action-bar"
-          type="flex"
-          justify="space-between"
-        >
-          <span>
-            {{constants.SELECTION_TIPS(total,selection.length)}}
-          </span>
+        <el-row align="middle" class="action-bar" type="flex" justify="space-between">
+          <span>{{constants.SELECTION_TIPS(total,selection.length)}}</span>
           <span>
             <el-button
               :disabled="afterEnd || tableData.length==0"
@@ -127,41 +101,21 @@
             >{{constants.BATCH_DEL}}</el-button>
           </span>
         </el-row>
-        <el-form
-          :inline="true"
-          :model="formFilter"
-          ref="filter-form"
-          class="filter-form"
-        >
+        <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
           <el-form-item prop="number">
-            <el-input
-              v-model="formFilter.number"
-              :placeholder="constants.NUMBER"
-            ></el-input>
+            <el-input v-model="formFilter.number" :placeholder="constants.NUMBER"></el-input>
           </el-form-item>
           <el-form-item prop="name">
-            <el-input
-              v-model="formFilter.name"
-              :placeholder="constants.NAME"
-            ></el-input>
+            <el-input v-model="formFilter.name" :placeholder="constants.NAME"></el-input>
           </el-form-item>
           <el-form-item prop="leaderNum">
-            <el-input
-              v-model="formFilter.leaderNum"
-              :placeholder="constants.LEADER_NUMBER"
-            ></el-input>
+            <el-input v-model="formFilter.leaderNum" :placeholder="constants.LEADER_NUMBER"></el-input>
           </el-form-item>
           <el-form-item prop="leaderName">
-            <el-input
-              v-model="formFilter.leaderName"
-              :placeholder="constants.LEADER_NAME"
-            ></el-input>
+            <el-input v-model="formFilter.leaderName" :placeholder="constants.LEADER_NAME"></el-input>
           </el-form-item>
           <el-form-item prop="targetStatus">
-            <el-select
-              v-model="formFilter.targetStatus"
-              placeholder="阶段"
-            >
+            <el-select v-model="formFilter.targetStatus" placeholder="阶段">
               <el-option
                 v-for="v of constants.ENUM_PERFORMANCE_FINISH"
                 :key="v.key"
@@ -188,92 +142,23 @@
           stripe
           style="width: 100%"
         >
-          <el-table-column
-            fixed="left"
-            type="selection"
-            width="55"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="workcode"
-            :label="constants.NUMBER"
-            width="80"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            :label="constants.NAME"
-            width="100"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="department"
-            :label="constants.BASE_OR_BU"
-            width="100"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="syb_department"
-            :label="constants.DEP_OR_SUB"
-            width="200"
-          >
-          </el-table-column>
+          <el-table-column fixed="left" type="selection" width="55"></el-table-column>
+          <el-table-column prop="workcode" :label="constants.NUMBER" width="80"></el-table-column>
+          <el-table-column prop="name" :label="constants.NAME" width="100"></el-table-column>
+          <el-table-column prop="department" :label="constants.BASE_OR_BU" width="100"></el-table-column>
+          <el-table-column prop="syb_department" :label="constants.DEP_OR_SUB" width="200"></el-table-column>
 
-          <el-table-column
-            prop="email"
-            :label="constants.EMAIL"
-            width="180"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="superior_workcode"
-            label="上级工号"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="superior_name"
-            label="上级姓名"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="syb_department"
-            label="上级事业部"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="superior_email"
-            label="上级邮箱"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="target"
-            :label="constants.TARGET_STATUS"
-          >
+          <el-table-column prop="email" :label="constants.EMAIL" width="180"></el-table-column>
+          <el-table-column prop="superior_workcode" label="上级工号"></el-table-column>
+          <el-table-column prop="superior_name" label="上级姓名"></el-table-column>
+          <el-table-column prop="syb_department" label="上级事业部"></el-table-column>
+          <el-table-column prop="superior_email" label="上级邮箱"></el-table-column>
+          <el-table-column prop="target" :label="constants.TARGET_STATUS"></el-table-column>
+          <el-table-column prop="self" :label="constants.SELF_EVALUATION_STATUS"></el-table-column>
+          <el-table-column prop="superior" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
 
-          </el-table-column>
-          <el-table-column
-            prop="self"
-            :label="constants.SELF_EVALUATION_STATUS"
-          >
-
-          </el-table-column>
-          <el-table-column
-            prop="superior"
-            :label="constants.LEADER_EVALUATION_STATUS"
-          >
-
-          </el-table-column>
-
-          <el-table-column
-            prop="confirm"
-            label="员工确认"
-          >
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            :label="constants.OPERATIONS"
-            width="150"
-          >
+          <el-table-column prop="confirm" label="员工确认"></el-table-column>
+          <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
             <template slot-scope="scope">
               <el-button
                 :disabled="afterEnd"
@@ -296,10 +181,7 @@
           </el-table-column>
         </el-table>
         <br>
-        <el-row
-          type="flex"
-          justify="end"
-        >
+        <el-row type="flex" justify="end">
           <pagination
             @current-change="handleCurrentChange"
             :currentPage="currentPage"
@@ -309,11 +191,7 @@
         <br>
       </div>
     </section>
-    <target-dialog
-      @close="dialogTarget=false"
-      v-if="dialogTarget"
-      :visible="dialogTarget"
-    ></target-dialog>
+    <target-dialog @close="dialogTarget=false" v-if="dialogTarget" :visible="dialogTarget"></target-dialog>
     <import-dialog
       @close="closeImportDia"
       v-if="dialogImport"
@@ -693,14 +571,16 @@ export default {
     isStarted() {
       return (
         this.initTime.targetStartTime &&
-        formatTime(new Date(this.initTime.targetStartTime)) <=
-          formatTime(new Date())
+        formatTime(
+          new Date(this.initTime.targetStartTime.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     },
     afterEnd() {
       return (
         this.initTime.endTime &&
-        formatTime(new Date(this.initTime.endTime)) <= formatTime(new Date())
+        formatTime(new Date(this.initTime.endTime.replace(/-/gi, "/"))) <=
+          formatTime(new Date())
       );
     }
   }
