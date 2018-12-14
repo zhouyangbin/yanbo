@@ -229,13 +229,13 @@ export default {
             superior_name,
             score_level,
             score,
-            published
+            publish_status
           } = res;
           this.basicInfo = {
             superior_workcode,
             superior_name
           };
-          this.published = published == 1;
+          this.published = publish_status == 1;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
