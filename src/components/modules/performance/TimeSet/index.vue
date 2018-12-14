@@ -221,7 +221,7 @@ export default {
       return {
         disabledDate: date => {
           // 小于当前日期的disable
-          const dt = formatTime(new Date(date.replace(/-/gi, "/")));
+          const dt = formatTime(new Date(date));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
 
           return (
