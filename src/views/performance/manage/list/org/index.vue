@@ -156,8 +156,8 @@
           <el-table-column prop="syb_department" :label="constants.DEP_OR_SUB" width="200"></el-table-column>
 
           <el-table-column prop="email" :label="constants.EMAIL" width="180"></el-table-column>
-          <el-table-column prop="superior_workcode" label="上级工号"></el-table-column>
-          <el-table-column prop="superior_name" label="上级姓名"></el-table-column>
+          <el-table-column prop="superior_workcode" :label="constants.LEADER_NUMBER"></el-table-column>
+          <el-table-column prop="superior_name" :label="constants.LEADER_NAME"></el-table-column>
           <el-table-column prop="syb_department" label="上级事业部"></el-table-column>
           <el-table-column prop="superior_email" label="上级邮箱"></el-table-column>
           <el-table-column prop="target" :label="constants.TARGET_STATUS"></el-table-column>
@@ -395,9 +395,9 @@ export default {
         // 发布提示
         const msg = `尚有${res.undone_count ||
           0}人未完成，将发布全部结果，确认此操作?`;
-        this.$confirm(msg, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+        this.$confirm(msg, ATTENTION, {
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
           type: "warning"
         })
           .then(() => {
