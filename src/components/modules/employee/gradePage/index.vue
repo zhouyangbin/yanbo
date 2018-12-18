@@ -150,7 +150,10 @@ export default {
   },
   computed: {
     showMyAdditional() {
-      return this.need_attach_score == 1;
+      return (
+        this.need_attach_score == 1 &&
+        ((this.readOnly && this.myAdditionMark.evaluation) || !this.readOnly)
+      );
     },
     total() {
       return this.superior_score && this.superior_score.score != null
