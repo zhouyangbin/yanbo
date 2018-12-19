@@ -203,10 +203,11 @@ export default {
   margin-left: 100px;
 }
 .grade-card-container .label {
+  font-size: 16px;
   margin-right: 20px;
   color: #778294;
-  width: 150px;
-  min-width: 150px;
+  width: 170px;
+  min-width: 170px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;

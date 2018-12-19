@@ -4,12 +4,13 @@
     <div class="grade-name">{{gradeName}}</div>
     <br>
     <hr>
-    <br>
+    <!-- <br> -->
     <br>
     <br>
     <section class="plane-chart">
       <div class="total-section">
-        <div>您的总分
+        <div>
+          您的总分
           <span class="score">{{total}}分</span>
         </div>
         <br>

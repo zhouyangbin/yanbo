@@ -1,9 +1,14 @@
 <template>
   <div>
     <el-dialog @close="$emit('update:visible',false)" :visible="visible" width="30%">
-      <el-input type="textarea" :maxlength="2000" :rows="2" :placeholder="`请输入${constants.IMPRESSIONS}`" v-model="textarea">
-      </el-input>
-      <br>
+      <el-input
+        type="textarea"
+        :maxlength="2000"
+        :rows="2"
+        :placeholder="`请输入${constants.IMPRESSIONS}`"
+        v-model="textarea"
+      ></el-input>
+      <!-- <br> -->
       <br>
       <el-row type="flex" justify="center">
         <el-button type="primary" @click="submit" round>{{constants.CONFIRM}}</el-button>

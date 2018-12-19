@@ -1,16 +1,19 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <!-- <br> -->
     <br>
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column v-for="(v,i) of columns" :key="i" :prop="v.prop" :label="v.label">
-        </el-table-column>
+        <el-table-column v-for="(v,i) of columns" :key="i" :prop="v.prop" :label="v.label"></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button @click="exportMore(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button
+              @click="exportMore(scope.row)"
+              type="text"
+              size="small"
+            >{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
