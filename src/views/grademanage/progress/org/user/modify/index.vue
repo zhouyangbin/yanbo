@@ -23,20 +23,13 @@
       <section class="mark">
         <el-row align="middle" type="flex">
           <el-col style="padding:20px;border-right: 1px solid #979797;">
-            <div class="mark-label">
-              自评分数
-            </div>
+            <div class="mark-label">自评分数</div>
             <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
-
           </el-col>
           <el-col style="padding-left:50px;">
             <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
-              <div>
-                {{i+3}}分理由:
-              </div>
-              <div>
-                {{n}}
-              </div>
+              <div>{{i+3}}分理由:</div>
+              <div>{{n}}</div>
             </div>
           </el-col>
         </el-row>
@@ -44,17 +37,13 @@
       <br>
       <div class="mark-flag-container">
         <div class="mark-section">
-          <div class="mark-label">
-            为{{employee_name}}的{{scores[selectGradeItem].question_name}}项目评分
-          </div>
+          <div class="mark-label">为{{employee_name}}的{{scores[selectGradeItem].question_name}}项目评分</div>
           <br>
           <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
         </div>
         <div style="width:20px;"></div>
         <div class="flag-section">
-          <div class="mark-label">
-            为{{employee_name}}设置等级标签
-          </div>
+          <div class="mark-label">为{{employee_name}}设置等级标签</div>
           <br>
           <level-selector :pre="preLv" :disabled="readOnly" v-model="level"></level-selector>
         </div>
@@ -312,6 +301,8 @@ export default {
     font-size: 14px;
     color: #9b9b9b;
     line-height: 30px;
+    max-height: 150px !important;
+    overflow: auto;
   }
   & .mark-flag-container {
     display: flex;

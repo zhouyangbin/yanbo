@@ -169,7 +169,6 @@ export default {
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
-      // console.log(value)
       if (!this.ruleForm.startTime) {
         callback(new Error(PLS_SELECT_START_TIME));
       } else if (!!value && value <= this.ruleForm.startTime) {
@@ -302,7 +301,6 @@ export default {
     },
     calculateEndDate: debounce(function(date) {
       if (!this.ruleForm.endTime) {
-        console.log(date);
         let dateObj = new Date(date.replace(/-/gi, "/"));
         switch (this.ruleForm.property) {
           case "1":

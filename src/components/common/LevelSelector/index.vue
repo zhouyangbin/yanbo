@@ -1,9 +1,21 @@
 
 <template>
   <div class="LevelSelector-page">
-    <el-button @click="disabled?undefined:$emit('input','top')" :class="{'selected':value=='top','disabled':disabled,'pre':pre=='top'}" class="selector">Top</el-button>
-    <el-button @click="disabled?undefined:$emit('input','middle')" :class="{'selected':value=='middle','disabled':disabled,'pre':pre=='middle'}" class="selector">Middle</el-button>
-    <el-button @click="disabled?undefined:$emit('input','bottom')" :class="{'selected':value=='bottom','disabled':disabled,'pre':pre=='bottom'}" class="selector">Bottom</el-button>
+    <el-button
+      @click="disabled?undefined:$emit('input','top')"
+      :class="{'selected':value=='top','disabled':disabled,'pre':pre=='top'}"
+      class="selector"
+    >Top</el-button>
+    <el-button
+      @click="disabled?undefined:$emit('input','middle')"
+      :class="{'selected':value=='middle','disabled':disabled,'pre':pre=='middle'}"
+      class="selector"
+    >Middle</el-button>
+    <el-button
+      @click="disabled?undefined:$emit('input','bottom')"
+      :class="{'selected':value=='bottom','disabled':disabled,'pre':pre=='bottom'}"
+      class="selector"
+    >Bottom</el-button>
     <slot></slot>
   </div>
 </template>
@@ -40,6 +52,7 @@ export default {
         height: 40px;
         z-index: 2;
         right: -5px;
+
         background-image: url("../../../assets/img/pre_lv.png");
       }
     }
@@ -75,6 +88,8 @@ export default {
       height: 40px;
       z-index: 2;
       right: -5px;
+      background-position: center center;
+      background-size: contain;
       background-image: url("../../../assets/img/level_flag.png");
     }
   }

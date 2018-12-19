@@ -12,9 +12,7 @@
       <el-row type="flex" justify="space-between" align="middle">
         <div>
           <span class="label">{{constants.TOTAL_SCORES}}</span>
-          <span class="total-score">
-            {{total_score}}分
-          </span>
+          <span class="total-score">{{total_score}}分</span>
           <br>
           <br>
           <br>
@@ -44,72 +42,44 @@
       <div>
         <div v-if="showAppealAndRefuse" class="appeal-and-refuse">
           <div v-for="(v,i) of appeal_record" :key="i">
-            <span class="label">
-              {{constants.APPEAL_REASON}}:
-            </span>
-            <span class="content">
-              {{v.reason}}
-            </span>
-            <span class="time">
-              {{v.time}}
-            </span>
+            <span class="label">{{constants.APPEAL_REASON}}:</span>
+            <span class="content">{{v.reason}}</span>
+            <span class="time">{{v.time}}</span>
           </div>
           <div v-for="(v,i) of reject_record" :key="i">
-            <span class="label">
-              {{constants.REJECT_REASON}}:
-            </span>
-            <span class="content">
-              {{v.reason}}
-            </span>
-            <span class="time">
-              {{v.time}}
-            </span>
+            <span class="label">{{constants.REJECT_REASON}}:</span>
+            <span class="content">{{v.reason}}</span>
+            <span class="time">{{v.time}}</span>
           </div>
           <div v-if="feedback_feeling">
-            <span class="label">
-              {{constants.IMPRESSIONS}}:
-            </span>
-            <span class="content">
-              {{feedback_feeling.content}}
-            </span>
-            <span class="time">
-              {{feedback_feeling.time}}
-            </span>
+            <span class="label">{{constants.IMPRESSIONS}}:</span>
+            <span class="content">{{feedback_feeling.content}}</span>
+            <span class="time">{{feedback_feeling.time}}</span>
           </div>
         </div>
         <br>
         <br>
       </div>
       <div>
-        <span class="sub-title">
-          {{constants.ADVANTAGE}}: &nbsp;
-        </span>
-        <span class="content">
-          {{advantage}}
-        </span>
+        <span class="sub-title">{{constants.ADVANTAGE}}: &nbsp;</span>
+        <span class="content">{{advantage}}</span>
       </div>
       <br>
       <div>
-        <span class="sub-title">
-          {{constants.PROMOTION}}: &nbsp;
-        </span>
-        <span class="content">
-          {{promotion}}
-        </span>
+        <span class="sub-title">{{constants.PROMOTION}}: &nbsp;</span>
+        <span class="content">{{promotion}}</span>
       </div>
-      <div>
-
-      </div>
+      <div></div>
       <br>
       <hr>
       <br>
       <div class="detail-header" @click="detailHide =!detailHide">
-        {{constants.GRADE_DETAIL}} <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        {{constants.GRADE_DETAIL}}
+        <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
       </div>
       <br>
       <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
     </section>
-
   </div>
 </template>
 <script>
@@ -343,6 +313,8 @@ export default {
       height: 40px;
       z-index: 2;
       right: -5px;
+      background-position: center center;
+      background-size: contain;
       background-image: url("../../../../../assets/img/level_flag.png");
     }
   }

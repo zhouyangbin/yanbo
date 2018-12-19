@@ -18,3 +18,14 @@ section.content-container {
 .date-picker-container .el-time-spinner.has-seconds .el-time-spinner__wrapper {
   width: 50%;
 }
+
+.mark-reason {
+  max-height: 150px !important;
+  overflow: auto;
+}
+.el-submenu__title {
+  padding-left: 0.2rem !important;
+}
+.menu-list .el-menu-item {
+  padding-left: 0.6rem !important;
+}

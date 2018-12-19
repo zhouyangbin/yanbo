@@ -11,7 +11,32 @@ module.exports = {
     proxy: "http://test-pingfen-api.100tal.com"
   },
   chainWebpack: config => {
+    function generateLoaders(loader) {
+      config.module
+        .rule(loader)
+        .oneOf("vue")
+        .use("px2rem-loader")
+        .loader("px2rem-loader")
+        .before("postcss-loader")
+        .options({
+          remUnit: 75
+        })
+        .end();
+      config.module
+        .rule(loader)
+        .oneOf("normal")
+        .use("px2rem-loader")
+        .loader("px2rem-loader")
+        .before("postcss-loader")
+        .options({
+          remUnit: 75
+        })
+        .end();
+    }
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));
+    generateLoaders("css");
+    generateLoaders("scss");
+    generateLoaders("sass");
   },
   configureWebpack: {
     plugins: [
