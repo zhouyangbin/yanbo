@@ -1,28 +1,62 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="bindDPDialog">
-    <div slot="title" class="title">
-      {{constants.BIND_DEPARTMENT}}
-    </div>
-    <div>
-    </div>
+  <el-dialog @close="close" width=" 9.75rem" :visible="visible" class="bindDPDialog">
+    <div slot="title" class="title">{{constants.BIND_DEPARTMENT}}</div>
+    <div></div>
     <el-form :inline="true" :rules="bindRules" ref="bindForm" :model="bindForm" class="bindForm">
-      <el-form-item v-if="currentInfo.has_culture_permission" prop="culture" :label="constants.CULTURE_SCOPE">
-        <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="cultrueSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree">
-        </el-input>
+      <el-form-item
+        v-if="currentInfo.has_culture_permission"
+        prop="culture"
+        :label="constants.CULTURE_SCOPE"
+      >
+        <el-input
+          style="width:400px"
+          :placeholder="constants.LABEL_SELECT_DIVISION"
+          v-model="cultrueSelectedNames"
+          icon="caret-bottom"
+          readonly="readonly"
+          @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree"
+        ></el-input>
       </el-form-item>
-      <el-form-item v-if="currentInfo.has_achievement_permission" prop="performance" :label="constants.PERFORMANCE_SCOPE">
-        <el-input style="width:400px" :placeholder="constants.LABEL_SELECT_DIVISION" v-model="performanceSelectedNames" icon="caret-bottom" readonly="readonly" @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree">
-        </el-input>
+      <el-form-item
+        v-if="currentInfo.has_achievement_permission"
+        prop="performance"
+        :label="constants.PERFORMANCE_SCOPE"
+      >
+        <el-input
+          style="width:400px"
+          :placeholder="constants.LABEL_SELECT_DIVISION"
+          v-model="performanceSelectedNames"
+          icon="caret-bottom"
+          readonly="readonly"
+          @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree"
+        ></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit('bindForm')" type="primary">{{constants.CONFIRM}}</el-button>
+        <el-button
+          round
+          size="medium"
+          @click="submit('bindForm')"
+          type="primary"
+        >{{constants.CONFIRM}}</el-button>
         <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
       </el-row>
     </div>
-    <dp-panel v-if="showCultureTree" key="showCultureTree" :checkedNodes.sync="cultureCheckedNodes" :visible.sync="showCultureTree" :data="cultureDepartmentTree"></dp-panel>
-    <dp-panel v-if="showPerformanceTree" key="showPerformanceTree" :checkedNodes.sync="performanceCheckedNodes" :visible.sync="showPerformanceTree" :data="performanceDepartmentTree"></dp-panel>
+    <dp-panel
+      v-if="showCultureTree"
+      key="showCultureTree"
+      :checkedNodes.sync="cultureCheckedNodes"
+      :visible.sync="showCultureTree"
+      :data="cultureDepartmentTree"
+    ></dp-panel>
+    <dp-panel
+      v-if="showPerformanceTree"
+      key="showPerformanceTree"
+      :checkedNodes.sync="performanceCheckedNodes"
+      :visible.sync="showPerformanceTree"
+      :data="performanceDepartmentTree"
+    ></dp-panel>
   </el-dialog>
 </template>
 <script>

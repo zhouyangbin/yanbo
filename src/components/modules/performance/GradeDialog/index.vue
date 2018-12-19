@@ -1,6 +1,6 @@
 
 <template>
-  <el-dialog @close="closeDia('ruleForm')" width="650px" :visible="visible">
+  <el-dialog @close="closeDia('ruleForm')" width=" 9.75rem" :visible="visible">
     <span slot="title">
       <el-row
         type="flex"
