@@ -42,7 +42,9 @@
         ></addition-mark>
         <br>
       </div>
-      <div v-if="hasLeaderAdditionMark && !inReviewStage">
+      <div
+        v-if="hasLeaderAdditionMark && !inReviewStage&&(!canEdit &&leaderAdditionMark.evaluation || canEdit)"
+      >
         <addition-mark
           :readOnly="!canEdit"
           :prefixTitle="constants.LABEL_SUP"
