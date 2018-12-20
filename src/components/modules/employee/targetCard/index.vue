@@ -126,8 +126,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .target-card-component {
-  background-color: white;
   padding: 20px 20px 20px 0;
+  background-color: white;
   & + .target-card-component {
     border-top: solid 1px grey;
   }
@@ -144,19 +144,20 @@ export default {
         min-width: 100px;
       }
     }
+    // prettier-ignore
     .label {
+      flex-shrink: 0;
+      box-sizing: border-box;
+      width: 180px;
+      min-width: 120PX;
+      height: 26px;
+      padding: 0 10px;
       margin-right: 20px;
       color: #778294;
-      width: 150px;
-      min-width: 150px;
-      height: 26px;
-      box-sizing: border-box;
       line-height: 26px;
-      padding: 0 10px;
-      flex-shrink: 0;
       &.title {
-        background-color: #52ddab;
         color: white;
+        background-color: #52ddab;
         border-radius: 0 13px 13px 0;
       }
     }
