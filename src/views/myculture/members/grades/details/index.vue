@@ -24,8 +24,8 @@
           <span class="content">{{feedback_feeling.content}}</span>
           <span class="time">{{feedback_feeling.time}}</span>
         </div>
+        <br>
       </div>
-      <br>
       <div>
         <h3>{{constants.ADVANTAGE}}:</h3>
         <case-area :readOnly="readOnly" v-model="advantage"></case-area>
@@ -363,48 +363,48 @@ export default {
     background: white;
   }
   & .mark-label {
-    font-size: 24px;
-    color: #4a4a4a;
     margin-bottom: 15px;
+    color: #4a4a4a;
+    font-size: 24px;
   }
 
   & .mark-reason {
-    font-size: 14px;
-    color: #9b9b9b;
-    line-height: 30px;
-    max-height: 150px !important;
     overflow: auto;
+    max-height: 150px !important;
+    color: #9b9b9b;
+    font-size: 14px;
+    line-height: 30px;
   }
   & .mark-flag-container {
     display: flex;
     & .mark-section {
       flex: 14;
-      background: white;
       padding: 20px;
+      background: white;
     }
     & .flag-section {
       flex: 9;
       flex-basis: 80px;
       flex-shrink: 0;
-      background: white;
       padding: 20px;
+      background: white;
     }
   }
   .feeback-container {
+    position: relative;
     padding: 20px;
     background: white;
-    position: relative;
     & > div {
       position: relative;
     }
     & .label {
-      font-size: 24px;
       color: #f18d23;
+      font-size: 24px;
       line-height: 30px;
     }
     & .content {
+      color: #000;
       font-size: 14px;
-      color: #000000;
     }
     & .time {
       position: absolute;
