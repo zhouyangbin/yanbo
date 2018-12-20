@@ -73,10 +73,8 @@
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
                 <img
-                  width="30px"
+                  class="avatar-style"
                   v-if="scope.row.avatar"
-                  height="30px"
-                  style="margin-right:0.225rem"
                   :src="`${scope.row.avatar}_30x30q100.jpg`"
                   alt
                 >
@@ -359,7 +357,13 @@ export default {
 .list-filter-form >>> .el-form-item {
   margin-bottom: 0;
 }
-
+.avatar-style {
+  margin-right: 0.225rem;
+  max-height: 30px;
+  max-width: 30px;
+  height: 30px;
+  width: 30px;
+}
 hr.dash {
   border-style: dashed;
   border-color: grey;
