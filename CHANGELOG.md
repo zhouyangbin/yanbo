@@ -1,3 +1,29 @@
+<a name="0.1.9"></a>
+## [0.1.9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.8...v0.1.9) (2018-12-20)
+
+
+### Bug Fixes
+
+* **iOS:** date 兼容 ([006e65e](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/006e65e))
+* **iOS:** date 兼容 ([eaf5aa4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/eaf5aa4))
+* **iOS:** new Date, 兼容性 ([dd53ab8](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/dd53ab8))
+* **iOS:** new Date, 兼容性 ([6cdd0b9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/6cdd0b9))
+* **safari:** 日期问题 ([f108880](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/f108880))
+* **safari:** 日期问题 ([a6b0763](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a6b0763))
+* **style:** rem 伸缩 webpack ([0d882d4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0d882d4))
+* **目标:** 发布字段变化 ([3085919](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/3085919))
+* **目标:** 团队评价, 只读情况,没有加减分不显示 ([173fb9c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/173fb9c))
+* **目标:** 目标设定, 字号变大, 添加文字 ([dd7cad9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/dd7cad9))
+* **目标:** 自评加减分未填写,切中断的不展示 ([17affa6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/17affa6))
+* **目标:** 自评加减分未填写,切中断的不展示 ([556abab](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/556abab))
+
+
+### Features
+
+* **文化:** 添加上级价值观文字 ([787b56b](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/787b56b))
+
+
+
 <a name="0.1.8"></a>
 ## [0.1.8](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.7...v0.1.8) (2018-12-13)
 
@@ -40,8 +66,11 @@
 * **目标:** 个人详情显示,驳回理由 ([0ad3191](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0ad3191))
 * **目标:** 删除目标二次确认 ([60df4d7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/60df4d7))
 * **目标:** 团队pie ([ae4bbca](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ae4bbca))
+* **目标:** 未发布的隐藏上级评价信息 ([68b7ee3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/68b7ee3))
 * **目标:** 添加一个通知跳转 ([2aeab02](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/2aeab02))
+* **目标:** 添加发布接口 ([e13faa3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/e13faa3))
 * **目标:** 目标card style ([c07229c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c07229c))
+* **目标:** 获取发布提示信息api ([8a596e9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8a596e9))
 * **目标:** 设定目标 style ([ff10e2c](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/ff10e2c))
 * **目标:** 设定目标 style ([c46cad0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c46cad0))
 * **目标hr:** 提醒条件修改 ([7c4fc46](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/7c4fc46))
