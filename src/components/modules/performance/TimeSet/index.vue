@@ -2,7 +2,7 @@
   <el-dialog @close="close" width="9.75rem" :visible="visible" class="timeDialog">
     <div slot="title" class="title">设置时间</div>
     <el-form
-      label-width="100px"
+      label-width="1.5rem"
       :rules="timeFormRules"
       ref="timeForm"
       :model="timeForm"

@@ -1,12 +1,16 @@
 <template>
   <el-dialog @close="close" width="500px" :visible="dialogImport" class="dialogImport">
-    <div slot="title" class="title">
-      {{constants.IMPORT_RECORDS}}
-    </div>
+    <div slot="title" class="title">{{constants.IMPORT_RECORDS}}</div>
     <div class="importTab">
       <el-tabs v-model="importTab">
         <el-tab-pane :label="constants.EHR_IMPORT" name="first">
-          <el-form label-width="80px" :rules="importRules" ref="importForm" :model="importForm" class="importForm">
+          <el-form
+            label-width="1.2rem"
+            :rules="importRules"
+            ref="importForm"
+            :model="importForm"
+            class="importForm"
+          >
             <el-form-item :label="constants.WORK_LEVEL" prop="levels">
               <el-checkbox-group v-model="importForm.levels">
                 <el-checkbox v-for="v of levels" :key="v.key" :label="v.value" name="levels"></el-checkbox>
@@ -16,16 +20,27 @@
           <err-table :errorData="eHRError"></err-table>
         </el-tab-pane>
         <el-tab-pane :label="constants.EXCEL_IMPORT" name="second">
-          <import-excel :uploadSuccess="uploadSuccess" :uploadErr="uploadErr" :errorData="tableData" :uploadHeader="uploadHeader" :uploadData="uploadData" :actionURL="constants.PATH_IMPORT_BY_EXCEL" :downloadURL="constants.PATH_EXCEL_TPL"></import-excel>
+          <import-excel
+            :uploadSuccess="uploadSuccess"
+            :uploadErr="uploadErr"
+            :errorData="tableData"
+            :uploadHeader="uploadHeader"
+            :uploadData="uploadData"
+            :actionURL="constants.PATH_IMPORT_BY_EXCEL"
+            :downloadURL="constants.PATH_EXCEL_TPL"
+          ></import-excel>
         </el-tab-pane>
       </el-tabs>
-      <span class="tips">
-        {{constants.IMPORT_TIPS}}
-      </span>
+      <span class="tips">{{constants.IMPORT_TIPS}}</span>
     </div>
     <div v-if="importTab==='first'" slot="footer" class="dialog-footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" type="primary" @click="importFiles('importForm')">{{constants.CONFIRM}}</el-button>
+        <el-button
+          round
+          size="medium"
+          type="primary"
+          @click="importFiles('importForm')"
+        >{{constants.CONFIRM}}</el-button>
         <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
       </el-row>
     </div>
