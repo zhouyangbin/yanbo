@@ -2,7 +2,7 @@
   <div class="culture-hr-details-modify-page">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container" style="padding:40px">
+    <section class="content-container" style="padding:0.6rem">
       <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
@@ -22,11 +22,11 @@
       <br>
       <section class="mark">
         <el-row align="middle" type="flex">
-          <el-col style="padding:20px;border-right: 1px solid #979797;">
+          <el-col style="padding:0.3rem;border-right: 1px solid #979797;">
             <div class="mark-label">自评分数</div>
             <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
           </el-col>
-          <el-col style="padding-left:50px;">
+          <el-col style="padding-left:0.75rem;">
             <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
               <div>{{i+3}}分理由:</div>
               <div>{{n}}</div>
@@ -41,7 +41,7 @@
           <br>
           <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
         </div>
-        <div style="width:20px;"></div>
+        <div style="width:0.3rem;"></div>
         <div class="flag-section">
           <div class="mark-label">为{{employee_name}}设置等级标签</div>
           <br>

@@ -2,7 +2,7 @@
   <div class="self-grade-component">
     <section class="mark">
       <el-row align="middle" type="flex">
-        <el-col style="padding:20px;border-right: 1px solid #979797;">
+        <el-col style="padding:0.3rem;border-right: 1px solid #979797;">
           <div class="mark-label">请选择评分项目</div>
           <grade-items :items="questions" v-model="selectGradeItem"></grade-items>
           <br>
@@ -17,7 +17,7 @@
             v-model="questions[selectGradeItem].score"
           ></grade-slider>
         </el-col>
-        <el-col style="padding-left:50px;">
+        <el-col style="padding-left:0.75rem;">
           <div class="mark-score">{{questions[selectGradeItem].score}}分</div>
           <div class="mark-desc">{{contentForCurScore}}</div>
         </el-col>

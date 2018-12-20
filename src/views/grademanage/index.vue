@@ -12,7 +12,7 @@
         >{{constants.CREATE_GRADE}}</el-button>
       </el-row>
 
-      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px;">
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:0.3rem;">
         <el-table-column prop="name" :label="constants.GRADE_NAME">
           <template slot-scope="scope">
             {{scope.row.name}}
@@ -56,11 +56,11 @@
         :model="ruleForm"
         :rules="rules"
         ref="ruleForm"
-        label-width="100px"
+        label-width="1.5rem"
         class="create-form-dialog"
       >
         <el-form-item :label="constants.GRADE_NAME" prop="name">
-          <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
+          <el-input size="medium" :maxlength="20" style="width:6rem;" v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item :label="constants.BU" prop="dep">
           <el-checkbox-group v-model="ruleForm.dep">
@@ -75,7 +75,7 @@
         <el-form-item :label="constants.FINISHED_DATE" prop="time">
           <el-date-picker
             value-format="yyyy-MM-dd HH:mm"
-            style="width:400px;"
+            style="width:6rem;"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
             v-model="ruleForm.time"

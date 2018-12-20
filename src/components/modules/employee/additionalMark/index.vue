@@ -5,7 +5,7 @@
       &nbsp;
     </div>
     <br>
-    <el-row style="margin-left:110px" type="flex" justify="space-between">
+    <el-row style="margin-left:1.65rem" type="flex" justify="space-between">
       <div class="delight" style="flex: 1;">
         <span v-if="readOnly">{{desc}}</span>
         <el-input

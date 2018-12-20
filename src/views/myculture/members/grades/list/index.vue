@@ -48,7 +48,7 @@
                   width="30px"
                   v-if="scope.row.avatar"
                   height="30px"
-                  style="margin-right:15px"
+                  style="margin-right:0.225rem"
                   :src="`${scope.row.avatar}_30x30q100.jpg`"
                   alt
                 >

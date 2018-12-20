@@ -9,7 +9,7 @@
         :label="constants.CULTURE_SCOPE"
       >
         <el-input
-          style="width:400px"
+          style="width:6rem"
           :placeholder="constants.LABEL_SELECT_DIVISION"
           v-model="cultrueSelectedNames"
           icon="caret-bottom"
@@ -23,7 +23,7 @@
         :label="constants.PERFORMANCE_SCOPE"
       >
         <el-input
-          style="width:400px"
+          style="width:6rem"
           :placeholder="constants.LABEL_SELECT_DIVISION"
           v-model="performanceSelectedNames"
           icon="caret-bottom"

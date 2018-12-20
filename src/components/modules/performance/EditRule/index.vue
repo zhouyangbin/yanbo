@@ -15,7 +15,7 @@
           <div>
             <el-slider
               tooltip-class="tooltip"
-              style="width:400px"
+              style="width:6rem"
               :max="496"
               v-model="D"
               :format-tooltip="formatTooltip"
@@ -31,7 +31,7 @@
               range
               :min="1"
               :max="497"
-              style="width:400px"
+              style="width:6rem"
               v-model="C"
               :format-tooltip="formatTooltip"
             ></el-slider>
@@ -46,7 +46,7 @@
               range
               :min="2"
               :max="498"
-              style="width:400px"
+              style="width:6rem"
               v-model="B"
               :format-tooltip="formatTooltip"
             ></el-slider>
@@ -61,7 +61,7 @@
               range
               :min="3"
               :max="499"
-              style="width:400px"
+              style="width:6rem"
               v-model="A"
               :format-tooltip="formatTooltip"
             ></el-slider>
@@ -76,7 +76,7 @@
               :min="4"
               range
               :max="500"
-              style="width:400px"
+              style="width:6rem"
               v-model="S"
               :format-tooltip="formatTooltip"
             ></el-slider>

@@ -22,8 +22,18 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button @click="resetForm('searchForm')" style="margin-left:30px" type="primary" round>{{constants.RESET}}</el-button>
-            <el-button @click="exportFile" style="margin-left:30px" type="primary" round>{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button
+              @click="resetForm('searchForm')"
+              style="margin-left:0.45rem"
+              type="primary"
+              round
+            >{{constants.RESET}}</el-button>
+            <el-button
+              @click="exportFile"
+              style="margin-left:0.45rem"
+              type="primary"
+              round
+            >{{constants.EXPORT_DETAILS}}</el-button>
           </el-form-item>
         </el-form>
         <br>
@@ -31,19 +41,24 @@
         <br>
         <br>
         <el-table :data="tableData" stripe style="width: 100%">
-
           <el-table-column v-for="(v,i) of columns" :key="i" :prop="v.prop" :label="v.label"></el-table-column>
 
           <el-table-column prop="_271_level" label="271等级">
             <template slot-scope="scope">
-              <div :class="`${constants.LEVEL_ALIAS[scope.row._271_level]}-container`">
-                {{constants.LEVEL_ALIAS[scope.row._271_level]}}
-              </div>
+              <div
+                :class="`${constants.LEVEL_ALIAS[scope.row._271_level]}-container`"
+              >{{constants.LEVEL_ALIAS[scope.row._271_level]}}</div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
-              <el-button :disabled="!canOps" @click="goDetail(scope.row)" type="text" style="margin-right:15px;" size="small">{{constants.VIEW_DETAILS}}</el-button>
+              <el-button
+                :disabled="!canOps"
+                @click="goDetail(scope.row)"
+                type="text"
+                style="margin-right:0.225rem;"
+                size="small"
+              >{{constants.VIEW_DETAILS}}</el-button>
               <el-popover :ref="`level_pop${scope.row.id}`" placement="top">
                 <el-form :model="levelForm" :inline="true">
                   <el-form-item prop="levels">
@@ -53,9 +68,20 @@
                   </el-form-item>
                 </el-form>
                 <el-row v-show="levelForm.level" type="flex" justify="center">
-                  <el-button :disabled="!canOps" @click="updateLv(scope.row)" type="primary" round>{{constants.SUBMIT}}</el-button>
+                  <el-button
+                    :disabled="!canOps"
+                    @click="updateLv(scope.row)"
+                    type="primary"
+                    round
+                  >{{constants.SUBMIT}}</el-button>
                 </el-row>
-                <el-button :disabled="!canOps" @click="openLevelForm(scope.row)" slot="reference" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
+                <el-button
+                  :disabled="!canOps"
+                  @click="openLevelForm(scope.row)"
+                  slot="reference"
+                  type="text"
+                  size="small"
+                >{{constants.LABEL_MODIFY}}</el-button>
               </el-popover>
             </template>
           </el-table-column>
@@ -65,7 +91,6 @@
           <pagination @current-change="currentChange" :currentPage="currentPage" :total="total"></pagination>
         </el-row>
       </div>
-
     </section>
   </div>
 </template>
