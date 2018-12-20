@@ -2,27 +2,26 @@
   <div class="down-member-details-page">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container" style="padding:40px">
+    <section class="content-container" style="padding:0.6rem">
       <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
       <br>
       <el-row type="flex" justify="space-between">
         <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
-        <el-button v-if="has_history" @click="goHistory" style="align-self:flex-start" type="primary">{{constants.CHANGE_RECORDS}}</el-button>
+        <el-button
+          v-if="has_history"
+          @click="goHistory"
+          style="align-self:flex-start"
+          type="primary"
+        >{{constants.CHANGE_RECORDS}}</el-button>
       </el-row>
       <br>
       <div class="feeback-container" v-if="feedback_feeling">
         <div>
-          <span class="label">
-            {{constants.IMPRESSIONS}}:
-          </span>
-          <span class="content">
-            {{feedback_feeling.content}}
-          </span>
-          <span class="time">
-            {{feedback_feeling.time}}
-          </span>
+          <span class="label">{{constants.IMPRESSIONS}}:</span>
+          <span class="content">{{feedback_feeling.content}}</span>
+          <span class="time">{{feedback_feeling.time}}</span>
         </div>
       </div>
       <br>
@@ -43,43 +42,44 @@
       <el-row class="mark-section" align="middle" type="flex">
         <el-col style="border-right: 1px solid #979797;">
           <div class="mark-label">
-            {{constants.LEADER_SOCRE}}: <span class="score">{{total}}分</span>
+            {{constants.LEADER_SOCRE}}:
+            <span class="score">{{total}}分</span>
           </div>
           <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
           <br>
           <br>
-          <div class="mark-label">
-            等级标签
-          </div>
+          <div class="mark-label">等级标签</div>
           <level-selector :disabled="!levelEditable" v-model="level">
             <span v-if="!readOnly">
-              <el-button v-if="!levelEditable" @click="levelEditable=true" style="margin-left:20px" type="primary" round>{{constants.LABEL_MODIFY}}</el-button>
-              <el-button @click="levelChange" v-else style="margin-left:20px" type="primary" round>{{constants.CONFIRM}}</el-button>
+              <el-button
+                v-if="!levelEditable"
+                @click="levelEditable=true"
+                style="margin-left:0.3rem"
+                type="primary"
+                round
+              >{{constants.LABEL_MODIFY}}</el-button>
+              <el-button
+                @click="levelChange"
+                v-else
+                style="margin-left:0.3rem"
+                type="primary"
+                round
+              >{{constants.CONFIRM}}</el-button>
             </span>
           </level-selector>
           <br>
         </el-col>
         <br>
-        <el-col style="padding-left:50px;">
+        <el-col style="padding-left:0.75rem;">
           <div class="mark-reason">
-            <div>
-              上级评理由:
-            </div>
-            <div>
-              {{leaderReason}}
-            </div>
+            <div>上级评理由:</div>
+            <div>{{leaderReason}}</div>
           </div>
           <br>
-          <div>
-            员工自评分数: {{selfTotal}}分, {{curItemName}}: {{selfScore}}分
-          </div>
+          <div>员工自评分数: {{selfTotal}}分, {{curItemName}}: {{selfScore}}分</div>
           <div v-for="(n,i) in selfCases" :key="i" class="mark-reason">
-            <div>
-              {{i+3}}分理由:
-            </div>
-            <div>
-              {{n}}
-            </div>
+            <div>{{i+3}}分理由:</div>
+            <div>{{n}}</div>
           </div>
         </el-col>
       </el-row>
@@ -369,6 +369,8 @@ export default {
     font-size: 14px;
     color: #9b9b9b;
     line-height: 30px;
+    max-height: 150px !important;
+    overflow: auto;
   }
   .feeback-container {
     padding: 20px;

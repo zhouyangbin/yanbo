@@ -1,49 +1,42 @@
 
 <template>
   <div class="self-report-page">
-    <div class="grade-name">
-      {{gradeName}}
-    </div>
+    <div class="grade-name">{{gradeName}}</div>
     <br>
     <hr>
-    <br>
+    <!-- <br> -->
     <br>
     <br>
     <section class="plane-chart">
       <div class="total-section">
         <div>
-          您的总分 <span class="score">{{total}}分</span>
+          您的总分
+          <span class="score">{{total}}分</span>
         </div>
         <br>
         <div v-if="visible_271 && level">
-          {{constants.LEVEL_TAG}} <el-button class="selector selected">{{constants.LEVEL_ALIAS[level]}}</el-button>
+          {{constants.LEVEL_TAG}}
+          <el-button class="selector selected">{{constants.LEVEL_ALIAS[level]}}</el-button>
         </div>
       </div>
       <plane :planeScore="planeScore"></plane>
     </section>
     <br>
     <div>
-      <span class="sub-title">
-        {{constants.ADVANTAGE}}: &nbsp;
-      </span>
-      <span class="content">
-        {{advantage}}
-      </span>
+      <span class="sub-title">{{constants.ADVANTAGE}}: &nbsp;</span>
+      <span class="content">{{advantage}}</span>
     </div>
     <br>
     <div>
-      <span class="sub-title">
-        {{constants.PROMOTION}}: &nbsp;
-      </span>
-      <span class="content">
-        {{promotion}}
-      </span>
+      <span class="sub-title">{{constants.PROMOTION}}: &nbsp;</span>
+      <span class="content">{{promotion}}</span>
     </div>
     <br>
     <hr>
     <br>
     <div class="detail-header" @click="detailHide =!detailHide">
-      {{constants.GRADE_DETAIL}} <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+      {{constants.GRADE_DETAIL}}
+      <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
     </div>
     <br>
     <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
@@ -188,6 +181,8 @@ export default {
       height: 40px;
       z-index: 2;
       right: -5px;
+      background-position: center center;
+      background-size: contain;
       background-image: url("../../../../assets/img/level_flag.png");
     }
   }

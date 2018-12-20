@@ -1,27 +1,39 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="tplDialog">
-    <div slot="title" class="title">
-      {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
-    </div>
-    <el-form :rules="rules" label-width="100px" ref="tplForm" :model="tplForm" class="tplForm">
+  <el-dialog @close="close" width="9.75rem" :visible="visible" class="tplDialog">
+    <div slot="title" class="title">{{infoType ==='add' ? constants.ADD: constants.MODIFY}}</div>
+    <el-form :rules="rules" label-width="1.5rem" ref="tplForm" :model="tplForm" class="tplForm">
       <el-form-item label="名称" prop="name">
-        <el-input style="width:400px" v-model="tplForm.name"></el-input>
+        <el-input style="width:6rem" v-model="tplForm.name"></el-input>
       </el-form-item>
       <el-form-item label="事业部" prop="dp">
-        <!-- <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp "></el-cascader> -->
         <el-select v-model="tplForm.dp" placeholder="请选择事业部">
-          <el-option v-for="item in departmentsOps" :key="item.department_id" :label="item.name" :value="item.department_id">
-          </el-option>
+          <el-option
+            v-for="item in departmentsOps"
+            :key="item.department_id"
+            :label="item.name"
+            :value="item.department_id"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="绩效类型" prop="types">
         <el-select v-model="tplForm.types" placeholder="请选择绩效类型 ">
-          <el-option v-for="v of constants.ENUM_PERFORMANCE_TYPE" :key="v.key" :label="v.value" :value="v.key"></el-option>
+          <el-option
+            v-for="v of constants.ENUM_PERFORMANCE_TYPE"
+            :key="v.key"
+            :label="v.value"
+            :value="v.key"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="模板字段">
         <el-checkbox-group v-model="tplForm.property">
-          <el-checkbox v-for="v of constants.ENUM_PERFORMANCE_CONFIG_PROPERTY" :key="v.key" :value="v.value" :label="v.key" name="property">{{v.value}}</el-checkbox>
+          <el-checkbox
+            v-for="v of constants.ENUM_PERFORMANCE_CONFIG_PROPERTY"
+            :key="v.key"
+            :value="v.value"
+            :label="v.key"
+            name="property"
+          >{{v.value}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>

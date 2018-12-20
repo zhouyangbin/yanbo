@@ -1,15 +1,18 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="dialogInfo" class="dialogInfo">
-    <div slot="title" class="title">
-      {{infoType ==='add' ? constants.ADD: constants.MODIFY}}
-    </div>
+  <el-dialog @close="close" width=" 9.75rem" :visible="dialogInfo" class="dialogInfo">
+    <div slot="title" class="title">{{infoType ==='add' ? constants.ADD: constants.MODIFY}}</div>
     <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
       <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>
       <leader-info :infoForm="infoForm" :infoType="infoType"></leader-info>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="infoSubmit('infoForm')" type="primary">{{constants.CONFIRM}}</el-button>
+        <el-button
+          round
+          size="medium"
+          @click="infoSubmit('infoForm')"
+          type="primary"
+        >{{constants.CONFIRM}}</el-button>
         <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
       </el-row>
     </div>

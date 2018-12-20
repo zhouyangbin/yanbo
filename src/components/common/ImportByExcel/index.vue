@@ -1,8 +1,17 @@
 <template>
   <div>
-    <el-upload :on-success="uploadSuccess" :on-error="uploadErr" class="uploader" :headers="uploadHeader" :data="uploadData" drag :action="actionURL">
+    <el-upload
+      :on-success="uploadSuccess"
+      :on-error="uploadErr"
+      class="uploader"
+      :headers="uploadHeader"
+      :data="uploadData"
+      drag
+      :action="actionURL"
+    >
       <i class="el-icon-upload"></i>
-      <div class="el-upload__text">{{constants.DRAG_FILE}}
+      <div class="el-upload__text">
+        {{constants.DRAG_FILE}}
         <em>{{constants.CLICK_TO_UPLOAD}}</em>
       </div>
       <div class="el-upload__tip" slot="tip">
@@ -87,5 +96,6 @@ export default {
 }
 .uploader {
   margin-top: 10px;
+  text-align: center;
 }
 </style>

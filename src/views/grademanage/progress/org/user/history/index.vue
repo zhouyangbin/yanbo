@@ -2,69 +2,38 @@
   <div class="culture-hr-details-history-page">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section
-      class="content-container"
-      style="padding:40px"
-    >
+    <section class="content-container" style="padding:0.6rem">
       <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
       <br>
-      <history-cards
-        :selectedIndex.sync="selectedIndex"
-        :data="list"
-      ></history-cards>
+      <history-cards :selectedIndex.sync="selectedIndex" :data="list"></history-cards>
       <br>
       <div>
         <h3>{{constants.CHANGE_REASON}}:</h3>
-        <case-area
-          :readOnly="readOnly"
-          v-model="list[selectedIndex].change_reason"
-        ></case-area>
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].change_reason"></case-area>
       </div>
       <br>
       <div>
         <h3>{{constants.ADVANTAGE}}:</h3>
-        <case-area
-          :readOnly="readOnly"
-          v-model="list[selectedIndex].advantage"
-        ></case-area>
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].advantage"></case-area>
       </div>
       <br>
       <div>
         <h3>{{constants.PROMOTION}}:</h3>
-        <case-area
-          :readOnly="readOnly"
-          v-model="list[selectedIndex].promotion"
-        ></case-area>
+        <case-area :readOnly="readOnly" v-model="list[selectedIndex].promotion"></case-area>
       </div>
       <br>
       <section class="mark">
-        <el-row
-          align="middle"
-          type="flex"
-        >
-          <el-col style="padding:20px;border-right: 1px solid #979797;">
-            <div class="mark-label">
-              自评分数
-            </div>
-            <grade-items
-              :items="gradeItems"
-              v-model="selectGradeItem"
-            ></grade-items>
+        <el-row align="middle" type="flex">
+          <el-col style="padding:0.3rem;border-right: 1px solid #979797;">
+            <div class="mark-label">自评分数</div>
+            <grade-items :items="gradeItems" v-model="selectGradeItem"></grade-items>
           </el-col>
-          <el-col style="padding-left:50px;">
-            <div
-              v-for="(n,i) in reasons"
-              :key="i"
-              class="mark-reason"
-            >
-              <div>
-                {{i+3}}分理由:
-              </div>
-              <div>
-                {{n}}
-              </div>
+          <el-col style="padding-left:0.75rem;">
+            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
+              <div>{{i+3}}分理由:</div>
+              <div>{{n}}</div>
             </div>
           </el-col>
         </el-row>
@@ -72,50 +41,38 @@
       <br>
       <div class="mark-flag-container">
         <div class="mark-section">
-          <div class="mark-label">
-            为{{basicInfo.name}}的{{gradeItems[selectGradeItem].question_name}}项目评分
-          </div>
+          <div
+            class="mark-label"
+          >为{{basicInfo.name}}的{{gradeItems[selectGradeItem].question_name}}项目评分</div>
           <br>
           <grade-slider
             :readOnly="readOnly"
             v-model="list[selectedIndex].scores[selectGradeItem].superior_score"
           ></grade-slider>
         </div>
-        <div style="width:20px;"></div>
+        <div style="width:0.3rem;"></div>
         <div class="flag-section">
-          <div class="mark-label">
-            为{{basicInfo.name}}设置等级标签
-          </div>
+          <div class="mark-label">为{{basicInfo.name}}设置等级标签</div>
           <br>
-          <level-selector
-            :disabled="readOnly"
-            v-model="currentLv"
-          ></level-selector>
+          <level-selector :disabled="readOnly" v-model="currentLv"></level-selector>
         </div>
       </div>
       <br>
-      <div v-if="list[selectedIndex].scores[selectGradeItem].self_score!=list[selectedIndex].scores[selectGradeItem].superior_score">
+      <div
+        v-if="list[selectedIndex].scores[selectGradeItem].self_score!=list[selectedIndex].scores[selectGradeItem].superior_score"
+      >
         <case-area
           :readOnly="readOnly"
           v-model="list[selectedIndex].scores[selectGradeItem].superior_case"
         ></case-area>
         <br>
       </div>
-      <br><br>
-      <div
-        v-if="hasChanges"
-        class="detail-header"
-        @click="detailHide =!detailHide"
-      >
-        修改日志 <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
-        <li
-          class="change-item"
-          v-if="!detailHide"
-          v-for="(v,i) of changes"
-          :key="i"
-        >
-          {{v}}
-        </li>
+      <br>
+      <br>
+      <div v-if="hasChanges" class="detail-header" @click="detailHide =!detailHide">
+        修改日志
+        <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        <li class="change-item" v-if="!detailHide" v-for="(v,i) of changes" :key="i">{{v}}</li>
       </div>
     </section>
   </div>
@@ -259,6 +216,8 @@ export default {
     font-size: 14px;
     color: #9b9b9b;
     line-height: 30px;
+    max-height: 150px !important;
+    overflow: auto;
   }
   & .mark-flag-container {
     display: flex;

@@ -1,8 +1,6 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="ruleDialog">
-    <div slot="title" class="title">
-      {{data.department}}
-    </div>
+  <el-dialog @close="close" width=" 9.75rem" :visible="visible" class="ruleDialog">
+    <div slot="title" class="title">{{data.department}}</div>
     <el-form :rules="rules" label-width="150px" ref="ruleForm" :model="ruleForm" class="ruleForm">
       <el-form-item label="是否强制对应" prop="isMapping">
         <el-radio-group v-model="ruleForm.isMapping">
@@ -15,35 +13,73 @@
           <span>D</span>
           <span>对应</span>
           <div>
-            <el-slider tooltip-class="tooltip" style="width:400px" :max="496" v-model="D" :format-tooltip="formatTooltip"></el-slider>
+            <el-slider
+              tooltip-class="tooltip"
+              style="width:6rem"
+              :max="496"
+              v-model="D"
+              :format-tooltip="formatTooltip"
+            ></el-slider>
           </div>
         </div>
         <div class="mapping-container">
           <span>C</span>
           <span>对应</span>
           <div>
-            <el-slider tooltip-class="tooltip" range :min="1" :max="497" style="width:400px" v-model="C" :format-tooltip="formatTooltip"></el-slider>
+            <el-slider
+              tooltip-class="tooltip"
+              range
+              :min="1"
+              :max="497"
+              style="width:6rem"
+              v-model="C"
+              :format-tooltip="formatTooltip"
+            ></el-slider>
           </div>
         </div>
         <div class="mapping-container">
           <span>B</span>
           <span>对应</span>
           <div>
-            <el-slider tooltip-class="tooltip" range :min="2" :max="498" style="width:400px" v-model="B" :format-tooltip="formatTooltip"></el-slider>
+            <el-slider
+              tooltip-class="tooltip"
+              range
+              :min="2"
+              :max="498"
+              style="width:6rem"
+              v-model="B"
+              :format-tooltip="formatTooltip"
+            ></el-slider>
           </div>
         </div>
         <div class="mapping-container">
           <span>A</span>
           <span>对应</span>
           <div>
-            <el-slider tooltip-class="tooltip" range :min="3" :max="499" style="width:400px" v-model="A" :format-tooltip="formatTooltip"></el-slider>
+            <el-slider
+              tooltip-class="tooltip"
+              range
+              :min="3"
+              :max="499"
+              style="width:6rem"
+              v-model="A"
+              :format-tooltip="formatTooltip"
+            ></el-slider>
           </div>
         </div>
         <div class="mapping-container">
           <span>S</span>
           <span>对应</span>
           <div>
-            <el-slider tooltip-class="tooltip" :min="4" range :max="500" style="width:400px" v-model="S" :format-tooltip="formatTooltip"></el-slider>
+            <el-slider
+              tooltip-class="tooltip"
+              :min="4"
+              range
+              :max="500"
+              style="width:6rem"
+              v-model="S"
+              :format-tooltip="formatTooltip"
+            ></el-slider>
           </div>
         </div>
       </div>

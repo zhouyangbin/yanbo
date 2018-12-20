@@ -2,21 +2,21 @@
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <br>
+    <!-- <br> -->
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="name" :label="constants.GRADE_NAME">
-        </el-table-column>
-        <el-table-column prop="department" :label="constants.LABEL_DEPARTMENT">
-        </el-table-column>
-        <el-table-column prop="type" :label="constants.DURATION_TYPE">
-        </el-table-column>
-        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
-        </el-table-column>
+        <el-table-column prop="name" :label="constants.GRADE_NAME"></el-table-column>
+        <el-table-column prop="department" :label="constants.LABEL_DEPARTMENT"></el-table-column>
+        <el-table-column prop="type" :label="constants.DURATION_TYPE"></el-table-column>
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE"></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button @click="exportDetail(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button
+              @click="exportDetail(scope.row)"
+              type="text"
+              size="small"
+            >{{constants.EXPORT_DETAILS}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -26,7 +26,6 @@
       </el-row>
     </section>
   </div>
-
 </template>
 
 

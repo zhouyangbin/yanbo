@@ -264,6 +264,15 @@ export const getBindInfo = (uid: string) =>
 export const postTargetReview = (params: object) =>
   sendPost("/performance/api/target-review", params);
 
+// 发布接口
+
+export const postPublish = (params: object) =>
+  sendPost(`/performance/admin/publish`, params);
+
+// 获取发布时的提示信息
+export const getPublishMsg = (params: object) =>
+  sendPost(`/performance/admin/publish-verify`, params);
+
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  我的文化评分
 export const getMyCultureList = (params: Object) =>

@@ -4,15 +4,11 @@
     <br>
     <section class="content-container">
       <!-- <rule-text :text="constants.MY_DOWN_MEMBER_RULE"></rule-text>
-      <br> -->
+      <br>-->
       <section class="content-container bg-white">
         <header class="member-grade-info">
-          <div class="name">
-            &nbsp;&nbsp;&nbsp; {{evaluation_name}}
-          </div>
-          <div class="finish_time">
-            {{constants.FINISHED_DATE}}: {{end_time}}
-          </div>
+          <div class="name">&nbsp;&nbsp;&nbsp; {{evaluation_name}}</div>
+          <div class="finish_time">{{constants.FINISHED_DATE}}: {{end_time}}</div>
         </header>
         <br>
         <hr>
@@ -26,8 +22,16 @@
               <el-input placeholder="请输入上级姓名" v-model="memberForm.superior_name"></el-input>
             </el-form-item>
             <el-form-item prop="highlevel_status">
-              <el-select v-model="memberForm.highlevel_status" :placeholder="constants.HIGHLV_STATUS">
-                <el-option v-for="v of constants.BREF_HIGH_LEVEL_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
+              <el-select
+                v-model="memberForm.highlevel_status"
+                :placeholder="constants.HIGHLV_STATUS"
+              >
+                <el-option
+                  v-for="v of constants.BREF_HIGH_LEVEL_STATUS"
+                  :label="v.value"
+                  :key="v.key"
+                  :value="v.key"
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -41,10 +45,22 @@
               <el-row type="flex" justify="center">
                 <el-button @click="batchReject" type="primary" round>{{constants.SUBMIT}}</el-button>
               </el-row>
-              <el-button style="margin-right:20px" slot="reference" type="primary" :disabled="!hasSelectedItem || notAllowedBatch" round>{{constants.BATCH_REJECT}}</el-button>
+              <el-button
+                style="margin-right:0.3rem"
+                slot="reference"
+                type="primary"
+                :disabled="!hasSelectedItem || notAllowedBatch"
+                round
+              >{{constants.BATCH_REJECT}}</el-button>
             </el-popover>
 
-            <el-button style="margin-right:20px" @click="batchPass" :disabled="!hasSelectedItem || notAllowedBatch" type="primary" round>{{constants.BATCH_PASS}}</el-button>
+            <el-button
+              style="margin-right:0.3rem"
+              @click="batchPass"
+              :disabled="!hasSelectedItem || notAllowedBatch"
+              type="primary"
+              round
+            >{{constants.BATCH_PASS}}</el-button>
           </div>
           <distribute-summary :data="summary"></distribute-summary>
         </div>
@@ -56,7 +72,12 @@
           <el-table-column prop="name" :label="constants.LABEL_NAME">
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
-                <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                <img
+                  class="avatar-style"
+                  v-if="scope.row.avatar"
+                  :src="`${scope.row.avatar}_30x30q100.jpg`"
+                  alt
+                >
                 <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
                 {{scope.row.name}}
               </el-row>
@@ -66,16 +87,19 @@
           <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
           <el-table-column prop="superior_score" :label="constants.LEADER_SOCRE"></el-table-column>
           <el-table-column prop="_271_level" label="271等级">
-            <template slot-scope="scope">
-              {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
-            </template>
+            <template
+              slot-scope="scope"
+            >{{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}</template>
           </el-table-column>
-          <el-table-column prop="highlevel_status_name" :label="constants.HIGHLV_STATUS">
-          </el-table-column>
+          <el-table-column prop="highlevel_status_name" :label="constants.HIGHLV_STATUS"></el-table-column>
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS"></el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS">
             <template slot-scope="scope">
-              <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.VIEW_DETAILS}}</el-button>
+              <el-button
+                @click="goDetail(scope.row)"
+                type="text"
+                size="small"
+              >{{constants.VIEW_DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -333,7 +357,13 @@ export default {
 .list-filter-form >>> .el-form-item {
   margin-bottom: 0;
 }
-
+.avatar-style {
+  margin-right: 0.225rem;
+  max-height: 30px;
+  max-width: 30px;
+  height: 30px;
+  width: 30px;
+}
 hr.dash {
   border-style: dashed;
   border-color: grey;

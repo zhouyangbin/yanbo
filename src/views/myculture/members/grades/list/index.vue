@@ -7,12 +7,8 @@
       <br>
       <section class="content-container bg-white">
         <header class="member-grade-info">
-          <div class="name">
-            &nbsp;&nbsp;&nbsp; {{evaluation_name}}
-          </div>
-          <div class="finish_time">
-            {{constants.FINISHED_DATE}}: {{end_time}}
-          </div>
+          <div class="name">&nbsp;&nbsp;&nbsp; {{evaluation_name}}</div>
+          <div class="finish_time">{{constants.FINISHED_DATE}}: {{end_time}}</div>
         </header>
         <br>
         <hr>
@@ -23,8 +19,16 @@
               <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
             </el-form-item>
             <el-form-item prop="superior_status">
-              <el-select v-model="memberForm.superior_status" :placeholder="constants.LEADER_EVALUATION_STATUS">
-                <el-option v-for="v of constants.BREF_LEADER_STATUS" :label="v.value" :key="v.key" :value="v.key"></el-option>
+              <el-select
+                v-model="memberForm.superior_status"
+                :placeholder="constants.LEADER_EVALUATION_STATUS"
+              >
+                <el-option
+                  v-for="v of constants.BREF_LEADER_STATUS"
+                  :label="v.value"
+                  :key="v.key"
+                  :value="v.key"
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -40,7 +44,12 @@
           <el-table-column prop="name" :label="constants.NAME">
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
-                <img width="30px" v-if="scope.row.avatar" height="30px" style="margin-right:15px" :src="`${scope.row.avatar}_30x30q100.jpg`" alt="">
+                <img
+                  v-if="scope.row.avatar"
+                  class="avatar-style"
+                  :src="`${scope.row.avatar}_30x30q100.jpg`"
+                  alt
+                >
                 <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
                 {{scope.row.name}}
               </el-row>
@@ -49,31 +58,29 @@
           <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
           <el-table-column prop="superior_score" :label="constants.LEADER_SOCRE"></el-table-column>
           <el-table-column prop="self" label="271等级">
-            <template slot-scope="scope">
-              {{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}
-            </template>
+            <template
+              slot-scope="scope"
+            >{{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}</template>
           </el-table-column>
           <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
             <template slot-scope="scope">
               <div class="reject_status" v-if="scope.row.reject_status ==1">
-                <div>
-                  {{constants.REJECT}}
-                </div>
+                <div>{{constants.REJECT}}</div>
               </div>
               <div class="complain_status" v-if="scope.row.reject_status ==2">
-                <div>
-                  {{constants.APPEAL}}
-                </div>
+                <div>{{constants.APPEAL}}</div>
               </div>
-              <div v-if="scope.row.reject_status ==0">
-                {{ scope.row.stage_name}}
-              </div>
+              <div v-if="scope.row.reject_status ==0">{{ scope.row.stage_name}}</div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
             <template slot-scope="scope">
-              <el-button type="text" @click="goDetail(scope.row)" size="small">{{constants.VIEW_DETAILS}}</el-button>
+              <el-button
+                type="text"
+                @click="goDetail(scope.row)"
+                size="small"
+              >{{constants.VIEW_DETAILS}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -83,7 +90,6 @@
         </el-row>
       </section>
     </section>
-
   </div>
 </template>
 <script>
@@ -254,7 +260,15 @@ export default {
 .list-filter-form >>> .el-form-item {
   margin-bottom: 0;
 }
+.avatar-style {
+  margin-right: 0.225rem;
+  max-height: 30px;
+  max-width: 30px;
+  height: 30px;
+  width: 30px;
+}
 .members-distribute-number {
+  /* font-size: 16px; */
   display: flex;
   align-items: center;
   flex: 1;
@@ -292,23 +306,6 @@ hr.dash {
   font-size: 12px;
   text-align: center;
 }
-/* .reject_status {
-                border-radius: 20px;
-                border: solid 2px #e94a2d;
-                color: #e94a2d;
-                text-align: center;
-                width: 60px;
-                z-index: 2;
-                position: absolute;
-                top: 50%;
-
-                -webkit-transform: translateY(-50%) rotateZ(-12deg);
-                -moz-transform: translateY(-50%) rotateZ(-12deg);
-                -ms-transform: translateY(-50%) rotateZ(-12deg);
-                -o-transform: translateY(-50%) rotateZ(-12deg);
-                transform: translateY(-50%) rotateZ(-12deg);
-                left: 0;
-              } */
 .reject_status div {
   border-radius: 20px;
   border: solid 2px #e94a2d;

@@ -21,14 +21,14 @@
         :desc.sync="targets[i].desc"
         :config="cardConfig"
         class="card"
-        v-for="(v,i) of targets"
+        v-for="(v,i) of cardData"
         v-model="targets[i].mark"
         :data="v"
         :index="i"
         :key="i"
       ></card>
       <br>
-      <div v-if="showComments&&superior_score&&superior_score.evaluation">
+      <div v-if="showComments&&superior_score&&superior_score.evaluation && published">
         <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
         <br>
       </div>
@@ -41,7 +41,7 @@
         ></addition-mark>
         <br>
       </div>
-      <div v-if="leaderAdditionMark.evaluation">
+      <div v-if="leaderAdditionMark.evaluation && published">
         <addition-mark
           :readOnly="true"
           :prefixTitle="constants.LABEL_SUP"
@@ -50,24 +50,25 @@
         ></addition-mark>
         <br>
       </div>
-      <div v-if="showTotal">
+      <div v-if="showTotal && published">
         <total-mark :total="total"></total-mark>
         <br>
       </div>
       <div>
-        <level v-if="level" :readOnly="true" v-model="level"></level>
+        <level v-if="level && published" :readOnly="true" v-model="level"></level>
+
         <br>
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
         <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
         <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
       </el-row>
-      <el-row v-if="canReject" type="flex" justify="center">
+      <el-row v-if="canReject && published" type="flex" justify="center">
         <div>到期将默认确认结果, 如有问题可
           <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
         </div>
       </el-row>
-      <el-row v-if="cancelReject" type="flex" justify="center">
+      <el-row v-if="cancelReject && published" type="flex" justify="center">
         <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
       </el-row>
       <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
@@ -114,6 +115,7 @@ export default {
       superior_score: {},
       need_attach_score: "",
       visible: false,
+      published: false,
       level: "",
       targets: [],
       cardConfig: {
@@ -148,7 +150,10 @@ export default {
   },
   computed: {
     showMyAdditional() {
-      return this.need_attach_score == 1;
+      return (
+        this.need_attach_score == 1 &&
+        ((this.readOnly && this.myAdditionMark.evaluation) || !this.readOnly)
+      );
     },
     total() {
       return this.superior_score && this.superior_score.score != null
@@ -159,9 +164,19 @@ export default {
               .reduce((pre, next) => pre + next, 0) +
               (parseFloat(this.myAdditionMark.score) || 0)
           ).toFixed(2);
+    },
+    cardData() {
+      return this.published ? this.targets : this.hideLeaderInfo(this.targets);
     }
   },
   methods: {
+    hideLeaderInfo(cards) {
+      return cards.map(v => {
+        let m = { ...v };
+        delete m.target_superior_score;
+        return m;
+      });
+    },
     saveDraft() {
       const postData = this.getPostData();
 
@@ -217,12 +232,15 @@ export default {
             superior_score,
             superior_name,
             score_level,
-            score
+            score,
+            publish_status
           } = res;
           this.basicInfo = {
             superior_workcode,
             superior_name
           };
+          const published = publish_status == 1;
+          this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
@@ -233,6 +251,10 @@ export default {
           this.composeData(targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;
+          }
+          if (published) {
+            this.readOnly = true;
+            this.canEdit = false;
           }
         })
         .catch(e => {});

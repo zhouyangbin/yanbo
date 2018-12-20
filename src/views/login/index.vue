@@ -9,7 +9,7 @@
       <!-- login form -->
       <el-col :span="12" class="col-bg">
         <el-row type="flex" justify="center" align="middle" class="row-bg">
-          <el-col style="width:310px">
+          <el-col style="width:4.65rem">
             <el-container class="login-form">
               <div id="qr_scan"></div>
             </el-container>
@@ -62,7 +62,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "076533" })
+        fzLogin({ workcode: "17600297195" })
           // 076533
           // 17600297195
           // 074036

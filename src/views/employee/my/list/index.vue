@@ -1,20 +1,15 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <!-- <br> -->
     <br>
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="name" :label="constants.GRADE_NAME">
-        </el-table-column>
-        <el-table-column prop="type" :label="constants.DURATION_TYPE">
-        </el-table-column>
-        <el-table-column prop="end_time" :label="constants.FINISHED_DATE">
-        </el-table-column>
-        <el-table-column prop="target_status" :label="constants.TARGET_STATUS">
-        </el-table-column>
-        <el-table-column prop="stage" :label="constants.GRADE_STATUS">
-        </el-table-column>
+        <el-table-column prop="name" :label="constants.GRADE_NAME"></el-table-column>
+        <el-table-column prop="type" :label="constants.DURATION_TYPE"></el-table-column>
+        <el-table-column prop="end_time" :label="constants.FINISHED_DATE"></el-table-column>
+        <el-table-column prop="target_status" :label="constants.TARGET_STATUS"></el-table-column>
+        <el-table-column prop="stage" :label="constants.GRADE_STATUS"></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>

@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="echartPie"
-    class="echart-pie-performance"
-    id="echart-pie-performance"
-  ></div>
+  <div ref="echartPie" class="echart-pie-performance" id="echart-pie-performance"></div>
 </template>
 <script>
 // ECharts 主模块
@@ -41,7 +37,7 @@ export default {
             // name: "评价等级",
             type: "pie",
             radius: "55%",
-            center: ["50%", "40%"],
+            center: ["50%", "50%"],
             clockwise: false,
             // roseType: true,
             data: this.data,

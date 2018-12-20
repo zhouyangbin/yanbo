@@ -1,8 +1,6 @@
 
 <template>
-  <div v-html="text" class="rules-text">
-
-  </div>
+  <div v-html="text" class="rules-text"></div>
 </template>
 <script>
 export default {
@@ -14,10 +12,10 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .rules-text {
-  font-size: 14px;
   color: #9b9b9b;
-  line-height: 30px;
+  font-size: 14px;
+  line-height: 22px;
 }
 </style>

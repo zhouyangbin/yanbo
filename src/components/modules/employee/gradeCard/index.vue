@@ -177,10 +177,10 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .grade-card-container {
-  background-color: white;
   padding: 20px 20px 20px 0;
+  background-color: white;
 }
 .grade-card-container .info {
   color: grey;
@@ -189,10 +189,10 @@ export default {
   display: flex;
 }
 .grade-card-container .marks {
-  margin-right: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-right: 10px;
 }
 .grade-card-container .marks .numbers {
   margin-right: 100px;
@@ -203,27 +203,28 @@ export default {
   margin-left: 100px;
 }
 .grade-card-container .label {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 180px;
+  min-width: 120px;
+  height: 26px;
+  padding: 0 10px;
   margin-right: 20px;
   color: #778294;
-  width: 150px;
-  min-width: 150px;
-  height: 26px;
-  box-sizing: border-box;
+  font-size: 16px;
   line-height: 26px;
-  padding: 0 10px;
-  flex-shrink: 0;
 }
 .greyText {
   color: #778294;
 }
 .grade-card-container .label.title {
-  background-color: #52ddab;
   color: white;
+  background-color: #52ddab;
   border-radius: 0 13px 13px 0;
 }
 .hightlight-mark {
-  font-size: 1.3em;
   color: #52ddab;
+  font-size: 1.3em;
 }
 .target-name {
   align-self: center;
@@ -234,14 +235,19 @@ export default {
 .delight {
   font-size: 14px;
   line-height: 30px;
+
+  .label {
+    // prettier-ignore
+    min-width: 120PX;
+  }
 }
 .hilight {
-  font-size: 20px;
-  line-height: 36px;
-  font-weight: 600;
-  margin-right: 100px;
   flex-shrink: 0;
+  margin-right: 100px;
   margin-left: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 36px;
 }
 .grade-card-container .hilight .colorful,
 .grade-card-container .colorful .label {

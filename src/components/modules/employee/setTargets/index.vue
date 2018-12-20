@@ -22,7 +22,12 @@
           >{{constants.UPLOAD_TARGET}}</el-button>
         </div>
         <div v-if="readOnly && can_edit_target">
-          <el-button @click="readOnly=false" icon="el-icon-edit-outline" type="text">重新设定目标</el-button>
+          <el-button
+            @click="readOnly=false"
+            style="font-size:18px"
+            icon="el-icon-edit-outline"
+            type="text"
+          >重新设定目标</el-button>
         </div>
       </div>
       <div v-if="hasRejectedReasons">
@@ -33,7 +38,7 @@
           v-for="(v,i) of target_reject"
           :key="i"
         >
-          <div class="reason">{{v.reason}}</div>
+          <div class="reason">驳回理由: {{v.reason}}</div>
           <div>{{v.created_at}}</div>
         </el-row>
       </div>
