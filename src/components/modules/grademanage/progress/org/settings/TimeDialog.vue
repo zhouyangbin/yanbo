@@ -1,7 +1,7 @@
 <template>
   <el-dialog @close="close" width="11.5rem" :visible="dialogTimes" class="dialogTimes">
     <el-form
-      label-width="120px"
+      label-width="1.8rem"
       :rules="timesRules"
       ref="timesForm"
       :model="timesForm"
