@@ -1,7 +1,7 @@
 <template>
   <el-dialog @close="close" width="9.75rem" :visible="visible" class="tplDialog">
     <div slot="title" class="title">{{infoType ==='add' ? constants.ADD: constants.MODIFY}}</div>
-    <el-form :rules="rules" label-width="11.5rem" ref="tplForm" :model="tplForm" class="tplForm">
+    <el-form :rules="rules" label-width="1.5rem" ref="tplForm" :model="tplForm" class="tplForm">
       <el-form-item label="名称" prop="name">
         <el-input style="width:6rem" v-model="tplForm.name"></el-input>
       </el-form-item>
