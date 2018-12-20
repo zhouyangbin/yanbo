@@ -78,7 +78,7 @@
       <el-button
         v-if="!readOnly"
         @click="$emit('delete',index)"
-        style="margin-left:10px"
+        style="margin-left:0.15rem"
         type="primary"
       >删除</el-button>
     </div>

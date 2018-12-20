@@ -8,10 +8,13 @@
             <el-input v-model="tplForm.name" :placeholder="constants.TPL_NAME"></el-input>
           </el-form-item>
           <el-form-item>
-            <!-- <el-cascader :props="treeProps" placeholder="选择事业部" :options="options" style="width:400px;" v-model="tplForm.dp" change-on-select></el-cascader> -->
             <el-select v-model="tplForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
-              <el-option v-for="item in options" :key="item.department_id" :label="item.name" :value="item.department_id">
-              </el-option>
+              <el-option
+                v-for="item in options"
+                :key="item.department_id"
+                :label="item.name"
+                :value="item.department_id"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -21,16 +24,14 @@
         <el-button type="primary" @click="addTpl" round>{{constants.LABEL_ADD}}</el-button>
       </el-row>
       <br>
-      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="name" :label="constants.TPL_NAME">
-        </el-table-column>
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:0.3rem">
+        <el-table-column prop="name" :label="constants.TPL_NAME"></el-table-column>
         <el-table-column prop="department" :label="constants.APPLIED_DEPARTMENTS">
           <!-- <template slot-scope="scope">
             {{scope.row.department.join(", ")}}
-          </template> -->
+          </template>-->
         </el-table-column>
-        <el-table-column prop="type" :label="constants.PERFORMANCE_TYPE">
-        </el-table-column>
+        <el-table-column prop="type" :label="constants.PERFORMANCE_TYPE"></el-table-column>
         <el-table-column :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button type="text" @click="updateTpl(scope.row)" size="small">{{constants.MODIFY}}</el-button>
@@ -41,7 +42,14 @@
       <br>
       <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
     </section>
-    <tpl-dialog v-if="showDialog" :initData="initData" :departmentsOps="options" @close="tplDialogClose" :visible="showDialog" :infoType="infoType"></tpl-dialog>
+    <tpl-dialog
+      v-if="showDialog"
+      :initData="initData"
+      :departmentsOps="options"
+      @close="tplDialogClose"
+      :visible="showDialog"
+      :infoType="infoType"
+    ></tpl-dialog>
   </div>
 </template>
 <script>

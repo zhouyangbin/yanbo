@@ -1,12 +1,11 @@
 <template>
-  <el-dialog @close="close" width=" 9.75rem" :visible="visible" class="tplDialog">
+  <el-dialog @close="close" width="9.75rem" :visible="visible" class="tplDialog">
     <div slot="title" class="title">{{infoType ==='add' ? constants.ADD: constants.MODIFY}}</div>
-    <el-form :rules="rules" label-width="100px" ref="tplForm" :model="tplForm" class="tplForm">
+    <el-form :rules="rules" label-width="11.5rem" ref="tplForm" :model="tplForm" class="tplForm">
       <el-form-item label="名称" prop="name">
-        <el-input style="width:400px" v-model="tplForm.name"></el-input>
+        <el-input style="width:6rem" v-model="tplForm.name"></el-input>
       </el-form-item>
       <el-form-item label="事业部" prop="dp">
-        <!-- <el-cascader style="width:400px" :props="treeProps" placeholder="选择事业部" :options="departmentTree" v-model="tplForm.dp "></el-cascader> -->
         <el-select v-model="tplForm.dp" placeholder="请选择事业部">
           <el-option
             v-for="item in departmentsOps"

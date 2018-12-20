@@ -1,17 +1,41 @@
 <template>
-  <el-dialog @close="close" width="770px" :visible="dialogTimes" class="dialogTimes">
-    <el-form label-width="120px" :rules="timesRules" ref="timesForm" :model="timesForm" class="timesForm">
+  <el-dialog @close="close" width="11.5rem" :visible="dialogTimes" class="dialogTimes">
+    <el-form
+      label-width="120px"
+      :rules="timesRules"
+      ref="timesForm"
+      :model="timesForm"
+      class="timesForm"
+    >
       <el-form-item :label="constants.SELF_EVALUATION_TIME" required>
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="self_start">
-              <el-date-picker :disabled="self_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.self_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker
+                :disabled="self_start_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.self_start"
+                placeholder="开始日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2"> - </el-col>
+          <el-col :span="2">-</el-col>
           <el-col :span="8">
             <el-form-item prop="self_end">
-              <el-date-picker :disabled="self_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.self_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker
+                :disabled="self_end_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.self_end"
+                placeholder="结束日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -20,31 +44,72 @@
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="leader_start">
-              <el-date-picker :disabled="leader_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.leader_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker
+                :disabled="leader_start_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.leader_start"
+                placeholder="开始日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2"> - </el-col>
+          <el-col :span="2">-</el-col>
           <el-col :span="8">
             <el-form-item prop="leader_end">
-              <el-date-picker :disabled="leader_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.leader_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker
+                :disabled="leader_end_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.leader_end"
+                placeholder="结束日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item label="" prop="levelRequired">
-        <el-checkbox :disabled="!isManagerGrade ||leader_start_disable" :true-label="1" :false-label="0" v-model="timesForm.levelRequired">{{constants.REQUIRE_271}}</el-checkbox>
+      <el-form-item label prop="levelRequired">
+        <el-checkbox
+          :disabled="!isManagerGrade ||leader_start_disable"
+          :true-label="1"
+          :false-label="0"
+          v-model="timesForm.levelRequired"
+        >{{constants.REQUIRE_271}}</el-checkbox>
       </el-form-item>
       <el-form-item :label="constants.LEADER_PLUS_EVALUATION_TIME" required>
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="upLeader_start">
-              <el-date-picker :disabled="upLeader_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.upLeader_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker
+                :disabled="upLeader_start_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.upLeader_start"
+                placeholder="开始日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2"> - </el-col>
+          <el-col :span="2">-</el-col>
           <el-col :span="8">
             <el-form-item prop="upLeader_end">
-              <el-date-picker :disabled="upLeader_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.upLeader_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker
+                :disabled="upLeader_end_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.upLeader_end"
+                placeholder="结束日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,18 +118,36 @@
         <el-row type="flex">
           <el-col :span="8">
             <el-form-item prop="face_start">
-              <el-date-picker :disabled="face_start_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.face_start" placeholder="开始日期"></el-date-picker>
+              <el-date-picker
+                :disabled="face_start_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.face_start"
+                placeholder="开始日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2"> - </el-col>
+          <el-col :span="2">-</el-col>
           <el-col :span="8">
             <el-form-item prop="face_end">
-              <el-date-picker :disabled="face_end_disable" type="datetime" :clearable="false" popper-class="date-picker-container" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" v-model="timesForm.face_end" placeholder="结束日期"></el-date-picker>
+              <el-date-picker
+                :disabled="face_end_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.face_end"
+                placeholder="结束日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item label="" prop="visible_271">
+      <el-form-item label prop="visible_271">
         <el-checkbox :true-label="1" :false-label="0" v-model="timesForm.visible_271">271等级员工本人可见</el-checkbox>
       </el-form-item>
     </el-form>

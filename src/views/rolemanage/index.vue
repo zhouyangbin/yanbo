@@ -3,13 +3,10 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <br>
-      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="name" :label="constants.ROLE">
-        </el-table-column>
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:0.3rem">
+        <el-table-column prop="name" :label="constants.ROLE"></el-table-column>
         <el-table-column prop="permissions" :label="constants.ACCESS">
-          <template slot-scope="scope">
-            {{scope.row.permissions.join(", ")}}
-          </template>
+          <template slot-scope="scope">{{scope.row.permissions.join(", ")}}</template>
         </el-table-column>
       </el-table>
       <br>
