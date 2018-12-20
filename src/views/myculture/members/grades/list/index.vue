@@ -45,10 +45,8 @@
             <template slot-scope="scope">
               <el-row type="flex" align="middle">
                 <img
-                  width="30px"
                   v-if="scope.row.avatar"
-                  height="30px"
-                  style="margin-right:0.225rem"
+                  class="avatar-style"
                   :src="`${scope.row.avatar}_30x30q100.jpg`"
                   alt
                 >
@@ -262,6 +260,13 @@ export default {
 .list-filter-form >>> .el-form-item {
   margin-bottom: 0;
 }
+.avatar-style {
+  margin-right: 0.225rem;
+  max-height: 30px;
+  max-width: 30px;
+  height: 30px;
+  width: 30px;
+}
 .members-distribute-number {
   /* font-size: 16px; */
   display: flex;
@@ -301,23 +306,6 @@ hr.dash {
   font-size: 12px;
   text-align: center;
 }
-/* .reject_status {
-                border-radius: 20px;
-                border: solid 2px #e94a2d;
-                color: #e94a2d;
-                text-align: center;
-                width: 60px;
-                z-index: 2;
-                position: absolute;
-                top: 50%;
-
-                -webkit-transform: translateY(-50%) rotateZ(-12deg);
-                -moz-transform: translateY(-50%) rotateZ(-12deg);
-                -ms-transform: translateY(-50%) rotateZ(-12deg);
-                -o-transform: translateY(-50%) rotateZ(-12deg);
-                transform: translateY(-50%) rotateZ(-12deg);
-                left: 0;
-              } */
 .reject_status div {
   border-radius: 20px;
   border: solid 2px #e94a2d;
