@@ -4,7 +4,7 @@
       <el-input
         type="textarea"
         :maxlength="2000"
-        :rows="2"
+        :rows="6"
         :placeholder="`请输入${constants.IMPRESSIONS}`"
         v-model="textarea"
       ></el-input>
