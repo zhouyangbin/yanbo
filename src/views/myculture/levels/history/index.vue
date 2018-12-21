@@ -80,17 +80,9 @@
   </div>
 </template>
 <script>
-import {
-  PATH_GRADE_MANAGE,
-  PATH_GRADE_PROGRESS,
-  PATH_GRADE_ORG_LIST,
-  PATH_GRADE_EMP_DETAIL
-} from "@/constants/URL";
+import { PATH_CULTURE_LEVEL_DETAIL, PATH_CULTURE_LEVEL } from "@/constants/URL";
 
 import {
-  GRADE_PROGRESS,
-  GRADE_MANAGE,
-  ORG_DETAIL,
   GRADE_DETAIL,
   LEVEL_ALIAS,
   ADVANTAGE,
@@ -98,7 +90,7 @@ import {
   CHANGE_REASON,
   CHANGE_RECORDS
 } from "@/constants/TEXT";
-import { getHistoryModifyList } from "@/constants/API";
+import { getManagerDetailRecord } from "@/constants/API";
 
 export default {
   data() {
@@ -110,27 +102,12 @@ export default {
       // level: "",
       nav: [
         {
-          label: GRADE_MANAGE,
-          href: PATH_GRADE_MANAGE
-        },
-        {
-          label: GRADE_PROGRESS,
-          href: PATH_GRADE_PROGRESS(this.$route.params.id)
-        },
-        {
-          label: ORG_DETAIL,
-          href: PATH_GRADE_ORG_LIST(
-            this.$route.params.id,
-            this.$route.params.orgID
-          )
+          label: "事业部271",
+          href: PATH_CULTURE_LEVEL
         },
         {
           label: GRADE_DETAIL,
-          href: PATH_GRADE_EMP_DETAIL(
-            this.$route.params.id,
-            this.$route.params.orgID,
-            this.$route.params.uid
-          )
+          href: PATH_CULTURE_LEVEL_DETAIL(this.$route.params.uid)
         },
         {
           label: CHANGE_RECORDS,
@@ -166,7 +143,7 @@ export default {
   },
   methods: {
     getHistory() {
-      getHistoryModifyList(this.$route.params.uid).then(res => {
+      getManagerDetailRecord(this.$route.params.uid).then(res => {
         const { records, info } = res;
         this.changes = info.changes || [];
         this.list = records;

@@ -167,6 +167,12 @@ export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
 // 事业部271
 
 export const PATH_CULTURE_LEVEL = `/culture/manager/levels`;
+
+// 事业部271总经理看的详情
+export const PATH_CULTURE_LEVEL_DETAIL = (uid = ":uid") =>
+  `/culture/manager/levels/${uid}`;
+export const PATH_CULTURE_LEVEL_DETAIL_HISTORY = (uid = ":uid") =>
+  `/culture/manager/levels/${uid}/history`;
 // 个人中断状态
 export const PATH_CULTURE_SELF_INTERRUPTED = `/culture/my/msg`;
 

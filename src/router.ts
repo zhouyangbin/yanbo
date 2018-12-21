@@ -33,7 +33,9 @@ import {
   PATH_GRADE_EMP_DETAIL_HISTORY,
   PATH_CULTURE_LEVEL,
   PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
-  PATH_MEMBER_CULTURE_DETAILS_HISTORY
+  PATH_MEMBER_CULTURE_DETAILS_HISTORY,
+  PATH_CULTURE_LEVEL_DETAIL,
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -276,6 +278,20 @@ const router = new Router({
           path: PATH_CULTURE_LEVEL,
           components: {
             default: () => import("@/views/myculture/levels/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_CULTURE_LEVEL_DETAIL(),
+          components: {
+            default: () => import("@/views/myculture/levels/details/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_CULTURE_LEVEL_DETAIL_HISTORY(),
+          components: {
+            default: () => import("@/views/myculture/levels/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

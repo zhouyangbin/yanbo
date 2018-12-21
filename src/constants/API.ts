@@ -339,6 +339,14 @@ export const setLvFromHighLv = (params: Object) =>
 export const getManagerLvList = (params: Object) =>
   sendGet(`/culture/web/rank-manage`, params);
 // 事业部271修改lv
+
+//事业部271看到的详情
+export const getManagerDetail = (uid: String) =>
+  sendGet(`/culture/web/rank-manage/${uid}`);
+
+// 事业部271看到的详情历史
+export const getManagerDetailRecord = (uid: String) =>
+  sendGet(`culture/web/rank-manage/${uid}/evaluation-record`);
 export const changeManagerLv = (id: String, params: Object) =>
   sendPost(`/culture/web/rank-manage/${id}`, params);
 //hr重新打分接口（被驳回或申诉时）

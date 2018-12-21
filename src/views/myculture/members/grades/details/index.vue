@@ -15,7 +15,7 @@
           v-if="has_history"
           @click="goHistory"
           type="primary"
-        >修改日志</el-button>
+        >{{constants.CHANGE_RECORDS}}</el-button>
       </el-row>
       <br>
       <div class="feeback-container" v-if="feedback_feeling">
@@ -108,7 +108,8 @@ import {
   ADVANTAGE,
   PROMOTION,
   BREAK_STATUS,
-  IMPRESSIONS
+  IMPRESSIONS,
+  CHANGE_RECORDS
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
@@ -157,7 +158,8 @@ export default {
         SUBMIT,
         ADVANTAGE,
         PROMOTION,
-        IMPRESSIONS
+        IMPRESSIONS,
+        CHANGE_RECORDS
       },
       feedback_feeling: null,
       has_history: false

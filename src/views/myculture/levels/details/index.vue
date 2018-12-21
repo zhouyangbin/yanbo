@@ -33,12 +33,12 @@
               type="primary"
             >{{constants.CHANGE_RECORDS}}</el-button>
           </div>
-          <div v-if="isEditable">
+          <!-- <div v-if="isEditable">
             <el-button style="margin-bottom:0.45rem" @click="goModify" type="primary">修改评分</el-button>
-          </div>
-          <div v-if="isRejectOrComplian">
+          </div>-->
+          <!-- <div v-if="isRejectOrComplian">
             <el-button @click="goComplain" type="primary">申诉处理</el-button>
-          </div>
+          </div>-->
         </div>
       </el-row>
       <br>
@@ -88,17 +88,11 @@
 </template>
 <script>
 import {
-  PATH_GRADE_MANAGE,
-  PATH_GRADE_PROGRESS,
-  PATH_GRADE_ORG_LIST,
-  PATH_GRADE_EMP_DETAIL_CHANGE,
-  PATH_GRADE_EMP_DETAIL_HISTORY
+  PATH_CULTURE_LEVEL,
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY
 } from "@/constants/URL";
 
 import {
-  GRADE_PROGRESS,
-  GRADE_MANAGE,
-  ORG_DETAIL,
   GRADE_DETAIL,
   LEVEL_ALIAS,
   LEVEL_TAG,
@@ -110,7 +104,7 @@ import {
   TOTAL_SCORES,
   CHANGE_RECORDS
 } from "@/constants/TEXT";
-import { getUserGradeContent } from "@/constants/API";
+import { getManagerDetail } from "@/constants/API";
 
 export default {
   data() {
@@ -129,19 +123,8 @@ export default {
       scores: [],
       nav: [
         {
-          label: GRADE_MANAGE,
-          href: PATH_GRADE_MANAGE
-        },
-        {
-          label: GRADE_PROGRESS,
-          href: PATH_GRADE_PROGRESS(this.$route.params.id)
-        },
-        {
-          label: ORG_DETAIL,
-          href: PATH_GRADE_ORG_LIST(
-            this.$route.params.id,
-            this.$route.params.orgID
-          )
+          label: "事业部271",
+          href: PATH_CULTURE_LEVEL
         },
         {
           label: GRADE_DETAIL,
@@ -181,38 +164,13 @@ export default {
       import("@/components/modules/myculture/selfunconfirm/caseitem/index.vue")
   },
   methods: {
-    goModify() {
-      this.$router.push(
-        PATH_GRADE_EMP_DETAIL_CHANGE(
-          this.$route.params.id,
-          this.$route.params.orgID,
-          this.$route.params.uid
-        )
-      );
-    },
-    goComplain() {
-      this.$router.push({
-        path: PATH_GRADE_EMP_DETAIL_CHANGE(
-          this.$route.params.id,
-          this.$route.params.orgID,
-          this.$route.params.uid
-        ),
-        query: {
-          complain: 1
-        }
-      });
-    },
     goHistory() {
       this.$router.push(
-        PATH_GRADE_EMP_DETAIL_HISTORY(
-          this.$route.params.id,
-          this.$route.params.orgID,
-          this.$route.params.uid
-        )
+        PATH_CULTURE_LEVEL_DETAIL_HISTORY(this.$route.params.uid)
       );
     },
     getInfo() {
-      getUserGradeContent(this.$route.params.uid).then(res => {
+      getManagerDetail(this.$route.params.uid).then(res => {
         const {
           advantage,
           promotion,
@@ -266,12 +224,12 @@ export default {
     this.getInfo();
   },
   computed: {
-    isRejectOrComplian() {
-      return this.status == 70;
-    },
-    isEditable() {
-      return this.isManager && this.status >= 20 && this.status < 100;
-    },
+    // isRejectOrComplian() {
+    //   return this.status == 70;
+    // },
+    // isEditable() {
+    //   return this.isManager && this.status >= 20 && this.status < 100;
+    // },
     showAppealAndRefuse() {
       return (
         this.appeal_record.length > 0 ||
@@ -319,7 +277,7 @@ export default {
       z-index: 2;
       width: 48px;
       height: 40px;
-      background-image: url("../../../../../assets/img/level_flag.png");
+      background-image: url("../../../../assets/img/level_flag.png");
       background-position: center center;
       background-size: contain;
     }

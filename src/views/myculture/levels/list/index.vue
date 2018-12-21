@@ -111,7 +111,10 @@ import {
   RESET
 } from "@/constants/TEXT";
 import { getManagerLvList, changeManagerLv } from "@/constants/API";
-import { PATH_CULTURE_LV_EXPORT, PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import {
+  PATH_CULTURE_LV_EXPORT,
+  PATH_CULTURE_LEVEL_DETAIL
+} from "@/constants/URL";
 import { formatTime } from "@/utils/timeFormat";
 
 export default {
@@ -235,9 +238,7 @@ export default {
       );
     },
     goDetail(row) {
-      this.$router.push(
-        PATH_GRADE_EMP_DETAIL(this.evaluation_name_id, this.id, row.id)
-      );
+      this.$router.push(PATH_CULTURE_LEVEL_DETAIL(row.id));
     },
     postOverview(data) {
       if (data) {
@@ -272,17 +273,17 @@ export default {
 <style lang="scss" scoped>
 .my-manager-levels {
   .levels-header {
-    background-color: white;
     padding: 20px 10px 10px 10px;
+    background-color: white;
   }
   .search-form {
-    background-color: #f8f8f8;
     padding: 20px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
+    background-color: #f8f8f8;
   }
   .tips {
-    font-size: 10px;
     color: #afafaf;
+    font-size: 10px;
   }
   .Bottom-container {
     color: #e94a2d;
