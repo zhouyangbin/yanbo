@@ -8,7 +8,7 @@
         :placeholder="`请输入${constants.IMPRESSIONS}`"
         v-model="textarea"
       ></el-input>
-      <!-- <br> -->
+      <br>
       <br>
       <el-row type="flex" justify="center">
         <el-button type="primary" @click="submit" round>{{constants.CONFIRM}}</el-button>
