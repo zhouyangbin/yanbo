@@ -27,7 +27,11 @@
         </div>
         <div>
           <div v-if="has_history">
-            <el-button @click="goHistory" style="margin-bottom:0.45rem" type="primary">修改日志</el-button>
+            <el-button
+              @click="goHistory"
+              style="margin-bottom:0.45rem"
+              type="primary"
+            >{{constants.CHANGE_RECORDS}}</el-button>
           </div>
           <div v-if="isEditable">
             <el-button style="margin-bottom:0.45rem" @click="goModify" type="primary">修改评分</el-button>
@@ -103,7 +107,8 @@ import {
   IMPRESSIONS,
   APPEAL_REASON,
   REJECT_REASON,
-  TOTAL_SCORES
+  TOTAL_SCORES,
+  CHANGE_RECORDS
 } from "@/constants/TEXT";
 import { getUserGradeContent } from "@/constants/API";
 
@@ -162,7 +167,8 @@ export default {
         GRADE_DETAIL,
         APPEAL_REASON,
         REJECT_REASON,
-        TOTAL_SCORES
+        TOTAL_SCORES,
+        CHANGE_RECORDS
       }
     };
   },
@@ -279,18 +285,18 @@ export default {
 <style lang="scss" scoped>
 .culture-hr-details-page {
   .grade-name {
-    font-size: 36px;
     color: #4a4a4a;
+    font-size: 36px;
     font-weight: bold;
   }
   .label {
-    font-size: 24px;
     color: #4bc8aa;
+    font-size: 24px;
     font-weight: bold;
   }
   .total-score {
-    font-size: 64px;
     color: #f18d23;
+    font-size: 64px;
     line-height: 48px;
   }
   .selector {
@@ -307,31 +313,31 @@ export default {
       border: 1px solid #f18d23;
     }
     &.selected::after {
-      position: absolute;
       content: "";
+      position: absolute;
+      right: -5px;
+      z-index: 2;
       width: 48px;
       height: 40px;
-      z-index: 2;
-      right: -5px;
+      background-image: url("../../../../../assets/img/level_flag.png");
       background-position: center center;
       background-size: contain;
-      background-image: url("../../../../../assets/img/level_flag.png");
     }
   }
   .sub-title {
-    font-size: 24px;
     color: #4bc8aa;
-    line-height: 30px;
+    font-size: 24px;
     font-weight: bold;
+    line-height: 30px;
   }
   .content {
-    font-size: 14px;
     color: #4a4a4a;
+    font-size: 14px;
     line-height: 30px;
   }
   .detail-header {
-    font-size: 36px;
     color: #4bc8aa;
+    font-size: 36px;
     text-align: center;
   }
   & /deep/ .GradeItem-page .el-button {
@@ -344,13 +350,13 @@ export default {
       position: relative;
     }
     & .label {
-      font-size: 24px;
       color: #f18d23;
+      font-size: 24px;
       line-height: 30px;
     }
     & .content {
+      color: #000;
       font-size: 14px;
-      color: #000000;
     }
     & .time {
       position: absolute;

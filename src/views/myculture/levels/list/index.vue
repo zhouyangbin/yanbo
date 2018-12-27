@@ -111,7 +111,10 @@ import {
   RESET
 } from "@/constants/TEXT";
 import { getManagerLvList, changeManagerLv } from "@/constants/API";
-import { PATH_CULTURE_LV_EXPORT, PATH_GRADE_EMP_DETAIL } from "@/constants/URL";
+import {
+  PATH_CULTURE_LV_EXPORT,
+  PATH_CULTURE_LEVEL_DETAIL
+} from "@/constants/URL";
 import { formatTime } from "@/utils/timeFormat";
 
 export default {
@@ -138,6 +141,7 @@ export default {
           active: true
         }
       ],
+      end_time: "",
       constants: {
         END_TIME,
         LEVELMAP,
@@ -202,8 +206,15 @@ export default {
     fetchList(data) {
       getManagerLvList(data).then(res => {
         const { info, list, overview } = res;
-        const { evaluation_name_id, id, name, feedback_start_time } = info;
+        const {
+          evaluation_name_id,
+          id,
+          name,
+          feedback_start_time,
+          end_time
+        } = info;
         this.tableData = list.data;
+        this.end_time = end_time;
         this.evaluation_name_id = evaluation_name_id;
         this.startedDate = feedback_start_time;
         this.gradeName = name;
@@ -235,9 +246,7 @@ export default {
       );
     },
     goDetail(row) {
-      this.$router.push(
-        PATH_GRADE_EMP_DETAIL(this.evaluation_name_id, this.id, row.id)
-      );
+      this.$router.push(PATH_CULTURE_LEVEL_DETAIL(row.id));
     },
     postOverview(data) {
       if (data) {
@@ -264,7 +273,7 @@ export default {
   },
   computed: {
     canOps() {
-      return this.startedDate > formatTime(new Date());
+      return this.end_time > formatTime(new Date());
     }
   }
 };
@@ -272,17 +281,17 @@ export default {
 <style lang="scss" scoped>
 .my-manager-levels {
   .levels-header {
-    background-color: white;
     padding: 20px 10px 10px 10px;
+    background-color: white;
   }
   .search-form {
-    background-color: #f8f8f8;
     padding: 20px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
+    background-color: #f8f8f8;
   }
   .tips {
-    font-size: 10px;
     color: #afafaf;
+    font-size: 10px;
   }
   .Bottom-container {
     color: #e94a2d;

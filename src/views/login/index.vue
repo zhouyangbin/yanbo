@@ -9,7 +9,7 @@
       <!-- login form -->
       <el-col :span="12" class="col-bg">
         <el-row type="flex" justify="center" align="middle" class="row-bg">
-          <el-col style="width:4.65rem">
+          <el-col style="width:310px">
             <el-container class="login-form">
               <div id="qr_scan"></div>
             </el-container>

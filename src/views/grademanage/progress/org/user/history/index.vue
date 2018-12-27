@@ -70,8 +70,10 @@
       <br>
       <br>
       <div v-if="hasChanges" class="detail-header" @click="detailHide =!detailHide">
-        修改日志
-        <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+        {{constants.CHANGE_RECORDS}}
+        <i
+          :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"
+        ></i>
         <li class="change-item" v-if="!detailHide" v-for="(v,i) of changes" :key="i">{{v}}</li>
       </div>
     </section>
@@ -93,7 +95,8 @@ import {
   LEVEL_ALIAS,
   ADVANTAGE,
   PROMOTION,
-  CHANGE_REASON
+  CHANGE_REASON,
+  CHANGE_RECORDS
 } from "@/constants/TEXT";
 import { getHistoryModifyList } from "@/constants/API";
 
@@ -130,7 +133,7 @@ export default {
           )
         },
         {
-          label: "修改日志",
+          label: CHANGE_RECORDS,
           active: true
         }
       ],
@@ -143,7 +146,8 @@ export default {
         LEVEL_ALIAS,
         ADVANTAGE,
         PROMOTION,
-        CHANGE_REASON
+        CHANGE_REASON,
+        CHANGE_RECORDS
       },
       changes: [],
       detailHide: true
@@ -207,34 +211,34 @@ export default {
     background: white;
   }
   & .mark-label {
-    font-size: 24px;
-    color: #4a4a4a;
     margin-bottom: 15px;
+    color: #4a4a4a;
+    font-size: 24px;
   }
 
   & .mark-reason {
-    font-size: 14px;
-    color: #9b9b9b;
-    line-height: 30px;
-    max-height: 150px !important;
     overflow: auto;
+    max-height: 150px !important;
+    color: #9b9b9b;
+    font-size: 14px;
+    line-height: 30px;
   }
   & .mark-flag-container {
     display: flex;
     & .mark-section {
       flex: 15;
-      background: white;
       padding: 20px;
+      background: white;
     }
     & .flag-section {
       flex: 8;
-      background: white;
       padding: 20px;
+      background: white;
     }
   }
   .detail-header {
-    font-size: 36px;
     color: #4bc8aa;
+    font-size: 36px;
     text-align: center;
     .change-item {
       color: #4a4a4a;
