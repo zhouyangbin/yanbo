@@ -1,3 +1,24 @@
+<a name="0.2.0"></a>
+# [0.2.0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.9...v0.2.0) (2018-12-27)
+
+
+### Bug Fixes
+
+* **271:** 271可操作条件, 结束前都可以 ([3bfaa54](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/3bfaa54))
+* **271:** 271可操作条件, 结束前都可以 ([fb9b7ec](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/fb9b7ec))
+* **login:** qr style issue ([06eaace](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/06eaace))
+* **心得体会:** 间距 ([af50cdf](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/af50cdf))
+* **心得体会:** 间距 ([b79f4a9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/b79f4a9))
+
+
+### Features
+
+* **271:** 详情页面, 历史页面复制... ([c364ee6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/c364ee6))
+* **merge:** 文化3.4 ([76df8ab](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/76df8ab))
+* **文化:** 心得体会框6行默认 ([4f11067](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/4f11067))
+
+
+
 <a name="0.1.9"></a>
 ## [0.1.9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.8...v0.1.9) (2018-12-20)
 
