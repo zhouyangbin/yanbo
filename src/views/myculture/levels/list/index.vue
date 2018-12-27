@@ -141,6 +141,7 @@ export default {
           active: true
         }
       ],
+      end_time: "",
       constants: {
         END_TIME,
         LEVELMAP,
@@ -205,8 +206,15 @@ export default {
     fetchList(data) {
       getManagerLvList(data).then(res => {
         const { info, list, overview } = res;
-        const { evaluation_name_id, id, name, feedback_start_time } = info;
+        const {
+          evaluation_name_id,
+          id,
+          name,
+          feedback_start_time,
+          end_time
+        } = info;
         this.tableData = list.data;
+        this.end_time = end_time;
         this.evaluation_name_id = evaluation_name_id;
         this.startedDate = feedback_start_time;
         this.gradeName = name;
@@ -265,7 +273,7 @@ export default {
   },
   computed: {
     canOps() {
-      return this.startedDate > formatTime(new Date());
+      return this.end_time > formatTime(new Date());
     }
   }
 };
