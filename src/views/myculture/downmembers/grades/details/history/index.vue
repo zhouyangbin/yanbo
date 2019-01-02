@@ -14,7 +14,7 @@ import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
-import history from "@/views/grademanage/progress/org/user/history/index.vue";
+import history from "@/views/myculture/levels/history/index.vue";
 
 export default {
   data() {
