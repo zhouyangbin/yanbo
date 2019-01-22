@@ -53,6 +53,9 @@ export const getDepartments = () => {
   return sendGet(`/permission/departments`);
 };
 
+// 获取事业部列表
+export const getBUList = () => sendGet(`/admin/api/department/business_units`);
+
 // 评分报告
 // 文化评分列表
 export const getGradeNames = () => {
