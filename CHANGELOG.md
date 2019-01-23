@@ -1,3 +1,20 @@
+<a name="0.2.1"></a>
+## [0.2.1](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.0...v0.2.1) (2019-01-23)
+
+
+### Bug Fixes
+
+* **hotfix:** 下级,隔级详情接口和总经理公用页面 ([2337dc7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/2337dc7))
+* **详情:** 下级详情,隔级详情和 总经理看到的history公用 ([f7ccdb0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/f7ccdb0))
+
+
+### Features
+
+* **271:** 添加文案, 部门筛选, 修改文案 ([eeab9ad](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/eeab9ad))
+* **271:** 添加文案, 部门筛选, 修改文案 ([6cbfeeb](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/6cbfeeb))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.1.9...v0.2.0) (2018-12-27)
 
