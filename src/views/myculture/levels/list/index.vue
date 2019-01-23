@@ -21,6 +21,22 @@
               <el-option v-for="(k,v) of constants.LEVELMAP" :key="k" :label="v" :value="k"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item prop="department_ids">
+            <el-select
+              v-model="searchForm.department_ids"
+              multiple
+              collapse-tags
+              style="margin-left: 20px;"
+              placeholder="请选择部门"
+            >
+              <el-option
+                v-for="item in getBUListArr"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button
               @click="resetForm('searchForm')"
@@ -60,6 +76,7 @@
                 size="small"
               >{{constants.VIEW_DETAILS}}</el-button>
               <el-popover :ref="`level_pop${scope.row.id}`" placement="top">
+                <span class="my-manager-levels-tips">修改标签仅通知上级和隔级，不通知本人</span>
                 <el-form :model="levelForm" :inline="true">
                   <el-form-item prop="levels">
                     <el-select v-model="levelForm.level" placeholder="271等级">
@@ -81,7 +98,7 @@
                   slot="reference"
                   type="text"
                   size="small"
-                >{{constants.LABEL_MODIFY}}</el-button>
+                >修改标签</el-button>
               </el-popover>
             </template>
           </el-table-column>
@@ -110,7 +127,7 @@ import {
   LABEL_MODIFY,
   RESET
 } from "@/constants/TEXT";
-import { getManagerLvList, changeManagerLv } from "@/constants/API";
+import { getManagerLvList, changeManagerLv, getBUList } from "@/constants/API";
 import {
   PATH_CULTURE_LV_EXPORT,
   PATH_CULTURE_LEVEL_DETAIL
@@ -128,7 +145,8 @@ export default {
       searchForm: {
         name: "",
         superior_name: "",
-        _271_level: ""
+        _271_level: "",
+        department_ids: []
       },
       levelForm: {
         level: ""
@@ -141,6 +159,7 @@ export default {
           active: true
         }
       ],
+      getBUListArr: [],
       end_time: "",
       constants: {
         END_TIME,
@@ -275,6 +294,17 @@ export default {
     canOps() {
       return this.end_time > formatTime(new Date());
     }
+  },
+  mounted() {
+    getBUList()
+      .then(res => {
+        const data = res || [];
+        this.getBUListArr = data.map(({ department_id, name }) => ({
+          value: department_id,
+          label: name
+        }));
+      })
+      .catch(e => {});
   }
 };
 </script>
@@ -302,5 +332,12 @@ export default {
   .Top-container {
     color: #7ed321;
   }
+}
+</style>
+<style>
+.my-manager-levels-tips {
+  color: #afafaf;
+  font-size: 12px;
+  line-height: 26px;
 }
 </style>

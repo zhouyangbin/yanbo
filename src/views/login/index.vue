@@ -194,6 +194,12 @@ export default {
         this.$router.push({ path: dst });
       }
     }
+  },
+  beforeDestroy() {
+    const ele = document.querySelector("#qr_scan");
+    if (ele) {
+      ele.style.display = "none";
+    }
   }
 };
 </script>
