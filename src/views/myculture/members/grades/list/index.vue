@@ -180,7 +180,7 @@ export default {
   },
   watch: {
     memberForm: {
-      handler: function(v) {
+      handler: function (v) {
         this.currentPage = 1;
         this.getData({ page: 1, ...v });
       },
