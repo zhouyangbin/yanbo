@@ -279,6 +279,7 @@ export default {
         .catch(e => {});
     },
     currentChange(v) {
+      this.currentPage = v;
       this.refreshData({ page: v, ...this.memberForm });
     },
     refreshData(data) {
