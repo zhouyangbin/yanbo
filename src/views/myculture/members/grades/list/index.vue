@@ -214,6 +214,8 @@ export default {
       this.overview = { ...obj };
     },
     currentChange(v) {
+      console.log(v);
+      this.currentPage = v;
       this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
