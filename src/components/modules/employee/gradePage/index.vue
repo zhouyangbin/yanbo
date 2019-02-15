@@ -50,7 +50,7 @@
         ></addition-mark>
         <br>
       </div>
-      <div v-if="showTotal && published">
+      <div v-if="showTotal && canEdit">
         <total-mark :total="total"></total-mark>
         <br>
       </div>
