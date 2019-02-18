@@ -1,3 +1,22 @@
+<a name="0.2.2"></a>
+## [0.2.2](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.1...v0.2.2) (2019-02-18)
+
+
+### Bug Fixes
+
+* **271:** 翻页, 回page1 ([45d3a7f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/45d3a7f))
+* **paging:** 清除filter 回到第一页 ([10116e3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/10116e3))
+* **paging:** 清除filter 回到第一页 ([8c0bac9](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/8c0bac9))
+* **rem:** rem后太小了 ([da24793](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/da24793))
+* **业绩:** 自评时显示总分 ([e71e874](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/e71e874))
+* **业绩:** 自评时显示总分 ([54050f4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/54050f4))
+* **分布图:** 换行显示 ([2c1575e](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/2c1575e))
+* **分布图:** 换行显示 ([fc45f32](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/fc45f32))
+* **目标:** 模板下载 url ([d36de8f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/d36de8f))
+* **目标:** 模板下载 url ([cbfcd74](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/cbfcd74))
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.0...v0.2.1) (2019-01-23)
 
