@@ -62,8 +62,9 @@
               round
             >{{constants.BATCH_PASS}}</el-button>
           </div>
-          <distribute-summary :data="summary"></distribute-summary>
         </div>
+        <br>
+        <distribute-summary :data="summary"></distribute-summary>
         <br>
         <hr class="dash">
         <br>
@@ -278,6 +279,7 @@ export default {
         .catch(e => {});
     },
     currentChange(v) {
+      this.currentPage = v;
       this.refreshData({ page: v, ...this.memberForm });
     },
     refreshData(data) {

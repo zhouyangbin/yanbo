@@ -216,7 +216,7 @@ export default {
   },
   methods: {
     resetForm(formName) {
-      // console.log(this.$refs)
+      // this.currentPage = 1
       this.$refs[formName].resetFields();
     },
     openLevelForm(row) {
@@ -238,10 +238,12 @@ export default {
         this.startedDate = feedback_start_time;
         this.gradeName = name;
         this.id = id;
+        this.total = list.total;
         this.postOverview(overview);
       });
     },
     currentChange(v) {
+      this.currentPage = v;
       this.fetchList({ page: v, ...this.searchForm });
     },
     updateLv(row) {
@@ -252,7 +254,7 @@ export default {
             message: "等级修改成功!",
             type: "success"
           });
-
+          this.currentPage = 1;
           this.fetchList({ page: 1, ...this.searchForm });
         }
       );

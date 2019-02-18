@@ -35,8 +35,9 @@
               <el-button @click="resetForm('ruleForm')">{{constants.RESET}}</el-button>
             </el-form-item>
           </el-form>
-          <distribute-summary :data="overview"></distribute-summary>
         </div>
+        <br>
+        <distribute-summary :data="overview"></distribute-summary>
         <br>
         <hr class="dash">
         <br>
@@ -213,6 +214,7 @@ export default {
       this.overview = { ...obj };
     },
     currentChange(v) {
+      this.currentPage = v;
       this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
