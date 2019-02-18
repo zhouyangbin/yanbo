@@ -91,7 +91,7 @@ export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (
   id: String,
   params: object = {}
 ) =>
-  `${base}performance/admin/${id}/target/template?${qs.stringify({
+  `${base}performance/api/${id}/target/template?${qs.stringify({
     token: localStorage.getItem("talToken"),
     ...params
   })}`;
