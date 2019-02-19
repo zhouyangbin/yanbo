@@ -79,19 +79,20 @@ export default {
           })
           .catch(e => {});
       }
+    } else {
+      tinfo.init({
+        appid: process.env.VUE_APP_APP_ID,
+        appname: "评分系统"
+      });
+      tinfo.sso.show("embed", "qr_scan", {
+        style: {
+          ".login-bottom-pc": "display:none",
+          ".ding-login-title":
+            "margin-top:0px;margin-bottom:0px;background:#f5f6f7;"
+        },
+        title: "钉钉登录评分系统"
+      });
     }
-    tinfo.init({
-      appid: process.env.VUE_APP_APP_ID,
-      appname: "评分系统"
-    });
-    tinfo.sso.show("embed", "qr_scan", {
-      style: {
-        ".login-bottom-pc": "display:none",
-        ".ding-login-title":
-          "margin-top:0px;margin-bottom:0px;background:#f5f6f7;"
-      },
-      title: "钉钉登录评分系统"
-    });
   },
   methods: {
     getPerformancePath(querys) {
