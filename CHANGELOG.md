@@ -1,3 +1,13 @@
+<a name="0.2.3"></a>
+## [0.2.3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.2...v0.2.3) (2019-02-19)
+
+
+### Bug Fixes
+
+* **login:** not set qr code ([17e9e9f](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/17e9e9f))
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.1...v0.2.2) (2019-02-18)
 
