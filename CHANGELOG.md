@@ -1,3 +1,18 @@
+<a name="0.2.4"></a>
+## [0.2.4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.3...v0.2.4) (2019-02-25)
+
+
+### Bug Fixes
+
+* **多行:** 驳回理由 ([21c963a](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/21c963a))
+* **多行:** 驳回理由 ([1f85a49](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/1f85a49))
+* **多行显示:** 任务描述 ([bd00986](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/bd00986))
+* **多行显示:** 任务描述 ([193d4c1](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/193d4c1))
+* **多行显示:** 折行字段增加 ([62a1d0d](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/62a1d0d))
+* **多行显示:** 折行字段增加 ([891a8ca](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/891a8ca))
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.2...v0.2.3) (2019-02-19)
 
