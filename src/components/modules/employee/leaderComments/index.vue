@@ -3,7 +3,7 @@
     <div class="leaderComments">
       <div class="inner-container">
         <span class="label title">上级评价:</span>
-        <span v-if="readOnly">{{comments}}</span>
+        <span v-html="(comments).replace(/\n/g, '<br/>')" v-if="readOnly"></span>
         <el-input
           v-else
           :maxlength="1000"
@@ -12,8 +12,7 @@
           :rows="2"
           placeholder="请输入内容"
           v-model="innerDesc"
-        >
-        </el-input>
+        ></el-input>
       </div>
       <br>
     </div>

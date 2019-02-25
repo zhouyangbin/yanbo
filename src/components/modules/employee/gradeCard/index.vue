@@ -14,7 +14,7 @@
             <div v-if="data.description">
               <section>
                 <span class="label">具体工作/任务描述:</span> &nbsp;
-                <span>{{data.description}}</span>
+                <span v-html="data.description.replace(/\n/g, '<br/>')"></span>
               </section>
               <!-- <br> -->
             </div>
@@ -27,7 +27,9 @@
             <div v-if="data.target_self_score && data.target_self_score.description!=null">
               <section>
                 <span class="label">自评分理由:</span> &nbsp;
-                <span>{{data.target_self_score && data.target_self_score.description}}</span>
+                <span
+                  v-html="(data.target_self_score && data.target_self_score.description).replace(/\n/g, '<br/>')"
+                ></span>
               </section>
             </div>
             <div
@@ -35,7 +37,9 @@
             >
               <section>
                 <span class="label">上级评分理由:</span> &nbsp;
-                <span>{{data.target_superior_score && data.target_superior_score.description}}</span>
+                <span
+                  v-html="(data.target_superior_score && data.target_superior_score.description).replace(/\n/g, '<br/>')"
+                ></span>
               </section>
             </div>
 
@@ -233,6 +237,7 @@ export default {
   font-weight: 600;
 }
 .delight {
+  width: 100%;
   font-size: 14px;
   line-height: 30px;
 
