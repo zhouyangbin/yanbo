@@ -62,7 +62,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "17600297195" })
+        fzLogin({ workcode: "074036" })
           // 076533
           // 17600297195
           // 074036
@@ -71,13 +71,13 @@ export default {
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => {});
+          .catch(e => { });
       } else {
         qrLogin({ token: querys.token })
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => {});
+          .catch(e => { });
       }
     } else {
       tinfo.init({
@@ -186,10 +186,10 @@ export default {
       ) {
         window.DingTalkPC.biz.util.openLink({
           url: `${window.location.origin}${dst}`, //要打开链接的地址
-          onSuccess: function(result) {
+          onSuccess: function (result) {
             /**/
           },
-          onFail: function() {}
+          onFail: function () { }
         });
       } else {
         this.$router.push({ path: dst });
