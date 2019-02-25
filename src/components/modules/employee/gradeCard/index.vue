@@ -14,7 +14,7 @@
             <div v-if="data.description">
               <section>
                 <span class="label">具体工作/任务描述:</span> &nbsp;
-                <span>{{data.description}}</span>
+                <span v-html="data.description.replace(/\n/g, '<br/>')"></span>
               </section>
               <!-- <br> -->
             </div>
