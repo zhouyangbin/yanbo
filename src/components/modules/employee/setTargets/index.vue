@@ -38,7 +38,10 @@
           v-for="(v,i) of target_reject"
           :key="i"
         >
-          <div class="reason">驳回理由: {{v.reason}}</div>
+          <div class="reason">
+            <span>驳回理由:</span>
+            <span v-html="(v.reason||'').replace(/\n/g, '<br/>')"></span>
+          </div>
           <div>{{v.created_at}}</div>
         </el-row>
       </div>

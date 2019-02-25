@@ -6,18 +6,38 @@
         <span class="label">{{constants.BASIC_INFO}}:</span>
         <span>
           <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
-          <span class="greycolor">{{constants.LEADER_NAME}}</span> / {{basicInfo.leaderName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{constants.LEADER_NAME}}</span>
+          / {{basicInfo.leaderName}}
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
       <br>
-      <card :maxlength="1000" :readOnly="true" class="card" :index="i" :data="v" v-for="(v,i) of targets" :key="i"></card>
+      <card
+        :maxlength="1000"
+        :readOnly="true"
+        class="card"
+        :index="i"
+        :data="v"
+        v-for="(v,i) of targets"
+        :key="i"
+      ></card>
       <br>
       <div v-if="myAdditionMark.evaluation">
-        <addition-mark :prefixTitle="constants.LABEL_SELF" :readOnly="true" :desc.sync="myAdditionMark.evaluation" :mark.sync="myAdditionMark.score"></addition-mark>
+        <addition-mark
+          :prefixTitle="constants.LABEL_SELF"
+          :readOnly="true"
+          :desc.sync="myAdditionMark.evaluation"
+          :mark.sync="myAdditionMark.score"
+        ></addition-mark>
         <br>
       </div>
       <div v-if="leaderAdditionMark.evaluation">
-        <addition-mark :prefixTitle="constants.LABEL_SUP" :readOnly="true" :desc.sync="leaderAdditionMark.evaluation" :mark.sync="leaderAdditionMark.score"></addition-mark>
+        <addition-mark
+          :prefixTitle="constants.LABEL_SUP"
+          :readOnly="true"
+          :desc.sync="leaderAdditionMark.evaluation"
+          :mark.sync="leaderAdditionMark.score"
+        ></addition-mark>
         <br>
       </div>
       <div v-if="comments">
@@ -38,13 +58,13 @@
           <br>
           <div class="inner-container">
             <span class="label">申诉理由:</span>
-            <span>{{appeal.reason}}</span>
+            <span v-html="(appeal.reason).replace(/\n/g, '<br/>')"></span>
           </div>
           <br>
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">评分结果:</span>
-          <span> {{total}} </span>
+          <span>{{total}}</span>
         </div>
         <div class="inner-container">
           <span class="label"></span>
@@ -59,11 +79,21 @@
       <br>
       <br>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="changeMarks" class="btn-reset">{{constants.LABEL_MODIFY}}</el-button>
+        <el-button
+          round
+          size="medium"
+          @click="changeMarks"
+          class="btn-reset"
+        >{{constants.LABEL_MODIFY}}</el-button>
         <el-button round size="medium" @click="submit" type="primary">确认结果</el-button>
       </el-row>
     </section>
-    <change-mark @close="afterChangeGrade" v-if="showChangeMarkDia" :mark="total" :visible.sync="showChangeMarkDia"></change-mark>
+    <change-mark
+      @close="afterChangeGrade"
+      v-if="showChangeMarkDia"
+      :mark="total"
+      :visible.sync="showChangeMarkDia"
+    ></change-mark>
   </div>
 </template>
 <script>
