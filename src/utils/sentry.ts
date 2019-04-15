@@ -38,7 +38,6 @@ function vuePlugin(Raven, Vue) {
     Raven.captureException(error, {
       extra: metaData
     });
-    console.error(error, info);
     if (typeof _oldOnError === "function") {
       _oldOnError.call(this, error, vm, info);
     }
