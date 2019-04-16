@@ -116,7 +116,12 @@ import {
   PATH_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY
 } from "@/constants/URL";
-import { getMyMemberCultureDetails, postMemberGrade } from "@/constants/API";
+import {
+  getMyMemberCultureDetails,
+  postMemberGrade,
+  getMyMemberDetailDraft,
+  saveMyGradeDraft
+} from "@/constants/API";
 
 export default {
   data() {
@@ -224,28 +229,26 @@ export default {
           finishedTime: `上级评截止时间: ${end_time}`
         };
         this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
-        // console.log(LEVEL_ALIAS[_271_level])
         const submited = status >= 20;
         this.submited = submited;
-        const key = `culture_member_draft_${this.$route.params.uid}`;
-        const s = window.localStorage.getItem(key);
-        if (submited || !s) {
+
+        if (submited) {
           this.scores = scores.map(s => {
             s.score = s.self_score;
             delete s.self_score;
             return s;
           });
         } else {
-          const draft = JSON.parse(s);
-          // console.log(draft)
-          this.initFromLocal(draft);
+          getMyMemberDetailDraft(this.$route.params.uid).then(res => {
+            this.initFromLocal(res);
+          });
         }
       });
     },
     initFromLocal(data) {
       // 读取草稿
       this.scores = data.scores;
-      this.level = data.level;
+      this.level = LEVEL_ALIAS[data._271_level].toLowerCase();
       this.advantage = data.advantage;
       this.promotion = data.promotion;
     },
@@ -300,20 +303,14 @@ export default {
       });
     },
     saveDraft() {
-      const key = `culture_member_draft_${this.$route.params.uid}`;
-      window.localStorage.setItem(
-        key,
-        JSON.stringify({
-          scores: this.scores,
-          level: this.level,
-          advantage: this.advantage,
-          promotion: this.promotion
-        })
+      saveMyGradeDraft(this.$route.params.id, this.composePostData()).then(
+        res => {
+          this.$message({
+            message: DRAFT_SAVE_SUCCESSFULLY,
+            type: "success"
+          });
+        }
       );
-      this.$message({
-        message: DRAFT_SAVE_SUCCESSFULLY,
-        type: "success"
-      });
     },
     submit() {
       const valid = this.validateData();

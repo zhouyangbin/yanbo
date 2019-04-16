@@ -8,7 +8,8 @@ import {
 } from "@/utils/base";
 import qs from "qs";
 
-// const test = "https://www.easy-mock.com/mock/5baf1a129edac201fec52f0f";
+const test =
+  "http://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
 
 // 用户管理
 // 扫码登录
@@ -108,6 +109,12 @@ export const postTimeSettings = (eid: string, params: object) =>
 // 获取个人的评测详情
 export const getUserGradeContent = (uid: string) =>
   sendGet(`/admin/api/user_list/detail/${uid}`);
+// 保存个人评分草稿
+export const saveMyGradeDraft = (evaluation_name_id: string, params: object) =>
+  sendPost(`${test}/culture/evaluate-draft/${evaluation_name_id}`, params);
+// 获取个人评分草稿
+export const getMyGradeDraft = (evaluation_name_id: string) =>
+  sendGet(`${test}/culture/web/${evaluation_name_id}/my-evaluation-draft`);
 // 发出提醒
 
 export const postReminder = (params: object) =>
@@ -304,7 +311,9 @@ export const selfMarking = (data: object, id: string) => {
 // 文化上级评详情
 export const getMyMemberCultureDetails = (id: String) =>
   sendGet(`/culture/web/superior-detail/${id}`);
-
+// 获取上级草稿
+export const getMyMemberDetailDraft = (id: string) =>
+  sendGet(`${test}/culture/web/superior-draft/${id}`);
 // 文化隔级详情
 export const getMyDownMemberCultureDetails = (id: String) =>
   sendGet(`/culture/web/highlevel-detail/${id}`);
