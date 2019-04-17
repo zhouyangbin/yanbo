@@ -111,7 +111,7 @@ export const getUserGradeContent = (uid: string) =>
   sendGet(`/admin/api/user_list/detail/${uid}`);
 // 保存个人评分草稿
 export const saveMyGradeDraft = (evaluation_name_id: string, params: object) =>
-  sendPost(`${test}/culture/evaluate-draft/${evaluation_name_id}`, params);
+  sendPost(`${test}/culture/web/evaluate-draft/${evaluation_name_id}`, params);
 // 获取个人评分草稿
 export const getMyGradeDraft = (evaluation_name_id: string) =>
   sendGet(`${test}/culture/web/${evaluation_name_id}/my-evaluation-draft`);
