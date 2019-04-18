@@ -194,7 +194,7 @@ export default {
       this.filterCases(this.questions).forEach(v => {
         result[v.question_id] = {
           score: v.score,
-          cases: v.cases
+          cases: v.cases.filter(i => !!i)
         };
       });
       return result;
@@ -224,7 +224,10 @@ export default {
       });
     },
     saveDraft() {
-      saveMyGradeDraft(this.$route.params.id, this.composeData()).then(res => {
+      saveMyGradeDraft(this.$route.params.id, {
+        ...this.composeData(),
+        type: 1
+      }).then(res => {
         this.$notify({
           title: SUCCESS,
           message: DRAFT_SAVE_SUCCESSFULLY,

@@ -303,14 +303,15 @@ export default {
       });
     },
     saveDraft() {
-      saveMyGradeDraft(this.$route.params.id, this.composePostData()).then(
-        res => {
-          this.$message({
-            message: DRAFT_SAVE_SUCCESSFULLY,
-            type: "success"
-          });
-        }
-      );
+      saveMyGradeDraft(this.$route.params.id, {
+        ...this.composePostData(),
+        type: 2
+      }).then(res => {
+        this.$message({
+          message: DRAFT_SAVE_SUCCESSFULLY,
+          type: "success"
+        });
+      });
     },
     submit() {
       const valid = this.validateData();

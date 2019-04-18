@@ -8,8 +8,8 @@ import {
 } from "@/utils/base";
 import qs from "qs";
 
-const test =
-  "http://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
+// const test =
+//   "http://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
 
 // 用户管理
 // 扫码登录
@@ -111,10 +111,10 @@ export const getUserGradeContent = (uid: string) =>
   sendGet(`/admin/api/user_list/detail/${uid}`);
 // 保存个人评分草稿
 export const saveMyGradeDraft = (evaluation_name_id: string, params: object) =>
-  sendPost(`${test}/culture/web/evaluate-draft/${evaluation_name_id}`, params);
+  sendPost(`/culture/web/evaluate-draft/${evaluation_name_id}`, params);
 // 获取个人评分草稿
 export const getMyGradeDraft = (evaluation_name_id: string) =>
-  sendGet(`${test}/culture/web/${evaluation_name_id}/my-evaluation-draft`);
+  sendGet(`/culture/web/${evaluation_name_id}/my-evaluation-draft`);
 // 发出提醒
 
 export const postReminder = (params: object) =>
@@ -313,7 +313,7 @@ export const getMyMemberCultureDetails = (id: String) =>
   sendGet(`/culture/web/superior-detail/${id}`);
 // 获取上级草稿
 export const getMyMemberDetailDraft = (id: string) =>
-  sendGet(`${test}/culture/web/superior-draft/${id}`);
+  sendGet(`/culture/web/superior-draft/${id}`);
 // 文化隔级详情
 export const getMyDownMemberCultureDetails = (id: String) =>
   sendGet(`/culture/web/highlevel-detail/${id}`);
