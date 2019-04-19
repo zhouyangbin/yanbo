@@ -250,14 +250,6 @@ export default {
         return s;
       });
     },
-    initFromLocal(data) {
-      // 读取草稿
-      console.log(data);
-      this.scores = data.self_score;
-      this.level = LEVEL_ALIAS[data._271_level || 0].toLowerCase();
-      this.advantage = data.advantage;
-      this.promotion = data.promotion;
-    },
     composePostData() {
       let result = {};
       this.scores.forEach(v => {
