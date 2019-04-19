@@ -260,8 +260,7 @@ export default {
       });
       result.promotion = this.promotion;
       result.advantage = this.advantage;
-      result._271_level = LEVELMAP[this.level];
-
+      result._271_level = LEVELMAP[this.level] || "";
       return result;
     },
     goHistory() {
@@ -302,6 +301,7 @@ export default {
       });
     },
     saveDraft() {
+      console.log(this.composePostData());
       saveMyGradeDraft(this.$route.params.uid, {
         ...this.composePostData(),
         type: 2
