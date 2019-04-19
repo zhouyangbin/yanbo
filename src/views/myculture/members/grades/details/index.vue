@@ -189,65 +189,71 @@ export default {
   methods: {
     getMemberDetail() {
       getMyMemberCultureDetails(this.$route.params.uid).then(res => {
-        const {
-          advantage,
-          promotion,
-          scores,
-          employee_name,
-          employee_workcode,
-          end_time,
-          _271_level,
-          status,
-          reject_record,
-          appeal_record,
-          break_status,
-          superior_start_time,
-          feedback_feeling,
-          has_history
-        } = res;
-        this.has_history = has_history == 1;
-        this.feedback_feeling = feedback_feeling;
-        this.rejectReason = reject_record;
-        this.advantage = advantage;
-        this.promotion = promotion;
-        this.employee_name = employee_name;
-        this.readOnly = res.can_submit == 0;
-        this.appealReason = appeal_record || [];
-        this._271_is_necessary = !!res._271_is_necessary;
-        let breakStatus;
-        if (break_status == 0) {
-          breakStatus =
-            new Date() <= new Date(superior_start_time) ? "未开始" : "";
-        } else {
-          breakStatus = BREAK_STATUS[break_status];
-        }
+        const { status } = res;
 
-        this.basicInfo = {
-          name: employee_name,
-          workcode: employee_workcode,
-          breakStatus,
-          finishedTime: `上级评截止时间: ${end_time}`
-        };
-        this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
         const submited = status >= 20;
         this.submited = submited;
 
         if (submited) {
-          this.scores = scores.map(s => {
-            s.score = s.self_score;
-            delete s.self_score;
-            return s;
-          });
+          this.handleResponse(res);
         } else {
           getMyMemberDetailDraft(this.$route.params.uid).then(res => {
-            this.initFromLocal(res);
+            this.handleResponse(res);
           });
         }
       });
     },
+    handleResponse(res) {
+      const {
+        advantage,
+        promotion,
+        scores,
+        employee_name,
+        employee_workcode,
+        end_time,
+        _271_level,
+        status,
+        reject_record,
+        appeal_record,
+        break_status,
+        superior_start_time,
+        feedback_feeling,
+        has_history
+      } = res;
+      this.has_history = has_history == 1;
+      this.feedback_feeling = feedback_feeling;
+      this.rejectReason = reject_record;
+      this.advantage = advantage;
+      this.promotion = promotion;
+      this.employee_name = employee_name;
+      this.readOnly = res.can_submit == 0;
+      this.appealReason = appeal_record || [];
+      this._271_is_necessary = !!res._271_is_necessary;
+      let breakStatus;
+      if (break_status == 0) {
+        breakStatus =
+          new Date() <= new Date(superior_start_time) ? "未开始" : "";
+      } else {
+        breakStatus = BREAK_STATUS[break_status];
+      }
+
+      this.basicInfo = {
+        name: employee_name,
+        workcode: employee_workcode,
+        breakStatus,
+        finishedTime: `上级评截止时间: ${end_time}`
+      };
+      this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
+      this.scores = scores.map(s => {
+        s.score = s.self_score;
+        delete s.self_score;
+        return s;
+      });
+    },
     initFromLocal(data) {
       // 读取草稿
-      this.scores = data.scores;
+      console.log(data);
+      this.scores = data.self_score;
       this.level = LEVEL_ALIAS[data._271_level || 0].toLowerCase();
       this.advantage = data.advantage;
       this.promotion = data.promotion;
