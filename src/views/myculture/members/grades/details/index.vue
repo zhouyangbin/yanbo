@@ -301,7 +301,6 @@ export default {
       });
     },
     saveDraft() {
-      console.log(this.composePostData());
       saveMyGradeDraft(this.$route.params.uid, {
         ...this.composePostData(),
         type: 2
