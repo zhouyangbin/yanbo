@@ -257,12 +257,13 @@ export default {
       this.scores.forEach(v => {
         result[v.question_id] = {
           score: v.superior_score,
-          cases: [v.superior_case]
+          cases: [v.superior_case].filter(v => !!v)
         };
       });
       result.promotion = this.promotion;
       result.advantage = this.advantage;
       result._271_level = LEVELMAP[this.level];
+      debugger;
       return result;
     },
     goHistory() {
