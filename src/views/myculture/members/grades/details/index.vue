@@ -302,7 +302,7 @@ export default {
       });
     },
     saveDraft() {
-      saveMyGradeDraft(this.$route.params.id, {
+      saveMyGradeDraft(this.$route.params.uid, {
         ...this.composePostData(),
         type: 2
       }).then(res => {
