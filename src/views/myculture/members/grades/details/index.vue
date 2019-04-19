@@ -248,7 +248,7 @@ export default {
     initFromLocal(data) {
       // 读取草稿
       this.scores = data.scores;
-      this.level = LEVEL_ALIAS[data._271_level].toLowerCase();
+      this.level = LEVEL_ALIAS[data._271_level || 0].toLowerCase();
       this.advantage = data.advantage;
       this.promotion = data.promotion;
     },

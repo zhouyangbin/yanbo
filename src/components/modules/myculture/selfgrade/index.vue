@@ -18,7 +18,9 @@
           ></grade-slider>
         </el-col>
         <el-col style="padding-left:0.75rem;">
-          <div class="mark-score">{{questions[selectGradeItem].score}}分</div>
+          <div
+            class="mark-score"
+          >{{questions[selectGradeItem].score&&questions[selectGradeItem].score>=0 ?questions[selectGradeItem].score:''}}分</div>
           <div class="mark-desc">{{contentForCurScore}}</div>
         </el-col>
       </el-row>
