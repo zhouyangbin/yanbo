@@ -263,7 +263,7 @@ export default {
       result.promotion = this.promotion;
       result.advantage = this.advantage;
       result._271_level = LEVELMAP[this.level];
-      debugger;
+
       return result;
     },
     goHistory() {
