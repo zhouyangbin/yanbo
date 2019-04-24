@@ -18,7 +18,9 @@
           ></grade-slider>
         </el-col>
         <el-col style="padding-left:0.75rem;">
-          <div class="mark-score">{{questions[selectGradeItem].score}}分</div>
+          <div
+            class="mark-score"
+          >{{questions[selectGradeItem].score&&questions[selectGradeItem].score>=0 ?questions[selectGradeItem].score:''}}分</div>
           <div class="mark-desc">{{contentForCurScore}}</div>
         </el-col>
       </el-row>
@@ -56,7 +58,12 @@
   </div>
 </template>
 <script>
-import { getMyEvaluation, selfMarking } from "@/constants/API";
+import {
+  getMyEvaluation,
+  selfMarking,
+  getMyGradeDraft,
+  saveMyGradeDraft
+} from "@/constants/API";
 import {
   SUBMIT,
   SAVE_DRAFT,
@@ -101,12 +108,12 @@ export default {
     getGradeInfo() {
       const id = this.$route.params.id;
       getMyEvaluation(id).then(res => {
-        this.neverSubmit = res.status == 0;
-        const key = `uid_self_${this.$route.params.id}_draft_culture`;
-        const savedDraft = window.localStorage.getItem(key);
-        if (res.status == 0 && savedDraft) {
-          const id = `uid_self_${this.$route.params.id}_draft_culture`;
-          this.preProcessQuestions(JSON.parse(savedDraft));
+        const neverSubmit = res.is_new_record == 1;
+        this.neverSubmit = neverSubmit;
+        if (neverSubmit) {
+          getMyGradeDraft(id).then(res => {
+            this.preProcessQuestions(res.questions);
+          });
         } else {
           this.preProcessQuestions(res.questions);
         }
@@ -149,40 +156,29 @@ export default {
         this.$set(this.questions, i, { ...a });
       });
     },
+    scoreCheck(item, score) {
+      if (item.score == score) {
+        const index = this.caseValidate(i, score);
+        if (index != -1) {
+          this.$message.error(
+            `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
+          );
+          return true;
+        }
+      }
+      return false;
+    },
     validateGrade() {
       return this.questions.some(i => {
         if (!i.score) {
           this.$message.error(`${i.question_name}评分未选择!`);
           return true;
         }
-        if (i.score == 3) {
-          // return i.cases[0] == undefined || i.cases[0].length == 0
-          const index = this.caseValidate(i, 3);
-          if (index != -1) {
-            this.$message.error(
-              `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
-            );
-            return true;
-          }
+
+        if ([3, 4, 5].includes(parseInt(i.score))) {
+          if (this.scoreCheck(i)) return true;
         }
-        if (i.score == 4) {
-          const index = this.caseValidate(i, 4);
-          if (index != -1) {
-            this.$message.error(
-              `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
-            );
-            return true;
-          }
-        }
-        if (i.score == 5) {
-          const index = this.caseValidate(i, 5);
-          if (index != -1) {
-            this.$message.error(
-              `${i.question_name}${index + 3}分理由未填写，请填写后提交!`
-            );
-            return true;
-          }
-        }
+
         return false;
       });
     },
@@ -200,17 +196,15 @@ export default {
       this.filterCases(this.questions).forEach(v => {
         result[v.question_id] = {
           score: v.score,
-          cases: v.cases
+          cases: v.cases.filter(i => !!i)
         };
       });
-      // console.log(result)
       return result;
     },
     filterCases(arr) {
       // 根据分数, 干掉多余的case
       return arr.map(q => {
         if (q.cases && q.cases.length != 0) {
-          // console.log(q.cases, 4 - q.score)
           q.cases = q.cases.slice(0, q.score - 2);
         }
         return q;
@@ -223,7 +217,6 @@ export default {
       }
       const postData = this.composeData();
       selfMarking(postData, this.$route.params.id).then(res => {
-        this.clearDraft();
         this.$notify({
           title: SUCCESS,
           message: CONST_ADD_SUCCESS,
@@ -233,20 +226,16 @@ export default {
       });
     },
     saveDraft() {
-      const id = `uid_self_${this.$route.params.id}_draft_culture`;
-      window.localStorage.setItem(
-        id,
-        JSON.stringify(this.filterCases(this.questions))
-      );
-      this.$notify({
-        title: SUCCESS,
-        message: DRAFT_SAVE_SUCCESSFULLY,
-        type: "success"
+      saveMyGradeDraft(this.$route.params.id, {
+        ...this.composeData(),
+        type: 1
+      }).then(res => {
+        this.$notify({
+          title: SUCCESS,
+          message: DRAFT_SAVE_SUCCESSFULLY,
+          type: "success"
+        });
       });
-    },
-    clearDraft() {
-      const id = `uid_self_${this.$route.params.id}_draft_culture`;
-      window.localStorage.removeItem(id);
     }
   },
   computed: {

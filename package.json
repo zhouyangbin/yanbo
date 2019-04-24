@@ -16,6 +16,7 @@
     "element-ui": "^2.3.4",
     "lodash.debounce": "^4.0.8",
     "qs": "^6.5.1",
+    "raven-js": "^3.27.0",
     "vue": "^2.5.13",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",

@@ -116,7 +116,12 @@ import {
   PATH_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY
 } from "@/constants/URL";
-import { getMyMemberCultureDetails, postMemberGrade } from "@/constants/API";
+import {
+  getMyMemberCultureDetails,
+  postMemberGrade,
+  getMyMemberDetailDraft,
+  saveMyGradeDraft
+} from "@/constants/API";
 
 export default {
   data() {
@@ -184,82 +189,78 @@ export default {
   methods: {
     getMemberDetail() {
       getMyMemberCultureDetails(this.$route.params.uid).then(res => {
-        const {
-          advantage,
-          promotion,
-          scores,
-          employee_name,
-          employee_workcode,
-          end_time,
-          _271_level,
-          status,
-          reject_record,
-          appeal_record,
-          break_status,
-          superior_start_time,
-          feedback_feeling,
-          has_history
-        } = res;
-        this.has_history = has_history == 1;
-        this.feedback_feeling = feedback_feeling;
-        this.rejectReason = reject_record;
-        this.advantage = advantage;
-        this.promotion = promotion;
-        this.employee_name = employee_name;
-        this.readOnly = res.can_submit == 0;
-        this.appealReason = appeal_record || [];
-        this._271_is_necessary = !!res._271_is_necessary;
-        let breakStatus;
-        if (break_status == 0) {
-          breakStatus =
-            new Date() <= new Date(superior_start_time) ? "未开始" : "";
-        } else {
-          breakStatus = BREAK_STATUS[break_status];
-        }
+        const { status } = res;
 
-        this.basicInfo = {
-          name: employee_name,
-          workcode: employee_workcode,
-          breakStatus,
-          finishedTime: `上级评截止时间: ${end_time}`
-        };
-        this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
-        // console.log(LEVEL_ALIAS[_271_level])
         const submited = status >= 20;
         this.submited = submited;
-        const key = `culture_member_draft_${this.$route.params.uid}`;
-        const s = window.localStorage.getItem(key);
-        if (submited || !s) {
-          this.scores = scores.map(s => {
-            s.score = s.self_score;
-            delete s.self_score;
-            return s;
-          });
+
+        if (submited) {
+          this.handleResponse(res);
         } else {
-          const draft = JSON.parse(s);
-          // console.log(draft)
-          this.initFromLocal(draft);
+          getMyMemberDetailDraft(this.$route.params.uid).then(res => {
+            this.handleResponse(res);
+          });
         }
       });
     },
-    initFromLocal(data) {
-      // 读取草稿
-      this.scores = data.scores;
-      this.level = data.level;
-      this.advantage = data.advantage;
-      this.promotion = data.promotion;
+    handleResponse(res) {
+      const {
+        advantage,
+        promotion,
+        scores,
+        employee_name,
+        employee_workcode,
+        end_time,
+        _271_level,
+        status,
+        reject_record,
+        appeal_record,
+        break_status,
+        superior_start_time,
+        feedback_feeling,
+        has_history
+      } = res;
+      this.has_history = has_history == 1;
+      this.feedback_feeling = feedback_feeling;
+      this.rejectReason = reject_record;
+      this.advantage = advantage;
+      this.promotion = promotion;
+      this.employee_name = employee_name;
+      this.readOnly = res.can_submit == 0;
+      this.appealReason = appeal_record || [];
+      this._271_is_necessary = !!res._271_is_necessary;
+      let breakStatus;
+      if (break_status == 0) {
+        breakStatus =
+          new Date() <= new Date(superior_start_time) ? "未开始" : "";
+      } else {
+        breakStatus = BREAK_STATUS[break_status];
+      }
+
+      this.basicInfo = {
+        name: employee_name,
+        workcode: employee_workcode,
+        breakStatus,
+        finishedTime: `上级评截止时间: ${end_time}`
+      };
+      this.preLv = this.level = LEVEL_ALIAS[_271_level].toLowerCase();
+      this.scores = scores.map(s => {
+        s.score = s.self_score;
+        delete s.self_score;
+        return s;
+      });
     },
     composePostData() {
       let result = {};
       this.scores.forEach(v => {
         result[v.question_id] = {
           score: v.superior_score,
-          cases: [v.superior_case]
+          cases: [v.superior_case].filter(v => !!v)
         };
       });
       result.promotion = this.promotion;
       result.advantage = this.advantage;
-      result._271_level = LEVELMAP[this.level];
+      result._271_level = LEVELMAP[this.level] || "";
       return result;
     },
     goHistory() {
@@ -300,19 +301,14 @@ export default {
       });
     },
     saveDraft() {
-      const key = `culture_member_draft_${this.$route.params.uid}`;
-      window.localStorage.setItem(
-        key,
-        JSON.stringify({
-          scores: this.scores,
-          level: this.level,
-          advantage: this.advantage,
-          promotion: this.promotion
-        })
-      );
-      this.$message({
-        message: DRAFT_SAVE_SUCCESSFULLY,
-        type: "success"
+      saveMyGradeDraft(this.$route.params.uid, {
+        ...this.composePostData(),
+        type: 2
+      }).then(res => {
+        this.$message({
+          message: DRAFT_SAVE_SUCCESSFULLY,
+          type: "success"
+        });
       });
     },
     submit() {

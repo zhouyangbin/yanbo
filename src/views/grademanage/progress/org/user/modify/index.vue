@@ -58,7 +58,6 @@
         <br>
       </div>
       <el-row v-if="!readOnly" type="flex" justify="end">
-        <!-- <el-button v-if="!submited" @click="saveDraft" type="primary">保存草稿</el-button> -->
         <el-button @click="submit" type="primary">提交</el-button>
       </el-row>
     </section>

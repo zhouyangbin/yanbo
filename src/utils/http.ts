@@ -24,7 +24,7 @@ const axiosCreate = {
   // 请求超时时间
   timeout: 30000,
   // 是否允许后端设置cookie跨域，一般无需改动
-  withCredentials: true,
+  // withCredentials: true,
   validateStatus: function(status: number) {
     // 若状态码大于等于500时则Reject 用来统一处理5XX报错走catch方法
     return status < 400;

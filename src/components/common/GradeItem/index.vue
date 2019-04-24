@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     totalMark(v) {
-      return v.score == undefined ? "" : `${v.score}分`;
+      return v.score == undefined || v.score < 0 ? "" : `${v.score}分`;
     },
     select(i) {
       this.$emit("input", i);
