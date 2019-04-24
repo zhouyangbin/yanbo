@@ -1,3 +1,24 @@
+<a name="0.2.5"></a>
+## [0.2.5](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.4...v0.2.5) (2019-04-24)
+
+
+### Bug Fixes
+
+* **-1分:** 处理不显示, 没选的情况 ([6f46db4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/6f46db4))
+* **ajax:** param fix ([13a6f84](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/13a6f84))
+* **api:** 报存草稿api 路由变化 ([74f866d](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/74f866d))
+* **草稿:** fix level ([bb74d47](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/bb74d47))
+* **草稿:** 空case过滤 ([0b7aaa6](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0b7aaa6))
+* **草稿:** 自测fix ([0b573a7](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/0b573a7))
+* **草稿处理:** 上级获取草稿 ([327ae17](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/327ae17))
+
+
+### Features
+
+* **draft:** save draft with server ([a08d6ac](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/commit/a08d6ac))
+
+
+
 <a name="0.2.4"></a>
 ## [0.2.4](http://gitlab.zhiyinlou.com/bpit/FETeam/FE-PC-TDC/compare/v0.2.3...v0.2.4) (2019-02-25)
 
