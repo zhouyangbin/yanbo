@@ -34,9 +34,9 @@ module.exports = {
         .end();
     }
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));
-    generateLoaders("css");
-    generateLoaders("scss");
-    generateLoaders("sass");
+    // generateLoaders("css");
+    // generateLoaders("scss");
+    // generateLoaders("sass");
   },
   configureWebpack: {
     plugins: [

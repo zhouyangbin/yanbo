@@ -14,7 +14,7 @@
             </el-select>
           </el-form-item>
           <el-button
-            style="margin-left:0.45rem"
+            style="margin-left:30px"
             round
             @click="resetForm('filterForm')"
           >{{constants.LABEL_EMPTY}}</el-button>
@@ -29,7 +29,7 @@
                   <el-row type="flex" align="middle">
                     <img
                       v-if="scope.row.avatar"
-                      style="margin-right:0.225rem;height:0.45rem;width:0.45rem"
+                      style="margin-right:15px;height:30px;width:30px"
                       :src="`${scope.row.avatar}_30x30q100.jpg`"
                       alt
                     >

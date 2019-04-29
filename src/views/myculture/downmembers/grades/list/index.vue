@@ -46,7 +46,7 @@
                 <el-button @click="batchReject" type="primary" round>{{constants.SUBMIT}}</el-button>
               </el-row>
               <el-button
-                style="margin-right:0.3rem"
+                style="margin-right:20px"
                 slot="reference"
                 type="primary"
                 :disabled="!hasSelectedItem || notAllowedBatch"
@@ -55,7 +55,7 @@
             </el-popover>
 
             <el-button
-              style="margin-right:0.3rem"
+              style="margin-right:20px"
               @click="batchPass"
               :disabled="!hasSelectedItem || notAllowedBatch"
               type="primary"
@@ -359,13 +359,13 @@ export default {
 .list-filter-form >>> .el-form-item {
   margin-bottom: 0;
 }
-.avatar-style {
-  margin-right: 0.225rem;
+/* .avatar-style {
+  margin-right: 15px;
   max-height: 30px;
   max-width: 30px;
   height: 30px;
   width: 30px;
-}
+} */
 hr.dash {
   border-style: dashed;
   border-color: grey;

@@ -1,7 +1,7 @@
 <template>
   <el-container class="container">
     <el-aside class="sidebar-container">
-      <img src="@assets/img/bg_logo.png" style="width:3.2rem" alt>
+      <img src="@assets/img/bg_logo.png" class="logo" alt>
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
         <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{labe_logout}}</el-button>
@@ -71,20 +71,44 @@ export default {
 .sidebar-container {
   background-color: #242a36;
   height: 100%;
-  width: 230px !important;
+  max-width: 230px !important;
   overflow: hidden;
 }
-@media only screen and (max-width: 1400px) {
+.sidebar-logout {
+  height: 60px;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  color: #969798;
+}
+.sidebar-logout p {
+  margin: 0;
+}
+@media only screen and (max-width: 1280px) {
   .sidebar-container {
     background-color: #242a36;
     height: 100%;
-    width: 3.2rem;
+    width: 60px !important;
   }
   .sidebar-container img {
-    /* background-color: #242a36;
-        height: 100%; */
-    width: 3.2rem;
+    background-color: #242a36;
+    /* height: 100%; */
+    width: 60px !important;
   }
+  .sidebar-logout p {
+    margin: 0;
+    display: none;
+  }
+  .sidebar-logout {
+    height: 60px;
+    /* margin-bottom: 30px; */
+    padding: 0;
+    /* color: #969798; */
+  }
+  /* .main-container {
+    width: 960px;
+    min-width: 960px;
+    overflow: scroll;
+  } */
 }
 .sidebar-container >>> ul {
   height: calc(100% - 168px);
@@ -99,14 +123,5 @@ export default {
   background-color: rgb(245, 245, 245);
   padding: 0;
   height: 100%;
-}
-.sidebar-logout {
-  height: 60px;
-  margin-bottom: 30px;
-  padding: 0 30px;
-  color: #969798;
-}
-.sidebar-logout p {
-  margin: 0;
 }
 </style>

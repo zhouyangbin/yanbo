@@ -24,7 +24,7 @@
         <el-button type="primary" @click="addTpl" round>{{constants.LABEL_ADD}}</el-button>
       </el-row>
       <br>
-      <el-table :data="tableData" stripe style="width: 100%;margin-top:0.3rem">
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
         <el-table-column prop="name" :label="constants.TPL_NAME"></el-table-column>
         <el-table-column prop="department" :label="constants.APPLIED_DEPARTMENTS">
           <!-- <template slot-scope="scope">

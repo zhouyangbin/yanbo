@@ -1,5 +1,5 @@
 <template>
-  <el-dialog @close="close" width=" 9.75rem" :visible="visible" class="bindDPDialog">
+  <el-dialog @close="close" width="650px" :visible="visible" class="bindDPDialog">
     <div slot="title" class="title">{{constants.BIND_DEPARTMENT}}</div>
     <div></div>
     <el-form :inline="true" :rules="bindRules" ref="bindForm" :model="bindForm" class="bindForm">
@@ -9,7 +9,7 @@
         :label="constants.CULTURE_SCOPE"
       >
         <el-input
-          style="width:6rem"
+          style="width:400px"
           :placeholder="constants.LABEL_SELECT_DIVISION"
           v-model="cultrueSelectedNames"
           icon="caret-bottom"
@@ -23,7 +23,7 @@
         :label="constants.PERFORMANCE_SCOPE"
       >
         <el-input
-          style="width:6rem"
+          style="width:400px"
           :placeholder="constants.LABEL_SELECT_DIVISION"
           v-model="performanceSelectedNames"
           icon="caret-bottom"

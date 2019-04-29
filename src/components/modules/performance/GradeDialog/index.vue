@@ -1,6 +1,6 @@
 
 <template>
-  <el-dialog @close="closeDia('ruleForm')" width=" 9.75rem" :visible="visible">
+  <el-dialog @close="closeDia('ruleForm')" width="650px" :visible="visible">
     <span slot="title">
       <el-row
         type="flex"
@@ -12,11 +12,11 @@
       :model="ruleForm"
       :rules="rules"
       ref="ruleForm"
-      label-width="1.8rem"
+      label-width="120px"
       class="create-form-dialog"
     >
       <el-form-item :label="constants.GRADE_NAME" prop="name">
-        <el-input size="medium" :maxlength="20" style="width:6rem;" v-model="ruleForm.name"></el-input>
+        <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item
         class="is-required"
@@ -25,7 +25,7 @@
         prop="scope"
       >
         <el-input
-          style="width:6rem;"
+          style="width:400px;"
           :placeholder="constants.LABEL_SELECT_DIVISION"
           v-model="scopeSelectedNames"
           icon="caret-bottom"
@@ -35,7 +35,7 @@
       </el-form-item>
       <el-form-item label="绩效属性" prop="property">
         <el-select
-          style="width:6rem;"
+          style="width:400px;"
           v-model="ruleForm.property"
           :placeholder="constants.PLS_SELECT"
         >
@@ -76,13 +76,13 @@
         </div>
       </el-form-item>
       <el-form-item :label="constants.TPL" prop="tpl">
-        <el-select style="width:6rem;" v-model="ruleForm.tpl" :placeholder="constants.PLS_SELECT">
+        <el-select style="width:400px;" v-model="ruleForm.tpl" :placeholder="constants.PLS_SELECT">
           <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="分数对应关系" prop="mapping">
         <el-select
-          style="width:6rem;"
+          style="width:400px;"
           v-model="ruleForm.mapping"
           :placeholder="constants.PLS_SELECT"
         >

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog @close="close" width=" 9.75rem" :visible="visible" class="ruleDialog">
+  <el-dialog @close="close" width="650px" :visible="visible" class="ruleDialog">
     <div slot="title" class="title">{{data.department}}</div>
     <el-form :rules="rules" label-width="150px" ref="ruleForm" :model="ruleForm" class="ruleForm">
       <el-form-item label="是否强制对应" prop="isMapping">
@@ -15,7 +15,7 @@
           <div>
             <el-slider
               tooltip-class="tooltip"
-              style="width:6rem"
+              style="width:400px"
               :max="496"
               v-model="D"
               :format-tooltip="formatTooltip"
@@ -31,7 +31,7 @@
               range
               :min="1"
               :max="497"
-              style="width:6rem"
+              style="width:400px"
               v-model="C"
               :format-tooltip="formatTooltip"
             ></el-slider>
@@ -46,7 +46,7 @@
               range
               :min="2"
               :max="498"
-              style="width:6rem"
+              style="width:400px"
               v-model="B"
               :format-tooltip="formatTooltip"
             ></el-slider>
@@ -61,7 +61,7 @@
               range
               :min="3"
               :max="499"
-              style="width:6rem"
+              style="width:400px"
               v-model="A"
               :format-tooltip="formatTooltip"
             ></el-slider>
@@ -76,7 +76,7 @@
               :min="4"
               range
               :max="500"
-              style="width:6rem"
+              style="width:400px"
               v-model="S"
               :format-tooltip="formatTooltip"
             ></el-slider>

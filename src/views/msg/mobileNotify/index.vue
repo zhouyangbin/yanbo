@@ -18,10 +18,10 @@ export default {};
   background-color: #f9f0cd;
   h1 {
     display: inline-block;
-    font-size: 35px; /*no*/
+    font-size: 35px;
   }
   img {
-    margin-top: 20px; /*no*/
+    margin-top: 20px;
   }
 }
 </style>

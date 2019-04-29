@@ -1,6 +1,17 @@
 <template>
-  <el-menu class="nav-container" text-color="#111" active-text-color="#42cfaf" :default-active="activeIndex" mode="horizontal">
-    <el-menu-item @click="v.href ? nav(v.href):null" v-for="v of list" :key="v.label" :index="v.label">{{v.label}}</el-menu-item>
+  <el-menu
+    class="nav-container"
+    text-color="#111"
+    active-text-color="#42cfaf"
+    :default-active="activeIndex"
+    mode="horizontal"
+  >
+    <el-menu-item
+      @click="v.href ? nav(v.href):null"
+      v-for="v of list"
+      :key="v.label"
+      :index="v.label"
+    >{{v.label}}</el-menu-item>
   </el-menu>
 </template>
 
@@ -30,6 +41,7 @@ export default {
 <style scoped>
 .nav-container {
   padding: 0 20px;
+  min-width: 1280px;
 }
 .nav-container >>> .el-menu--horizontal > .el-menu-item {
   height: 74px;

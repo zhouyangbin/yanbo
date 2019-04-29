@@ -5,7 +5,7 @@
       <el-tabs v-model="importTab">
         <el-tab-pane :label="constants.EHR_IMPORT" name="first">
           <el-form
-            label-width="1.2rem"
+            label-width="80px"
             :rules="importRules"
             ref="importForm"
             :model="importForm"

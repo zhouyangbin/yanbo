@@ -1,7 +1,7 @@
 <template>
   <div class="culture-hr-details-page">
     <nav-bar :list="nav"></nav-bar>
-    <section class="content-container" style="padding:0.6rem">
+    <section class="content-container" style="padding:40px">
       <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
@@ -22,19 +22,19 @@
           <br>
           <div v-if="level">
             <span class="label">{{constants.LEVEL_TAG}}</span>
-            <el-button style="margin-left:0.75rem" class="selected selector">{{level}}</el-button>
+            <el-button style="margin-left:50px" class="selected selector">{{level}}</el-button>
           </div>
         </div>
         <div>
           <div v-if="has_history">
             <el-button
               @click="goHistory"
-              style="margin-bottom:0.45rem"
+              style="margin-bottom:30px"
               type="primary"
             >{{constants.CHANGE_RECORDS}}</el-button>
           </div>
           <div v-if="isEditable">
-            <el-button style="margin-bottom:0.45rem" @click="goModify" type="primary">修改评分</el-button>
+            <el-button style="margin-bottom:30px" @click="goModify" type="primary">修改评分</el-button>
           </div>
           <div v-if="isRejectOrComplian">
             <el-button @click="goComplain" type="primary">申诉处理</el-button>

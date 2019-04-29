@@ -17,7 +17,7 @@
               size="mini"
               type="primary"
               round
-              style="margin-right:0.3rem"
+              style="margin-right:20px"
             >{{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}</el-button>
           </el-row>
           <br>

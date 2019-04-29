@@ -1,6 +1,6 @@
 <template>
   <el-dialog class="gradeForm" @close="close" title="修改分数" :visible="visible" width="30%">
-    <el-form :model="gradeForm" :rules="gradeFormRules" ref="gradeForm" label-width="1.5rem">
+    <el-form :model="gradeForm" :rules="gradeFormRules" ref="gradeForm" label-width="100px">
       <el-form-item label="分数" prop="mark">
         <el-select style="width:100%" v-model="gradeForm.mark">
           <el-option v-for="v of marks" :label="v" :value="v" :key="v"></el-option>

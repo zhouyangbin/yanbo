@@ -3,7 +3,7 @@
   <div class="self-details-page">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container" style="padding:0.6rem">
+    <section class="content-container" style="padding:40px">
       <basic-info v-if="!isError" :data="basicInfo"></basic-info>
       <div v-if="!isError">
         <br>

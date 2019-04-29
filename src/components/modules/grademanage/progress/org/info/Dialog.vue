@@ -1,5 +1,5 @@
 <template>
-  <el-dialog @close="close" width="9.7rem" :visible="dialogInfo" class="dialogInfo">
+  <el-dialog @close="close" width="650px" :visible="dialogInfo" class="dialogInfo">
     <div slot="title" class="title">{{infoType ==='add' ? constants.ADD: constants.MODIFY}}</div>
     <el-form :inline="true" :rules="infoRules" ref="infoForm" :model="infoForm" class="infoForm">
       <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>

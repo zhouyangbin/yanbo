@@ -40,13 +40,13 @@
           <el-form-item>
             <el-button
               @click="resetForm('searchForm')"
-              style="margin-left:0.45rem"
+              style="margin-left:30px"
               type="primary"
               round
             >{{constants.RESET}}</el-button>
             <el-button
               @click="exportFile"
-              style="margin-left:0.45rem"
+              style="margin-left:30px"
               type="primary"
               round
             >{{constants.EXPORT_DETAILS}}</el-button>
@@ -72,7 +72,7 @@
                 :disabled="!canOps"
                 @click="goDetail(scope.row)"
                 type="text"
-                style="margin-right:0.225rem;"
+                style="margin-right:15px;"
                 size="small"
               >{{constants.VIEW_DETAILS}}</el-button>
               <el-popover :ref="`level_pop${scope.row.id}`" placement="top">

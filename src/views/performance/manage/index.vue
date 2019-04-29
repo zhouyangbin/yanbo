@@ -9,11 +9,11 @@
             v-model="filterForm.dp"
             :placeholder="constants.LABEL_SELECT_DIVISION"
             :props="filterProps"
-            style="margin-left:0.45rem"
+            style="margin-left:30px"
             :options="dpArr"
             :show-all-levels="false"
           ></el-cascader>
-          <el-select style="margin-left:0.45rem" v-model="filterForm.type" placeholder="请选择周期类型">
+          <el-select style="margin-left:30px" v-model="filterForm.type" placeholder="请选择周期类型">
             <el-option
               v-for="item in constants.ENUM_PERFORMANCE_TYPE"
               :key="item.key"
@@ -21,11 +21,7 @@
               :value="item.key"
             ></el-option>
           </el-select>
-          <el-button
-            style="margin-left:0.45rem"
-            round
-            @click="resetFilter"
-          >{{constants.LABEL_EMPTY}}</el-button>
+          <el-button style="margin-left:30px" round @click="resetFilter">{{constants.LABEL_EMPTY}}</el-button>
         </div>
         <el-button
           type="primary"
@@ -35,7 +31,7 @@
         >{{constants.CREATE_GRADE}}</el-button>
       </el-row>
 
-      <el-table :data="tableData" stripe style="width: 100%;margin-top:0.3rem">
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
         <el-table-column prop="name" :label="constants.GRADE_NAME" width="180">
           <template slot-scope="scope">
             {{scope.row.name}}

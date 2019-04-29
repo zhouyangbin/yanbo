@@ -263,7 +263,7 @@ export default {
   margin-bottom: 0;
 }
 .avatar-style {
-  margin-right: 0.225rem;
+  margin-right: 15px;
   max-height: 30px;
   max-width: 30px;
   height: 30px;

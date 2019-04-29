@@ -2,7 +2,7 @@
   <div class="down-member-details-page">
     <nav-bar :list="nav"></nav-bar>
     <br>
-    <section class="content-container" style="padding:0.6rem">
+    <section class="content-container" style="padding:40px">
       <basic-info :data="basicInfo"></basic-info>
       <br>
       <hr>
@@ -54,14 +54,14 @@
               <el-button
                 v-if="!levelEditable"
                 @click="levelEditable=true"
-                style="margin-left:0.3rem"
+                style="margin-left:20px"
                 type="primary"
                 round
               >{{constants.LABEL_MODIFY}}</el-button>
               <el-button
                 @click="levelChange"
                 v-else
-                style="margin-left:0.3rem"
+                style="margin-left:20px"
                 type="primary"
                 round
               >{{constants.CONFIRM}}</el-button>
@@ -70,7 +70,7 @@
           <br>
         </el-col>
         <br>
-        <el-col style="padding-left:0.75rem;">
+        <el-col style="padding-left:50px;">
           <div class="mark-reason">
             <div>上级评理由:</div>
             <div>{{leaderReason}}</div>
