@@ -1,7 +1,6 @@
-
 <template>
   <div class="plane-page">
-    <img src="@assets/img/plane.png" alt="">
+    <img src="@assets/img/plane.png" alt="" />
     <div :data-score="`${planeScore.wsScore}分`" class="circle wushi">
       务实
     </div>

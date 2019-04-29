@@ -6,6 +6,7 @@ import Element from "element-ui";
 import "core-js/fn/promise";
 import Raven from "raven-js";
 import RavenVue from "@/utils/sentry";
+import "./registerServiceWorker";
 
 const RavenPlugin: any = RavenVue;
 Raven.config(process.env.VUE_APP_SENTRY_URL!, {

@@ -1,4 +1,3 @@
-
 <template>
   <div class="CaseArea-page">
     <el-input
@@ -6,7 +5,7 @@
       :readonly="readOnly"
       type="textarea"
       :resize="'none'"
-      @change="$emit('input',$event)"
+      @change="$emit('input', $event)"
       :rows="rows"
       :placeholder="placeholder"
       :value="value"
@@ -40,5 +39,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

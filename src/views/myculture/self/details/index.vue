@@ -1,21 +1,24 @@
-
 <template>
   <div class="self-details-page">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <br />
     <section class="content-container" style="padding:40px">
       <basic-info v-if="!isError" :data="basicInfo"></basic-info>
       <div v-if="!isError">
-        <br>
-        <hr>
-        <br>
+        <br />
+        <hr />
+        <br />
       </div>
       <div v-if="!isError && showRules">
         <rule-text :text="ruleText"></rule-text>
-        <br>
-        <br>
+        <br />
+        <br />
       </div>
-      <component :msg="msg" :stage="stage" v-bind:is="currentTabComponent"></component>
+      <component
+        :msg="msg"
+        :stage="stage"
+        v-bind:is="currentTabComponent"
+      ></component>
     </section>
   </div>
 </template>

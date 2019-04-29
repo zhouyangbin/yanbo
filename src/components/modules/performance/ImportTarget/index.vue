@@ -1,9 +1,23 @@
 <template>
-  <el-dialog @close="close" width="500px" :visible="visible" class="dialogImport">
+  <el-dialog
+    @close="close"
+    width="500px"
+    :visible="visible"
+    class="dialogImport"
+  >
     <div slot="title" class="title">
       导入目标
     </div>
-    <import-excel :uploadSuccess="uploadSuccess" :uploadHeader="uploadHeader" :errorData="tableData" :uploadErr="uploadErr" :actionURL="constants.PATH_PERFORMANCE_IMPORT_TARGET($route.params.orgID)" :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID)"></import-excel>
+    <import-excel
+      :uploadSuccess="uploadSuccess"
+      :uploadHeader="uploadHeader"
+      :errorData="tableData"
+      :uploadErr="uploadErr"
+      :actionURL="constants.PATH_PERFORMANCE_IMPORT_TARGET($route.params.orgID)"
+      :downloadURL="
+        constants.PATH_PERFORMANCE_EXCEL_TARGET_TPL($route.params.orgID)
+      "
+    ></import-excel>
   </el-dialog>
 </template>
 <script>

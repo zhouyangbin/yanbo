@@ -4,7 +4,7 @@
     <section class="content-container">
       <el-row align="middle" type="flex" justify="space-between">
         <div>
-          <span>{{constants.PERFORMANCE_GRADE_LIST}}</span>
+          <span>{{ constants.PERFORMANCE_GRADE_LIST }}</span>
           <el-cascader
             v-model="filterForm.dp"
             :placeholder="constants.LABEL_SELECT_DIVISION"
@@ -13,7 +13,11 @@
             :options="dpArr"
             :show-all-levels="false"
           ></el-cascader>
-          <el-select style="margin-left:30px" v-model="filterForm.type" placeholder="请选择周期类型">
+          <el-select
+            style="margin-left:30px"
+            v-model="filterForm.type"
+            placeholder="请选择周期类型"
+          >
             <el-option
               v-for="item in constants.ENUM_PERFORMANCE_TYPE"
               :key="item.key"
@@ -21,21 +25,24 @@
               :value="item.key"
             ></el-option>
           </el-select>
-          <el-button style="margin-left:30px" round @click="resetFilter">{{constants.LABEL_EMPTY}}</el-button>
+          <el-button style="margin-left:30px" round @click="resetFilter">{{
+            constants.LABEL_EMPTY
+          }}</el-button>
         </div>
         <el-button
           type="primary"
           v-if="canCreatePerformanceGrade"
           @click="createGrade"
           round
-        >{{constants.CREATE_GRADE}}</el-button>
+          >{{ constants.CREATE_GRADE }}</el-button
+        >
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
         <el-table-column prop="name" :label="constants.GRADE_NAME" width="180">
           <template slot-scope="scope">
-            {{scope.row.name}}
-            <span class="newTag" v-if="scope.row.index===0">NEW!</span>
+            {{ scope.row.name }}
+            <span class="newTag" v-if="scope.row.index === 0">NEW!</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -44,29 +51,46 @@
           :label="constants.DEPARTMENT"
           min-width="180"
         ></el-table-column>
-        <el-table-column prop="type" :label="constants.DURATION_TYPE"></el-table-column>
-        <el-table-column prop="end_time" :label="constants.FINISHED_DATE"></el-table-column>
-        <el-table-column prop="start_time" :label="constants.CREATED_DATE"></el-table-column>
+        <el-table-column
+          prop="type"
+          :label="constants.DURATION_TYPE"
+        ></el-table-column>
+        <el-table-column
+          prop="end_time"
+          :label="constants.FINISHED_DATE"
+        ></el-table-column>
+        <el-table-column
+          prop="start_time"
+          :label="constants.CREATED_DATE"
+        ></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goSubList(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
+            <el-button @click="goSubList(scope.row)" type="text" size="small">{{
+              constants.DETAILS
+            }}</el-button>
             <el-button
               @click="gradeExport(scope.row)"
               type="text"
               size="small"
-            >{{constants.EXPORT_DETAILS}}</el-button>
+              >{{ constants.EXPORT_DETAILS }}</el-button
+            >
             <el-button
               v-if="canCreatePerformanceGrade"
               @click="copyGrade(scope.row)"
               type="text"
               size="small"
-            >{{constants.COPY_GRADE}}</el-button>
+              >{{ constants.COPY_GRADE }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
-      <br>
+      <br />
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+        <pagination
+          @current-change="handleCurrentChange"
+          :currentPage="currentPage"
+          :total="total"
+        ></pagination>
       </el-row>
     </section>
     <grade-dialog

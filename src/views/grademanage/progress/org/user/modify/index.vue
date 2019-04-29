@@ -1,61 +1,87 @@
 <template>
   <div class="culture-hr-details-modify-page">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <br />
     <section class="content-container" style="padding:40px">
       <basic-info :data="basicInfo"></basic-info>
-      <br>
-      <hr>
-      <br>
+      <br />
+      <hr />
+      <br />
       <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
-      <br>
-      <br>
+      <br />
+      <br />
       <div>
-        <h3>{{constants.ADVANTAGE}}:</h3>
+        <h3>{{ constants.ADVANTAGE }}:</h3>
         <case-area :readOnly="readOnly" v-model="advantage"></case-area>
       </div>
-      <br>
+      <br />
       <div>
-        <h3>{{constants.PROMOTION}}:</h3>
+        <h3>{{ constants.PROMOTION }}:</h3>
         <case-area :readOnly="readOnly" v-model="promotion"></case-area>
       </div>
-      <br>
+      <br />
       <section class="mark">
         <el-row align="middle" type="flex">
           <el-col style="padding:20px;border-right: 1px solid #979797;">
             <div class="mark-label">自评分数</div>
-            <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
+            <grade-items
+              :items="scores"
+              v-model="selectGradeItem"
+            ></grade-items>
           </el-col>
           <el-col style="padding-left:50px;">
-            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
-              <div>{{i+3}}分理由:</div>
-              <div>{{n}}</div>
+            <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
+              <div>{{ i + 3 }}分理由:</div>
+              <div>{{ n }}</div>
             </div>
           </el-col>
         </el-row>
       </section>
-      <br>
+      <br />
       <div class="mark-flag-container">
         <div class="mark-section">
-          <div class="mark-label">为{{employee_name}}的{{scores[selectGradeItem].question_name}}项目评分</div>
-          <br>
-          <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
+          <div class="mark-label">
+            为{{ employee_name }}的{{
+              scores[selectGradeItem].question_name
+            }}项目评分
+          </div>
+          <br />
+          <grade-slider
+            :readOnly="readOnly"
+            v-model="scores[selectGradeItem].superior_score"
+          ></grade-slider>
         </div>
         <div style="width:20px;"></div>
         <div class="flag-section">
-          <div class="mark-label">为{{employee_name}}设置等级标签</div>
-          <br>
-          <level-selector :pre="preLv" :disabled="readOnly" v-model="level"></level-selector>
+          <div class="mark-label">为{{ employee_name }}设置等级标签</div>
+          <br />
+          <level-selector
+            :pre="preLv"
+            :disabled="readOnly"
+            v-model="level"
+          ></level-selector>
         </div>
       </div>
-      <br>
-      <div v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score">
-        <case-area :readOnly="readOnly" v-model="scores[selectGradeItem].superior_case"></case-area>
-        <br>
+      <br />
+      <div
+        v-if="
+          scores[selectGradeItem].superior_score !=
+            scores[selectGradeItem].score
+        "
+      >
+        <case-area
+          :readOnly="readOnly"
+          v-model="scores[selectGradeItem].superior_case"
+        ></case-area>
+        <br />
       </div>
       <div v-if="!forReject">
-        <case-area :readOnly="readOnly" placeholder="请填写修改理由" v-model="reason"></case-area>
-        <br>
+        <case-area
+          :readOnly="readOnly"
+          placeholder="请填写修改理由"
+          v-model="reason"
+        ></case-area>
+        <br />
       </div>
       <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button @click="submit" type="primary">提交</el-button>

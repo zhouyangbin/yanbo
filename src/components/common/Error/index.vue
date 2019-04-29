@@ -1,7 +1,7 @@
 <template>
-    <div class="center">
-        加载失败...
-    </div>
+  <div class="center">
+    加载失败...
+  </div>
 </template>
 <script>
 export default {};

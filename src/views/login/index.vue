@@ -3,7 +3,7 @@
     <el-row class="row-bg">
       <!--  FE-PC-TDC logo and title-->
       <el-col :span="12" class="login-logo">
-        <img src="@assets/img/login_logo.png" alt="好文来文化评分">
+        <img src="@assets/img/login_logo.png" alt="好文来文化评分" />
       </el-col>
 
       <!-- login form -->

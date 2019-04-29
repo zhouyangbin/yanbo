@@ -2,10 +2,12 @@
   <div class="grade-card-container">
     <div class="info">
       <section>
-        <span class="label title">{{constants.PERFORMANCE_TARGET}}{{index+1}}:</span>
-        <div class="target-name">{{data.target}}</div>
+        <span class="label title"
+          >{{ constants.PERFORMANCE_TARGET }}{{ index + 1 }}:</span
+        >
+        <div class="target-name">{{ data.target }}</div>
       </section>
-      <br>
+      <br />
       <section>
         <span class="label"></span>
 
@@ -24,62 +26,97 @@
                 <span v-html="data.metrics.replace(/\n/g, '<br/>')"></span>
               </section>
             </div>
-            <div v-if="data.target_self_score && data.target_self_score.description!=null">
+            <div
+              v-if="
+                data.target_self_score &&
+                  data.target_self_score.description != null
+              "
+            >
               <section>
                 <span class="label">自评分理由:</span> &nbsp;
                 <span
-                  v-html="(data.target_self_score && data.target_self_score.description).replace(/\n/g, '<br/>')"
+                  v-html="
+                    (
+                      data.target_self_score &&
+                      data.target_self_score.description
+                    ).replace(/\n/g, '<br/>')
+                  "
                 ></span>
               </section>
             </div>
             <div
-              v-if="readOnly&&data.target_superior_score && data.target_superior_score.description!=null"
+              v-if="
+                readOnly &&
+                  data.target_superior_score &&
+                  data.target_superior_score.description != null
+              "
             >
               <section>
                 <span class="label">上级评分理由:</span> &nbsp;
                 <span
-                  v-html="(data.target_superior_score && data.target_superior_score.description).replace(/\n/g, '<br/>')"
+                  v-html="
+                    (
+                      data.target_superior_score &&
+                      data.target_superior_score.description
+                    ).replace(/\n/g, '<br/>')
+                  "
                 ></span>
               </section>
             </div>
 
             <div v-if="data.deadlines">
               <section>
-                <span class="label">{{constants.FINISH_DATE}}:</span>
-                <span>{{data.deadlines}}</span>
+                <span class="label">{{ constants.FINISH_DATE }}:</span>
+                <span>{{ data.deadlines }}</span>
               </section>
-              <br>
+              <br />
             </div>
           </div>
           <div class="hilight">
             <div v-if="data.weights">
               <section>
-                <span class="label">{{constants.TARGET_WEIGH}}:</span> &nbsp;
-                <span>{{parseInt(data.weights*100)}}%</span>
+                <span class="label">{{ constants.TARGET_WEIGH }}:</span> &nbsp;
+                <span>{{ parseInt(data.weights * 100) }}%</span>
               </section>
             </div>
-            <div v-if="data.target_self_score && data.target_self_score.score!=null">
+            <div
+              v-if="
+                data.target_self_score && data.target_self_score.score != null
+              "
+            >
               <section>
-                <span class="label">{{constants.SELF_SCORE}}:</span> &nbsp;
-                <span>{{data.target_self_score && data.target_self_score.score}}分</span>
+                <span class="label">{{ constants.SELF_SCORE }}:</span> &nbsp;
+                <span>
+                  {{ data.target_self_score && data.target_self_score.score }}分
+                </span>
               </section>
             </div>
-            <div v-if="data.target_superior_score && data.target_superior_score.score!=null">
+            <div
+              v-if="
+                data.target_superior_score &&
+                  data.target_superior_score.score != null
+              "
+            >
               <section class="colorful">
-                <span class="label">{{constants.LEADER_SOCRE}}:</span> &nbsp;
-                <span>{{data.target_superior_score && data.target_superior_score.score}}分</span>
+                <span class="label">{{ constants.LEADER_SOCRE }}:</span> &nbsp;
+                <span>
+                  {{
+                    data.target_superior_score &&
+                      data.target_superior_score.score
+                  }}分
+                </span>
               </section>
             </div>
             <div v-if="false">
               <section class="colorful">
                 <span class="label">您的打分:</span> &nbsp;
-                <span>{{value&& parseFloat(value).toFixed(1)}}分</span>
+                <span>{{ value && parseFloat(value).toFixed(1) }}分</span>
               </section>
             </div>
           </div>
         </el-row>
       </section>
-      <br>
+      <br />
     </div>
     <div v-if="!readOnly" class="marks">
       <div class="target-desc">
@@ -87,7 +124,7 @@
           :rows="2"
           :placeholder="placeholder"
           :value="desc"
-          @input="$emit('update:desc',$event)"
+          @input="$emit('update:desc', $event)"
           :readOnly="readOnly"
         ></case-area>
       </div>
@@ -121,7 +158,7 @@ import {
 export default {
   props: {
     value: {
-      type: Number | String,
+      type: [Number, String],
       default: ""
     },
     desc: {

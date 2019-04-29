@@ -1,5 +1,5 @@
 <template>
-  <span v-if="total>pageSize" class="paging-style">
+  <span v-if="total > pageSize" class="paging-style">
     <el-pagination
       :page-size="pageSize"
       @current-change="handleCurrentChange"

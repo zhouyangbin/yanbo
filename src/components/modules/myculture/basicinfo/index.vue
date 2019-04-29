@@ -1,38 +1,37 @@
-
 <template>
   <div class="basicinfo-page">
     <el-row justify="space-between" type="flex">
       <div class="org-info">
         <span class="name">
-          {{data.name}}
+          {{ data.name }}
         </span>
         <span class="number">
-          {{data.workcode}}
+          {{ data.workcode }}
         </span>
         <span v-show="data.leaderLabel" class="number">
-          {{data.leaderLabel }}:
+          {{ data.leaderLabel }}:
         </span>
         <span v-show="data.superior_name" class="name">
-          {{data.superior_name}}
+          {{ data.superior_name }}
         </span>
         <span v-show="data.superior_workcode" class="number">
-          {{data.superior_workcode}}
+          {{ data.superior_workcode }}
         </span>
         <span v-show="data.hightlevelLabel" class="number">
-          {{data.hightlevelLabel}}:
+          {{ data.hightlevelLabel }}:
         </span>
         <span v-show="data.highlevel_name" class="name">
-          {{data.highlevel_name}}
+          {{ data.highlevel_name }}
         </span>
         <span v-show="data.highlevel_workcode" class="number">
-          {{data.highlevel_workcode}}
+          {{ data.highlevel_workcode }}
         </span>
         <span v-if="data.breakStatus" class="name">
-          {{data.breakStatus}}
+          {{ data.breakStatus }}
         </span>
       </div>
       <div v-if="data.finishedTime" class="finished-time">
-        {{data.finishedTime}}
+        {{ data.finishedTime }}
       </div>
     </el-row>
   </div>

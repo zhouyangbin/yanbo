@@ -1,6 +1,11 @@
 <template>
-  <el-dialog @close="close" width="500px" :visible="dialogImport" class="dialogImport">
-    <div slot="title" class="title">{{constants.IMPORT_RECORDS}}</div>
+  <el-dialog
+    @close="close"
+    width="500px"
+    :visible="dialogImport"
+    class="dialogImport"
+  >
+    <div slot="title" class="title">{{ constants.IMPORT_RECORDS }}</div>
     <div class="importTab">
       <el-tabs v-model="importTab">
         <el-tab-pane :label="constants.EHR_IMPORT" name="first">
@@ -13,7 +18,12 @@
           >
             <el-form-item :label="constants.WORK_LEVEL" prop="levels">
               <el-checkbox-group v-model="importForm.levels">
-                <el-checkbox v-for="v of levelOptions" :key="v.key" :label="v.value" name="levels"></el-checkbox>
+                <el-checkbox
+                  v-for="v of levelOptions"
+                  :key="v.key"
+                  :label="v.value"
+                  name="levels"
+                ></el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-form>
@@ -25,14 +35,18 @@
             :uploadErr="uploadErr"
             :errorData="tableData"
             :uploadHeader="uploadHeader"
-            :actionURL="constants.PATH_PERFORMANCE_EXCEL_IMPORT($route.params.orgID)"
-            :downloadURL="constants.PATH_PERFORMANCE_EXCEL_TPL($route.params.orgID)"
+            :actionURL="
+              constants.PATH_PERFORMANCE_EXCEL_IMPORT($route.params.orgID)
+            "
+            :downloadURL="
+              constants.PATH_PERFORMANCE_EXCEL_TPL($route.params.orgID)
+            "
           ></import-excel>
         </el-tab-pane>
       </el-tabs>
-      <span class="tips">{{constants.IMPORT_TIPS}}</span>
+      <span class="tips">{{ constants.IMPORT_TIPS }}</span>
     </div>
-    <div v-if="importTab==='first'" slot="footer" class="dialog-footer">
+    <div v-if="importTab === 'first'" slot="footer" class="dialog-footer">
       <el-row type="flex" justify="center">
         <el-button
           :disabled="uploading"
@@ -40,8 +54,11 @@
           size="medium"
           type="primary"
           @click="importFiles('importForm')"
-        >{{constants.CONFIRM}}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+          >{{ constants.CONFIRM }}</el-button
+        >
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
   </el-dialog>

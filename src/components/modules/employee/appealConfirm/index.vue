@@ -1,13 +1,32 @@
 <template>
-  <el-dialog class="rejectForm" @close="close" title="申诉理由" :visible="visible" width="30%">
-    <el-form :model="rejectForm" :rules="rejectFormRules" ref="rejectForm" label-width="100px">
+  <el-dialog
+    class="rejectForm"
+    @close="close"
+    title="申诉理由"
+    :visible="visible"
+    width="30%"
+  >
+    <el-form
+      :model="rejectForm"
+      :rules="rejectFormRules"
+      ref="rejectForm"
+      label-width="100px"
+    >
       <el-form-item label="理由" prop="reason">
-        <el-input type="textarea" :maxlength="1000" v-model="rejectForm.reason"></el-input>
+        <el-input
+          type="textarea"
+          :maxlength="1000"
+          v-model="rejectForm.reason"
+        ></el-input>
       </el-form-item>
     </el-form>
     <span class="reject-footer" slot="footer">
-      <el-button @click="$emit('update:visible', false)">{{constants.CANCEL}}</el-button>
-      <el-button type="primary" @click="submit">{{constants.CONFIRM}}</el-button>
+      <el-button @click="$emit('update:visible', false)">{{
+        constants.CANCEL
+      }}</el-button>
+      <el-button type="primary" @click="submit">{{
+        constants.CONFIRM
+      }}</el-button>
     </span>
   </el-dialog>
 </template>

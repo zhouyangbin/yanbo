@@ -1,21 +1,35 @@
-
 <template>
   <div class="LevelSelector-page">
     <el-button
-      @click="disabled?undefined:$emit('input','top')"
-      :class="{'selected':value=='top','disabled':disabled,'pre':pre=='top'}"
+      @click="disabled ? undefined : $emit('input', 'top')"
+      :class="{
+        selected: value == 'top',
+        disabled: disabled,
+        pre: pre == 'top'
+      }"
       class="selector"
-    >Top</el-button>
+      >Top</el-button
+    >
     <el-button
-      @click="disabled?undefined:$emit('input','middle')"
-      :class="{'selected':value=='middle','disabled':disabled,'pre':pre=='middle'}"
+      @click="disabled ? undefined : $emit('input', 'middle')"
+      :class="{
+        selected: value == 'middle',
+        disabled: disabled,
+        pre: pre == 'middle'
+      }"
       class="selector"
-    >Middle</el-button>
+      >Middle</el-button
+    >
     <el-button
-      @click="disabled?undefined:$emit('input','bottom')"
-      :class="{'selected':value=='bottom','disabled':disabled,'pre':pre=='bottom'}"
+      @click="disabled ? undefined : $emit('input', 'bottom')"
+      :class="{
+        selected: value == 'bottom',
+        disabled: disabled,
+        pre: pre == 'bottom'
+      }"
       class="selector"
-    >Bottom</el-button>
+      >Bottom</el-button
+    >
     <slot></slot>
   </div>
 </template>
@@ -23,7 +37,7 @@
 export default {
   props: {
     value: {
-      type: Number | String,
+      type: [Number, String],
       default: null
     },
     disabled: {
@@ -31,7 +45,7 @@ export default {
       default: false
     },
     pre: {
-      type: Number | String,
+      type: [Number, String],
       default: null
     }
   }

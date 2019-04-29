@@ -1,26 +1,16 @@
 <template>
-  <el-row
-    type="flex"
-    justify="end"
-    class="total-section"
-  >
+  <el-row type="flex" justify="end" class="total-section">
     <el-col :span="4">
-      <span>
-        总分/
-      </span>
-      <span
-        :class="over?'beat':''"
-        class="total-mark"
-      >{{total}}</span>
+      <span>总分/</span>
+      <span :class="over ? 'beat' : ''" class="total-mark">{{ total }}</span>
     </el-col>
   </el-row>
-
 </template>
 <script>
 export default {
   props: {
     total: {
-      type: String | Number,
+      type: [String, Number],
       default: ""
     }
   },
@@ -66,5 +56,4 @@ export default {
   animation: beat 1s infinite;
 }
 </style>
-<style>
-</style>
+<style></style>

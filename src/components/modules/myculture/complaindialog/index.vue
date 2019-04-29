@@ -1,10 +1,15 @@
-
 <template>
   <el-dialog title="申诉" :show-close="false" :visible="visible" width="30%">
-    <el-input type="textarea" :maxlength="1000" :rows="2" placeholder="请输入申诉理由" v-model="reason">
+    <el-input
+      type="textarea"
+      :maxlength="1000"
+      :rows="2"
+      placeholder="请输入申诉理由"
+      v-model="reason"
+    >
     </el-input>
     <span slot="footer">
-      <el-button @click="$emit('update:visible',false)">取 消</el-button>
+      <el-button @click="$emit('update:visible', false)">取 消</el-button>
       <el-button type="primary" @click="submit">确 定</el-button>
     </span>
   </el-dialog>
@@ -40,5 +45,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

@@ -62,7 +62,7 @@
           ></el-date-picker>
         </div>
       </el-form-item>
-      <br>
+      <br />
       <el-form-item label-width="0px">
         <el-row type="flex" justify="center">
           <el-button
@@ -70,8 +70,9 @@
             round
             type="primary"
             @click="submitForm('timeForm')"
-          >{{constants.CONFIRM}}</el-button>
-          <el-button @click="close" round>{{constants.CANCEL}}</el-button>
+            >{{ constants.CONFIRM }}</el-button
+          >
+          <el-button @click="close" round>{{ constants.CANCEL }}</el-button>
         </el-row>
       </el-form-item>
     </el-form>

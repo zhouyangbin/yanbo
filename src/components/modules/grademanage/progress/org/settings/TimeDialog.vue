@@ -1,5 +1,10 @@
 <template>
-  <el-dialog @close="close" width="770px" :visible="dialogTimes" class="dialogTimes">
+  <el-dialog
+    @close="close"
+    width="770px"
+    :visible="dialogTimes"
+    class="dialogTimes"
+  >
     <el-form
       label-width="120px"
       :rules="timesRules"
@@ -75,11 +80,12 @@
       </el-form-item>
       <el-form-item label prop="levelRequired">
         <el-checkbox
-          :disabled="!isManagerGrade ||leader_start_disable"
+          :disabled="!isManagerGrade || leader_start_disable"
           :true-label="1"
           :false-label="0"
           v-model="timesForm.levelRequired"
-        >{{constants.REQUIRE_271}}</el-checkbox>
+          >{{ constants.REQUIRE_271 }}</el-checkbox
+        >
       </el-form-item>
       <el-form-item :label="constants.LEADER_PLUS_EVALUATION_TIME" required>
         <el-row type="flex">
@@ -148,13 +154,22 @@
         </el-row>
       </el-form-item>
       <el-form-item label prop="visible_271">
-        <el-checkbox :true-label="1" :false-label="0" v-model="timesForm.visible_271">271等级员工本人可见</el-checkbox>
+        <el-checkbox
+          :true-label="1"
+          :false-label="0"
+          v-model="timesForm.visible_271"
+          >271等级员工本人可见</el-checkbox
+        >
       </el-form-item>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" type="primary" @click="timeSet">{{constants.CONFIRM}}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+        <el-button round size="medium" type="primary" @click="timeSet">{{
+          constants.CONFIRM
+        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
   </el-dialog>
@@ -499,5 +514,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

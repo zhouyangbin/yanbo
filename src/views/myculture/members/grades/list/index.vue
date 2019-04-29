@@ -1,22 +1,32 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <br />
     <section class="content-container">
       <!-- <rule-text :text="constants.MY_MEMBER_RULE"></rule-text> -->
-      <br>
+      <br />
       <section class="content-container bg-white">
         <header class="member-grade-info">
-          <div class="name">&nbsp;&nbsp;&nbsp; {{evaluation_name}}</div>
-          <div class="finish_time">{{constants.FINISHED_DATE}}: {{end_time}}</div>
+          <div class="name">&nbsp;&nbsp;&nbsp; {{ evaluation_name }}</div>
+          <div class="finish_time">
+            {{ constants.FINISHED_DATE }}: {{ end_time }}
+          </div>
         </header>
-        <br>
-        <hr>
-        <br>
+        <br />
+        <hr />
+        <br />
         <div class="members-list-filter">
-          <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
+          <el-form
+            :inline="true"
+            class="list-filter-form"
+            :model="memberForm"
+            ref="ruleForm"
+          >
             <el-form-item prop="employee_name">
-              <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
+              <el-input
+                placeholder="请输入姓名"
+                v-model="memberForm.employee_name"
+              ></el-input>
             </el-form-item>
             <el-form-item prop="superior_status">
               <el-select
@@ -32,15 +42,17 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{constants.RESET}}</el-button>
+              <el-button @click="resetForm('ruleForm')">{{
+                constants.RESET
+              }}</el-button>
             </el-form-item>
           </el-form>
         </div>
-        <br>
+        <br />
         <distribute-summary :data="overview"></distribute-summary>
-        <br>
-        <hr class="dash">
-        <br>
+        <br />
+        <hr class="dash" />
+        <br />
         <el-table :data="tableData" stripe style="width: 100%">
           <el-table-column prop="name" :label="constants.NAME">
             <template slot-scope="scope">
@@ -50,29 +62,42 @@
                   class="avatar-style"
                   :src="`${scope.row.avatar}_30x30q100.jpg`"
                   alt
-                >
-                <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
-                {{scope.row.name}}
+                />
+                <span class="stringAvatar" v-else>{{
+                  scope.row.name.substr(scope.row.name.length - 2)
+                }}</span>
+                {{ scope.row.name }}
               </el-row>
             </template>
           </el-table-column>
-          <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
-          <el-table-column prop="superior_score" :label="constants.LEADER_SOCRE"></el-table-column>
+          <el-table-column
+            prop="score"
+            :label="constants.SELF_SCORE"
+          ></el-table-column>
+          <el-table-column
+            prop="superior_score"
+            :label="constants.LEADER_SOCRE"
+          ></el-table-column>
           <el-table-column prop="self" label="271等级">
-            <template
-              slot-scope="scope"
-            >{{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}</template>
+            <template slot-scope="scope">{{
+              scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
+            }}</template>
           </el-table-column>
-          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
+          <el-table-column
+            prop="superior_status"
+            :label="constants.LEADER_EVALUATION_STATUS"
+          ></el-table-column>
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
             <template slot-scope="scope">
-              <div class="reject_status" v-if="scope.row.reject_status ==1">
-                <div>{{constants.REJECT}}</div>
+              <div class="reject_status" v-if="scope.row.reject_status == 1">
+                <div>{{ constants.REJECT }}</div>
               </div>
-              <div class="complain_status" v-if="scope.row.reject_status ==2">
-                <div>{{constants.APPEAL}}</div>
+              <div class="complain_status" v-if="scope.row.reject_status == 2">
+                <div>{{ constants.APPEAL }}</div>
               </div>
-              <div v-if="scope.row.reject_status ==0">{{ scope.row.stage_name}}</div>
+              <div v-if="scope.row.reject_status == 0">
+                {{ scope.row.stage_name }}
+              </div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
@@ -81,13 +106,18 @@
                 type="text"
                 @click="goDetail(scope.row)"
                 size="small"
-              >{{constants.VIEW_DETAILS}}</el-button>
+                >{{ constants.VIEW_DETAILS }}</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
-        <br>
+        <br />
         <el-row type="flex" justify="end">
-          <pagination @current-change="currentChange" :currentPage="currentPage" :total="total"></pagination>
+          <pagination
+            @current-change="currentChange"
+            :currentPage="currentPage"
+            :total="total"
+          ></pagination>
         </el-row>
       </section>
     </section>
@@ -173,8 +203,8 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
-    "rule-text": () =>
-      import("@/components/modules/myculture/ruletext/index.vue"),
+    // "rule-text": () =>
+    //   import("@/components/modules/myculture/ruletext/index.vue"),
     "distribute-summary": () =>
       import("@/components/modules/myculture/membersdistribute/index.vue")
   },

@@ -1,8 +1,7 @@
-
 <template>
   <div class="mobileNotify-page">
     <h1>请在PC端打开</h1>
-    <img src="@assets/img/blank_sign.png" alt="好文来文化评分">
+    <img src="@assets/img/blank_sign.png" alt="好文来文化评分" />
   </div>
 </template>
 <script>

@@ -4,56 +4,112 @@
     <section class="content-container dep-page">
       <div class="bg-white">
         <el-row type="flex" justify="space-between" class="header">
-          <span>{{gradeInfo.name}}</span>
+          <span>{{ gradeInfo.name }}</span>
           <span class="tip">
-            {{constants.FINISHED_DATE}} {{gradeInfo.finishedDate}}
+            {{ constants.FINISHED_DATE }} {{ gradeInfo.finishedDate }}
           </span>
         </el-row>
-        <hr>
+        <hr />
         <div class="time-line-panel bg-white">
           <el-row type="flex" justify="space-between">
             <span class="dep-name">
-              {{depInfo.name}}
+              {{ depInfo.name }}
             </span>
-            <el-button :disabled="realTotal==0 || step==5" @click="dialogTimes=true" size="mini" type="primary" round style="margin-right:20px">
-              {{hasSchedule?constants.MODIFY_TIMES:constants.SET_TIMES}}
+            <el-button
+              :disabled="realTotal == 0 || step == 5"
+              @click="dialogTimes = true"
+              size="mini"
+              type="primary"
+              round
+              style="margin-right:20px"
+            >
+              {{ hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES }}
             </el-button>
           </el-row>
-          <br>
-          <br>
+          <br />
+          <br />
           <el-row type="flex" justify="center">
             <el-col :span="20">
               <el-steps align-center :active="step" finish-status="success">
                 <el-step>
                   <template slot="title">
-                    <el-button @click="dialogImport =true" :disabled="!canbeImport" size="mini" round type="primary">{{constants.IMPORT_RECORDS}}</el-button>
+                    <el-button
+                      @click="dialogImport = true"
+                      :disabled="!canbeImport"
+                      size="mini"
+                      round
+                      type="primary"
+                      >{{ constants.IMPORT_RECORDS }}</el-button
+                    >
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    自评{{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.self_status))[0]||{}).value}}
-                    <span v-if="depInfo.self_status>0">({{depInfo.self}}/{{depInfo.count}})</span>
-                    <div v-if="gradeInfo.self_start_time">{{gradeInfo.self_start_time}} - {{gradeInfo.self_end_time}}</div>
+                    自评{{
+                      (
+                        constants.ENUM_SELF_EVALUATION_STATUS.filter(
+                          v => v.key === String(depInfo.self_status)
+                        )[0] || {}
+                      ).value
+                    }}
+                    <span v-if="depInfo.self_status > 0"
+                      >({{ depInfo.self }}/{{ depInfo.count }})</span
+                    >
+                    <div v-if="gradeInfo.self_start_time">
+                      {{ gradeInfo.self_start_time }} -
+                      {{ gradeInfo.self_end_time }}
+                    </div>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    上级评{{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.superior_status))[0]||{}).value}}
-                    <span v-if="depInfo.superior_status>0">({{depInfo.superior}}/{{depInfo.count}})</span>
-                    <div v-if="gradeInfo.superior_start_time">{{gradeInfo.superior_start_time}} - {{gradeInfo.superior_end_time}}</div>
+                    上级评{{
+                      (
+                        constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                          v => v.key === String(depInfo.superior_status)
+                        )[0] || {}
+                      ).value
+                    }}
+                    <span v-if="depInfo.superior_status > 0"
+                      >({{ depInfo.superior }}/{{ depInfo.count }})</span
+                    >
+                    <div v-if="gradeInfo.superior_start_time">
+                      {{ gradeInfo.superior_start_time }} -
+                      {{ gradeInfo.superior_end_time }}
+                    </div>
                   </template>
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    隔级上级评{{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.highlevel_status))[0]||{}).value}}
-                    <span v-if="depInfo.highlevel_status>0">({{(depInfo.highlevel)}}/{{depInfo.count}})</span>
-                    <div v-if="gradeInfo.highlevel_start_time">{{gradeInfo.highlevel_start_time}} - {{gradeInfo.highlevel_end_time}}</div>
+                    隔级上级评{{
+                      (
+                        constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(
+                          v => v.key === String(depInfo.highlevel_status)
+                        )[0] || {}
+                      ).value
+                    }}
+                    <span v-if="depInfo.highlevel_status > 0"
+                      >({{ depInfo.highlevel }}/{{ depInfo.count }})</span
+                    >
+                    <div v-if="gradeInfo.highlevel_start_time">
+                      {{ gradeInfo.highlevel_start_time }} -
+                      {{ gradeInfo.highlevel_end_time }}
+                    </div>
                   </template>
                 </el-step>
                 <el-step title="未开始">
                   <template slot="title">
-                    面谈{{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(depInfo.feedback_status))[0]||{}).value}}
-                    <div v-if="gradeInfo.feedback_start_time">{{gradeInfo.feedback_start_time}} - {{gradeInfo.feedback_end_time}}</div>
+                    面谈{{
+                      (
+                        constants.ENUM_FACE_EVALUATION_STATUS.filter(
+                          v => v.key === String(depInfo.feedback_status)
+                        )[0] || {}
+                      ).value
+                    }}
+                    <div v-if="gradeInfo.feedback_start_time">
+                      {{ gradeInfo.feedback_start_time }} -
+                      {{ gradeInfo.feedback_end_time }}
+                    </div>
                   </template>
                 </el-step>
               </el-steps>
@@ -61,142 +117,393 @@
           </el-row>
         </div>
       </div>
-      <br>
+      <br />
       <div class="bg-white">
-        <el-row align="middle" class="action-bar" type="flex" justify="space-between">
+        <el-row
+          align="middle"
+          class="action-bar"
+          type="flex"
+          justify="space-between"
+        >
           <span>
-            {{constants.SELECTION_TIPS(total,selection.length)}}
+            {{ constants.SELECTION_TIPS(total, selection.length) }}
           </span>
           <span>
-            <el-button @click="exportData" :disabled="selection.length===0" class="action-btn" icon="el-icon-download" type="medium">{{constants.EXPORT_DETAILS}}</el-button>
-            <el-button @click="reminder" :disabled="!canbeReminder" class="action-btn" icon="el-icon-bell" type="medium">{{constants.REMINDER}}</el-button>
-            <el-button class="action-btn" :disabled="!canAdd" icon="el-icon-plus" type="medium" @click="infoType='add';dialogInfo=true;currentInfo={}">{{constants.ADD}}</el-button>
-            <el-button @click="batchDel" :disabled="selection.length===0||!canAdd" class="action-btn" icon="el-icon-delete" type="medium">{{constants.BATCH_DEL}}</el-button>
+            <el-button
+              @click="exportData"
+              :disabled="selection.length === 0"
+              class="action-btn"
+              icon="el-icon-download"
+              type="medium"
+              >{{ constants.EXPORT_DETAILS }}</el-button
+            >
+            <el-button
+              @click="reminder"
+              :disabled="!canbeReminder"
+              class="action-btn"
+              icon="el-icon-bell"
+              type="medium"
+              >{{ constants.REMINDER }}</el-button
+            >
+            <el-button
+              class="action-btn"
+              :disabled="!canAdd"
+              icon="el-icon-plus"
+              type="medium"
+              @click="
+                infoType = 'add';
+                dialogInfo = true;
+                currentInfo = {};
+              "
+              >{{ constants.ADD }}</el-button
+            >
+            <el-button
+              @click="batchDel"
+              :disabled="selection.length === 0 || !canAdd"
+              class="action-btn"
+              icon="el-icon-delete"
+              type="medium"
+              >{{ constants.BATCH_DEL }}</el-button
+            >
           </span>
         </el-row>
-        <el-form :inline="true" :model="formFilter" ref="filter-form" class="filter-form">
+        <el-form
+          :inline="true"
+          :model="formFilter"
+          ref="filter-form"
+          class="filter-form"
+        >
           <el-form-item prop="number">
-            <el-input v-model="formFilter.number" :placeholder="constants.NUMBER"></el-input>
+            <el-input
+              v-model="formFilter.number"
+              :placeholder="constants.NUMBER"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="name">
-            <el-input v-model="formFilter.name" :placeholder="constants.NAME"></el-input>
+            <el-input
+              v-model="formFilter.name"
+              :placeholder="constants.NAME"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="leaderNum">
-            <el-input v-model="formFilter.leaderNum" :placeholder="constants.LEADER_NUMBER"></el-input>
+            <el-input
+              v-model="formFilter.leaderNum"
+              :placeholder="constants.LEADER_NUMBER"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="leaderName">
-            <el-input v-model="formFilter.leaderName" :placeholder="constants.LEADER_NAME"></el-input>
+            <el-input
+              v-model="formFilter.leaderName"
+              :placeholder="constants.LEADER_NAME"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="upLeaderNum">
-            <el-input v-model="formFilter.upLeaderNum" :placeholder="constants.PLUS_LEADER_NUMBER"></el-input>
+            <el-input
+              v-model="formFilter.upLeaderNum"
+              :placeholder="constants.PLUS_LEADER_NUMBER"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="upLeaderName">
-            <el-input v-model="formFilter.upLeaderName" :placeholder="constants.PLUS_LEADER_NAME"></el-input>
+            <el-input
+              v-model="formFilter.upLeaderName"
+              :placeholder="constants.PLUS_LEADER_NAME"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="selfEvaluation">
-            <el-select v-model="formFilter.selfEvaluation" :placeholder="constants.SELF_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="formFilter.selfEvaluation"
+              :placeholder="constants.SELF_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="leaderEvaluation">
-            <el-select v-model="formFilter.leaderEvaluation" :placeholder="constants.LEADER_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="formFilter.leaderEvaluation"
+              :placeholder="constants.LEADER_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="plusLeaderEvaluation">
-            <el-select v-model="formFilter.plusLeaderEvaluation" :placeholder="constants.LEADER_PLUS_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="formFilter.plusLeaderEvaluation"
+              :placeholder="constants.LEADER_PLUS_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="result">
-            <el-select v-model="formFilter.result" :placeholder="constants.RESULT_CONFIRM">
-              <el-option v-for="v of constants.ENUM_WAIT_CONFIRM" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="formFilter.result"
+              :placeholder="constants.RESULT_CONFIRM"
+            >
+              <el-option
+                v-for="v of constants.ENUM_WAIT_CONFIRM"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button round size="medium" @click="resetFilter('filter-form')" class="btn-reset">{{constants.RESET}}</el-button>
+            <el-button
+              round
+              size="medium"
+              @click="resetFilter('filter-form')"
+              class="btn-reset"
+              >{{ constants.RESET }}</el-button
+            >
           </el-form-item>
         </el-form>
-        <el-table @selection-change="handleSelectionChange" ref="multipleTable" height="400" :data="tableData" stripe style="width: 100%">
+        <el-table
+          @selection-change="handleSelectionChange"
+          ref="multipleTable"
+          height="400"
+          :data="tableData"
+          stripe
+          style="width: 100%"
+        >
           <el-table-column fixed="left" type="selection" width="55">
           </el-table-column>
           <el-table-column prop="workcode" :label="constants.NUMBER" width="80">
           </el-table-column>
           <el-table-column prop="name" :label="constants.NAME" width="100">
           </el-table-column>
-          <el-table-column prop="department" :label="constants.BASE_OR_BU" width="100">
+          <el-table-column
+            prop="department"
+            :label="constants.BASE_OR_BU"
+            width="100"
+          >
           </el-table-column>
-          <el-table-column prop="first_department" :label="constants.DEP_OR_SUB" width="200">
+          <el-table-column
+            prop="first_department"
+            :label="constants.DEP_OR_SUB"
+            width="200"
+          >
           </el-table-column>
-          <el-table-column prop="level" :label="constants.WORK_LEVEL" width="100">
+          <el-table-column
+            prop="level"
+            :label="constants.WORK_LEVEL"
+            width="100"
+          >
           </el-table-column>
           <el-table-column prop="email" :label="constants.EMAIL" width="180">
           </el-table-column>
-          <el-table-column prop="superior_workcode" :label="constants.LEADER_NUMBER" width="80">
+          <el-table-column
+            prop="superior_workcode"
+            :label="constants.LEADER_NUMBER"
+            width="80"
+          >
           </el-table-column>
-          <el-table-column prop="superior_name" :label="constants.LEADER_NAME" width="100">
+          <el-table-column
+            prop="superior_name"
+            :label="constants.LEADER_NAME"
+            width="100"
+          >
           </el-table-column>
-          <el-table-column prop="superior_department" :label="constants.UP_LEVEL+constants.BASE_OR_BU" width="150">
+          <el-table-column
+            prop="superior_department"
+            :label="constants.UP_LEVEL + constants.BASE_OR_BU"
+            width="150"
+          >
           </el-table-column>
-          <el-table-column prop="superior_email" :label="constants.UP_LEVEL+constants.EMAIL" width="150">
+          <el-table-column
+            prop="superior_email"
+            :label="constants.UP_LEVEL + constants.EMAIL"
+            width="150"
+          >
           </el-table-column>
-          <el-table-column prop="highlevel_workcode" :label="constants.PLUS_UP_LEVEL+constants.NUMBER" width="80">
+          <el-table-column
+            prop="highlevel_workcode"
+            :label="constants.PLUS_UP_LEVEL + constants.NUMBER"
+            width="80"
+          >
           </el-table-column>
-          <el-table-column prop="highlevel_name" :label="constants.PLUS_UP_LEVEL+constants.NAME" width="100">
+          <el-table-column
+            prop="highlevel_name"
+            :label="constants.PLUS_UP_LEVEL + constants.NAME"
+            width="100"
+          >
           </el-table-column>
-          <el-table-column prop="highlevel_department" :label="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" width="150">
+          <el-table-column
+            prop="highlevel_department"
+            :label="constants.PLUS_UP_LEVEL + constants.BASE_OR_BU"
+            width="150"
+          >
           </el-table-column>
-          <el-table-column prop="highlevel_email" :label="constants.PLUS_UP_LEVEL+constants.EMAIL" width="150">
+          <el-table-column
+            prop="highlevel_email"
+            :label="constants.PLUS_UP_LEVEL + constants.EMAIL"
+            width="150"
+          >
           </el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">
             <template slot-scope="scope">
-              {{constants.LEVEL_ALIAS[scope.row._271_level]}}
+              {{ constants.LEVEL_ALIAS[scope.row._271_level] }}
             </template>
           </el-table-column>
-          <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS" width="80">
+          <el-table-column
+            prop="self_status"
+            :label="constants.SELF_EVALUATION_STATUS"
+            width="80"
+          >
             <template slot-scope="scope">
-              {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value !='已完成'?'未完成':'已完成'}}
+              {{
+                (
+                  constants.ENUM_SELF_EVALUATION_STATUS.filter(
+                    v => v.key === String(scope.row.self_status)
+                  )[0] || {}
+                ).value != "已完成"
+                  ? "未完成"
+                  : "已完成"
+              }}
             </template>
           </el-table-column>
-          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS" width="100">
+          <el-table-column
+            prop="superior_status"
+            :label="constants.LEADER_EVALUATION_STATUS"
+            width="100"
+          >
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value }}
+              {{
+                (
+                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                    v => v.key === String(scope.row.superior_status)
+                  )[0] || {}
+                ).value
+              }}
             </template>
           </el-table-column>
-          <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS" width="120">
+          <el-table-column
+            prop="highlevel_status"
+            :label="constants.LEADER_PLUS_EVALUATION_STATUS"
+            width="120"
+          >
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
+              {{
+                (
+                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                    v => v.key === String(scope.row.highlevel_status)
+                  )[0] || {}
+                ).value
+              }}
             </template>
           </el-table-column>
-          <el-table-column prop="feedback_status" :label="constants.FACE_FEEDBACK">
+          <el-table-column
+            prop="feedback_status"
+            :label="constants.FACE_FEEDBACK"
+          >
             <template slot-scope="scope">
-              {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value }}
+              {{
+                (
+                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                    v => v.key === String(scope.row.feedback_status)
+                  )[0] || {}
+                ).value
+              }}
             </template>
           </el-table-column>
-          <el-table-column prop="feedback_is_agree" :label="constants.RESULT_CONFIRM">
+          <el-table-column
+            prop="feedback_is_agree"
+            :label="constants.RESULT_CONFIRM"
+          >
             <template slot-scope="scope">
-              {{(constants.ENUM_WAIT_CONFIRM.filter(v=>v.key===String(scope.row.feedback_is_agree))[0]||{}).value}}
+              {{
+                (
+                  constants.ENUM_WAIT_CONFIRM.filter(
+                    v => v.key === String(scope.row.feedback_is_agree)
+                  )[0] || {}
+                ).value
+              }}
             </template>
           </el-table-column>
-          <el-table-column fixed="right" :label="constants.OPERATIONS" width="150">
+          <el-table-column
+            fixed="right"
+            :label="constants.OPERATIONS"
+            width="150"
+          >
             <template slot-scope="scope">
-              <el-button v-if="canEdit" @click="modifyInfo(scope.row)" type="text" size="small">{{constants.MODIFY}}</el-button>
-              <el-button v-if="canAdd" type="text" @click="delInfo(scope.row)" size="small">{{constants.DEL}}</el-button>
-              <el-button @click="$router.push(constants.PATH_GRADE_EMP_DETAIL($route.params.id,$route.params.orgID,scope.row.id))" type="text" size="small">{{constants.DETAILS}}</el-button>
+              <el-button
+                v-if="canEdit"
+                @click="modifyInfo(scope.row)"
+                type="text"
+                size="small"
+                >{{ constants.MODIFY }}</el-button
+              >
+              <el-button
+                v-if="canAdd"
+                type="text"
+                @click="delInfo(scope.row)"
+                size="small"
+                >{{ constants.DEL }}</el-button
+              >
+              <el-button
+                @click="
+                  $router.push(
+                    constants.PATH_GRADE_EMP_DETAIL(
+                      $route.params.id,
+                      $route.params.orgID,
+                      scope.row.id
+                    )
+                  )
+                "
+                type="text"
+                size="small"
+                >{{ constants.DETAILS }}</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
-        <br>
+        <br />
         <el-row type="flex" justify="end">
-          <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+          <pagination
+            @current-change="handleCurrentChange"
+            :currentPage="currentPage"
+            :total="total"
+          ></pagination>
         </el-row>
-        <br>
+        <br />
       </div>
     </section>
 
-    <import-dialog :isManagerGrade="isManagerGrade" @close="closeImportDia" v-if="dialogImport" :dialogImport="dialogImport" class="dialogImport"></import-dialog>
-    <time-setting :isManagerGrade="isManagerGrade" :timeData="timeData" :status="status" @close="closeTimeSettingDia" v-if="dialogTimes" :dialogTimes="dialogTimes"></time-setting>
-    <info-dialog :currentInfo="currentInfo" @close="closeInfoDia" v-if="dialogInfo" :infoType="infoType" :dialogInfo="dialogInfo"></info-dialog>
+    <import-dialog
+      :isManagerGrade="isManagerGrade"
+      @close="closeImportDia"
+      v-if="dialogImport"
+      :dialogImport="dialogImport"
+      class="dialogImport"
+    ></import-dialog>
+    <time-setting
+      :isManagerGrade="isManagerGrade"
+      :timeData="timeData"
+      :status="status"
+      @close="closeTimeSettingDia"
+      v-if="dialogTimes"
+      :dialogTimes="dialogTimes"
+    ></time-setting>
+    <info-dialog
+      :currentInfo="currentInfo"
+      @close="closeInfoDia"
+      v-if="dialogInfo"
+      :infoType="infoType"
+      :dialogInfo="dialogInfo"
+    ></info-dialog>
   </div>
 </template>
 <script>
@@ -639,6 +946,7 @@ export default {
       if (stage == 70) {
         return 5;
       }
+      return 0;
     },
     hasSchedule() {
       // 是否设置了时间

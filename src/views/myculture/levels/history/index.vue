@@ -1,50 +1,67 @@
 <template>
   <div class="culture-hr-details-history-page">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <br />
     <section class="content-container" style="padding:40px">
       <basic-info :data="basicInfo"></basic-info>
-      <br>
-      <hr>
-      <br>
-      <history-cards :selectedIndex.sync="selectedIndex" :data="list"></history-cards>
-      <br>
+      <br />
+      <hr />
+      <br />
+      <history-cards
+        :selectedIndex.sync="selectedIndex"
+        :data="list"
+      ></history-cards>
+      <br />
       <div>
-        <h3>{{constants.CHANGE_REASON}}:</h3>
-        <case-area :readOnly="readOnly" v-model="list[selectedIndex].change_reason"></case-area>
+        <h3>{{ constants.CHANGE_REASON }}:</h3>
+        <case-area
+          :readOnly="readOnly"
+          v-model="list[selectedIndex].change_reason"
+        ></case-area>
       </div>
-      <br>
+      <br />
       <div>
-        <h3>{{constants.ADVANTAGE}}:</h3>
-        <case-area :readOnly="readOnly" v-model="list[selectedIndex].advantage"></case-area>
+        <h3>{{ constants.ADVANTAGE }}:</h3>
+        <case-area
+          :readOnly="readOnly"
+          v-model="list[selectedIndex].advantage"
+        ></case-area>
       </div>
-      <br>
+      <br />
       <div>
-        <h3>{{constants.PROMOTION}}:</h3>
-        <case-area :readOnly="readOnly" v-model="list[selectedIndex].promotion"></case-area>
+        <h3>{{ constants.PROMOTION }}:</h3>
+        <case-area
+          :readOnly="readOnly"
+          v-model="list[selectedIndex].promotion"
+        ></case-area>
       </div>
-      <br>
+      <br />
       <section class="mark">
         <el-row align="middle" type="flex">
           <el-col style="padding:20px;border-right: 1px solid #979797;">
             <div class="mark-label">自评分数</div>
-            <grade-items :items="gradeItems" v-model="selectGradeItem"></grade-items>
+            <grade-items
+              :items="gradeItems"
+              v-model="selectGradeItem"
+            ></grade-items>
           </el-col>
           <el-col style="padding-left:50px;">
-            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
-              <div>{{i+3}}分理由:</div>
-              <div>{{n}}</div>
+            <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
+              <div>{{ i + 3 }}分理由:</div>
+              <div>{{ n }}</div>
             </div>
           </el-col>
         </el-row>
       </section>
-      <br>
+      <br />
       <div class="mark-flag-container">
         <div class="mark-section">
-          <div
-            class="mark-label"
-          >为{{basicInfo.name}}的{{gradeItems[selectGradeItem].question_name}}项目评分</div>
-          <br>
+          <div class="mark-label">
+            为{{ basicInfo.name }}的{{
+              gradeItems[selectGradeItem].question_name
+            }}项目评分
+          </div>
+          <br />
           <grade-slider
             :readOnly="readOnly"
             v-model="list[selectedIndex].scores[selectGradeItem].superior_score"
@@ -52,30 +69,42 @@
         </div>
         <div style="width:20px;"></div>
         <div class="flag-section">
-          <div class="mark-label">为{{basicInfo.name}}设置等级标签</div>
-          <br>
-          <level-selector :disabled="readOnly" v-model="currentLv"></level-selector>
+          <div class="mark-label">为{{ basicInfo.name }}设置等级标签</div>
+          <br />
+          <level-selector
+            :disabled="readOnly"
+            v-model="currentLv"
+          ></level-selector>
         </div>
       </div>
-      <br>
+      <br />
       <div
-        v-if="list[selectedIndex].scores[selectGradeItem].self_score!=list[selectedIndex].scores[selectGradeItem].superior_score"
+        v-if="
+          list[selectedIndex].scores[selectGradeItem].self_score !=
+            list[selectedIndex].scores[selectGradeItem].superior_score
+        "
       >
         <case-area
           :readOnly="readOnly"
           v-model="list[selectedIndex].scores[selectGradeItem].superior_case"
         ></case-area>
-        <br>
+        <br />
       </div>
-      <br>
-      <br>
-      <div v-if="hasChanges" class="detail-header" @click="detailHide =!detailHide">
-        {{constants.CHANGE_RECORDS}}
+      <br />
+      <br />
+      <div
+        v-if="hasChanges"
+        class="detail-header"
+        @click="detailHide = !detailHide"
+      >
+        {{ constants.CHANGE_RECORDS }}
         <i
-          :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"
+          :class="detailHide ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"
         ></i>
         <div v-if="!detailHide">
-          <li class="change-item" v-for="(v,i) of changes" :key="i">{{v}}</li>
+          <li class="change-item" v-for="(v, i) of changes" :key="i">
+            {{ v }}
+          </li>
         </div>
       </div>
     </section>

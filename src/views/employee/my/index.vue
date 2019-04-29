@@ -1,7 +1,11 @@
 <template>
   <div>
     <nav-bar :list="nav"></nav-bar>
-    <component @refresh="getStatus" ref="child" :is="currentComponent"></component>
+    <component
+      @refresh="getStatus"
+      ref="child"
+      :is="currentComponent"
+    ></component>
   </div>
 </template>
 <script>
@@ -61,5 +65,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

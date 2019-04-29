@@ -3,20 +3,21 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <el-row align="middle" type="flex" justify="space-between">
-        <span>{{constants.GRADE_LIST}}</span>
+        <span>{{ constants.GRADE_LIST }}</span>
         <el-button
           type="primary"
           v-if="canCreateCultureGrade"
           @click="createGrade"
           round
-        >{{constants.CREATE_GRADE}}</el-button>
+          >{{ constants.CREATE_GRADE }}</el-button
+        >
       </el-row>
 
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px;">
         <el-table-column prop="name" :label="constants.GRADE_NAME">
           <template slot-scope="scope">
-            {{scope.row.name}}
-            <span class="newTag" v-if="scope.row.index===0">NEW!</span>
+            {{ scope.row.name }}
+            <span class="newTag" v-if="scope.row.index === 0">NEW!</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -25,32 +26,53 @@
           :label="constants.BU"
         >
           <template slot-scope="scope">
-            <span
-              slot="reference"
-            >{{(scope.row.department_names||[]).map(v=>v.department_name).join("、 ")}}</span>
+            <span slot="reference">{{
+              (scope.row.department_names || [])
+                .map(v => v.department_name)
+                .join("、 ")
+            }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="end_time" :label="constants.FINISHED_DATE"></el-table-column>
-        <el-table-column prop="create_at" :label="constants.CREATED_DATE"></el-table-column>
+        <el-table-column
+          prop="end_time"
+          :label="constants.FINISHED_DATE"
+        ></el-table-column>
+        <el-table-column
+          prop="create_at"
+          :label="constants.CREATED_DATE"
+        ></el-table-column>
         <el-table-column prop="operation" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
+              constants.DETAILS
+            }}</el-button>
             <el-button
               @click="exportGrade(scope.row)"
               type="text"
               size="small"
-            >{{constants.EXPORT_DETAILS}}</el-button>
+              >{{ constants.EXPORT_DETAILS }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
-      <br>
+      <br />
       <el-row type="flex" justify="end">
-        <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
+        <pagination
+          :currentPage="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total"
+        ></pagination>
       </el-row>
     </section>
-    <el-dialog @close="closeDia('ruleForm')" width="650px" :visible.sync="createGradeDialog">
+    <el-dialog
+      @close="closeDia('ruleForm')"
+      width="650px"
+      :visible.sync="createGradeDialog"
+    >
       <span slot="title">
-        <el-row type="flex" justify="center" class="dialog-title">{{constants.CREATE_GRADE}}</el-row>
+        <el-row type="flex" justify="center" class="dialog-title">{{
+          constants.CREATE_GRADE
+        }}</el-row>
       </span>
       <el-form
         :model="ruleForm"
@@ -60,7 +82,12 @@
         class="create-form-dialog"
       >
         <el-form-item :label="constants.GRADE_NAME" prop="name">
-          <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
+          <el-input
+            size="medium"
+            :maxlength="20"
+            style="width:400px;"
+            v-model="ruleForm.name"
+          ></el-input>
         </el-form-item>
         <el-form-item :label="constants.BU" prop="dep">
           <el-checkbox-group v-model="ruleForm.dep">
@@ -69,7 +96,8 @@
               :key="v.department_id"
               :label="v.department_id"
               name="dep"
-            >{{v.name}}</el-checkbox>
+              >{{ v.name }}</el-checkbox
+            >
           </el-checkbox-group>
         </el-form-item>
         <el-form-item :label="constants.FINISHED_DATE" prop="time">
@@ -83,11 +111,15 @@
             placeholder="选择日期时间"
           ></el-date-picker>
         </el-form-item>
-        <br>
+        <br />
         <el-form-item label-width="0px">
           <el-row type="flex" justify="center">
-            <el-button round type="primary" @click="submitForm('ruleForm')">{{constants.CONFIRM}}</el-button>
-            <el-button @click="closeDia('ruleForm')" round>{{constants.CANCEL}}</el-button>
+            <el-button round type="primary" @click="submitForm('ruleForm')">{{
+              constants.CONFIRM
+            }}</el-button>
+            <el-button @click="closeDia('ruleForm')" round>{{
+              constants.CANCEL
+            }}</el-button>
           </el-row>
         </el-form-item>
       </el-form>

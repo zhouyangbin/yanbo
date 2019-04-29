@@ -7,60 +7,164 @@
         <el-col :span="16">
           <el-form :inline="true" :model="conditionForm" ref="conditionForm">
             <el-form-item>
-              <el-input v-model="conditionForm.name" :placeholder="constants.LABEL_NAME" @input="changeCondition"></el-input>
+              <el-input
+                v-model="conditionForm.name"
+                :placeholder="constants.LABEL_NAME"
+                @input="changeCondition"
+              ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="conditionForm.department_id" :placeholder="constants.LABEL_SELECT_DIVISION" @change="changeCondition">
-                <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item.value">
+              <el-select
+                v-model="conditionForm.department_id"
+                :placeholder="constants.LABEL_SELECT_DIVISION"
+                @change="changeCondition"
+              >
+                <el-option
+                  v-for="item in departments"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button round @click="resetForm('conditionForm')">{{constants.LABEL_EMPTY}}</el-button>
+              <el-button round @click="resetForm('conditionForm')">{{
+                constants.LABEL_EMPTY
+              }}</el-button>
             </el-form-item>
           </el-form>
         </el-col>
         <el-col :span="8">
           <el-row type="flex" justify="end">
-            <el-button type="primary" round @click="submitUser">{{constants.LABEL_ADD_USER}}</el-button>
+            <el-button type="primary" round @click="submitUser">{{
+              constants.LABEL_ADD_USER
+            }}</el-button>
           </el-row>
         </el-col>
       </el-row>
 
       <!-- addUser dialog -->
-      <user-dialog v-if="addDialogVisible" :visible.sync="addDialogVisible" :title="constants.LABEL_ADD" :userForm.sync="userForm" :disabled="false" :submit="addSubmit"></user-dialog>
+      <user-dialog
+        v-if="addDialogVisible"
+        :visible.sync="addDialogVisible"
+        :title="constants.LABEL_ADD"
+        :userForm.sync="userForm"
+        :disabled="false"
+        :submit="addSubmit"
+      ></user-dialog>
 
       <!-- user tableList -->
-      <el-table :data="userTable" stripe style="width:100%" v-loading="tableLoading" :height="tableHeight">
-        <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="true" align="center"></el-table-column>
-        <el-table-column :label="constants.ROLE" :show-overflow-tooltip="true" align="center">
+      <el-table
+        :data="userTable"
+        stripe
+        style="width:100%"
+        v-loading="tableLoading"
+        :height="tableHeight"
+      >
+        <el-table-column
+          v-for="item in tableColumn"
+          :key="item.prop"
+          :prop="item.prop"
+          :label="item.label"
+          :width="item.width"
+          :show-overflow-tooltip="true"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          :label="constants.ROLE"
+          :show-overflow-tooltip="true"
+          align="center"
+        >
           <template slot-scope="scope">
-            {{scope.row.roles.map(v=>v.name).join(", ")}}
+            {{ scope.row.roles.map(v => v.name).join(", ") }}
           </template>
         </el-table-column>
-        <el-table-column :label="constants.LABEL_STATUS" width="80" align="center">
+        <el-table-column
+          :label="constants.LABEL_STATUS"
+          width="80"
+          align="center"
+        >
           <template slot-scope="scope">
-            {{scope.row.active == '1'?constants.LABEL_ENABLED:constants.LABEL_FORBIDDEN}}
+            {{
+              scope.row.active == "1"
+                ? constants.LABEL_ENABLED
+                : constants.LABEL_FORBIDDEN
+            }}
           </template>
         </el-table-column>
-        <el-table-column prop="created_at" :label="constants.LABEL_CREATED_DATE" width="180" align="center"></el-table-column>
-        <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS" align="center" width="250">
+        <el-table-column
+          prop="created_at"
+          :label="constants.LABEL_CREATED_DATE"
+          width="180"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          fixed="right"
+          :label="constants.LABEL_OPERATIONS"
+          align="center"
+          width="250"
+        >
           <template slot-scope="scope">
-            <el-button @click="updateUser(scope.row)" type="text" size="small">{{constants.LABEL_MODIFY}}</el-button>
-            <el-button @click="enabledUser(scope.row)" type="text" size="small">{{scope.row.active==1?constants.LABEL_FORBIDDEN:constants.LABEL_ENABLED}}</el-button>
-            <el-button @click="deleteUser(scope.row)" type="text" size="small">{{constants.LABEL_DEL}}</el-button>
-            <el-button :class="{'disable':!scope.row.has_achievement_permission&&!scope.row.has_culture_permission}" @click="bind(scope.row)" type="text" size="small">{{constants.BIND_DEPARTMENT}}</el-button>
+            <el-button
+              @click="updateUser(scope.row)"
+              type="text"
+              size="small"
+              >{{ constants.LABEL_MODIFY }}</el-button
+            >
+            <el-button
+              @click="enabledUser(scope.row)"
+              type="text"
+              size="small"
+              >{{
+                scope.row.active == 1
+                  ? constants.LABEL_FORBIDDEN
+                  : constants.LABEL_ENABLED
+              }}</el-button
+            >
+            <el-button
+              @click="deleteUser(scope.row)"
+              type="text"
+              size="small"
+              >{{ constants.LABEL_DEL }}</el-button
+            >
+            <el-button
+              :class="{
+                disable:
+                  !scope.row.has_achievement_permission &&
+                  !scope.row.has_culture_permission
+              }"
+              @click="bind(scope.row)"
+              type="text"
+              size="small"
+              >{{ constants.BIND_DEPARTMENT }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
 
       <!-- update dialog -->
-      <user-dialog v-if="updateDialogVisible" :visible.sync="updateDialogVisible" :title="constants.LABEL_MODIFY" :userForm.sync="userForm" :disabled="true" :submit="updateSubmit"></user-dialog>
-      <br>
-      <bind-dialog :currentInfo="selectedUser" v-if="bindDialogVisible" :visible.sync="bindDialogVisible"></bind-dialog>
+      <user-dialog
+        v-if="updateDialogVisible"
+        :visible.sync="updateDialogVisible"
+        :title="constants.LABEL_MODIFY"
+        :userForm.sync="userForm"
+        :disabled="true"
+        :submit="updateSubmit"
+      ></user-dialog>
+      <br />
+      <bind-dialog
+        :currentInfo="selectedUser"
+        v-if="bindDialogVisible"
+        :visible.sync="bindDialogVisible"
+      ></bind-dialog>
       <!-- pagination -->
       <el-row type="flex" justify="end">
-        <pagination :currentPage="conditionForm.page" @current-change="handleCurrentChange" :total="total"></pagination>
+        <pagination
+          :currentPage="conditionForm.page"
+          @current-change="handleCurrentChange"
+          :total="total"
+        ></pagination>
       </el-row>
     </section>
   </div>

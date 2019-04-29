@@ -6,13 +6,31 @@
       <section>
         <el-form :inline="true" :model="conditionForm" ref="conditionForm">
           <el-form-item>
-            <el-select v-model="conditionForm.evaluation_name_id" :placeholder="constants.LABEL_SELECT_GRAGE" @change="changeName">
-              <el-option v-for="item in names" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-select
+              v-model="conditionForm.evaluation_name_id"
+              :placeholder="constants.LABEL_SELECT_GRAGE"
+              @change="changeName"
+            >
+              <el-option
+                v-for="item in names"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-select v-model="evaluation_id" :placeholder="constants.LABEL_SELECT_DEPARTMENT" @change="changeDepartment">
-              <el-option v-for="item in departments" :key="item.value" :label="item.label" :value="item"></el-option>
+            <el-select
+              v-model="evaluation_id"
+              :placeholder="constants.LABEL_SELECT_DEPARTMENT"
+              @change="changeDepartment"
+            >
+              <el-option
+                v-for="item in departments"
+                :key="item.value"
+                :label="item.label"
+                :value="item"
+              ></el-option>
             </el-select>
           </el-form-item>
           <!-- <el-form-item>
@@ -26,13 +44,23 @@
           <el-col :span="12">
             <!-- 某部门文化评分进度 pie -->
             <h1>
-              <span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_PROGRESS}}</h1>
+              <span>{{ currentDepartment }}</span
+              >{{ constants.LABEL_REPORT_PROGRESS }}
+            </h1>
             <el-row>
               <el-col :span="12" class="loading-container">
-                <echart-pie :title="constants.LABEL_SELF_PROGRESS" :data="progressPieSelf" :width="width"></echart-pie>
+                <echart-pie
+                  :title="constants.LABEL_SELF_PROGRESS"
+                  :data="progressPieSelf"
+                  :width="width"
+                ></echart-pie>
               </el-col>
               <el-col :span="12" class="loading-container">
-                <echart-pie :title="constants.LABEL_SUP_PROGRESS" :data="progressPieSuperior" :width="width"></echart-pie>
+                <echart-pie
+                  :title="constants.LABEL_SUP_PROGRESS"
+                  :data="progressPieSuperior"
+                  :width="width"
+                ></echart-pie>
               </el-col>
             </el-row>
           </el-col>
@@ -42,90 +70,154 @@
             <el-row type="flex" justify="space-between">
               <el-col :span="12">
                 <h1>
-                  <span>{{currentDepartment}}</span>{{constants.LABEL_REPORT_AVERAGE}}</h1>
+                  <span>{{ currentDepartment }}</span
+                  >{{ constants.LABEL_REPORT_AVERAGE }}
+                </h1>
               </el-col>
               <el-col :span="12">
                 <el-row type="flex" justify="end">
-                  <span style="color:#21c1a5">● {{constants.LABEL_SELF}}&nbsp;&nbsp;&nbsp;</span>
-                  <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
+                  <span style="color:#21c1a5"
+                    >● {{ constants.LABEL_SELF }}&nbsp;&nbsp;&nbsp;</span
+                  >
+                  <span style="color:#5399e1">● {{ constants.LABEL_SUP }}</span>
                 </el-row>
               </el-col>
             </el-row>
             <section class="loading-container">
-              <echart-bar-average-single :selfRates="selfRates" :supRates="supRates" :width="width" id="echart-bar1"></echart-bar-average-single>
+              <echart-bar-average-single
+                :selfRates="selfRates"
+                :supRates="supRates"
+                :width="width"
+                id="echart-bar1"
+              ></echart-bar-average-single>
             </section>
           </el-col>
         </el-row>
       </section>
 
       <!-- 各事业部完成率 bar -->
-      <section v-if="department_level!=3" class="report-echart">
+      <section v-if="department_level != 3" class="report-echart">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
-            <h1>{{constants.LABEL_REPORT_RATE}}</h1>
+            <h1>{{ constants.LABEL_REPORT_RATE }}</h1>
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
-              <el-tabs v-model="rateBarActive" type="card" @tab-click="changeBarRate" class="echart-tabs">
-                <el-tab-pane :label="constants.LABEL_SELF" name="self"></el-tab-pane>
-                <el-tab-pane :label="constants.LABEL_SUP" name="sup"></el-tab-pane>
+              <el-tabs
+                v-model="rateBarActive"
+                type="card"
+                @tab-click="changeBarRate"
+                class="echart-tabs"
+              >
+                <el-tab-pane
+                  :label="constants.LABEL_SELF"
+                  name="self"
+                ></el-tab-pane>
+                <el-tab-pane
+                  :label="constants.LABEL_SUP"
+                  name="sup"
+                ></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
         </el-row>
         <section class="loading-container">
-          <echart-bar-rate :rateBar="rateBar" :completionBuNams="completionBuNams" :width="width"></echart-bar-rate>
+          <echart-bar-rate
+            :rateBar="rateBar"
+            :completionBuNams="completionBuNams"
+            :width="width"
+          ></echart-bar-rate>
         </section>
       </section>
 
       <!-- 各事业部总平均分 bar -->
-      <section v-if="department_level==1" class="report-echart">
-        <h1>{{constants.LABEL_REPORT_AVERAGE_ALL}}</h1>
+      <section v-if="department_level == 1" class="report-echart">
+        <h1>{{ constants.LABEL_REPORT_AVERAGE_ALL }}</h1>
         <section class="loading-container">
-          <echart-bar-average-all :selfAverage="selfAverageAll" :supAverage="supAverageAll" :departmentsAverage="departmentsAverageAll" :yMin="yMinAll" :yMax="yMaxAll" :yInterval="yIntervalAll" :width="width"></echart-bar-average-all>
+          <echart-bar-average-all
+            :selfAverage="selfAverageAll"
+            :supAverage="supAverageAll"
+            :departmentsAverage="departmentsAverageAll"
+            :yMin="yMinAll"
+            :yMax="yMaxAll"
+            :yInterval="yIntervalAll"
+            :width="width"
+          ></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
-            <span style="color:#21c1a5">● {{constants.LABEL_SELF}}&nbsp;&nbsp;&nbsp;</span>
-            <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
+            <span style="color:#21c1a5"
+              >● {{ constants.LABEL_SELF }}&nbsp;&nbsp;&nbsp;</span
+            >
+            <span style="color:#5399e1">● {{ constants.LABEL_SUP }}</span>
           </span>
         </el-row>
       </section>
 
       <!-- 各事业部评分平均分 bar -->
-      <section class="report-echart" v-if="department_level==1">
+      <section class="report-echart" v-if="department_level == 1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
-            <h1>{{constants.LABEL_REPORT_AVERAGE_SINGLE}}</h1>
+            <h1>{{ constants.LABEL_REPORT_AVERAGE_SINGLE }}</h1>
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
-              <el-tabs v-model="averageBarActive" type="card" @tab-click="changeBarAverage" class="echart-tabs">
-                <el-tab-pane v-for="item in activeTabs" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
+              <el-tabs
+                v-model="averageBarActive"
+                type="card"
+                @tab-click="changeBarAverage"
+                class="echart-tabs"
+              >
+                <el-tab-pane
+                  v-for="item in activeTabs"
+                  :key="item.name"
+                  :label="item.label"
+                  :name="item.name"
+                ></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
         </el-row>
         <section class="loading-container">
-          <echart-bar-average-all :selfAverage="selfAverageEach" :supAverage="supAverageEach" :departmentsAverage="departmentsAverageEach" :yMin="yMinEach" :yMax="yMaxEach" :yInterval="yIntervalEach" :width="width"></echart-bar-average-all>
+          <echart-bar-average-all
+            :selfAverage="selfAverageEach"
+            :supAverage="supAverageEach"
+            :departmentsAverage="departmentsAverageEach"
+            :yMin="yMinEach"
+            :yMax="yMaxEach"
+            :yInterval="yIntervalEach"
+            :width="width"
+          ></echart-bar-average-all>
         </section>
         <el-row type="flex" justify="center">
           <span class="color-mark">
-            <span style="color:#21c1a5">● {{constants.LABEL_SELF}}&nbsp;&nbsp;&nbsp;</span>
-            <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
+            <span style="color:#21c1a5"
+              >● {{ constants.LABEL_SELF }}&nbsp;&nbsp;&nbsp;</span
+            >
+            <span style="color:#5399e1">● {{ constants.LABEL_SUP }}</span>
           </span>
         </el-row>
       </section>
 
-      <section class="report-echart" v-if="department_level==1">
+      <section class="report-echart" v-if="department_level == 1">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
-            <h1>{{constants.LABEL_REPORT_NUMBER}}</h1>
+            <h1>{{ constants.LABEL_REPORT_NUMBER }}</h1>
           </el-col>
           <el-col :span="12">
             <el-row type="flex" justify="end">
-              <el-tabs v-model="numberLineActive" type="card" @tab-click="changeLineNumbers" class="echart-tabs">
-                <el-tab-pane v-for="item in activeTabs" :key="item.name" :label="item.label" :name="item.name"></el-tab-pane>
+              <el-tabs
+                v-model="numberLineActive"
+                type="card"
+                @tab-click="changeLineNumbers"
+                class="echart-tabs"
+              >
+                <el-tab-pane
+                  v-for="item in activeTabs"
+                  :key="item.name"
+                  :label="item.label"
+                  :name="item.name"
+                ></el-tab-pane>
               </el-tabs>
             </el-row>
           </el-col>
@@ -134,28 +226,36 @@
           <!-- 好未来教育各分值人数-自评 line -->
           <el-col :span="12">
             <section class="loading-container">
-              <echart-line-number :numbers="selfNumbers" :color="selfLineColor" :width="width"></echart-line-number>
+              <echart-line-number
+                :numbers="selfNumbers"
+                :color="selfLineColor"
+                :width="width"
+              ></echart-line-number>
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
-                <span style="color:#21c1a5">● {{constants.LABEL_SELF}}</span>
+                <span style="color:#21c1a5">● {{ constants.LABEL_SELF }}</span>
               </span>
             </el-row>
           </el-col>
           <!-- 好未来教育各分值人数-上级评 line -->
           <el-col :span="12">
             <section class="loading-container">
-              <echart-line-number :isSelf="false" :numbers="supNumbers" :color="supLineColor" :width="width"></echart-line-number>
+              <echart-line-number
+                :isSelf="false"
+                :numbers="supNumbers"
+                :color="supLineColor"
+                :width="width"
+              ></echart-line-number>
             </section>
             <el-row type="flex" justify="center">
               <span class="color-mark">
-                <span style="color:#5399e1">● {{constants.LABEL_SUP}}</span>
+                <span style="color:#5399e1">● {{ constants.LABEL_SUP }}</span>
               </span>
             </el-row>
           </el-col>
         </el-row>
       </section>
-
     </section>
   </div>
 </template>

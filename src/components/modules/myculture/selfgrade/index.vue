@@ -4,11 +4,14 @@
       <el-row align="middle" type="flex">
         <el-col style="padding:20px;border-right: 1px solid #979797;">
           <div class="mark-label">请选择评分项目</div>
-          <grade-items :items="questions" v-model="selectGradeItem"></grade-items>
-          <br>
-          <br>
+          <grade-items
+            :items="questions"
+            v-model="selectGradeItem"
+          ></grade-items>
+          <br />
+          <br />
           <div class="mark-label">请评分</div>
-          <br>
+          <br />
           <grade-slider
             :min="1"
             :readOnly="readOnly"
@@ -18,42 +21,51 @@
           ></grade-slider>
         </el-col>
         <el-col style="padding-left:50px;">
-          <div
-            class="mark-score"
-          >{{questions[selectGradeItem].score&&questions[selectGradeItem].score>=0 ?questions[selectGradeItem].score:''}}分</div>
-          <div class="mark-desc">{{contentForCurScore}}</div>
+          <div class="mark-score">
+            {{
+              questions[selectGradeItem].score &&
+              questions[selectGradeItem].score >= 0
+                ? questions[selectGradeItem].score
+                : ""
+            }}分
+          </div>
+          <div class="mark-desc">{{ contentForCurScore }}</div>
         </el-col>
       </el-row>
     </section>
-    <br>
-    <div v-show="questions[selectGradeItem].score>=3">
+    <br />
+    <div v-show="questions[selectGradeItem].score >= 3">
       <case-area
         :readOnly="readOnly"
         placeholder="请填写我的3分案例"
         v-model="questions[selectGradeItem].cases[0]"
       ></case-area>
-      <br>
-      <div v-show="questions[selectGradeItem].score>=4">
+      <br />
+      <div v-show="questions[selectGradeItem].score >= 4">
         <case-area
           :readOnly="readOnly"
           placeholder="请填写我的4分案例"
           v-model="questions[selectGradeItem].cases[1]"
         ></case-area>
-        <br>
-        <div v-show="questions[selectGradeItem].score>=5">
+        <br />
+        <div v-show="questions[selectGradeItem].score >= 5">
           <case-area
             :readOnly="readOnly"
             placeholder="请填写我的5分案例"
             v-model="questions[selectGradeItem].cases[2]"
           ></case-area>
-          <br>
+          <br />
         </div>
       </div>
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{constants.SAVE_DRAFT}}</el-button>
-      <el-button @click="submitGrade" type="primary">{{constants.SUBMIT}}</el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{
+        constants.SAVE_DRAFT
+      }}</el-button>
+      <el-button @click="submitGrade" type="primary">{{
+        constants.SUBMIT
+      }}</el-button>
     </el-row>
   </div>
 </template>

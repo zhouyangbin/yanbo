@@ -1,36 +1,46 @@
-
 <template>
   <div class="self-report-component">
     <div class="title">
-      {{name}}
+      {{ name }}
     </div>
-    <hr>
-    <br>
+    <hr />
+    <br />
     <div>
-      <span class="sub-title">
-        {{constants.ADVANTAGE}}: &nbsp;
-      </span>
+      <span class="sub-title"> {{ constants.ADVANTAGE }}: &nbsp; </span>
       <span class="content">
-        {{advantage}}
+        {{ advantage }}
       </span>
     </div>
-    <br>
+    <br />
     <div>
-      <span class="sub-title">
-        {{constants.PROMOTION}}: &nbsp;
-      </span>
+      <span class="sub-title"> {{ constants.PROMOTION }}: &nbsp; </span>
       <span class="content">
-        {{promotion}}
+        {{ promotion }}
       </span>
     </div>
-    <br>
-    <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
+    <br />
+    <case-item :data="v" v-for="(v, i) in scores" :key="i"></case-item>
     <el-row v-if="canSubmit" type="flex" justify="end">
-      <el-button v-if="can_appeal" @click="showComplainDia=true" type="primary">{{constants.APPEAL}}</el-button>
-      <el-button @click="confirm" type="primary">{{constants.CONFIRM}}</el-button>
+      <el-button
+        v-if="can_appeal"
+        @click="showComplainDia = true"
+        type="primary"
+        >{{ constants.APPEAL }}</el-button
+      >
+      <el-button @click="confirm" type="primary">{{
+        constants.CONFIRM
+      }}</el-button>
     </el-row>
-    <impression-dialog v-if="showImpressionDialog" :visible.sync="showImpressionDialog"></impression-dialog>
-    <complain-dialog :visible.sync="showComplainDia" :submit="complain" v-model="reason" v-if="showComplainDia"></complain-dialog>
+    <impression-dialog
+      v-if="showImpressionDialog"
+      :visible.sync="showImpressionDialog"
+    ></impression-dialog>
+    <complain-dialog
+      :visible.sync="showComplainDia"
+      :submit="complain"
+      v-model="reason"
+      v-if="showComplainDia"
+    ></complain-dialog>
   </div>
 </template>
 <script>
@@ -166,7 +176,7 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .self-report-component {
   .title {
     font-size: 36px;

@@ -1,42 +1,34 @@
-
 <template>
   <div class="self-report-case-item-component">
-
     <div class="case-container">
       <div class="sub-title">
-        {{data.question_name}}
+        {{ data.question_name }}
       </div>
       <div class="case-info">
         <div class="grade-info">
-          <span class="self">
-            自评分数: {{data.self_score}}分
-          </span>
-          <span class="leader">
-            上级评分数: {{data.superior_score}}分
-          </span>
+          <span class="self"> 自评分数: {{ data.self_score }}分 </span>
+          <span class="leader"> 上级评分数: {{ data.superior_score }}分 </span>
         </div>
-        <br>
+        <br />
         <div class="leader-reason">
           <div class="label">
             上级评理由：
           </div>
           <div class="reason">
-            {{data.superior_case||'无'}}
+            {{ data.superior_case || "无" }}
           </div>
         </div>
-        <br>
-        <div v-for="(v,i) in (data.self_cases||[])" :key="i" class="my-case">
-          <div class="label">
-            我的{{i+3}}分理由：
-          </div>
+        <br />
+        <div v-for="(v, i) in data.self_cases || []" :key="i" class="my-case">
+          <div class="label">我的{{ i + 3 }}分理由：</div>
           <div class="reason">
-            {{v}}
+            {{ v }}
           </div>
         </div>
       </div>
     </div>
-    <hr>
-    <br>
+    <hr />
+    <br />
   </div>
 </template>
 <script>

@@ -1,11 +1,28 @@
-
 <template>
   <div class="GradeSlider-page">
     <!-- <div v-if="min==0" @click="readOnly?undefined:$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" :data-num="0" :style="{left: `0`}"></div> -->
-    <div @click="readOnly?undefined:$emit('input',(x-1+min)*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue===(x-1+min)*step,'selected':value==(x-1+min)*step,'invisible':value>(x-1+min)*step && !onHover,'half-invisible':hoverValue>(x-1+min)*step}" @mouseover="hoverDot" v-for="x in diff/step" :data-num="(x-1+min)*step" :key="x" class="dot" :style="{left: `${100/(diff/step-1)*(x-1)}%`}">
-    </div>
+    <div
+      @click="readOnly ? undefined : $emit('input', (x - 1 + min) * step)"
+      @mouseleave="hoverValue = ''"
+      :class="{
+        hoverd: hoverValue === (x - 1 + min) * step,
+        selected: value == (x - 1 + min) * step,
+        invisible: value > (x - 1 + min) * step && !onHover,
+        'half-invisible': hoverValue > (x - 1 + min) * step
+      }"
+      @mouseover="hoverDot"
+      v-for="x in diff / step"
+      :data-num="(x - 1 + min) * step"
+      :key="x"
+      class="dot"
+      :style="{ left: `${(100 / (diff / step - 1)) * (x - 1)}%` }"
+    ></div>
 
-    <div v-show="!onHover" :style="selectedStyle" class="selected-wrapper"></div>
+    <div
+      v-show="!onHover"
+      :style="selectedStyle"
+      class="selected-wrapper"
+    ></div>
     <div v-show="onHover" :style="hoverStyle" class="hover-wrapper"></div>
   </div>
 </template>
@@ -25,7 +42,7 @@ export default {
       default: 0.5
     },
     value: {
-      type: String | Number,
+      type: [String, Number],
       default: ""
     },
     self: {

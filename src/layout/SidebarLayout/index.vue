@@ -1,11 +1,13 @@
 <template>
   <el-container class="container">
     <el-aside class="sidebar-container">
-      <img src="@assets/img/bg_logo.png" class="logo" alt>
+      <img src="@assets/img/bg_logo.png" class="logo" alt />
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
-        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{labe_logout}}</el-button>
-        <p>{{talEmail}}</p>
+        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{
+          labe_logout
+        }}</el-button>
+        <p>{{ talEmail }}</p>
       </section>
     </el-aside>
     <el-main class="main-container">

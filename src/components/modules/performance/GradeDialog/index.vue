@@ -1,12 +1,9 @@
-
 <template>
   <el-dialog @close="closeDia('ruleForm')" width="650px" :visible="visible">
     <span slot="title">
-      <el-row
-        type="flex"
-        justify="center"
-        class="dialog-title"
-      >{{actionType == "copy"?constants.COPY_GRADE:constants.CREATE_GRADE}}</el-row>
+      <el-row type="flex" justify="center" class="dialog-title">{{
+        actionType == "copy" ? constants.COPY_GRADE : constants.CREATE_GRADE
+      }}</el-row>
     </span>
     <el-form
       :model="ruleForm"
@@ -16,7 +13,12 @@
       class="create-form-dialog"
     >
       <el-form-item :label="constants.GRADE_NAME" prop="name">
-        <el-input size="medium" :maxlength="20" style="width:400px;" v-model="ruleForm.name"></el-input>
+        <el-input
+          size="medium"
+          :maxlength="20"
+          style="width:400px;"
+          v-model="ruleForm.name"
+        ></el-input>
       </el-form-item>
       <el-form-item
         class="is-required"
@@ -51,7 +53,7 @@
         <div>
           <el-date-picker
             @change="calculateEndDate"
-            :disabled="ruleForm.property==''"
+            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="startPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -63,7 +65,7 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="ruleForm.property==''"
+            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="endPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -76,8 +78,17 @@
         </div>
       </el-form-item>
       <el-form-item :label="constants.TPL" prop="tpl">
-        <el-select style="width:400px;" v-model="ruleForm.tpl" :placeholder="constants.PLS_SELECT">
-          <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        <el-select
+          style="width:400px;"
+          v-model="ruleForm.tpl"
+          :placeholder="constants.PLS_SELECT"
+        >
+          <el-option
+            v-for="item in tplOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="分数对应关系" prop="mapping">
@@ -86,14 +97,23 @@
           v-model="ruleForm.mapping"
           :placeholder="constants.PLS_SELECT"
         >
-          <el-option v-for="item in ruleArr" :key="item.id" :label="item.type" :value="item.id"></el-option>
+          <el-option
+            v-for="item in ruleArr"
+            :key="item.id"
+            :label="item.type"
+            :value="item.id"
+          ></el-option>
         </el-select>
       </el-form-item>
-      <br>
+      <br />
       <el-form-item label-width="0px">
         <el-row type="flex" justify="center">
-          <el-button round type="primary" @click="submitForm('ruleForm')">{{constants.CONFIRM}}</el-button>
-          <el-button @click="closeDia('ruleForm')" round>{{constants.CANCEL}}</el-button>
+          <el-button round type="primary" @click="submitForm('ruleForm')">{{
+            constants.CONFIRM
+          }}</el-button>
+          <el-button @click="closeDia('ruleForm')" round>{{
+            constants.CANCEL
+          }}</el-button>
         </el-row>
       </el-form-item>
     </el-form>
@@ -414,5 +434,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

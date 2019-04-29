@@ -7,11 +7,12 @@
     mode="horizontal"
   >
     <el-menu-item
-      @click="v.href ? nav(v.href):null"
+      @click="v.href ? nav(v.href) : null"
       v-for="v of list"
       :key="v.label"
       :index="v.label"
-    >{{v.label}}</el-menu-item>
+      >{{ v.label }}</el-menu-item
+    >
   </el-menu>
 </template>
 

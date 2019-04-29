@@ -2,16 +2,36 @@
   <div>
     <div class="section-title">隔级信息:</div>
     <el-form-item prop="upLeaderNum">
-      <el-input :disabled="!canBeEdit" size="small" @input="searchUpLeader" :placeholder="constants.PLUS_UP_LEVEL+constants.NUMBER" v-model="infoForm.upLeaderNum"></el-input>
+      <el-input
+        :disabled="!canBeEdit"
+        size="small"
+        @input="searchUpLeader"
+        :placeholder="constants.PLUS_UP_LEVEL + constants.NUMBER"
+        v-model="infoForm.upLeaderNum"
+      ></el-input>
     </el-form-item>
     <el-form-item prop="upLeaderName">
-      <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.NAME" v-model="infoForm.upLeaderName"></el-input>
+      <el-input
+        size="small"
+        :disabled="true"
+        :placeholder="constants.PLUS_UP_LEVEL + constants.NAME"
+        v-model="infoForm.upLeaderName"
+      ></el-input>
     </el-form-item>
     <el-form-item prop="upLeaderBU">
-      <el-input size="small" :disabled="true" :placeholder="constants.PLUS_UP_LEVEL+constants.BASE_OR_BU" v-model="infoForm.upLeaderBU"></el-input>
+      <el-input
+        size="small"
+        :disabled="true"
+        :placeholder="constants.PLUS_UP_LEVEL + constants.BASE_OR_BU"
+        v-model="infoForm.upLeaderBU"
+      ></el-input>
     </el-form-item>
     <el-form-item prop="upLeaderEmail">
-      <el-input size="small" :placeholder="constants.PLUS_UP_LEVEL+constants.EMAIL" v-model="infoForm.upLeaderEmail"></el-input>
+      <el-input
+        size="small"
+        :placeholder="constants.PLUS_UP_LEVEL + constants.EMAIL"
+        v-model="infoForm.upLeaderEmail"
+      ></el-input>
     </el-form-item>
   </div>
 </template>

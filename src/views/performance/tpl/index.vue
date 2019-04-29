@@ -5,10 +5,16 @@
       <el-row type="flex" justify="space-between">
         <el-form :inline="true" :model="tplForm" ref="tplForm">
           <el-form-item>
-            <el-input v-model="tplForm.name" :placeholder="constants.TPL_NAME"></el-input>
+            <el-input
+              v-model="tplForm.name"
+              :placeholder="constants.TPL_NAME"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-select v-model="tplForm.dp" :placeholder="constants.LABEL_SELECT_DIVISION">
+            <el-select
+              v-model="tplForm.dp"
+              :placeholder="constants.LABEL_SELECT_DIVISION"
+            >
               <el-option
                 v-for="item in options"
                 :key="item.department_id"
@@ -18,29 +24,50 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="resetForm">{{constants.LABEL_EMPTY}}</el-button>
+            <el-button round @click="resetForm">{{
+              constants.LABEL_EMPTY
+            }}</el-button>
           </el-form-item>
         </el-form>
-        <el-button type="primary" @click="addTpl" round>{{constants.LABEL_ADD}}</el-button>
+        <el-button type="primary" @click="addTpl" round>{{
+          constants.LABEL_ADD
+        }}</el-button>
       </el-row>
-      <br>
+      <br />
       <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
-        <el-table-column prop="name" :label="constants.TPL_NAME"></el-table-column>
-        <el-table-column prop="department" :label="constants.APPLIED_DEPARTMENTS">
+        <el-table-column
+          prop="name"
+          :label="constants.TPL_NAME"
+        ></el-table-column>
+        <el-table-column
+          prop="department"
+          :label="constants.APPLIED_DEPARTMENTS"
+        >
           <!-- <template slot-scope="scope">
             {{scope.row.department.join(", ")}}
           </template>-->
         </el-table-column>
-        <el-table-column prop="type" :label="constants.PERFORMANCE_TYPE"></el-table-column>
+        <el-table-column
+          prop="type"
+          :label="constants.PERFORMANCE_TYPE"
+        ></el-table-column>
         <el-table-column :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button type="text" @click="updateTpl(scope.row)" size="small">{{constants.MODIFY}}</el-button>
-            <el-button type="text" size="small" @click="delTpl(scope.row)">{{constants.DEL}}</el-button>
+            <el-button type="text" @click="updateTpl(scope.row)" size="small">{{
+              constants.MODIFY
+            }}</el-button>
+            <el-button type="text" size="small" @click="delTpl(scope.row)">{{
+              constants.DEL
+            }}</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <br>
-      <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
+      <br />
+      <pagination
+        :currentPage="currentPage"
+        @current-change="handleCurrentChange"
+        :total="total"
+      ></pagination>
     </section>
     <tpl-dialog
       v-if="showDialog"

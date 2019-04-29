@@ -1,8 +1,19 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="bindDPDialog">
-    <div slot="title" class="title">{{constants.BIND_DEPARTMENT}}</div>
+  <el-dialog
+    @close="close"
+    width="650px"
+    :visible="visible"
+    class="bindDPDialog"
+  >
+    <div slot="title" class="title">{{ constants.BIND_DEPARTMENT }}</div>
     <div></div>
-    <el-form :inline="true" :rules="bindRules" ref="bindForm" :model="bindForm" class="bindForm">
+    <el-form
+      :inline="true"
+      :rules="bindRules"
+      ref="bindForm"
+      :model="bindForm"
+      class="bindForm"
+    >
       <el-form-item
         v-if="currentInfo.has_culture_permission"
         prop="culture"
@@ -14,7 +25,10 @@
           v-model="cultrueSelectedNames"
           icon="caret-bottom"
           readonly="readonly"
-          @click.native="showPerformanceTree=false;showCultureTree = !showCultureTree"
+          @click.native="
+            showPerformanceTree = false;
+            showCultureTree = !showCultureTree;
+          "
         ></el-input>
       </el-form-item>
       <el-form-item
@@ -28,7 +42,10 @@
           v-model="performanceSelectedNames"
           icon="caret-bottom"
           readonly="readonly"
-          @click.native="showCultureTree=false;showPerformanceTree = !showPerformanceTree"
+          @click.native="
+            showCultureTree = false;
+            showPerformanceTree = !showPerformanceTree;
+          "
         ></el-input>
       </el-form-item>
     </el-form>
@@ -39,8 +56,11 @@
           size="medium"
           @click="submit('bindForm')"
           type="primary"
-        >{{constants.CONFIRM}}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+          >{{ constants.CONFIRM }}</el-button
+        >
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
     <dp-panel

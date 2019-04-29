@@ -1,6 +1,10 @@
 <template>
   <div>
-    <el-dialog @close="$emit('update:visible',false)" :visible="visible" width="30%">
+    <el-dialog
+      @close="$emit('update:visible', false)"
+      :visible="visible"
+      width="30%"
+    >
       <el-input
         type="textarea"
         :maxlength="2000"
@@ -8,10 +12,12 @@
         :placeholder="`请输入${constants.IMPRESSIONS}`"
         v-model="textarea"
       ></el-input>
-      <br>
-      <br>
+      <br />
+      <br />
       <el-row type="flex" justify="center">
-        <el-button type="primary" @click="submit" round>{{constants.CONFIRM}}</el-button>
+        <el-button type="primary" @click="submit" round>{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </el-dialog>
   </div>
@@ -80,5 +86,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

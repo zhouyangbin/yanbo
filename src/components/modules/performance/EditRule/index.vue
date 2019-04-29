@@ -1,7 +1,13 @@
 <template>
   <el-dialog @close="close" width="650px" :visible="visible" class="ruleDialog">
-    <div slot="title" class="title">{{data.department}}</div>
-    <el-form :rules="rules" label-width="150px" ref="ruleForm" :model="ruleForm" class="ruleForm">
+    <div slot="title" class="title">{{ data.department }}</div>
+    <el-form
+      :rules="rules"
+      label-width="150px"
+      ref="ruleForm"
+      :model="ruleForm"
+      class="ruleForm"
+    >
       <el-form-item label="是否强制对应" prop="isMapping">
         <el-radio-group v-model="ruleForm.isMapping">
           <el-radio :label="1">是</el-radio>
@@ -86,8 +92,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">{{constants.CONFIRM}}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{
+          constants.CONFIRM
+        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
   </el-dialog>
