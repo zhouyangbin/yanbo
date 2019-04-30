@@ -11,22 +11,6 @@
     unique-opened
     router
   >
-    <el-submenu :show-timeout="100" :index="constants.PATH_EMPLOYEE_MY">
-      <template slot="title">
-        <i class="el-icon-star-off"></i>
-        <span>{{ constants.MY_PERFORMANCE }}</span>
-      </template>
-      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{
-        constants.MY_GRADE
-      }}</el-menu-item>
-      <el-menu-item
-        :class="{
-          'is-active': [constants.PATH_EMPLOYEE_TEAM].includes($route.path)
-        }"
-        :index="constants.PATH_EMPLOYEE_TEAM"
-        >{{ constants.TEAM_GRADE }}</el-menu-item
-      >
-    </el-submenu>
     <el-submenu :show-timeout="100" :index="constants.PATH_MY_CULTURE_GRADE">
       <template slot="title">
         <i class="el-icon-star-off"></i>
@@ -68,6 +52,23 @@
         >事业部271</el-menu-item
       >
     </el-submenu>
+    <el-submenu :show-timeout="100" :index="constants.PATH_EMPLOYEE_MY">
+      <template slot="title">
+        <i class="el-icon-star-off"></i>
+        <span>{{ constants.MY_PERFORMANCE }}</span>
+      </template>
+      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">
+        {{ constants.MY_GRADE }}
+      </el-menu-item>
+      <el-menu-item
+        :class="{
+          'is-active': [constants.PATH_EMPLOYEE_TEAM].includes($route.path)
+        }"
+        :index="constants.PATH_EMPLOYEE_TEAM"
+        >{{ constants.TEAM_GRADE }}</el-menu-item
+      >
+    </el-submenu>
+
     <el-submenu
       :show-timeout="100"
       v-if="canManageCultureGrade"
@@ -77,9 +78,9 @@
         <i class="el-icon-edit-outline"></i>
         <span>{{ constants.CULTURE_GRADE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_GRADE_REPORT">{{
-        constants.GRADE_REPORT
-      }}</el-menu-item>
+      <el-menu-item :index="constants.PATH_GRADE_REPORT">
+        {{ constants.GRADE_REPORT }}
+      </el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [
@@ -211,7 +212,7 @@ import resize from "@/directives/resize";
 export default {
   data() {
     return {
-      defaultOpeneds: [PATH_EMPLOYEE_MY],
+      defaultOpeneds: [PATH_MY_CULTURE_GRADE],
       constants: {
         MY_GRADE,
         TEAM_GRADE,

@@ -22,7 +22,7 @@
 
 <script>
 import {
-  PATH_EMPLOYEE_MY,
+  PATH_MY_CULTURE_GRADE,
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     getPerformancePath(querys) {
-      let dst = PATH_EMPLOYEE_MY;
+      let dst = PATH_MY_CULTURE_GRADE;
       switch (querys.path) {
         case "self":
         case "confirm":
