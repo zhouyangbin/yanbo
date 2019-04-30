@@ -6,7 +6,7 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     // proxy: "http://api.gamesife.com"
-    proxy: "http://test-pingfen-api.100tal.com"
+    proxy: "https://test-pingfen-api.100tal.com"
   },
   chainWebpack: config => {
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));

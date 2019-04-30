@@ -25,9 +25,9 @@
               :value="item.key"
             ></el-option>
           </el-select>
-          <el-button style="margin-left:30px" round @click="resetFilter">{{
-            constants.LABEL_EMPTY
-          }}</el-button>
+          <el-button style="margin-left:30px" round @click="resetFilter">
+            {{ constants.LABEL_EMPTY }}
+          </el-button>
         </div>
         <el-button
           type="primary"
@@ -65,9 +65,9 @@
         ></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goSubList(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
+            <el-button @click="goSubList(scope.row)" type="text" size="small">
+              {{ constants.DETAILS }}
+            </el-button>
             <el-button
               @click="gradeExport(scope.row)"
               type="text"
@@ -93,16 +93,18 @@
         ></pagination>
       </el-row>
     </section>
-    <grade-dialog
-      :copyID="copyID"
-      v-if="createGradeDialog"
-      :initData="initData"
-      :defaultChecked="checkedNodes"
-      :actionType="actionType"
-      :initForm="initForm"
-      :departmentTree="departmentTree"
-      :visible.sync="createGradeDialog"
-    ></grade-dialog>
+    <Drawer @close="createGradeDialog = false" align="left">
+      <grade-dialog
+        :copyID="copyID"
+        v-if="createGradeDialog"
+        :initData="initData"
+        :defaultChecked="checkedNodes"
+        :actionType="actionType"
+        :initForm="initForm"
+        :departmentTree="departmentTree"
+        :visible.sync="createGradeDialog"
+      ></grade-dialog>
+    </Drawer>
   </div>
 </template>
 <script>
@@ -129,6 +131,7 @@ import {
   PATH_PERFORMANCE_PROGRESS,
   PATH_EXPORT_PERFORMANCE_GRADE
 } from "@/constants/URL";
+import Drawer from "vue-simple-drawer";
 
 export default {
   data() {
@@ -184,7 +187,8 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
     "grade-dialog": () =>
-      import("@/components/modules/performance/GradeDialog/index.vue")
+      import("@/components/modules/performance/GradeDialog/index.vue"),
+    Drawer
   },
   methods: {
     handleCurrentChange(val) {

@@ -24,22 +24,21 @@
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
-                >
-                </el-option>
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button round @click="resetForm('conditionForm')">{{
-                constants.LABEL_EMPTY
-              }}</el-button>
+              <el-button round @click="resetForm('conditionForm')">
+                {{ constants.LABEL_EMPTY }}
+              </el-button>
             </el-form-item>
           </el-form>
         </el-col>
         <el-col :span="8">
           <el-row type="flex" justify="end">
-            <el-button type="primary" round @click="submitUser">{{
-              constants.LABEL_ADD_USER
-            }}</el-button>
+            <el-button type="primary" round @click="submitUser">
+              {{ constants.LABEL_ADD_USER }}
+            </el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -76,9 +75,9 @@
           :show-overflow-tooltip="true"
           align="center"
         >
-          <template slot-scope="scope">
-            {{ scope.row.roles.map(v => v.name).join(", ") }}
-          </template>
+          <template slot-scope="scope">{{
+            scope.row.roles.map(v => v.name).join(", ")
+          }}</template>
         </el-table-column>
         <el-table-column
           :label="constants.LABEL_STATUS"
@@ -112,16 +111,13 @@
               size="small"
               >{{ constants.LABEL_MODIFY }}</el-button
             >
-            <el-button
-              @click="enabledUser(scope.row)"
-              type="text"
-              size="small"
-              >{{
+            <el-button @click="enabledUser(scope.row)" type="text" size="small">
+              {{
                 scope.row.active == 1
                   ? constants.LABEL_FORBIDDEN
                   : constants.LABEL_ENABLED
-              }}</el-button
-            >
+              }}
+            </el-button>
             <el-button
               @click="deleteUser(scope.row)"
               type="text"
@@ -132,7 +128,8 @@
               :class="{
                 disable:
                   !scope.row.has_achievement_permission &&
-                  !scope.row.has_culture_permission
+                  !scope.row.has_culture_permission &&
+                  !scope.row.has_271_permission
               }"
               @click="bind(scope.row)"
               type="text"
@@ -153,11 +150,14 @@
         :submit="updateSubmit"
       ></user-dialog>
       <br />
-      <bind-dialog
-        :currentInfo="selectedUser"
-        v-if="bindDialogVisible"
-        :visible.sync="bindDialogVisible"
-      ></bind-dialog>
+      <Drawer @close="bindDialogVisible = false" align="left">
+        <bind-dialog
+          :currentInfo="selectedUser"
+          v-if="bindDialogVisible"
+          :visible.sync="bindDialogVisible"
+        ></bind-dialog>
+      </Drawer>
+
       <!-- pagination -->
       <el-row type="flex" justify="end">
         <pagination
@@ -204,6 +204,8 @@ import {
   deleteManager,
   updateManager
 } from "@/constants/API";
+
+import Drawer from "vue-simple-drawer";
 export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
@@ -211,7 +213,8 @@ export default {
       import("@/components/modules/usermanage/UserDialog.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
     "bind-dialog": () =>
-      import("@/components/modules/usermanage/BindDP/index.vue")
+      import("@/components/modules/usermanage/BindDP/index.vue"),
+    Drawer
   },
   data() {
     return {

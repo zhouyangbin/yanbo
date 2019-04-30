@@ -16,11 +16,12 @@ import qs from "qs";
 // 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框
 import { Notification } from "element-ui";
 import { PATH_LOGIN } from "@/constants/URL";
+const isDev = process.env.NODE_ENV != "production";
 
 // 创建axios实例常量配置
 const axiosCreate = {
   // 根据环境配置后端api的url
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: isDev ? "" : process.env.VUE_APP_API_URL,
   // 请求超时时间
   timeout: 30000,
   // 是否允许后端设置cookie跨域，一般无需改动

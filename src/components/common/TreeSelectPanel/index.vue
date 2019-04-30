@@ -1,22 +1,18 @@
 <template>
-  <transition @before-leave="beforeLeave" @after-enter="afterEnter" name="fade">
-    <div v-click-outside="outside" class="objectTree-container" v-if="visible">
-      <el-input placeholder="输入关键字进行过滤" v-model="filterText">
-      </el-input>
-      <el-tree
-        empty-text="努力加载中..."
-        @check-change="treeChange"
-        :props="defaultProps"
-        :default-checked-keys="checkedKeys"
-        node-key="id"
-        ref="tree"
-        :filter-node-method="filterNode"
-        show-checkbox
-        :data="treeOps"
-      >
-      </el-tree>
-    </div>
-  </transition>
+  <div>
+    <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
+    <el-tree
+      empty-text="努力加载中..."
+      @check-change="treeChange"
+      :props="defaultProps"
+      :default-checked-keys="checkedKeys"
+      node-key="id"
+      ref="tree"
+      :filter-node-method="filterNode"
+      show-checkbox
+      :data="treeOps"
+    ></el-tree>
+  </div>
 </template>
 <script>
 const debounce = require("lodash.debounce");
