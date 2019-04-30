@@ -25,7 +25,7 @@
           v-model="cultrueSelectedNames"
           icon="caret-bottom"
           readonly="readonly"
-          @click.native="
+          @click.native.stop="
             showPerformanceTree = false;
             showCultureTree = !showCultureTree;
           "
@@ -42,7 +42,7 @@
           v-model="performanceSelectedNames"
           icon="caret-bottom"
           readonly="readonly"
-          @click.native="
+          @click.native.stop="
             showCultureTree = false;
             showPerformanceTree = !showPerformanceTree;
           "
@@ -58,9 +58,9 @@
           type="primary"
           >{{ constants.CONFIRM }}</el-button
         >
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
     <dp-panel
