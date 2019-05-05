@@ -60,12 +60,12 @@
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{
-        constants.SAVE_DRAFT
-      }}</el-button>
-      <el-button @click="submitGrade" type="primary">{{
-        constants.SUBMIT
-      }}</el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">
+        {{ constants.SAVE_DRAFT }}
+      </el-button>
+      <el-button @click="submitGrade" type="primary">
+        {{ constants.SUBMIT }}
+      </el-button>
     </el-row>
   </div>
 </template>
@@ -83,6 +83,7 @@ import {
   CONST_ADD_SUCCESS,
   DRAFT_SAVE_SUCCESSFULLY
 } from "@/constants/TEXT";
+import { PATH_MY_CULTURE_GRADE } from "@/constants/URL";
 
 export default {
   data() {
@@ -234,7 +235,8 @@ export default {
           message: CONST_ADD_SUCCESS,
           type: "success"
         });
-        this.getGradeInfo();
+        // this.getGradeInfo();
+        this.$router.replace(PATH_MY_CULTURE_GRADE);
       });
     },
     saveDraft() {
