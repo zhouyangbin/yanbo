@@ -85,7 +85,10 @@
           </div>
           <div v-for="(n, i) in selfCases" :key="i" class="mark-reason">
             <div>{{ i + 3 }}分理由:</div>
-            <div>{{ n }}</div>
+            <div
+              v-html="(n || '无').replace(/\n/g, '<br/>')"
+              class="reason"
+            ></div>
           </div>
         </el-col>
       </el-row>
@@ -97,12 +100,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">{{
-          constants.REJECT
-        }}</el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button @click="showRejectDialog = true" type="primary">
+          {{ constants.REJECT }}
+        </el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </section>
     <reject-dialog

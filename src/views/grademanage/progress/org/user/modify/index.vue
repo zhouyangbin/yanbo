@@ -32,7 +32,10 @@
           <el-col style="padding-left:50px;">
             <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
               <div>{{ i + 3 }}分理由:</div>
-              <div>{{ n }}</div>
+              <div
+                v-html="(n || '无').replace(/\n/g, '<br/>')"
+                class="reason"
+              ></div>
             </div>
           </el-col>
         </el-row>
