@@ -161,15 +161,24 @@
           >271等级员工本人可见</el-checkbox
         >
       </el-form-item>
+      <el-form-item v-if="isManagerGrade" label prop="feeling_is_necessary">
+        <el-checkbox
+          :disabled="face_start_disable"
+          :true-label="1"
+          :false-label="0"
+          v-model="timesForm.feeling_is_necessary"
+          >{{ constants.IMPRESSIONS }}</el-checkbox
+        >
+      </el-form-item>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" type="primary" @click="timeSet">{{
-          constants.CONFIRM
-        }}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" type="primary" @click="timeSet">
+          {{ constants.CONFIRM }}
+        </el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
   </el-dialog>
@@ -194,7 +203,8 @@ import {
   END_TIME,
   SELF_START_TIME_VALIDATE_MSG,
   START_END_VALIDATE_MSG,
-  FACE_TIME_OVER_GRADE_MSG
+  FACE_TIME_OVER_GRADE_MSG,
+  IMPRESSIONS
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
 import { postTimeSettings } from "@/constants/API";
@@ -229,7 +239,8 @@ export default {
         feedback_start_time: "",
         feedback_end_time: "",
         checked_271: 0,
-        visible_271: 0
+        visible_271: 0,
+        feeling_is_necessary: 0
       })
     }
   },
@@ -347,7 +358,8 @@ export default {
         LEADER_PLUS_EVALUATION_TIME,
         FACE_EVALUATION_TIME,
         CONFIRM,
-        CANCEL
+        CANCEL,
+        IMPRESSIONS
       },
       timesForm: {
         self_start: "",
@@ -360,7 +372,8 @@ export default {
         face_end: "",
         levelRequired: 1,
         finishedDate: "",
-        visible_271: 1
+        visible_271: 1,
+        feeling_is_necessary: 0
       },
       timesRules: {
         self_start: [
@@ -458,7 +471,8 @@ export default {
             feedback_start_time: this.timesForm.face_start,
             feedback_end_time: this.timesForm.face_end,
             _271_is_necessary: this.timesForm.levelRequired,
-            visible_271: this.timesForm.visible_271
+            visible_271: this.timesForm.visible_271,
+            feeling_is_necessary: this.timesForm.feeling_is_necessary
           })
             .then(res => {
               this.close();
@@ -482,6 +496,7 @@ export default {
     this.timesForm.levelRequired = this.timeData.checked_271;
     this.timesForm.finishedDate = this.timeData.finishedDate;
     this.timesForm.visible_271 = this.timeData.visible_271;
+    this.timesForm.feeling_is_necessary = this.timeData.feeling_is_necessary;
   },
   beforeDestroy() {
     this.resetFilter("timesForm");

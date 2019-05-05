@@ -5,16 +5,14 @@
       <div class="bg-white">
         <el-row type="flex" justify="space-between" class="header">
           <span>{{ gradeInfo.name }}</span>
-          <span class="tip">
-            {{ constants.FINISHED_DATE }} {{ gradeInfo.finishedDate }}
-          </span>
+          <span class="tip"
+            >{{ constants.FINISHED_DATE }} {{ gradeInfo.finishedDate }}</span
+          >
         </el-row>
         <hr />
         <div class="time-line-panel bg-white">
           <el-row type="flex" justify="space-between">
-            <span class="dep-name">
-              {{ depInfo.name }}
-            </span>
+            <span class="dep-name">{{ depInfo.name }}</span>
             <el-button
               :disabled="realTotal == 0 || step == 5"
               @click="dialogTimes = true"
@@ -22,9 +20,10 @@
               type="primary"
               round
               style="margin-right:20px"
+              >{{
+                hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES
+              }}</el-button
             >
-              {{ hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES }}
-            </el-button>
           </el-row>
           <br />
           <br />
@@ -125,9 +124,7 @@
           type="flex"
           justify="space-between"
         >
-          <span>
-            {{ constants.SELECTION_TIPS(total, selection.length) }}
-          </span>
+          <span>{{ constants.SELECTION_TIPS(total, selection.length) }}</span>
           <span>
             <el-button
               @click="exportData"
@@ -279,84 +276,85 @@
           stripe
           style="width: 100%"
         >
-          <el-table-column fixed="left" type="selection" width="55">
-          </el-table-column>
-          <el-table-column prop="workcode" :label="constants.NUMBER" width="80">
-          </el-table-column>
-          <el-table-column prop="name" :label="constants.NAME" width="100">
-          </el-table-column>
+          <el-table-column
+            fixed="left"
+            type="selection"
+            width="55"
+          ></el-table-column>
+          <el-table-column
+            prop="workcode"
+            :label="constants.NUMBER"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            prop="name"
+            :label="constants.NAME"
+            width="100"
+          ></el-table-column>
           <el-table-column
             prop="department"
             :label="constants.BASE_OR_BU"
             width="100"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="first_department"
             :label="constants.DEP_OR_SUB"
             width="200"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="level"
             :label="constants.WORK_LEVEL"
             width="100"
-          >
-          </el-table-column>
-          <el-table-column prop="email" :label="constants.EMAIL" width="180">
-          </el-table-column>
+          ></el-table-column>
+          <el-table-column
+            prop="email"
+            :label="constants.EMAIL"
+            width="180"
+          ></el-table-column>
           <el-table-column
             prop="superior_workcode"
             :label="constants.LEADER_NUMBER"
             width="80"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="superior_name"
             :label="constants.LEADER_NAME"
             width="100"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="superior_department"
             :label="constants.UP_LEVEL + constants.BASE_OR_BU"
             width="150"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="superior_email"
             :label="constants.UP_LEVEL + constants.EMAIL"
             width="150"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="highlevel_workcode"
             :label="constants.PLUS_UP_LEVEL + constants.NUMBER"
             width="80"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="highlevel_name"
             :label="constants.PLUS_UP_LEVEL + constants.NAME"
             width="100"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="highlevel_department"
             :label="constants.PLUS_UP_LEVEL + constants.BASE_OR_BU"
             width="150"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="highlevel_email"
             :label="constants.PLUS_UP_LEVEL + constants.EMAIL"
             width="150"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">
-            <template slot-scope="scope">
-              {{ constants.LEVEL_ALIAS[scope.row._271_level] }}
-            </template>
+            <template slot-scope="scope">{{
+              constants.LEVEL_ALIAS[scope.row._271_level]
+            }}</template>
           </el-table-column>
           <el-table-column
             prop="self_status"
@@ -600,7 +598,8 @@ export default {
         feedback_start_time: "",
         feedback_end_time: "",
         checked_271: 0,
-        visible_271: 0
+        visible_271: 0,
+        feeling_is_necessary: 0
       },
       // 事业部信息
       depInfo: {
@@ -846,6 +845,7 @@ export default {
           this.depInfo.highlevel = res.info.stat[0].highlevel;
           this.depInfo.refuse = res.info.stat[0].refuse;
           this.gradeInfo.name = res.info.evaluation_name.evaluation_name;
+          this.gradeInfo.feeling_is_necessary = res.info.feeling_is_necessarys;
           this.gradeInfo.finishedDate = res.info.evaluation_name.end_time;
           this.gradeInfo.self_start_time = res.info.self_start_time;
           this.gradeInfo.self_end_time = res.info.self_end_time;
@@ -981,7 +981,8 @@ export default {
         feedback_end_time: this.gradeInfo.feedback_end_time,
         checked_271: this.gradeInfo.checked_271,
         finishedDate: this.gradeInfo.finishedDate,
-        visible_271: this.gradeInfo.visible_271
+        visible_271: this.gradeInfo.visible_271,
+        feeling_is_necessary: this.gradeInfo.feeling_is_necessary
       };
     }
   }

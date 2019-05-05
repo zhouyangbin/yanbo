@@ -15,9 +15,9 @@
       <br />
       <br />
       <el-row type="flex" justify="center">
-        <el-button type="primary" @click="submit" round>{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button type="primary" @click="submit" round>
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </el-dialog>
   </div>
@@ -32,6 +32,10 @@ import {
 export default {
   props: {
     visible: {
+      type: Boolean,
+      default: false
+    },
+    isNecessary: {
       type: Boolean,
       default: false
     }
@@ -67,6 +71,9 @@ export default {
       }
     },
     validate() {
+      if (!this.this.isNecessary) {
+        return true;
+      }
       if (!this.textarea) {
         this.$message({
           message: `请填写${IMPRESSIONS}!`,

@@ -1,22 +1,16 @@
 <template>
   <div class="self-report-component">
-    <div class="title">
-      {{ name }}
-    </div>
+    <div class="title">{{ name }}</div>
     <hr />
     <br />
     <div>
-      <span class="sub-title"> {{ constants.ADVANTAGE }}: &nbsp; </span>
-      <span class="content">
-        {{ advantage }}
-      </span>
+      <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
+      <span class="content">{{ advantage }}</span>
     </div>
     <br />
     <div>
-      <span class="sub-title"> {{ constants.PROMOTION }}: &nbsp; </span>
-      <span class="content">
-        {{ promotion }}
-      </span>
+      <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
+      <span class="content">{{ promotion }}</span>
     </div>
     <br />
     <case-item :data="v" v-for="(v, i) in scores" :key="i"></case-item>
@@ -27,11 +21,12 @@
         type="primary"
         >{{ constants.APPEAL }}</el-button
       >
-      <el-button @click="confirm" type="primary">{{
-        constants.CONFIRM
-      }}</el-button>
+      <el-button @click="confirm" type="primary">
+        {{ constants.CONFIRM }}
+      </el-button>
     </el-row>
     <impression-dialog
+      isNecessary="feeling_is_necessary"
       v-if="showImpressionDialog"
       :visible.sync="showImpressionDialog"
     ></impression-dialog>
@@ -71,6 +66,7 @@ export default {
       promotion: "",
       canSubmit: false,
       scores: [],
+      feeling_is_necessary: false,
       isManager: false,
       can_appeal: false,
       constants: {
@@ -149,7 +145,8 @@ export default {
           end_time,
           evaluation_type,
           can_submit,
-          can_appeal
+          can_appeal,
+          feeling_is_necessary
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
@@ -158,6 +155,7 @@ export default {
         this.name = name;
         this.isManager = evaluation_type == 2;
         this.can_appeal = can_appeal == 1;
+        this.feeling_is_necessary = feeling_is_necessary == 1;
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
