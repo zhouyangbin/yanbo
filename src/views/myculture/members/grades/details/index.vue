@@ -110,9 +110,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>
@@ -377,7 +377,7 @@ export default {
     totalSuperiorScore() {
       const total = this.scores
         .map(s => s.superior_score)
-        .reduce((p, n) => p + n, 0);
+        .reduce((p, n) => parseFloat(p) + parseFloat(n), 0);
       return isNaN(total) || total < 0 ? "无" : total;
     }
   }

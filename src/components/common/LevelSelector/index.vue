@@ -58,6 +58,7 @@ export default {
     width: 120px;
     height: 36px;
     padding: 8px 12px;
+    overflow: visible;
     &.pre {
       &::after {
         position: absolute;

@@ -113,6 +113,8 @@ export default {
     position: absolute;
     cursor: pointer;
     z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
     &.half-invisible {
       opacity: 0.5;
     }
@@ -152,6 +154,8 @@ export default {
     left: 0;
     background-image: linear-gradient(90deg, #f9c149 7%, #f18d23 92%);
     border-radius: 12px 0 0 12px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .hover-wrapper {
     position: absolute;
@@ -160,6 +164,8 @@ export default {
     left: 0;
     background-image: linear-gradient(90deg, #f9c149 7%, #f18d23 92%);
     border-radius: 12px 0 0 12px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 </style>
