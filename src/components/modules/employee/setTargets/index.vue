@@ -40,7 +40,7 @@
         >
           <div class="reason">
             <span>驳回理由:</span>
-            <span v-html="(v.reason || '').replace(/\n/g, '<br/>')"></span>
+            <span :inner-html.prop="v.reason | linebreak"></span>
           </div>
           <div>{{ v.created_at }}</div>
         </el-row>
@@ -65,9 +65,9 @@
         >
       </div>
       <el-row type="flex" justify="center">
-        <el-button v-if="!submitted" @click="saveDraft">{{
-          constants.SAVE_DRAFT
-        }}</el-button>
+        <el-button v-if="!submitted" @click="saveDraft">
+          {{ constants.SAVE_DRAFT }}
+        </el-button>
         <el-button
           v-if="!readOnly && can_edit_target"
           @click="sumbit"

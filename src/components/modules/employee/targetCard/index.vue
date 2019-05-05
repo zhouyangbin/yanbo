@@ -46,10 +46,7 @@
           :rows="2"
           placeholder="具体工作/任务描述"
         ></el-input>
-        <span
-          v-html="data.description && data.description.replace(/\n/g, '<br/>')"
-          v-else
-        ></span>
+        <span :inner-html.prop="data.description | linebreak" v-else></span>
       </section>
       <section v-if="containKey('metrics')">
         <span class="label">衡量标准:</span>
@@ -63,10 +60,7 @@
           :rows="2"
           placeholder="请输入衡量标准"
         ></el-input>
-        <span
-          v-html="data.metrics && data.metrics.replace(/\n/g, '<br/>')"
-          v-else
-        ></span>
+        <span :inner-html.prop="data.metrics | linebreak" v-else></span>
       </section>
 
       <section v-if="containKey('deadlines')">

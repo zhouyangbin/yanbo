@@ -3,7 +3,7 @@
     <div class="leaderComments">
       <div class="inner-container">
         <span class="label title">上级评价:</span>
-        <span v-html="comments.replace(/\n/g, '<br/>')" v-if="readOnly"></span>
+        <span :inner-html.prop="comments | linebreak" v-if="readOnly"></span>
         <el-input
           v-else
           :maxlength="1000"

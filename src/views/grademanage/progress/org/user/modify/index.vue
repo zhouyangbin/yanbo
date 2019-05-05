@@ -33,7 +33,7 @@
             <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
               <div>{{ i + 3 }}分理由:</div>
               <div
-                v-html="(n || '无').replace(/\n/g, '<br/>')"
+                :inner-html.prop="n | linebreak | placeholder('无')"
                 class="reason"
               ></div>
             </div>

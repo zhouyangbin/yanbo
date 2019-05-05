@@ -48,7 +48,7 @@
           <el-col style="padding-left:50px;">
             <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
               <div>{{ i + 3 }}分理由:</div>
-              <div v-html="(n || '无').replace(/\n/g, '<br/>')"></div>
+              <div :inner-html.prop="n | linebreak | placeholder('无')"></div>
             </div>
           </el-col>
         </el-row>
@@ -104,9 +104,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>

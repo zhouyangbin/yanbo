@@ -58,7 +58,7 @@
           <br />
           <div class="inner-container">
             <span class="label">申诉理由:</span>
-            <span v-html="appeal.reason.replace(/\n/g, '<br/>')"></span>
+            <span :inner-html.prop="appeal.reason | linebreak"></span>
           </div>
           <br />
         </div>
@@ -79,9 +79,9 @@
       <br />
       <br />
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="changeMarks" class="btn-reset">
-          {{ constants.LABEL_MODIFY }}
-        </el-button>
+        <el-button round size="medium" @click="changeMarks" class="btn-reset">{{
+          constants.LABEL_MODIFY
+        }}</el-button>
         <el-button round size="medium" @click="submit" type="primary"
           >确认结果</el-button
         >

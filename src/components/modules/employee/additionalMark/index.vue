@@ -7,7 +7,7 @@
     <br />
     <el-row style="margin-left:110px" type="flex" justify="space-between">
       <div class="delight" style="flex: 1;">
-        <span v-html="desc.replace(/\n/g, '<br/>')" v-if="readOnly"></span>
+        <span :inner-html.prop="desc | linebreak" v-if="readOnly"></span>
         <el-input
           v-if="!readOnly"
           :maxlength="1000"

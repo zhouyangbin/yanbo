@@ -11,7 +11,9 @@
         <div class="leader-reason">
           <div class="label">上级评理由：</div>
           <div
-            v-html="(data.superior_case || '无').replace(/\n/g, '<br/>')"
+            :inner-html.prop="
+              data.superior_case | linebreak | placeholder('无')
+            "
             class="reason"
           ></div>
         </div>
@@ -19,7 +21,7 @@
         <div v-for="(v, i) in data.self_cases || []" :key="i" class="my-case">
           <div class="label">我的{{ i + 3 }}分理由：</div>
           <div
-            v-html="(v || '无').replace(/\n/g, '<br/>')"
+            :inner-html.prop="v | linebreak | placeholder('无')"
             class="reason"
           ></div>
         </div>

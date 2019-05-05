@@ -5,12 +5,12 @@
     <br />
     <div>
       <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
-      <span v-html="advantage.replace(/\n/g, '<br/>')" class="content"></span>
+      <span :inner-html.prop="advantage | linebreak" class="content"></span>
     </div>
     <br />
     <div>
       <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
-      <span v-html="promotion.replace(/\n/g, '<br/>')" class="content"></span>
+      <span :inner-html.prop="promotion | linebreak" class="content"></span>
     </div>
     <br />
     <case-item :data="v" v-for="(v, i) in scores" :key="i"></case-item>
@@ -21,9 +21,9 @@
         type="primary"
         >{{ constants.APPEAL }}</el-button
       >
-      <el-button @click="confirm" type="primary">{{
-        constants.CONFIRM
-      }}</el-button>
+      <el-button @click="confirm" type="primary">
+        {{ constants.CONFIRM }}
+      </el-button>
     </el-row>
     <impression-dialog
       isNecessary="feeling_is_necessary"

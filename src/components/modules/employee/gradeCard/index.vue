@@ -16,14 +16,14 @@
             <div v-if="data.description">
               <section>
                 <span class="label">具体工作/任务描述:</span> &nbsp;
-                <span v-html="data.description.replace(/\n/g, '<br/>')"></span>
+                <span :inner-html.prop="data.description | linebreak"></span>
               </section>
               <!-- <br> -->
             </div>
             <div v-if="data.metrics">
               <section>
                 <span class="label">衡量标准:</span> &nbsp;
-                <span v-html="data.metrics.replace(/\n/g, '<br/>')"></span>
+                <span :inner-html.prop="data.metrics | linebreak"></span>
               </section>
             </div>
             <div
@@ -35,11 +35,9 @@
               <section>
                 <span class="label">自评分理由:</span> &nbsp;
                 <span
-                  v-html="
-                    (
-                      data.target_self_score &&
-                      data.target_self_score.description
-                    ).replace(/\n/g, '<br/>')
+                  :inner-html.prop="
+                    (data.target_self_score &&
+                      data.target_self_score.description) | linebreak
                   "
                 ></span>
               </section>
@@ -54,11 +52,9 @@
               <section>
                 <span class="label">上级评分理由:</span> &nbsp;
                 <span
-                  v-html="
-                    (
-                      data.target_superior_score &&
-                      data.target_superior_score.description
-                    ).replace(/\n/g, '<br/>')
+                  :inner-html.prop="
+                    (data.target_superior_score &&
+                      data.target_superior_score.description) | linebreak
                   "
                 ></span>
               </section>
@@ -86,9 +82,11 @@
             >
               <section>
                 <span class="label">{{ constants.SELF_SCORE }}:</span> &nbsp;
-                <span>
-                  {{ data.target_self_score && data.target_self_score.score }}分
-                </span>
+                <span
+                  >{{
+                    data.target_self_score && data.target_self_score.score
+                  }}分</span
+                >
               </section>
             </div>
             <div
