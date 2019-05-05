@@ -12,6 +12,11 @@ section.content-container {
   padding: 20px;
   // padding: 0.4rem;
 }
+.el-notification.right {
+  right: 50%;
+  transform: translate(50%, -50%);
+  top: 50% !important;
+}
 
 .text-center {
   text-align: center;
