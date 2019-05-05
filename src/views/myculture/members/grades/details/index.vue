@@ -46,9 +46,11 @@
             ></grade-items>
           </el-col>
           <el-col style="padding-left:50px;">
-            <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
-              <div>{{ i + 3 }}分理由:</div>
-              <div :inner-html.prop="n | linebreak | placeholder('无')"></div>
+            <div class="mark-reason">
+              <div v-for="(n, i) in reasons" :key="i">
+                <div>{{ i + 3 }}分理由:</div>
+                <div :inner-html.prop="n | linebreak | placeholder('无')"></div>
+              </div>
             </div>
           </el-col>
         </el-row>
@@ -93,9 +95,13 @@
       ></case-area>
       <br />
       <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
-        <appeal-reaosn :data="item"></appeal-reaosn>
+        <appeal-reason :data="item"></appeal-reason>
       </div>
       <br />
+      <div class="total-scores">
+        总分:
+        <span class="score">{{ totalSuperiorScore }}</span>
+      </div>
       <br />
       <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button
@@ -104,14 +110,15 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <el-button @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
     </section>
   </div>
 </template>
 <script>
+import Vue from "vue";
 import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
@@ -203,7 +210,7 @@ export default {
       import("@/components/common/LevelSelector/index.vue"),
     "reject-reason": () =>
       import("@/components/modules/myculture/rejectreason/index.vue"),
-    "appeal-reaosn": () =>
+    "appeal-reason": () =>
       import("@/components/modules/myculture/appealreason/index.vue")
   },
   methods: {
@@ -366,6 +373,12 @@ export default {
     },
     hasRejectReasons() {
       return this.rejectReason.length > 0;
+    },
+    totalSuperiorScore() {
+      const total = this.scores
+        .map(s => s.superior_score)
+        .reduce((p, n) => p + n, 0);
+      return isNaN(total) || total < 0 ? "无" : total;
     }
   }
 };

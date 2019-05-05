@@ -83,12 +83,14 @@
             员工自评分数: {{ selfTotal }}分, {{ curItemName }}:
             {{ selfScore }}分
           </div>
-          <div v-for="(n, i) in selfCases" :key="i" class="mark-reason">
-            <div>{{ i + 3 }}分理由:</div>
-            <div
-              :inner-html.prop="n | linebreak | placeholder('无')"
-              class="reason"
-            ></div>
+          <div class="mark-reason">
+            <div v-for="(n, i) in selfCases" :key="i">
+              <div>{{ i + 3 }}分理由:</div>
+              <div
+                :inner-html.prop="n | linebreak | placeholder('无')"
+                class="reason"
+              ></div>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -100,12 +102,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">{{
-          constants.REJECT
-        }}</el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button @click="showRejectDialog = true" type="primary">
+          {{ constants.REJECT }}
+        </el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </section>
     <reject-dialog

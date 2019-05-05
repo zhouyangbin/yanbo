@@ -46,12 +46,14 @@
             ></grade-items>
           </el-col>
           <el-col style="padding-left:50px;">
-            <div v-for="(n, i) in reasons" :key="i" class="mark-reason">
-              <div>{{ i + 3 }}分理由:</div>
-              <div
-                :inner-html.prop="n | linebreak | placeholder('无')"
-                class="reason"
-              ></div>
+            <div class="mark-reason">
+              <div v-for="(n, i) in reasons" :key="i">
+                <div>{{ i + 3 }}分理由:</div>
+                <div
+                  :inner-html.prop="n | linebreak | placeholder('无')"
+                  class="reason"
+                ></div>
+              </div>
             </div>
           </el-col>
         </el-row>
