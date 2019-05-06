@@ -48,12 +48,12 @@
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button type="primary" round @click="handelSubmit">
-        {{ constants.LABEL_CONFIRM }}
-      </el-button>
-      <el-button round @click="closeDialog">
-        {{ constants.LABEL_CANCEL }}
-      </el-button>
+      <el-button type="primary" round @click="handelSubmit">{{
+        constants.LABEL_CONFIRM
+      }}</el-button>
+      <el-button round @click="closeDialog">{{
+        constants.LABEL_CANCEL
+      }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -66,7 +66,7 @@ import {
   LABEL_CANCEL
 } from "@/constants/TEXT";
 import { searchManager, getRoleList } from "@/constants/API";
-import { throws } from "assert";
+
 export default {
   data() {
     return {
