@@ -9,6 +9,7 @@ import RavenVue from "@/utils/sentry";
 import "./registerServiceWorker";
 import placeholderFilter from "@/filter/placeholder";
 import linebreak from "@/filter/linebreak";
+import path from "@/filter/path";
 const RavenPlugin: any = RavenVue;
 Raven.config(process.env.VUE_APP_SENTRY_URL!, {
   environment: process.env.NODE_ENV,
@@ -21,6 +22,7 @@ Vue.use(Element);
 Vue.config.productionTip = false;
 Vue.filter("placeholder", placeholderFilter);
 Vue.filter("linebreak", linebreak);
+Vue.filter("path", path);
 // Raven.context(function() {
 //   new Vue({
 //     router,

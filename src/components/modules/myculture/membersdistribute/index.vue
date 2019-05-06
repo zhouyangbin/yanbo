@@ -58,19 +58,22 @@ export default {
       );
     },
     topP() {
-      return `${parseFloat(
-        (parseFloat(this.data.top.count / this.total) * 100).toPrecision(4)
-      ).toFixed(2)}%`;
+      // return `${parseFloat(
+      //   (parseFloat(this.data.top.count / this.total) * 100).toPrecision(4)
+      // ).toFixed(2)}%`;
+      return `${this.data.top.count}人`;
     },
     mediumP() {
-      return `${parseFloat(
-        (parseFloat(this.data.middle.count / this.total) * 100).toPrecision(4)
-      ).toFixed(2)}%`;
+      // return `${parseFloat(
+      //   (parseFloat(this.data.middle.count / this.total) * 100).toPrecision(4)
+      // ).toFixed(2)}%`;
+      return `${this.data.middle.count}人`;
     },
     bottomP() {
-      return `${parseFloat(
-        (parseFloat(this.data.bottom.count / this.total) * 100).toPrecision(4)
-      ).toFixed(2)}%`;
+      // return `${parseFloat(
+      //   (parseFloat(this.data.bottom.count / this.total) * 100).toPrecision(4)
+      // ).toFixed(2)}%`;
+      return `${this.data.bottom.count}人`;
     },
     summary() {
       return `理想271比例分布：Top（${this.data.top.expected}人）、Middle（${

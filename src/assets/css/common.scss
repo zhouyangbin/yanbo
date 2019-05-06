@@ -19,7 +19,7 @@ section.content-container {
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 .date-picker-container .el-time-spinner.has-seconds .el-time-spinner__wrapper {
   width: 50%;

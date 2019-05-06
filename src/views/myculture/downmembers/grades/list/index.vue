@@ -48,9 +48,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{
-                constants.RESET
-              }}</el-button>
+              <el-button @click="resetForm('ruleForm')">
+                {{ constants.RESET }}
+              </el-button>
             </el-form-item>
           </el-form>
           <div>
@@ -66,9 +66,9 @@
               ></case-area>
               <br />
               <el-row type="flex" justify="center">
-                <el-button @click="batchReject" type="primary" round>{{
-                  constants.SUBMIT
-                }}</el-button>
+                <el-button @click="batchReject" type="primary" round>
+                  {{ constants.SUBMIT }}
+                </el-button>
               </el-row>
               <el-button
                 style="margin-right:20px"
@@ -111,9 +111,9 @@
                   :src="`${scope.row.avatar}_30x30q100.jpg`"
                   alt
                 />
-                <span class="stringAvatar" v-else>{{
-                  scope.row.name.substr(scope.row.name.length - 2)
-                }}</span>
+                <span class="stringAvatar" v-else>
+                  {{ scope.row.name.substr(scope.row.name.length - 2) }}
+                </span>
                 {{ scope.row.name }}
               </el-row>
             </template>
@@ -131,9 +131,11 @@
             :label="constants.LEADER_SOCRE"
           ></el-table-column>
           <el-table-column prop="_271_level" label="271等级">
-            <template slot-scope="scope">{{
-              scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
-            }}</template>
+            <template slot-scope="scope">
+              {{
+                scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
+              }}
+            </template>
           </el-table-column>
           <el-table-column
             prop="highlevel_status_name"

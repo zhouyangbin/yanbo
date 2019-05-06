@@ -42,9 +42,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{
-                constants.RESET
-              }}</el-button>
+              <el-button @click="resetForm('ruleForm')">
+                {{ constants.RESET }}
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -53,37 +53,142 @@
         <br />
         <hr class="dash" />
         <br />
-        <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column prop="name" :label="constants.NAME">
+        <el-alert
+          class="alert-tip"
+          effect="light"
+          :closable="false"
+          type="info"
+          show-icon
+        >
+          <template v-slot:title>
+            <div>
+              温馨提示:
+              <span class="green">绿色</span> 为自评,
+              <span class="blue">蓝色</span> 为上级评价
+            </div>
+          </template>
+        </el-alert>
+        <br />
+        <br />
+        <el-table
+          header-cell-class-name="text-center"
+          cell-class-name="text-center"
+          :data="tableData"
+          stripe
+          style="width: 100%"
+        >
+          <el-table-column :label="constants.NAME">
             <template slot-scope="scope">
-              <el-row type="flex" align="middle">
-                <img
-                  v-if="scope.row.avatar"
-                  class="avatar-style"
-                  :src="`${scope.row.avatar}_30x30q100.jpg`"
-                  alt
-                />
-                <span class="stringAvatar" v-else>{{
-                  scope.row.name.substr(scope.row.name.length - 2)
-                }}</span>
-                {{ scope.row.name }}
-              </el-row>
+              <el-tooltip v-if="isBigDiff(scope.row)" placement="top">
+                <div slot="content">
+                  自评和上级评总分差4分及以上或单项差2分及以上
+                </div>
+                <img width="15" src="@/assets/img/large_diff.png" alt />
+              </el-tooltip>
+              {{ scope.row.name }}
+            </template>
+          </el-table-column>
+          <el-table-column min-width="150" label="自评分数/上级分数">
+            <template slot-scope="scope">
+              <span class="self-text">{{
+                scope.row | path(["scores", "self", "total"]) | placeholder("-")
+              }}</span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">{{
+                scope.row
+                  | path(["scores", "superior", "total"])
+                  | placeholder("-")
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="180" label="自评平均分/上级平均分">
+            <template slot-scope="scope">
+              <span class="self-text">{{
+                scope.row
+                  | path(["scores", "self", "average"])
+                  | placeholder("-")
+              }}</span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">{{
+                scope.row
+                  | path(["scores", "superior", "average"])
+                  | placeholder("-")
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="成就客户">
+            <template slot-scope="scope">
+              <span class="self-text">{{
+                scope.row
+                  | path(["scores", "self", "questions", "1"])
+                  | placeholder("-")
+              }}</span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">{{
+                scope.row
+                  | path(["scores", "superior", "questions", "1"])
+                  | placeholder("-")
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="务实">
+            <template slot-scope="scope">
+              <span class="self-text">{{
+                scope.row
+                  | path(["scores", "self", "questions", "2"])
+                  | placeholder("-")
+              }}</span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">{{
+                scope.row
+                  | path(["scores", "superior", "questions", "2"])
+                  | placeholder("-")
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="创新">
+            <template slot-scope="scope">
+              <span class="self-text">{{
+                scope.row
+                  | path(["scores", "self", "questions", "3"])
+                  | placeholder("-")
+              }}</span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">{{
+                scope.row
+                  | path(["scores", "superior", "questions", "3"])
+                  | placeholder("-")
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="合作">
+            <template slot-scope="scope">
+              <span class="self-text">{{
+                scope.row
+                  | path(["scores", "self", "questions", "4"])
+                  | placeholder("-")
+              }}</span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">{{
+                scope.row
+                  | path(["scores", "superior", "questions", "4"])
+                  | placeholder("-")
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="self" label="271等级">
+            <template slot-scope="scope">
+              {{
+                scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
+              }}
+              <el-tooltip v-if="scope.row.special_recommended" placement="top">
+                <div slot="content">上级特殊推荐top</div>
+                <img width="15" src="@/assets/img/recommend.png" alt />
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
-            prop="score"
-            :label="constants.SELF_SCORE"
-          ></el-table-column>
-          <el-table-column
-            prop="superior_score"
-            :label="constants.LEADER_SOCRE"
-          ></el-table-column>
-          <el-table-column prop="self" label="271等级">
-            <template slot-scope="scope">{{
-              scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
-            }}</template>
-          </el-table-column>
-          <el-table-column
+            min-width="100"
             prop="superior_status"
             :label="constants.LEADER_EVALUATION_STATUS"
           ></el-table-column>
@@ -146,6 +251,7 @@ import {
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getMembersList } from "@/constants/API";
+import Vue from "vue";
 
 export default {
   data() {
@@ -222,6 +328,27 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    isBigDiff(row) {
+      const isTotalDiff =
+        Math.abs(
+          Vue.filter("path")(row, ["scores", "self", "total"]) -
+            Vue.filter("path")(row, ["scores", "superior", "total"])
+        ) >= 4;
+
+      const keys = Object.keys(
+        Vue.filter("path")(row, ["scores", "self", "questions"]) || {}
+      );
+      const itemDiff = keys.some(k => {
+        return (
+          Math.abs(
+            Vue.filter("path")(row, ["scores", "self", "questions", k]) -
+              Vue.filter("path")(row, ["scores", "superior", "questions", k])
+          ) >= 2
+        );
+      });
+
+      return isTotalDiff || itemDiff;
+    },
     getData(data) {
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);
@@ -258,7 +385,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .my-grade-list .content-container {
   padding: 20px;
 }
@@ -363,5 +490,36 @@ hr.dash {
   color: #46beeb;
   width: 60px;
   transform: rotateZ(-12deg);
+}
+.alert-tip {
+  background: #f9f8ec;
+  display: inline-flex;
+  width: auto;
+  font-size: 12px;
+  // color: #333333;
+  letter-spacing: 0.13px;
+  line-height: 17px;
+  .green {
+    color: #5dc5b2;
+  }
+  .blue {
+    color: #518feb;
+  }
+}
+.self-text {
+  font-size: 14px;
+  color: #5dc5b2;
+  letter-spacing: 0.17px;
+}
+.superior-text {
+  font-size: 14px;
+  color: #518feb;
+  letter-spacing: 0.17px;
+}
+.self-superior {
+  font-size: 14px;
+  color: #adadad;
+  letter-spacing: 0.17px;
+  padding: 0 5px;
 }
 </style>
