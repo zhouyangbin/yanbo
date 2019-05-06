@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     getPerformancePath(querys) {
-      let dst = PATH_MY_CULTURE_GRADE;
+      let dst = PATH_EMPLOYEE_MY;
       switch (querys.path) {
         case "self":
         case "confirm":
