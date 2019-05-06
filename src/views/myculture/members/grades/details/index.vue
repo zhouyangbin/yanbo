@@ -110,9 +110,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <el-button @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
     </section>
   </div>
@@ -440,6 +440,19 @@ export default {
     & .time {
       position: absolute;
       right: 0;
+    }
+  }
+  .total-scores {
+    font-size: 20px;
+    color: #333333;
+    // letter-spacing: 0.24px;
+    display: table-cell;
+    .score {
+      font-size: 26px;
+      color: #d8934e;
+      // letter-spacing: 0.31px;
+      // line-height: 26px;
+      vertical-align: middle;
     }
   }
 }
