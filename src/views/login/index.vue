@@ -34,7 +34,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS,
   PATH_GRADE_EMP_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
-  PATH_PERFORMANCE_ORG_LIST
+  PATH_PERFORMANCE_ORG_LIST,
+  PATH_EMPLOYEE_MY
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -52,11 +53,13 @@ export default {
       return;
     }
     let dst;
-    if (querys.project == "culture") {
-      dst = this.getCulturePath(querys);
-    } else {
+    if (querys.project == "performance") {
       // 目标通知跳转
       dst = this.getPerformancePath(querys);
+    } else if (querys.project == "culture") {
+      dst = this.getCulturePath(querys);
+    } else {
+      dst = PATH_MY_CULTURE_GRADE;
     }
 
     if (querys.token) {

@@ -42,7 +42,7 @@ export default {
 <style scoped>
 .nav-container {
   padding: 0 20px;
-  min-width: 1280px;
+  min-width: 1120px;
 }
 .nav-container >>> .el-menu--horizontal > .el-menu-item {
   height: 74px;

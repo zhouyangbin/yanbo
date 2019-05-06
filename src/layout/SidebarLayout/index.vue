@@ -1,12 +1,12 @@
 <template>
   <el-container class="container">
     <el-aside class="sidebar-container">
-      <img src="@assets/img/bg_logo.png" class="logo" alt />
+      <img src="@assets/img/bg_logo.png" width="160" class="logo" alt />
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
-        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{
-          labe_logout
-        }}</el-button>
+        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">
+          {{ labe_logout }}
+        </el-button>
         <p>{{ talEmail }}</p>
       </section>
     </el-aside>
@@ -73,7 +73,7 @@ export default {
 .sidebar-container {
   background-color: #242a36;
   height: 100%;
-  max-width: 230px !important;
+  max-width: 160px !important;
   overflow: hidden;
 }
 .sidebar-logout {
