@@ -42,9 +42,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">
-                {{ constants.RESET }}
-              </el-button>
+              <el-button @click="resetForm('ruleForm')">{{
+                constants.RESET
+              }}</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -77,103 +77,122 @@
           stripe
           style="width: 100%"
         >
-          <el-table-column :label="constants.NAME">
-            <template slot-scope="scope">
-              <el-tooltip v-if="isBigDiff(scope.row)" placement="top">
-                <div slot="content">
-                  自评和上级评总分差4分及以上或单项差2分及以上
-                </div>
-                <img width="15" src="@/assets/img/large_diff.png" alt />
-              </el-tooltip>
-              {{ scope.row.name }}
-            </template>
-          </el-table-column>
+          <el-table-column
+            prop="name"
+            :label="constants.NAME"
+          ></el-table-column>
           <el-table-column min-width="150" label="自评分数/上级分数">
             <template slot-scope="scope">
-              <span class="self-text">{{
-                scope.row | path(["scores", "self", "total"]) | placeholder("-")
-              }}</span>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "total"])
+                    | placeholder("-")
+                }}
+              </span>
               <span class="self-superior">/</span>
-              <span class="superior-text">{{
-                scope.row
-                  | path(["scores", "superior", "total"])
-                  | placeholder("-")
-              }}</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "total"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column min-width="180" label="自评平均分/上级平均分">
             <template slot-scope="scope">
-              <span class="self-text">{{
-                scope.row
-                  | path(["scores", "self", "average"])
-                  | placeholder("-")
-              }}</span>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "average"])
+                    | placeholder("-")
+                }}
+              </span>
               <span class="self-superior">/</span>
-              <span class="superior-text">{{
-                scope.row
-                  | path(["scores", "superior", "average"])
-                  | placeholder("-")
-              }}</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "average"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column min-width="80" label="成就客户">
             <template slot-scope="scope">
-              <span class="self-text">{{
-                scope.row
-                  | path(["scores", "self", "questions", "1"])
-                  | placeholder("-")
-              }}</span>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "1"])
+                    | placeholder("-")
+                }}
+              </span>
               <span class="self-superior">/</span>
-              <span class="superior-text">{{
-                scope.row
-                  | path(["scores", "superior", "questions", "1"])
-                  | placeholder("-")
-              }}</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "1"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column min-width="80" label="务实">
             <template slot-scope="scope">
-              <span class="self-text">{{
-                scope.row
-                  | path(["scores", "self", "questions", "2"])
-                  | placeholder("-")
-              }}</span>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "2"])
+                    | placeholder("-")
+                }}
+              </span>
               <span class="self-superior">/</span>
-              <span class="superior-text">{{
-                scope.row
-                  | path(["scores", "superior", "questions", "2"])
-                  | placeholder("-")
-              }}</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "2"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column min-width="80" label="创新">
             <template slot-scope="scope">
-              <span class="self-text">{{
-                scope.row
-                  | path(["scores", "self", "questions", "3"])
-                  | placeholder("-")
-              }}</span>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "3"])
+                    | placeholder("-")
+                }}
+              </span>
               <span class="self-superior">/</span>
-              <span class="superior-text">{{
-                scope.row
-                  | path(["scores", "superior", "questions", "3"])
-                  | placeholder("-")
-              }}</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "3"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column min-width="80" label="合作">
             <template slot-scope="scope">
-              <span class="self-text">{{
-                scope.row
-                  | path(["scores", "self", "questions", "4"])
-                  | placeholder("-")
-              }}</span>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "4"])
+                    | placeholder("-")
+                }}
+              </span>
               <span class="self-superior">/</span>
-              <span class="superior-text">{{
-                scope.row
-                  | path(["scores", "superior", "questions", "4"])
-                  | placeholder("-")
-              }}</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "4"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column prop="self" label="271等级">
@@ -251,7 +270,6 @@ import {
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getMembersList } from "@/constants/API";
-import Vue from "vue";
 
 export default {
   data() {
@@ -328,27 +346,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    isBigDiff(row) {
-      const isTotalDiff =
-        Math.abs(
-          Vue.filter("path")(row, ["scores", "self", "total"]) -
-            Vue.filter("path")(row, ["scores", "superior", "total"])
-        ) >= 4;
 
-      const keys = Object.keys(
-        Vue.filter("path")(row, ["scores", "self", "questions"]) || {}
-      );
-      const itemDiff = keys.some(k => {
-        return (
-          Math.abs(
-            Vue.filter("path")(row, ["scores", "self", "questions", k]) -
-              Vue.filter("path")(row, ["scores", "superior", "questions", k])
-          ) >= 2
-        );
-      });
-
-      return isTotalDiff || itemDiff;
-    },
     getData(data) {
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);
