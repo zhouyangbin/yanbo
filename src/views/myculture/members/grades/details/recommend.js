@@ -37,6 +37,12 @@ export default {
         msg = "当前团队仅有一个跟隔级推荐的名额，是否推荐";
       }
       return msg;
+    },
+    setSpecialRecommended(v) {
+      this.special_recommended = v;
+    },
+    getSpecialRecommended() {
+      return this.special_recommended;
     }
   },
   computed: {

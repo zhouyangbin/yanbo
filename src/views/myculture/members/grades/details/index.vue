@@ -121,9 +121,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <el-button @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
     </section>
   </div>
@@ -308,7 +308,7 @@ export default {
       result.promotion = this.promotion;
       result.advantage = this.advantage;
       result._271_level = LEVELMAP[this.level] || "";
-      result.special_recommend = this.special_recommended;
+      result.special_recommend = this.getSpecialRecommended();
       return result;
     },
     goHistory() {
@@ -394,7 +394,7 @@ export default {
         );
       } else {
         this.level = l;
-        this.special_recommended = 0;
+        this.setSpecialRecommended(0);
       }
     }
   },
