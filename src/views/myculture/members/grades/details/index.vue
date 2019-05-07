@@ -67,6 +67,7 @@
               scores[selectGradeItem].question_name
             }}项目评分
           </div>
+
           <br />
           <grade-slider
             :readOnly="readOnly"
@@ -75,12 +76,22 @@
         </div>
         <div style="width:20px;"></div>
         <div class="flag-section">
-          <div class="mark-label">为{{ employee_name }}设置等级标签</div>
+          <div class="mark-level-container">
+            <div style="display:inline-block" class="mark-label">
+              为{{ employee_name }}设置等级标签
+            </div>
+            <span class="level-recommmed-icon" v-if="isRecommended">
+              <img width="15" src="@/assets/img/recommend.png" alt />
+              已特殊推荐
+            </span>
+          </div>
+
           <br />
           <level-selector
             :disabled="readOnly"
             :pre="hasRejectReasons ? preLv : ''"
-            v-model="level"
+            :value="level"
+            @input="levelChange"
           ></level-selector>
         </div>
       </div>
@@ -110,9 +121,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>
@@ -150,7 +161,10 @@ import {
   saveMyGradeDraft
 } from "@/constants/API";
 
+import recommendMx from "./recommend";
+
 export default {
+  mixins: [recommendMx],
   data() {
     return {
       employee_name: "",
@@ -245,8 +259,14 @@ export default {
         break_status,
         superior_start_time,
         feedback_feeling,
-        has_history
+        has_history,
+        special_recommended,
+        can_special_recommend
       } = res;
+      this.initRecommend({
+        can_special_recommend,
+        special_recommended
+      });
       this.has_history = has_history == 1;
       this.feedback_feeling = feedback_feeling;
       this.rejectReason = reject_record;
@@ -288,6 +308,7 @@ export default {
       result.promotion = this.promotion;
       result.advantage = this.advantage;
       result._271_level = LEVELMAP[this.level] || "";
+      result.special_recommend = this.special_recommended;
       return result;
     },
     goHistory() {
@@ -362,6 +383,19 @@ export default {
             .catch(e => {});
         })
         .catch(() => {});
+    },
+    levelChange(l) {
+      if (this.canRecommended && l == "top") {
+        this.showRecommend(
+          () => {},
+          () => {
+            this.level = l;
+          }
+        );
+      } else {
+        this.level = l;
+        this.special_recommended = 0;
+      }
     }
   },
   created() {
@@ -398,7 +432,17 @@ export default {
     color: #4a4a4a;
     font-size: 24px;
   }
-
+  & .mark-level-container {
+    display: flex;
+    align-items: center;
+    & .level-recommmed-icon {
+      margin-left: 30px;
+      font-size: 14px;
+      color: #d39451;
+      letter-spacing: 0.17px;
+      margin-bottom: 15px;
+    }
+  }
   & .mark-reason {
     overflow: auto;
     max-height: 150px !important;
