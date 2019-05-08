@@ -1,12 +1,12 @@
 <template>
   <el-container class="container">
     <el-aside class="sidebar-container">
-      <img src="@assets/img/bg_logo.png" width="160" class="logo" alt />
+      <div class="logo"></div>
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
-        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">
-          {{ labe_logout }}
-        </el-button>
+        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{
+          labe_logout
+        }}</el-button>
         <p>{{ talEmail }}</p>
       </section>
     </el-aside>
@@ -85,16 +85,24 @@ export default {
 .sidebar-logout p {
   margin: 0;
 }
+.logo {
+  width: 160px;
+  height: 52px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../assets/img/bg_logo.png");
+}
 @media only screen and (max-width: 1280px) {
   .sidebar-container {
     background-color: #242a36;
     height: 100%;
     width: 60px !important;
   }
-  .sidebar-container img {
+  .sidebar-container .logo {
     background-color: #242a36;
-    /* height: 100%; */
     width: 60px !important;
+    background-image: url("../../assets/img/small_logo.png");
   }
   .sidebar-logout p {
     margin: 0;
