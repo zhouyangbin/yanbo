@@ -121,9 +121,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>
@@ -389,7 +389,7 @@ export default {
         this.showRecommend(
           () => {},
           () => {
-            this.level = l;
+            this.level = "middle";
           }
         );
       } else {
