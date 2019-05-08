@@ -3,8 +3,8 @@
     <nav-bar :list="nav"></nav-bar>
     <br />
     <section class="content-container" style="padding:40px">
-      <basic-info v-if="!isError" :data="basicInfo"></basic-info>
-      <div v-if="!isError">
+      <basic-info v-if="!isError && !isReport" :data="basicInfo"></basic-info>
+      <div v-if="!isError && !isReport">
         <br />
         <hr />
         <br />
@@ -83,6 +83,9 @@ export default {
     },
     isError() {
       return this.currentTabComponent == "self-msg";
+    },
+    isReport() {
+      return this.currentTabComponent == "self-report";
     }
   },
   created() {

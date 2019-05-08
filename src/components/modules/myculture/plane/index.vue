@@ -1,12 +1,8 @@
 <template>
   <div class="plane-page">
-    <img src="@assets/img/plane.png" alt="" />
-    <div :data-score="`${planeScore.wsScore}分`" class="circle wushi">
-      务实
-    </div>
-    <div :data-score="`${planeScore.hzScore}分`" class="circle hezuo">
-      合作
-    </div>
+    <img src="@assets/img/plane.png" alt />
+    <div :data-score="`${planeScore.wsScore}分`" class="circle wushi">务实</div>
+    <div :data-score="`${planeScore.hzScore}分`" class="circle hezuo">合作</div>
     <div :data-score="`${planeScore.cxScore}分`" class="circle chuangxin">
       创新
     </div>
@@ -35,8 +31,12 @@ export default {
     position: absolute;
     text-align: center;
     line-height: 64px;
-    font-size: 24px;
+
+    font-size: 15px;
     color: #ffffff;
+    letter-spacing: 0.18px;
+    font-weight: 600;
+    // line-height: 17px;
     &.wushi {
       background: #006fbc;
       position: absolute;
@@ -56,7 +56,7 @@ export default {
         position: absolute;
         color: #006fbc;
         content: attr(data-score);
-        right: -80px;
+        right: -45px;
       }
     }
     &.hezuo {
@@ -78,7 +78,7 @@ export default {
         position: absolute;
         color: #f18d23;
         content: attr(data-score);
-        right: -80px;
+        right: -40px;
       }
     }
     &.chuangxin {
@@ -108,7 +108,7 @@ export default {
       position: absolute;
       left: 130px;
       bottom: 40px;
-      line-height: 32px;
+      // line-height: 32px;
       &::before {
         position: absolute;
         background: #006fbc;

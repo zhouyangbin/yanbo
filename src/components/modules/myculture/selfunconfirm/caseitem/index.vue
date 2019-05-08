@@ -43,6 +43,43 @@ export default {
 </script>
 <style lang="scss" scoped>
 .self-report-case-item-component {
+  &.small {
+    br {
+      margin: 0;
+      height: 0;
+      padding: 0;
+      line-height: 0;
+    }
+    .case-container {
+      .sub-title {
+        font-size: 16px;
+        color: #60cba5;
+        letter-spacing: 0.19px;
+        font-weight: 400;
+      }
+      .case-info {
+        .grade-info {
+          font-weight: 500;
+          .self {
+            font-size: 16px;
+            color: #4a4a4a;
+            // margin-right: 90px;
+          }
+          .leader {
+            font-size: 16px;
+            color: #f18d23;
+          }
+        }
+        .leader-reason,
+        .my-case {
+          font-size: 14px;
+          .label {
+            color: #4a4a4a;
+          }
+        }
+      }
+    }
+  }
   .case-container {
     display: flex;
     .sub-title {
@@ -77,6 +114,9 @@ export default {
         }
       }
     }
+  }
+  hr {
+    border: 1px solid #d4d4d4;
   }
 }
 </style>

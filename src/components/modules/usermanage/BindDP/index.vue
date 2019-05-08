@@ -74,9 +74,9 @@
           type="primary"
           >{{ constants.CONFIRM }}</el-button
         >
-        <el-button round size="medium" @click="close" class="btn-reset">
-          {{ constants.CANCEL }}
-        </el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
     <Drawer @close="closeAll" :closeable="false" :maskClosable="true">
@@ -245,14 +245,12 @@ export default {
           achievementDepartmentTree,
           _271DepartmentTree
         } = res;
-        this.cultureDepartmentTree = cultureDepartment
-          ? [cultureDepartment]
-          : [];
+        this.cultureDepartmentTree = cultureDepartment ? cultureDepartment : [];
         this.performanceDepartmentTree = achievementDepartmentTree
-          ? [achievementDepartmentTree]
+          ? achievementDepartmentTree
           : [];
         this.level_271DepartmentTree = _271DepartmentTree
-          ? [_271DepartmentTree]
+          ? _271DepartmentTree
           : [];
       })
       .catch(e => {});
