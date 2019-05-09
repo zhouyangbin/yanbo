@@ -15,6 +15,7 @@
         <br />
       </div>
       <component
+        :isManager="isManager"
         :msg="msg"
         :stage="stage"
         v-bind:is="currentTabComponent"
