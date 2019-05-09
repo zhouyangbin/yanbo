@@ -21,12 +21,12 @@
         type="primary"
         >{{ constants.APPEAL }}</el-button
       >
-      <el-button @click="confirm" type="primary">
-        {{ constants.CONFIRM }}
-      </el-button>
+      <el-button @click="confirm" type="primary">{{
+        constants.CONFIRM
+      }}</el-button>
     </el-row>
     <impression-dialog
-      isNecessary="feeling_is_necessary"
+      :isNecessary="feeling_is_necessary"
       v-if="showImpressionDialog"
       :visible.sync="showImpressionDialog"
     ></impression-dialog>
@@ -66,7 +66,7 @@ export default {
       promotion: "",
       canSubmit: false,
       scores: [],
-      feeling_is_necessary: false,
+      feeling_is_necessary: 0,
       isManager: false,
       can_appeal: false,
       constants: {

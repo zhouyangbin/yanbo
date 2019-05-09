@@ -161,7 +161,12 @@
           >271等级员工本人可见</el-checkbox
         >
       </el-form-item>
-      <el-form-item v-if="isManagerGrade" label prop="feeling_is_necessary">
+      <el-form-item
+        style="margin-top:-20px"
+        v-if="isManagerGrade"
+        label
+        prop="feeling_is_necessary"
+      >
         <el-checkbox
           :disabled="face_start_disable"
           :true-label="1"
@@ -173,12 +178,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" type="primary" @click="timeSet">
-          {{ constants.CONFIRM }}
-        </el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">
-          {{ constants.CANCEL }}
-        </el-button>
+        <el-button round size="medium" type="primary" @click="timeSet">{{
+          constants.CONFIRM
+        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
   </el-dialog>

@@ -15,9 +15,9 @@
       <br />
       <br />
       <el-row type="flex" justify="center">
-        <el-button type="primary" @click="submit" round>
-          {{ constants.CONFIRM }}
-        </el-button>
+        <el-button type="primary" @click="submit" round>{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </el-dialog>
   </div>

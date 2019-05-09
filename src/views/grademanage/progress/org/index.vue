@@ -20,9 +20,10 @@
               type="primary"
               round
               style="margin-right:20px"
+              >{{
+                hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES
+              }}</el-button
             >
-              {{ hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES }}
-            </el-button>
           </el-row>
           <br />
           <br />
@@ -351,9 +352,9 @@
             width="150"
           ></el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">
-            <template slot-scope="scope">
-              {{ constants.LEVEL_ALIAS[scope.row._271_level] }}
-            </template>
+            <template slot-scope="scope">{{
+              constants.LEVEL_ALIAS[scope.row._271_level]
+            }}</template>
           </el-table-column>
           <el-table-column
             prop="self_status"
@@ -828,7 +829,6 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
-          console.log(res.info);
           this.realTotal = res.total;
           this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
