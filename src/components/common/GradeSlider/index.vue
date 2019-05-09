@@ -11,9 +11,10 @@
         'half-invisible': hoverValue > (x - 1 + min) * step
       }"
       @mouseover="hoverDot"
-      v-for="x in diff / step"
+      v-for="(x, i) in diff / step"
       :data-num="(x - 1 + min) * step"
       :key="x"
+      :data-label="labels[i]"
       class="dot"
       :style="{ left: `${(100 / (diff / step - 1)) * (x - 1)}%` }"
     ></div>
@@ -52,6 +53,10 @@ export default {
     readOnly: {
       type: Boolean,
       default: false
+    },
+    labels: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -130,6 +135,11 @@ export default {
         color: #f18d23;
         top: -30px;
       }
+      &::after {
+        font-weight: bold;
+        font-size: 18px;
+        width: 60px;
+      }
     }
     &.hoverd {
       background: #c98d0d;
@@ -143,6 +153,18 @@ export default {
       position: absolute;
       top: -20px;
       left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #9b9b9b;
+    }
+
+    &::after {
+      content: attr(data-label);
+      position: absolute;
+      text-align: center;
+      bottom: -30px;
+      left: 50%;
+      width: 40px;
       transform: translateX(-50%);
       font-size: 12px;
       color: #9b9b9b;

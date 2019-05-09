@@ -496,7 +496,8 @@ export default {
     this.timesForm.levelRequired = this.timeData.checked_271;
     this.timesForm.finishedDate = this.timeData.finishedDate;
     this.timesForm.visible_271 = this.timeData.visible_271;
-    this.timesForm.feeling_is_necessary = this.timeData.feeling_is_necessary;
+    this.timesForm.feeling_is_necessary =
+      this.timeData.feeling_is_necessary || 0;
   },
   beforeDestroy() {
     this.resetFilter("timesForm");

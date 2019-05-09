@@ -20,10 +20,9 @@
               type="primary"
               round
               style="margin-right:20px"
-              >{{
-                hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES
-              }}</el-button
             >
+              {{ hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES }}
+            </el-button>
           </el-row>
           <br />
           <br />
@@ -352,9 +351,9 @@
             width="150"
           ></el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">
-            <template slot-scope="scope">{{
-              constants.LEVEL_ALIAS[scope.row._271_level]
-            }}</template>
+            <template slot-scope="scope">
+              {{ constants.LEVEL_ALIAS[scope.row._271_level] }}
+            </template>
           </el-table-column>
           <el-table-column
             prop="self_status"
@@ -829,7 +828,7 @@ export default {
       };
       getUserList(this.$route.params.orgID, compact(postData))
         .then(res => {
-          // console.log(res.info);
+          console.log(res.info);
           this.realTotal = res.total;
           this.isManagerGrade = res.info.type == 2;
           this.tableData = res.list.data;
@@ -845,7 +844,7 @@ export default {
           this.depInfo.highlevel = res.info.stat[0].highlevel;
           this.depInfo.refuse = res.info.stat[0].refuse;
           this.gradeInfo.name = res.info.evaluation_name.evaluation_name;
-          this.gradeInfo.feeling_is_necessary = res.info.feeling_is_necessarys;
+          this.gradeInfo.feeling_is_necessary = res.info.feeling_is_necessary;
           this.gradeInfo.finishedDate = res.info.evaluation_name.end_time;
           this.gradeInfo.self_start_time = res.info.self_start_time;
           this.gradeInfo.self_end_time = res.info.self_end_time;

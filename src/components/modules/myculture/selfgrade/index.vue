@@ -18,6 +18,7 @@
             :step="1"
             :max="5"
             v-model="questions[selectGradeItem].score"
+            :labels="constants.markLabels"
           ></grade-slider>
         </el-col>
         <el-col style="padding-left:50px;">
@@ -60,12 +61,12 @@
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{
-        constants.SAVE_DRAFT
-      }}</el-button>
-      <el-button @click="submitGrade" type="primary">{{
-        constants.SUBMIT
-      }}</el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">
+        {{ constants.SAVE_DRAFT }}
+      </el-button>
+      <el-button @click="submitGrade" type="primary">
+        {{ constants.SUBMIT }}
+      </el-button>
     </el-row>
   </div>
 </template>
@@ -114,7 +115,8 @@ export default {
       readOnly: false,
       constants: {
         SUBMIT,
-        SAVE_DRAFT
+        SAVE_DRAFT,
+        markLabels: ["红线", "胜任", "优秀", "超预期", "卓越"]
       }
     };
   },
