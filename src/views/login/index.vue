@@ -3,7 +3,7 @@
     <el-row class="row-bg">
       <!--  FE-PC-TDC logo and title-->
       <el-col :span="12" class="login-logo">
-        <img src="@assets/img/login_logo.png" alt="好文来文化评分" />
+        <img src="@assets/img/login_logo.png" alt="好文来文化评分">
       </el-col>
 
       <!-- login form -->
@@ -75,13 +75,13 @@ export default {
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => {});
+          .catch(e => { });
       } else {
         qrLogin({ token: querys.token })
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => {});
+          .catch(e => { });
       }
     } else {
       tinfo.init({
@@ -190,10 +190,10 @@ export default {
       ) {
         window.DingTalkPC.biz.util.openLink({
           url: `${window.location.origin}${dst}`, //要打开链接的地址
-          onSuccess: function(result) {
+          onSuccess: function (result) {
             /**/
           },
-          onFail: function() {}
+          onFail: function () { }
         });
       } else {
         this.$router.push({ path: dst });
