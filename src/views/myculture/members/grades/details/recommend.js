@@ -31,7 +31,7 @@ export default {
     },
     getRecommendMsg() {
       let msg = "";
-      if (this.canRecommended && this.special_recommended != 0) {
+      if (this.canRecommended && this.special_recommended == 2) {
         msg = "当前团队仅有一个跟隔级推荐的名额，且已推荐，是否修改为该员工";
       } else {
         msg = "当前团队仅有一个跟隔级推荐的名额，是否推荐";
