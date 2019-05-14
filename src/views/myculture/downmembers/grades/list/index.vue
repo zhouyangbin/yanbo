@@ -48,9 +48,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{
-                constants.RESET
-              }}</el-button>
+              <el-button @click="resetForm('ruleForm')">
+                {{ constants.RESET }}
+              </el-button>
             </el-form-item>
           </el-form>
           <div>
@@ -66,15 +66,15 @@
               ></case-area>
               <br />
               <el-row type="flex" justify="center">
-                <el-button @click="batchReject" type="primary" round>{{
-                  constants.SUBMIT
-                }}</el-button>
+                <el-button @click="batchReject" type="primary" round>
+                  {{ constants.SUBMIT }}
+                </el-button>
               </el-row>
               <el-button
                 style="margin-right:20px"
                 slot="reference"
                 type="primary"
-                :disabled="!hasSelectedItem || notAllowedBatch"
+                :disabled="!hasSelectedItem"
                 round
                 >{{ constants.BATCH_REJECT }}</el-button
               >
@@ -83,7 +83,7 @@
             <el-button
               style="margin-right:20px"
               @click="batchPass"
-              :disabled="!hasSelectedItem || notAllowedBatch"
+              :disabled="!hasSelectedItem"
               type="primary"
               round
               >{{ constants.BATCH_PASS }}</el-button
@@ -513,15 +513,15 @@ export default {
   computed: {
     hasSelectedItem() {
       return this.selectedArr.length > 0;
-    },
-    notAllowedBatch() {
-      return this.selectedArr.some(
-        i =>
-          i.stage != 50 ||
-          (i.status == 100 || i.status == 30) ||
-          (i.stage == 50 && formatTime(new Date()) >= i.highlevel_end_time)
-      );
     }
+    // notAllowedBatch() {
+    //   return this.selectedArr.some(
+    //     i =>
+    //       i.stage != 50 ||
+    //       (i.status == 100 || i.status == 30) ||
+    //       (i.stage == 50 && formatTime(new Date()) >= i.highlevel_end_time)
+    //   );
+    // }
   }
 };
 </script>
