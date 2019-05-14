@@ -3,7 +3,7 @@
     <el-row class="row-bg">
       <!--  FE-PC-TDC logo and title-->
       <el-col :span="12" class="login-logo">
-        <img src="@assets/img/login_logo.png" alt="好文来文化评分" />
+        <img src="@assets/img/login_logo.png" alt="好文来文化评分">
       </el-col>
 
       <!-- login form -->
@@ -39,7 +39,6 @@ import {
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
-
 export default {
   data() {
     return {};
@@ -61,7 +60,6 @@ export default {
     } else {
       dst = PATH_MY_CULTURE_GRADE;
     }
-
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
@@ -75,13 +73,13 @@ export default {
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => {});
+          .catch(e => { });
       } else {
         qrLogin({ token: querys.token })
           .then(res => {
             this.callback(res, dst, querys);
           })
-          .catch(e => {});
+          .catch(e => { });
       }
     } else {
       tinfo.init({
@@ -188,13 +186,19 @@ export default {
         window.DingTalkPC.ua &&
         window.DingTalkPC.ua.isInDingTalk
       ) {
-        window.DingTalkPC.biz.util.openLink({
-          url: `${window.location.origin}${dst}`, //要打开链接的地址
-          onSuccess: function(result) {
-            /**/
-          },
-          onFail: function() {}
-        });
+        // window.DingTalkPC.biz.util.openLink({
+        //   url: `${window.location.origin}${dst}`, //要打开链接的地址
+        //   onSuccess: function (result) {
+        //     /**/
+        //     localStorage.setItem("talEmail", res.admin.email);
+        //     localStorage.setItem("talToken", res.token);
+        //     localStorage.setItem(
+        //       "permissions",
+        //       JSON.stringify(res.admin.permissions)
+        //     );
+        //   },
+        //   onFail: function () { }
+        // });
       } else {
         this.$router.push({ path: dst });
       }
