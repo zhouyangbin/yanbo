@@ -27,7 +27,7 @@
           >
         </el-form>
       </section>
-      <section>
+      <section style="min-height:400px">
         <el-row type="flex" :gutter="20" align="top">
           <el-col :span="18">
             <el-table :data="tableData" stripe style="width: 100%">
@@ -44,13 +44,13 @@
                       :src="`${scope.row.avatar}_30x30q100.jpg`"
                       alt
                     />
-                    <span class="stringAvatar" v-else>{{
-                      scope.row.name.substr(scope.row.name.length - 2)
-                    }}</span>
+                    <span class="stringAvatar" v-else>
+                      {{ scope.row.name.substr(scope.row.name.length - 2) }}
+                    </span>
                     <span>{{ scope.row.name }}</span>
-                    <span class="appeal-tag" v-if="scope.row.has_appeal">{{
-                      constants.APPEAL
-                    }}</span>
+                    <span class="appeal-tag" v-if="scope.row.has_appeal">
+                      {{ constants.APPEAL }}
+                    </span>
                   </el-row>
                 </template>
               </el-table-column>
