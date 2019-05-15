@@ -7,21 +7,21 @@
         <span v-show="data.leaderLabel" class="number"
           >{{ data.leaderLabel }}:</span
         >
-        <span v-show="data.superior_name" class="name">{{
-          data.superior_name | placeholder("无")
-        }}</span>
-        <span v-show="data.superior_workcode" class="number">{{
-          data.superior_workcode | placeholder("无")
-        }}</span>
+        <span v-show="data.superior_name" class="name">
+          {{ data.superior_name | placeholder("无") }}
+        </span>
+        <span v-show="data.superior_workcode" class="number">
+          {{ data.superior_workcode | placeholder("无") }}
+        </span>
         <span v-show="data.hightlevelLabel" class="number"
           >{{ data.hightlevelLabel }}:</span
         >
-        <span v-show="data.highlevel_name" class="name">{{
-          data.highlevel_name | placeholder("无")
-        }}</span>
-        <span v-show="data.highlevel_workcode" class="number">{{
-          data.highlevel_workcode | placeholder("无")
-        }}</span>
+        <span v-show="data.hightlevelLabel" class="name">
+          {{ data.highlevel_name | placeholder("无") }}
+        </span>
+        <span v-show="data.highlevel_workcode" class="number">
+          {{ data.highlevel_workcode | placeholder("无") }}
+        </span>
         <span v-if="data.breakStatus" class="name">{{ data.breakStatus }}</span>
       </div>
       <div v-if="data.finishedTime" class="finished-time">
