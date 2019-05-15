@@ -1,11 +1,29 @@
-
 <template>
   <div class="GradeSlider-page">
     <!-- <div v-if="min==0" @click="readOnly?undefined:$emit('input',0)" @mouseover="hoverDot" :class="{'hoverd' :hoverValue===0,'selected':value===0,'invisible':value>0 &&!onHover,'half-invisible':hoverValue>0}" class="dot" :data-num="0" :style="{left: `0`}"></div> -->
-    <div @click="readOnly?undefined:$emit('input',(x-1+min)*step)" @mouseleave="hoverValue=''" :class="{'hoverd' :hoverValue===(x-1+min)*step,'selected':value==(x-1+min)*step,'invisible':value>(x-1+min)*step && !onHover,'half-invisible':hoverValue>(x-1+min)*step}" @mouseover="hoverDot" v-for="x in diff/step" :data-num="(x-1+min)*step" :key="x" class="dot" :style="{left: `${100/(diff/step-1)*(x-1)}%`}">
-    </div>
+    <div
+      @click="readOnly ? undefined : $emit('input', (x - 1 + min) * step)"
+      @mouseleave="hoverValue = ''"
+      :class="{
+        hoverd: hoverValue === (x - 1 + min) * step,
+        selected: value == (x - 1 + min) * step,
+        invisible: value > (x - 1 + min) * step && !onHover,
+        'half-invisible': hoverValue > (x - 1 + min) * step
+      }"
+      @mouseover="hoverDot"
+      v-for="(x, i) in diff / step"
+      :data-num="(x - 1 + min) * step"
+      :key="x"
+      :data-label="labels[i]"
+      class="dot"
+      :style="{ left: `${(100 / (diff / step - 1)) * (x - 1)}%` }"
+    ></div>
 
-    <div v-show="!onHover" :style="selectedStyle" class="selected-wrapper"></div>
+    <div
+      v-show="!onHover"
+      :style="selectedStyle"
+      class="selected-wrapper"
+    ></div>
     <div v-show="onHover" :style="hoverStyle" class="hover-wrapper"></div>
   </div>
 </template>
@@ -25,7 +43,7 @@ export default {
       default: 0.5
     },
     value: {
-      type: String | Number,
+      type: [String, Number],
       default: ""
     },
     self: {
@@ -35,6 +53,10 @@ export default {
     readOnly: {
       type: Boolean,
       default: false
+    },
+    labels: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -96,6 +118,8 @@ export default {
     position: absolute;
     cursor: pointer;
     z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
     &.half-invisible {
       opacity: 0.5;
     }
@@ -110,6 +134,11 @@ export default {
         font-size: 26px;
         color: #f18d23;
         top: -30px;
+      }
+      &::after {
+        font-weight: bold;
+        font-size: 18px;
+        width: 60px;
       }
     }
     &.hoverd {
@@ -128,6 +157,18 @@ export default {
       font-size: 12px;
       color: #9b9b9b;
     }
+
+    &::after {
+      content: attr(data-label);
+      position: absolute;
+      text-align: center;
+      bottom: -30px;
+      left: 50%;
+      width: 40px;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #9b9b9b;
+    }
   }
   .selected-wrapper {
     position: absolute;
@@ -135,6 +176,8 @@ export default {
     left: 0;
     background-image: linear-gradient(90deg, #f9c149 7%, #f18d23 92%);
     border-radius: 12px 0 0 12px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .hover-wrapper {
     position: absolute;
@@ -143,6 +186,8 @@ export default {
     left: 0;
     background-image: linear-gradient(90deg, #f9c149 7%, #f18d23 92%);
     border-radius: 12px 0 0 12px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 </style>

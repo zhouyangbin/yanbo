@@ -1,9 +1,17 @@
 <template>
-  <el-dialog @close="close" width="9.75rem" :visible="visible" class="tplDialog">
-    <div slot="title" class="title">{{infoType ==='add' ? constants.ADD: constants.MODIFY}}</div>
-    <el-form :rules="rules" label-width="1.5rem" ref="tplForm" :model="tplForm" class="tplForm">
+  <el-dialog @close="close" width="650px" :visible="visible" class="tplDialog">
+    <div slot="title" class="title">
+      {{ infoType === "add" ? constants.ADD : constants.MODIFY }}
+    </div>
+    <el-form
+      :rules="rules"
+      label-width="100px"
+      ref="tplForm"
+      :model="tplForm"
+      class="tplForm"
+    >
       <el-form-item label="名称" prop="name">
-        <el-input style="width:6rem" v-model="tplForm.name"></el-input>
+        <el-input style="width:400px" v-model="tplForm.name"></el-input>
       </el-form-item>
       <el-form-item label="事业部" prop="dp">
         <el-select v-model="tplForm.dp" placeholder="请选择事业部">
@@ -33,14 +41,19 @@
             :value="v.value"
             :label="v.key"
             name="property"
-          >{{v.value}}</el-checkbox>
+            >{{ v.value }}</el-checkbox
+          >
         </el-checkbox-group>
       </el-form-item>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">{{constants.CONFIRM}}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{constants.CANCEL}}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{
+          constants.CONFIRM
+        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
   </el-dialog>

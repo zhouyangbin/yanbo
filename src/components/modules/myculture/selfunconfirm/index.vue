@@ -1,36 +1,41 @@
-
 <template>
   <div class="self-report-component">
-    <div class="title">
-      {{name}}
-    </div>
-    <hr>
-    <br>
+    <div class="title">{{ name }}</div>
+    <hr />
+    <br />
     <div>
-      <span class="sub-title">
-        {{constants.ADVANTAGE}}: &nbsp;
-      </span>
-      <span class="content">
-        {{advantage}}
-      </span>
+      <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
+      <span :inner-html.prop="advantage | linebreak" class="content"></span>
     </div>
-    <br>
+    <br />
     <div>
-      <span class="sub-title">
-        {{constants.PROMOTION}}: &nbsp;
-      </span>
-      <span class="content">
-        {{promotion}}
-      </span>
+      <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
+      <span :inner-html.prop="promotion | linebreak" class="content"></span>
     </div>
-    <br>
-    <case-item :data="v" v-for="(v,i) in scores" :key="i"></case-item>
+    <br />
+    <case-item :data="v" v-for="(v, i) in scores" :key="i"></case-item>
     <el-row v-if="canSubmit" type="flex" justify="end">
-      <el-button v-if="can_appeal" @click="showComplainDia=true" type="primary">{{constants.APPEAL}}</el-button>
-      <el-button @click="confirm" type="primary">{{constants.CONFIRM}}</el-button>
+      <el-button
+        v-if="can_appeal"
+        @click="showComplainDia = true"
+        type="primary"
+        >{{ constants.APPEAL }}</el-button
+      >
+      <el-button @click="confirm" type="primary">{{
+        constants.CONFIRM
+      }}</el-button>
     </el-row>
-    <impression-dialog v-if="showImpressionDialog" :visible.sync="showImpressionDialog"></impression-dialog>
-    <complain-dialog :visible.sync="showComplainDia" :submit="complain" v-model="reason" v-if="showComplainDia"></complain-dialog>
+    <impression-dialog
+      :isNecessary="feeling_is_necessary"
+      v-if="showImpressionDialog"
+      :visible.sync="showImpressionDialog"
+    ></impression-dialog>
+    <complain-dialog
+      :visible.sync="showComplainDia"
+      :submit="complain"
+      v-model="reason"
+      v-if="showComplainDia"
+    ></complain-dialog>
   </div>
 </template>
 <script>
@@ -61,6 +66,7 @@ export default {
       promotion: "",
       canSubmit: false,
       scores: [],
+      feeling_is_necessary: 0,
       isManager: false,
       can_appeal: false,
       constants: {
@@ -139,7 +145,8 @@ export default {
           end_time,
           evaluation_type,
           can_submit,
-          can_appeal
+          can_appeal,
+          feeling_is_necessary
         } = res;
         this.promotion = promotion;
         this.advantage = advantage;
@@ -148,6 +155,7 @@ export default {
         this.name = name;
         this.isManager = evaluation_type == 2;
         this.can_appeal = can_appeal == 1;
+        this.feeling_is_necessary = feeling_is_necessary == 1;
         this.$parent.basicInfo = {
           name: employee_name,
           workcode: employee_workcode,
@@ -166,7 +174,7 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .self-report-component {
   .title {
     font-size: 36px;

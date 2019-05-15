@@ -1,88 +1,103 @@
 <template>
   <div class="culture-hr-details-page">
     <nav-bar :list="nav"></nav-bar>
-    <section class="content-container" style="padding:0.6rem">
+    <section class="content-container" style="padding:40px">
       <basic-info :data="basicInfo"></basic-info>
-      <br>
-      <hr>
-      <br>
-      <div class="grade-name">{{evaluation_name}}</div>
-      <br>
-      <br>
+      <br />
+      <hr />
+      <br />
+      <div class="grade-name">{{ evaluation_name }}</div>
+      <br />
+      <br />
       <el-row type="flex" justify="space-between" align="middle">
         <div>
-          <span class="label">{{constants.TOTAL_SCORES}}</span>
-          <span class="total-score">{{total_score}}分</span>
-          <br>
-          <br>
-          <br>
+          <span class="label">{{ constants.TOTAL_SCORES }}</span>
+          <span class="total-score">{{ total_score }}分</span>
+          <br />
+          <br />
+          <br />
           <grade-items :items="scores"></grade-items>
-          <br>
-          <br>
-          <br>
+          <br />
+          <br />
+          <br />
           <div v-if="level">
-            <span class="label">{{constants.LEVEL_TAG}}</span>
-            <el-button style="margin-left:0.75rem" class="selected selector">{{level}}</el-button>
+            <span class="label">{{ constants.LEVEL_TAG }}</span>
+            <el-button style="margin-left:50px" class="selected selector">{{
+              level
+            }}</el-button>
           </div>
         </div>
         <div>
           <div v-if="has_history">
             <el-button
               @click="goHistory"
-              style="margin-bottom:0.45rem"
+              style="margin-bottom:30px"
               type="primary"
-            >{{constants.CHANGE_RECORDS}}</el-button>
+              >{{ constants.CHANGE_RECORDS }}</el-button
+            >
           </div>
           <div v-if="isEditable">
-            <el-button style="margin-bottom:0.45rem" @click="goModify" type="primary">修改评分</el-button>
+            <el-button
+              style="margin-bottom:30px"
+              @click="goModify"
+              type="primary"
+              >修改评分</el-button
+            >
           </div>
           <div v-if="isRejectOrComplian">
             <el-button @click="goComplain" type="primary">申诉处理</el-button>
           </div>
         </div>
       </el-row>
-      <br>
-      <br>
+      <br />
+      <br />
       <div>
         <div v-if="showAppealAndRefuse" class="appeal-and-refuse">
-          <div v-for="(v,i) of appeal_record" :key="i">
-            <span class="label">{{constants.APPEAL_REASON}}:</span>
-            <span class="content">{{v.reason}}</span>
-            <span class="time">{{v.time}}</span>
+          <div v-for="(v, i) of appeal_record" :key="i">
+            <span class="label">{{ constants.APPEAL_REASON }}:</span>
+            <span class="content">{{ v.reason }}</span>
+            <span class="time">{{ v.time }}</span>
           </div>
-          <div v-for="(v,i) of reject_record" :key="i">
-            <span class="label">{{constants.REJECT_REASON}}:</span>
-            <span class="content">{{v.reason}}</span>
-            <span class="time">{{v.time}}</span>
+          <div v-for="(v, i) of reject_record" :key="i">
+            <span class="label">{{ constants.REJECT_REASON }}:</span>
+            <span class="content">{{ v.reason }}</span>
+            <span class="time">{{ v.time }}</span>
           </div>
           <div v-if="feedback_feeling">
-            <span class="label">{{constants.IMPRESSIONS}}:</span>
-            <span class="content">{{feedback_feeling.content}}</span>
-            <span class="time">{{feedback_feeling.time}}</span>
+            <span class="label">{{ constants.IMPRESSIONS }}:</span>
+            <span class="content">{{ feedback_feeling.content }}</span>
+            <span class="time">{{ feedback_feeling.time }}</span>
           </div>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
       </div>
       <div>
-        <span class="sub-title">{{constants.ADVANTAGE}}: &nbsp;</span>
-        <span class="content">{{advantage}}</span>
+        <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
+        <span class="content">{{ advantage }}</span>
       </div>
-      <br>
+      <br />
       <div>
-        <span class="sub-title">{{constants.PROMOTION}}: &nbsp;</span>
-        <span class="content">{{promotion}}</span>
+        <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
+        <span class="content">{{ promotion }}</span>
       </div>
       <div></div>
-      <br>
-      <hr>
-      <br>
-      <div class="detail-header" @click="detailHide =!detailHide">
-        {{constants.GRADE_DETAIL}}
-        <i :class="detailHide?'el-icon-caret-bottom':'el-icon-caret-top'"></i>
+      <br />
+      <hr />
+      <br />
+      <div class="detail-header" @click="detailHide = !detailHide">
+        {{ constants.GRADE_DETAIL }}
+        <i
+          :class="detailHide ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"
+        ></i>
       </div>
-      <br>
-      <case-item v-show="!detailHide" :data="v" v-for="(v,i) in scores" :key="i"></case-item>
+      <br />
+      <case-item
+        v-show="!detailHide"
+        :data="v"
+        v-for="(v, i) in scores"
+        :key="i"
+      ></case-item>
     </section>
   </div>
 </template>
@@ -340,7 +355,7 @@ export default {
     font-size: 36px;
     text-align: center;
   }
-  & /deep/ .GradeItem-page .el-button {
+  & ::v-deep .GradeItem-page .el-button {
     background: transparent;
   }
   .appeal-and-refuse {

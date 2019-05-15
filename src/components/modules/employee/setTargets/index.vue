@@ -3,31 +3,31 @@
     <section class="content-container">
       <div class="basic-info">
         <div>
-          <span class="label">{{constants.BASIC_INFO}}:</span>
+          <span class="label">{{ constants.BASIC_INFO }}:</span>
           <span>
-            <span class="greycolor">{{constants.LEADER_NUMBER}}</span>
-            / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-            <span
-              class="greycolor"
-            >{{constants.LEADER_NAME}}</span>
-            / {{basicInfo.superior_name}}
-          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="greycolor">{{ constants.LEADER_NUMBER }}</span>
+            / {{ basicInfo.superior_workcode }} &nbsp;&nbsp;
+            <span class="greycolor">{{ constants.LEADER_NAME }}</span>
+            / {{ basicInfo.superior_name }} </span
+          >&nbsp;&nbsp;&nbsp;&nbsp;
           <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
         </div>
         <div v-if="!readOnly">
           <el-button
-            @click="showImportDia=true"
+            @click="showImportDia = true"
             icon="el-icon-upload"
             type="text"
-          >{{constants.UPLOAD_TARGET}}</el-button>
+            >{{ constants.UPLOAD_TARGET }}</el-button
+          >
         </div>
         <div v-if="readOnly && can_edit_target">
           <el-button
-            @click="readOnly=false"
+            @click="readOnly = false"
             style="font-size:18px"
             icon="el-icon-edit-outline"
             type="text"
-          >重新设定目标</el-button>
+            >重新设定目标</el-button
+          >
         </div>
       </div>
       <div v-if="hasRejectedReasons">
@@ -35,14 +35,14 @@
           class="rejectFrame"
           type="flex"
           justify="space-between"
-          v-for="(v,i) of target_reject"
+          v-for="(v, i) of target_reject"
           :key="i"
         >
           <div class="reason">
             <span>驳回理由:</span>
-            <span v-html="(v.reason||'').replace(/\n/g, '<br/>')"></span>
+            <span :inner-html.prop="v.reason | linebreak"></span>
           </div>
-          <div>{{v.created_at}}</div>
+          <div>{{ v.created_at }}</div>
         </el-row>
       </div>
       <target-card
@@ -54,25 +54,33 @@
         v-for="(item, index) in targets"
         :key="index"
       ></target-card>
-      <br>
+      <br />
       <div v-if="!readOnly">
         <el-button
           style
           :disabled="!canPlus"
           @click="targets.push({})"
           type="primary"
-        >{{constants.ADD_TARGET}}</el-button>
+          >{{ constants.ADD_TARGET }}</el-button
+        >
       </div>
       <el-row type="flex" justify="center">
-        <el-button v-if="!submitted" @click="saveDraft">{{constants.SAVE_DRAFT}}</el-button>
+        <el-button v-if="!submitted" @click="saveDraft">
+          {{ constants.SAVE_DRAFT }}
+        </el-button>
         <el-button
-          v-if=" !readOnly && can_edit_target"
+          v-if="!readOnly && can_edit_target"
           @click="sumbit"
           type="primary"
-        >{{constants.SUBMIT}}</el-button>
+          >{{ constants.SUBMIT }}</el-button
+        >
       </el-row>
     </section>
-    <import-target @refresh="getInfo" v-if="showImportDia" :visible.sync="showImportDia"></import-target>
+    <import-target
+      @refresh="getInfo"
+      v-if="showImportDia"
+      :visible.sync="showImportDia"
+    ></import-target>
   </div>
 </template>
 <script>

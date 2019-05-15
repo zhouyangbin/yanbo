@@ -3,34 +3,42 @@
     <!-- <nav-bar :list="nav"></nav-bar> -->
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">{{constants.BASIC_INFO}}:</span>
+        <span class="label">{{ constants.BASIC_INFO }}:</span>
         <span>
-          <span class="greycolor">{{constants.LEADER_NUMBER}}</span>
-          / {{basicInfo.superior_workcode}} &nbsp;&nbsp;
-          <span
-            class="greycolor"
-          >{{constants.LEADER_NAME}}</span>
-          / {{basicInfo.superior_name}}
-        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{ constants.LEADER_NUMBER }}</span>
+          / {{ basicInfo.superior_workcode }} &nbsp;&nbsp;
+          <span class="greycolor">{{ constants.LEADER_NAME }}</span>
+          / {{ basicInfo.superior_name }} </span
+        >&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
-      <br>
+      <br />
       <card
         :readOnly="readOnly"
         placeholder="请描述该项目标的实际完成情况"
         :desc.sync="targets[i].desc"
         :config="cardConfig"
         class="card"
-        v-for="(v,i) of cardData"
+        v-for="(v, i) of cardData"
         v-model="targets[i].mark"
         :data="v"
         :index="i"
         :key="i"
       ></card>
-      <br>
-      <div v-if="showComments&&superior_score&&superior_score.evaluation && published">
-        <comments :readOnly="true" :comments.sync="superior_score&&superior_score.evaluation"></comments>
-        <br>
+      <br />
+      <div
+        v-if="
+          showComments &&
+            superior_score &&
+            superior_score.evaluation &&
+            published
+        "
+      >
+        <comments
+          :readOnly="true"
+          :comments.sync="superior_score && superior_score.evaluation"
+        ></comments>
+        <br />
       </div>
       <div v-if="showMyAdditional">
         <addition-mark
@@ -39,7 +47,7 @@
           :desc.sync="myAdditionMark.evaluation"
           :mark.sync="myAdditionMark.score"
         ></addition-mark>
-        <br>
+        <br />
       </div>
       <div v-if="leaderAdditionMark.evaluation && published">
         <addition-mark
@@ -48,28 +56,41 @@
           :desc.sync="leaderAdditionMark.evaluation"
           :mark.sync="leaderAdditionMark.score"
         ></addition-mark>
-        <br>
+        <br />
       </div>
       <div v-if="showTotal && canEdit">
         <total-mark :total="total"></total-mark>
-        <br>
+        <br />
       </div>
       <div>
-        <level v-if="level && published" :readOnly="true" v-model="level"></level>
+        <level
+          v-if="level && published"
+          :readOnly="true"
+          v-model="level"
+        ></level>
 
-        <br>
+        <br />
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{constants.SAVE_DRAFT}}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{
+          constants.SAVE_DRAFT
+        }}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
       <el-row v-if="canReject && published" type="flex" justify="center">
-        <div>到期将默认确认结果, 如有问题可
-          <el-button @click="visible=true" type="text">{{constants.APPEAL}}</el-button>
+        <div>
+          到期将默认确认结果, 如有问题可
+          <el-button @click="visible = true" type="text">{{
+            constants.APPEAL
+          }}</el-button>
         </div>
       </el-row>
       <el-row v-if="cancelReject && published" type="flex" justify="center">
-        <el-button @click="cancel" type="primary" round size="medium">{{constants.CANCEL_APPEAL}}</el-button>
+        <el-button @click="cancel" type="primary" round size="medium">{{
+          constants.CANCEL_APPEAL
+        }}</el-button>
       </el-row>
       <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>

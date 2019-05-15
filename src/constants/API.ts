@@ -8,8 +8,8 @@ import {
 } from "@/utils/base";
 import qs from "qs";
 
-// const test =
-//   "http://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
+const test =
+  "http://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
 
 // 用户管理
 // 扫码登录
@@ -364,3 +364,7 @@ export const changeManagerLv = (id: String, params: Object) =>
 //hr重新打分接口（被驳回或申诉时）
 export const reevaluate = (id: String, params: Object) =>
   sendPost(`/admin/api/user_list/${id}/reevaluate`, params);
+
+// 反馈意见
+export const postFeedback = (params: object) =>
+  sendPost(`/admin/api/suggest`, params);

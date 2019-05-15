@@ -1,8 +1,8 @@
 <template>
   <div class="appeal-reason-components">
-    <span class="label">{{constants.APPEAL_REASON}}</span>
-    <span>{{data.reason}}</span>
-    <span class="appeal-time">{{data.time}}</span>
+    <span class="label">{{ constants.APPEAL_REASON }}</span>
+    <span>{{ data.reason }}</span>
+    <span class="appeal-time">{{ data.time }}</span>
   </div>
 </template>
 <script>

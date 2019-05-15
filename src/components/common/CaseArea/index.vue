@@ -1,4 +1,3 @@
-
 <template>
   <div class="CaseArea-page">
     <el-input
@@ -6,12 +5,11 @@
       :readonly="readOnly"
       type="textarea"
       :resize="'none'"
-      @change="$emit('input',$event)"
+      @input="onChange"
       :rows="rows"
       :placeholder="placeholder"
       :value="value"
-    >
-    </el-input>
+    ></el-input>
   </div>
 </template>
 <script>
@@ -37,8 +35,12 @@ export default {
       type: Number,
       default: 1000
     }
+  },
+  methods: {
+    onChange(e) {
+      this.$emit("input", e);
+    }
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,13 +1,13 @@
 <template>
   <div class="moreMarksSection">
     <div class="inner-container">
-      <span class="label title">{{prefixTitle}}加减分:</span>
+      <span class="label title">{{ prefixTitle }}加减分:</span>
       &nbsp;
     </div>
-    <br>
-    <el-row style="margin-left:1.65rem" type="flex" justify="space-between">
+    <br />
+    <el-row style="margin-left:110px" type="flex" justify="space-between">
       <div class="delight" style="flex: 1;">
-        <span v-html="(desc).replace(/\n/g, '<br/>')" v-if="readOnly"></span>
+        <span :inner-html.prop="desc | linebreak" v-if="readOnly"></span>
         <el-input
           v-if="!readOnly"
           :maxlength="1000"
@@ -22,14 +22,16 @@
         <div v-if="readOnly">
           <div class="inner-container colorful">
             <span class="label">分数:</span>
-            <span>{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
+            <span>{{ (mark && parseFloat(mark).toFixed(1)) || "0.0" }}分</span>
           </div>
-          <br>
+          <br />
         </div>
         <div v-else>
           <div>
             您的打分 /
-            <span class="hightlight-mark">{{mark && parseFloat(mark).toFixed(1)||'0.0'}}分</span>
+            <span class="hightlight-mark"
+              >{{ (mark && parseFloat(mark).toFixed(1)) || "0.0" }}分</span
+            >
           </div>
           <el-input-number
             size="large"
@@ -53,7 +55,7 @@ export default {
       default: ""
     },
     mark: {
-      type: Number | String,
+      type: [Number, String],
       default: ""
     },
     readOnly: {

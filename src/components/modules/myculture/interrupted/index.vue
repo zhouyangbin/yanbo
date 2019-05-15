@@ -1,10 +1,10 @@
 <template>
-    <div class="self-interrupt-page">
-        <h2>{{msg}}</h2>
-        <br>
-        <br>
-        <img src="@assets/img/interrupt.png" alt="">
-    </div>
+  <div class="self-interrupt-page">
+    <h2>{{ msg }}</h2>
+    <br />
+    <br />
+    <img src="@assets/img/interrupt.png" alt="" />
+  </div>
 </template>
 <script>
 export default {

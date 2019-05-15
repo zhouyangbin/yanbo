@@ -2,58 +2,71 @@
   <div class="self-grade-component">
     <section class="mark">
       <el-row align="middle" type="flex">
-        <el-col style="padding:0.3rem;border-right: 1px solid #979797;">
+        <el-col style="padding:20px;border-right: 1px solid #979797;">
           <div class="mark-label">请选择评分项目</div>
-          <grade-items :items="questions" v-model="selectGradeItem"></grade-items>
-          <br>
-          <br>
+          <grade-items
+            :items="questions"
+            v-model="selectGradeItem"
+          ></grade-items>
+          <br />
+          <br />
           <div class="mark-label">请评分</div>
-          <br>
+          <br />
           <grade-slider
             :min="1"
             :readOnly="readOnly"
             :step="1"
             :max="5"
             v-model="questions[selectGradeItem].score"
+            :labels="constants.markLabels"
           ></grade-slider>
         </el-col>
-        <el-col style="padding-left:0.75rem;">
-          <div
-            class="mark-score"
-          >{{questions[selectGradeItem].score&&questions[selectGradeItem].score>=0 ?questions[selectGradeItem].score:''}}分</div>
-          <div class="mark-desc">{{contentForCurScore}}</div>
+        <el-col style="padding-left:50px;">
+          <div class="mark-score">
+            {{
+              questions[selectGradeItem].score &&
+              questions[selectGradeItem].score >= 0
+                ? questions[selectGradeItem].score
+                : ""
+            }}分
+          </div>
+          <div class="mark-desc">{{ contentForCurScore }}</div>
         </el-col>
       </el-row>
     </section>
-    <br>
-    <div v-show="questions[selectGradeItem].score>=3">
+    <br />
+    <div v-show="questions[selectGradeItem].score >= 3">
       <case-area
         :readOnly="readOnly"
-        placeholder="请填写我的3分案例"
+        :placeholder="casePlaceholders[0]"
         v-model="questions[selectGradeItem].cases[0]"
       ></case-area>
-      <br>
-      <div v-show="questions[selectGradeItem].score>=4">
+      <br />
+      <div v-show="questions[selectGradeItem].score >= 4">
         <case-area
           :readOnly="readOnly"
-          placeholder="请填写我的4分案例"
+          :placeholder="casePlaceholders[1]"
           v-model="questions[selectGradeItem].cases[1]"
         ></case-area>
-        <br>
-        <div v-show="questions[selectGradeItem].score>=5">
+        <br />
+        <div v-show="questions[selectGradeItem].score >= 5">
           <case-area
             :readOnly="readOnly"
-            placeholder="请填写我的5分案例"
+            :placeholder="casePlaceholders[2]"
             v-model="questions[selectGradeItem].cases[2]"
           ></case-area>
-          <br>
+          <br />
         </div>
       </div>
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{constants.SAVE_DRAFT}}</el-button>
-      <el-button @click="submitGrade" type="primary">{{constants.SUBMIT}}</el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">
+        {{ constants.SAVE_DRAFT }}
+      </el-button>
+      <el-button @click="submitGrade" type="primary">
+        {{ constants.SUBMIT }}
+      </el-button>
     </el-row>
   </div>
 </template>
@@ -71,8 +84,15 @@ import {
   CONST_ADD_SUCCESS,
   DRAFT_SAVE_SUCCESSFULLY
 } from "@/constants/TEXT";
+import { PATH_MY_CULTURE_GRADE } from "@/constants/URL";
 
 export default {
+  props: {
+    isManager: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       selectGradeItem: 0,
@@ -95,7 +115,8 @@ export default {
       readOnly: false,
       constants: {
         SUBMIT,
-        SAVE_DRAFT
+        SAVE_DRAFT,
+        markLabels: ["红线", "胜任", "优秀", "超预期", "卓越"]
       }
     };
   },
@@ -222,7 +243,8 @@ export default {
           message: CONST_ADD_SUCCESS,
           type: "success"
         });
-        this.getGradeInfo();
+        // this.getGradeInfo();
+        this.$router.replace(PATH_MY_CULTURE_GRADE);
       });
     },
     saveDraft() {
@@ -245,6 +267,20 @@ export default {
           return t.score == this.questions[this.selectGradeItem].score;
         })[0] || {}
       ).content;
+    },
+    casePlaceholders() {
+      const common = [
+        "要求为近半年的案例，需体现有主动意识，个人行为产生的正面影响，需列举1个案例；",
+        "要求为近半年的案例，需体现有影响力，有进取心并不断突破，行为由己到人，能够带动和影响他人，需列举1个案例；",
+        "要求为近半年的案例，需体现对组织有贡献，有高度也有落地的方法，能够系统的解决问题并产生深远的影响，需列举1个案例；"
+      ];
+      const managers = [
+        "要求为近半年的案例，要求有影响力，要体现对团队，组织的影响力，需列举1个案例",
+        "要求为近半年的案例，要求建立机制，要体现通过建立机制从根本上解决问题，需列举1个案例；",
+        "要求为近半年的案例，要求要有战功，要体现给业务或工作带来的突破性贡献和价值，需列举1个案例；"
+      ];
+
+      return this.isManager ? managers : common;
     }
   },
 

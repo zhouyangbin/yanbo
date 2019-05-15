@@ -1,8 +1,7 @@
-
 <template>
   <div class="mobileNotify-page">
     <h1>请在PC端打开</h1>
-    <img src="@assets/img/blank_sign.png" alt="好文来文化评分">
+    <img src="@assets/img/blank_sign.png" alt="好文来文化评分" />
   </div>
 </template>
 <script>
@@ -18,10 +17,10 @@ export default {};
   background-color: #f9f0cd;
   h1 {
     display: inline-block;
-    font-size: 35px; /*no*/
+    font-size: 35px;
   }
   img {
-    margin-top: 20px; /*no*/
+    margin-top: 20px;
   }
 }
 </style>

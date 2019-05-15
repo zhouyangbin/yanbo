@@ -1,4 +1,3 @@
-
 <template>
   <div v-html="text" class="rules-text"></div>
 </template>

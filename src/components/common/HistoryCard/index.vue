@@ -1,13 +1,14 @@
-
 <template>
   <div class="history-card-component">
-    <div v-for="(v,i) of data" @click="$emit('update:selectedIndex',i)" :key="i" class="card" :class="{selected:selectedIndex==i}">
-      <div class="name">
-        修改人: {{v.modifier_name}}
-      </div>
-      <div class="time">
-        修改时间: {{v.created_at}}
-      </div>
+    <div
+      v-for="(v, i) of data"
+      @click="$emit('update:selectedIndex', i)"
+      :key="i"
+      class="card"
+      :class="{ selected: selectedIndex == i }"
+    >
+      <div class="name">修改人: {{ v.modifier_name }}</div>
+      <div class="time">修改时间: {{ v.created_at }}</div>
     </div>
   </div>
 </template>

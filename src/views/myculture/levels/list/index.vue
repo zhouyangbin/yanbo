@@ -1,24 +1,41 @@
 <template>
   <div class="my-manager-levels">
     <nav-bar :list="nav"></nav-bar>
-    <br>
-    <br>
+    <br />
+    <br />
     <section class="content-container">
       <div class="levels-header">
-        <span>{{gradeName}}</span>&nbsp;
-        <span class="tips">{{constants.END_TIME}} {{startedDate}}</span>
-        <hr>
-        <br>
-        <el-form :model="searchForm" class="search-form" :inline="true" ref="searchForm">
+        <span>{{ gradeName }}</span
+        >&nbsp;
+        <span class="tips">{{ constants.END_TIME }} {{ startedDate }}</span>
+        <hr />
+        <br />
+        <el-form
+          :model="searchForm"
+          class="search-form"
+          :inline="true"
+          ref="searchForm"
+        >
           <el-form-item prop="name">
-            <el-input placeholder="请输入员工姓名" v-model="searchForm.name"></el-input>
+            <el-input
+              placeholder="请输入员工姓名"
+              v-model="searchForm.name"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="superior_name">
-            <el-input placeholder="请输入上级姓名" v-model="searchForm.superior_name"></el-input>
+            <el-input
+              placeholder="请输入上级姓名"
+              v-model="searchForm.superior_name"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="_271_level">
             <el-select v-model="searchForm._271_level" placeholder="271等级">
-              <el-option v-for="(k,v) of constants.LEVELMAP" :key="k" :label="v" :value="k"></el-option>
+              <el-option
+                v-for="(k, v) of constants.LEVELMAP"
+                :key="k"
+                :label="v"
+                :value="k"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="department_ids">
@@ -40,30 +57,41 @@
           <el-form-item>
             <el-button
               @click="resetForm('searchForm')"
-              style="margin-left:0.45rem"
+              style="margin-left:30px"
               type="primary"
               round
-            >{{constants.RESET}}</el-button>
+              >{{ constants.RESET }}</el-button
+            >
             <el-button
               @click="exportFile"
-              style="margin-left:0.45rem"
+              style="margin-left:30px"
               type="primary"
               round
-            >{{constants.EXPORT_DETAILS}}</el-button>
+              >{{ constants.EXPORT_DETAILS }}</el-button
+            >
           </el-form-item>
         </el-form>
-        <br>
+        <br />
         <distribute-summary :data="overview"></distribute-summary>
-        <br>
-        <br>
+        <br />
+        <br />
         <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column v-for="(v,i) of columns" :key="i" :prop="v.prop" :label="v.label"></el-table-column>
+          <el-table-column
+            v-for="(v, i) of columns"
+            :key="i"
+            :prop="v.prop"
+            :label="v.label"
+          ></el-table-column>
 
           <el-table-column prop="_271_level" label="271等级">
             <template slot-scope="scope">
               <div
-                :class="`${constants.LEVEL_ALIAS[scope.row._271_level]}-container`"
-              >{{constants.LEVEL_ALIAS[scope.row._271_level]}}</div>
+                :class="
+                  `${constants.LEVEL_ALIAS[scope.row._271_level]}-container`
+                "
+              >
+                {{ constants.LEVEL_ALIAS[scope.row._271_level] }}
+              </div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
@@ -72,15 +100,23 @@
                 :disabled="!canOps"
                 @click="goDetail(scope.row)"
                 type="text"
-                style="margin-right:0.225rem;"
+                style="margin-right:15px;"
                 size="small"
-              >{{constants.VIEW_DETAILS}}</el-button>
+                >{{ constants.VIEW_DETAILS }}</el-button
+              >
               <el-popover :ref="`level_pop${scope.row.id}`" placement="top">
-                <span class="my-manager-levels-tips">修改标签仅通知上级和隔级，不通知本人</span>
+                <span class="my-manager-levels-tips"
+                  >修改标签仅通知上级和隔级，不通知本人</span
+                >
                 <el-form :model="levelForm" :inline="true">
                   <el-form-item prop="levels">
                     <el-select v-model="levelForm.level" placeholder="271等级">
-                      <el-option v-for="(k,v) of constants.LEVELMAP" :key="k" :label="v" :value="k"></el-option>
+                      <el-option
+                        v-for="(k, v) of constants.LEVELMAP"
+                        :key="k"
+                        :label="v"
+                        :value="k"
+                      ></el-option>
                     </el-select>
                   </el-form-item>
                 </el-form>
@@ -90,7 +126,8 @@
                     @click="updateLv(scope.row)"
                     type="primary"
                     round
-                  >{{constants.SUBMIT}}</el-button>
+                    >{{ constants.SUBMIT }}</el-button
+                  >
                 </el-row>
                 <el-button
                   :disabled="!canOps"
@@ -98,14 +135,19 @@
                   slot="reference"
                   type="text"
                   size="small"
-                >修改标签</el-button>
+                  >修改标签</el-button
+                >
               </el-popover>
             </template>
           </el-table-column>
         </el-table>
-        <br>
+        <br />
         <el-row type="flex" justify="end">
-          <pagination @current-change="currentChange" :currentPage="currentPage" :total="total"></pagination>
+          <pagination
+            @current-change="currentChange"
+            :currentPage="currentPage"
+            :total="total"
+          ></pagination>
         </el-row>
       </div>
     </section>
@@ -232,6 +274,7 @@ export default {
           feedback_start_time,
           end_time
         } = info;
+
         this.tableData = list.data;
         this.end_time = end_time;
         this.evaluation_name_id = evaluation_name_id;

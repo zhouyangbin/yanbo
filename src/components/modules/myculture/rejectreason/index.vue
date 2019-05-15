@@ -1,7 +1,7 @@
 <template>
   <div class="reject-reason-components">
-    <span class="label">{{constants.DOWN_MEMBER_REJECT_REASON}}</span>
-    <span>{{data}}</span>
+    <span class="label">{{ constants.DOWN_MEMBER_REJECT_REASON }}</span>
+    <span>{{ data }}</span>
   </div>
 </template>
 <script>

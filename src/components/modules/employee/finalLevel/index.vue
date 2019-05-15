@@ -1,17 +1,21 @@
 <template>
-    <el-row type="flex" justify="end" class="level-section">
-        <el-col :span="4">
-            <span>
-                结果/
-            </span>
-            <span v-if="readOnly" class="level">{{value}}</span>
-            <el-select v-model="innerLevel" v-else placeholder="请选择">
-                <el-option v-for="item in levels" :key="item" :label="item" :value="item">
-                </el-option>
-            </el-select>
-        </el-col>
-    </el-row>
-
+  <el-row type="flex" justify="end" class="level-section">
+    <el-col :span="4">
+      <span>
+        结果/
+      </span>
+      <span v-if="readOnly" class="level">{{ value }}</span>
+      <el-select v-model="innerLevel" v-else placeholder="请选择">
+        <el-option
+          v-for="item in levels"
+          :key="item"
+          :label="item"
+          :value="item"
+        >
+        </el-option>
+      </el-select>
+    </el-col>
+  </el-row>
 </template>
 <script>
 export default {

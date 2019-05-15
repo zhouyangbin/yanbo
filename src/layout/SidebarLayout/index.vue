@@ -1,11 +1,13 @@
 <template>
   <el-container class="container">
     <el-aside class="sidebar-container">
-      <img src="@assets/img/bg_logo.png" style="width:3.2rem" alt>
+      <div class="logo"></div>
       <router-view name="sidebar"></router-view>
       <section class="sidebar-logout">
-        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{labe_logout}}</el-button>
-        <p>{{talEmail}}</p>
+        <el-button type="text" icon="el-icon-d-arrow-right" @click="logout">{{
+          labe_logout
+        }}</el-button>
+        <p>{{ talEmail }}</p>
       </section>
     </el-aside>
     <el-main class="main-container">
@@ -71,20 +73,52 @@ export default {
 .sidebar-container {
   background-color: #242a36;
   height: 100%;
-  width: 230px !important;
+  max-width: 160px !important;
   overflow: hidden;
 }
-@media only screen and (max-width: 1400px) {
+.sidebar-logout {
+  height: 60px;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  color: #969798;
+}
+.sidebar-logout p {
+  margin: 0;
+}
+.logo {
+  width: 160px;
+  height: 52px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../assets/img/bg_logo.png");
+}
+@media only screen and (max-width: 1280px) {
   .sidebar-container {
     background-color: #242a36;
     height: 100%;
-    width: 3.2rem;
+    width: 60px !important;
   }
-  .sidebar-container img {
-    /* background-color: #242a36;
-        height: 100%; */
-    width: 3.2rem;
+  .sidebar-container .logo {
+    background-color: #242a36;
+    width: 60px !important;
+    background-image: url("../../assets/img/small_logo.png");
   }
+  .sidebar-logout p {
+    margin: 0;
+    display: none;
+  }
+  .sidebar-logout {
+    height: 60px;
+    /* margin-bottom: 30px; */
+    padding: 0;
+    /* color: #969798; */
+  }
+  /* .main-container {
+    width: 960px;
+    min-width: 960px;
+    overflow: scroll;
+  } */
 }
 .sidebar-container >>> ul {
   height: calc(100% - 168px);
@@ -99,14 +133,5 @@ export default {
   background-color: rgb(245, 245, 245);
   padding: 0;
   height: 100%;
-}
-.sidebar-logout {
-  height: 60px;
-  margin-bottom: 30px;
-  padding: 0 30px;
-  color: #969798;
-}
-.sidebar-logout p {
-  margin: 0;
 }
 </style>

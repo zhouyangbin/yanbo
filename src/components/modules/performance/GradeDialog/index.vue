@@ -1,22 +1,26 @@
-
 <template>
-  <el-dialog @close="closeDia('ruleForm')" width=" 9.75rem" :visible="visible">
+  <div class="performanc-grade-dialog">
     <span slot="title">
-      <el-row
-        type="flex"
-        justify="center"
-        class="dialog-title"
-      >{{actionType == "copy"?constants.COPY_GRADE:constants.CREATE_GRADE}}</el-row>
+      <el-row type="flex" justify="center" class="dialog-title">
+        {{
+          actionType == "copy" ? constants.COPY_GRADE : constants.CREATE_GRADE
+        }}
+      </el-row>
     </span>
     <el-form
+      class="performance-grade-form"
       :model="ruleForm"
       :rules="rules"
       ref="ruleForm"
-      label-width="1.8rem"
-      class="create-form-dialog"
+      label-width="120px"
     >
       <el-form-item :label="constants.GRADE_NAME" prop="name">
-        <el-input size="medium" :maxlength="20" style="width:6rem;" v-model="ruleForm.name"></el-input>
+        <el-input
+          size="medium"
+          :maxlength="20"
+          style="width:400px;"
+          v-model="ruleForm.name"
+        ></el-input>
       </el-form-item>
       <el-form-item
         class="is-required"
@@ -25,7 +29,7 @@
         prop="scope"
       >
         <el-input
-          style="width:6rem;"
+          style="width:400px;"
           :placeholder="constants.LABEL_SELECT_DIVISION"
           v-model="scopeSelectedNames"
           icon="caret-bottom"
@@ -35,7 +39,7 @@
       </el-form-item>
       <el-form-item label="绩效属性" prop="property">
         <el-select
-          style="width:6rem;"
+          style="width:400px;"
           v-model="ruleForm.property"
           :placeholder="constants.PLS_SELECT"
         >
@@ -51,7 +55,7 @@
         <div>
           <el-date-picker
             @change="calculateEndDate"
-            :disabled="ruleForm.property==''"
+            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="startPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -63,7 +67,7 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="ruleForm.property==''"
+            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="endPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -76,39 +80,65 @@
         </div>
       </el-form-item>
       <el-form-item :label="constants.TPL" prop="tpl">
-        <el-select style="width:6rem;" v-model="ruleForm.tpl" :placeholder="constants.PLS_SELECT">
-          <el-option v-for="item in tplOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        <el-select
+          style="width:400px;"
+          v-model="ruleForm.tpl"
+          :placeholder="constants.PLS_SELECT"
+        >
+          <el-option
+            v-for="item in tplOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="分数对应关系" prop="mapping">
         <el-select
-          style="width:6rem;"
+          style="width:400px;"
           v-model="ruleForm.mapping"
           :placeholder="constants.PLS_SELECT"
         >
-          <el-option v-for="item in ruleArr" :key="item.id" :label="item.type" :value="item.id"></el-option>
+          <el-option
+            v-for="item in ruleArr"
+            :key="item.id"
+            :label="item.type"
+            :value="item.id"
+          ></el-option>
         </el-select>
       </el-form-item>
-      <br>
+      <br />
       <el-form-item label-width="0px">
         <el-row type="flex" justify="center">
-          <el-button round type="primary" @click="submitForm('ruleForm')">{{constants.CONFIRM}}</el-button>
-          <el-button @click="closeDia('ruleForm')" round>{{constants.CANCEL}}</el-button>
+          <el-button round type="primary" @click="submitForm('ruleForm')">
+            {{ constants.CONFIRM }}
+          </el-button>
+          <el-button @click="closeDia('ruleForm')" round>
+            {{ constants.CANCEL }}
+          </el-button>
         </el-row>
       </el-form-item>
     </el-form>
-    <dp-panel
-      :exclusive="true"
-      v-if="showScopeTree"
-      :checkedNodes.sync="checkedNodes"
-      :visible.sync="showScopeTree"
-      :data="departmentTree"
-    ></dp-panel>
-  </el-dialog>
+    <Drawer
+      @close="showScopeTree = false"
+      :closeable="false"
+      :maskClosable="true"
+    >
+      <dp-panel
+        :exclusive="true"
+        v-if="showScopeTree"
+        :checkedNodes.sync="checkedNodes"
+        :visible.sync="showScopeTree"
+        :data="departmentTree"
+      ></dp-panel>
+    </Drawer>
+  </div>
 </template>
 <script>
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
 import { formatTime } from "@/utils/timeFormat";
+
+import Drawer from "vue-simple-drawer";
 import {
   MSG_FILL_GRADE_NAME,
   PLS_SELECT_TPL,
@@ -165,7 +195,8 @@ export default {
     }
   },
   components: {
-    "dp-panel": TreeSelectPanel
+    "dp-panel": TreeSelectPanel,
+    Drawer
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
@@ -414,5 +445,22 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.performanc-grade-dialog {
+  .performance-grade-form {
+    max-width: 700px;
+    & ::v-deep .el-form-item__label,
+    & ::v-deep .el-checkbox__label {
+      color: white;
+    }
+  }
+  & ::v-deep.el-cascader,
+  & ::v-deep .el-select,
+  & ::v-deep.el-autocomplete {
+    width: 100%;
+  }
+  & ::v-deep .el-form-item {
+    flex-shrink: 0;
+  }
+}
 </style>

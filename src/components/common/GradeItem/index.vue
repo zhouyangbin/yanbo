@@ -1,9 +1,11 @@
-
 <template>
   <div class="GradeItem-page">
-    <div v-for="(v,i) of items" :key="i">
-      <el-badge :value="totalMark(v)" :class="value===Number(i) ? 'selected':''">
-        <el-button @click="select(i)">{{v.question_name}}</el-button>
+    <div v-for="(v, i) of items" :key="i">
+      <el-badge
+        :value="totalMark(v)"
+        :class="value === Number(i) ? 'selected' : ''"
+      >
+        <el-button @click="select(i)">{{ v.question_name }}</el-button>
       </el-badge>
     </div>
   </div>
@@ -16,7 +18,7 @@ export default {
       default: () => []
     },
     value: {
-      type: String | Number,
+      type: [String, Number],
       default: ""
     }
   },
@@ -66,7 +68,7 @@ export default {
       border: 1px solid #f18d23;
     }
   }
-  & /deep/.el-badge__content {
+  & ::v-deep .el-badge__content {
     background-color: #f18d23;
   }
 }

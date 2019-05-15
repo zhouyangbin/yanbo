@@ -1,10 +1,19 @@
 <template>
   <div>
-    <el-dialog @close="$emit('update:visible',false)" :visible="visible" width="30%">
-      <case-area placeholder="请您填写驳回理由" v-model="rejectReason"></case-area>
-      <br>
+    <el-dialog
+      @close="$emit('update:visible', false)"
+      :visible="visible"
+      width="30%"
+    >
+      <case-area
+        placeholder="请您填写驳回理由"
+        v-model="rejectReason"
+      ></case-area>
+      <br />
       <el-row type="flex" justify="center">
-        <el-button type="primary" @click="submit" round>{{constants.CONFIRM}}</el-button>
+        <el-button type="primary" @click="submit" round>{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </el-dialog>
   </div>
@@ -67,5 +76,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -3,25 +3,25 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <span class="label">{{constants.BASIC_INFO}}:</span>
+        <span class="label">{{ constants.BASIC_INFO }}:</span>
         <span>
           <!-- <span class="greycolor">上级工号</span> / 00002 &nbsp;&nbsp; -->
-          <span class="greycolor">{{constants.LEADER_NAME}}</span>
-          / {{basicInfo.leaderName}}
-        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="greycolor">{{ constants.LEADER_NAME }}</span>
+          / {{ basicInfo.leaderName }} </span
+        >&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
       </div>
-      <br>
+      <br />
       <card
         :maxlength="1000"
         :readOnly="true"
         class="card"
         :index="i"
         :data="v"
-        v-for="(v,i) of targets"
+        v-for="(v, i) of targets"
         :key="i"
       ></card>
-      <br>
+      <br />
       <div v-if="myAdditionMark.evaluation">
         <addition-mark
           :prefixTitle="constants.LABEL_SELF"
@@ -29,7 +29,7 @@
           :desc.sync="myAdditionMark.evaluation"
           :mark.sync="myAdditionMark.score"
         ></addition-mark>
-        <br>
+        <br />
       </div>
       <div v-if="leaderAdditionMark.evaluation">
         <addition-mark
@@ -38,54 +38,53 @@
           :desc.sync="leaderAdditionMark.evaluation"
           :mark.sync="leaderAdditionMark.score"
         ></addition-mark>
-        <br>
+        <br />
       </div>
       <div v-if="comments">
         <comments :readOnly="true" :comments.sync="comments"></comments>
-        <br>
+        <br />
       </div>
-      <div v-if="progressArr.length>1" class="summary-section">
+      <div v-if="progressArr.length > 1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
           <el-steps style="width:60%" :active="progressArr.length">
-            <el-step v-for="(v,i) of progressArr" :key="i">
-              <div slot="icon">{{v.text}}</div>
-              <div slot="title">{{v.value}}</div>
+            <el-step v-for="(v, i) of progressArr" :key="i">
+              <div slot="icon">{{ v.text }}</div>
+              <div slot="title">{{ v.value }}</div>
             </el-step>
           </el-steps>
         </div>
         <div v-if="appeal.reason">
-          <br>
+          <br />
           <div class="inner-container">
             <span class="label">申诉理由:</span>
-            <span v-html="(appeal.reason).replace(/\n/g, '<br/>')"></span>
+            <span :inner-html.prop="appeal.reason | linebreak"></span>
           </div>
-          <br>
+          <br />
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">评分结果:</span>
-          <span>{{total}}</span>
+          <span>{{ total }}</span>
         </div>
         <div class="inner-container">
           <span class="label"></span>
           <el-steps style="width:60%" :active="resultArr.length">
-            <el-step v-for="(v,i) of resultArr" :key="i">
-              <div slot="icon">{{v.text}}</div>
-              <div slot="title">{{v.value}}</div>
+            <el-step v-for="(v, i) of resultArr" :key="i">
+              <div slot="icon">{{ v.text }}</div>
+              <div slot="title">{{ v.value }}</div>
             </el-step>
           </el-steps>
         </div>
       </div>
-      <br>
-      <br>
+      <br />
+      <br />
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button
-          round
-          size="medium"
-          @click="changeMarks"
-          class="btn-reset"
-        >{{constants.LABEL_MODIFY}}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">确认结果</el-button>
+        <el-button round size="medium" @click="changeMarks" class="btn-reset">{{
+          constants.LABEL_MODIFY
+        }}</el-button>
+        <el-button round size="medium" @click="submit" type="primary"
+          >确认结果</el-button
+        >
       </el-row>
     </section>
     <change-mark
@@ -168,7 +167,7 @@ export default {
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue"),
+    // pagination: () => import("@/components/common/Pagination/index.vue"),
     card: () => import("@/components/modules/employee/gradeCard/index.vue"),
     "addition-mark": () =>
       import("@/components/modules/employee/additionalMark/index.vue"),

@@ -1,13 +1,12 @@
-
 <template>
   <div class="member-grade-details">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <br />
     <section class="content-container" style="padding:40px">
       <basic-info :data="basicInfo"></basic-info>
-      <br>
-      <hr>
-      <br>
+      <br />
+      <hr />
+      <br />
       <el-row type="flex" justify="space-between">
         <rule-text :text="constants.MY_MEMBER_RULE"></rule-text>
         <el-button
@@ -15,83 +14,122 @@
           v-if="has_history"
           @click="goHistory"
           type="primary"
-        >{{constants.CHANGE_RECORDS}}</el-button>
+          >{{ constants.CHANGE_RECORDS }}</el-button
+        >
       </el-row>
-      <br>
+      <br />
       <div class="feeback-container" v-if="feedback_feeling">
         <div>
-          <span class="label">{{constants.IMPRESSIONS}}:</span>
-          <span class="content">{{feedback_feeling.content}}</span>
-          <span class="time">{{feedback_feeling.time}}</span>
+          <span class="label">{{ constants.IMPRESSIONS }}:</span>
+          <span class="content">{{ feedback_feeling.content }}</span>
+          <span class="time">{{ feedback_feeling.time }}</span>
         </div>
-        <br>
+        <br />
       </div>
       <div>
-        <h3>{{constants.ADVANTAGE}}:</h3>
+        <h3>{{ constants.ADVANTAGE }}:</h3>
         <case-area :readOnly="readOnly" v-model="advantage"></case-area>
       </div>
-      <br>
+      <br />
       <div>
-        <h3>{{constants.PROMOTION}}:</h3>
+        <h3>{{ constants.PROMOTION }}:</h3>
         <case-area :readOnly="readOnly" v-model="promotion"></case-area>
       </div>
-      <br>
+      <br />
       <section class="mark">
         <el-row align="middle" type="flex">
-          <el-col style="padding:0.3rem;border-right: 1px solid #979797;">
-            <div class="mark-label">{{constants.SELF_SCORE}}</div>
-            <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
+          <el-col style="padding:20px;border-right: 1px solid #979797;">
+            <div class="mark-label">{{ constants.SELF_SCORE }}</div>
+            <grade-items
+              :items="scores"
+              v-model="selectGradeItem"
+            ></grade-items>
           </el-col>
-          <el-col style="padding-left:0.75rem;">
-            <div v-for="(n,i) in reasons" :key="i" class="mark-reason">
-              <div>{{i+3}}分理由:</div>
-              <div>{{n}}</div>
+          <el-col style="padding-left:50px;">
+            <div class="mark-reason">
+              <div v-for="(n, i) in reasons" :key="i">
+                <div>{{ i + 3 }}分理由:</div>
+                <div :inner-html.prop="n | linebreak | placeholder('无')"></div>
+              </div>
             </div>
           </el-col>
         </el-row>
       </section>
-      <br>
-      <div v-for="(v,i) of rejectReason" :key="i">
+      <br />
+      <div v-for="(v, i) of rejectReason" :key="i">
         <reject-reason :data="v.reason"></reject-reason>
-        <br>
+        <br />
       </div>
       <div class="mark-flag-container">
         <div class="mark-section">
-          <div class="mark-label">为{{employee_name}}的{{scores[selectGradeItem].question_name}}项目评分</div>
-          <br>
-          <grade-slider :readOnly="readOnly" v-model="scores[selectGradeItem].superior_score"></grade-slider>
+          <div class="mark-label">
+            为{{ employee_name }}的{{
+              scores[selectGradeItem].question_name
+            }}项目评分
+          </div>
+
+          <br />
+          <grade-slider
+            :readOnly="readOnly"
+            v-model="scores[selectGradeItem].superior_score"
+          ></grade-slider>
         </div>
-        <div style="width:0.3rem;"></div>
+        <div style="width:20px;"></div>
         <div class="flag-section">
-          <div class="mark-label">为{{employee_name}}设置等级标签</div>
-          <br>
-          <level-selector :disabled="readOnly" :pre="hasRejectReasons?preLv:''" v-model="level"></level-selector>
+          <div class="mark-level-container">
+            <div style="display:inline-block" class="mark-label">
+              为{{ employee_name }}设置等级标签
+            </div>
+            <span class="level-recommmed-icon" v-if="isRecommended">
+              <img width="15" src="@/assets/img/recommend.png" alt />
+              已特殊推荐
+            </span>
+          </div>
+
+          <br />
+          <level-selector
+            :disabled="readOnly"
+            :pre="hasRejectReasons ? preLv : ''"
+            :value="level"
+            @input="levelChange"
+          ></level-selector>
         </div>
       </div>
-      <br>
+      <br />
       <case-area
-        v-if="scores[selectGradeItem].superior_score!=scores[selectGradeItem].score"
+        v-if="
+          scores[selectGradeItem].superior_score !=
+            scores[selectGradeItem].score
+        "
         :readOnly="readOnly"
         v-model="scores[selectGradeItem].superior_case"
       ></case-area>
-      <br>
+      <br />
       <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
-        <appeal-reaosn :data="item"></appeal-reaosn>
+        <appeal-reason :data="item"></appeal-reason>
       </div>
-      <br>
-      <br>
+      <br />
+      <div class="total-scores">
+        总分:
+        <span class="score">{{ totalSuperiorScore }}</span>
+      </div>
+      <br />
       <el-row v-if="!readOnly" type="flex" justify="end">
         <el-button
           v-if="!submited && !hasRejectReasons"
           @click="saveDraft"
           type="primary"
-        >{{constants.SAVE_DRAFT}}</el-button>
-        <el-button @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
+          >{{ constants.SAVE_DRAFT }}</el-button
+        >
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>
 </template>
 <script>
+import Vue from "vue";
 import {
   MY_MEMBERS,
   MEMBERS_GRADE_LIST,
@@ -123,7 +161,10 @@ import {
   saveMyGradeDraft
 } from "@/constants/API";
 
+import recommendMx from "./recommend";
+
 export default {
+  mixins: [recommendMx],
   data() {
     return {
       employee_name: "",
@@ -183,7 +224,7 @@ export default {
       import("@/components/common/LevelSelector/index.vue"),
     "reject-reason": () =>
       import("@/components/modules/myculture/rejectreason/index.vue"),
-    "appeal-reaosn": () =>
+    "appeal-reason": () =>
       import("@/components/modules/myculture/appealreason/index.vue")
   },
   methods: {
@@ -218,8 +259,14 @@ export default {
         break_status,
         superior_start_time,
         feedback_feeling,
-        has_history
+        has_history,
+        special_recommended,
+        can_special_recommend
       } = res;
+      this.initRecommend({
+        can_special_recommend,
+        special_recommended
+      });
       this.has_history = has_history == 1;
       this.feedback_feeling = feedback_feeling;
       this.rejectReason = reject_record;
@@ -261,6 +308,7 @@ export default {
       result.promotion = this.promotion;
       result.advantage = this.advantage;
       result._271_level = LEVELMAP[this.level] || "";
+      result.special_recommend = this.getSpecialRecommended();
       return result;
     },
     goHistory() {
@@ -335,6 +383,19 @@ export default {
             .catch(e => {});
         })
         .catch(() => {});
+    },
+    levelChange(l) {
+      if (this.canRecommended && l == "top") {
+        this.showRecommend(
+          () => {},
+          () => {
+            this.level = "middle";
+          }
+        );
+      } else {
+        this.level = l;
+        this.setSpecialRecommended(0);
+      }
     }
   },
   created() {
@@ -346,6 +407,12 @@ export default {
     },
     hasRejectReasons() {
       return this.rejectReason.length > 0;
+    },
+    totalSuperiorScore() {
+      const total = this.scores
+        .map(s => s.superior_score)
+        .reduce((p, n) => parseFloat(p) + parseFloat(n), 0);
+      return isNaN(total) || total < 0 ? "无" : total;
     }
   }
 };
@@ -365,7 +432,17 @@ export default {
     color: #4a4a4a;
     font-size: 24px;
   }
-
+  & .mark-level-container {
+    display: flex;
+    align-items: center;
+    & .level-recommmed-icon {
+      margin-left: 30px;
+      font-size: 14px;
+      color: #d39451;
+      letter-spacing: 0.17px;
+      margin-bottom: 15px;
+    }
+  }
   & .mark-reason {
     overflow: auto;
     max-height: 150px !important;
@@ -407,6 +484,19 @@ export default {
     & .time {
       position: absolute;
       right: 0;
+    }
+  }
+  .total-scores {
+    font-size: 20px;
+    color: #333333;
+    // letter-spacing: 0.24px;
+    display: table-cell;
+    .score {
+      font-size: 26px;
+      color: #d8934e;
+      // letter-spacing: 0.31px;
+      // line-height: 26px;
+      vertical-align: middle;
     }
   }
 }

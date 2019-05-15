@@ -4,35 +4,35 @@
     <section class="content-container">
       <div class="basic-info">
         <div>
-          <span class="label">{{constants.BASIC_INFO}}:</span>
+          <span class="label">{{ constants.BASIC_INFO }}:</span>
           <span>
-            <span class="greycolor">{{constants.EMPLOYEE_WORKCODE}}</span>
-            / {{basicInfo.workcode}} &nbsp;&nbsp;
-            <span
-              class="greycolor"
-            >{{constants.EMPYEE_NAME}}</span>
-            / {{basicInfo.name}}
-          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
+            / {{ basicInfo.workcode }} &nbsp;&nbsp;
+            <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
+            / {{ basicInfo.name }} </span
+          >&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">{{constants.LABEL_CONFIRM}}</el-button>
-          <el-button @click="showReviewDia=true">返回修改</el-button>
+          <el-button @click="passReview" type="primary">
+            {{ constants.LABEL_CONFIRM }}
+          </el-button>
+          <el-button @click="showReviewDia = true">返回修改</el-button>
         </div>
       </div>
-      <br>
+      <br />
       <card
         class="card"
         :readOnly="!canEdit"
         :desc.sync="targets[i].desc"
         placeholder="请评价该项目的完成情况（非必填)"
         :config="cardConfig"
-        v-for="(v,i) of targets"
+        v-for="(v, i) of targets"
         :data="v"
         :index="i"
         v-model="targets[i].mark"
         :key="i"
       ></card>
-      <br>
+      <br />
       <div v-if="myAdditionMark.evaluation">
         <addition-mark
           :prefixTitle="constants.LABEL_SELF"
@@ -40,10 +40,14 @@
           :desc.sync="myAdditionMark.evaluation"
           :mark.sync="myAdditionMark.score"
         ></addition-mark>
-        <br>
+        <br />
       </div>
       <div
-        v-if="hasLeaderAdditionMark && !inReviewStage&&(!canEdit &&leaderAdditionMark.evaluation || canEdit)"
+        v-if="
+          hasLeaderAdditionMark &&
+            !inReviewStage &&
+            ((!canEdit && leaderAdditionMark.evaluation) || canEdit)
+        "
       >
         <addition-mark
           :readOnly="!canEdit"
@@ -51,30 +55,41 @@
           :desc.sync="leaderAdditionMark.evaluation"
           :mark.sync="leaderAdditionMark.score"
         ></addition-mark>
-        <br>
+        <br />
       </div>
       <comments
-        v-if="!inReviewStage&&((!canEdit && comments )||canEdit)"
+        v-if="!inReviewStage && ((!canEdit && comments) || canEdit)"
         :readOnly="!canEdit"
         :comments.sync="comments"
       ></comments>
-      <br>
+      <br />
       <total-mark v-if="!inReviewStage" :total="total"></total-mark>
-      <br>
-      <level v-if="!inReviewStage" :readOnly="shouldMapping||stage>=50" v-model="level"></level>
-      <br>
+      <br />
+      <level
+        v-if="!inReviewStage"
+        :readOnly="shouldMapping || stage >= 50"
+        v-model="level"
+      ></level>
+      <br />
       <el-row v-if="canEdit" type="flex" justify="center">
         <el-button
-          v-if="stage!=40"
+          v-if="stage != 40"
           round
           size="medium"
           @click="saveDraft"
           class="btn-reset"
-        >{{constants.SAVE_DRAFT}}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">{{constants.SUBMIT}}</el-button>
+          >{{ constants.SAVE_DRAFT }}</el-button
+        >
+        <el-button round size="medium" @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
     </section>
-    <review-dialog :callback="postReviewResult" v-if="showReviewDia" :visible.sync="showReviewDia"></review-dialog>
+    <review-dialog
+      :callback="postReviewResult"
+      v-if="showReviewDia"
+      :visible.sync="showReviewDia"
+    ></review-dialog>
   </div>
 </template>
 <script>
@@ -155,7 +170,7 @@ export default {
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue"),
+    // pagination: () => import("@/components/common/Pagination/index.vue"),
     card: () => import("@/components/modules/employee/gradeCard/index.vue"),
     "addition-mark": () =>
       import("@/components/modules/employee/additionalMark/index.vue"),

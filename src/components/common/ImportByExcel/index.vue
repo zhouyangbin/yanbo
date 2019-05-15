@@ -11,11 +11,13 @@
     >
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">
-        {{constants.DRAG_FILE}}
-        <em>{{constants.CLICK_TO_UPLOAD}}</em>
+        {{ constants.DRAG_FILE }}
+        <em>{{ constants.CLICK_TO_UPLOAD }}</em>
       </div>
       <div class="el-upload__tip" slot="tip">
-        <a style="cursor: pointer;" @click="downloadTpl">{{constants.DOWNLOAD_EXCEL_TEMPLATE}}</a>
+        <a style="cursor: pointer;" @click="downloadTpl">{{
+          constants.DOWNLOAD_EXCEL_TEMPLATE
+        }}</a>
       </div>
     </el-upload>
     <err-table :errorData="errorData"></err-table>

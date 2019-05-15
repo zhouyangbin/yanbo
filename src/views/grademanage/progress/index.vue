@@ -3,81 +3,196 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="progress-header">
-        <span>{{gradeName}}</span>&nbsp;
-        <span class="tips">{{constants.FINISHED_DATE}} {{finishedDate}}</span>
-        <hr>
-        <el-form :inline="true" ref="filter-form" :model="searchForm" class="form-search">
+        <span>{{ gradeName }}</span
+        >&nbsp;
+        <span class="tips"
+          >{{ constants.FINISHED_DATE }} {{ finishedDate }}</span
+        >
+        <hr />
+        <el-form
+          :inline="true"
+          ref="filter-form"
+          :model="searchForm"
+          class="form-search"
+        >
           <el-form-item prop="name">
-            <el-input v-model="searchForm.name" :placeholder="constants.DEP_NAME"></el-input>
+            <el-input
+              v-model="searchForm.name"
+              :placeholder="constants.DEP_NAME"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="recordStatus">
-            <el-select v-model="searchForm.recordStatus" :placeholder="constants.RECORD_STATUS">
-              <el-option v-for="v of constants.ENUM_RECORD_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="searchForm.recordStatus"
+              :placeholder="constants.RECORD_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_RECORD_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="selfStatus">
-            <el-select v-model="searchForm.selfStatus" :placeholder="constants.SELF_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_SELF_EVALUATION_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="searchForm.selfStatus"
+              :placeholder="constants.SELF_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_SELF_EVALUATION_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="leaderStatus">
-            <el-select v-model="searchForm.leaderStatus" :placeholder="constants.LEADER_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_LEADER_EVALUATION_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="searchForm.leaderStatus"
+              :placeholder="constants.LEADER_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_LEADER_EVALUATION_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="upLeaderStatus">
-            <el-select v-model="searchForm.upLeaderStatus" :placeholder="constants.LEADER_PLUS_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_LEADER_PLUS_EVALUATION_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="searchForm.upLeaderStatus"
+              :placeholder="constants.LEADER_PLUS_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_LEADER_PLUS_EVALUATION_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="faceStatus">
-            <el-select v-model="searchForm.faceStatus" :placeholder="constants.FACE_EVALUATION_STATUS">
-              <el-option v-for="v of constants.ENUM_FACE_EVALUATION_STATUS" :key="v.key" :label="v.value" :value="v.key"></el-option>
+            <el-select
+              v-model="searchForm.faceStatus"
+              :placeholder="constants.FACE_EVALUATION_STATUS"
+            >
+              <el-option
+                v-for="v of constants.ENUM_FACE_EVALUATION_STATUS"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button round size="medium" @click="resetFilter('filter-form')" class="btn-reset">{{constants.RESET}}</el-button>
+            <el-button
+              round
+              size="medium"
+              @click="resetFilter('filter-form')"
+              class="btn-reset"
+              >{{ constants.RESET }}</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
       <el-table :data="listData" stripe style="width: 100%">
-        <el-table-column prop="department_name" :label="constants.DEPARTMENT" width="180">
+        <el-table-column
+          prop="department_name"
+          :label="constants.DEPARTMENT"
+          width="180"
+        >
         </el-table-column>
-        <el-table-column prop="import_status" :label="constants.RECORD_STATUS" width="180">
+        <el-table-column
+          prop="import_status"
+          :label="constants.RECORD_STATUS"
+          width="180"
+        >
           <template slot-scope="scope">
-            {{(constants.ENUM_RECORD_STATUS.filter(v=>v.key===String(scope.row.import_status))[0]||{}).value}}
+            {{
+              (
+                constants.ENUM_RECORD_STATUS.filter(
+                  v => v.key === String(scope.row.import_status)
+                )[0] || {}
+              ).value
+            }}
           </template>
         </el-table-column>
-        <el-table-column prop="self_status" :label="constants.SELF_EVALUATION_STATUS">
+        <el-table-column
+          prop="self_status"
+          :label="constants.SELF_EVALUATION_STATUS"
+        >
           <template slot-scope="scope">
-            {{(constants.ENUM_SELF_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.self_status))[0]||{}).value}}
+            {{
+              (
+                constants.ENUM_SELF_EVALUATION_STATUS.filter(
+                  v => v.key === String(scope.row.self_status)
+                )[0] || {}
+              ).value
+            }}
           </template>
         </el-table-column>
-        <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS">
+        <el-table-column
+          prop="superior_status"
+          :label="constants.LEADER_EVALUATION_STATUS"
+        >
           <template slot-scope="scope">
-            {{(constants.ENUM_LEADER_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.superior_status))[0]||{}).value}}
+            {{
+              (
+                constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                  v => v.key === String(scope.row.superior_status)
+                )[0] || {}
+              ).value
+            }}
           </template>
         </el-table-column>
-        <el-table-column prop="highlevel_status" :label="constants.LEADER_PLUS_EVALUATION_STATUS">
+        <el-table-column
+          prop="highlevel_status"
+          :label="constants.LEADER_PLUS_EVALUATION_STATUS"
+        >
           <template slot-scope="scope">
-            {{(constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.highlevel_status))[0]||{}).value}}
+            {{
+              (
+                constants.ENUM_LEADER_PLUS_EVALUATION_STATUS.filter(
+                  v => v.key === String(scope.row.highlevel_status)
+                )[0] || {}
+              ).value
+            }}
           </template>
         </el-table-column>
         <el-table-column prop="3" :label="constants.FACE_EVALUATION_STATUS">
           <template slot-scope="scope">
-            {{(constants.ENUM_FACE_EVALUATION_STATUS.filter(v=>v.key===String(scope.row.feedback_status))[0]||{}).value}}
+            {{
+              (
+                constants.ENUM_FACE_EVALUATION_STATUS.filter(
+                  v => v.key === String(scope.row.feedback_status)
+                )[0] || {}
+              ).value
+            }}
           </template>
         </el-table-column>
         <el-table-column prop="4" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
-            <el-button @click="exportFile(scope.row)" type="text" size="small">{{constants.EXPORT_DETAILS}}</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
+              constants.DETAILS
+            }}</el-button>
+            <el-button
+              @click="exportFile(scope.row)"
+              type="text"
+              size="small"
+              >{{ constants.EXPORT_DETAILS }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
-      <br>
+      <br />
       <el-row type="flex" justify="end">
-        <pagination :currentPage="currentPage" @current-change="handleCurrentChange" :total="total"></pagination>
+        <pagination
+          :currentPage="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total"
+        ></pagination>
       </el-row>
     </section>
   </div>

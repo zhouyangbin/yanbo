@@ -11,27 +11,37 @@
             :value="item.department_id"
           ></el-option>
         </el-select>
-        <el-button style="margin-left:0.45rem" round @click="resetForm">{{constants.LABEL_EMPTY}}</el-button>
+        <el-button style="margin-left:30px" round @click="resetForm">{{
+          constants.LABEL_EMPTY
+        }}</el-button>
       </el-row>
-      <br>
-      <el-table :data="tableData" stripe style="width: 100%;margin-top:0.3rem">
+      <br />
+      <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
         <el-table-column prop="department" label="事业部"></el-table-column>
-        <el-table-column prop="type" :label="constants.LABEL_STATUS"></el-table-column>
+        <el-table-column
+          prop="type"
+          :label="constants.LABEL_STATUS"
+        ></el-table-column>
         <el-table-column prop="address" :label="constants.LABEL_OPERATIONS">
           <template slot-scope="scope">
             <el-button
               type="text"
               @click="updateRule(scope.row)"
               size="small"
-            >{{constants.LABEL_MODIFY}}</el-button>
+              >{{ constants.LABEL_MODIFY }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
-      <br>
+      <br />
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+        <pagination
+          @current-change="handleCurrentChange"
+          :currentPage="currentPage"
+          :total="total"
+        ></pagination>
       </el-row>
-      <br>
+      <br />
     </section>
     <edit-rule
       :data="selectedData"
@@ -142,5 +152,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

@@ -3,7 +3,7 @@
     <el-row class="row-bg">
       <!--  FE-PC-TDC logo and title-->
       <el-col :span="12" class="login-logo">
-        <img src="@assets/img/login_logo.png" alt="好文来文化评分">
+        <img src="@assets/img/login_logo.png" alt="好文来文化评分" />
       </el-col>
 
       <!-- login form -->
@@ -22,7 +22,7 @@
 
 <script>
 import {
-  PATH_EMPLOYEE_MY,
+  PATH_MY_CULTURE_GRADE,
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
@@ -34,11 +34,11 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS,
   PATH_GRADE_EMP_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
-  PATH_PERFORMANCE_ORG_LIST
+  PATH_PERFORMANCE_ORG_LIST,
+  PATH_EMPLOYEE_MY
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
-
 export default {
   data() {
     return {};
@@ -52,17 +52,19 @@ export default {
       return;
     }
     let dst;
-    if (querys.project == "culture") {
-      dst = this.getCulturePath(querys);
-    } else {
+    if (querys.project == "performance") {
       // 目标通知跳转
       dst = this.getPerformancePath(querys);
+    } else if (querys.project == "culture") {
+      dst = this.getCulturePath(querys);
+    } else {
+      dst = PATH_MY_CULTURE_GRADE;
     }
-
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "094203" })
+        fzLogin({ workcode: "076533" })
+          // 094203
           // 076533
           // 17600297195
           // 074036
@@ -184,13 +186,19 @@ export default {
         window.DingTalkPC.ua &&
         window.DingTalkPC.ua.isInDingTalk
       ) {
-        window.DingTalkPC.biz.util.openLink({
-          url: `${window.location.origin}${dst}`, //要打开链接的地址
-          onSuccess: function(result) {
-            /**/
-          },
-          onFail: function() {}
-        });
+        // window.DingTalkPC.biz.util.openLink({
+        //   url: `${window.location.origin}${dst}`, //要打开链接的地址
+        //   onSuccess: function (result) {
+        //     /**/
+        //     localStorage.setItem("talEmail", res.admin.email);
+        //     localStorage.setItem("talToken", res.token);
+        //     localStorage.setItem(
+        //       "permissions",
+        //       JSON.stringify(res.admin.permissions)
+        //     );
+        //   },
+        //   onFail: function () { }
+        // });
       } else {
         this.$router.push({ path: dst });
       }

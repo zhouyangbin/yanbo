@@ -1,5 +1,9 @@
 <template>
-  <div ref="echartPie" class="echart-pie-performance" id="echart-pie-performance"></div>
+  <div
+    ref="echartPie"
+    class="echart-pie-performance"
+    id="echart-pie-performance"
+  ></div>
 </template>
 <script>
 // ECharts 主模块

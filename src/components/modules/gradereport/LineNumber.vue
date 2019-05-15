@@ -1,5 +1,5 @@
 <template>
-    <div ref="echartLine" class="echart-line" id="echart-line"></div>
+  <div ref="echartLine" class="echart-line" id="echart-line"></div>
 </template>
 <script>
 // ECharts 主模块

@@ -1,22 +1,32 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <br>
+    <br />
     <section class="content-container">
       <!-- <rule-text :text="constants.MY_MEMBER_RULE"></rule-text> -->
-      <br>
+      <br />
       <section class="content-container bg-white">
         <header class="member-grade-info">
-          <div class="name">&nbsp;&nbsp;&nbsp; {{evaluation_name}}</div>
-          <div class="finish_time">{{constants.FINISHED_DATE}}: {{end_time}}</div>
+          <div class="name">&nbsp;&nbsp;&nbsp; {{ evaluation_name }}</div>
+          <div class="finish_time">
+            {{ constants.FINISHED_DATE }}: {{ end_time }}
+          </div>
         </header>
-        <br>
-        <hr>
-        <br>
+        <br />
+        <hr />
+        <br />
         <div class="members-list-filter">
-          <el-form :inline="true" class="list-filter-form" :model="memberForm" ref="ruleForm">
+          <el-form
+            :inline="true"
+            class="list-filter-form"
+            :model="memberForm"
+            ref="ruleForm"
+          >
             <el-form-item prop="employee_name">
-              <el-input placeholder="请输入姓名" v-model="memberForm.employee_name"></el-input>
+              <el-input
+                placeholder="请输入姓名"
+                v-model="memberForm.employee_name"
+              ></el-input>
             </el-form-item>
             <el-form-item prop="superior_status">
               <el-select
@@ -32,47 +42,186 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{constants.RESET}}</el-button>
+              <el-button @click="resetForm('ruleForm')">{{
+                constants.RESET
+              }}</el-button>
             </el-form-item>
           </el-form>
         </div>
-        <br>
+        <br />
         <distribute-summary :data="overview"></distribute-summary>
-        <br>
-        <hr class="dash">
-        <br>
-        <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column prop="name" :label="constants.NAME">
+        <br />
+        <hr class="dash" />
+        <br />
+        <el-alert
+          class="alert-tip"
+          effect="light"
+          :closable="false"
+          type="info"
+          show-icon
+        >
+          <template v-slot:title>
+            <div>
+              温馨提示:
+              <span class="green">绿色</span> 为自评,
+              <span class="blue">蓝色</span> 为上级评价
+            </div>
+          </template>
+        </el-alert>
+        <br />
+        <br />
+        <el-table
+          header-cell-class-name="text-center"
+          cell-class-name="text-center"
+          :data="tableData"
+          stripe
+          style="width: 100%"
+        >
+          <el-table-column
+            prop="name"
+            :label="constants.NAME"
+          ></el-table-column>
+          <el-table-column min-width="150" label="自评分数/上级分数">
             <template slot-scope="scope">
-              <el-row type="flex" align="middle">
-                <img
-                  v-if="scope.row.avatar"
-                  class="avatar-style"
-                  :src="`${scope.row.avatar}_30x30q100.jpg`"
-                  alt
-                >
-                <span class="stringAvatar" v-else>{{scope.row.name.substr(scope.row.name.length-2)}}</span>
-                {{scope.row.name}}
-              </el-row>
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "total"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "total"])
+                    | placeholder("-")
+                }}
+              </span>
             </template>
           </el-table-column>
-          <el-table-column prop="score" :label="constants.SELF_SCORE"></el-table-column>
-          <el-table-column prop="superior_score" :label="constants.LEADER_SOCRE"></el-table-column>
-          <el-table-column prop="self" label="271等级">
-            <template
-              slot-scope="scope"
-            >{{scope.row._271_level ? getLevelText(scope.row._271_level):'无'}}</template>
+          <el-table-column min-width="180" label="自评平均分/上级平均分">
+            <template slot-scope="scope">
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "average"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "average"])
+                    | placeholder("-")
+                }}
+              </span>
+            </template>
           </el-table-column>
-          <el-table-column prop="superior_status" :label="constants.LEADER_EVALUATION_STATUS"></el-table-column>
+          <el-table-column min-width="80" label="成就客户">
+            <template slot-scope="scope">
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "1"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "1"])
+                    | placeholder("-")
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="务实">
+            <template slot-scope="scope">
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "2"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "2"])
+                    | placeholder("-")
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="创新">
+            <template slot-scope="scope">
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "3"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "3"])
+                    | placeholder("-")
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="合作">
+            <template slot-scope="scope">
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "4"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "4"])
+                    | placeholder("-")
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="self" label="271等级">
+            <template slot-scope="scope">
+              {{
+                scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
+              }}
+              <el-tooltip v-if="scope.row.special_recommended" placement="top">
+                <div slot="content">上级特殊推荐top</div>
+                <img width="15" src="@/assets/img/recommend.png" alt />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="100"
+            prop="superior_status"
+            :label="constants.LEADER_EVALUATION_STATUS"
+          ></el-table-column>
           <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
             <template slot-scope="scope">
-              <div class="reject_status" v-if="scope.row.reject_status ==1">
-                <div>{{constants.REJECT}}</div>
+              <div class="reject_status" v-if="scope.row.reject_status == 1">
+                <div>{{ constants.REJECT }}</div>
               </div>
-              <div class="complain_status" v-if="scope.row.reject_status ==2">
-                <div>{{constants.APPEAL}}</div>
+              <div class="complain_status" v-if="scope.row.reject_status == 2">
+                <div>{{ constants.APPEAL }}</div>
               </div>
-              <div v-if="scope.row.reject_status ==0">{{ scope.row.stage_name}}</div>
+              <div v-if="scope.row.reject_status == 0">
+                {{ scope.row.stage_name }}
+              </div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" :label="constants.LABEL_OPERATIONS">
@@ -81,13 +230,18 @@
                 type="text"
                 @click="goDetail(scope.row)"
                 size="small"
-              >{{constants.VIEW_DETAILS}}</el-button>
+                >{{ constants.VIEW_DETAILS }}</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
-        <br>
+        <br />
         <el-row type="flex" justify="end">
-          <pagination @current-change="currentChange" :currentPage="currentPage" :total="total"></pagination>
+          <pagination
+            @current-change="currentChange"
+            :currentPage="currentPage"
+            :total="total"
+          ></pagination>
         </el-row>
       </section>
     </section>
@@ -173,8 +327,8 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
-    "rule-text": () =>
-      import("@/components/modules/myculture/ruletext/index.vue"),
+    // "rule-text": () =>
+    //   import("@/components/modules/myculture/ruletext/index.vue"),
     "distribute-summary": () =>
       import("@/components/modules/myculture/membersdistribute/index.vue")
   },
@@ -192,6 +346,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+
     getData(data) {
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);
@@ -228,7 +383,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .my-grade-list .content-container {
   padding: 20px;
 }
@@ -263,7 +418,7 @@ export default {
   margin-bottom: 0;
 }
 .avatar-style {
-  margin-right: 0.225rem;
+  margin-right: 15px;
   max-height: 30px;
   max-width: 30px;
   height: 30px;
@@ -333,5 +488,36 @@ hr.dash {
   color: #46beeb;
   width: 60px;
   transform: rotateZ(-12deg);
+}
+.alert-tip {
+  background: #f9f8ec;
+  display: inline-flex;
+  width: auto;
+  font-size: 12px;
+  // color: #333333;
+  letter-spacing: 0.13px;
+  line-height: 17px;
+  .green {
+    color: #5dc5b2;
+  }
+  .blue {
+    color: #518feb;
+  }
+}
+.self-text {
+  font-size: 14px;
+  color: #5dc5b2;
+  letter-spacing: 0.17px;
+}
+.superior-text {
+  font-size: 14px;
+  color: #518feb;
+  letter-spacing: 0.17px;
+}
+.self-superior {
+  font-size: 14px;
+  color: #adadad;
+  letter-spacing: 0.17px;
+  padding: 0 5px;
 }
 </style>

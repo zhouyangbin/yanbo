@@ -9,12 +9,17 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 @import "~element-ui/packages/theme-chalk/src/index";
 
 section.content-container {
-  // padding: 20px;
-  padding: 0.4rem;
+  padding: 20px;
+  // padding: 0.4rem;
+}
+.el-notification.right {
+  right: 50%;
+  transform: translate(50%, -50%);
+  top: 50% !important;
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 .date-picker-container .el-time-spinner.has-seconds .el-time-spinner__wrapper {
   width: 50%;
@@ -24,9 +29,13 @@ section.content-container {
   max-height: 150px !important;
   overflow: auto;
 }
-.el-submenu__title {
-  padding-left: 0.2rem !important;
-}
-.menu-list .el-menu-item {
-  padding-left: 0.6rem !important;
+// .el-submenu__title {
+//   // padding-left: 0.2rem !important;
+// }
+// .menu-list .el-menu-item {
+//   // padding-left: 0.6rem !important;
+// }
+.content-container {
+  min-width: 1120px;
+  overflow: auto;
 }

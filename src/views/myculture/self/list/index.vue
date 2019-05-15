@@ -1,27 +1,37 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <br>
-    <br>
+    <br />
+    <br />
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column v-for="(v,i) of columns" :prop="v.prop" :key="i" :label="v.label">
+        <el-table-column
+          v-for="(v, i) of columns"
+          :prop="v.prop"
+          :key="i"
+          :label="v.label"
+        >
         </el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{constants.DETAILS}}</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
+              constants.DETAILS
+            }}</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <br>
+      <br />
       <el-row type="flex" justify="end">
-        <pagination @current-change="handleCurrentChange" :currentPage="currentPage" :total="total"></pagination>
+        <pagination
+          @current-change="handleCurrentChange"
+          :currentPage="currentPage"
+          :total="total"
+        ></pagination>
       </el-row>
-      <br>
+      <br />
     </section>
   </div>
 </template>
-
 
 <script>
 import {
