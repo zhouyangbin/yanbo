@@ -41,7 +41,7 @@
         <br />
       </div>
       <el-row class="mark-section" align="middle" type="flex">
-        <el-col style="border-right: 1px solid #979797;">
+        <el-col :span="14" style="border-right: 1px solid #979797;">
           <div class="mark-label">
             {{ constants.LEADER_SOCRE }}:
             <span class="score">{{ total }}分</span>
@@ -73,7 +73,7 @@
           <br />
         </el-col>
         <br />
-        <el-col style="padding-left:50px;">
+        <el-col :span="10" style="padding-left:50px;">
           <div class="mark-reason">
             <div>上级评理由:</div>
             <div>{{ leaderReason }}</div>
@@ -102,12 +102,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">{{
-          constants.REJECT
-        }}</el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button @click="showRejectDialog = true" type="primary">
+          {{ constants.REJECT }}
+        </el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </section>
     <reject-dialog

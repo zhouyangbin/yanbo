@@ -2,7 +2,10 @@
   <div class="self-grade-component">
     <section class="mark">
       <el-row align="middle" type="flex">
-        <el-col style="padding:20px;border-right: 1px solid #979797;">
+        <el-col
+          :span="14"
+          style="padding:20px;border-right: 1px solid #979797;"
+        >
           <div class="mark-label">请选择评分项目</div>
           <grade-items
             :items="questions"
@@ -21,7 +24,7 @@
             :labels="constants.markLabels"
           ></grade-slider>
         </el-col>
-        <el-col style="padding-left:50px;">
+        <el-col :span="10" style="padding-left:50px;">
           <div class="mark-score">
             {{
               questions[selectGradeItem].score &&
@@ -61,12 +64,12 @@
     </div>
 
     <el-row v-show="!readOnly" type="flex" justify="end">
-      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">
-        {{ constants.SAVE_DRAFT }}
-      </el-button>
-      <el-button @click="submitGrade" type="primary">
-        {{ constants.SUBMIT }}
-      </el-button>
+      <el-button @click="saveDraft" v-if="neverSubmit" type="primary">{{
+        constants.SAVE_DRAFT
+      }}</el-button>
+      <el-button @click="submitGrade" type="primary">{{
+        constants.SUBMIT
+      }}</el-button>
     </el-row>
   </div>
 </template>

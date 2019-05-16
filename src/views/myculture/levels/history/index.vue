@@ -38,14 +38,17 @@
       <br />
       <section class="mark">
         <el-row align="middle" type="flex">
-          <el-col style="padding:20px;border-right: 1px solid #979797;">
+          <el-col
+            :span="14"
+            style="padding:20px;border-right: 1px solid #979797;"
+          >
             <div class="mark-label">自评分数</div>
             <grade-items
               :items="gradeItems"
               v-model="selectGradeItem"
             ></grade-items>
           </el-col>
-          <el-col style="padding-left:50px;">
+          <el-col :span="10" style="padding-left:50px;">
             <div class="mark-reason">
               <div v-for="(n, i) in reasons" :key="i">
                 <div>{{ i + 3 }}分理由:</div>
