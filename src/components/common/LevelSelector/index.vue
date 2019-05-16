@@ -82,16 +82,24 @@ export default {
       &.selected {
         cursor: not-allowed;
         // color: #dcdfe6;
-        &:hover,
-        &:focus {
-          color: #f18d23;
-          border: 1px solid #f18d23;
-        }
+        // &:hover,
+        // &:focus {
+        //   color: #f18d23;
+        //   border: 1px solid #f18d23;
+        // }
+      }
+    }
+    &.selected {
+      // cursor: not-allowed;
+      // color: #dcdfe6;
+      &:hover,
+      &:focus {
+        color: #f18d23;
+        border: 1px solid #f18d23;
       }
     }
     &.selected,
-    &:hover,
-    &:focus {
+    &:hover {
       color: #f18d23;
       background: white;
       border: 1px solid #f18d23;
@@ -107,6 +115,11 @@ export default {
       background-size: contain;
       background-image: url("../../../assets/img/level_flag.png");
     }
+  }
+  .el-button:focus {
+    border-color: #dcdfe6;
+    color: #606266;
+    background-color: white;
   }
 }
 </style>
