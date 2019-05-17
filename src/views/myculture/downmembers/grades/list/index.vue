@@ -48,9 +48,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{
-                constants.RESET
-              }}</el-button>
+              <el-button @click="resetForm('ruleForm')">
+                {{ constants.RESET }}
+              </el-button>
             </el-form-item>
           </el-form>
           <div>
@@ -66,9 +66,9 @@
               ></case-area>
               <br />
               <el-row type="flex" justify="center">
-                <el-button @click="batchReject" type="primary" round>{{
-                  constants.SUBMIT
-                }}</el-button>
+                <el-button @click="batchReject" type="primary" round>
+                  {{ constants.SUBMIT }}
+                </el-button>
               </el-row>
               <el-button
                 style="margin-right:20px"
@@ -491,6 +491,8 @@ export default {
     },
     isBigDiff(row) {
       const isTotalDiff =
+        Vue.filter("path")(row, ["scores", "self", "total"]) != null &&
+        Vue.filter("path")(row, ["scores", "superior", "total"]) != null &&
         Math.abs(
           Vue.filter("path")(row, ["scores", "self", "total"]) -
             Vue.filter("path")(row, ["scores", "superior", "total"])
@@ -499,8 +501,12 @@ export default {
       const keys = Object.keys(
         Vue.filter("path")(row, ["scores", "self", "questions"]) || {}
       );
+
       const itemDiff = keys.some(k => {
         return (
+          Vue.filter("path")(row, ["scores", "self", "questions", k]) != null &&
+          Vue.filter("path")(row, ["scores", "superior", "questions", k]) !=
+            null &&
           Math.abs(
             Vue.filter("path")(row, ["scores", "self", "questions", k]) -
               Vue.filter("path")(row, ["scores", "superior", "questions", k])
