@@ -33,9 +33,9 @@
             </div>
             <div style="margin-left:20%" v-if="true || (visible_271 && level)">
               {{ constants.LEVEL_TAG }}:
-              <el-button class="selector selected">
-                {{ constants.LEVEL_ALIAS[level] }}
-              </el-button>
+              <el-button class="selector selected">{{
+                constants.LEVEL_ALIAS[level]
+              }}</el-button>
             </div>
           </div>
           <plane :planeScore="planeScore"></plane>
@@ -44,11 +44,11 @@
       <el-col>
         <div class="summary-right-container">
           <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
-          <span class="content">{{ advantage }}</span>
+          <span :inner-html.prop="advantage | linebreak" class="content"></span>
         </div>
         <div class="summary-right-container">
           <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
-          <span class="content">{{ promotion }}</span>
+          <span :inner-html.prop="promotion | linebreak" class="content"></span>
         </div>
       </el-col>
     </el-row>
@@ -261,6 +261,7 @@ export default {
     overflow: auto;
     padding: 15px;
     box-sizing: border-box;
+    max-height: 215px;
     & + .summary-right-container {
       margin-top: 4%;
     }
