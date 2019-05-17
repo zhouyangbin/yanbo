@@ -48,9 +48,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">
-                {{ constants.RESET }}
-              </el-button>
+              <el-button @click="resetForm('ruleForm')">{{
+                constants.RESET
+              }}</el-button>
             </el-form-item>
           </el-form>
           <div>
@@ -66,9 +66,9 @@
               ></case-area>
               <br />
               <el-row type="flex" justify="center">
-                <el-button @click="batchReject" type="primary" round>
-                  {{ constants.SUBMIT }}
-                </el-button>
+                <el-button @click="batchReject" type="primary" round>{{
+                  constants.SUBMIT
+                }}</el-button>
               </el-row>
               <el-button
                 style="margin-right:20px"
@@ -189,25 +189,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column min-width="80" label="务实">
-            <template slot-scope="scope">
-              <span class="self-text">
-                {{
-                  scope.row
-                    | path(["scores", "self", "questions", "2"])
-                    | placeholder("-")
-                }}
-              </span>
-              <span class="self-superior">/</span>
-              <span class="superior-text">
-                {{
-                  scope.row
-                    | path(["scores", "superior", "questions", "2"])
-                    | placeholder("-")
-                }}
-              </span>
-            </template>
-          </el-table-column>
+
           <el-table-column min-width="80" label="创新">
             <template slot-scope="scope">
               <span class="self-text">
@@ -241,6 +223,25 @@
                 {{
                   scope.row
                     | path(["scores", "superior", "questions", "4"])
+                    | placeholder("-")
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="80" label="务实">
+            <template slot-scope="scope">
+              <span class="self-text">
+                {{
+                  scope.row
+                    | path(["scores", "self", "questions", "2"])
+                    | placeholder("-")
+                }}
+              </span>
+              <span class="self-superior">/</span>
+              <span class="superior-text">
+                {{
+                  scope.row
+                    | path(["scores", "superior", "questions", "2"])
                     | placeholder("-")
                 }}
               </span>
