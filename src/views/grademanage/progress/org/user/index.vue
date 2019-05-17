@@ -22,9 +22,9 @@
           <br />
           <div v-if="level">
             <span class="label">{{ constants.LEVEL_TAG }}</span>
-            <el-button style="margin-left:50px" class="selected selector">
-              {{ level }}
-            </el-button>
+            <el-button style="margin-left:50px" class="selected selector">{{
+              level
+            }}</el-button>
           </div>
         </div>
         <div>
@@ -320,6 +320,7 @@ export default {
     height: 36px;
     padding: 8px 12px;
     background: transparent;
+    overflow: visible;
     &.selected,
     &:hover,
     &:focus {

@@ -270,7 +270,7 @@ export default {
       background: white;
     }
     & .flag-section {
-      flex: 8;
+      flex: 9;
       padding: 20px;
       background: white;
     }

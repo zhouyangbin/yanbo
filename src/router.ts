@@ -312,5 +312,17 @@ const router = new Router({
     }
   ] as RouteConfig[]
 });
-
+router.onError(error => {
+  const pattern = /Loading chunk (\d)+ failed/g;
+  const isChunkLoadFailed = error.message.match(pattern);
+  // const targetPath = router.fullPath;
+  if (isChunkLoadFailed) {
+    Vue.prototype.$alert("提示", "网页资源加载失败,请刷新页面", {
+      confirmButtonText: "确定",
+      callback: () => {
+        location.replace(location.href);
+      }
+    });
+  }
+});
 export default router;
