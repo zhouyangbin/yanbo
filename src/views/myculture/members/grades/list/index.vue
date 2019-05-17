@@ -42,9 +42,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">
-                {{ constants.RESET }}
-              </el-button>
+              <el-button @click="resetForm('ruleForm')">{{
+                constants.RESET
+              }}</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -385,6 +385,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@mixin target-metro {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
 .my-grade-list .content-container {
   padding: 20px;
 }
@@ -480,8 +485,24 @@ hr.dash {
   z-index: 2;
   position: absolute;
   height: 100%;
-  left: 0;
-  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
+@include target-metro {
+  .complain_status,
+  .reject_status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 100%;
+  }
 }
 .complain_status div {
   border-radius: 20px;
