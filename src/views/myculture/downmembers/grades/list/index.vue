@@ -48,9 +48,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">
-                {{ constants.RESET }}
-              </el-button>
+              <el-button @click="resetForm('ruleForm')">{{
+                constants.RESET
+              }}</el-button>
             </el-form-item>
           </el-form>
           <div>
@@ -66,9 +66,9 @@
               ></case-area>
               <br />
               <el-row type="flex" justify="center">
-                <el-button @click="batchReject" type="primary" round>
-                  {{ constants.SUBMIT }}
-                </el-button>
+                <el-button @click="batchReject" type="primary" round>{{
+                  constants.SUBMIT
+                }}</el-button>
               </el-row>
               <el-button
                 style="margin-right:20px"
@@ -132,6 +132,10 @@
               {{ scope.row.name }}
             </template>
           </el-table-column>
+          <el-table-column
+            prop="superior_name"
+            label="上级姓名"
+          ></el-table-column>
           <el-table-column min-width="150" label="自评分数/上级分数">
             <template slot-scope="scope">
               <span class="self-text">
