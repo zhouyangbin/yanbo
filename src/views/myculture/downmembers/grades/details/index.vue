@@ -76,7 +76,7 @@
         <el-col :span="10" style="padding-left:50px;">
           <div class="mark-reason">
             <div>上级评理由:</div>
-            <div>{{ leaderReason }}</div>
+            <div :inner-html.prop="leaderReason | linebreak"></div>
           </div>
           <br />
           <div>
@@ -102,12 +102,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">
-          {{ constants.REJECT }}
-        </el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">
-          {{ constants.CONFIRM }}
-        </el-button>
+        <el-button @click="showRejectDialog = true" type="primary">{{
+          constants.REJECT
+        }}</el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </section>
     <reject-dialog

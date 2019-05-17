@@ -358,7 +358,7 @@ export const getManagerDetail = (uid: String) =>
 
 // 事业部271看到的详情历史
 export const getManagerDetailRecord = (uid: String) =>
-  sendGet(`culture/web/rank-manage/${uid}/evaluation-record`);
+  sendGet(`/culture/web/rank-manage/${uid}/evaluation-record`);
 export const changeManagerLv = (id: String, params: Object) =>
   sendPost(`/culture/web/rank-manage/${id}`, params);
 //hr重新打分接口（被驳回或申诉时）
