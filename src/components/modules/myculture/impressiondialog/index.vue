@@ -4,6 +4,7 @@
       @close="$emit('update:visible', false)"
       :visible="visible"
       width="30%"
+      :close-on-click-modal="false"
     >
       <el-input
         type="textarea"
@@ -15,9 +16,9 @@
       <br />
       <br />
       <el-row type="flex" justify="center">
-        <el-button type="primary" @click="submit" round>
-          {{ constants.CONFIRM }}
-        </el-button>
+        <el-button type="primary" @click="submit" round>{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </el-dialog>
   </div>

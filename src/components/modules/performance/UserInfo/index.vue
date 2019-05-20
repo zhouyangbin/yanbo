@@ -2,6 +2,7 @@
   <el-dialog
     @close="close"
     width="650px"
+    :close-on-click-modal="false"
     :visible="dialogInfo"
     class="dialogInfo"
   >
@@ -27,9 +28,9 @@
           type="primary"
           >{{ constants.CONFIRM }}</el-button
         >
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
   </el-dialog>

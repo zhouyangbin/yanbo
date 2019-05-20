@@ -3,6 +3,7 @@
     @close="close"
     width="500px"
     :visible="dialogImport"
+    :close-on-click-modal="false"
     class="dialogImport"
   >
     <div slot="title" class="title">{{ constants.IMPORT_RECORDS }}</div>
@@ -52,9 +53,9 @@
           @click="importFiles('importForm')"
           >{{ constants.CONFIRM }}</el-button
         >
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
   </el-dialog>

@@ -3,6 +3,7 @@
     @close="close"
     width="770px"
     :visible="dialogTimes"
+    :close-on-click-modal="false"
     class="dialogTimes"
   >
     <el-form
@@ -178,12 +179,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" type="primary" @click="timeSet">{{
-          constants.CONFIRM
-        }}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" type="primary" @click="timeSet">
+          {{ constants.CONFIRM }}
+        </el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
   </el-dialog>

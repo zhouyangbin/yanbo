@@ -3,6 +3,7 @@
     class="gradeForm"
     @close="close"
     title="修改分数"
+    :close-on-click-modal="false"
     :visible="visible"
     width="30%"
   >
@@ -32,9 +33,9 @@
     </el-form>
     <span class="gradeForm-footer" slot="footer">
       <el-button @click="close">{{ constants.CANCEL }}</el-button>
-      <el-button type="primary" @click="submit">{{
-        constants.CONFIRM
-      }}</el-button>
+      <el-button type="primary" @click="submit">
+        {{ constants.CONFIRM }}
+      </el-button>
     </span>
   </el-dialog>
 </template>

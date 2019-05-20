@@ -4,6 +4,7 @@
     width="500px"
     :visible="visible"
     class="dialogImport"
+    :close-on-click-modal="false"
   >
     <div slot="title" class="title">导入目标</div>
     <import-excel

@@ -26,11 +26,13 @@
           :label="constants.BU"
         >
           <template slot-scope="scope">
-            <span slot="reference">{{
-              (scope.row.department_names || [])
-                .map(v => v.department_name)
-                .join("、 ")
-            }}</span>
+            <span slot="reference">
+              {{
+                (scope.row.department_names || [])
+                  .map(v => v.department_name)
+                  .join("、 ")
+              }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column
@@ -43,9 +45,9 @@
         ></el-table-column>
         <el-table-column prop="operation" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small">
+              {{ constants.DETAILS }}
+            </el-button>
             <el-button
               @click="exportGrade(scope.row)"
               type="text"
@@ -67,12 +69,13 @@
     <el-dialog
       @close="closeDia('ruleForm')"
       width="650px"
+      :close-on-click-modal="false"
       :visible.sync="createGradeDialog"
     >
       <span slot="title">
-        <el-row type="flex" justify="center" class="dialog-title">{{
-          constants.CREATE_GRADE
-        }}</el-row>
+        <el-row type="flex" justify="center" class="dialog-title">
+          {{ constants.CREATE_GRADE }}
+        </el-row>
       </span>
       <el-form
         :model="ruleForm"
@@ -114,12 +117,12 @@
         <br />
         <el-form-item label-width="0px">
           <el-row type="flex" justify="center">
-            <el-button round type="primary" @click="submitForm('ruleForm')">{{
-              constants.CONFIRM
-            }}</el-button>
-            <el-button @click="closeDia('ruleForm')" round>{{
-              constants.CANCEL
-            }}</el-button>
+            <el-button round type="primary" @click="submitForm('ruleForm')">
+              {{ constants.CONFIRM }}
+            </el-button>
+            <el-button @click="closeDia('ruleForm')" round>
+              {{ constants.CANCEL }}
+            </el-button>
           </el-row>
         </el-form-item>
       </el-form>

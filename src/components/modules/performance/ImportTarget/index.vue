@@ -2,12 +2,11 @@
   <el-dialog
     @close="close"
     width="500px"
+    :close-on-click-modal="false"
     :visible="visible"
     class="dialogImport"
   >
-    <div slot="title" class="title">
-      导入目标
-    </div>
+    <div slot="title" class="title">导入目标</div>
     <import-excel
       :uploadSuccess="uploadSuccess"
       :uploadHeader="uploadHeader"

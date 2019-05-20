@@ -1,5 +1,11 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="tplDialog">
+  <el-dialog
+    :close-on-click-modal="false"
+    @close="close"
+    width="650px"
+    :visible="visible"
+    class="tplDialog"
+  >
     <div slot="title" class="title">
       {{ infoType === "add" ? constants.ADD : constants.MODIFY }}
     </div>
@@ -48,12 +54,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
   </el-dialog>

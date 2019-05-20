@@ -3,6 +3,7 @@
     <el-dialog
       @close="$emit('update:visible', false)"
       :visible="visible"
+      :close-on-click-modal="false"
       width="30%"
     >
       <case-area
@@ -11,9 +12,9 @@
       ></case-area>
       <br />
       <el-row type="flex" justify="center">
-        <el-button type="primary" @click="submit" round>{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button type="primary" @click="submit" round>
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </el-dialog>
   </div>

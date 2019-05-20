@@ -1,5 +1,11 @@
 <template>
-  <el-dialog @close="close" width="650px" :visible="visible" class="ruleDialog">
+  <el-dialog
+    :close-on-click-modal="false"
+    @close="close"
+    width="650px"
+    :visible="visible"
+    class="ruleDialog"
+  >
     <div slot="title" class="title">{{ data.department }}</div>
     <el-form
       :rules="rules"
@@ -92,12 +98,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">{{
-          constants.CANCEL
-        }}</el-button>
+        <el-button round size="medium" @click="submit" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">
+          {{ constants.CANCEL }}
+        </el-button>
       </el-row>
     </div>
   </el-dialog>

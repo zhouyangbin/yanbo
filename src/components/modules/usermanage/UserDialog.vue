@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :title="title"
+    :close-on-click-modal="false"
     :visible.sync="visible"
     width="25%"
     center
@@ -48,12 +49,12 @@
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button type="primary" round @click="handelSubmit">{{
-        constants.LABEL_CONFIRM
-      }}</el-button>
-      <el-button round @click="closeDialog">{{
-        constants.LABEL_CANCEL
-      }}</el-button>
+      <el-button type="primary" round @click="handelSubmit">
+        {{ constants.LABEL_CONFIRM }}
+      </el-button>
+      <el-button round @click="closeDialog">
+        {{ constants.LABEL_CANCEL }}
+      </el-button>
     </span>
   </el-dialog>
 </template>
