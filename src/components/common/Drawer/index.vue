@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="fade" mode="out-in">
+    <transition key="mask" name="fade" mode="out-in">
       <div
         :style="indexCls()"
         @click="onMask"
@@ -9,15 +9,17 @@
       ></div>
     </transition>
     <transition
+      key="content"
+      name="align"
       :enter-active-class="alignInCls"
       :leave-active-class="alignOutCls"
     >
       <div
         key="content"
         :class="{ closeable, [align.toLowerCase()]: true }"
-        v-if="$slots.default"
         class="vue-simple-drawer cover"
         :style="indexCls()"
+        v-if="$slots.default"
       >
         <div @click.stop="close" v-if="closeable" class="close-btn">
           <div class="leftright"></div>
@@ -58,11 +60,7 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      message: ""
-    };
-  },
+
   provide() {
     return {
       simpleDrawerIndex: this.computedIndex + 1
@@ -85,6 +83,9 @@ export default {
       return {
         zIndex: this.computedIndex + offset
       };
+    },
+    hasContent() {
+      return this.$slots.default;
     }
   },
   computed: {

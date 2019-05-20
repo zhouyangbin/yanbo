@@ -79,9 +79,9 @@
       <br />
       <br />
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="changeMarks" class="btn-reset">{{
-          constants.LABEL_MODIFY
-        }}</el-button>
+        <el-button round size="medium" @click="changeMarks" class="btn-reset">
+          {{ constants.LABEL_MODIFY }}
+        </el-button>
         <el-button round size="medium" @click="submit" type="primary"
           >确认结果</el-button
         >
