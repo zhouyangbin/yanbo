@@ -3,21 +3,21 @@
     <h3>问题反馈</h3>
     <br />
     <br />
-    <el-form
-      @submit.native.prevent
-      :rules="rules"
-      ref="feedbackForm"
-      :model="feedbackForm"
-    >
-      <el-form-item label="反馈" prop="feedback">
-        <el-input
-          placeholder="请详细描述您的问题, 我们将尽快为您解决"
-          :rows="6"
-          type="textarea"
-          v-model="feedbackForm.feedback"
-        ></el-input>
-      </el-form-item>
-    </el-form>
+    <div style="margin-bottom:0" class="el-form-item is-required">
+      <label class="el-form-item__label">反馈:</label>
+    </div>
+    <div class="el-textarea">
+      <textarea
+        class="el-textarea__inner"
+        v-on:keyup.enter="newLine"
+        placeholder="请详细描述您的问题, 我们将尽快为您解决"
+        :rows="6"
+        v-model="feedback"
+        :maxlength="2000"
+      ></textarea>
+    </div>
+    <br />
+    <br />
     <span slot="footer" class="dialog-footer">
       <el-button v-waves @click="close">取消</el-button>
       <el-button v-waves type="primary" @click="submitForm('feedbackForm')"
@@ -40,29 +40,27 @@ export default {
   },
   data() {
     return {
-      feedbackForm: {
-        feedback: ""
-      },
-      rules: {
-        feedback: [
-          { required: true, message: "请输入反馈内容", trigger: "blur" },
-          { max: 2000, message: "不能超过2000个字符", trigger: "blur" }
-        ]
-      }
+      feedback: ""
     };
   },
   methods: {
     close() {
       this.$emit("update:visible", false);
     },
+    newLine() {
+      this.feedback += `\n`;
+    },
+    validate() {
+      if (!this.feedback) {
+        this.$message.error("请输入反馈内容");
+        return;
+      }
+      return true;
+    },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.onSubmit(this.feedbackForm.feedback);
-        } else {
-          return false;
-        }
-      });
+      if (this.validate()) {
+        this.onSubmit(this.feedback);
+      }
     }
   }
 };
