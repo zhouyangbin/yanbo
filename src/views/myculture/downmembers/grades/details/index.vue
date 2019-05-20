@@ -102,12 +102,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">{{
-          constants.REJECT
-        }}</el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button @click="showRejectDialog = true" type="primary">
+          {{ constants.REJECT }}
+        </el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </section>
     <reject-dialog
@@ -278,7 +278,9 @@ export default {
       });
     },
     afterReject() {
-      this.$router.push(PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id));
+      this.$router.replace(
+        PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id)
+      );
     },
     levelChange() {
       if (this.levelNecessary && !this.level) {
@@ -309,10 +311,10 @@ export default {
         type: "warning"
       })
         .then(() => {
-          // this.reqPass();
-          this.$router.replace(
-            PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id)
-          );
+          this.reqPass();
+          // this.$router.replace(
+          //   PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id)
+          // );
         })
         .catch(() => {});
     },
