@@ -31,11 +31,11 @@
               您的总分:
               <span class="score">{{ total }}分</span>
             </div>
-            <div style="margin-left:20%" v-if="true || (visible_271 && level)">
+            <div style="margin-left:20%" v-if="visible_271 && level">
               {{ constants.LEVEL_TAG }}:
-              <el-button class="selector selected">{{
-                constants.LEVEL_ALIAS[level]
-              }}</el-button>
+              <el-button class="selector selected">
+                {{ constants.LEVEL_ALIAS[level] }}
+              </el-button>
             </div>
           </div>
           <plane :planeScore="planeScore"></plane>
