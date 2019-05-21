@@ -1,6 +1,6 @@
 <template>
   <div class="plane-page">
-    <img src="@assets/img/plane.png" alt />
+    <div class="plane-img"></div>
     <div :data-score="`${planeScore.wsScore}分`" class="circle wushi">务实</div>
     <div :data-score="`${planeScore.hzScore}分`" class="circle hezuo">合作</div>
     <div :data-score="`${planeScore.cxScore}分`" class="circle chuangxin">
@@ -24,6 +24,14 @@ export default {
 <style lang="scss" scoped>
 .plane-page {
   position: relative;
+  .plane-img {
+    background-image: url("../../../../assets/img/plane.png");
+    height: 380px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   .circle {
     width: 64px;
     height: 64px;
@@ -40,13 +48,13 @@ export default {
     &.wushi {
       background: #006fbc;
       position: absolute;
-      right: 130px;
+      right: 50px;
       top: 20px;
       &::before {
         position: absolute;
         background: #006fbc;
         content: "";
-        width: 100px;
+        width: 50px;
         height: 1px;
         right: 64px;
         top: 50%;
@@ -62,13 +70,13 @@ export default {
     &.hezuo {
       background: #f18d23;
       position: absolute;
-      right: 50px;
+      right: 30px;
       top: 220px;
       &::before {
         position: absolute;
         background: #f18d23;
         content: "";
-        width: 100px;
+        width: 50px;
         height: 1px;
         right: 64px;
         top: 50%;
@@ -84,7 +92,7 @@ export default {
     &.chuangxin {
       background: #f18d23;
       position: absolute;
-      left: 60px;
+      left: 40px;
       top: 80px;
       &::before {
         position: absolute;
@@ -106,7 +114,7 @@ export default {
     &.kehu {
       background: #006fbc;
       position: absolute;
-      left: 130px;
+      left: 40px;
       bottom: 40px;
       // line-height: 32px;
       &::before {
