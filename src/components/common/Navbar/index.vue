@@ -1,24 +1,26 @@
 <template>
-  <el-menu
-    class="nav-container"
-    text-color="#111"
-    active-text-color="#42cfaf"
-    :default-active="activeIndex"
-    mode="horizontal"
-  >
-    <el-menu-item
-      @click="v.href ? nav(v.href) : null"
-      v-for="v of list"
-      :key="v.label"
-      :index="v.label"
-      >{{ v.label }}</el-menu-item
+  <div>
+    <el-menu
+      class="nav-container"
+      text-color="#111"
+      active-text-color="#42cfaf"
+      :default-active="activeIndex"
+      mode="horizontal"
     >
-    <div @click="feedbackVisible = true" class="btn-feedback-container">
-      <el-button class="btn-feedback">
-        <img width="19" src="@/assets/img/feedback.png" alt />
-        <span>问题反馈</span>
-      </el-button>
-    </div>
+      <el-menu-item
+        @click="v.href ? nav(v.href) : null"
+        v-for="v of list"
+        :key="v.label"
+        :index="v.label"
+        >{{ v.label }}</el-menu-item
+      >
+      <div @click="feedbackVisible = true" class="btn-feedback-container">
+        <el-button class="btn-feedback">
+          <img width="19" src="@/assets/img/feedback.png" alt />
+          <span>问题反馈</span>
+        </el-button>
+      </div>
+    </el-menu>
     <Drawer @close="feedbackVisible = false" align="right">
       <feedback
         :onSubmit="onSubmitFeedback"
@@ -26,7 +28,7 @@
         :visible.sync="feedbackVisible"
       ></feedback>
     </Drawer>
-  </el-menu>
+  </div>
 </template>
 
 <script>
