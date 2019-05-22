@@ -22,9 +22,9 @@
           <br />
           <div v-if="level">
             <span class="label">{{ constants.LEVEL_TAG }}</span>
-            <el-button style="margin-left:50px" class="selected selector">{{
-              level
-            }}</el-button>
+            <el-button style="margin-left:50px" class="selected selector">
+              {{ level }}
+            </el-button>
           </div>
         </div>
         <div>
@@ -69,12 +69,12 @@
       </div>
       <div>
         <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
-        <span class="content">{{ advantage }}</span>
+        <span :inner-html.prop="advantage | linebreak" class="content"></span>
       </div>
       <br />
       <div>
         <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
-        <span class="content">{{ promotion }}</span>
+        <span :inner-html.prop="promotion | linebreak" class="content"></span>
       </div>
       <div></div>
       <br />
