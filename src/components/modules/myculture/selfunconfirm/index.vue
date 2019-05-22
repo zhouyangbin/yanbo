@@ -21,9 +21,9 @@
         type="primary"
         >{{ constants.APPEAL }}</el-button
       >
-      <el-button @click="confirm" type="primary">{{
-        constants.CONFIRM
-      }}</el-button>
+      <el-button @click="confirm" type="primary">
+        {{ constants.CONFIRM }}
+      </el-button>
     </el-row>
     <impression-dialog
       :isNecessary="feeling_is_necessary"
@@ -162,6 +162,7 @@ export default {
           leaderLabel: "我的上级",
           superior_name: superior_name,
           superior_workcode: superior_workcode,
+          hightlevelLabel: "我的隔级",
           highlevel_name,
           highlevel_workcode,
           finishedTime: `待确认截止时间 :${end_time}`
