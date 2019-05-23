@@ -313,11 +313,11 @@ const router = new Router({
   ] as RouteConfig[]
 });
 router.onError(error => {
-  const pattern = /Loading chunk (\d)+ failed/g;
+  const pattern = /Loading chunk ([a-z]|[0-9]|-)+ failed/g;
   const isChunkLoadFailed = error.message.match(pattern);
   // const targetPath = router.fullPath;
   if (isChunkLoadFailed) {
-    Vue.prototype.$alert("提示", "网页资源加载失败,请刷新页面", {
+    Vue.prototype.$alert("网页资源加载失败,请刷新页面", "提示", {
       confirmButtonText: "确定",
       callback: () => {
         location.replace(location.href);
