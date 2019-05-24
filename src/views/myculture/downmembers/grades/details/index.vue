@@ -112,12 +112,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">{{
-          constants.REJECT
-        }}</el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
-          constants.CONFIRM
-        }}</el-button>
+        <el-button @click="showRejectDialog = true" type="primary">
+          {{ constants.REJECT }}
+        </el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">
+          {{ constants.CONFIRM }}
+        </el-button>
       </el-row>
     </section>
     <reject-dialog
@@ -232,7 +232,7 @@ export default {
   methods: {
     getDetailInfo() {
       getMyDownMemberCultureDetails(this.$route.params.uid).then(res => {
-        console.log(res);
+        // console.log(res);
         const {
           advantage,
           promotion,
