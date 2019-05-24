@@ -49,7 +49,17 @@
           <grade-items :items="scores" v-model="selectGradeItem"></grade-items>
           <br />
           <br />
-          <div class="mark-label">等级标签</div>
+          <div>
+            <div
+              style="display:inline-block;margin-right:5px;"
+              class="mark-label"
+            >
+              等级标签
+            </div>
+            <span class="level-recommmed-icon" v-if="special_recommended == 1">
+              <img width="15" src="@/assets/img/recommend.png" alt />
+            </span>
+          </div>
           <level-selector :disabled="!levelEditable" v-model="level">
             <span v-if="!readOnly">
               <el-button
@@ -102,12 +112,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">
-          {{ constants.REJECT }}
-        </el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">
-          {{ constants.CONFIRM }}
-        </el-button>
+        <el-button @click="showRejectDialog = true" type="primary">{{
+          constants.REJECT
+        }}</el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </section>
     <reject-dialog
@@ -151,6 +161,7 @@ import {
 export default {
   data() {
     return {
+      special_recommended: 0, //特殊推荐
       levelEditable: false,
       showRejectDialog: false,
       advantage: "",
@@ -221,7 +232,7 @@ export default {
   methods: {
     getDetailInfo() {
       getMyDownMemberCultureDetails(this.$route.params.uid).then(res => {
-        // console.log(res)
+        console.log(res);
         const {
           advantage,
           promotion,
@@ -241,8 +252,10 @@ export default {
           break_status,
           highlevel_start_time,
           has_history,
-          feedback_feeling
+          feedback_feeling,
+          special_recommended
         } = res;
+        this.special_recommended = special_recommended;
         this.advantage = advantage;
         this.promotion = promotion;
         this.levelNecessary = !!_271_is_necessary;
