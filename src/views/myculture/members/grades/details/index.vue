@@ -66,7 +66,7 @@
       <div class="mark-flag-container">
         <div class="mark-section">
           <div class="mark-label">
-            为{{ employee_name }}的{{
+            请您为{{ employee_name }}的{{
               scores[selectGradeItem].question_name
             }}项目评分
           </div>
@@ -81,7 +81,7 @@
         <div class="flag-section">
           <div class="mark-level-container">
             <div style="display:inline-block" class="mark-label">
-              为{{ employee_name }}设置等级标签
+              请您为{{ employee_name }}设置等级标签
             </div>
             <span class="level-recommmed-icon" v-if="isRecommended">
               <img width="15" src="@/assets/img/recommend.png" alt />
@@ -100,6 +100,7 @@
       </div>
       <br />
       <case-area
+        placeholder="您的评分与下级的自评分不一致，请您简述理由"
         v-if="
           scores[selectGradeItem].superior_score !=
             scores[selectGradeItem].score
@@ -124,9 +125,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>
@@ -270,6 +271,7 @@ export default {
         can_special_recommend,
         special_recommended
       });
+
       this.has_history = has_history == 1;
       this.feedback_feeling = feedback_feeling;
       this.rejectReason = reject_record;
