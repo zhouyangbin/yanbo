@@ -91,7 +91,7 @@
 
           <br />
           <level-selector
-            :disabled="readOnly"
+            :disabled="!canSelectLv"
             :pre="hasRejectReasons ? preLv : ''"
             :value="level"
             @input="levelChange"
@@ -125,9 +125,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <el-button @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
     </section>
   </div>
@@ -175,6 +175,7 @@ export default {
       rejectReason: "",
       appealReason: [],
       basicInfo: {},
+      evaluation_stage: 0, //评分阶段
       nav: [
         {
           label: MEMBERS_GRADE_LIST,
@@ -265,13 +266,14 @@ export default {
         feedback_feeling,
         has_history,
         special_recommended,
-        can_special_recommend
+        can_special_recommend,
+        evaluation_stage
       } = res;
       this.initRecommend({
         can_special_recommend,
         special_recommended
       });
-
+      this.evaluation_stage = evaluation_stage;
       this.has_history = has_history == 1;
       this.feedback_feeling = feedback_feeling;
       this.rejectReason = reject_record;
@@ -418,6 +420,9 @@ export default {
         .map(s => s.superior_score)
         .reduce((p, n) => parseFloat(p) + parseFloat(n), 0);
       return isNaN(total) || total < 0 ? "无" : total;
+    },
+    canSelectLv() {
+      return this.evaluation_stage == 40 && !this.readOnly;
     }
   }
 };
