@@ -57,9 +57,9 @@
         <i class="el-icon-star-off"></i>
         <span>{{ constants.MY_PERFORMANCE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">
-        {{ constants.MY_GRADE }}
-      </el-menu-item>
+      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{
+        constants.MY_GRADE
+      }}</el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [constants.PATH_EMPLOYEE_TEAM].includes($route.path)
@@ -78,9 +78,9 @@
         <i class="el-icon-edit-outline"></i>
         <span>{{ constants.CULTURE_GRADE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_GRADE_REPORT">
-        {{ constants.GRADE_REPORT }}
-      </el-menu-item>
+      <el-menu-item :index="constants.PATH_GRADE_REPORT">{{
+        constants.GRADE_REPORT
+      }}</el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [
@@ -287,7 +287,7 @@ export default {
   methods: {
     calWidth() {
       const width = window.innerWidth || 0;
-      if (width < 1280) {
+      if (width <= 1280) {
         this.isCollapse = true;
       } else {
         this.isCollapse = false;
