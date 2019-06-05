@@ -112,12 +112,12 @@
       <br />
       <br />
       <el-row v-if="!readOnly && !isRejected" type="flex" justify="end">
-        <el-button @click="showRejectDialog = true" type="primary">
-          {{ constants.REJECT }}
-        </el-button>
-        <el-button style="margin-left:20px;" @click="pass" type="primary">
-          {{ constants.CONFIRM }}
-        </el-button>
+        <el-button @click="showRejectDialog = true" type="primary">{{
+          constants.REJECT
+        }}</el-button>
+        <el-button style="margin-left:20px;" @click="pass" type="primary">{{
+          constants.CONFIRM
+        }}</el-button>
       </el-row>
     </section>
     <reject-dialog
@@ -246,7 +246,6 @@ export default {
           total_score,
           audit_status,
           _271_is_necessary,
-          stage,
           appeal_record,
           reject_record,
           break_status,

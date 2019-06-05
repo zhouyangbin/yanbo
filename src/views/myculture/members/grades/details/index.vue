@@ -125,9 +125,9 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
   </div>
@@ -258,7 +258,6 @@ export default {
         employee_workcode,
         end_time,
         _271_level,
-        status,
         reject_record,
         appeal_record,
         break_status,

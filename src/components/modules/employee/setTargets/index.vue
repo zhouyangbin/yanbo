@@ -65,9 +65,9 @@
         >
       </div>
       <el-row type="flex" justify="center">
-        <el-button v-if="!submitted" @click="saveDraft">
-          {{ constants.SAVE_DRAFT }}
-        </el-button>
+        <el-button v-if="!submitted" @click="saveDraft">{{
+          constants.SAVE_DRAFT
+        }}</el-button>
         <el-button
           v-if="!readOnly && can_edit_target"
           @click="sumbit"
@@ -244,7 +244,6 @@ export default {
         "self"
       ).then(res => {
         const {
-          stage,
           superior_workcode,
           superior_name,
           targets,

@@ -205,9 +205,8 @@ export default {
           scores,
           name,
           workcode,
-          end_time,
+
           _271_level,
-          status,
           _271_is_necessary
         } = res;
         this.advantage = advantage;
