@@ -1,3 +1,23 @@
+<a name="0.2.7"></a>
+## [0.2.7](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v0.2.6...v0.2.7) (2019-06-12)
+
+
+### Bug Fixes
+
+* **code smell:** 8 fix ([854ff03](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/854ff03))
+* **menu:** 菜单折叠 1280 ([996ef6b](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/996ef6b))
+* **测试环境:** 更换env ([08a0a36](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/08a0a36))
+
+
+### Features
+
+* **3.5.1:** 文化迭代3.5.1 ([ced18c0](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/ced18c0))
+* **rule:** 上级评,隔级评文案 ([ed034a3](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/ed034a3))
+* **text:** 上级评详情 ([cd667e3](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/cd667e3))
+* **修改标签:** 所以非上级评阶段不能改标签 ([b41508b](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/b41508b))
+
+
+
 <a name="0.2.6"></a>
 ## [0.2.6](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v0.1.4...v0.2.6) (2019-05-28)
 
