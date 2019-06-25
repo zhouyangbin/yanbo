@@ -6,3 +6,5 @@ build:
 	npm run build
 test:
 	npm run test-build
+staging:
+	npm run staging-build

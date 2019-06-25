@@ -1,8 +1,10 @@
 const path = require("path");
 const projectRoot = path.resolve(__dirname);
 
+const baseURL = process.env.CDN || "/";
+
 module.exports = {
-  // baseUrl: "/",
+  publicPath: baseURL,
   productionSourceMap: false,
   devServer: {
     // proxy: "http://api.gamesife.com"
