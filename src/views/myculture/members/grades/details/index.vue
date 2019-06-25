@@ -125,9 +125,12 @@
           type="primary"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <div style="margin-left:10px;position:relative">
+          <el-button @click="submit" type="primary">
+            {{ constants.SUBMIT }}
+          </el-button>
+          <img src="@/assets/img/hand.png" width="20" class="hand-guide" />
+        </div>
       </el-row>
     </section>
   </div>
@@ -507,6 +510,31 @@ export default {
       // line-height: 26px;
       vertical-align: middle;
     }
+  }
+  .hand-guide {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    // transform: translateX(-50%);
+    animation: guidehand infinite 0.5s ease;
+  }
+}
+</style>
+<style>
+@keyframes guidehand {
+  from {
+    transform: translateX(-50%) translateY(-30px);
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+@-webkit-keyframes guidehand {
+  from {
+    transform: translateX(-50%) translateY(-30px);
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
   }
 }
 </style>

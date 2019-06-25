@@ -13,9 +13,9 @@
           >&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">
-            {{ constants.LABEL_CONFIRM }}
-          </el-button>
+          <el-button @click="passReview" type="primary">{{
+            constants.LABEL_CONFIRM
+          }}</el-button>
           <el-button @click="showReviewDia = true">返回修改</el-button>
         </div>
       </div>
@@ -80,9 +80,9 @@
           class="btn-reset"
           >{{ constants.SAVE_DRAFT }}</el-button
         >
-        <el-button round size="medium" @click="submit" type="primary">
-          {{ constants.SUBMIT }}
-        </el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{
+          constants.SUBMIT
+        }}</el-button>
       </el-row>
     </section>
     <review-dialog
