@@ -14,7 +14,7 @@
           <el-row type="flex" justify="space-between">
             <span class="dep-name">{{ depInfo.name }}</span>
             <el-button
-              :disabled="realTotal == 0 || step == 5"
+              :disabled="realTotal == 0 || step == 6"
               @click="dialogTimes = true"
               size="mini"
               type="primary"
@@ -93,6 +93,15 @@
                     <div v-if="gradeInfo.highlevel_start_time">
                       {{ gradeInfo.highlevel_start_time }} -
                       {{ gradeInfo.highlevel_end_time }}
+                    </div>
+                  </template>
+                </el-step>
+                <el-step>
+                  <template slot="title">
+                    线下合议
+                    <div>
+                      {{ gradeInfo.offlinetalk_start_time }} -
+                      {{ gradeInfo.offlinetalk_end_time }}
                     </div>
                   </template>
                 </el-step>
@@ -238,7 +247,7 @@
               :placeholder="constants.LEADER_PLUS_EVALUATION_STATUS"
             >
               <el-option
-                v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS"
+                v-for="v of constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS"
                 :key="v.key"
                 :label="v.value"
                 :value="v.key"
@@ -381,7 +390,7 @@
             <template slot-scope="scope">
               {{
                 (
-                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                  constants.ENUM_GENERIC_COMPLETE_STATUS.filter(
                     v => v.key === String(scope.row.superior_status)
                   )[0] || {}
                 ).value
@@ -396,7 +405,7 @@
             <template slot-scope="scope">
               {{
                 (
-                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                  constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
                     v => v.key === String(scope.row.highlevel_status)
                   )[0] || {}
                 ).value
@@ -410,7 +419,7 @@
             <template slot-scope="scope">
               {{
                 (
-                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                  constants.ENUM_GENERIC_COMPLETE_STATUS.filter(
                     v => v.key === String(scope.row.feedback_status)
                   )[0] || {}
                 ).value
@@ -494,6 +503,7 @@
       @close="closeTimeSettingDia"
       v-if="dialogTimes"
       :dialogTimes="dialogTimes"
+      :orgId="orgId"
     ></time-setting>
     <info-dialog
       :currentInfo="currentInfo"
@@ -511,6 +521,7 @@ import {
   ORG_DETAIL,
   FINISHED_DATE,
   ENUM_GENERIC_COMPLETE_STATUS,
+  EMUM_CULTURE_GENERIC_COMPLETE_STATUS,
   SELF_EVALUATION_STATUS,
   LEADER_EVALUATION_STATUS,
   LEADER_PLUS_EVALUATION_STATUS,
@@ -595,6 +606,8 @@ export default {
         superior_end_time: "",
         highlevel_start_time: "",
         highlevel_end_time: "",
+        offlinetalk_start_time: "",
+        offlinetalk_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
         checked_271: 0,
@@ -608,6 +621,7 @@ export default {
         superior_status: 0,
         highlevel_status: 0,
         feedback_status: 0,
+        offlinetalk_status: 0,
         count: "",
         self: "",
         superior: "",
@@ -632,6 +646,7 @@ export default {
       constants: {
         FINISHED_DATE,
         ENUM_GENERIC_COMPLETE_STATUS,
+        EMUM_CULTURE_GENERIC_COMPLETE_STATUS,
         SELF_EVALUATION_STATUS,
         LEADER_EVALUATION_STATUS,
         LEADER_PLUS_EVALUATION_STATUS,
@@ -684,7 +699,8 @@ export default {
           label: ORG_DETAIL,
           active: true
         }
-      ]
+      ],
+      orgId: 0
     };
   },
   components: {
@@ -838,6 +854,7 @@ export default {
           this.depInfo.superior_status = res.info.superior_status;
           this.depInfo.highlevel_status = res.info.highlevel_status;
           this.depInfo.feedback_status = res.info.feedback_status;
+          this.depInfo.offlinetalk_status = res.info.offlinetalk_status;
           this.depInfo.count = res.info.stat[0].count;
           this.depInfo.self = res.info.stat[0].self;
           this.depInfo.superior = res.info.stat[0].superior;
@@ -852,6 +869,10 @@ export default {
           this.gradeInfo.superior_end_time = res.info.superior_end_time;
           this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time;
           this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time;
+          // this.gradeInfo.offlinetalk_start_time = res.info.offlinetalk_start_time;
+          this.gradeInfo.offlinetalk_start_time = "2019-10-11 21:00";
+          // this.gradeInfo.offlinetalk_end_time = res.info.offlinetalk_end_time;
+          this.gradeInfo.offlinetalk_end_time = "2019-10-23 23:00";
           this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
           this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
           this.gradeInfo.checked_271 = res.info._271_is_necessary;
@@ -893,6 +914,7 @@ export default {
       return (
         (this.stage == 30 && this.canAdd) ||
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
+        (this.stage == 55 && this.depInfo.offlinetalk_status !== 2) ||
         (this.stage == 50 && this.depInfo.highlevel_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
@@ -936,14 +958,20 @@ export default {
         }
         return 3;
       }
-      if (stage == 60) {
-        if (this.depInfo.feedback_status === 2) {
+      if (stage == 55) {
+        if (this.depInfo.offlinetalk_status === 2) {
           return 5;
         }
-        return 4;
+        return 4
+      }
+      if (stage == 60) {
+        if (this.depInfo.feedback_status === 2) {
+          return 6;
+        }
+        return 5;
       }
       if (stage == 70) {
-        return 5;
+        return 6;
       }
       return 0;
     },
@@ -956,6 +984,8 @@ export default {
         this.gradeInfo.superior_end_time &&
         this.gradeInfo.highlevel_start_time &&
         this.gradeInfo.highlevel_end_time &&
+        this.gradeInfo.offlinetalk_start_time &&
+        this.gradeInfo.offlinetalk_end_time &&
         this.gradeInfo.feedback_start_time &&
         this.gradeInfo.feedback_end_time
       );
@@ -965,6 +995,7 @@ export default {
         self_status: this.depInfo.self_status,
         superior_status: this.depInfo.superior_status,
         highlevel_status: this.depInfo.highlevel_status,
+        offlinetalk_status: this.depInfo.offlinetalk_status,
         feedback_status: this.depInfo.feedback_status
       };
     },
@@ -976,6 +1007,8 @@ export default {
         superior_end_time: this.gradeInfo.superior_end_time,
         highlevel_start_time: this.gradeInfo.highlevel_start_time,
         highlevel_end_time: this.gradeInfo.highlevel_end_time,
+        offlinetalk_start_time: this.gradeInfo.offlinetalk_start_time,
+        offlinetalk_end_time: this.gradeInfo.offlinetalk_end_time,
         feedback_start_time: this.gradeInfo.feedback_start_time,
         feedback_end_time: this.gradeInfo.feedback_end_time,
         checked_271: this.gradeInfo.checked_271,
