@@ -266,6 +266,7 @@ export default {
     },
     fetchList(data) {
       getManagerLvList(data).then(res => {
+        // to do  优化记录 后台新增字段
         const { info, list, overview } = res;
         const {
           evaluation_name_id,

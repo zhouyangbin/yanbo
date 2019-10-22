@@ -4,36 +4,56 @@
     <!-- <br> -->
     <br />
     <section class="content-container">
-      <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column
-          v-for="(v, i) of columns"
-          :key="i"
-          :prop="v.prop"
-          :label="v.label"
-        ></el-table-column>
-        <el-table-column prop="address" :label="constants.OPERATIONS">
-          <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
-            <el-button
-              @click="exportMore(scope.row)"
-              type="text"
-              size="small"
-              >{{ constants.EXPORT_DETAILS }}</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
       <br />
-      <el-row type="flex" justify="end">
-        <pagination
-          @current-change="handleCurrentChange"
-          :currentPage="currentPage"
-          :total="total"
-        ></pagination>
-      </el-row>
-      <br />
+      <section class="content-container bg-white">
+        <!-- to do 我的隔级 -->
+        <div class="switch-btns">
+          <el-button
+            class="normal-btn"
+            :class="gradeListType === 'pending' ? 'active-btn' : ''"
+            >进行中</el-button
+          >
+          <el-button
+            class="normal-btn"
+            :class="gradeListType === 'end' ? 'active-btn' : ''"
+            >已结束</el-button
+          >
+        </div>
+        <hr />
+        <el-table :data="tableData" stripe style="width: 100%">
+          <el-table-column
+            v-for="(v, i) of columns"
+            :key="i"
+            :prop="v.prop"
+            :label="v.label"
+          ></el-table-column>
+          <el-table-column prop="address" :label="constants.OPERATIONS">
+            <template slot-scope="scope">
+              <el-button
+                @click="goDetail(scope.row)"
+                type="text"
+                size="small"
+                >{{ constants.DETAILS }}</el-button
+              >
+              <el-button
+                @click="exportMore(scope.row)"
+                type="text"
+                size="small"
+                >{{ constants.EXPORT_DETAILS }}</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+        <br />
+        <el-row type="flex" justify="end">
+          <pagination
+            @current-change="handleCurrentChange"
+            :currentPage="currentPage"
+            :total="total"
+          ></pagination>
+        </el-row>
+        <br />
+      </section>
     </section>
   </div>
 </template>
@@ -80,7 +100,8 @@ export default {
           prop: "end_time",
           label: FINISHED_DATE
         }
-      ]
+      ],
+      gradeListType: "pending"
     };
   },
   components: {
@@ -116,5 +137,31 @@ export default {
 <style scoped>
 .my-grade-list .content-container {
   padding: 20px;
+}
+.my-grade-list .bg-white {
+  background-color: white;
+}
+.content-container .switch-btns {
+  text-align: right;
+  margin-bottom: 20px;
+}
+.content-container .switch-btns .normal-btn {
+  box-sizing: border-box;
+  width: 100px;
+  height: 40px;
+  margin-right: 20px;
+  color: #5dc5b2;
+  border: 2px solid #5dc5b2;
+  border-radius: 4px;
+}
+.content-container .switch-btns .normal-btn:last-child {
+  margin-right: 0;
+}
+.content-container .switch-btns .active-btn {
+  background-color: #5dc5b2;
+  color: #fff;
+}
+.content-container .switch-btns .active-btn:hover {
+  background-color: rgba(93, 197, 178, 0.8);
 }
 </style>

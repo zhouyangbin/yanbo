@@ -368,3 +368,11 @@ export const reevaluate = (id: String, params: Object) =>
 // 反馈意见
 export const postFeedback = (params: object) =>
   sendPost(`/admin/api/suggest`, params);
+
+// 已结束的我的下级评分列表
+export const getMyTeamEndCultureList = (params: Object) =>
+  sendGet(`/culture/web/team/subordinate-evaluations/end`, params);
+
+// 进行中的我的下级评分列表
+export const getMyTeamCultureList = (id: String, params: Object) =>
+  sendGet(`/culture/web/team/superior/${id}`, params);
