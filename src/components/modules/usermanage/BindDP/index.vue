@@ -114,7 +114,7 @@ import {
   BIND_DEPARTMENT
 } from "@/constants/TEXT";
 import TreeSelectPanel from "@/components/common/TreeSelectPanel/index.vue";
-import { getAccessTree, patchUserScope, getBindInfo } from "@/constants/API";
+import { getAccessTree, patchUserScope, getBindInfo, getOrganizeTree } from "@/constants/API";
 import Drawer from "vue-simple-drawer";
 
 export default {

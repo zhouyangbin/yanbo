@@ -94,9 +94,42 @@
           </el-col>
         </el-row>
       </section>
-
+      <!--modify 平均分只对超级管理员、文化管理员可见   按事业部展示 -->
       <!-- 各事业部完成率 bar -->
-      <section v-if="department_level != 3" class="report-echart">
+      <!-- <section v-if="department_level != 3" class="report-echart">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="12">
+            <h1>{{ constants.LABEL_REPORT_RATE }}</h1>
+          </el-col>
+          <el-col :span="12">
+            <el-row type="flex" justify="end">
+              <el-tabs
+                v-model="rateBarActive"
+                type="card"
+                @tab-click="changeBarRate"
+                class="echart-tabs"
+              >
+                <el-tab-pane
+                  :label="constants.LABEL_SELF"
+                  name="self"
+                ></el-tab-pane>
+                <el-tab-pane
+                  :label="constants.LABEL_SUP"
+                  name="sup"
+                ></el-tab-pane>
+              </el-tabs>
+            </el-row>
+          </el-col>
+        </el-row>
+        <section class="loading-container">
+          <echart-bar-rate
+            :rateBar="rateBar"
+            :completionBuNams="completionBuNams"
+            :width="width"
+          ></echart-bar-rate>
+        </section>
+      </section> -->
+       <section v-if="isShow" class="report-echart">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{ constants.LABEL_REPORT_RATE }}</h1>
@@ -129,9 +162,30 @@
           ></echart-bar-rate>
         </section>
       </section>
-
       <!-- 各事业部总平均分 bar -->
-      <section v-if="department_level == 1" class="report-echart">
+      <!-- <section v-if="department_level == 1" class="report-echart">
+        <h1>{{ constants.LABEL_REPORT_AVERAGE_ALL }}</h1>
+        <section class="loading-container">
+          <echart-bar-average-all
+            :selfAverage="selfAverageAll"
+            :supAverage="supAverageAll"
+            :departmentsAverage="departmentsAverageAll"
+            :yMin="yMinAll"
+            :yMax="yMaxAll"
+            :yInterval="yIntervalAll"
+            :width="width"
+          ></echart-bar-average-all>
+        </section>
+        <el-row type="flex" justify="center">
+          <span class="color-mark">
+            <span style="color:#21c1a5"
+              >● {{ constants.LABEL_SELF }}&nbsp;&nbsp;&nbsp;</span
+            >
+            <span style="color:#5399e1">● {{ constants.LABEL_SUP }}</span>
+          </span>
+        </el-row>
+      </section> -->
+      <section v-if="isShow" class="report-echart">
         <h1>{{ constants.LABEL_REPORT_AVERAGE_ALL }}</h1>
         <section class="loading-container">
           <echart-bar-average-all
@@ -153,9 +207,51 @@
           </span>
         </el-row>
       </section>
-
       <!-- 各事业部评分平均分 bar -->
-      <section class="report-echart" v-if="department_level == 1">
+      <!-- <section class="report-echart" v-if="department_level == 1">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="12">
+            <h1>{{ constants.LABEL_REPORT_AVERAGE_SINGLE }}</h1>
+          </el-col>
+          <el-col :span="12">
+            <el-row type="flex" justify="end">
+              <el-tabs
+                v-model="averageBarActive"
+                type="card"
+                @tab-click="changeBarAverage"
+                class="echart-tabs"
+              >
+                <el-tab-pane
+                  v-for="item in activeTabs"
+                  :key="item.name"
+                  :label="item.label"
+                  :name="item.name"
+                ></el-tab-pane>
+              </el-tabs>
+            </el-row>
+          </el-col>
+        </el-row>
+        <section class="loading-container">
+          <echart-bar-average-all
+            :selfAverage="selfAverageEach"
+            :supAverage="supAverageEach"
+            :departmentsAverage="departmentsAverageEach"
+            :yMin="yMinEach"
+            :yMax="yMaxEach"
+            :yInterval="yIntervalEach"
+            :width="width"
+          ></echart-bar-average-all>
+        </section>
+        <el-row type="flex" justify="center">
+          <span class="color-mark">
+            <span style="color:#21c1a5"
+              >● {{ constants.LABEL_SELF }}&nbsp;&nbsp;&nbsp;</span
+            >
+            <span style="color:#5399e1">● {{ constants.LABEL_SUP }}</span>
+          </span>
+        </el-row>
+      </section> -->
+      <section class="report-echart" v-if="isShow">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{ constants.LABEL_REPORT_AVERAGE_SINGLE }}</h1>
@@ -303,8 +399,17 @@ export default {
       import("@/components/modules/gradereport/LineNumber.vue")
     )
   },
+   created() {
+      this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+      this.getGrades();
+    //增加权限控制，只有超级管理员与文化管理员 对各事业部完成率、总分、平均分可查看
+      if( this.permissions.indexOf(201) > -1 ) {
+        this.isShow = true;
+      }
+  },
   data() {
     return {
+      isShow: false,
       department_level: "",
       nav: [
         {
@@ -327,7 +432,7 @@ export default {
         LABEL_SELECT_GRAGE
       },
       permissions: [],
-      conditionForm: { evaluation_name_id: "", evaluation_id: "" },
+      conditionForm: { evaluation_name_id: "", evaluation_id: "", department_id: "" },
       names: [],
       departments: [],
       currentDepartment: "",
@@ -411,14 +516,10 @@ export default {
           evaluation_id: obj.value
         });
       }
-    }
+    },
     // canCreateCultureGrade() {
     //   return this.permissions.includes(201)
     // }
-  },
-  created() {
-    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-    this.getGrades();
   },
   mounted() {
     this.resize();
@@ -442,6 +543,7 @@ export default {
           this.conditionForm = Object.assign({}, this.conditionForm, {
             evaluation_name_id: res.evaluations[0].value
           });
+          this.SelectdeptId = res.evaluations[0].id;
           this.getDepartments(res.evaluations[0].id);
           // if (this.canCreateCultureGrade) {
           // } else {
@@ -455,7 +557,7 @@ export default {
     getDepartments(id) {
       return getGradeDepartments(id)
         .then(res => {
-          // console.log("getGradeDepartments", res);
+      // console.log("getGradeDepartments", res);
           res.map(function(item) {
             item.label = item.department_name;
             item.value = item.id;
@@ -466,7 +568,7 @@ export default {
           });
           this.evaluationId = res[0];
           this.currentDepartment = res[0].label;
-          // 报告数据
+      // 报告数据
           this.getReports();
         })
         .catch(err => {});
@@ -474,6 +576,8 @@ export default {
     getReports() {
       getGradeReports(compact(this.conditionForm))
         .then(res => {
+          // console.log(res);
+          // 判断用户权限，展示各项平均分
           // console.log("getGradeReports", res);
           // 评分进度Pie
           this.progressPieSelf = [

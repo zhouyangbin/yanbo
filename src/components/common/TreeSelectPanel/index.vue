@@ -23,10 +23,12 @@ export default {
       type: Boolean,
       default: false
     },
+    //所有组织架构树
     data: {
       type: Array,
       default: () => []
     },
+    // 目前已选中节点
     checkedNodes: {
       type: Array,
       default: () => []

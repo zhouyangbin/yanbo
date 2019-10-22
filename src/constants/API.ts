@@ -372,3 +372,16 @@ export const reevaluate = (id: String, params: Object) =>
 // 反馈意见
 export const postFeedback = (params: object) =>
   sendPost(`/admin/api/suggest`, params);
+
+
+//新增API
+//   /admin/api/evaluations/{id}/business
+// GET
+// 评分事业部列表
+export const getEvaluationDpt = (id: String) =>
+  sendGet(`https://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=/admin/api/evaluations/${id}/business`);
+
+
+//模拟  获取组织树  - >  文化树
+  export const getOrganizeTree = (params: Object) =>
+  sendGet(`/api/dept/tree/list`, params);
