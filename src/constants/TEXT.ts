@@ -654,3 +654,5 @@ export const PERFORMANCE_TARGET = "绩效目标";
 export const TARGET_WEIGH = "权重";
 export const CHANGE_RECORDS = "修改日志";
 export const FINISH_DATE = "完成期限";
+export const EXECUTIVE_PERFORMANCE = "高管绩效";
+export const LABEL_SETTING = "标签设置";

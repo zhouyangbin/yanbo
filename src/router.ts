@@ -35,7 +35,10 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
-  PATH_CULTURE_LEVEL_DETAIL_HISTORY
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY,
+  PATH_PERFORMANCE_GRADE_MANAGEMENT,
+  PATH_PERFORMANCE_TPL_SETTINGS,
+  PATH_PERFORMANCE_LABEL_SETTINGS
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -292,6 +295,30 @@ const router = new Router({
           path: PATH_CULTURE_LEVEL_DETAIL_HISTORY(),
           components: {
             default: () => import("@/views/myculture/levels/history/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_GRADE_MANAGEMENT,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/management/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TPL_SETTINGS,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/tpl/settings/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_LABEL_SETTINGS,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/label/settings/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

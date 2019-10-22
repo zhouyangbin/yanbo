@@ -182,3 +182,10 @@ export const PATH_CULTURE_LV_EXPORT = (params: Object) =>
     ...params,
     token: localStorage.getItem("talToken")
   })}`;
+// 高管绩效
+// 评分管理
+export const PATH_PERFORMANCE_GRADE_MANAGEMENT = "/performance/scoremangement";
+// 模板设置
+export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
+// 标签设置
+export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
