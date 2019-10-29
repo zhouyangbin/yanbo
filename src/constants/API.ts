@@ -8,8 +8,8 @@ import {
 } from "@/utils/base";
 import qs from "qs";
 
-// const test =
-//   "http://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
+const test =
+  "https://api.admin.zhiyinlou.com/server/index.php?g=Web&c=Mock&o=simple&projectID=17&uri=";
 
 // 用户管理
 // 扫码登录
@@ -106,6 +106,10 @@ export const getUserDetail = (params: object) =>
 // 设置时间
 export const postTimeSettings = (eid: string, params: object) =>
   sendPost(`/admin/api/evaluation/set-time/${eid}`, params);
+//批量设置时间
+export const postBatchTimeSettings = (eid: string, params: object) => {
+  sendPost(`/admin/api/evaluation/set-all-time/${eid}`, params);
+};
 // 获取个人的评测详情
 export const getUserGradeContent = (uid: string) =>
   sendGet(`/admin/api/user_list/detail/${uid}`);
@@ -368,3 +372,24 @@ export const reevaluate = (id: String, params: Object) =>
 // 反馈意见
 export const postFeedback = (params: object) =>
   sendPost(`/admin/api/suggest`, params);
+
+// 已结束的我的下级评分列表
+export const getMyTeamEndCultureList = (params: Object) =>
+  sendGet(`/culture/web/team/subordinate-evaluations/end`, params);
+
+// 进行中的我的下级评分列表
+export const getMyTeamCultureList = (params: Object) =>
+  sendGet(`/culture/web/team/superior`, params);
+
+// bp修改评分
+export const postBpModify = (id: String, params: Object) =>
+  sendPost(`/admin/api/bp-modify/${id}`, params);
+
+//进行中隔级列表
+export const getLowerPlusList = (params: Object) =>
+  sendGet(`/culture/web/team/interval-evaluations`, params);
+
+// 已结束隔级列表
+// /culture/web/team/interval-evaluations/end
+export const getEndList = (params: Object) =>
+  sendGet(`/culture/web/team/interval-evaluations/end`, params);

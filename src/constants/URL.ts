@@ -54,18 +54,23 @@ export const PATH_IMPORT_BY_EXCEL = `${base}admin/api/import/excel`;
 export const PATH_EXCEL_TPL = `${base}/admin/api/export/template?token=${localStorage.getItem(
   "talToken"
 )}`;
-
+//业绩评分
 export const PATH_PERFORMANCE_REPORT = "/performance/report";
 export const PATH_PERFORMANCE_MANAGER = "/performance/manage";
 export const PATH_PERFORMANCE_TPL = "/performance/tpl";
 export const PATH_PERFORMANCE_RULES = "/performance/rules";
+//
 export const PATH_ACCESS_ROLES = "/access/roles";
+//评分管理-详情
 export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}`;
+//评分管理-详情-事业部详情
 export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;
+
 export const PATH_PERFORMANCE_EXCEL_IMPORT = (orgID: String) =>
   `${base}/performance/admin/${orgID}/import/excel`;
+//评分管理-详情-事业部详情-员工详情
 export const PATH_PERFORMANCE_USER_DETAIL = (
   id: String = ":id",
   orgID: String = ":orgID",
@@ -75,13 +80,15 @@ export const PATH_PERFORMANCE_USER_DETAIL = (
 // 员工评分
 export const PATH_EMPLOYEE_MY = "/employee/my";
 export const PATH_EMPLOYEE_TEAM = "/employee/team";
-
+//我的评分-详细评分
 export const PATH_EMPLYEE_MY_DETAIL = (
   orgID: String = ":orgID",
   id: String = ":id"
 ) => `/employee/my/${orgID}/${id}`;
+//团队详情
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
+//团队  个人详情
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
   uid: String = ":uid"
@@ -141,6 +148,8 @@ export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>
   `/culture/membersgrades/${id}`;
 export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id") =>
   `/culture/downmembersgrades/${id}`;
+//高管列表
+export const PATH_MEMEBER_HIGH_DETAIL = "/culture/membersgrades/highDetail";
 
 export const PATH_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",

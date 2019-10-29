@@ -121,6 +121,39 @@
           </el-col>
         </el-row>
       </el-form-item>
+      <el-form-item :label="constants.OFFLINETALK_EVALUATION_TIME" required>
+        <el-row tyle="flex">
+          <el-col :span="8">
+            <el-form-item prop="offlinetalk_start">
+              <el-date-picker
+                :disabled="offlinetalk_start_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.offlinetalk_start"
+                placeholder="开始日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="2">-</el-col>
+          <el-col :span="8">
+            <el-form-item prop="offlinetalk_end">
+              <el-date-picker
+                :disabled="offlinetalk_end_disable"
+                type="datetime"
+                :clearable="false"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.offlinetalk_end"
+                placeholder="结束日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form-item>
       <el-form-item :label="constants.FACE_EVALUATION_TIME" required>
         <el-row type="flex">
           <el-col :span="8">
@@ -195,14 +228,17 @@ import {
   LEADER_EVALUATION_TIME,
   REQUIRE_271,
   LEADER_PLUS_EVALUATION_TIME,
+  OFFLINETALK_EVALUATION_TIME,
   FACE_EVALUATION_TIME,
   SELF_TIME_REQUIRE_MSG,
   LEADER_TIME_VALIDATE_MSG,
   UP_LEADER_TIME_VALIDATE_MSG,
+  OFFLINETALK_TIME_VALIDATE_MSG,
   FACE_TIME_VALIDATE_MSG,
   LEADER_TIME_REQUIRE_MSG,
   FACE_TIME_REQUIRE_MSG,
   UP_LEADER_TIME_REQUIRE_MSG,
+  OFFLINETALK_TIME_REQUIRE_MSG,
   CONFIRM,
   CANCEL,
   START_TIME,
@@ -213,7 +249,7 @@ import {
   IMPRESSIONS
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
-import { postTimeSettings } from "@/constants/API";
+import { postTimeSettings, postBatchTimeSettings } from "@/constants/API";
 export default {
   props: {
     dialogTimes: {
@@ -230,6 +266,7 @@ export default {
         self_status: 0,
         superior_status: 0,
         highlevel_status: 0,
+        offlinetalk_status: 0,
         feedback_status: 0
       })
     },
@@ -242,12 +279,22 @@ export default {
         superior_end_time: "",
         highlevel_start_time: "",
         highlevel_end_time: "",
+        offlinetalk_start_time: "",
+        offlinetalk_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
         checked_271: 0,
         visible_271: 0,
         feeling_is_necessary: 0
       })
+    },
+    orgId: {
+      type: Number,
+      default: 0
+    },
+    isBatchSetTime: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -335,8 +382,28 @@ export default {
         callback();
       }
     };
-    const faceStartTimeValidator = (rule, value, callback) => {
+    const offlinetalkStartTimeValidator = (rule, value, callback) => {
       if (this.timesForm.upLeader_end && value <= this.timesForm.upLeader_end) {
+        callback(new Error(OFFLINETALK_TIME_VALIDATE_MSG));
+      } else {
+        callback();
+      }
+    };
+    const offlineTalkEndTimeValidator = (rule, value, callback) => {
+      if (
+        this.timesForm.offlinetalk_start &&
+        value <= this.timesForm.offlinetalk_start
+      ) {
+        callback(new Error(START_END_VALIDATE_MSG));
+      } else {
+        callback();
+      }
+    };
+    const faceStartTimeValidator = (rule, value, callback) => {
+      if (
+        this.timesForm.offlinetalk_end &&
+        value <= this.timesForm.offlinetalk_end
+      ) {
         callback(new Error(FACE_TIME_VALIDATE_MSG));
       } else {
         // else if (this.timesForm.face_end) {
@@ -362,6 +429,7 @@ export default {
         LEADER_EVALUATION_TIME,
         REQUIRE_271,
         LEADER_PLUS_EVALUATION_TIME,
+        OFFLINETALK_EVALUATION_TIME,
         FACE_EVALUATION_TIME,
         CONFIRM,
         CANCEL,
@@ -374,6 +442,8 @@ export default {
         leader_end: "",
         upLeader_start: "",
         upLeader_end: "",
+        offlinetalk_start: "",
+        offlinetalk_end: "",
         face_start: "",
         face_end: "",
         levelRequired: 1,
@@ -433,6 +503,22 @@ export default {
           },
           { validator: upLeaderEndTimeValidator, trigger: "change" }
         ],
+        offlinetalk_start: [
+          {
+            required: true,
+            message: OFFLINETALK_TIME_REQUIRE_MSG + START_TIME,
+            trigger: "change"
+          },
+          { validator: offlinetalkStartTimeValidator, trigger: "change" }
+        ],
+        offlinetalk_end: [
+          {
+            required: true,
+            message: OFFLINETALK_TIME_REQUIRE_MSG + END_TIME,
+            trigger: "change"
+          },
+          { validator: offlineTalkEndTimeValidator, trigger: "change" }
+        ],
         face_start: [
           {
             // type: "array",
@@ -467,23 +553,35 @@ export default {
       this.$refs["timesForm"].validate(valid => {
         if (valid) {
           // alert("submit!")
-          postTimeSettings(this.$route.params.orgID, {
+          let orgId = this.orgId === 0 ? this.$route.params.orgID : this.orgId;
+          const postData = {
             self_start_time: this.timesForm.self_start,
             self_end_time: this.timesForm.self_end,
             superior_start_time: this.timesForm.leader_start,
             superior_end_time: this.timesForm.leader_end,
             highlevel_start_time: this.timesForm.upLeader_start,
             highlevel_end_time: this.timesForm.upLeader_end,
+            offlinetalk_start_time: this.timesForm.offlinetalk_start,
+            offlinetalk_end_time: this.timesForm.offlinetalk_end,
             feedback_start_time: this.timesForm.face_start,
             feedback_end_time: this.timesForm.face_end,
             _271_is_necessary: this.timesForm.levelRequired,
             visible_271: this.timesForm.visible_271,
             feeling_is_necessary: this.timesForm.feeling_is_necessary
-          })
-            .then(res => {
-              this.close();
-            })
-            .catch(e => {});
+          };
+          if (this.isBatchSetTime) {
+            postBatchTimeSettings(orgId, postData)
+              .then(res => {
+                this.close();
+              })
+              .catch(e => {});
+          } else {
+            postTimeSettings(orgId, postData)
+              .then(res => {
+                this.close();
+              })
+              .catch(e => {});
+          }
         } else {
           return false;
         }
@@ -497,6 +595,8 @@ export default {
     this.timesForm.leader_end = this.timeData.superior_end_time;
     this.timesForm.upLeader_start = this.timeData.highlevel_start_time;
     this.timesForm.upLeader_end = this.timeData.highlevel_end_time;
+    this.timesForm.offlinetalk_start = this.timeData.offlinetalk_start_time;
+    this.timesForm.offlinetalk_end = this.timeData.offlinetalk_end_time;
     this.timesForm.face_start = this.timeData.feedback_start_time;
     this.timesForm.face_end = this.timeData.feedback_end_time;
     this.timesForm.levelRequired = this.timeData.checked_271;
@@ -526,6 +626,12 @@ export default {
     },
     upLeader_end_disable() {
       return this.status.highlevel_status === 2;
+    },
+    offlinetalk_start_disable() {
+      return this.status.offlinetalk_status > 0;
+    },
+    offlinetalk_end_disable() {
+      return this.status.offlinetalk_status === 2;
     },
     face_start_disable() {
       return this.status.feedback_status > 0;

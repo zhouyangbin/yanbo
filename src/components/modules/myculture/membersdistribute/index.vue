@@ -76,9 +76,7 @@ export default {
       return `${this.data.bottom.count}人`;
     },
     summary() {
-      return `理想271比例分布：Top（${this.data.top.expected}人）、Middle（${
-        this.data.middle.expected
-      }人）、Bottom（${this.data.bottom.expected}人） 实际分布如下`;
+      return `理想271比例分布：Top（${this.data.top.expected}人）、Middle（${this.data.middle.expected}人）、Bottom（${this.data.bottom.expected}人） 实际分布如下`;
     }
   }
 };
@@ -119,7 +117,7 @@ export default {
   &::after {
     content: attr(data-p);
     position: absolute;
-    bottom: -20px;
+    bottom: -23px;
     color: #7ed321;
     left: 50%;
     transform: translateX(-50%);
@@ -131,7 +129,7 @@ export default {
   &::after {
     content: attr(data-p);
     position: absolute;
-    bottom: -20px;
+    bottom: -23px;
     color: #f5d323;
     left: 50%;
     transform: translateX(-50%);
@@ -144,7 +142,7 @@ export default {
   &::after {
     content: attr(data-p);
     position: absolute;
-    bottom: -20px;
+    bottom: -23px;
     color: #e94a2d;
     left: 50%;
     transform: translateX(-50%);

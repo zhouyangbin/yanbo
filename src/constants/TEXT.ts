@@ -114,7 +114,8 @@ export const RECORD_STATUS = "名单状态";
 export const SELF_EVALUATION_STATUS = "自评状态";
 export const LEADER_EVALUATION_STATUS = "上级评状态";
 export const LEADER_PLUS_EVALUATION_STATUS = "隔级上级评状态";
-export const FACE_EVALUATION_STATUS = "面谈状态";
+export const OFFLINE_STATUS = "线下合议状态";
+export const FACE_EVALUATION_STATUS = "员工确认状态";
 export const DEPARTMENT = "部门";
 export const RESULT_CONFIRM = "结果确认";
 export const SELECTION_TIPS = (total: number, selection: number) =>
@@ -135,14 +136,16 @@ export const WORK_LEVEL = "职级";
 export const EMAIL = "邮箱";
 export const UP_LEVEL = "上级";
 export const PLUS_UP_LEVEL = "隔级";
-export const FACE_FEEDBACK = "面谈反馈";
+export const FACE_FEEDBACK = "员工确认反馈";
 export const SET_TIMES = "设置时间";
 export const MODIFY_TIMES = "修改时间";
+export const BATCH_SET_TIMES = "批量设置时间";
 export const IMPORT_RECORDS = "导入名单";
 export const SELF_EVALUATION_TIME = "自评时间";
 export const LEADER_EVALUATION_TIME = "上级评时间";
 export const LEADER_PLUS_EVALUATION_TIME = "隔级上级评时间";
-export const FACE_EVALUATION_TIME = "面谈时间";
+export const OFFLINETALK_EVALUATION_TIME = "线下合议时间";
+export const FACE_EVALUATION_TIME = "员工确认时间";
 export const REQUIRE_271 = "271等级必填";
 export const EHR_IMPORT = "EHR获取";
 export const EXCEL_IMPORT = "EXCEL导入";
@@ -154,13 +157,16 @@ export const SELF_START_TIME_VALIDATE_MSG = "自评开始时间必须大于当�
 export const START_END_VALIDATE_MSG = "结束时间必须大于开始时间";
 export const LEADER_TIME_VALIDATE_MSG = "上级评价时间必须大于自评时间";
 export const UP_LEADER_TIME_VALIDATE_MSG = "隔级上级评价时间必须大于上级评时间";
-export const FACE_TIME_VALIDATE_MSG = "面谈时间必须大于隔级上级评价时间";
-export const FACE_TIME_OVER_GRADE_MSG = "面谈时间不能晚于评测截止时间";
+export const OFFLINETALK_TIME_VALIDATE_MSG =
+  "线下合议时间必须大于隔级上级评价时间";
+export const FACE_TIME_VALIDATE_MSG = "员工确认时间必须大于线下合议时间";
+export const FACE_TIME_OVER_GRADE_MSG = "员工确认时间不能晚于评测截止时间";
 export const EMAIL_VALIATE_MSG = "请填写邮箱地址";
 export const SELF_TIME_REQUIRE_MSG = "请填写自评";
 export const LEADER_TIME_REQUIRE_MSG = "请填写上级评";
 export const UP_LEADER_TIME_REQUIRE_MSG = "请填写隔级上级评";
-export const FACE_TIME_REQUIRE_MSG = "请填写面谈";
+export const OFFLINETALK_TIME_REQUIRE_MSG = "请填写线下合议";
+export const FACE_TIME_REQUIRE_MSG = "请填写员工确认";
 export const NUMBER_REQUIRE_MSG = "请填写工号";
 export const EMAIL_FORMAT_MSG = "请输入正确的邮箱地址";
 export const LEADER_NUMBER_REQUIRE_MSG = "请填写上级工号";
@@ -214,7 +220,7 @@ export const ENUM_RECORD_STATUS = [
 export const ENUM_SELF_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未开始"
+    value: "未完成"
   },
   {
     key: "1",
@@ -235,11 +241,25 @@ export const ENUM_GENERIC_COMPLETE_STATUS = [
     value: "已完成"
   }
 ];
+export const EMUM_CULTURE_GENERIC_COMPLETE_STATUS = [
+  {
+    key: "0",
+    value: "未处理"
+  },
+  {
+    key: "1",
+    value: "驳回中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+];
 
 export const ENUM_LEADER_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未开始"
+    value: "未完成"
   },
   {
     key: "1",
@@ -254,7 +274,7 @@ export const ENUM_LEADER_EVALUATION_STATUS = [
 export const ENUM_LEADER_PLUS_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未开始"
+    value: "未完成"
   },
   {
     key: "1",
@@ -268,7 +288,21 @@ export const ENUM_LEADER_PLUS_EVALUATION_STATUS = [
 export const ENUM_FACE_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未开始"
+    value: "未完成"
+  },
+  {
+    key: "1",
+    value: "进行中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+];
+export const ENUM_OFFLINE_STATUS = [
+  {
+    key: "0",
+    value: "未完成"
   },
   {
     key: "1",
@@ -646,7 +680,7 @@ export const BREAK_STATUS = [
   "未上级评",
   "隔级驳回上级未修改",
   "申诉上级未修改",
-  "面谈未确认"
+  "员工确认阶段未确认"
 ];
 export const ADD_TARGET = "添加目标";
 export const UPLOAD_TARGET = "上传目标";
@@ -654,3 +688,7 @@ export const PERFORMANCE_TARGET = "绩效目标";
 export const TARGET_WEIGH = "权重";
 export const CHANGE_RECORDS = "修改日志";
 export const FINISH_DATE = "完成期限";
+
+export const SELF_AVG = "自评平均分";
+export const SUP_AVG = "上级平均分";
+export const _271_LEVEL = "271等级";

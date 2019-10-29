@@ -118,12 +118,14 @@ import {
 import {
   getUserGradeContent,
   postManagerModify,
+  postBpModify,
   reevaluate
 } from "@/constants/API";
 
 export default {
   data() {
     return {
+      isManager: false,
       basicInfo: {
         name: "",
         workcode: ""
@@ -200,15 +202,16 @@ export default {
     getMemberDetail() {
       getUserGradeContent(this.$route.params.uid).then(res => {
         const {
+          evaluation_type,
           advantage,
           promotion,
           scores,
           name,
           workcode,
-
           _271_level,
           _271_is_necessary
         } = res;
+        this.isManager = evaluation_type == 2;
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = name;
@@ -228,34 +231,47 @@ export default {
       });
     },
     submit() {
-      const valid = this.validate();
-      if (!valid) {
-        return;
-      }
       let postData = this.composePostData();
-      if (this.forReject) {
-        reevaluate(this.$route.params.uid, postData)
-          .then(res => {
-            this.$message({
-              message: "修改成功",
-              type: "success"
-            });
-
-            this.$router.go(-1);
-          })
-          .catch(e => {});
-      } else {
+      //不是高管，是BP  可以修改
+      if (!this.isManager) {
         postData.reason = this.reason;
-        postManagerModify(this.$route.params.uid, postData)
-          .then(res => {
-            this.$message({
-              message: "修改成功",
-              type: "success"
-            });
+        postBpModify(this.$route.params.uid, postData).then(res => {
+          this.$message({
+            message: "修改成功",
+            type: "success"
+          });
+          this.$router.go(-1);
+        });
+      }
+      //是高管
+      else {
+        const valid = this.validate();
+        if (!valid) {
+          return;
+        }
+        if (this.forReject) {
+          reevaluate(this.$route.params.uid, postData)
+            .then(res => {
+              this.$message({
+                message: "修改成功",
+                type: "success"
+              });
+              this.$router.go(-1);
+            })
+            .catch(e => {});
+        } else {
+          postData.reason = this.reason;
+          postManagerModify(this.$route.params.uid, postData)
+            .then(res => {
+              this.$message({
+                message: "修改成功",
+                type: "success"
+              });
 
-            this.$router.go(-1);
-          })
-          .catch(e => {});
+              this.$router.go(-1);
+            })
+            .catch(e => {});
+        }
       }
     },
     validate() {
