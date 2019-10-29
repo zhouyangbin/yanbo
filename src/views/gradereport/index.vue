@@ -95,6 +95,7 @@
         </el-row>
       </section>
       <!--modify 平均分只对超级管理员、文化管理员可见   按事业部展示 -->
+
       <!-- 各事业部完成率 bar -->
       <!-- <section v-if="department_level != 3" class="report-echart">
         <el-row type="flex" justify="space-between">
@@ -129,7 +130,9 @@
           ></echart-bar-rate>
         </section>
       </section> -->
-       <section v-if="isShow" class="report-echart">
+
+      <!-- 各事业部完成率 bar -->
+      <section v-if="isShow" class="report-echart">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
             <h1>{{ constants.LABEL_REPORT_RATE }}</h1>
@@ -162,6 +165,7 @@
           ></echart-bar-rate>
         </section>
       </section>
+
       <!-- 各事业部总平均分 bar -->
       <!-- <section v-if="department_level == 1" class="report-echart">
         <h1>{{ constants.LABEL_REPORT_AVERAGE_ALL }}</h1>
@@ -185,6 +189,8 @@
           </span>
         </el-row>
       </section> -->
+
+      <!-- 各事业部总平均分 bar -->
       <section v-if="isShow" class="report-echart">
         <h1>{{ constants.LABEL_REPORT_AVERAGE_ALL }}</h1>
         <section class="loading-container">
@@ -251,6 +257,7 @@
           </span>
         </el-row>
       </section> -->
+      <!-- 各事业部评分平均分 bar -->
       <section class="report-echart" v-if="isShow">
         <el-row type="flex" justify="space-between">
           <el-col :span="12">
@@ -399,13 +406,13 @@ export default {
       import("@/components/modules/gradereport/LineNumber.vue")
     )
   },
-   created() {
-      this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-      this.getGrades();
+  created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    this.getGrades();
     //增加权限控制，只有超级管理员与文化管理员 对各事业部完成率、总分、平均分可查看
-      if( this.permissions.indexOf(201) > -1 ) {
-        this.isShow = true;
-      }
+    if (this.permissions.indexOf(201) > -1) {
+      this.isShow = true;
+    }
   },
   data() {
     return {
@@ -432,7 +439,11 @@ export default {
         LABEL_SELECT_GRAGE
       },
       permissions: [],
-      conditionForm: { evaluation_name_id: "", evaluation_id: "", department_id: "" },
+      conditionForm: {
+        evaluation_name_id: "",
+        evaluation_id: "",
+        department_id: ""
+      },
       names: [],
       departments: [],
       currentDepartment: "",
@@ -516,7 +527,7 @@ export default {
           evaluation_id: obj.value
         });
       }
-    },
+    }
     // canCreateCultureGrade() {
     //   return this.permissions.includes(201)
     // }
@@ -557,7 +568,7 @@ export default {
     getDepartments(id) {
       return getGradeDepartments(id)
         .then(res => {
-      // console.log("getGradeDepartments", res);
+          // console.log("getGradeDepartments", res);
           res.map(function(item) {
             item.label = item.department_name;
             item.value = item.id;
@@ -568,7 +579,7 @@ export default {
           });
           this.evaluationId = res[0];
           this.currentDepartment = res[0].label;
-      // 报告数据
+          // 报告数据
           this.getReports();
         })
         .catch(err => {});

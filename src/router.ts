@@ -35,7 +35,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
-  PATH_CULTURE_LEVEL_DETAIL_HISTORY
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY,
+  PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -48,8 +49,8 @@ const router = new Router({
       redirect: PATH_EMPLOYEE_MY
     },
     //文化评分
-      //评分报告
-      //评分管理
+    //评分报告
+    //评分管理
     {
       path: PATH_GRADE_REPORT,
       component: () => import("@/layout/SidebarLayout/index.vue"),
@@ -118,7 +119,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
-        
+
         {
           path: PATH_PERFORMANCE_MANAGER,
           components: {
@@ -264,7 +265,9 @@ const router = new Router({
           path: PATH_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import("@/views/myculture/members/grades/details/history/index.vue"),
+              import(
+                "@/views/myculture/members/grades/details/history/index.vue"
+              ),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -280,7 +283,9 @@ const router = new Router({
           path: PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import("@/views/myculture/downmembers/grades/details/history/index.vue"),
+              import(
+                "@/views/myculture/downmembers/grades/details/history/index.vue"
+              ),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

@@ -88,7 +88,7 @@ export const PATH_EMPLYEE_MY_DETAIL = (
 //团队详情
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
-  //团队  个人详情
+//团队  个人详情
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
   uid: String = ":uid"
@@ -148,6 +148,8 @@ export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>
   `/culture/membersgrades/${id}`;
 export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id") =>
   `/culture/downmembersgrades/${id}`;
+//高管列表
+export const PATH_MEMEBER_HIGH_DETAIL = "/culture/membersgrades/highDetail";
 
 export const PATH_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",

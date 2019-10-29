@@ -14,6 +14,7 @@
           <el-row type="flex" justify="space-between">
             <span class="dep-name">{{ depInfo.name }}</span>
             <el-button
+              v-if="isShow"
               :disabled="realTotal == 0 || step == 6"
               @click="dialogTimes = true"
               size="mini"
@@ -98,7 +99,13 @@
                 </el-step>
                 <el-step>
                   <template slot="title">
-                    线下合议
+                    线下合议{{
+                      (
+                        constants.ENUM_FACE_EVALUATION_STATUS.filter(
+                          v => v.key === String(depInfo.offlinetalk_status)
+                        )[0] || {}
+                      ).value
+                    }}
                     <div>
                       {{ gradeInfo.offlinetalk_start_time }} -
                       {{ gradeInfo.offlinetalk_end_time }}
@@ -107,7 +114,7 @@
                 </el-step>
                 <el-step title="未开始">
                   <template slot="title">
-                    面谈{{
+                    员工确认{{
                       (
                         constants.ENUM_FACE_EVALUATION_STATUS.filter(
                           v => v.key === String(depInfo.feedback_status)
@@ -415,6 +422,7 @@
           <el-table-column
             prop="feedback_status"
             :label="constants.FACE_FEEDBACK"
+            width="120"
           >
             <template slot-scope="scope">
               {{
@@ -572,8 +580,18 @@ import { delUser, getUserList, postReminder } from "@/constants/API";
 import { compact } from "@/utils/obj";
 
 export default {
+  created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    // console.log(this.permissions);
+    if (this.permissions.indexOf(201) > -1) {
+      this.isShow = true;
+    }
+  },
   data() {
     return {
+      permissions: [],
+      isShow: false,
+
       currentPage: 1,
       // 是否是高管评分
       isManagerGrade: false,
@@ -710,7 +728,9 @@ export default {
       import("@/components/modules/grademanage/progress/org/import/Dialog.vue")
     ),
     "time-setting": AsyncComp(
-      import("@/components/modules/grademanage/progress/org/settings/TimeDialog.vue")
+      import(
+        "@/components/modules/grademanage/progress/org/settings/TimeDialog.vue"
+      )
     ),
     "info-dialog": AsyncComp(
       import("@/components/modules/grademanage/progress/org/info/Dialog.vue")
@@ -869,10 +889,11 @@ export default {
           this.gradeInfo.superior_end_time = res.info.superior_end_time;
           this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time;
           this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time;
-          // this.gradeInfo.offlinetalk_start_time = res.info.offlinetalk_start_time;
-          this.gradeInfo.offlinetalk_start_time = "2019-10-11 21:00";
-          // this.gradeInfo.offlinetalk_end_time = res.info.offlinetalk_end_time;
-          this.gradeInfo.offlinetalk_end_time = "2019-10-23 23:00";
+          this.gradeInfo.offlinetalk_start_time =
+            res.info.offlinetalk_start_time;
+          // this.gradeInfo.offlinetalk_start_time = "2019-10-11 21:00";
+          this.gradeInfo.offlinetalk_end_time = res.info.offlinetalk_end_time;
+          // this.gradeInfo.offlinetalk_end_time = "2019-10-23 23:00";
           this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
           this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
           this.gradeInfo.checked_271 = res.info._271_is_necessary;
@@ -962,7 +983,7 @@ export default {
         if (this.depInfo.offlinetalk_status === 2) {
           return 5;
         }
-        return 4
+        return 4;
       }
       if (stage == 60) {
         if (this.depInfo.feedback_status === 2) {
