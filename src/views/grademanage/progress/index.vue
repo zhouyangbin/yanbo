@@ -108,13 +108,14 @@
               >{{ constants.RESET }}</el-button
             >
           </el-form-item>
-          <el-button
-            v-if="isShow"
-            class="batch-set-time"
-            type="text"
-            @click="setTime('', 'batch')"
-            >{{ constants.BATCH_SET_TIMES }}</el-button
-          >
+          <el-form-item>
+            <el-button
+              v-if="isShow"
+              type="text"
+              @click="setTime('', 'batch')"
+              >{{ constants.BATCH_SET_TIMES }}</el-button
+            >
+          </el-form-item>
         </el-form>
       </div>
       <el-table :data="listData" stripe style="width: 100%">
@@ -554,11 +555,6 @@ hr {
   padding: 20px;
   padding-bottom: 0px;
   position: relative;
-}
-.batch-set-time {
-  position: absolute;
-  bottom: 0;
-  right: 20px;
 }
 .btn-reset {
   color: #09c981;

@@ -228,7 +228,6 @@ export default {
     },
     getInfo() {
       getUserGradeContent(this.$route.params.uid).then(res => {
-        console.log(res);
         const {
           advantage,
           promotion,

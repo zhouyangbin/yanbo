@@ -15,7 +15,7 @@
     >
       <el-form-item :label="constants.SELF_EVALUATION_TIME" required>
         <el-row type="flex">
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="self_start">
               <el-date-picker
                 :disabled="self_start_disable"
@@ -29,8 +29,7 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2">-</el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="self_end">
               <el-date-picker
                 :disabled="self_end_disable"
@@ -48,7 +47,7 @@
       </el-form-item>
       <el-form-item :label="constants.LEADER_EVALUATION_TIME" required>
         <el-row type="flex">
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="leader_start">
               <el-date-picker
                 :disabled="leader_start_disable"
@@ -62,8 +61,7 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2">-</el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="leader_end">
               <el-date-picker
                 :disabled="leader_end_disable"
@@ -90,7 +88,7 @@
       </el-form-item>
       <el-form-item :label="constants.LEADER_PLUS_EVALUATION_TIME" required>
         <el-row type="flex">
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="upLeader_start">
               <el-date-picker
                 :disabled="upLeader_start_disable"
@@ -103,9 +101,8 @@
                 placeholder="开始日期"
               ></el-date-picker>
             </el-form-item>
-          </el-col>
-          <el-col :span="2">-</el-col>
-          <el-col :span="8">
+          </el-col>     
+          <el-col :span="10">
             <el-form-item prop="upLeader_end">
               <el-date-picker
                 :disabled="upLeader_end_disable"
@@ -123,7 +120,7 @@
       </el-form-item>
       <el-form-item :label="constants.OFFLINETALK_EVALUATION_TIME" required>
         <el-row tyle="flex">
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="offlinetalk_start">
               <el-date-picker
                 :disabled="offlinetalk_start_disable"
@@ -137,8 +134,7 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2">-</el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="offlinetalk_end">
               <el-date-picker
                 :disabled="offlinetalk_end_disable"
@@ -156,7 +152,7 @@
       </el-form-item>
       <el-form-item :label="constants.FACE_EVALUATION_TIME" required>
         <el-row type="flex">
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="face_start">
               <el-date-picker
                 :disabled="face_start_disable"
@@ -170,8 +166,7 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="2">-</el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item prop="face_end">
               <el-date-picker
                 :disabled="face_end_disable"
