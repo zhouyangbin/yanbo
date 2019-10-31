@@ -182,7 +182,7 @@ export default {
     },
     scoreCheck(item, score) {
       if (item.score == score) {
-        const index = this.caseValidate(i, score);
+        const index = this.caseValidate(item, score);
         if (index != -1) {
           this.$message.error(
             `${i.question_name}${index + 3}分理由未填写，请填写后提交!`

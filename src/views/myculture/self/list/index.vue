@@ -85,7 +85,7 @@ export default {
     goDetail(row) {
       this.$router.push(PATH_MY_CULTURE_GRADE_DETAILS(row.id));
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList({
         page: val

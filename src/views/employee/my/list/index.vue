@@ -93,7 +93,7 @@ export default {
         PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
       );
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList({
         page: val

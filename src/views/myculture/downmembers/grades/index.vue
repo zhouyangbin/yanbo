@@ -68,7 +68,7 @@
                     }}
                   </span>
                   <span class="self-superior">/</span>
-                  <span class="self-text">
+                  <span class="superior-text">
                     {{
                       scope.row
                         | path(["scores", "superior", "total"])
@@ -87,7 +87,7 @@
                     }}
                   </span>
                   <span class="self-superior">/</span>
-                  <span class="self-text">
+                  <span class="superior-text">
                     {{
                       scope.row
                         | path(["scores", "self", "average"])
@@ -522,59 +522,40 @@ export default {
       // TODO 获取隔级列表接口
       return getLowerPlusList()
         .then(res => {
+          console.log(res);
           Object.keys(res.evaluations).forEach(key => {
-            if (res.evaluations[key].type == 1) {
-              this.isStaff = true;
-              const { name, end_time, evaluation_name_id } = res.evaluations[
-                key
-              ];
-              this.staff_evaluation_id = evaluation_name_id;
-              this.evaluation_name = name;
-              this.end_time = end_time;
-              this.staffKey = res.evaluations[key].id;
-              // this.isHigh = true;
-              // const { name,end_time,evaluation_name_id } = res.evaluations[key]
-              // this.evaluation_id = evaluation_name_id;
-              // this.high_evaluation_name = name;
-              // this.high_end_time = end_time;
-              // this.managerKey = res.evaluations[key].id;
-              return false;
-            }
-            if (res.evaluations[key].type == 2) {
+            // 高管
+            if(key == 2){
               this.isHigh = true;
-              const { name, end_time, evaluation_name_id } = res.evaluations[
-                key
-              ];
-              this.evaluation_id = evaluation_name_id;
-              this.high_evaluation_name = name;
-              this.high_end_time = end_time;
-              this.managerKey = res.evaluations[key].id;
-              // this.isStaff = true;
-              // const { name,end_time,evaluation_name_id } = res.evaluations[key];
-              // this.staff_evaluation_id = evaluation_name_id;
-              // this.evaluation_name = name;
-              // this.end_time = end_time;
-              // this.staffKey = res.evaluations[key].id;
+              this.highSmmary = this.postSummary(res.users[key].overview);
+              this.high_evaluation_name = res.evaluations[key].name;
+              this.high_end_time = res.evaluations[key].end_time;
+              this.evaluation_id = res.evaluations[key].evaluation_name_id;
+              //只展示3条数据
+              if(res.users[key].data.length <= 3) {
+                this.tableData = res.users[key].data;
+              } else {
+                for(let i = 0; i < 3; i++) {
+                  this.tableData[i] = res.users[key].data[i];
+                }
+              }
+            }
+             //员工
+            if(key == 1){
+              this.isStaff = true;
+              this.summary = this.postSummary(res.users[key].overview);
+              this.evaluation_name = res.evaluations[key].name;
+              this.end_time = res.evaluations[key].end_time;
+              this.staff_evaluation_id = res.evaluations[key].evaluation_name_id;
+              if(res.users[key].data.length <= 3) {
+                this.stafftableData = res.users[key].data;
+              } else {
+                for(let i = 0; i < 3; i++) {
+                  this.stafftableData[i] = res.users[key].data[i];
+                }
+              }
             }
           });
-          //高管入口列表
-          if (res.users[this.managerKey].data.length <= 3) {
-            this.tableData = res.users[this.managerKey].data;
-          } else {
-            for (let i = 0; i < 3; i++) {
-              this.tableData[i] = res.users[this.managerKey].data[i];
-            }
-          }
-          //员工入口列表
-          if (res.users[this.staffKey].data.length <= 3) {
-            this.stafftableData = res.users[this.staffKey].data;
-          } else {
-            for (let i = 0; i < 3; i++) {
-              this.stafftableData[i] = res.users[this.staffKey].data[i];
-            }
-          }
-          this.postSummary(res.users[this.managerKey].overview);
-          this.postSummary(res.users[this.staffKey].overview);
         })
         .catch(e => {});
     },
@@ -649,6 +630,22 @@ export default {
 }
 .content-container .switch-btns .active-btn:hover {
   background-color: rgba(93, 197, 178, 0.8);
+}
+.self-text {
+  font-size: 14px;
+  color: #5dc5b2;
+  letter-spacing: 0.17px;
+}
+.superior-text {
+  font-size: 14px;
+  color: #518feb;
+  letter-spacing: 0.17px;
+}
+.self-superior {
+  font-size: 14px;
+  color: #adadad;
+  letter-spacing: 0.17px;
+  padding: 0 5px;
 }
 .container {
   height: 500px;

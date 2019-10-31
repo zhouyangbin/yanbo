@@ -35,7 +35,7 @@
             >
           </div>
           <div class="container-desc">
-            <partition :data="summary"></partition>
+            <partition :data="highSmmary"></partition>
           </div>
           <div class="container-list">
             <div class="container-list-message">
@@ -436,14 +436,13 @@ import {
   _271_LEVEL,
   LEVEL_ALIAS
 } from "@/constants/TEXT";
-import { getMyTeamCultureList, getMyTeamEndCultureList } from "@/constants/API";
+import { getMyTeamCultureList, getMyTeamEndCultureList, getMembersList } from "@/constants/API";
 import {
   PATH_MEMBER_CULTURE_LIST,
   PATH_EXPORT_CULTURE_GRADE,
   PATH_MEMEBER_HIGH_DETAIL,
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
-
 export default {
   data() {
     return {
@@ -475,6 +474,20 @@ export default {
       isHigh: false,
       isStaff: false,
       gradeListType: "pending",
+      highSmmary: {
+        top: {
+          count: 0,
+          expected: 0
+        },
+        middle: {
+          count: 0,
+          expected: 0
+        },
+        bottom: {
+          count: 0,
+          expected: 0
+        }
+      },
       summary: {
         top: {
           count: 0,
@@ -488,7 +501,9 @@ export default {
           count: 0,
           expected: 0
         }
-      }
+      },
+
+      count: 0
     };
   },
   components: {
@@ -511,7 +526,7 @@ export default {
           expected: data[i].expected_value
         };
       }
-      this.summary = { ...obj };
+      return { ...obj };
     },
     goDetail(val, id) {
       this.$router.push(PATH_MEMBER_CULTURE_DETAILS(id, val));
@@ -535,45 +550,37 @@ export default {
       this.gradeListType = val;
       return getMyTeamCultureList()
         .then(res => {
-          //获取 名称与时间
           Object.keys(res.evaluations).forEach(key => {
-            if (res.evaluations[key].type == 1) {
-              this.isStaff = true;
-              const { name, end_time, evaluation_name_id } = res.evaluations[
-                key
-              ];
-              this.staff_evaluation_id = evaluation_name_id;
-              this.evaluation_name = name;
-              this.end_time = end_time;
-              this.staffKey = res.evaluations[key].id;
-              if (res.users[this.staffKey].data.length <= 3) {
-                this.stafftableData = res.users[this.staffKey].data;
-              } else {
-                for (let i = 0; i < 3; i++) {
-                  this.stafftableData[i] = res.users[this.staffKey].data[i];
-                }
-              }
-              this.postSummary(res.users[this.staffKey].overview);
-              return false;
-            }
-            if (res.evaluations[key].type == 2) {
+            // 高管
+            if(key == 2){
               this.isHigh = true;
-              const { name, end_time, evaluation_name_id } = res.evaluations[
-                key
-              ];
-              this.evaluation_id = evaluation_name_id;
-              this.high_evaluation_name = name;
-              this.high_end_time = end_time;
-              this.managerKey = res.evaluations[key].id;
-              //高管入口列表
-              if (res.users[this.managerKey].data.length <= 3) {
-                this.tableData = res.users[this.managerKey].data;
+              this.highSmmary = this.postSummary(res.users[key].overview);
+              this.high_evaluation_name = res.evaluations[key].name;
+              this.high_end_time = res.evaluations[key].end_time;
+              this.evaluation_id = res.evaluations[key].evaluation_name_id;
+              //只展示3条数据
+              if(res.users[key].data.length <= 3) {
+                this.tableData = res.users[key].data;
               } else {
-                for (let i = 0; i < 3; i++) {
-                  this.tableData[i] = res.users[this.managerKey].data[i];
+                for(let i = 0; i < 3; i++) {
+                  this.tableData[i] = res.users[key].data[i];
                 }
               }
-              this.postSummary(res.users[this.managerKey].overview);
+            }
+             //员工
+            if(key == 1){
+              this.isStaff = true;
+              this.summary = this.postSummary(res.users[key].overview);
+              this.evaluation_name = res.evaluations[key].name;
+              this.end_time = res.evaluations[key].end_time;
+              this.staff_evaluation_id = res.evaluations[key].evaluation_name_id;
+              if(res.users[key].data.length <= 3) {
+                this.stafftableData = res.users[key].data;
+              } else {
+                for(let i = 0; i < 3; i++) {
+                  this.stafftableData[i] = res.users[key].data[i];
+                }
+              }
             }
           });
         })

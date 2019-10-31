@@ -68,13 +68,14 @@ export default {
           // 076533
           // 17600297195
           // 074036
+          // TODO
           // 108321
-          // 18310787064
-          // 076344
-          // 147463
-
+          // 147463 高管
           // 142182
           // 105523
+
+          // 18310787064
+          // 076344
           .then(res => {
             this.callback(res, dst, querys);
           })
@@ -87,7 +88,7 @@ export default {
           .catch(e => {});
       }
     } else {
-      tinfo.init({
+      tinfo.init({    //!!FIX
         appid: process.env.VUE_APP_APP_ID,
         appname: "评分系统"
       });
