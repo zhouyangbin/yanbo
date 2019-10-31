@@ -101,7 +101,7 @@
                 placeholder="开始日期"
               ></el-date-picker>
             </el-form-item>
-          </el-col>     
+          </el-col>
           <el-col :span="10">
             <el-form-item prop="upLeader_end">
               <el-date-picker

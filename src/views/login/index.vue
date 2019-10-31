@@ -88,7 +88,8 @@ export default {
           .catch(e => {});
       }
     } else {
-      tinfo.init({    //!!FIX
+      tinfo.init({
+        //!!FIX
         appid: process.env.VUE_APP_APP_ID,
         appname: "评分系统"
       });

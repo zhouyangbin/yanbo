@@ -523,32 +523,33 @@ export default {
         .then(res => {
           Object.keys(res.evaluations).forEach(key => {
             // 高管
-            if(key == 2){
+            if (key == 2) {
               this.isHigh = true;
               this.highSmmary = this.postSummary(res.users[key].overview);
               this.high_evaluation_name = res.evaluations[key].name;
               this.high_end_time = res.evaluations[key].end_time;
               this.evaluation_id = res.evaluations[key].evaluation_name_id;
               //只展示3条数据
-              if(res.users[key].data.length <= 3) {
+              if (res.users[key].data.length <= 3) {
                 this.tableData = res.users[key].data;
               } else {
-                for(let i = 0; i < 3; i++) {
+                for (let i = 0; i < 3; i++) {
                   this.tableData[i] = res.users[key].data[i];
                 }
               }
             }
-             //员工
-            if(key == 1){
+            //员工
+            if (key == 1) {
               this.isStaff = true;
               this.summary = this.postSummary(res.users[key].overview);
               this.evaluation_name = res.evaluations[key].name;
               this.end_time = res.evaluations[key].end_time;
-              this.staff_evaluation_id = res.evaluations[key].evaluation_name_id;
-              if(res.users[key].data.length <= 3) {
+              this.staff_evaluation_id =
+                res.evaluations[key].evaluation_name_id;
+              if (res.users[key].data.length <= 3) {
                 this.stafftableData = res.users[key].data;
               } else {
-                for(let i = 0; i < 3; i++) {
+                for (let i = 0; i < 3; i++) {
                   this.stafftableData[i] = res.users[key].data[i];
                 }
               }
