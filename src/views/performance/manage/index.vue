@@ -203,7 +203,6 @@ export default {
       return getPerformanceList(data).then(res => {
         const { total, data } = res;
         this.total = total;
-
         this.tableData = data.map((v, i) => {
           v.index = i;
           return v;

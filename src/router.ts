@@ -38,7 +38,8 @@ import {
   PATH_CULTURE_LEVEL_DETAIL_HISTORY,
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_TPL_SETTINGS,
-  PATH_PERFORMANCE_LABEL_SETTINGS
+  PATH_PERFORMANCE_LABEL_SETTINGS,
+  PATH_ASSESSMENT_DATAILS
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -319,6 +320,14 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/seniorexecutive/label/settings/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_ASSESSMENT_DATAILS,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

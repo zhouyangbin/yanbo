@@ -1,0 +1,73 @@
+{
+    "status": 200,
+    "message": "Success",
+    "data": [
+        {
+            "tag_type": "2521",
+            "rule_name": "Top",
+            "display_name": "第一",
+            "people_percent": 20,
+            "computation_rule": "round",
+            "sort": "1",
+            "computation_rule_name": "四舍五入取整数"
+        },
+        {
+            "tag_type": "2521",
+            "rule_name": "Middle",
+            "display_name": "dier",
+            "people_percent": 50,
+            "computation_rule": "",
+            "sort": "2",
+            "children": [
+                {
+                    "tag_type": "2521",
+                    "rule_name": "B+",
+                    "display_name": "san",
+                    "people_percent": 30,
+                    "computation_rule": "",
+                    "sort": "3",
+                    "computation_rule_name": ""
+                },
+                {
+                    "tag_type": "2521",
+                    "rule_name": "B-",
+                    "display_name": "si",
+                    "people_percent": 20,
+                    "computation_rule": "floor",
+                    "sort": "4",
+                    "computation_rule_name": ""
+                }
+            ],
+            "computation_rule_name": ""
+        },
+        {
+            "tag_type": "2521",
+            "rule_name": "Bottom",
+            "display_name": "wu",
+            "people_percent": 30,
+            "computation_rule": "floor",
+            "sort": "5",
+            "children": [
+                {
+                    "tag_type": "2521",
+                    "rule_name": "B+",
+                    "display_name": "liu",
+                    "people_percent": 20,
+                    "computation_rule": "",
+                    "sort": "6",
+                    "computation_rule_name": ""
+                },
+                {
+                    "tag_type": "2521",
+                    "rule_name": "B-",
+                    "display_name": "qi",
+                    "people_percent": 10,
+                    "computation_rule": "floor",
+                    "sort": "7",
+                    "computation_rule_name": "不四舍五入取整数"
+                }
+            ],
+            "computation_rule_name": "不四舍五入取整数"
+        }
+    ]
+}
