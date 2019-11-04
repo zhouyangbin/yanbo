@@ -189,3 +189,5 @@ export const PATH_PERFORMANCE_GRADE_MANAGEMENT = "/performance/scoremangement";
 export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
+// 考核详情
+export const PATH_ASSESSMENT_DATAILS = "/performance/assessment/details";

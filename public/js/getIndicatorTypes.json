@@ -1,0 +1,27 @@
+{
+    "status": 200,
+    "message": "Success",
+    "data": [
+        {
+            "label": "业绩指标类型一",
+            "key": "finance",
+            "name": "财务维度指标",
+            "weight": 0,
+            "sort": 0
+        },
+        {
+            "label": "业绩指标类型二",
+            "key": "work",
+            "name": "工作维度指标",
+            "weight": 0,
+            "sort": 0
+        },
+        {
+            "label": "业绩指标类型三",
+            "key": "team",
+            "name": "团队维度指标",
+            "weight": 0,
+            "sort": 0
+        }
+    ]
+}
