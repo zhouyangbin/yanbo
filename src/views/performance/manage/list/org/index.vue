@@ -36,7 +36,7 @@
                     <el-button
                       :disabled="isStarted"
                       @click="dialogImport = true"
-                      size="mini"
+                      size="5"
                       round
                       type="primary"
                       >{{ constants.IMPORT_RECORDS }}</el-button
@@ -53,6 +53,12 @@
                   <template slot="title">
                     {{ constants.LABEL_SUP }}
                     <span>({{ depInfo.superior_status }})</span>
+                  </template>
+                </el-step>
+                <el-step>
+                  <template slot="title">
+                    {{ constants.PLUS_LEVEL_SUP }}
+                    <span>({{ depInfo.high_level_status }})</span>
                   </template>
                 </el-step>
                 <el-step>
@@ -192,7 +198,7 @@
           <el-table-column
             fixed="left"
             type="selection"
-            width="55"
+            width="50"
           ></el-table-column>
           <el-table-column
             prop="workcode"
@@ -202,7 +208,7 @@
           <el-table-column
             prop="name"
             :label="constants.NAME"
-            width="100"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="department"
@@ -212,44 +218,66 @@
           <el-table-column
             prop="syb_department"
             :label="constants.DEP_OR_SUB"
-            width="200"
+            width="100"
           ></el-table-column>
 
           <el-table-column
             prop="email"
             :label="constants.EMAIL"
-            width="180"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="superior_workcode"
             :label="constants.LEADER_NUMBER"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="superior_name"
             :label="constants.LEADER_NAME"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="syb_department"
             label="上级事业部"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="superior_email"
             label="上级邮箱"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            prop="high_level_workcode"
+            label="隔级工号"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            prop="high_level_name"
+            label="隔级姓名"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="target"
             :label="constants.TARGET_STATUS"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="self"
             :label="constants.SELF_EVALUATION_STATUS"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="superior"
             :label="constants.LEADER_EVALUATION_STATUS"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="high_level"
+            label="隔级评状态"
+            width="100"
           ></el-table-column>
 
-          <el-table-column prop="confirm" label="员工确认"></el-table-column>
+          <el-table-column prop="confirm" label="员工确认" width="auto"></el-table-column>
           <el-table-column
             fixed="right"
             :label="constants.OPERATIONS"
@@ -364,6 +392,7 @@ import {
   LABEL_USER_DEL_MSG,
   LABEL_SELF,
   LABEL_SUP,
+  PLUS_LEVEL_SUP,
   APPEAL,
   TARGET_STATUS,
   ATTENTION,
@@ -450,6 +479,7 @@ export default {
         MODIFY_TIMES,
         LABEL_SELF,
         LABEL_SUP,
+        PLUS_LEVEL_SUP,
         APPEAL,
         TARGET_STATUS,
         UPLOAD_TARGET
@@ -648,6 +678,7 @@ export default {
       return getPerormanceDepartmentDetails(this.$route.params.orgID, data)
         .then(res => {
           const { data, total, performance_info } = res;
+          console.log(performance_info.high_level_status)
           this.tableData = data;
           this.total = total;
           //  console.log(performance_info);
@@ -708,7 +739,7 @@ export default {
       };
     },
     step() {
-      return 4;
+      return 5;
     },
     canReminder() {
       return this.isImported && this.isStarted;
