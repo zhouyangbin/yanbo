@@ -3,27 +3,20 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true">
+        <el-form :inline="true" ref="filterForm" :model="filterForm">
           <el-form-item class="content-search">
-            <el-input
-              placeholder="输入关键字进行过滤"
-              v-model="filterText"
-            ></el-input>
-            <el-tree
-              class="select-tree"
-              empty-text="努力加载中..."
-              @check-change="treeChange"
-              :props="defaultProps"
-              :default-checked-keys="checkedKeys"
-              node-key="department_id"
-              ref="tree"
-              :filter-node-method="filterNode"
-              show-checkbox
-              :data="orgTree"
-            ></el-tree>
+            <el-cascader
+              v-model="filterForm.dp"
+              placeholder="请选择事业部"
+              :props="filterProps"
+              :options="orgTree"
+              :show-all-levels="false"
+            ></el-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="reset">{{ constants.RESET }}</el-button>
+            <el-button round @click="resetForm">{{
+              constants.RESET
+            }}</el-button>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -158,11 +151,13 @@ export default {
   },
   data() {
     return {
-      filterText: "",
-      checkedNodes: [],
-      defaultProps: {
+      filterProps: {
+        value: "department_id",
         label: "department_name",
         children: "children"
+      },
+      filterForm: {
+        dp: []
       },
       performanceTypes: [],
       executiveTypes: [],
@@ -176,7 +171,7 @@ export default {
       dialogText: "是否确认删除模板？",
       tplId: 0,
       showConfirmDialog: false,
-      department_ids: [],
+      department_ids: "", // 数组还是字符串，需要跟后台确定一下
       canCreateTpl: true,
       tableData: [],
       initData: {},
@@ -202,27 +197,31 @@ export default {
       ]
     };
   },
-  watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val);
+  computed: {
+    selectedDep() {
+      return this.filterForm.dp.length > 0
+        ? this.filterForm.dp[this.filterForm.dp.length - 1]
+        : "";
     }
   },
-  computed: {
-    checkedKeys() {
-      return this.checkedNodes.map(({ department_id }) => department_id);
+  watch: {
+    filterForm: {
+      handler: function(v) {
+        const filterData = {
+          page: 1,
+          department_ids: v.dp.length > 0 ? v.dp[v.dp.length - 1] : ""
+        };
+        this.currentPage = 1;
+        this.getTplList(filterData);
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
     filterNode(value, data) {
       if (!value) return true;
       return data.department_name.indexOf(value) !== -1;
-    },
-    treeChange(data, checked, indeterminate) {
-      this.department_ids = this.$refs.tree.getCheckedNodes();
-      let getData = {
-        department_ids: this.department_ids.map(v => v.department_id)
-      };
-      this.getTplList(getData);
     },
     getTplList(getData) {
       getAdminTpls(getData)
@@ -233,9 +232,10 @@ export default {
         })
         .catch(e => {});
     },
-    reset() {
-      this.filterText = "";
-      this.getTplList({});
+    resetForm() {
+      this.filterForm = {
+        dp: []
+      };
     },
     createTpl() {
       this.infoType = "add";
