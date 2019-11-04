@@ -23,18 +23,11 @@
         :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
         prop="department_ids"
       >
-        <el-tree
-          class="select-tree"
-          empty-text="努力加载中..."
-          @check-change="treeChange"
-          :props="defaultProps"
-          :default-checked-keys="tplForm.department_ids"
-          node-key="department_id"
-          ref="tree"
-          :filter-node-method="filterNode"
-          show-checkbox
-          :data="orgTree"
-        ></el-tree>
+        <common-tree
+          :orgTree="orgTree"
+          :department_ids="tplForm.department_ids"
+          @selectedIds="selectedOrg"
+        ></common-tree>
       </el-form-item>
       <el-form-item
         :label="constants.EXECUTIVE_TYPE_TEXT"
@@ -165,7 +158,7 @@ import {
   postPerformanceTpl,
   getPerformanceTpl
 } from "@/constants/API";
-
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
     visible: {
@@ -288,11 +281,11 @@ export default {
       }
     };
   },
-  // computed: {
-  //   checkedKeys() {
-  //     return this.tplForm.department_ids.map(({ department_id }) => department_id);
-  //   }
-  // },
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   watch: {
     tplForm: {
       handler: function(val, oldVal) {
@@ -304,21 +297,16 @@ export default {
     }
   },
   methods: {
+    selectedOrg(data) {
+      this.tplForm.department_ids = data;
+    },
     louseFouce(item) {
       item.sort = item.sort || 0;
       item.weight = item.weight || 0;
     },
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.department_name.indexOf(value) !== -1;
-    },
-    treeChange(data, checked, indeterminate) {
-      this.tplForm.department_ids = this.$refs.tree.getCheckedNodes();
-    },
     close() {
       this.$emit("close");
     },
-    handleCheckedExecutiveType() {},
     submit() {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
@@ -331,9 +319,6 @@ export default {
               return false;
             }
           }
-          this.tplForm.department_ids = this.tplForm.department_ids.map(
-            v => v.department_id
-          );
           if (this.infoType == "add") {
             return postPerformanceTpl(this.tplForm).then(res => {
               this.close();
@@ -398,9 +383,5 @@ export default {
 .tpl-form .input-type {
   float: left;
   width: 33.33%;
-}
-.tpl-form .select-tree {
-  max-height: 260px;
-  overflow: auto;
 }
 </style>

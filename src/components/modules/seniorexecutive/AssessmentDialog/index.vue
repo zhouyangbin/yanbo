@@ -20,14 +20,10 @@
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="适用范围" prop="labelName">
-        <el-select v-model="ruleForm.range" placeholder="请选择事业部">
-          <el-option
-            v-for="v of departments"
-            :key="v.key"
-            :label="v.value"
-            :value="v.key"
-          ></el-option>
-        </el-select>
+        <common-tree
+          :orgTree="orgTree"
+          @selectedIds="selectedOrg"
+        ></common-tree>
       </el-form-item>
       <el-form-item label="绩效类型" prop="type">
         <el-select
@@ -105,6 +101,7 @@ import {
   END_TIME_NOT_LESS_THAN_START_TIME
 } from "@/constants/TEXT";
 import { formatTime } from "@/utils/timeFormat";
+import { AsyncComp } from "@/utils/asyncCom";
 const debounce = require("lodash.debounce");
 export default {
   props: {
@@ -127,7 +124,16 @@ export default {
     departmentsOps: {
       type: Array,
       default: () => []
+    },
+    orgTree: {
+      type: Array,
+      default: () => []
     }
+  },
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
@@ -168,6 +174,9 @@ export default {
     };
   },
   methods: {
+    selectedOrg(data) {
+      console.log(data);
+    },
     close() {
       this.$emit("close");
     },

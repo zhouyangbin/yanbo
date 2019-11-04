@@ -111,6 +111,7 @@
       @close="tplDialogClose"
       :visible="showDialog"
       :infoType="infoType"
+      :orgTree="orgTree"
     ></assessment-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
@@ -122,6 +123,7 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
+import { getOrganization } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   data() {
@@ -135,6 +137,7 @@ export default {
       initData: {},
       dpOptions: [],
       tableData: [],
+      orgTree: [],
       nav: [
         {
           label: "高管绩效考核列表",
@@ -200,7 +203,13 @@ export default {
       this.delText = "是否确认启动考核？";
     }
   },
-  created() {}
+  created() {
+    getOrganization()
+      .then(res => {
+        this.orgTree = res;
+      })
+      .catch(e => {});
+  }
 };
 </script>
 <style lang="scss" scoped>
