@@ -22,7 +22,12 @@
           >
         </div>
         <hr />
-        <div class="empty" v-if="gradeListType == 'pending' && isHigh == false && isStaff == false">
+        <div
+          class="empty"
+          v-if="
+            gradeListType == 'pending' && isHigh == false && isStaff == false
+          "
+        >
           <span>暂无数据</span>
         </div>
         <div v-if="isHigh && gradeListType == 'pending'" class="container">
@@ -399,12 +404,21 @@
                 prop="superior_status"
                 :label="constants.LEADER_EVALUATION_STATUS"
               ></el-table-column>
-              <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+              <el-table-column
+                prop="stage_name"
+                :label="constants.LABEL_STATUS"
+              >
                 <template slot-scope="scope">
-                  <div class="reject_status" v-if="scope.row.reject_status == 1">
+                  <div
+                    class="reject_status"
+                    v-if="scope.row.reject_status == 1"
+                  >
                     <div>{{ constants.REJECT }}</div>
                   </div>
-                  <div class="complain_status" v-if="scope.row.reject_status == 2">
+                  <div
+                    class="complain_status"
+                    v-if="scope.row.reject_status == 2"
+                  >
                     <div>{{ constants.APPEAL }}</div>
                   </div>
                   <div v-if="scope.row.reject_status == 0">
@@ -566,10 +580,14 @@ export default {
       this.$router.push(PATH_MEMBER_CULTURE_DETAILS(id, val));
     },
     highDetail() {
-      this.$router.push(PATH_MEMBER_CULTURE_LIST(this.evaluation_id,this.highType));
+      this.$router.push(
+        PATH_MEMBER_CULTURE_LIST(this.evaluation_id, this.highType)
+      );
     },
     staffDetail() {
-      this.$router.push(PATH_MEMBER_CULTURE_LIST(this.staff_evaluation_id,this.staffType));
+      this.$router.push(
+        PATH_MEMBER_CULTURE_LIST(this.staff_evaluation_id, this.staffType)
+      );
     },
     handleCurrentChange(val) {
       this.currentPage = val;
@@ -787,9 +805,9 @@ export default {
     }
   }
 }
-.empty{
+.empty {
   font-size: 16px;
-  color:#adadad;
+  color: #adadad;
   text-align: center;
   margin-top: 20px;
 }

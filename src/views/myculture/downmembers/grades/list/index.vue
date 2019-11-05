@@ -121,7 +121,11 @@
           style="width: 100%"
         >
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="name" width="100" :label="constants.LABEL_NAME">
+          <el-table-column
+            prop="name"
+            width="100"
+            :label="constants.LABEL_NAME"
+          >
             <template slot-scope="scope">
               <el-tooltip v-if="isBigDiff(scope.row)" placement="top">
                 <div slot="content">

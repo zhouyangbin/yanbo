@@ -173,11 +173,9 @@ export default {
             querys.user_id
           );
           break;
-          //  PATH_GRADE_PROGRESS\PATH_GRADE_ORG_LIST
+        //  PATH_GRADE_PROGRESS\PATH_GRADE_ORG_LIST
         case "grade_manage":
-          dst = PATH_GRADE_PROGRESS(
-            querys.evaluation_name_id
-          );
+          dst = PATH_GRADE_PROGRESS(querys.evaluation_name_id);
           break;
         case "grade_manage_detail":
           dst = PATH_GRADE_ORG_LIST(

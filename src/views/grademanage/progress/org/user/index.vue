@@ -286,9 +286,14 @@ export default {
     },
     isEditable() {
       return (
-        (this.isManager && this.status >= 20 && this.status < 100 && this.$route.params.status != 100) ||
+        (this.isManager &&
+          this.status >= 20 &&
+          this.status < 100 &&
+          this.$route.params.status != 100) ||
         //bp 在线下合议开始之后，面谈开始之前，可修改
-        (this.status >= 45 && this.status < 50 && this.$route.params.status != 100)
+        (this.status >= 45 &&
+          this.status < 50 &&
+          this.$route.params.status != 100)
       );
     },
     showAppealAndRefuse() {
