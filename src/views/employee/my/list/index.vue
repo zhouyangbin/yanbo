@@ -68,7 +68,7 @@ export default {
       tableData: [],
       nav: [
         {
-          label: MY_GRADE,
+          label:  MY_GRADE,
           active: true
         }
       ],

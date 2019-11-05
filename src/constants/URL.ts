@@ -191,3 +191,5 @@ export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 考核详情
 export const PATH_ASSESSMENT_DATAILS = "/performance/assessment/details";
+// 我的业绩中高管评分指标详情页面
+export const PATH_PERFORMANCE_TARGET_SET = "/performance/targetsettings";
