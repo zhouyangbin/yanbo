@@ -20,7 +20,7 @@
           </el-button>
         </div>
         <div>
-          <el-radio-group v-model="status" size="medium">
+          <el-radio-group v-model="statuses" size="medium">
             <el-radio-button label="1">全部</el-radio-button>
             <el-radio-button label="2">草稿</el-radio-button>
             <el-radio-button label="3">进行中</el-radio-button>
@@ -110,15 +110,20 @@
     ></assessment-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
-      :tipsText="delText"
-      @close="confirmDialogClose"
       :visible="showConfirmDialog"
+      :tipsText="tipsText"
+      @confirm="confirmDialog"
+      @close="closeDialog"
     ></confirm-dialog>
   </div>
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { getOrganization, getPerformanceTypes, getAdminPerformancesList } from "@/constants/API";
+import {
+  getOrganization,
+  getPerformanceTypes,
+  getAdminPerformancesList
+} from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -143,8 +148,11 @@ export default {
       showDialog: false,
       infoType: "add",
       showConfirmDialog: false,
-      delText: "",
-      // dpOptions: [],
+      tipsText: "",
+      type: "",
+      requestLink: "",
+      requestType: "",
+      id: 0,
       tableData: [],
       orgTree: [],
       nav: [
@@ -161,7 +169,7 @@ export default {
         LABEL_EMPTY,
         LABEL_SELECT_DIVISION
       },
-      status: "1"
+      statuses: "1"
     };
   },
   watch: {
@@ -169,6 +177,7 @@ export default {
       handler: function(v) {
         const filterData = {
           page: 1,
+          statuses: this.statuses,
           department_ids: v.dp.length > 0 ? v.dp[v.dp.length - 1] : ""
         };
         this.currentPage = 1;
@@ -216,18 +225,26 @@ export default {
     },
     deleteAssessment() {
       this.showConfirmDialog = true;
-      this.delText = "是否确认删除考核？";
+      this.tipsText = "是否确认删除考核？";
     },
-    confirmDialogClose() {
+    closeDialog() {
       this.showConfirmDialog = false;
+    },
+    confirmDialog() {
+      console.log("确定");
+      // this.showConfirmDialog = false;
+      // 确定按钮
     },
     openAssessment() {
       this.showConfirmDialog = true;
-      this.delText = "是否确认启动考核？";
+      this.tipsText = "是否确认启动考核？";
     }
   },
   created() {
-    this.getPerformanceList({})
+    this.getPerformanceList({
+      statuses: this.statuses,
+      page: this.currentPage
+    });
     getOrganization()
       .then(res => {
         this.orgTree = res;

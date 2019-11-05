@@ -169,7 +169,7 @@ export default {
       type: String,
       default: "add"
     },
-    tplId: {
+    performanceId: {
       type: Number,
       default: 0
     },
@@ -324,9 +324,11 @@ export default {
               this.close();
             });
           } else {
-            return putPerformanceTpls(this.tplId, this.tplForm).then(res => {
-              this.close();
-            });
+            return putPerformanceTpls(this.performanceId, this.tplForm).then(
+              res => {
+                this.close();
+              }
+            );
           }
         }
       });
@@ -336,8 +338,8 @@ export default {
     this.$refs["tplForm"].resetFields();
   },
   created() {
-    if (this.infoType != "add" && this.tplId) {
-      getPerformanceTpl(this.tplId).then(res => {
+    if (this.infoType != "add" && this.performanceId) {
+      getPerformanceTpl(this.performanceId).then(res => {
         const {
           name,
           department_ids,

@@ -167,7 +167,6 @@ export default {
       }
     };
     return {
-      tplId: "",
       departmentIds: [],
       rules: {
         name: [
@@ -213,14 +212,14 @@ export default {
         if (val.length > 0) {
           let postData = {
             department_ids: val
-          }
+          };
           // 获取选中事业部的绩效模板和标签规则
           postTagDepartments(postData).then(res => {
-            this.ruleForm.rules = res
-          })
+            this.ruleForm.rules = res;
+          });
           postTplDepartments(postData).then(res => {
-            this.ruleForm.tpl = res
-          })
+            this.ruleForm.tpl = res;
+          });
         }
       },
       deep: true,

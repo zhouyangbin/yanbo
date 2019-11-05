@@ -5,12 +5,12 @@
     title="提示"
     width="400px"
     :visible="visible"
-    class="del-dialog"
+    class="confirm-dialog"
   >
     <span>{{ tipsText }}</span>
     <span slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
-      <el-button type="primary" @click="delData">确 定</el-button>
+      <el-button type="primary" @click="confirmBtn">确 定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -33,15 +33,15 @@ export default {
     close() {
       this.$emit("close");
     },
-    delData() {
-      // 确定按钮
+    confirmBtn() {
+      this.$emit("confirm");
     }
   },
   created() {}
 };
 </script>
 <style scoped>
-.del-dialog >>> .el-dialog__header {
+.confirm-dialog >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
 }
 </style>
