@@ -32,15 +32,24 @@
           >
         </div>
       </el-row>
-      <div class="grade-management-list">
+      <div
+        class="grade-management-list"
+        v-for="item in performancesList"
+        :key="item.id"
+      >
         <div class="list-top">
-          <span class="state doing">进行中</span>
+          <span v-if="item.status === 1" class="state draft">草稿</span>
+          <span v-if="item.status === 2" class="state doing">进行中</span>
+          <span v-if="item.status === 3" class="state ending">已结束</span>
           <div class="bread-crumb">
-            <span>2019组织部绩效考核</span>
+            <span>{{ item.name }}</span>
             <span class="dividing-line">|</span>
-            <span>集团中台</span>
+            <span>{{ item.range }}</span>
             <span class="dividing-line">|</span>
-            <span>年度</span>
+            <span v-if="item.performance_type === 'annual'">年度</span>
+            <span v-if="item.performance_type === 'semi-annual'">半年度</span>
+            <span v-if="item.performance_type === 'quarter'">季度</span>
+            <span v-if="item.performance_type === 'monthly'">月度</span>
           </div>
           <div class="operate-btns">
             <el-tooltip
@@ -59,28 +68,64 @@
             >
               <i class="delete" @click="deleteAssessment"></i>
             </el-tooltip>
-            <el-button @click="openAssessment" type="primary"
+            <el-button
+              v-if="item.status === 1"
+              @click="openAssessment"
+              type="primary"
               >开启考核</el-button
             >
           </div>
         </div>
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="date" label="考核周期" width="180">
-          </el-table-column>
-          <el-table-column prop="name" label="起止时间" width="180">
-          </el-table-column>
-          <el-table-column prop="num" label="考核人数"> </el-table-column>
-          <el-table-column prop="writting" label="指标填写中">
-          </el-table-column>
-          <el-table-column prop="determing" label="指标确认中">
-          </el-table-column>
-          <el-table-column prop="num" label="自评中"> </el-table-column>
-          <el-table-column prop="num" label="复评中"> </el-table-column>
-          <el-table-column prop="num" label="隔级审核中"> </el-table-column>
-          <el-table-column prop="num" label="总裁审核中"> </el-table-column>
-          <el-table-column prop="num" label="确认中"> </el-table-column>
-          <el-table-column prop="num" label="已确认"> </el-table-column>
-        </el-table>
+        <div class="list-middle">
+          <div class="list-middle-left">
+            <div class="list-middle-items">
+              <div>考核周期</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>起止时间</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+          </div>
+          <div class="list-middle-right">
+            <div class="list-middle-items">
+              <div>考核人数</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>指标填写中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>指标确认中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>自评中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>复评中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>隔级审核中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>总裁审核中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>确认中</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>已确认</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+          </div>
+        </div>
         <div class="list-timeline">
           <div class="time-line">指标设定</div>
           <div class="time-line-sign active" data="11月15日"></div>
@@ -157,7 +202,7 @@ export default {
       requestLink: "",
       requestType: "",
       id: 0,
-      tableData: [],
+      performancesList: [],
       orgTree: [],
       nav: [
         {
@@ -204,7 +249,7 @@ export default {
       getAdminPerformancesList(getData)
         .then(res => {
           const { total, data } = res;
-          this.tableData = data;
+          this.performancesList = data;
           this.total = total;
         })
         .catch(e => {});
@@ -335,6 +380,40 @@ export default {
         }
         .el-button {
           padding: 8px 16px;
+        }
+      }
+    }
+    .list-middle {
+      padding: 16px;
+      text-align: center;
+      overflow: hidden;
+      .list-middle-left {
+        float: left;
+        display: flex;
+        background-color: #fafafa;
+        .list-middle-items {
+          box-sizing: border-box;
+          padding: 14px 16px;
+          width: 140px;
+        }
+      }
+      .list-middle-right {
+        margin-left: 284px;
+        display: flex;
+        background-color: #fafafa;
+        .list-middle-items {
+          flex: 1;
+          box-sizing: border-box;
+          padding: 14px 16px;
+        }
+      }
+      .el-col {
+        padding: 14px 16px;
+        color: #909399;
+        background-color: #fafafa;
+        .list-middle-item {
+          margin-top: 8px;
+          color: #303133;
         }
       }
     }
