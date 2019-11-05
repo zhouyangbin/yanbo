@@ -448,6 +448,10 @@ export const getIndicatorTypes = () =>
 export const postAddPerformanceAssessment = (params: Object) =>
   sendPost(`/executive-performance/admin/performances`, params);
 
+// 高管绩效 更新绩效考核
+export const putPerformanceAssessment = (id: String, params: Object) =>
+  sendPut(`/executive-performance/admin/performances/${id}`, params);
+
 // 高管绩效 开启考核
 export const putOpenAssessment = (id: String) =>
   sendPut(`/executive-performance/admin/performances/${id}/start`, {});

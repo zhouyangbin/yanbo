@@ -19,26 +19,40 @@
       <el-form-item label="考核名称" prop="name">
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="适用范围" prop="labelName">
+      <el-form-item label="适用范围" prop="department_ids">
         <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
+          :department_ids="ruleForm.department_ids"
         ></common-tree>
       </el-form-item>
-      <el-form-item label="绩效类型" prop="type">
+      <el-form-item
+        class="is-required"
+        label="绩效类型"
+        prop="performance_type"
+      >
         <el-select
-          v-model="ruleForm.type"
+          v-model="ruleForm.performance_type"
           :placeholder="constants.PLEASE_SELECT_PERFORMANCE_TYPE"
         >
           <el-option
-            v-for="v of constants.EXECUTIVE_PERFORMANCE_TYPE"
-            :key="v.key"
-            :label="v.value"
-            :value="v.key"
+            v-for="item in performanceTypes"
+            :key="item.key"
+            :label="item.name"
+            :value="item.key"
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item class="is-required" label="绩效周期" prop="endTime">
+      <el-form-item label="考核周期" prop="year">
+        <el-date-picker
+          v-model="ruleForm.year"
+          value-format="yyyy"
+          type="year"
+          placeholder="请选择考核年份"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item class="is-required" label="考核周期" prop="end_time">
         <div>
           <el-date-picker
             @change="calculateEndDate"
@@ -48,7 +62,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.startTime"
+            v-model="ruleForm.start_time"
             type="datetime"
             placeholder="选择开始时间"
           ></el-date-picker>
@@ -60,22 +74,22 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.endTime"
+            v-model="ruleForm.end_time"
             type="datetime"
             placeholder="选择结束时间"
           ></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item class="no-margin-bottom" label="绩效模板" prop="tpl">
+      <el-form-item label="绩效模板" prop="tpl">
         <div class="rule-name">这是绩效模板</div>
       </el-form-item>
-      <el-form-item class="no-margin-bottom" label="标签规则" prop="rules">
+      <el-form-item label="标签规则" prop="rules">
         <div class="rule-name">这是标签规则</div>
       </el-form-item>
-      <el-form-item label="是否允许申诉" prop="isAppeal">
-        <el-radio-group v-model="ruleForm.isAppeal">
+      <el-form-item label="是否允许申诉" prop="allow_appeal">
+        <el-radio-group v-model="ruleForm.allow_appeal">
           <el-radio :label="1">是</el-radio>
-          <el-radio :label="2">否</el-radio>
+          <el-radio :label="0">否</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -100,6 +114,11 @@ import {
   MSG_FILL_GRADE_NAME,
   END_TIME_NOT_LESS_THAN_START_TIME
 } from "@/constants/TEXT";
+import {
+  postAddPerformanceAssessment,
+  putPerformanceAssessment,
+  getPerformanceTypes
+} from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
 const debounce = require("lodash.debounce");
@@ -121,7 +140,7 @@ export default {
       type: Object,
       default: () => ({})
     },
-    departmentsOps: {
+    performanceTypes: {
       type: Array,
       default: () => []
     },
@@ -137,31 +156,44 @@ export default {
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
-      if (!this.ruleForm.startTime) {
+      if (!this.ruleForm.start_time) {
         callback(new Error(PLS_SELECT_START_TIME));
-      } else if (!!value && value <= this.ruleForm.startTime) {
+      } else if (!!value && value <= this.ruleForm.start_time) {
         callback(new Error(END_TIME_NOT_LESS_THAN_START_TIME));
       } else {
         callback();
       }
     };
     return {
-      departments: [],
+      tplId: "",
+      department_ids: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        endTime: [{ validator: endTimeValidator, trigger: "change" }]
+        department_ids: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个业务单元/职能单元",
+            trigger: "change"
+          }
+        ],
+        year: [
+          { required: true, message: "考核周期不能为空", trigger: "blur" }
+        ],
+        end_time: [{ validator: endTimeValidator, trigger: "change" }]
       },
       ruleForm: {
         name: "",
-        range: [],
-        type: "1",
-        startTime: this.initTime.startTime || "",
-        endTime: this.initTime.endTime || "",
+        department_ids: [],
+        performance_type: "annual",
+        year: "",
+        start_time: this.initTime.start_time || "",
+        end_time: this.initTime.end_time || "",
         tpl: "",
         rules: "",
-        isAppeal: 1
+        allow_appeal: 1
       },
       constants: {
         EXECUTIVE_PERFORMANCE_TYPE,
@@ -175,7 +207,7 @@ export default {
   },
   methods: {
     selectedOrg(data) {
-      console.log(data);
+      this.ruleForm.department_ids = data;
     },
     close() {
       this.$emit("close");
@@ -183,14 +215,22 @@ export default {
     submit() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
-          // if (this.infoType == "add") {
-          // } else {
-          // }
+          if (this.infoType == "add") {
+            return postAddPerformanceAssessment(this.ruleForm).then(res => {
+              this.close();
+            });
+          } else {
+            return putPerformanceAssessment(this.tplId, this.ruleForm).then(
+              res => {
+                this.close();
+              }
+            );
+          }
         }
       });
     },
     calculateEndDate: debounce(function(date) {
-      if (!this.ruleForm.endTime) {
+      if (!this.ruleForm.end_time) {
         let dateObj = new Date(date.replace(/-/gi, "/"));
         switch (this.ruleForm.property) {
           case "1":
@@ -215,7 +255,7 @@ export default {
           case "6":
             return;
         }
-        this.ruleForm.endTime = formatTime(dateObj);
+        this.ruleForm.end_time = formatTime(dateObj);
       }
     }, 500)
   },
@@ -251,9 +291,9 @@ export default {
         disabledDate: date => {
           const dt = formatTime(new Date(date));
           let now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          if (this.ruleForm.startTime) {
+          if (this.ruleForm.start_time) {
             // 小于开始时间的disable
-            now = this.ruleForm.startTime;
+            now = this.ruleForm.start_time;
           }
           // 默认小于当期日期
           return dt < now;
@@ -272,16 +312,6 @@ export default {
 }
 .tplDialog >>> .el-form-item {
   margin-bottom: 22px;
-}
-/* .tplDialog >>> .el-checkbox-group,
-.tplDialog >>> .el-checkbox-group + .el-checkbox {
-  margin-left: -30px !important;
-} */
-.ml-10 {
-  margin-left: 10px;
-}
-.no-margin-bottom {
-  margin-bottom: 0 !important;
 }
 .tplDialog >>> .el-form-item .el-input-group__prepend,
 .tplDialog >>> .el-form-item .el-input-group__append {

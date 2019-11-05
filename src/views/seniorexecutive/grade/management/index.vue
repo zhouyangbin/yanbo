@@ -106,8 +106,7 @@
     </section>
     <assessment-dialog
       v-if="showDialog"
-      :initData="initData"
-      :departmentsOps="options"
+      :performanceTypes="performanceTypes"
       @close="tplDialogClose"
       :visible="showDialog"
       :infoType="infoType"
@@ -123,7 +122,7 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { getOrganization } from "@/constants/API";
+import { getOrganization, getPerformanceTypes } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   data() {
@@ -134,7 +133,6 @@ export default {
       infoType: "add",
       showConfirmDialog: false,
       delText: "",
-      initData: {},
       dpOptions: [],
       tableData: [],
       orgTree: [],
@@ -207,6 +205,11 @@ export default {
     getOrganization()
       .then(res => {
         this.orgTree = res;
+      })
+      .catch(e => {});
+    getPerformanceTypes()
+      .then(res => {
+        this.performanceTypes = res;
       })
       .catch(e => {});
   }
