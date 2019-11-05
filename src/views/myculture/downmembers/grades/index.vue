@@ -22,6 +22,9 @@
           >
         </div>
         <hr />
+        <div class="empty" v-if="gradeListType == 'pending' && isHigh == false && isStaff == false">
+          <span>暂无数据</span>
+        </div>
         <div v-if="isHigh && gradeListType == 'pending'" class="container">
           <div class="container-role">
             <span>高管</span>
@@ -238,7 +241,7 @@
             <el-table :data="stafftableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
-              <el-table-column min-width="90" label="自评分数/上级分数">
+              <el-table-column width="140" label="自评分数/上级分数">
                 <template slot-scope="scope">
                   <span class="self-text">
                     {{
@@ -257,7 +260,7 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column min-width="110" label="自评平均分/上级平均分">
+              <el-table-column width="170" label="自评平均分/上级平均分">
                 <template slot-scope="scope">
                   <span class="self-text">
                     {{
@@ -369,6 +372,24 @@
                   </el-tooltip>
                 </template>
               </el-table-column>
+               <el-table-column
+                min-width="100"
+                prop="superior_status"
+                :label="constants.LEADER_EVALUATION_STATUS"
+              ></el-table-column>
+              <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+                <template slot-scope="scope">
+                  <div class="reject_status" v-if="scope.row.reject_status == 1">
+                    <div>{{ constants.REJECT }}</div>
+                  </div>
+                  <div class="complain_status" v-if="scope.row.reject_status == 2">
+                    <div>{{ constants.APPEAL }}</div>
+                  </div>
+                  <div v-if="scope.row.reject_status == 0">
+                    {{ scope.row.stage_name }}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
@@ -429,7 +450,9 @@ import {
   OPERATIONS,
   EXPORT_DETAILS,
   DOWN_MEMBERS_GRADE_LIST,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  LEADER_EVALUATION_STATUS,
+  LABEL_STATUS
 } from "@/constants/TEXT";
 import { getMyDownMembersCultureList, getLowerPlusList } from "@/constants/API";
 
@@ -442,6 +465,8 @@ import {
 export default {
   data() {
     return {
+      highType: "",
+      staffType: "",
       evaluation_id: 0, //  评分id
       staff_evaluation_id: 0, //员工评分ID
       high_evaluation_name: "", //高管评分名称
@@ -467,7 +492,9 @@ export default {
       constants: {
         DETAILS,
         OPERATIONS,
-        EXPORT_DETAILS
+        EXPORT_DETAILS,
+        LEADER_EVALUATION_STATUS,
+        LABEL_STATUS
       },
       columns: [
         {
@@ -525,6 +552,7 @@ export default {
             // 高管
             if (key == 2) {
               this.isHigh = true;
+              this.highType = key;
               this.highSmmary = this.postSummary(res.users[key].overview);
               this.high_evaluation_name = res.evaluations[key].name;
               this.high_end_time = res.evaluations[key].end_time;
@@ -541,6 +569,7 @@ export default {
             //员工
             if (key == 1) {
               this.isStaff = true;
+              this.staffType = key;
               this.summary = this.postSummary(res.users[key].overview);
               this.evaluation_name = res.evaluations[key].name;
               this.end_time = res.evaluations[key].end_time;
@@ -565,11 +594,11 @@ export default {
       this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id, val));
     },
     highDetail() {
-      this.$router.push(PATH_DOWN_MEMBER_CULTURE_LIST(this.evaluation_id));
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_LIST(this.evaluation_id,this.highType));
     },
     staffDetail() {
       this.$router.push(
-        PATH_DOWN_MEMBER_CULTURE_LIST(this.staff_evaluation_id)
+        PATH_DOWN_MEMBER_CULTURE_LIST(this.staff_evaluation_id,this.staffType)
       );
     },
     handleCurrentChange(val) {
@@ -663,9 +692,9 @@ export default {
   }
   &-desc {
     width: 98%;
-    height: 32px;
+    height: 20px;
     margin-left: 24px;
-    line-height: 32px;
+    line-height: 20px;
     &-expect {
       width: 75%;
       float: left;
@@ -704,5 +733,11 @@ export default {
       }
     }
   }
+}
+.empty{
+  font-size: 16px;
+  color:#adadad;
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

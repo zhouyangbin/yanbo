@@ -14,8 +14,9 @@ export const PATH_GRADE_ORG_LIST = (testID = ":id", orgID = ":orgID") =>
 export const PATH_GRADE_EMP_DETAIL = (
   testID = ":id",
   orgID = ":orgID",
-  uid = ":uid"
-) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}`;
+  uid = ":uid",
+  status = ":status"
+) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}/${status}`;
 // 修改评分
 export const PATH_GRADE_EMP_DETAIL_CHANGE = (
   testID = ":id",
@@ -144,10 +145,10 @@ export const PATH_MY_CULTURE_GRADE_DETAILS = (id: string = ":id") =>
   `/culture/my/${id}`;
 export const PATH_MEMEBER_CULTURE_GRADE = "/culture/membersgrades";
 export const PATH_DOWN_MEMEBER_CULTURE_GRADE = "/culture/downmembersgrades";
-export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id") =>
-  `/culture/membersgrades/${id}`;
-export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id") =>
-  `/culture/downmembersgrades/${id}`;
+export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id",type: string = ":type") =>
+  `/culture/membersgrades/${id}/type/${type}`;
+export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id",type: string = ":type") =>
+  `/culture/downmembersgrades/${id}/type/${type}`;
 //高管列表
 export const PATH_MEMEBER_HIGH_DETAIL = "/culture/membersgrades/highDetail";
 

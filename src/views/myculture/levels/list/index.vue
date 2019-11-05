@@ -281,7 +281,7 @@ export default {
         this.tableData = list.data;
         this.end_time = end_time;
         this.evaluation_name_id = evaluation_name_id;
-        this.startedDate = feedback_start_time;
+        this.startedDate = end_time;
         this.gradeName = name;
         this.id = id;
         this.total = list.total;

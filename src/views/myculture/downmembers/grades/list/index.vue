@@ -121,7 +121,7 @@
           style="width: 100%"
         >
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="name" :label="constants.LABEL_NAME">
+          <el-table-column prop="name" width="100" :label="constants.LABEL_NAME">
             <template slot-scope="scope">
               <el-tooltip v-if="isBigDiff(scope.row)" placement="top">
                 <div slot="content">
@@ -251,7 +251,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="_271_level" label="271等级">
+          <el-table-column prop="_271_level" width="100" label="271等级">
             <template slot-scope="scope">
               {{
                 scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
@@ -355,7 +355,8 @@ export default {
       memberForm: {
         superior_name: "",
         employee_name: "",
-        highlevel_status: ""
+        highlevel_status: "",
+        type: ""
       },
       nav: [
         {
@@ -466,6 +467,7 @@ export default {
       this.refreshData({ page: v, ...this.memberForm });
     },
     refreshData(data) {
+      this.memberForm.type = this.$route.params.type;
       getDownMembersList(this.$route.params.id, data).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.total = total;

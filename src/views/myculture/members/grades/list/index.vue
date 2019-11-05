@@ -297,7 +297,8 @@ export default {
 
       memberForm: {
         employee_name: "",
-        superior_status: ""
+        superior_status: "",
+        type: ""
       },
       nav: [
         {
@@ -349,6 +350,7 @@ export default {
     },
 
     getData(data) {
+      this.memberForm.type = this.$route.params.type;
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);
         const { total, data, overview, evaluation_name, end_time } = res;

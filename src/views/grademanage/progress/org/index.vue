@@ -420,21 +420,6 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="feedback_status"
-            :label="constants.FACE_FEEDBACK"
-            width="120"
-          >
-            <template slot-scope="scope">
-              {{
-                (
-                  constants.ENUM_GENERIC_COMPLETE_STATUS.filter(
-                    v => v.key === String(scope.row.feedback_status)
-                  )[0] || {}
-                ).value
-              }}
-            </template>
-          </el-table-column>
-          <el-table-column
             prop="feedback_is_agree"
             :label="constants.RESULT_CONFIRM"
           >
@@ -474,7 +459,8 @@
                     constants.PATH_GRADE_EMP_DETAIL(
                       $route.params.id,
                       $route.params.orgID,
-                      scope.row.id
+                      scope.row.id,
+                      scope.row.status
                     )
                   )
                 "
