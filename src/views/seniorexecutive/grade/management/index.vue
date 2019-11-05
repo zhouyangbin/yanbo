@@ -90,49 +90,56 @@
           <div class="list-middle-right">
             <div class="list-middle-items">
               <div>考核人数</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>指标填写中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>指标确认中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>自评中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>复评中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>隔级审核中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>总裁审核中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>确认中</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
             <div class="list-middle-items">
               <div>已确认</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
             </div>
           </div>
         </div>
         <div class="list-timeline">
-          <div class="time-line">指标设定</div>
+          <div class="time-line active">指标设定</div>
           <div class="time-line-sign active" data="11月15日"></div>
-          <div class="time-line-circle">。。。。。。</div>
-          <div class="time-line-sign" data="11月18日"></div>
+          <div class="time-line-circle active">
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+          </div>
+          <div class="time-line-sign active" data="11月18日"></div>
           <div class="time-line">自评</div>
-          <div class="time-line-sign" data="11月23日"></div>
+          <div class="time-line-sign active" data="11月23日"></div>
           <div class="time-line">上级评分</div>
           <div class="time-line-sign active" data="11月30日"></div>
           <div class="time-line">隔级审核</div>
@@ -387,49 +394,54 @@ export default {
       padding: 16px;
       text-align: center;
       overflow: hidden;
-      .list-middle-left {
-        float: left;
+      .list-middle-left,
+      .list-middle-right {
         display: flex;
+        color: #909399;
         background-color: #fafafa;
         .list-middle-items {
           box-sizing: border-box;
           padding: 14px 16px;
+          .list-middle-item {
+            margin-top: 8px;
+            color: #303133;
+          }
+        }
+      }
+      .list-middle-left {
+        float: left;
+        .list-middle-items {
           width: 140px;
+          .list-middle-item {
+            line-height: 20px;
+          }
         }
       }
       .list-middle-right {
         margin-left: 284px;
-        display: flex;
-        background-color: #fafafa;
         .list-middle-items {
           flex: 1;
-          box-sizing: border-box;
-          padding: 14px 16px;
-        }
-      }
-      .el-col {
-        padding: 14px 16px;
-        color: #909399;
-        background-color: #fafafa;
-        .list-middle-item {
-          margin-top: 8px;
-          color: #303133;
+          .list-middle-item {
+            line-height: 40px;
+          }
         }
       }
     }
     .list-timeline {
       display: flex;
-      padding: 22px 30px;
-      padding: 22px 30px 40px 30px;
+      padding: 0 30px 40px 30px;
       .time-line {
         width: 15%;
         padding: 6px 0;
         text-align: center;
+        border-bottom: 4px solid #e6e9f0;
+      }
+      .time-line.active {
         border-bottom: 4px solid #38d0afff;
       }
       .time-line-sign {
         position: relative;
-        top: 28px;
+        top: 26px;
         width: 12px;
         height: 12px;
         margin: 0 4px;
@@ -459,10 +471,26 @@ export default {
         }
       }
       .time-line-circle {
+        min-width: 45px;
         position: relative;
-        top: 16px;
-        font-size: 18px;
-        margin-right: -10px;
+        top: 22px;
+        left: 0;
+        .circle-list {
+          display: inline-block;
+          margin-right: 4px;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: #e6e9f0;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .time-line-circle.active {
+        .circle-list {
+          background-color: #38d0afff;
+        }
       }
     }
   }
