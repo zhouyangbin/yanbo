@@ -461,9 +461,9 @@ export const delAssessment = (id: String) =>
   sendDelete(`/executive-performance/admin/performances/${id}`, {});
 
 // 高管绩效  获取绩效考核列表
-export const getAdminPerformancesList = () =>
-  // sendGet(`/executive-performance/admin/performances`);
-  sendGet(`/js/getAdminPerformancesList.json`);
+export const getAdminPerformancesList = (params: Object) =>
+  // sendGet(`/executive-performance/admin/performances`, params);
+  sendGet(`/js/getAdminPerformancesList.json`, params);
 
 // 高管绩效 获取标签
 export const postTagDepartments = (params: Object) =>

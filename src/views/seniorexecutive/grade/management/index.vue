@@ -1,9 +1,6 @@
 <template>
   <div class="grade-management">
     <nav-bar :list="nav"></nav-bar>
-    <div class="create-btn">
-      <el-button type="primary" @click="createTpl">创建高管绩效考核</el-button>
-    </div>
     <section class="content-container">
       <el-row align="middle" type="flex" justify="space-between">
         <div>
@@ -20,12 +17,19 @@
           </el-button>
         </div>
         <div>
-          <el-radio-group v-model="statuses" size="medium">
-            <el-radio-button label="1">全部</el-radio-button>
-            <el-radio-button label="2">草稿</el-radio-button>
-            <el-radio-button label="3">进行中</el-radio-button>
-            <el-radio-button label="4">已结束</el-radio-button>
+          <el-radio-group
+            v-model="statuses"
+            @change="changeStatuses"
+            size="medium"
+          >
+            <el-radio-button label="0">全部</el-radio-button>
+            <el-radio-button label="1">草稿</el-radio-button>
+            <el-radio-button label="2">进行中</el-radio-button>
+            <el-radio-button label="3">已结束</el-radio-button>
           </el-radio-group>
+          <el-button class="create-btn" type="primary" @click="createTpl"
+            >创建高管绩效考核</el-button
+          >
         </div>
       </el-row>
       <div class="grade-management-list">
@@ -169,16 +173,17 @@ export default {
         LABEL_EMPTY,
         LABEL_SELECT_DIVISION
       },
-      statuses: "1"
+      statuses: "0"
     };
   },
   watch: {
     filterForm: {
       handler: function(v) {
-        const filterData = {
+        let id = v.dp.length > 0 ? v.dp[v.dp.length - 1] : "";
+        let filterData = {
           page: 1,
-          statuses: this.statuses,
-          department_ids: v.dp.length > 0 ? v.dp[v.dp.length - 1] : ""
+          statuses: this.statuses === "0" ? [] : this.statuses.split(","),
+          department_ids: id.split(",")
         };
         this.currentPage = 1;
         // 获取绩效考核列表
@@ -189,6 +194,12 @@ export default {
     }
   },
   methods: {
+    changeStatuses() {
+      this.getPerformanceList({
+        statuses: this.statuses === "0" ? [] : this.statuses.split(","),
+        page: this.currentPage
+      });
+    },
     getPerformanceList(getData) {
       getAdminPerformancesList(getData)
         .then(res => {
@@ -241,10 +252,6 @@ export default {
     }
   },
   created() {
-    this.getPerformanceList({
-      statuses: this.statuses,
-      page: this.currentPage
-    });
     getOrganization()
       .then(res => {
         this.orgTree = res;
@@ -260,11 +267,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .grade-management {
-  position: relative;
   .create-btn {
-    position: absolute;
-    right: 20px;
-    top: 10px;
+    margin-left: 24px;
   }
   .grade-management-list {
     background-color: #fff;

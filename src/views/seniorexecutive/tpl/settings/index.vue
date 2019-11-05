@@ -194,19 +194,13 @@ export default {
       ]
     };
   },
-  // computed: {
-  //   selectedDep() {
-  //     return this.filterForm.dp.length > 0
-  //       ? this.filterForm.dp[this.filterForm.dp.length - 1]
-  //       : "";
-  //   }
-  // },
   watch: {
     filterForm: {
       handler: function(v) {
-        const filterData = {
+        let id = v.dp.length > 0 ? v.dp[v.dp.length - 1] : "";
+        let filterData = {
           page: 1,
-          department_ids: v.dp.length > 0 ? v.dp[v.dp.length - 1] : ""
+          department_ids: id.split(",")
         };
         this.currentPage = 1;
         this.getTplList(filterData);
