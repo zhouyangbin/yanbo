@@ -4,7 +4,7 @@
     @close="close"
     width="650px"
     :visible="visible"
-    class="tplDialog"
+    class="tpl-dialog"
   >
     <div slot="title" class="title">
       {{ infoType === "add" ? "创建高管绩效考核" : "修改高管绩效考核" }}
@@ -81,10 +81,10 @@
         </div>
       </el-form-item>
       <el-form-item label="绩效模板" prop="tpl">
-        <div class="rule-name">这是绩效模板</div>
+        <div class="rule-name">{{ ruleForm.tpl }}</div>
       </el-form-item>
       <el-form-item label="标签规则" prop="rules">
-        <div class="rule-name">这是标签规则</div>
+        <div class="rule-name">{{ ruleForm.rules }}</div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
         <el-radio-group v-model="ruleForm.allow_appeal">
@@ -117,7 +117,9 @@ import {
 import {
   postAddPerformanceAssessment,
   putPerformanceAssessment,
-  getPerformanceTypes
+  getPerformanceTypes,
+  postTplDepartments,
+  postTagDepartments
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -166,7 +168,7 @@ export default {
     };
     return {
       tplId: "",
-      department_ids: [],
+      departmentIds: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
@@ -205,8 +207,29 @@ export default {
       }
     };
   },
+  watch: {
+    departmentIds: {
+      handler: function(val, oldVal) {
+        if (val.length > 0) {
+          let postData = {
+            department_ids: val
+          }
+          // 获取选中事业部的绩效模板和标签规则
+          postTagDepartments(postData).then(res => {
+            this.ruleForm.rules = res
+          })
+          postTplDepartments(postData).then(res => {
+            this.ruleForm.tpl = res
+          })
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   methods: {
     selectedOrg(data) {
+      this.departmentIds = data;
       this.ruleForm.department_ids = data;
     },
     close() {
@@ -281,7 +304,6 @@ export default {
           // 小于当前日期的disable
           const dt = formatTime(new Date(date));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
-
           return dt < now;
         }
       };
@@ -304,22 +326,22 @@ export default {
 };
 </script>
 <style scoped>
-.tplDialog .title {
+.tpl-dialog .title {
   text-align: left;
 }
-.tplDialog >>> .el-dialog__header {
+.tpl-dialog >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
 }
-.tplDialog >>> .el-form-item {
+.tpl-dialog >>> .el-form-item {
   margin-bottom: 22px;
 }
-.tplDialog >>> .el-form-item .el-input-group__prepend,
-.tplDialog >>> .el-form-item .el-input-group__append {
+.tpl-dialog >>> .el-form-item .el-input-group__prepend,
+.tpl-dialog >>> .el-form-item .el-input-group__append {
   padding: 0 10px !important;
   background-color: #fff !important;
   border: none !important;
 }
-.tplDialog .rule-name {
+.tpl-dialog .rule-name {
   color: #52ddab;
 }
 </style>

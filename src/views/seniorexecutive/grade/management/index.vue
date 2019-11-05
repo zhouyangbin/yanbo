@@ -118,7 +118,7 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { getOrganization, getPerformanceTypes } from "@/constants/API";
+import { getOrganization, getPerformanceTypes, getAdminPerformancesList } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -173,13 +173,22 @@ export default {
         };
         this.currentPage = 1;
         // 获取绩效考核列表
-        // this.getTplList(filterData);
+        this.getPerformanceList(filterData);
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
+    getPerformanceList(getData) {
+      getAdminPerformancesList(getData)
+        .then(res => {
+          const { total, data } = res;
+          this.tableData = data;
+          this.total = total;
+        })
+        .catch(e => {});
+    },
     createTpl() {
       // 创建模板
       this.infoType = "add";
@@ -218,6 +227,7 @@ export default {
     }
   },
   created() {
+    this.getPerformanceList({})
     getOrganization()
       .then(res => {
         this.orgTree = res;
