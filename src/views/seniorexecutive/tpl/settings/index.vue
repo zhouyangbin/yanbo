@@ -197,13 +197,13 @@ export default {
       ]
     };
   },
-  computed: {
-    selectedDep() {
-      return this.filterForm.dp.length > 0
-        ? this.filterForm.dp[this.filterForm.dp.length - 1]
-        : "";
-    }
-  },
+  // computed: {
+  //   selectedDep() {
+  //     return this.filterForm.dp.length > 0
+  //       ? this.filterForm.dp[this.filterForm.dp.length - 1]
+  //       : "";
+  //   }
+  // },
   watch: {
     filterForm: {
       handler: function(v) {

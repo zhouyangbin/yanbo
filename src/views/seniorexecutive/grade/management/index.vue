@@ -8,17 +8,13 @@
       <el-row align="middle" type="flex" justify="space-between">
         <div>
           <span>高管绩效考核列表：</span>
-          <el-select
+          <el-cascader
             v-model="filterForm.dp"
             :placeholder="constants.LABEL_SELECT_DIVISION"
-          >
-            <el-option
-              v-for="item in dpOptions"
-              :key="item.key"
-              :label="item.value"
-              :value="item.key"
-            ></el-option>
-          </el-select>
+            :props="filterProps"
+            :options="orgTree"
+            :show-all-levels="false"
+          ></el-cascader>
           <el-button style="margin-left:30px" round @click="resetFilter">
             {{ constants.LABEL_EMPTY }}
           </el-button>
@@ -125,15 +121,30 @@ import { AsyncComp } from "@/utils/asyncCom";
 import { getOrganization, getPerformanceTypes } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "assessment-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
+    ),
+    "confirm-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
+    ),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
   data() {
     return {
+      filterProps: {
+        value: "department_id",
+        label: "department_name",
+        children: "children"
+      },
       currentPage: 1,
       total: 0,
       showDialog: false,
       infoType: "add",
       showConfirmDialog: false,
       delText: "",
-      dpOptions: [],
+      // dpOptions: [],
       tableData: [],
       orgTree: [],
       nav: [
@@ -153,15 +164,20 @@ export default {
       status: "1"
     };
   },
-  components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "assessment-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
-    ),
-    "confirm-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+  watch: {
+    filterForm: {
+      handler: function(v) {
+        const filterData = {
+          page: 1,
+          department_ids: v.dp.length > 0 ? v.dp[v.dp.length - 1] : ""
+        };
+        this.currentPage = 1;
+        // 获取绩效考核列表
+        // this.getTplList(filterData);
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     createTpl() {
@@ -179,9 +195,9 @@ export default {
       this.showDialog = true;
     },
     resetFilter() {
-      // this.filterForm = {
-      //   dp: []
-      // };
+      this.filterForm = {
+        dp: []
+      };
     },
     handleCurrentChange() {
       this.currentPage = val;
