@@ -18,7 +18,7 @@
         v-model="infoForm.plusuplevelName"
       ></el-input>
     </el-form-item>
-    <!--<el-form-item prop="plusuplevelBU">
+    <el-form-item prop="plusuplevelBU">
       <el-input
         size="small"
         :disabled="true"
@@ -32,7 +32,7 @@
         :placeholder="constants.PLUS_UP_LEVEL + constants.EMAIL"
         v-model="infoForm.plusuplevelEmail"
       ></el-input>
-    </el-form-item>-->
+    </el-form-item>
   </div>
 </template>
 <script>
@@ -81,7 +81,7 @@ export default {
         }).then(res => {
             if (res) {
               this.infoForm.plusuplevelName = res.name;
-              this.infoForm.plusuplevelBU = res.department;
+              this.infoForm.plusuplevelBU = res.department_name;
               this.infoForm.plusuplevelEmail = res.email;
             } else {
               this.infoForm.plusuplevelName = "";

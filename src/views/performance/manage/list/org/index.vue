@@ -678,7 +678,7 @@ export default {
       return getPerormanceDepartmentDetails(this.$route.params.orgID, data)
         .then(res => {
           const { data, total, performance_info } = res;
-          console.log(performance_info.high_level_status)
+          console.log(performance_info)
           this.tableData = data;
           this.total = total;
           //  console.log(performance_info);
@@ -733,8 +733,16 @@ export default {
       return {
         startTime: this.depInfo.start_time,
         endTime: this.depInfo.end_time,
-        targetStartTime: this.depInfo.target_start_time,
-        targetEndTime: this.depInfo.target_end_time,
+        start_time: "",
+        end_time: "",
+        target_start_time: "",
+        target_end_time: "",
+        high_level_start_time: "",
+        high_level_end_time: "",
+        confirm_start_time: "",
+        confirm_end_time: "",
+        appeal_start_time: "",
+        appeal_end_time: "",
         finalEnd: this.depInfo.performance_name_end_time
       };
     },

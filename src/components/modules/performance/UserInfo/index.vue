@@ -150,11 +150,11 @@ export default {
     this.infoForm.email = this.currentInfo.email;
     this.infoForm.leaderNum = this.currentInfo.superior_workcode;
     this.infoForm.leaderName = this.currentInfo.superior_name;
-    this.infoForm.leaderBU = this.currentInfo.superior_department;
+    this.infoForm.leaderBU = this.currentInfo.superior_syb;
     this.infoForm.leaderEmail = this.currentInfo.superior_email;
     this.infoForm.plusuplevelNum = this.currentInfo.high_level_workcode;
     this.infoForm.plusuplevelName = this.currentInfo.high_level_name;
-    this.infoForm.plusuplevelBU = this.currentInfo.superior_department;
+    this.infoForm.plusuplevelBU = this.currentInfo.high_level_syb;
     this.infoForm.plusuplevelEmail = this.currentInfo.high_level_email;
   },
   methods: {
@@ -171,13 +171,14 @@ export default {
           //console.log(this.infoType)
           if (this.infoType === "add") {
             // 添加的情况下
-            const { num, email, leaderNum, leaderEmail,  plusuplevelNum } = this.infoForm;
+            const { num, email, leaderNum, leaderEmail,  plusuplevelNum, plusuplevelEmail } = this.infoForm;
             const postData = {
               workcode: num,
               email,
               superior_workcode: leaderNum,
               superior_email: leaderEmail,
-              high_level_workcode: plusuplevelNum
+              high_level_workcode: plusuplevelNum,
+              high_level_email: plusuplevelEmail
             };
             return postPerformanceUser(this.$route.params.orgID, postData)
               .then(res => {
@@ -185,7 +186,7 @@ export default {
               })
               .catch(e => {});
           } else {
-            const { email, leaderNum, leaderEmail } = this.infoForm;
+            const { email, leaderNum, leaderEmail,  plusuplevelNum, plusuplevelEmail } = this.infoForm;
             // console.log(this.currentInfo);
             return pathPerformanceUser(
               this.$route.params.orgID,
@@ -193,7 +194,9 @@ export default {
               {
                 email,
                 superior_workcode: leaderNum,
-                superior_email: leaderEmail
+                superior_email: leaderEmail,
+                high_level_workcode: plusuplevelNum,
+                high_level_email: plusuplevelEmail
               }
             )
               .then(res => {
