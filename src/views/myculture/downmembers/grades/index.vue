@@ -635,8 +635,8 @@ export default {
     getEndList(val) {
       this.gradeListType = val;
     },
-    goDetail(val,id) {
-      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id,val));
+    goDetail(val, id) {
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id, val));
     },
     highDetail() {
       this.$router.push(
