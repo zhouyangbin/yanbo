@@ -478,7 +478,7 @@ export default {
     },
     goDetail(row) {
       this.$router.push(
-        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id,this.$route.params.type, row.id)
+        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
       );
     },
     postSummary(data) {

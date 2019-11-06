@@ -63,7 +63,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "17600297195" })
+        fzLogin({ workcode: "137757" })
           // 094203
           // 076533
           // 17600297195
@@ -139,9 +139,6 @@ export default {
       }
       return dst;
     },
-    // PATH_DOWN_MEMBER_CULTURE_DETAILS
-    // PATH_DOWN_MEMBER_CULTURE_LIST
-    // PATH_MEMBER_CULTURE_LIST
     getCulturePath(querys) {
       let dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
       switch (querys.url) {
