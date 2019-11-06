@@ -138,9 +138,9 @@ export default {
       type: Object,
       default: () => ({})
     },
-    initData: {
-      type: Object,
-      default: () => ({})
+    performanceId: {
+      type: Number,
+      default: 0
     },
     performanceTypes: {
       type: Array,
@@ -285,15 +285,8 @@ export default {
     this.$refs["ruleForm"].resetFields();
   },
   created() {
-    if (this.infoType != "add" && this.initData.id) {
-      getTpl(this.initData.id).then(res => {
-        const { labelName, department_id, type_id, template_columns } = res;
-        // console.log(template_columns)
-        this.ruleForm = {
-          labelName,
-          dp: department_id
-        };
-      });
+    if (this.infoType != "add" && this.performanceId) {
+      // 获取弹框信息
     }
   },
   computed: {

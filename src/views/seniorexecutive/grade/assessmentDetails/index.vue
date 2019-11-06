@@ -10,14 +10,21 @@
         </div>
       </div>
       <div class="list-timeline">
-        <div class="time-line" data="填写中100/确认中300">指标设定</div>
+        <div class="time-line active" data="填写中100/确认中300">指标设定</div>
         <div class="time-line-sign active" data="11月15日"></div>
-        <div class="time-line-circle">。。。。。。</div>
-        <div class="time-line-sign" data="11月18日"></div>
-        <div class="time-line">自评</div>
-        <div class="time-line-sign" data="11月23日"></div>
+        <div class="time-line-circle active">
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+        </div>
+        <div class="time-line-sign active" data="11月18日"></div>
+        <div class="time-line active">自评</div>
+        <div class="time-line-sign active" data="11月23日"></div>
         <div class="time-line">上级评分</div>
-        <div class="time-line-sign active" data="11月30日"></div>
+        <div class="time-line-sign" data="11月30日"></div>
         <div class="time-line">隔级审核</div>
         <div class="time-line-sign" data="12月1日"></div>
         <div class="time-line">总裁审核</div>
@@ -30,7 +37,7 @@
       <div class="setting-list-box">
         <div class="setting-title">
           <div>基本设置</div>
-          <div class="update-settin">修改设置</div>
+          <div class="update-settin" @click="modifySettings">修改设置</div>
         </div>
         <div class="basic-setting">
           <div class="setting-detail">
@@ -218,16 +225,27 @@
         </el-row>
       </div>
     </section>
+    <assessment-dialog
+      v-if="showDialog"
+      :visible="showDialog"
+      @close="tplDialogClose"
+      :infoType="infoType"
+      :performanceId="performanceId"
+      :performanceTypes="performanceTypes"
+      :orgTree="orgTree"
+    ></assessment-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
-      :tipsText="delText"
-      @close="confirmDialogClose"
       :visible="showConfirmDialog"
+      :tipsText="tipsText"
+      @confirm="confirmDialog"
+      @close="closeDialog"
     ></confirm-dialog>
   </div>
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
+import { putOpenAssessment, getOrganization, getPerformanceTypes } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   data() {
@@ -235,7 +253,11 @@ export default {
       currentPage: 1,
       total: 0,
       showConfirmDialog: false,
-      delText: "",
+      showDialog: false,
+      infoType: "add",
+      performanceTypes: [],
+      orgTree: [],
+      tipsText: "",
       nav: [
         {
           label: "高管绩效考核列表",
@@ -265,14 +287,32 @@ export default {
     "confirm-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
     ),
+    "assessment-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
+    ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
+    modifySettings() {
+      this.infoType = "modify";
+      this.showDialog = true;
+    },
+    tplDialogClose() {
+      this.showDialog = false;
+    },
     openAssessment() {
       this.showConfirmDialog = true;
-      this.delText = "是否确认启动考核？";
+      this.tipsText = "是否确认启动考核？";
     },
-    confirmDialogClose() {
+    confirmDialog() {
+      // 确定按钮
+      console.log("111")
+      // this.showConfirmDialog = false;
+      // putOpenAssessment(id).then(res => {
+      //   console.log(res)
+      // }).catch(e => {});
+    },
+    closeDialog() {
       this.showConfirmDialog = false;
     },
     handleCurrentChange() {
@@ -304,7 +344,18 @@ export default {
       // 修改
     }
   },
-  created() {}
+  created() {
+    getOrganization()
+      .then(res => {
+        this.orgTree = res;
+      })
+      .catch(e => {});
+    getPerformanceTypes()
+      .then(res => {
+        this.performanceTypes = res;
+      })
+      .catch(e => {});
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -325,28 +376,19 @@ export default {
   }
   .list-timeline {
     display: flex;
-    padding: 22px 30px;
-    padding: 22px 30px 40px 30px;
+    padding: 40px 30px;
     .time-line {
-      position: relative;
       width: 15%;
-      padding: 6px 0 22px 0;
+      padding: 6px 0;
       text-align: center;
+      border-bottom: 4px solid #e6e9f0;
+    }
+    .time-line.active {
       border-bottom: 4px solid #38d0afff;
-      &::after {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 25px;
-        width: 100%;
-        content: attr(data);
-        color: #ff8519;
-        font-size: 12px;
-      }
     }
     .time-line-sign {
       position: relative;
-      top: 44px;
+      top: 26px;
       width: 12px;
       height: 12px;
       margin: 0 4px;
@@ -356,7 +398,7 @@ export default {
       &::after {
         position: absolute;
         left: -24px;
-        top: 11px;
+        top: 14px;
         width: 66px;
         content: attr(data);
         color: #909399ff;
@@ -376,10 +418,26 @@ export default {
       }
     }
     .time-line-circle {
+      min-width: 45px;
       position: relative;
-      top: 31px;
-      font-size: 18px;
-      margin-right: -10px;
+      top: 22px;
+      left: 0;
+      .circle-list {
+        display: inline-block;
+        margin-right: 4px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #e6e9f0;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+    .time-line-circle.active {
+      .circle-list {
+        background-color: #38d0afff;
+      }
     }
   }
   .setting-list-box {

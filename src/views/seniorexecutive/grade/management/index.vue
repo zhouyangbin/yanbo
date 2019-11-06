@@ -44,7 +44,10 @@
           <div class="bread-crumb">
             <span>{{ item.name }}</span>
             <span class="dividing-line">|</span>
-            <span>{{ item.range }}</span>
+            <span class="list-top-range"
+              >{{ item.range }}{{ item.range }}{{ item.range }}{{ item.range
+              }}{{ item.range }}{{ item.range }}</span
+            >
             <span class="dividing-line">|</span>
             <span v-if="item.performance_type === 'annual'">年度</span>
             <span v-if="item.performance_type === 'semi-annual'">半年度</span>
@@ -138,9 +141,9 @@
             <div class="circle-list"></div>
           </div>
           <div class="time-line-sign active" data="11月18日"></div>
-          <div class="time-line">自评</div>
+          <div class="time-line active">自评</div>
           <div class="time-line-sign active" data="11月23日"></div>
-          <div class="time-line">上级评分</div>
+          <div class="time-line active">上级评分</div>
           <div class="time-line-sign active" data="11月30日"></div>
           <div class="time-line">隔级审核</div>
           <div class="time-line-sign" data="12月1日"></div>
@@ -158,10 +161,10 @@
     </section>
     <assessment-dialog
       v-if="showDialog"
-      :performanceTypes="performanceTypes"
-      @close="tplDialogClose"
       :visible="showDialog"
+      @close="tplDialogClose"
       :infoType="infoType"
+      :performanceTypes="performanceTypes"
       :orgTree="orgTree"
     ></assessment-dialog>
     <confirm-dialog
@@ -175,6 +178,7 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
+import { putOpenAssessment, delAssessment } from "@/constants/API";
 import {
   getOrganization,
   getPerformanceTypes,
@@ -268,7 +272,6 @@ export default {
     },
     tplDialogClose() {
       this.showDialog = false;
-      // 关闭弹框
     },
     updateTpl(row) {
       // 修改
@@ -294,9 +297,15 @@ export default {
       this.showConfirmDialog = false;
     },
     confirmDialog() {
+      // 确定按钮 判断是开启还是删除的框
       console.log("确定");
       // this.showConfirmDialog = false;
-      // 确定按钮
+      // putOpenAssessment(id).then(res => {
+      //   console.log(res)
+      // }).catch(e => {});
+      // delAssessment(id).then(res => {
+      //   console.log(res)
+      // }).catch(e => {});
     },
     openAssessment() {
       this.showConfirmDialog = true;
@@ -354,6 +363,14 @@ export default {
         .dividing-line {
           margin: 0 12px;
           color: #dcdfe6ff;
+        }
+        .list-top-range {
+          display: inline-block;
+          max-width: 200px;
+          vertical-align: middle;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
       .operate-btns {
@@ -451,7 +468,7 @@ export default {
         &::after {
           position: absolute;
           left: -24px;
-          top: 11px;
+          top: 14px;
           width: 66px;
           content: attr(data);
           color: #909399ff;
