@@ -151,7 +151,7 @@ export default {
           dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id, 1);
           break;
         case "highlevel":
-          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id,2);
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id, 2);
           break;
         case "reject":
         case "superior_detail":
@@ -185,9 +185,7 @@ export default {
           );
           break;
         case "feedback":
-          dst = PATH_MEMBER_CULTURE_LIST(
-            querys.evaluation_name_id
-          )
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
       }
       return dst;
     },

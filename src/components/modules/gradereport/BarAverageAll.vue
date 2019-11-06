@@ -69,8 +69,8 @@ export default {
         },
         color: ["#3BDABC", "#72b7f5"],
         grid: {
-            bottom:'15%',
-            containLabel: true
+          bottom: "15%",
+          containLabel: true
         },
         xAxis: [
           {

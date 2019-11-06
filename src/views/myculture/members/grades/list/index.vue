@@ -272,9 +272,8 @@ import {
 } from "@/constants/URL";
 import { getMembersList } from "@/constants/API";
 export default {
-  created(){
-      const type = JSON.parse(localStorage.getItem('type'));
-
+  created() {
+    const type = JSON.parse(localStorage.getItem("type"));
   },
   data() {
     return {
@@ -300,7 +299,7 @@ export default {
       memberForm: {
         employee_name: "",
         superior_status: "",
-        type: 0,
+        type: 0
       },
       nav: [
         {
@@ -355,8 +354,8 @@ export default {
       getMembersList(this.$route.params.id, {
         employee_name: this.memberForm.employee_name,
         superior_status: this.memberForm.superior_status,
-        type: JSON.parse(localStorage.getItem('type')).type,
-        }).then(res => {
+        type: JSON.parse(localStorage.getItem("type")).type
+      }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;
         this.total = total;

@@ -78,8 +78,8 @@ export default {
           }
         ],
         grid: {
-            bottom:'15%',
-            containLabel: true
+          bottom: "15%",
+          containLabel: true
         },
         yAxis: [
           {
