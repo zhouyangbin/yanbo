@@ -139,6 +139,9 @@ export default {
       }
       return dst;
     },
+    // PATH_DOWN_MEMBER_CULTURE_DETAILS
+    // PATH_DOWN_MEMBER_CULTURE_LIST
+    // PATH_MEMBER_CULTURE_LIST
     getCulturePath(querys) {
       let dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
       switch (querys.url) {
@@ -148,10 +151,10 @@ export default {
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
           break;
         case "superior":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id,1);
           break;
         case "highlevel":
-          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_id);
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_id,2);
           break;
         case "reject":
         case "superior_detail":
@@ -163,7 +166,8 @@ export default {
         case "highlevel_detail":
           dst = PATH_DOWN_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
-            querys.user_id
+            querys.user_id,
+            2
           );
           break;
         case "hr_detail":
@@ -180,11 +184,11 @@ export default {
         case "mg_sub_grademanage":
           dst = PATH_GRADE_ORG_LIST(
             querys.evaluation_name_id,
-            querys.evaluation_id
+            querys.evaluation_id,
+
           );
           break;
       }
-      // console.log(querys.evaluation_name_id, querys.user_id, dst)
       return dst;
     },
     callback(res, dst, querys) {
