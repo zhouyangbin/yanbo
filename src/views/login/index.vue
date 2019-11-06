@@ -151,10 +151,10 @@ export default {
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
           break;
         case "superior":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id,1);
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id, 1);
           break;
         case "highlevel":
-          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_id,2);
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_id, 2);
           break;
         case "reject":
         case "superior_detail":
@@ -184,8 +184,7 @@ export default {
         case "mg_sub_grademanage":
           dst = PATH_GRADE_ORG_LIST(
             querys.evaluation_name_id,
-            querys.evaluation_id,
-
+            querys.evaluation_id
           );
           break;
       }
