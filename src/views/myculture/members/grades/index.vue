@@ -232,7 +232,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="address" :label="constants.OPERATIONS">
+              <!-- <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
                     @click="goDetail(scope.row.id, evaluation_id)"
@@ -241,7 +241,7 @@
                     >{{ constants.DETAILS }}</el-button
                   >
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
           </div>
         </div>
@@ -579,13 +579,17 @@ export default {
       }
       return { ...obj };
     },
-    goDetail(val, id) {
-      this.$router.push(PATH_MEMBER_CULTURE_DETAILS(id, val));
-    },
+    // goDetail(val, id) {
+    //   this.$router.push(PATH_MEMBER_CULTURE_DETAILS(id, val));
+    // },
     highDetail() {
+      const isHigh = { type: this.highType }
+      localStorage.setItem('type',JSON.stringify(isHigh));
       this.$router.push(PATH_MEMBER_CULTURE_LIST(this.evaluation_id,this.highType));
     },
     staffDetail() {
+      const isHigh = { type: this.staffType }
+      localStorage.setItem('type',JSON.stringify(isHigh));
       this.$router.push(PATH_MEMBER_CULTURE_LIST(this.staff_evaluation_id,this.staffType));
     },
     handleCurrentChange(val) {
