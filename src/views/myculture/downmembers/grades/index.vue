@@ -197,10 +197,28 @@
                   </el-tooltip>
                 </template>
               </el-table-column>
+               <el-table-column
+                min-width="100"
+                prop="superior_status"
+                :label="constants.LEADER_EVALUATION_STATUS"
+              ></el-table-column>
+              <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+                <template slot-scope="scope">
+                  <div class="reject_status" v-if="scope.row.reject_status == 1">
+                    <div>{{ constants.REJECT }}</div>
+                  </div>
+                  <div class="complain_status" v-if="scope.row.reject_status == 2">
+                    <div>{{ constants.APPEAL }}</div>
+                  </div>
+                  <div v-if="scope.row.reject_status == 0">
+                    {{ scope.row.stage_name }}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
-                    @click="goDetail(scope.row.id, evaluation_id)"
+                    @click="goDetail(scope.row.id, 2, evaluation_id)"
                     type="text"
                     size="small"
                     >{{ constants.DETAILS }}</el-button
@@ -407,7 +425,7 @@
               <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
-                    @click="goDetail(scope.row.id, staff_evaluation_id)"
+                    @click="goDetail(scope.row.id,1, staff_evaluation_id)"
                     type="text"
                     size="small"
                     >{{ constants.DETAILS }}</el-button
@@ -466,7 +484,9 @@ import {
   DOWN_MEMBERS_GRADE_LIST,
   LEVEL_ALIAS,
   LEADER_EVALUATION_STATUS,
-  LABEL_STATUS
+  LABEL_STATUS,
+  REJECT,
+  APPEAL
 } from "@/constants/TEXT";
 import { getMyDownMembersCultureList, getLowerPlusList } from "@/constants/API";
 
@@ -508,7 +528,9 @@ export default {
         OPERATIONS,
         EXPORT_DETAILS,
         LEADER_EVALUATION_STATUS,
-        LABEL_STATUS
+        LABEL_STATUS,
+        REJECT,
+        APPEAL
       },
       columns: [
         {
@@ -604,8 +626,9 @@ export default {
     getEndList(val) {
       this.gradeListType = val;
     },
-    goDetail(val, id) {
-      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id, val));
+    goDetail(val,type,id) {
+      // console.log(type);
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id,type,val));
     },
     highDetail() {
       this.$router.push(
@@ -646,6 +669,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@mixin target-metro {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
 .my-grade-list .content-container {
   padding: 20px;
 }
@@ -690,6 +718,48 @@ export default {
   color: #adadad;
   letter-spacing: 0.17px;
   padding: 0 5px;
+}
+.reject_status div {
+  border-radius: 20px;
+  border: solid 2px #e94a2d;
+  color: #e94a2d;
+  width: 60px;
+  transform: rotateZ(-12deg);
+}
+.complain_status,
+.reject_status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  left: 24%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
+.complain_status div {
+  border-radius: 20px;
+  border: solid 2px #46beeb;
+  color: #46beeb;
+  width: 60px;
+  transform: rotateZ(-12deg);
+}
+@include target-metro {
+  .complain_status,
+  .reject_status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 100%;
+  }
 }
 .container {
   height: 500px;

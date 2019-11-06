@@ -194,8 +194,8 @@
               ).value
             }}
             <span v-if="scope.row.highlevel_status" class="list-count"
-              >&nbsp;&nbsp;&nbsp;({{ scope.row.highlevel_count }}/{{
-                scope.row.highlevel_finish_count
+              >&nbsp;&nbsp;&nbsp;({{ scope.row.highlevel_finish_count }}/{{
+                scope.row.highlevel_count
               }})</span
             >
           </template>
@@ -263,7 +263,7 @@
       :isManagerGrade="isManagerGrade"
       :timeData="timeData"
       :status="status"
-      @close="closeTimeSettingDia"
+      @close="close"
       v-if="dialogTimes"
       :dialogTimes="dialogTimes"
       :orgId="orgId"
@@ -376,7 +376,7 @@ export default {
         offlinetalk_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
-        checked_271: 0,
+        checked_271: 1,
         visible_271: 0,
         feeling_is_necessary: 0
       },
@@ -424,9 +424,9 @@ export default {
             offlinetalk_end_time: res.info.offlinetalk_end_time,
             feedback_start_time: res.info.feedback_start_time,
             feedback_end_time: res.info.feedback_end_time,
-            checked_271: 0,
-            visible_271: 0,
-            feeling_is_necessary: 2
+            checked_271: res.info._271_is_necessary,
+            visible_271: res.info.visible_271,
+            feeling_is_necessary: res.info.feeling_is_necessary
           };
           this.isManagerGrade = res.info.type == 2;
           this.orgId = res.info.id;
@@ -479,8 +479,7 @@ export default {
         this.isBatchSetTime = true;
       }
     },
-    closeTimeSettingDia() {
-      this.dialogTimes = false;
+    close() {
       this.resetFilter("filter-form");
       const postData = {
         import_status: "",
@@ -492,6 +491,7 @@ export default {
         page: 1
       };
       this.refreshList(postData);
+      this.dialogTimes = false;
     }
   },
   watch: {

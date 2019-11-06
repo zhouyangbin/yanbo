@@ -360,7 +360,7 @@ export default {
         superior_name: "",
         employee_name: "",
         highlevel_status: "",
-        type: ""
+        type: this.$route.params.type
       },
       nav: [
         {
@@ -471,7 +471,6 @@ export default {
       this.refreshData({ page: v, ...this.memberForm });
     },
     refreshData(data) {
-      this.memberForm.type = this.$route.params.type;
       getDownMembersList(this.$route.params.id, data).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.total = total;
@@ -483,7 +482,7 @@ export default {
     },
     goDetail(row) {
       this.$router.push(
-        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
+        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id,this.$route.params.type, row.id)
       );
     },
     postSummary(data) {

@@ -278,7 +278,7 @@ export default {
         offlinetalk_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
-        checked_271: 0,
+        checked_271: 1,
         visible_271: 0,
         feeling_is_necessary: 0
       })
@@ -564,6 +564,7 @@ export default {
             visible_271: this.timesForm.visible_271,
             feeling_is_necessary: this.timesForm.feeling_is_necessary
           };
+          //!fix
           if (this.isBatchSetTime) {
             postBatchTimeSettings(orgId, postData)
               .then(res => {
@@ -598,8 +599,7 @@ export default {
     this.timesForm.finishedDate = this.timeData.finishedDate;
     this.timesForm.visible_271 = this.timeData.visible_271;
     this.timesForm.feeling_is_necessary =
-      this.timeData.feeling_is_necessary || 0;
-  },
+      this.timeData.feeling_is_necessary || 0;  },
   beforeDestroy() {
     this.resetFilter("timesForm");
   },
