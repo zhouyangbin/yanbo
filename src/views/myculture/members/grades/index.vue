@@ -219,17 +219,26 @@
                   </el-tooltip>
                 </template>
               </el-table-column>
-               <el-table-column
+              <el-table-column
                 min-width="100"
                 prop="superior_status"
                 :label="constants.LEADER_EVALUATION_STATUS"
               ></el-table-column>
-              <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+              <el-table-column
+                prop="stage_name"
+                :label="constants.LABEL_STATUS"
+              >
                 <template slot-scope="scope">
-                  <div class="reject_status" v-if="scope.row.reject_status == 1">
+                  <div
+                    class="reject_status"
+                    v-if="scope.row.reject_status == 1"
+                  >
                     <div>{{ constants.REJECT }}</div>
                   </div>
-                  <div class="complain_status" v-if="scope.row.reject_status == 2">
+                  <div
+                    class="complain_status"
+                    v-if="scope.row.reject_status == 2"
+                  >
                     <div>{{ constants.APPEAL }}</div>
                   </div>
                   <div v-if="scope.row.reject_status == 0">
@@ -492,10 +501,7 @@ import {
   REJECT,
   APPEAL
 } from "@/constants/TEXT";
-import {
-  getMyTeamCultureList,
-  getMyTeamEndCultureList,
-} from "@/constants/API";
+import { getMyTeamCultureList, getMyTeamEndCultureList } from "@/constants/API";
 import {
   PATH_MEMBER_CULTURE_LIST,
   PATH_EXPORT_CULTURE_GRADE,

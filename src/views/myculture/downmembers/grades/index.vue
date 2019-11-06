@@ -197,17 +197,26 @@
                   </el-tooltip>
                 </template>
               </el-table-column>
-               <el-table-column
+              <el-table-column
                 min-width="100"
                 prop="superior_status"
                 :label="constants.LEADER_EVALUATION_STATUS"
               ></el-table-column>
-              <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+              <el-table-column
+                prop="stage_name"
+                :label="constants.LABEL_STATUS"
+              >
                 <template slot-scope="scope">
-                  <div class="reject_status" v-if="scope.row.reject_status == 1">
+                  <div
+                    class="reject_status"
+                    v-if="scope.row.reject_status == 1"
+                  >
                     <div>{{ constants.REJECT }}</div>
                   </div>
-                  <div class="complain_status" v-if="scope.row.reject_status == 2">
+                  <div
+                    class="complain_status"
+                    v-if="scope.row.reject_status == 2"
+                  >
                     <div>{{ constants.APPEAL }}</div>
                   </div>
                   <div v-if="scope.row.reject_status == 0">
@@ -425,7 +434,7 @@
               <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
-                    @click="goDetail(scope.row.id,1, staff_evaluation_id)"
+                    @click="goDetail(scope.row.id, 1, staff_evaluation_id)"
                     type="text"
                     size="small"
                     >{{ constants.DETAILS }}</el-button
@@ -626,9 +635,9 @@ export default {
     getEndList(val) {
       this.gradeListType = val;
     },
-    goDetail(val,type,id) {
+    goDetail(val, type, id) {
       // console.log(type);
-      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id,type,val));
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id, type, val));
     },
     highDetail() {
       this.$router.push(
