@@ -77,6 +77,10 @@ export default {
             }
           }
         ],
+        grid: {
+            bottom:'15%',
+            containLabel: true
+        },
         yAxis: [
           {
             type: "value",
@@ -142,6 +146,7 @@ export default {
   mounted() {
     this.myChart = echarts.init(this.$refs.echartBar);
     this.myChart.setOption(this.option);
+    console.log(echarts);
   },
   watch: {
     rateBar: function() {

@@ -271,11 +271,13 @@ import {
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getMembersList } from "@/constants/API";
-
 export default {
+  created(){
+      const type = JSON.parse(localStorage.getItem('type'));
+
+  },
   data() {
     return {
-      type: 0,
       overview: {
         top: {
           count: 0,
@@ -295,11 +297,10 @@ export default {
       total: 0,
       currentPage: 1,
       tableData: [],
-
       memberForm: {
         employee_name: "",
         superior_status: "",
-        type: this.$route.params.type
+        type: 0,
       },
       nav: [
         {
@@ -351,8 +352,11 @@ export default {
     },
 
     getData(data) {
-      getMembersList(this.$route.params.id, data).then(res => {
-        // console.log(res);
+      getMembersList(this.$route.params.id, {
+        employee_name: this.memberForm.employee_name,
+        superior_status: this.memberForm.superior_status,
+        type: JSON.parse(localStorage.getItem('type')).type,
+        }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;
         this.total = total;
