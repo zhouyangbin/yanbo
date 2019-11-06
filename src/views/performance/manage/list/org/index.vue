@@ -277,7 +277,8 @@
             width="100"
           ></el-table-column>
 
-          <el-table-column prop="confirm" label="员工确认" width="auto"></el-table-column>
+          <el-table-column prop="confirm" label="员工确认" width="auto">
+          </el-table-column>
           <el-table-column
             fixed="right"
             :label="constants.OPERATIONS"
@@ -678,7 +679,6 @@ export default {
       return getPerormanceDepartmentDetails(this.$route.params.orgID, data)
         .then(res => {
           const { data, total, performance_info } = res;
-          console.log(performance_info)
           this.tableData = data;
           this.total = total;
           //  console.log(performance_info);

@@ -13,6 +13,7 @@ import {
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
+  PATH_PERFORMANCE_TAGS,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
@@ -143,6 +144,13 @@ const router = new Router({
           path: PATH_PERFORMANCE_RULES,
           components: {
             default: () => import("@/views/performance/rules/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TAGS,
+          components: {
+            default: () => import("@/views/performance/label/settings/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
