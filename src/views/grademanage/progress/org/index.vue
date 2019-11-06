@@ -494,7 +494,7 @@
       :isManagerGrade="isManagerGrade"
       :timeData="timeData"
       :status="status"
-      @close="closeTimeSettingDia"
+      @close="close"
       v-if="dialogTimes"
       :dialogTimes="dialogTimes"
       :orgId="orgId"
@@ -760,7 +760,7 @@ export default {
       this.dialogImport = false;
       this.refreshList();
     },
-    closeTimeSettingDia() {
+    close() {
       // 设置修改时间后需要刷新
       this.dialogTimes = false;
       this.refreshList();

@@ -32,7 +32,8 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_MEMBER_CULTURE_LIST,
-  PATH_EXPORT_CULTURE_GRADE
+  PATH_EXPORT_CULTURE_GRADE,
+  PATH_DOWN_MEMBER_CULTURE_LIST
 } from "@/constants/URL";
 // TODO 隔级已结束列表
 import { getMyTeamEndCultureList, getEndList } from "@/constants/API";
@@ -67,7 +68,7 @@ export default {
       });
     },
     goDetail(row) {
-      this.$router.push(PATH_MEMBER_CULTURE_LIST(row.id));
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_LIST(row.id,0));
     },
     exportMore(row) {
       window.open(PATH_EXPORT_CULTURE_GRADE(row.id, 1), "_blank", "noopener");

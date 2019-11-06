@@ -67,7 +67,7 @@ export default {
       });
     },
     goDetail(row) {
-      this.$router.push(PATH_MEMBER_CULTURE_LIST(row.id));
+      this.$router.push(PATH_MEMBER_CULTURE_LIST(row.id,0));
     },
     exportMore(row) {
       window.open(PATH_EXPORT_CULTURE_GRADE(row.id, 1), "_blank", "noopener");

@@ -244,7 +244,7 @@ export const ENUM_GENERIC_COMPLETE_STATUS = [
 export const EMUM_CULTURE_GENERIC_COMPLETE_STATUS = [
   {
     key: "0",
-    value: "未处理"
+    value: "未完成"
   },
   {
     key: "1",

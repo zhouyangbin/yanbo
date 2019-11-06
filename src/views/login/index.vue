@@ -179,7 +179,7 @@ export default {
             querys.evaluation_name_id
           );
           break;
-        case "grade_manage_detail":
+        case "mg_sub_grademanage":
           dst = PATH_GRADE_ORG_LIST(
             querys.evaluation_name_id,
             querys.evaluation_id

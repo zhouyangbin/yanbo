@@ -214,6 +214,24 @@
                   </el-tooltip>
                 </template>
               </el-table-column>
+               <el-table-column
+                min-width="100"
+                prop="superior_status"
+                :label="constants.LEADER_EVALUATION_STATUS"
+              ></el-table-column>
+              <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+                <template slot-scope="scope">
+                  <div class="reject_status" v-if="scope.row.reject_status == 1">
+                    <div>{{ constants.REJECT }}</div>
+                  </div>
+                  <div class="complain_status" v-if="scope.row.reject_status == 2">
+                    <div>{{ constants.APPEAL }}</div>
+                  </div>
+                  <div v-if="scope.row.reject_status == 0">
+                    {{ scope.row.stage_name }}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
@@ -463,7 +481,6 @@ import {
 import {
   getMyTeamCultureList,
   getMyTeamEndCultureList,
-  getMembersList
 } from "@/constants/API";
 import {
   PATH_MEMBER_CULTURE_LIST,
@@ -702,7 +719,7 @@ export default {
   z-index: 2;
   position: absolute;
   height: 100%;
-  left: 50%;
+  left: 24%;
   transform: translate(-50%, -50%);
   top: 50%;
 }

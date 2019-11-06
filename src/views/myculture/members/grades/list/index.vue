@@ -275,6 +275,7 @@ import { getMembersList } from "@/constants/API";
 export default {
   data() {
     return {
+      type: 0,
       overview: {
         top: {
           count: 0,
@@ -298,7 +299,7 @@ export default {
       memberForm: {
         employee_name: "",
         superior_status: "",
-        type: ""
+        type: this.$route.params.type
       },
       nav: [
         {
@@ -350,7 +351,6 @@ export default {
     },
 
     getData(data) {
-      this.memberForm.type = this.$route.params.type;
       getMembersList(this.$route.params.id, data).then(res => {
         // console.log(res);
         const { total, data, overview, evaluation_name, end_time } = res;
@@ -373,7 +373,7 @@ export default {
     },
     currentChange(v) {
       this.currentPage = v;
-      this.getData({ page: v, ...this.memberForm });
+      // this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
       this.$router.push(
