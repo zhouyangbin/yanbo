@@ -431,7 +431,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="address" :label="constants.OPERATIONS">
+              <!-- <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
                     @click="goDetail(scope.row.id, 1, staff_evaluation_id)"
@@ -440,7 +440,7 @@
                     >{{ constants.DETAILS }}</el-button
                   >
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
           </div>
         </div>
@@ -635,9 +635,14 @@ export default {
     getEndList(val) {
       this.gradeListType = val;
     },
+<<<<<<< HEAD
     goDetail(val, type, id) {
       // console.log(type);
       this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id, type, val));
+=======
+    goDetail(val,id) {
+      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id,val));
+>>>>>>> zxy/cul
     },
     highDetail() {
       this.$router.push(

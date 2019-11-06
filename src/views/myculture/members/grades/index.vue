@@ -453,7 +453,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="address" :label="constants.OPERATIONS">
+              <!-- <el-table-column prop="address" :label="constants.OPERATIONS">
                 <template slot-scope="scope">
                   <el-button
                     @click="goDetail(scope.row.id, staff_evaluation_id)"
@@ -462,7 +462,7 @@
                     >{{ constants.DETAILS }}</el-button
                   >
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
           </div>
         </div>

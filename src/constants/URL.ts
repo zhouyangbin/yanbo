@@ -145,14 +145,10 @@ export const PATH_MY_CULTURE_GRADE_DETAILS = (id: string = ":id") =>
   `/culture/my/${id}`;
 export const PATH_MEMEBER_CULTURE_GRADE = "/culture/membersgrades";
 export const PATH_DOWN_MEMEBER_CULTURE_GRADE = "/culture/downmembersgrades";
-export const PATH_MEMBER_CULTURE_LIST = (
-  id: string = ":id",
-  type: string = ":type"
-) => `/culture/membersgrades/${id}/type/${type}`;
-export const PATH_DOWN_MEMBER_CULTURE_LIST = (
-  id: string = ":id",
-  type: string = ":type"
-) => `/culture/downmembersgrades/${id}/type/${type}`;
+export const PATH_MEMBER_CULTURE_LIST = (id: string = ":id",type: string = ":type") =>
+  `/culture/membersgrades/${id}`;
+export const PATH_DOWN_MEMBER_CULTURE_LIST = (id: string = ":id",type: string = ":type") =>
+  `/culture/downmembersgrades/${id}`;
 //高管列表
 export const PATH_MEMEBER_HIGH_DETAIL = "/culture/membersgrades/highDetail";
 
@@ -167,8 +163,7 @@ export const PATH_MEMBER_CULTURE_DETAILS_HISTORY = (
 export const PATH_DOWN_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",
   uid: String = ":uid",
-  type: String = ":type"
-) => `/culture/downmembersgrades/${id}/${type}/${uid}`;
+) => `/culture/downmembersgrades/${id}/${uid}`;
 export const PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY = (
   id: string = ":id",
   uid: String = ":uid"

@@ -197,13 +197,14 @@ export default {
   },
   methods: {
     goModify() {
-      this.$router.push(
-        PATH_GRADE_EMP_DETAIL_CHANGE(
-          this.$route.params.id,
-          this.$route.params.orgID,
-          this.$route.params.uid
-        )
-      );
+      console.log(this.$route.path);
+      // this.$router.push(
+      //   PATH_GRADE_EMP_DETAIL_CHANGE(
+      //     this.$route.params.id,
+      //     this.$route.params.orgID,
+      //     this.$route.params.uid
+      //   )
+      // );
     },
     goComplain() {
       this.$router.push({
