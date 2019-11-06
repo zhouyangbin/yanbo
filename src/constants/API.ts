@@ -466,15 +466,16 @@ export const getAdminPerformancesList = (params: Object) =>
   sendGet(`/js/getAdminPerformancesList.json`, params);
 
 // 高管绩效 获取标签
-export const postTagDepartments = (params: Object) =>
-  sendPost(
-    `/executive-performance/admin/performances/get-tag-by-departments`,
-    params
-  );
+export const getTagDepartments = (params: Object) =>
+  // sendGet(`/executive-performance/admin/performances/get-tag-by-departments`, params);
+  sendGet(`/js/getTagDepartments.json`, params);
 
 // 高管绩效 获取标签
-export const postTplDepartments = (params: Object) =>
-  sendPost(
-    `/executive-performance/admin/performances/get-templates-by-departments`,
-    params
-  );
+export const getTplDepartments = (params: Object) =>
+  // sendGet(`/executive-performance/admin/performances/get-templates-by-departments`, params);
+  sendGet(`/js/getTplDepartments.json`, params);
+
+// 高管绩效 绩效考核详情
+export const getPerformanceDetail = (id: String) =>
+  // sendGet(`/executive-performance/admin/performances/${id}`)
+  sendGet(`/js/getPerformanceDetail.json`);

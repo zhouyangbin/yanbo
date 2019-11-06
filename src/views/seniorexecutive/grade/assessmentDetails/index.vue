@@ -245,11 +245,17 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { putOpenAssessment, getOrganization, getPerformanceTypes } from "@/constants/API";
+import {
+  putOpenAssessment,
+  getOrganization,
+  getPerformanceTypes,
+  getPerformanceDetail
+} from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   data() {
     return {
+      id: this.$route.params.id,
       currentPage: 1,
       total: 0,
       showConfirmDialog: false,
@@ -306,7 +312,7 @@ export default {
     },
     confirmDialog() {
       // 确定按钮
-      console.log("111")
+      console.log("111");
       // this.showConfirmDialog = false;
       // putOpenAssessment(id).then(res => {
       //   console.log(res)
@@ -353,6 +359,11 @@ export default {
     getPerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
+      })
+      .catch(e => {});
+    getPerformanceDetail()
+      .then(res => {
+        console.log(res);
       })
       .catch(e => {});
   }

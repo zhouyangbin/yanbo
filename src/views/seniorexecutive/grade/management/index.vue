@@ -61,7 +61,7 @@
               content="考核详情"
               placement="top"
             >
-              <i class="view-details" @click="linkToDetail"></i>
+              <i class="view-details" @click="linkToDetail(item.id)"></i>
             </el-tooltip>
             <el-tooltip
               class="item"
@@ -286,8 +286,8 @@ export default {
     handleCurrentChange() {
       this.currentPage = val;
     },
-    linkToDetail() {
-      this.$router.replace("/performance/assessment/details");
+    linkToDetail(id) {
+      this.$router.replace(`/performance/assessment/details/${id}`);
     },
     deleteAssessment() {
       this.showConfirmDialog = true;

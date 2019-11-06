@@ -1,0 +1,24 @@
+{
+  "status": 200,
+  "message": "Success",
+  "data": {
+      "id": 1,
+      "name": "测试考核1",
+      "performance_type": "annual",
+      "year": "2019",
+      "start_time": "2019-12-01 00:00:00",
+      "end_time": "2019-12-30 00:00:00",
+      "allow_appeal": 1,
+      "is_draft": 1,
+      "entirety_start_time": null,
+      "entirety_end_time": null,
+      "indicator_setting_end_time": null,
+      "self_evaluation_begin_time": null,
+      "superior_begin_time": null,
+      "isolation_begin_time": null,
+      "president_audit_begin_time": null,
+      "result_confirm_end_time": null,
+      "appeal_begin_time": null,
+      "appeal_end_time": null
+  }
+}

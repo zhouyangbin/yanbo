@@ -190,4 +190,5 @@ export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 考核详情
-export const PATH_ASSESSMENT_DATAILS = "/performance/assessment/details";
+export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
+  `/performance/assessment/details/${id}`;

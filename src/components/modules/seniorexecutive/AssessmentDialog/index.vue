@@ -118,8 +118,9 @@ import {
   postAddPerformanceAssessment,
   putPerformanceAssessment,
   getPerformanceTypes,
-  postTplDepartments,
-  postTagDepartments
+  getTplDepartments,
+  getTagDepartments,
+  getPerformanceDetail
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -210,14 +211,14 @@ export default {
     departmentIds: {
       handler: function(val, oldVal) {
         if (val.length > 0) {
-          let postData = {
+          let getData = {
             department_ids: val
           };
           // 获取选中事业部的绩效模板和标签规则
-          postTagDepartments(postData).then(res => {
+          getTagDepartments(getData).then(res => {
             this.ruleForm.rules = res;
           });
-          postTplDepartments(postData).then(res => {
+          getTplDepartments(getData).then(res => {
             this.ruleForm.tpl = res;
           });
         }
@@ -287,6 +288,11 @@ export default {
   created() {
     if (this.infoType != "add" && this.performanceId) {
       // 获取弹框信息
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {});
     }
   },
   computed: {

@@ -324,7 +324,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_ASSESSMENT_DATAILS,
+          path: PATH_ASSESSMENT_DATAILS(),
           components: {
             default: () =>
               import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
