@@ -14,7 +14,7 @@ export const PATH_GRADE_ORG_LIST = (testID = ":id", orgID = ":orgID") =>
 export const PATH_GRADE_EMP_DETAIL = (
   testID = ":id",
   orgID = ":orgID",
-  uid = ":uid",
+  uid = ":uid"
 ) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}`;
 // 修改评分
 export const PATH_GRADE_EMP_DETAIL_CHANGE = (

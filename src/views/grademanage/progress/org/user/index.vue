@@ -293,7 +293,7 @@ export default {
         //bp 在线下合议开始之后，面谈开始之前，可修改
         (this.status >= 45 &&
           this.status < 50 &&
-          JSON.parse(localStorage.getItem("stage")).stage != 100 )
+          JSON.parse(localStorage.getItem("stage")).stage != 100)
       );
     },
     showAppealAndRefuse() {

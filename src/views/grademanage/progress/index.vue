@@ -308,7 +308,6 @@ import { AsyncComp } from "../../../../../FE-DINGDING-TDC/src/utils/asyncCom";
 
 export default {
   created() {
-    
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
     if (this.permissions.indexOf(201) > -1) {
       this.isShow = true;
