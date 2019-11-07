@@ -4,7 +4,7 @@
     <br />
     <section class="content-container bg-white">
       <div class="content-title">
-        <div>{{performanceDetail.name}}</div>
+        <div>{{ performanceDetail.name }}</div>
         <div class="create-btn">
           <el-button type="primary" @click="openAssessment">开启考核</el-button>
         </div>
@@ -42,7 +42,7 @@
         <div class="basic-setting">
           <div class="setting-detail">
             <div class="setting-key">考核名称:</div>
-            <div class="setting-value">{{performanceDetail.name}}</div>
+            <div class="setting-value">{{ performanceDetail.name }}</div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">适用范围:</div>
@@ -254,9 +254,21 @@ import {
 } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "confirm-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
+    ),
+    "assessment-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
+    ),
+    "setup-time": AsyncComp(
+      import("@/components/modules/seniorexecutive/SetupTime/index.vue")
+    ),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
   data() {
     return {
-      initTime: {},
       filterProps: {
         value: "department_id",
         label: "department_name",
@@ -297,18 +309,24 @@ export default {
       tableData: []
     };
   },
-  components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "confirm-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
-    ),
-    "assessment-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
-    ),
-    "setup-time": AsyncComp(
-      import("@/components/modules/seniorexecutive/SetupTime/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+  computed: {
+    initTime() {
+      return {
+        entirety_start_time: this.performanceDetail.entirety_start_time,
+        entirety_end_time: this.performanceDetail.entirety_end_time,
+        indicator_setting_end_time: this.performanceDetail
+          .indicator_setting_end_time,
+        self_evaluation_begin_time: this.performanceDetail
+          .self_evaluation_begin_time,
+        superior_begin_time: this.performanceDetail.superior_begin_time,
+        isolation_begin_time: this.performanceDetail.isolation_begin_time,
+        president_audit_begin_time: this.performanceDetail
+          .president_audit_begin_time,
+        result_comfirm_end_time: this.performanceDetail.result_comfirm_end_time,
+        appeal_begin_time: this.performanceDetail.appeal_begin_time,
+        appeal_end_time: this.performanceDetail.appeal_end_time
+      };
+    }
   },
   methods: {
     modifySettings() {
@@ -316,7 +334,6 @@ export default {
       this.showDialog = true;
     },
     modifyTimes() {
-      console.log(this.initTime);
       this.showSetupTime = true;
     },
     setupTimeClose() {
@@ -382,31 +399,6 @@ export default {
     getPerformanceDetail()
       .then(res => {
         this.performanceDetail = res;
-        // 获取绩效详情内容
-        const {
-          entirety_start_time,
-          entirety_end_time,
-          indicator_setting_end_time,
-          self_evaluation_begin_time,
-          superior_begin_time,
-          isolation_begin_time,
-          president_audit_begin_time,
-          result_comfirm_end_time,
-          appeal_begin_time,
-          appeal_end_time
-        } = res;
-        this.initTime = {
-          entirety_start_time,
-          entirety_end_time,
-          indicator_setting_end_time,
-          self_evaluation_begin_time,
-          superior_begin_time,
-          isolation_begin_time,
-          president_audit_begin_time,
-          result_comfirm_end_time,
-          appeal_begin_time,
-          appeal_end_time
-        };
       })
       .catch(e => {});
   }

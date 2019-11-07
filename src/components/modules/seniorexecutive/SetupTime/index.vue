@@ -8,13 +8,13 @@
   >
     <div slot="title" class="title">修改时间</div>
     <el-form
-      :rules="timeFormRules"
       label-width="140px"
+      :rules="timeFormRules"
       ref="timeForm"
       :model="timeForm"
       class="time-form"
     >
-      <el-form-item label="整体考核起止时间">
+      <el-form-item label="整体考核起止时间" prop="entirety_end_time">
         <div>
           <el-date-picker
             :disabled="startDisable"
@@ -149,19 +149,15 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">
-          {{ constants.CONFIRM }}
-        </el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">
-          {{ constants.CANCEL }}
-        </el-button>
+        <el-button round size="medium" @click="submit" type="primary"
+          >确定</el-button
+        >
+        <el-button round size="medium" @click="close">取消</el-button>
       </el-row>
     </div>
   </el-dialog>
 </template>
 <script>
-import {} from "@/constants/TEXT";
-import {} from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 import { formatTime } from "@/utils/timeFormat";
 export default {
@@ -372,8 +368,7 @@ export default {
         result_comfirm_end_time: initTime.result_comfirm_end_time || "",
         appeal_begin_time: initTime.appeal_begin_time || "",
         appeal_end_time: initTime.appeal_end_time || ""
-      },
-      constants: {}
+      }
     };
   },
   methods: {
