@@ -148,7 +148,7 @@ export default {
         case "interview":
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
           break;
-          //! fix
+        //! fix
         case "superior":
           dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
           break;
