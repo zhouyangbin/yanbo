@@ -15,8 +15,7 @@ export const PATH_GRADE_EMP_DETAIL = (
   testID = ":id",
   orgID = ":orgID",
   uid = ":uid",
-  status = ":status"
-) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}/${status}`;
+) => `${PATH_GRADE_MANAGE}/${testID}/org/${orgID}/user/${uid}`;
 // 修改评分
 export const PATH_GRADE_EMP_DETAIL_CHANGE = (
   testID = ":id",
