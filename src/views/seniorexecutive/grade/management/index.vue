@@ -4,7 +4,7 @@
     <section class="content-container">
       <el-row align="middle" type="flex" justify="space-between">
         <div>
-          <span>高管绩效考核列表：</span>
+          <span>组织部绩效考核列表：</span>
           <el-cascader
             v-model="filterForm.dp"
             :placeholder="constants.LABEL_SELECT_DIVISION"
@@ -28,7 +28,7 @@
             <el-radio-button label="3">已结束</el-radio-button>
           </el-radio-group>
           <el-button class="create-btn" type="primary" @click="createTpl"
-            >创建高管绩效考核</el-button
+            >创建组织部绩效考核</el-button
           >
         </div>
       </el-row>
@@ -217,7 +217,7 @@ export default {
       orgTree: [],
       nav: [
         {
-          label: "高管绩效考核列表",
+          label: "组织部绩效考核列表",
           active: true
         }
       ],

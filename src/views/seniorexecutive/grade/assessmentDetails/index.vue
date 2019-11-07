@@ -163,11 +163,20 @@
               placeholder="请选择"
             ></el-input>
           </el-form-item>
-          <el-form-item label="高管类别:">
-            <el-input
+          <el-form-item label="组织部类别:">
+            <el-select
               v-model="personalForm.executive_type"
+              clearable
               placeholder="请选择"
-            ></el-input>
+            >
+              <el-option
+                v-for="item in executiveTypes"
+                :key="item.key"
+                :label="item.name"
+                :value="item.key"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="隔级:">
             <el-input
@@ -195,7 +204,7 @@
           <el-table-column prop="business" label="大部门/分校">
           </el-table-column>
           <el-table-column prop="email" label="邮箱"> </el-table-column>
-          <el-table-column prop="executive_type_text" label="高管类别">
+          <el-table-column prop="executive_type_text" label="组织部类别">
           </el-table-column>
           <el-table-column prop="superior_name" label="直接上级">
           </el-table-column>
@@ -266,7 +275,8 @@ import {
   getOrganization,
   getPerformanceTypes,
   getPerformanceDetail,
-  getPerformanceUser
+  getPerformanceUser,
+  getExecutiveTypes
 } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
@@ -308,6 +318,7 @@ export default {
           value: "4"
         }
       ],
+      executiveTypes: [],
       performanceDetail: {},
       performanceId: this.$route.params.id,
       currentPage: 1,
@@ -321,7 +332,7 @@ export default {
       tipsText: "",
       nav: [
         {
-          label: "高管绩效考核列表",
+          label: "组织部绩效考核列表",
           active: false
         },
         {
@@ -431,6 +442,11 @@ export default {
     getPerformanceDetail()
       .then(res => {
         this.performanceDetail = res;
+      })
+      .catch(e => {});
+    getExecutiveTypes()
+      .then(res => {
+        this.executiveTypes = res;
       })
       .catch(e => {});
     this.getUserList();

@@ -7,7 +7,7 @@
     class="tpl-dialog"
   >
     <div slot="title" class="title">
-      {{ infoType === "add" ? "创建高管绩效考核" : "修改高管绩效考核" }}
+      {{ infoType === "add" ? "创建组织部绩效考核" : "修改组织部绩效考核" }}
     </div>
     <el-form
       :rules="rules"
@@ -104,7 +104,6 @@
 </template>
 <script>
 import {
-  EXECUTIVE_PERFORMANCE_TYPE,
   CONFIRM,
   CANCEL,
   PLS_SELECT_START_TIME,
@@ -195,7 +194,6 @@ export default {
         allow_appeal: 1
       },
       constants: {
-        EXECUTIVE_PERFORMANCE_TYPE,
         CONFIRM,
         CANCEL,
         PLS_SELECT_START_TIME,
