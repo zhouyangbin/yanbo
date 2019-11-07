@@ -358,16 +358,16 @@ export default {
         ]
       },
       timeForm: {
-        entirety_start_time: initTime.entirety_start_time || "",
-        entirety_end_time: initTime.entirety_end_time || "",
-        indicator_setting_end_time: initTime.indicator_setting_end_time || "",
-        self_evaluation_begin_time: initTime.self_evaluation_begin_time || "",
-        superior_begin_time: initTime.superior_begin_time || "",
-        isolation_begin_time: initTime.isolation_begin_time || "",
-        president_audit_begin_time: initTime.president_audit_begin_time || "",
-        result_comfirm_end_time: initTime.result_comfirm_end_time || "",
-        appeal_begin_time: initTime.appeal_begin_time || "",
-        appeal_end_time: initTime.appeal_end_time || ""
+        entirety_start_time: this.initTime.entirety_start_time || "",
+        entirety_end_time: this.initTime.entirety_end_time || "",
+        indicator_setting_end_time: this.initTime.indicator_setting_end_time || "",
+        self_evaluation_begin_time: this.initTime.self_evaluation_begin_time || "",
+        superior_begin_time: this.initTime.superior_begin_time || "",
+        isolation_begin_time: this.initTime.isolation_begin_time || "",
+        president_audit_begin_time: this.initTime.president_audit_begin_time || "",
+        result_comfirm_end_time: this.initTime.result_comfirm_end_time || "",
+        appeal_begin_time: this.initTime.appeal_begin_time || "",
+        appeal_end_time: this.initTime.appeal_end_time || ""
       }
     };
   },
@@ -378,23 +378,9 @@ export default {
     submit() {
       this.$refs["timeForm"].validate(valid => {
         if (valid) {
-          // if (this.infoType == "add") {
-          //   return postPerformanceTpl(this.timeForm).then(res => {
-          //     this.close();
-          //   });
-          // } else {
-          //   return putPerformanceTpls(this.performanceId, this.timeForm).then(
-          //     res => {
-          //       this.close();
-          //     }
-          //   );
-          // }
         }
       });
     }
-  },
-  created() {
-    console.log(this.initTime);
   },
   beforeDestroy() {
     this.$refs["timeForm"].resetFields();
@@ -405,14 +391,7 @@ export default {
         disabledDate: date => {
           const dt = formatTime(new Date(date));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          return (
-            dt < now ||
-            dt >
-              formatTime(
-                new Date(this.initTime.entirety_end_time.replace(/-/gi, "/"))
-              ).split(" ")[0] +
-                " 00:00"
-          );
+          return dt < now;
         }
       };
     },
@@ -500,26 +479,13 @@ export default {
 };
 </script>
 <style scoped>
-.setup-time .title {
-  text-align: left;
-}
 .setup-time >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
-}
-.setup-time >>> .el-form-item {
-  margin-bottom: 22px;
 }
 .setup-time >>> .el-form-item .el-input-group__prepend,
 .setup-time >>> .el-form-item .el-input-group__append {
   padding: 0 10px !important;
   background-color: #fff !important;
   border: none !important;
-}
-.tpl-form >>> .el-form-item {
-  margin-bottom: 16px !important;
-}
-.tpl-form .input-type {
-  float: left;
-  width: 33.33%;
 }
 </style>
