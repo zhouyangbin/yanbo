@@ -48,7 +48,6 @@ export default {
   },
   computed: {
     activeIndex() {
-      console.log(this.list.filter(v => v.active))
       return (this.list.filter(v => v.active)[0] || {}).label;
     }
   },

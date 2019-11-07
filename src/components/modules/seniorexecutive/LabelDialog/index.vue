@@ -11,7 +11,7 @@
         infoType === "add" ? constants.ADD_NEW_LABEL : constants.UPDATE_LABEL
       }}
     </div>
-    <el-form :rules="rules" ref="tplForm" :model="tplForm" class="tplForm">
+    <el-form :rules="rules" ref="tplForm" :model="tplForm" class="tpl-form">
       <el-form-item :label="constants.LABEL_TYPE" prop="tag_type">
         <el-select
           v-model="tplForm.tag_type"
@@ -173,6 +173,7 @@
           :filter-node-method="filterNode"
           show-checkbox
           :data="orgTree"
+          class="select-tree"
         ></el-tree>
       </el-form-item>
       <el-form-item
@@ -518,12 +519,8 @@ export default {
 .label-dialog .add-padding {
   padding-left: 20px;
 }
-.select-tree {
+.tpl-form .select-tree {
   max-height: 260px;
   overflow: auto;
-}
-.select-tree >>> .el-tree-node__content {
-  height: auto;
-  line-height: auto;
 }
 </style>

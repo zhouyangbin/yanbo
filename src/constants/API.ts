@@ -456,6 +456,15 @@ export const putOpenAssessment = (id: String) =>
 export const delAssessment = (id: String) =>
   sendDelete(`/executive-performance/admin/performances/${id}`, {});
 
+// 高管绩效指标设定-个人信息
+export const getPerformanceUserInfo = (params: Object) =>
+  // sendGet(`/executive-performance/web/target/header-info`, params);
+  sendGet(`/js/getPerformanceUserInfo.json`, params);
+
+// 高管绩效指标设定-获取工作维度指标/团队维度指标
+export const getUniqueTemplate = (params: Object) =>
+  // sendGet(`/executive-performance/web/ExecutivePerformance/uniqueTemplate`, params);
+  sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
 // // 获取事业部列表
 // export const getBUList = () =>
 //   // sendGet(`/admin/api/departments`);

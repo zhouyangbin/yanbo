@@ -1,0 +1,18 @@
+{
+    "status":200,
+    "message":"",
+    "data":{
+        "stage":"指标确认中",
+        "name":"张三",
+        "workcode":"102344",
+        "executive_type":"高管类型",
+        "superior_name":"张旭",
+        "superior_workcode":"109923",
+        "isolation_name":"隔级姓名",
+        "isolation_workcode":"隔级工号",
+        "department":"集团总部-行政部",
+        "station":"产品经理",
+        "cycle":"2019年03月～2020年02月",
+        "deadline":"2019-03-28 10:29:00"
+    }
+}

@@ -333,7 +333,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_PERFORMANCE_TARGET_SET,
+          path: PATH_PERFORMANCE_TARGET_SET(),
           components: {
             default: () => import("@/views/employee/my/gradeDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
