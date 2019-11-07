@@ -197,10 +197,9 @@ export default {
   watch: {
     filterForm: {
       handler: function(v) {
-        let id = v.dp.length > 0 ? v.dp[v.dp.length - 1] : "";
         let filterData = {
           page: 1,
-          department_ids: id.split(",")
+          department_ids: v.dp
         };
         this.currentPage = 1;
         this.getTplList(filterData);

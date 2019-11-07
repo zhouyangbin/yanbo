@@ -479,3 +479,11 @@ export const getTplDepartments = (params: Object) =>
 export const getPerformanceDetail = (id: String) =>
   // sendGet(`/executive-performance/admin/performances/${id}`)
   sendGet(`/js/getPerformanceDetail.json`);
+
+// 高管绩效 获取考核名单
+export const getPerformanceUser = (id: String, params: Object) =>
+  // sendGet(`/executive-performance/admin/performances/${id}/users`, params)
+  sendGet(`/js/getPerformanceUser.json`, params);
+
+export const postPerformanceSetTime = (id: String, params: Object) =>
+  sendPost(`/executive-performance/admin/performance/${id}/set-time`, params);

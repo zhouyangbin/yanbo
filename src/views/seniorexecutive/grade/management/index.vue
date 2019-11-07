@@ -235,11 +235,10 @@ export default {
   watch: {
     filterForm: {
       handler: function(v) {
-        let id = v.dp.length > 0 ? v.dp[v.dp.length - 1] : "";
         let filterData = {
           page: 1,
           statuses: this.statuses === "0" ? [] : this.statuses.split(","),
-          department_ids: id.split(",")
+          department_ids: v.dp
         };
         this.currentPage = 1;
         // 获取绩效考核列表

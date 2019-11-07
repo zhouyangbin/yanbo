@@ -160,6 +160,7 @@
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
 import { formatTime } from "@/utils/timeFormat";
+import { postPerformanceSetTime } from "@/constants/API";
 export default {
   props: {
     visible: {
@@ -360,11 +361,14 @@ export default {
       timeForm: {
         entirety_start_time: this.initTime.entirety_start_time || "",
         entirety_end_time: this.initTime.entirety_end_time || "",
-        indicator_setting_end_time: this.initTime.indicator_setting_end_time || "",
-        self_evaluation_begin_time: this.initTime.self_evaluation_begin_time || "",
+        indicator_setting_end_time:
+          this.initTime.indicator_setting_end_time || "",
+        self_evaluation_begin_time:
+          this.initTime.self_evaluation_begin_time || "",
         superior_begin_time: this.initTime.superior_begin_time || "",
         isolation_begin_time: this.initTime.isolation_begin_time || "",
-        president_audit_begin_time: this.initTime.president_audit_begin_time || "",
+        president_audit_begin_time:
+          this.initTime.president_audit_begin_time || "",
         result_comfirm_end_time: this.initTime.result_comfirm_end_time || "",
         appeal_begin_time: this.initTime.appeal_begin_time || "",
         appeal_end_time: this.initTime.appeal_end_time || ""
@@ -378,6 +382,9 @@ export default {
     submit() {
       this.$refs["timeForm"].validate(valid => {
         if (valid) {
+          postPerformanceSetTime(this.performanceId, this.formatTime)
+            .then(res => {})
+            .catch(e => {});
         }
       });
     }

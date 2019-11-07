@@ -115,13 +115,13 @@
         >
           <el-form-item label="姓名(工号):">
             <el-input
-              v-model="personalForm.name"
+              v-model="personalForm.name_or_workcode"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="事业部:">
             <el-cascader
-              v-model="personalForm.business"
+              v-model="personalForm.department_ids"
               placeholder="请选择事业部"
               :props="filterProps"
               :options="orgTree"
@@ -130,69 +130,73 @@
           </el-form-item>
           <el-form-item label="状态:">
             <el-input
-              v-model="personalForm.state"
+              v-model="personalForm.status"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="高管类别:">
             <el-input
-              v-model="personalForm.type"
+              v-model="personalForm.executive_type"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="直接上级:">
             <el-input
-              v-model="personalForm.leader"
+              v-model="personalForm.superior_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="隔级:">
             <el-input
-              v-model="personalForm.septum"
+              v-model="personalForm.isolation_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="HRD:">
             <el-input
-              v-model="personalForm.hrd"
+              v-model="personalForm.hrd_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="总裁:">
             <el-input
-              v-model="personalForm.boss"
+              v-model="personalForm.president_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item label="HRBP:">
             <el-input
-              v-model="personalForm.hrbp"
+              v-model="personalForm.hrbp_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button @click="resetForm">重置</el-button>
+            <el-button @click="resetForm('personalForm')">重置</el-button>
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
         </el-form>
         <div class="table-header"></div>
-        <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
+        <el-table :data="userList" stripe style="width: 100%;margin-top:20px">
           <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column prop="name" label="工号"> </el-table-column>
+          <el-table-column prop="workcode" label="工号"> </el-table-column>
           <el-table-column prop="department" label="总部/事业部">
           </el-table-column>
           <el-table-column prop="business" label="大部门/分校">
           </el-table-column>
           <el-table-column prop="email" label="邮箱"> </el-table-column>
-          <el-table-column prop="type" label="高管类别"> </el-table-column>
-          <el-table-column prop="leader" label="直接上级"> </el-table-column>
-          <el-table-column prop="septum" label="隔级"> </el-table-column>
-          <el-table-column prop="boss" label="总裁"> </el-table-column>
-          <el-table-column prop="hrbp" label="HRBP"> </el-table-column>
-          <el-table-column prop="hrd" label="HRD"> </el-table-column>
-          <el-table-column prop="state" fixed="right" label="状态">
+          <el-table-column prop="executive_type_text" label="高管类别">
           </el-table-column>
-          <el-table-column label="操作" fixed="right">
+          <el-table-column prop="superior_name" label="直接上级">
+          </el-table-column>
+          <el-table-column prop="isolation_name" label="隔级">
+          </el-table-column>
+          <el-table-column prop="president_name" label="总裁">
+          </el-table-column>
+          <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
+          <el-table-column prop="hrd_name" label="HRD"> </el-table-column>
+          <el-table-column prop="state" fixed="right" width="80" label="状态">
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" width="180">
             <template slot-scope="scope">
               <el-button @click="modify(scope.row)" type="text" size="small"
                 >修改</el-button
@@ -250,7 +254,8 @@ import {
   putOpenAssessment,
   getOrganization,
   getPerformanceTypes,
-  getPerformanceDetail
+  getPerformanceDetail,
+  getPerformanceUser
 } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
@@ -296,17 +301,17 @@ export default {
         }
       ],
       personalForm: {
-        name: "",
-        business: [],
-        state: "",
-        type: "",
-        leader: "",
-        septum: "",
-        hrd: "",
-        boss: "",
-        hrbp: ""
+        name_or_workcode: "",
+        department_ids: [],
+        status: "",
+        executive_type: "",
+        superior_name: "",
+        isolation_name: "",
+        president_name: "",
+        hrbp_name: "",
+        hrd_name: ""
       },
-      tableData: []
+      userList: []
     };
   },
   computed: {
@@ -360,20 +365,10 @@ export default {
       this.currentPage = val;
     },
     onQuery() {
-      // 查询
+      this.getUserList();
     },
-    resetForm() {
-      this.personalForm = {
-        name: "",
-        business: "",
-        state: "",
-        type: "",
-        leader: "",
-        septum: "",
-        hrd: "",
-        boss: "",
-        hrbp: ""
-      };
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
     viewIndicators(data) {
       // 查看指标
@@ -383,6 +378,13 @@ export default {
     },
     modify(data) {
       // 修改
+    },
+    getUserList() {
+      getPerformanceUser(this.performanceId, this.personalForm)
+        .then(res => {
+          this.userList = res;
+        })
+        .catch(e => {});
     }
   },
   created() {
@@ -401,6 +403,7 @@ export default {
         this.performanceDetail = res;
       })
       .catch(e => {});
+    this.getUserList();
   }
 };
 </script>
