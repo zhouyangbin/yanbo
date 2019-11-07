@@ -107,7 +107,7 @@ export const getUserDetail = (params: object) =>
 export const postTimeSettings = (eid: string, params: object) =>
   sendPost(`/admin/api/evaluation/set-time/${eid}`, params);
 //批量设置时间
-export const postBatchTimeSettings = (eid: string, params: object) => 
+export const postBatchTimeSettings = (eid: string, params: object) =>
   sendPost(`/admin/api/evaluation/set-all-time/${eid}`, params);
 // 获取个人的评测详情
 export const getUserGradeContent = (uid: string) =>
