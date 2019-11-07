@@ -43,7 +43,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="考核周期" prop="year">
+      <el-form-item label="考核年份" prop="year">
         <el-date-picker
           v-model="ruleForm.year"
           value-format="yyyy"
@@ -83,8 +83,8 @@
       <el-form-item label="绩效模板" prop="tpl">
         <div class="rule-name">{{ ruleForm.tpl }}</div>
       </el-form-item>
-      <el-form-item label="标签规则" prop="rules">
-        <div class="rule-name">{{ ruleForm.rules }}</div>
+      <el-form-item label="标签规则" prop="tag_type">
+        <div class="rule-name">{{ ruleForm.tag_type }}</div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
         <el-radio-group v-model="ruleForm.allow_appeal">
@@ -126,6 +126,11 @@ import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
 const debounce = require("lodash.debounce");
 export default {
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   props: {
     visible: {
       type: Boolean,
@@ -140,8 +145,8 @@ export default {
       default: () => ({})
     },
     performanceId: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ""
     },
     performanceTypes: {
       type: Array,
@@ -151,11 +156,6 @@ export default {
       type: Array,
       default: () => []
     }
-  },
-  components: {
-    "common-tree": AsyncComp(
-      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
-    )
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
@@ -168,6 +168,7 @@ export default {
       }
     };
     return {
+      isWatch: true,
       departmentIds: [],
       rules: {
         name: [
@@ -194,7 +195,7 @@ export default {
         start_time: this.initTime.start_time || "",
         end_time: this.initTime.end_time || "",
         tpl: "",
-        rules: "",
+        tag_type: "",
         allow_appeal: 1
       },
       constants: {
@@ -207,16 +208,42 @@ export default {
       }
     };
   },
+  computed: {
+    startPickerOptions() {
+      return {
+        disabledDate(date) {
+          // 小于当前日期的disable
+          const dt = formatTime(new Date(date));
+          const now = formatTime(new Date()).split(" ")[0] + " 00:00";
+          return dt < now;
+        }
+      };
+    },
+    endPickerOptions() {
+      return {
+        disabledDate: date => {
+          const dt = formatTime(new Date(date));
+          let now = formatTime(new Date()).split(" ")[0] + " 00:00";
+          if (this.ruleForm.start_time) {
+            // 小于开始时间的disable
+            now = this.ruleForm.start_time;
+          }
+          // 默认小于当期日期
+          return dt < now;
+        }
+      };
+    }
+  },
   watch: {
     departmentIds: {
       handler: function(val, oldVal) {
-        if (val.length > 0) {
+        if (val.length > 0 && this.isWatch) {
           let getData = {
             department_ids: val
           };
           // 获取选中事业部的绩效模板和标签规则
           getTagDepartments(getData).then(res => {
-            this.ruleForm.rules = res;
+            this.ruleForm.tag_type = res.tag_type;
           });
           getTplDepartments(getData).then(res => {
             this.ruleForm.tpl = res;
@@ -225,6 +252,36 @@ export default {
       },
       deep: true,
       immediate: true
+    }
+  },
+  created() {
+    if (this.infoType != "add" && this.performanceId) {
+      // 获取弹框信息
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          this.isWatch = false;
+          const {
+            name,
+            department_ids,
+            performance_type,
+            year,
+            start_time,
+            end_time,
+            tag_type,
+            allow_appeal
+          } = res;
+          this.ruleForm = {
+            name,
+            department_ids,
+            performance_type,
+            year,
+            start_time,
+            end_time,
+            tag_type,
+            allow_appeal
+          };
+        })
+        .catch(e => {});
     }
   },
   methods: {
@@ -243,11 +300,12 @@ export default {
               this.close();
             });
           } else {
-            return putPerformanceAssessment(this.tplId, this.ruleForm).then(
-              res => {
-                this.close();
-              }
-            );
+            return putPerformanceAssessment(
+              this.performanceId,
+              this.ruleForm
+            ).then(res => {
+              this.close();
+            });
           }
         }
       });
@@ -284,42 +342,6 @@ export default {
   },
   beforeDestroy() {
     this.$refs["ruleForm"].resetFields();
-  },
-  created() {
-    if (this.infoType != "add" && this.performanceId) {
-      // 获取弹框信息
-      getPerformanceDetail(this.performanceId)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(e => {});
-    }
-  },
-  computed: {
-    startPickerOptions() {
-      return {
-        disabledDate(date) {
-          // 小于当前日期的disable
-          const dt = formatTime(new Date(date));
-          const now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          return dt < now;
-        }
-      };
-    },
-    endPickerOptions() {
-      return {
-        disabledDate: date => {
-          const dt = formatTime(new Date(date));
-          let now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          if (this.ruleForm.start_time) {
-            // 小于开始时间的disable
-            now = this.ruleForm.start_time;
-          }
-          // 默认小于当期日期
-          return dt < now;
-        }
-      };
-    }
   }
 };
 </script>

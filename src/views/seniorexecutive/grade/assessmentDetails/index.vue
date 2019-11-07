@@ -4,7 +4,7 @@
     <br />
     <section class="content-container bg-white">
       <div class="content-title">
-        <div>2019年高管绩效考核</div>
+        <div>{{performanceDetail.name}}</div>
         <div class="create-btn">
           <el-button type="primary" @click="openAssessment">开启考核</el-button>
         </div>
@@ -42,7 +42,7 @@
         <div class="basic-setting">
           <div class="setting-detail">
             <div class="setting-key">考核名称:</div>
-            <div class="setting-value">2019组织部绩效考核</div>
+            <div class="setting-value">{{performanceDetail.name}}</div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">适用范围:</div>
@@ -75,7 +75,7 @@
       <div class="setting-list-box">
         <div class="setting-title">
           <div>时间设置</div>
-          <div class="update-settin">修改时间</div>
+          <div class="update-settin" @click="modifyTimes">修改时间</div>
         </div>
         <div class="time-setting">
           <div class="time-setting-box">
@@ -120,10 +120,13 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="事业部:">
-            <el-input
+            <el-cascader
               v-model="personalForm.business"
-              placeholder="请输入姓名或工号"
-            ></el-input>
+              placeholder="请选择事业部"
+              :props="filterProps"
+              :options="orgTree"
+              :show-all-levels="false"
+            ></el-cascader>
           </el-form-item>
           <el-form-item label="状态:">
             <el-input
@@ -171,15 +174,6 @@
             <el-button @click="resetForm">重置</el-button>
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
-          <!-- name: ""
-        business: [],
-        state: "",
-        type: "",
-        leader: "",
-        septum: "",
-        hrd: "",
-        boss: "",
-        hrbp: "" -->
         </el-form>
         <div class="table-header"></div>
         <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
@@ -234,6 +228,13 @@
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
     ></assessment-dialog>
+    <setup-time
+      v-if="showSetupTime"
+      :visible="showSetupTime"
+      @close="setupTimeClose"
+      :performanceId="performanceId"
+      :initTime="initTime"
+    ></setup-time>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
@@ -255,11 +256,19 @@ import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   data() {
     return {
-      id: this.$route.params.id,
+      initTime: {},
+      filterProps: {
+        value: "department_id",
+        label: "department_name",
+        children: "children"
+      },
+      performanceDetail: {},
+      performanceId: this.$route.params.id,
       currentPage: 1,
       total: 0,
       showConfirmDialog: false,
       showDialog: false,
+      showSetupTime: false,
       infoType: "add",
       performanceTypes: [],
       orgTree: [],
@@ -276,7 +285,7 @@ export default {
       ],
       personalForm: {
         name: "",
-        business: "",
+        business: [],
         state: "",
         type: "",
         leader: "",
@@ -296,12 +305,22 @@ export default {
     "assessment-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
     ),
+    "setup-time": AsyncComp(
+      import("@/components/modules/seniorexecutive/SetupTime/index.vue")
+    ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   methods: {
     modifySettings() {
       this.infoType = "modify";
       this.showDialog = true;
+    },
+    modifyTimes() {
+      console.log(this.initTime);
+      this.showSetupTime = true;
+    },
+    setupTimeClose() {
+      this.showSetupTime = false;
     },
     tplDialogClose() {
       this.showDialog = false;
@@ -312,9 +331,8 @@ export default {
     },
     confirmDialog() {
       // 确定按钮
-      console.log("111");
       // this.showConfirmDialog = false;
-      // putOpenAssessment(id).then(res => {
+      // putOpenAssessment(this.performanceId).then(res => {
       //   console.log(res)
       // }).catch(e => {});
     },
@@ -363,7 +381,32 @@ export default {
       .catch(e => {});
     getPerformanceDetail()
       .then(res => {
-        console.log(res);
+        this.performanceDetail = res;
+        // 获取绩效详情内容
+        const {
+          entirety_start_time,
+          entirety_end_time,
+          indicator_setting_end_time,
+          self_evaluation_begin_time,
+          superior_begin_time,
+          isolation_begin_time,
+          president_audit_begin_time,
+          result_comfirm_end_time,
+          appeal_begin_time,
+          appeal_end_time
+        } = res;
+        this.initTime = {
+          entirety_start_time,
+          entirety_end_time,
+          indicator_setting_end_time,
+          self_evaluation_begin_time,
+          superior_begin_time,
+          isolation_begin_time,
+          president_audit_begin_time,
+          result_comfirm_end_time,
+          appeal_begin_time,
+          appeal_end_time
+        };
       })
       .catch(e => {});
   }
