@@ -572,9 +572,14 @@ export default {
     if (this.permissions.indexOf(201) > -1) {
       this.isShow = true;
     }
+    getUserList(this.$route.params.orgID ,{ page: 1 }).then(res => {
+      const stage = { stage: res.info.stage };
+      localStorage.setItem("stage", JSON.stringify(stage));
+    });
   },
   data() {
     return {
+      currentStage: 10,
       permissions: [],
       isShow: false,
 
