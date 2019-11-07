@@ -186,6 +186,7 @@ export default {
           break;
         case "feedback":
           dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          break;
       }
       return dst;
     },

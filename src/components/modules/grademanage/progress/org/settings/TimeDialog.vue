@@ -547,6 +547,7 @@ export default {
     timeSet() {
       this.$refs["timesForm"].validate(valid => {
         if (valid) {
+          // console.log(valid);
           // alert("submit!")
           let orgId = this.orgId === 0 ? this.$route.params.orgID : this.orgId;
           const postData = {
@@ -564,7 +565,7 @@ export default {
             visible_271: this.timesForm.visible_271,
             feeling_is_necessary: this.timesForm.feeling_is_necessary
           };
-          //!fix
+           //!fix
           if (this.isBatchSetTime) {
             postBatchTimeSettings(orgId, postData)
               .then(res => {

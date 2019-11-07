@@ -360,7 +360,7 @@ export default {
         superior_name: "",
         employee_name: "",
         highlevel_status: "",
-        type: this.$route.params.type
+        type: 0
       },
       nav: [
         {
@@ -398,6 +398,9 @@ export default {
     "distribute-summary": () =>
       import("@/components/modules/myculture/membersdistribute/index.vue"),
     "case-area": () => import("@/components/common/CaseArea/index.vue")
+  },
+  created() {
+    const type = JSON.parse(localStorage.getItem("type"));
   },
   watch: {
     memberForm: {
@@ -471,7 +474,12 @@ export default {
       this.refreshData({ page: v, ...this.memberForm });
     },
     refreshData(data) {
-      getDownMembersList(this.$route.params.id, data).then(res => {
+      getDownMembersList(this.$route.params.id, {
+        highlevel_status: this.memberForm.highlevel_status,
+        superior_name: this.memberForm.superior_name,
+        employee_name: this.memberForm.employee_name,
+        type: JSON.parse(localStorage.getItem("type")).type
+      }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.total = total;
         this.tableData = data;

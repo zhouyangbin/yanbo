@@ -424,7 +424,8 @@ export default {
             offlinetalk_end_time: res.info.offlinetalk_end_time,
             feedback_start_time: res.info.feedback_start_time,
             feedback_end_time: res.info.feedback_end_time,
-            checked_271: res.info._271_is_necessary,
+            checked_271: 1,
+            // checked_271: res.info._271_is_necessary,
             visible_271: res.info.visible_271,
             feeling_is_necessary: res.info.feeling_is_necessary
           };
