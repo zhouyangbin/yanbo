@@ -44,7 +44,6 @@
       <el-form-item label="*指标设定" label-width="120px" prop="endTime">
         <div>
           <el-date-picker
-            :disabled="startDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -56,7 +55,6 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -71,7 +69,6 @@
       <el-form-item label="*评分时间" label-width="120px" prop="endTime">
         <div>
           <el-date-picker
-            :disabled="startDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -83,7 +80,6 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -98,7 +94,6 @@
       <el-form-item label="*隔级评时间" label-width="120px" prop="endTime">
         <div>
           <el-date-picker
-            :disabled="startDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -110,7 +105,6 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -125,7 +119,6 @@
       <el-form-item label="*结果确认时间" label-width="120px" prop="endTime">
         <div>
           <el-date-picker
-            :disabled="startDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -137,7 +130,6 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -152,7 +144,6 @@
       <el-form-item label="*可申述时间段" label-width="120px" prop="endTime">
         <div>
           <el-date-picker
-            :disabled="startDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -164,7 +155,6 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endDisable"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"

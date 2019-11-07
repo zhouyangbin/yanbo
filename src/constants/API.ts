@@ -146,13 +146,13 @@ export const getRuleList = (params: object) =>
   sendGet(`/performance/admin/rule`, params);
 // 获取标签列表
 export const getAdminTags = (params: object) =>
-  sendGet(`/performance/admin/lable`, params);
+  sendGet(`/performance/admin/label`, params);
 // 添加标签
 export const postAdminTags = (params: object) =>
-  sendPost(`/performance/admin/lable`, params);
+  sendPost(`/performance/admin/label`, params);
 // 跟新标签
 export const putAdminTagChange = (id: string, params: object) =>
-  sendPut(`/performance/admin/lable/${id}`, params);
+  sendPut(`/performance/admin/label/${id}`, params);
 
 // 跟新规则
 export const putTpl = (id: string, params: object) =>
