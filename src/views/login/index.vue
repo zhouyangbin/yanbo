@@ -35,7 +35,8 @@ import {
   PATH_GRADE_EMP_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_ORG_LIST,
-  PATH_EMPLOYEE_MY
+  PATH_EMPLOYEE_MY,
+  PATH_GRADE_ORG_LIST
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
