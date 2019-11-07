@@ -192,5 +192,8 @@ export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 考核详情
 export const PATH_ASSESSMENT_DATAILS = "/performance/assessment/details";
 // 我的业绩中高管评分指标详情页面
-export const PATH_PERFORMANCE_TARGET_SET = (name = ":name", id =  ":id", uid = ":uid", ) =>
-   `/performance/targetsettings/${name}/${id}/${uid}`;
+export const PATH_PERFORMANCE_TARGET_SET = (
+  name = ":name",
+  id = ":id",
+  uid = ":uid"
+) => `/performance/targetsettings/${name}/${id}/${uid}`;

@@ -9,28 +9,38 @@
             "weight":"20",
             "template_columns":[
                 {
-                    "weights":"20",
+                    "weights":"10",
                     "target":"指标名称",
                     "content":"工作指标内容",
                     "metrics":[
                         {
-                            "outstanding":"卓越（2分）",
+                            "key":"outstanding",
+                            "name":"卓越（2分）",
+                            "content":"",
+                            "is_required":1
+                        },
+                        {
+                            "key":"excellence",
+                            "name":"优秀（1.5分）",
+                            "content":"",
                             "is_required":0
                         },
                         {
-                            "excellence":"优秀（1.5分）",
+                            "key":"good",
+                            "name":"良好（1分）",
+                            "content":"",
                             "is_required":0
                         },
                         {
-                            "good":"良好（1分）",
+                            "key":"to_be_improved",
+                            "name":"待改进（0.5分）",
+                            "content":"",
                             "is_required":0
                         },
                         {
-                            "to_be_improved":"待改进（0.5分）",
-                            "is_required":0
-                        },
-                        {
-                            "disqualification":"不合格（0分）",
+                            "key":"disqualification",
+                            "name":"不合格（0分）",
+                            "content":"",
                             "is_required":0
                         }
                     ]
@@ -87,7 +97,7 @@
             "weight":"20",
             "template_columns":[
                 {
-                    "weights":"每一项权重",
+                    "weights":10,
                     "target":"指标名称",
                     "content":"工作指标内容",
                     "metrics":[
@@ -101,25 +111,25 @@
                             "key":"excellence",
                             "name":"优秀（1.5分）",
                             "content":"",
-                            "is_required":1
+                            "is_required":0
                         },
                         {
                             "key":"good",
                             "name":"良好（1分）",
                             "content":"",
-                            "is_required":1
+                            "is_required":0
                         },
                         {
                             "key":"to_be_improved",
                             "name":"待改进（0.5分）",
                             "content":"",
-                            "is_required":1
+                            "is_required":0
                         },
                         {
                             "key":"disqualification",
                             "name":"不合格（0分）",
                             "content":"",
-                            "is_required":1
+                            "is_required":0
                         }
                     ]
                 }

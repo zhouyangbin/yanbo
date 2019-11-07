@@ -465,6 +465,11 @@ export const getPerformanceUserInfo = (params: Object) =>
 export const getUniqueTemplate = (params: Object) =>
   // sendGet(`/executive-performance/web/ExecutivePerformance/uniqueTemplate`, params);
   sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
+
+// 高管绩效指标设定添加考核项
+export const getTargetContent = (params: Object) =>
+  // sendGet(`/executive-performance/web/target/items`, params);
+  sendGet(`/js/getTargetContent.json`, params);
 // // 获取事业部列表
 // export const getBUList = () =>
 //   // sendGet(`/admin/api/departments`);

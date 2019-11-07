@@ -57,7 +57,10 @@ import {
   GRADE_STATUS,
   TARGET_STATUS
 } from "@/constants/TEXT";
-import { PATH_EMPLYEE_MY_DETAIL, PATH_PERFORMANCE_TARGET_SET } from "@/constants/URL";
+import {
+  PATH_EMPLYEE_MY_DETAIL,
+  PATH_PERFORMANCE_TARGET_SET
+} from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
 export default {
@@ -68,7 +71,7 @@ export default {
       tableData: [],
       nav: [
         {
-          label:  MY_GRADE,
+          label: MY_GRADE,
           active: true
         }
       ],
@@ -89,14 +92,18 @@ export default {
   },
   methods: {
     goDetail(row) {
-      // TODO 需要区分是否为高管 
+      // TODO 需要区分是否为高管
       // 非高管
       // this.$router.push(
       //   PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
       // );
       // 高管
       this.$router.push(
-        PATH_PERFORMANCE_TARGET_SET(row.name, row.performance_id, row.performance_user_id)
+        PATH_PERFORMANCE_TARGET_SET(
+          row.name,
+          row.performance_id,
+          row.performance_user_id
+        )
       );
     },
     handleCurrentChange() {
