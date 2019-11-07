@@ -79,7 +79,7 @@
       </el-form-item>
       <el-form-item label prop="levelRequired">
         <el-checkbox
-          :disabled="!isManagerGrade || leader_start_disable"
+          :disabled="isManagerGrade || leader_start_disable"
           :true-label="1"
           :false-label="0"
           v-model="timesForm.levelRequired"

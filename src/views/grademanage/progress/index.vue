@@ -111,6 +111,7 @@
           <el-form-item>
             <el-button
               v-if="isShow"
+              :disabled="isDisable"
               type="text"
               @click="setTime('', 'batch')"
               >{{ constants.BATCH_SET_TIMES }}</el-button
@@ -318,6 +319,7 @@ export default {
       currentStage: 10,
       permissions: [],
       isShow: false,
+      isDisable: false,
 
       currentPage: 1,
       total: 0,

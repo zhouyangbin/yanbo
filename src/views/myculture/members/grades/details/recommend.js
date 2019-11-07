@@ -21,6 +21,7 @@ export default {
           this.special_recommended = 1;
           this.$message({
             type: "success",
+            //  一人或两人  确认推荐弹窗
             message: "员工当前等级为middel，但隔级将收到特殊推荐!"
           });
           pass_cb();
@@ -34,7 +35,9 @@ export default {
       if (this.canRecommended && this.can_special_recommend == 2) {
         msg =
           "当前团队仅有一个跟隔级推荐的名额，且已推荐，是否修改为该员工? 提交后生效.";
+        //  团队（员工或高管）仅有两人，且已特殊推荐一人
       } else {
+        //  团队只有一人或两人，第一次特殊推荐某个人
         msg = "当前团队仅有一个跟隔级推荐的名额，是否推荐? 提交后生效.";
       }
       return msg;

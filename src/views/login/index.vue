@@ -148,11 +148,12 @@ export default {
         case "interview":
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
           break;
+          //! fix
         case "superior":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id, 1);
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
           break;
         case "highlevel":
-          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id, 2);
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
           break;
         case "reject":
         case "superior_detail":

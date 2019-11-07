@@ -656,7 +656,7 @@ export const LEVELMAP = {
   bottom: 1
 };
 
-export const IMPRESSIONS = "心得体会";
+export const IMPRESSIONS = "心得体会（仅B事业部涉及）";
 export const DOWN_MEMBER_REJECT_REASON = "隔级驳回理由";
 export const LEVEL_TAG = "等级标签";
 export const ADVANTAGE = "优势";
