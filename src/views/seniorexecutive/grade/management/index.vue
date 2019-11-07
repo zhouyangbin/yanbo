@@ -22,7 +22,7 @@
             @change="changeStatuses"
             size="medium"
           >
-            <el-radio-button label="0">全部</el-radio-button>
+            <el-radio-button label="">全部</el-radio-button>
             <el-radio-button label="1">草稿</el-radio-button>
             <el-radio-button label="2">进行中</el-radio-button>
             <el-radio-button label="3">已结束</el-radio-button>
@@ -229,7 +229,7 @@ export default {
         LABEL_EMPTY,
         LABEL_SELECT_DIVISION
       },
-      statuses: "0"
+      statuses: ""
     };
   },
   watch: {
@@ -237,7 +237,7 @@ export default {
       handler: function(v) {
         let filterData = {
           page: 1,
-          statuses: this.statuses === "0" ? [] : this.statuses.split(","),
+          statuses: this.statuses,
           department_ids: v.dp
         };
         this.currentPage = 1;
@@ -251,7 +251,7 @@ export default {
   methods: {
     changeStatuses() {
       this.getPerformanceList({
-        statuses: this.statuses === "0" ? [] : this.statuses.split(","),
+        statuses: this.statuses,
         page: this.currentPage
       });
     },

@@ -129,14 +129,19 @@
             ></el-cascader>
           </el-form-item>
           <el-form-item label="状态:">
-            <el-input
-              v-model="personalForm.status"
-              placeholder="请输入姓名或工号"
-            ></el-input>
+            <el-select v-model="personalForm.status" placeholder="请选择">
+              <el-option
+                v-for="item in statusOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="高管类别:">
+          <el-form-item label="HRD:">
             <el-input
-              v-model="personalForm.executive_type"
+              v-model="personalForm.hrd_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
@@ -146,15 +151,27 @@
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="隔级:">
+          <el-form-item label="HRBP:">
             <el-input
-              v-model="personalForm.isolation_name"
+              v-model="personalForm.hrbp_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="HRD:">
+          <el-form-item label="253分布:">
             <el-input
-              v-model="personalForm.hrd_name"
+              v-model="personalForm.distribution_253"
+              placeholder="请选择"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="高管类别:">
+            <el-input
+              v-model="personalForm.executive_type"
+              placeholder="请选择"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="隔级:">
+            <el-input
+              v-model="personalForm.isolation_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
@@ -164,13 +181,7 @@
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="HRBP:">
-            <el-input
-              v-model="personalForm.hrbp_name"
-              placeholder="请输入姓名或工号"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
+          <el-form-item class="on-query">
             <el-button @click="resetForm('personalForm')">重置</el-button>
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
@@ -279,6 +290,24 @@ export default {
         label: "department_name",
         children: "children"
       },
+      statusOptions: [
+        {
+          label: "全部",
+          value: ""
+        },
+        {
+          label: "草稿",
+          value: "1"
+        },
+        {
+          label: "进行中",
+          value: "2"
+        },
+        {
+          label: "已结束",
+          value: "4"
+        }
+      ],
       performanceDetail: {},
       performanceId: this.$route.params.id,
       currentPage: 1,
@@ -309,6 +338,7 @@ export default {
         isolation_name: "",
         president_name: "",
         hrbp_name: "",
+        distribution_253: "",
         hrd_name: ""
       },
       userList: []
@@ -574,6 +604,10 @@ export default {
         float: left;
         width: 33.33%;
         margin-bottom: 16px;
+      }
+      .on-query {
+        width: 66.66%;
+        text-align: right;
       }
     }
   }
