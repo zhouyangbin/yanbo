@@ -55,8 +55,6 @@
       <el-form-item class="is-required" label="考核周期" prop="end_time">
         <div>
           <el-date-picker
-            @change="calculateEndDate"
-            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="startPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -64,11 +62,10 @@
             format="yyyy-MM-dd HH:mm"
             v-model="ruleForm.start_time"
             type="datetime"
-            placeholder="选择开始时间"
+            placeholder="请选择"
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="endPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -76,7 +73,7 @@
             format="yyyy-MM-dd HH:mm"
             v-model="ruleForm.end_time"
             type="datetime"
-            placeholder="选择结束时间"
+            placeholder="请选择"
           ></el-date-picker>
         </div>
       </el-form-item>
@@ -124,7 +121,6 @@ import {
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
-const debounce = require("lodash.debounce");
 export default {
   components: {
     "common-tree": AsyncComp(
@@ -211,8 +207,7 @@ export default {
   computed: {
     startPickerOptions() {
       return {
-        disabledDate(date) {
-          // 小于当前日期的disable
+        disabledDate: date => {
           const dt = formatTime(new Date(date));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
           return dt < now;
@@ -225,10 +220,8 @@ export default {
           const dt = formatTime(new Date(date));
           let now = formatTime(new Date()).split(" ")[0] + " 00:00";
           if (this.ruleForm.start_time) {
-            // 小于开始时间的disable
             now = this.ruleForm.start_time;
           }
-          // 默认小于当期日期
           return dt < now;
         }
       };
@@ -309,36 +302,7 @@ export default {
           }
         }
       });
-    },
-    calculateEndDate: debounce(function(date) {
-      if (!this.ruleForm.end_time) {
-        let dateObj = new Date(date.replace(/-/gi, "/"));
-        switch (this.ruleForm.property) {
-          case "1":
-            dateObj.setFullYear(dateObj.getFullYear() + 1);
-            dateObj = this.add7Days(dateObj);
-            break;
-          case "2":
-            dateObj = this.addMonth(dateObj, 6);
-            break;
-          case "3":
-            dateObj = this.addMonth(dateObj, 3);
-            break;
-          case "4":
-            if (dateObj.getMonth() > 10) {
-              dateObj.setFullYear(dateObj.getFullYear() + 1);
-              dateObj.setMonth(0);
-            } else {
-              dateObj.setMonth(dateObj.getMonth() + 1);
-            }
-            break;
-          case "5":
-          case "6":
-            return;
-        }
-        this.ruleForm.end_time = formatTime(dateObj);
-      }
-    }, 500)
+    }
   },
   beforeDestroy() {
     this.$refs["ruleForm"].resetFields();
@@ -346,14 +310,8 @@ export default {
 };
 </script>
 <style scoped>
-.tpl-dialog .title {
-  text-align: left;
-}
 .tpl-dialog >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
-}
-.tpl-dialog >>> .el-form-item {
-  margin-bottom: 22px;
 }
 .tpl-dialog >>> .el-form-item .el-input-group__prepend,
 .tpl-dialog >>> .el-form-item .el-input-group__append {
