@@ -248,7 +248,7 @@ export const EMUM_CULTURE_GENERIC_COMPLETE_STATUS = [
   },
   {
     key: "1",
-    value: "驳回中"
+    value: "进行中"
   },
   {
     key: "2",

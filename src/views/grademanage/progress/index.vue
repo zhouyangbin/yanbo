@@ -198,7 +198,7 @@
               >&nbsp;&nbsp;&nbsp;({{ scope.row.highlevel_finish_count }}/{{
                 scope.row.highlevel_count
               }})</span
-            >
+              >
           </template>
         </el-table-column>
 

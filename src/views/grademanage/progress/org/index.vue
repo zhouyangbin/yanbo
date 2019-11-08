@@ -425,13 +425,19 @@
             width="120"
           >
             <template slot-scope="scope">
-              {{
-                (
-                  constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
-                    v => v.key === String(scope.row.highlevel_status)
-                  )[0] || {}
-                ).value
-              }}
+              <!-- {{ scope.row.highlevel_is_agree }} {{scope.row.highlevel_status}} -->
+              <div class="reject_status" v-if="scope.row.highlevel_is_agree == 1">
+                <div>{{ constants.REJECT }}</div>
+              </div>
+              <div v-if="scope.row.highlevel_is_agree == 0 || scope.row.highlevel_is_agree == 2 ">
+                {{
+                  (
+                    constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
+                      v => v.key === String(scope.row.highlevel_status)
+                    )[0] || {}
+                  ).value
+                }}
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -568,7 +574,8 @@ import {
   MODIFY_TIMES,
   CONFIRM,
   CANCEL,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  REJECT
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_EMP_DETAIL,
@@ -707,7 +714,8 @@ export default {
         ENUM_LEADER_PLUS_EVALUATION_STATUS,
         MODIFY_TIMES,
         PATH_GRADE_EMP_DETAIL,
-        LEVEL_ALIAS
+        LEVEL_ALIAS,
+        REJECT
       },
       tableData: [],
       nav: [
@@ -1048,6 +1056,25 @@ export default {
 };
 </script>
 <style scoped>
+.reject_status div {
+  border-radius: 20px;
+  border: solid 2px #e94a2d;
+  color: #e94a2d;
+  width: 60px;
+  transform: rotateZ(-12deg);
+}
+.reject_status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  left: 28%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
 .dep-page {
   padding: 20px;
   /* height: calc(100% - 40px); */
