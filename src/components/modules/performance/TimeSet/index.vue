@@ -17,7 +17,7 @@
       <el-form-item label="绩效周期" label-width="120px" prop="targetEndTime">
         <div>
           <el-date-picker
-            :disabled="startTargetDisable"
+            :disabled="true"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -29,7 +29,7 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endTargetDisable"
+            :disabled="true"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -228,10 +228,18 @@ export default {
     };
     return {
       timeForm: {
-        targetStartTime: this.initTime.targetStartTime || "",
-        targetEndTime: this.initTime.targetEndTime || "",
         startTime: this.initTime.startTime || "",
-        endTime: this.initTime.endTime || ""
+        endTime: this.initTime.endTime || "",
+        start_time: this.initTime.start_time || "",
+        end_time: this.initTime.end_time || "",
+        target_start_time: this.initTime.target_start_time || "",
+        target_end_time: this.initTime.target_end_time || "",
+        high_level_start_time: this.initTime.high_level_start_time || "",
+        high_level_end_time: this.initTime.high_level_end_time || "",
+        confirm_start_time: this.initTime.confirm_start_time || "",
+        confirm_end_time: this.initTime.confirm_end_time || "",
+        appeal_start_time: this.initTime.appeal_start_time || "",
+        appeal_end_time: this.initTime.appeal_end_time || ""
       },
       timeFormRules: {
         endTime: [{ validator: endTimeValidator, trigger: "change" }],
@@ -267,10 +275,10 @@ export default {
               appeal_end_time
             } = this.timeForm;
             return postPerformanceTime(this.$route.params.orgID, {
-              start_time: start_time,
-              end_time: end_time,
-              target_start_time: target_start_time,
-              target_end_time: target_end_time,
+              start_time: target_start_time,
+              end_time: target_end_time,
+              target_start_time: start_time,
+              target_end_time: end_time,
               high_level_start_time: high_level_start_time,
               high_level_end_time: high_level_end_time,
               confirm_start_time: confirm_start_time,

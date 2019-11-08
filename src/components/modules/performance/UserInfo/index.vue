@@ -203,7 +203,6 @@ export default {
               plusuplevelNum,
               plusuplevelEmail
             } = this.infoForm;
-            // console.log(this.currentInfo);
             return pathPerformanceUser(
               this.$route.params.orgID,
               this.currentInfo.id,
