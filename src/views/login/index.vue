@@ -150,7 +150,10 @@ export default {
           break;
         //! fix
         case "superior":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id,querys.evaluation_type);
+          dst = PATH_MEMBER_CULTURE_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_type
+          );
           break;
         case "highlevel":
           dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
@@ -188,7 +191,10 @@ export default {
           );
           break;
         case "feedback":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id,querys.evaluation_type);
+          dst = PATH_MEMBER_CULTURE_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_type
+          );
           break;
       }
       return dst;

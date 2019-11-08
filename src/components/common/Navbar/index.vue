@@ -35,8 +35,8 @@
 import Drawer from "vue-simple-drawer";
 import { postFeedback } from "@/constants/API";
 export default {
-  created(){
-    console.log(this.list,"qqq");
+  created() {
+    console.log(this.list, "qqq");
   },
   props: {
     list: {
