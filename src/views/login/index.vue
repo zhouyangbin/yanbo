@@ -156,7 +156,10 @@ export default {
           );
           break;
         case "highlevel":
-          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id,querys.evaluation_type);
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_type
+          );
           break;
         case "reject":
         case "superior_detail":
