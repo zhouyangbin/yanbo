@@ -416,7 +416,11 @@ export default {
           this.listData = res.list.data;
           this.finishedDate = res.info.end_time;
           this.total = res.list.total;
-          this.isDisable = res.info.setAllTime;
+          if (res.info.setAllTime == 1) {
+            this.isDisable = true;
+          } else {
+            this.isDisable = false;
+          }
           this.timeData = {
             self_start_time: res.info.self_start_time,
             self_end_time: res.info.self_end_time,
