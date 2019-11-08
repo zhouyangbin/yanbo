@@ -64,7 +64,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "17600297195" })
+        fzLogin({ workcode: "137757" })
           // 094203
           // 076533
           // 17600297195
@@ -150,7 +150,7 @@ export default {
           break;
         //! fix
         case "superior":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id,querys.evaluation_type);
           break;
         case "highlevel":
           dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
@@ -159,6 +159,7 @@ export default {
         case "superior_detail":
           dst = PATH_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
+            querys.evaluation_type,
             querys.user_id
           );
           break;
@@ -187,7 +188,7 @@ export default {
           );
           break;
         case "feedback":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id,querys.evaluation_type);
           break;
       }
       return dst;

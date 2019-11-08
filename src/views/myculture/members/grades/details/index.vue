@@ -186,7 +186,7 @@ export default {
         },
         {
           label: MY_MEMBERS,
-          href: PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+          href: PATH_MEMBER_CULTURE_LIST(this.$route.params.id,JSON.parse(localStorage.getItem("type")).type)
         },
         {
           label: "下级详情",
