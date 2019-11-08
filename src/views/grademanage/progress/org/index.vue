@@ -404,21 +404,6 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column
-            prop="highlevel_is_agree"
-            :label="constants.LEADER_PLUS_EVALUATION_STATUS"
-            width="120"
-          >
-            <template slot-scope="scope">
-              {{
-                (
-                  constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
-                    v => v.key === String(scope.row.highlevel_is_agree)
-                  )[0] || {}
-                ).value
-              }}
-            </template>
-          </el-table-column>
           <!-- <el-table-column
             prop="highlevel_status"
             :label="constants.LEADER_PLUS_EVALUATION_STATUS"
@@ -434,6 +419,21 @@
               }}
             </template>
           </el-table-column> -->
+          <el-table-column
+            prop="highlevel_status"
+            :label="constants.LEADER_PLUS_EVALUATION_STATUS"
+            width="120"
+          >
+            <template slot-scope="scope">
+              {{
+                (
+                  constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
+                    v => v.key === String(scope.row.highlevel_status)
+                  )[0] || {}
+                ).value
+              }}
+            </template>
+          </el-table-column>
           <el-table-column
             prop="feedback_is_agree"
             :label="constants.RESULT_CONFIRM"
