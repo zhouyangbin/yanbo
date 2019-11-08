@@ -4,7 +4,7 @@
       <span>
         结果/ 
       </span>
-      <span v-if="readOnly" class="level" v-on:mouseenter="()=>{this.tip_A_show = true}" >
+      <span v-if="readOnly" class="level" v-on:click="()=>{this.tip_A_show = true}" >
         {{ value }}
         <span class="Badge_logo"></span>
         <span v-if="tip_A_show" class="tip_A" v-on:mouseleave="()=>{this.tip_A_show = false}"></span>
@@ -18,15 +18,15 @@
         >
         </el-option>
       </el-select>
-      <el-row v-if="value != 'B'">
+      <el-row v-if="value == 'B'">
           <el-col :span="6">标签/</el-col>
-          <el-col :span="12">
+          <el-col :span="10" height="100px">
             <el-radio
-                v-for="item of sttusCodes"
-                :key="item.value"
-                :label="item.value"
-                v-model="B_level"
-                >{{ item.label }}
+                v-for="(vulue, key) in levalLabelRules"
+                :key="key"
+                :label="value"
+                v-model="innerBlevel"
+                >{{ value }}
             </el-radio>
           </el-col>
       </el-row>
@@ -53,35 +53,14 @@ export default {
   data() {
     return {
       levels: ["S", "A", "B", "C", "D"],
-      radio: "1",
-      sttusCodes: [
-            {
-              label: "A",
-              value: "0",
-              selected: "1"
-            },
-            {
-              label: "B",
-              value: "1",
-              selected: "0"
-            },
-            {
-              label: "C",
-              value: "2",
-              selected: "0"
-            },
-            {
-              label: "D",
-              value: "3",
-              selected: "0"
-            }
-      ],
+      radio: this.B_level,
+      levalLabelRules: {},
       id:1,
       tip_A_show:false
     };
   },
   created() {
-    //this.getTagsRules();
+    this.getTagsRules();
   },
   methods: {
     getTagsRules() {
@@ -90,10 +69,11 @@ export default {
         this.value,
         "superior"
       )
-        .then(res => {
-          console.log(res)
-        })
-        .catch(e => {});
+      .then(res => {
+          console.log(res);
+          this.levalLabelRules = levalLabelRules;
+      })
+      .catch(e => {});
     }
   },
   computed: {
@@ -103,6 +83,14 @@ export default {
       },
       set: function(v) {
         this.$emit("input", v);
+      }
+    },
+    innerBlevel: {
+      get: function() {
+        return this.B_level;
+      },
+      set: function(v) {
+        this.$emit("update", v);
       }
     }
   }

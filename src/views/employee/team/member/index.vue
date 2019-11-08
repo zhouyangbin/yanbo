@@ -69,6 +69,7 @@
         v-if="!inReviewStage"
         :readOnly="shouldMapping || stage >= 50"
         :B_level="B_level"
+        v-on:update="B_level = $event"
         v-model="level"
       ></level>
       <br />
@@ -138,7 +139,7 @@ export default {
       targets: [],
       level: "",
       score: "",
-      B_level: "0",
+      B_level: "A",
       cardConfig: {
         min: 0,
         max: 5,
@@ -210,6 +211,9 @@ export default {
     }
   },
   methods: {
+    change_B_level(v){
+      console.log(123)
+    },
     normalizeTargets(arr) {
       return arr.map(v => {
         v.mark =
@@ -350,7 +354,6 @@ export default {
             .then(() => {
               const postData = this.getPostData();
               console.log(this.B_level);
-              return false;
               return postUserPerformance(this.$route.params.uid, postData)
                 .then(res => {
                   this.$message({
