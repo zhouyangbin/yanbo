@@ -14,7 +14,7 @@
       :model="timeForm"
       class="time-form"
     >
-      <el-form-item label="整体考核起止时间" prop="entirety_end_time">
+      <el-form-item label="整体考核起止时间" prop="end_time">
         <div>
           <el-date-picker
             :disabled="startDisable"
@@ -23,7 +23,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.entirety_start_time"
+            v-model="timeForm.start_time"
             type="datetime"
             placeholder="请选择"
           ></el-date-picker>
@@ -35,7 +35,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.entirety_end_time"
+            v-model="timeForm.end_time"
             type="datetime"
             placeholder="请选择"
           ></el-date-picker>
@@ -179,9 +179,9 @@ export default {
   data() {
     const endTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("考核结束时间不能小于开始时间"));
       } else {
@@ -190,15 +190,15 @@ export default {
     };
     const indicatorTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("指标设定截止时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("指标设定截止时间不能大于考核结束时间"));
       } else {
@@ -207,15 +207,15 @@ export default {
     };
     const selfTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("自评开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("自评开始时间不能大于考核结束时间"));
       } else {
@@ -224,15 +224,15 @@ export default {
     };
     const superiorTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("上级评开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("上级评开始时间不能大于考核结束时间"));
       } else {
@@ -241,15 +241,15 @@ export default {
     };
     const isolationTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("隔级审核开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("隔级审核开始时间不能大于考核结束时间"));
       } else {
@@ -258,15 +258,15 @@ export default {
     };
     const presidentTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("总裁审核开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("总裁审核开始时间不能大于考核结束时间"));
       } else {
@@ -275,15 +275,15 @@ export default {
     };
     const resultTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("结果确认截止时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("结果确认截止时间不能大于考核结束时间"));
       } else {
@@ -292,15 +292,15 @@ export default {
     };
     const appealBeginTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("申诉开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("申诉开始时间不能大于考核结束时间"));
       } else {
@@ -309,15 +309,15 @@ export default {
     };
     const appealEndTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.entirety_start_time &&
+        this.timeForm.start_time &&
         value &&
-        value <= this.timeForm.entirety_start_time
+        value <= this.timeForm.start_time
       ) {
         callback(new Error("申诉结束时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.entirety_end_time &&
+        this.timeForm.end_time &&
         value &&
-        this.timeForm.entirety_end_time <= value
+        this.timeForm.end_time <= value
       ) {
         callback(new Error("申诉结束时间不能大于考核结束时间"));
       } else if (
@@ -332,7 +332,7 @@ export default {
     };
     return {
       timeFormRules: {
-        entirety_end_time: [{ validator: endTimeValidator, trigger: "change" }],
+        end_time: [{ validator: endTimeValidator, trigger: "change" }],
         indicator_setting_end_time: [
           { validator: indicatorTimeValidator, trigger: "change" }
         ],
@@ -359,8 +359,8 @@ export default {
         ]
       },
       timeForm: {
-        entirety_start_time: this.initTime.entirety_start_time || "",
-        entirety_end_time: this.initTime.entirety_end_time || "",
+        start_time: this.initTime.start_time || "",
+        end_time: this.initTime.end_time || "",
         indicator_setting_end_time:
           this.initTime.indicator_setting_end_time || "",
         self_evaluation_begin_time:
@@ -404,18 +404,16 @@ export default {
     },
     startDisable() {
       return (
-        this.initTime.entirety_start_time &&
-        formatTime(
-          new Date(this.initTime.entirety_start_time.replace(/-/gi, "/"))
-        ) < formatTime(new Date())
+        this.initTime.start_time &&
+        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <
+          formatTime(new Date())
       );
     },
     endDisable() {
       return (
-        this.initTime.entirety_end_time &&
-        formatTime(
-          new Date(this.initTime.entirety_end_time.replace(/-/gi, "/"))
-        ) < formatTime(new Date())
+        this.initTime.end_time &&
+        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <
+          formatTime(new Date())
       );
     },
     indicatorDisable() {

@@ -80,28 +80,59 @@
         <div class="time-setting">
           <div class="time-setting-box">
             <div class="setting-key">整体起止时间:</div>
-            <div class="setting-value">2019年-11-01至2019年12-31</div>
+            <div class="setting-value">
+              {{ initTime.start_time | filterDate }} 至
+              {{ initTime.end_time | filterDate }}
+            </div>
           </div>
           <div class="time-setting-box">
             <div class="setting-key">各阶段起止时间:</div>
             <div class="setting-detail">
-              <div class="setting-value" data="2019-11-15">
+              <div
+                class="setting-value"
+                :data="initTime.indicator_setting_end_time | filterDate"
+              >
                 指标设定截止时间
               </div>
-              <div class="setting-value" data="2019-11-15">自评时间</div>
-              <div class="setting-value" data="2019-11-15">上级评时间</div>
-              <div class="setting-value" data="2019-11-15">隔级审核开始</div>
-              <div class="setting-value" data="2019-11-15">
+              <div
+                class="setting-value"
+                :data="initTime.self_evaluation_begin_time | filterDate"
+              >
+                自评时间
+              </div>
+              <div
+                class="setting-value"
+                :data="initTime.superior_begin_time | filterDate"
+              >
+                上级评时间
+              </div>
+              <div
+                class="setting-value"
+                :data="initTime.isolation_begin_time | filterDate"
+              >
+                隔级审核开始
+              </div>
+              <div
+                class="setting-value"
+                :data="initTime.president_audit_begin_time | filterDate"
+              >
                 总裁审核时间开始
               </div>
-              <div class="setting-value" data="2019-11-15">
+              <div
+                class="setting-value"
+                :data="initTime.result_confirm_end_time | filterDate"
+              >
                 结果确认截止时间
               </div>
             </div>
           </div>
           <div class="time-setting-box">
             <div class="setting-key">可申诉时间段:</div>
-            <div class="setting-value">2019年-11-01至2019年12-31</div>
+            <div class="setting-value">
+              {{ initTime.appeal_begin_time | filterDate }}至{{
+                initTime.appeal_end_time | filterDate
+              }}
+            </div>
           </div>
         </div>
       </div>
@@ -398,8 +429,8 @@ export default {
   computed: {
     initTime() {
       return {
-        entirety_start_time: this.performanceDetail.entirety_start_time,
-        entirety_end_time: this.performanceDetail.entirety_end_time,
+        start_time: this.performanceDetail.start_time,
+        end_time: this.performanceDetail.end_time,
         indicator_setting_end_time: this.performanceDetail
           .indicator_setting_end_time,
         self_evaluation_begin_time: this.performanceDetail
@@ -412,6 +443,16 @@ export default {
         appeal_begin_time: this.performanceDetail.appeal_begin_time,
         appeal_end_time: this.performanceDetail.appeal_end_time
       };
+    }
+  },
+  filters: {
+    filterDate(val) {
+      let newVal = "";
+      if (val) {
+        newVal = /\d{4}-\d{1,2}-\d{1,2}/g.exec(val);
+        newVal = newVal[0];
+      }
+      return newVal;
     }
   },
   methods: {
