@@ -63,7 +63,7 @@
                 >查看详情</el-button
               >
             </div>
-            <el-table :data="tableData">
+            <el-table style="width: 100%" :data="tableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
               <el-table-column min-width="90" label="自评分数/上级分数">
