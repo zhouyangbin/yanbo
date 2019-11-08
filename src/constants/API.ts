@@ -150,9 +150,11 @@ export const getAdminTags = (params: object) =>
 // 添加标签
 export const postAdminTags = (params: object) =>
   sendPost(`/performance/admin/label`, params);
-// 跟新标签
+// 更新标签
 export const putAdminTagChange = (id: string, params: object) =>
   sendPut(`/performance/admin/label/${id}`, params);
+export const postAdminTagsRules = (id: string, level: string) =>
+  sendGet(`/performance/admin/label/rules/${id}/${level}`);
 
 // 跟新规则
 export const putTpl = (id: string, params: object) =>

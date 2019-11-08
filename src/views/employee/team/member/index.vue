@@ -63,11 +63,12 @@
         :comments.sync="comments"
       ></comments>
       <br />
-      <total-mark v-if="!inReviewStage" :total="total"></total-mark>
+      <total-mark v-if="!inReviewStage" :score="this.score" :total="total"></total-mark>
       <br />
       <level
         v-if="!inReviewStage"
         :readOnly="shouldMapping || stage >= 50"
+        :B_level="B_level"
         v-model="level"
       ></level>
       <br />
@@ -136,6 +137,8 @@ export default {
       basicInfo: {},
       targets: [],
       level: "",
+      score: "",
+      B_level: "0",
       cardConfig: {
         min: 0,
         max: 5,
@@ -293,6 +296,7 @@ export default {
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
           this.stage = stage;
+          this.score = self_attach_score.score;
         })
         .catch(e => {});
     },
@@ -345,7 +349,8 @@ export default {
           })
             .then(() => {
               const postData = this.getPostData();
-
+              console.log(this.B_level);
+              return false;
               return postUserPerformance(this.$route.params.uid, postData)
                 .then(res => {
                   this.$message({
