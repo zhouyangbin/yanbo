@@ -354,7 +354,7 @@ export default {
       getMembersList(this.$route.params.id, {
         employee_name: this.memberForm.employee_name,
         superior_status: this.memberForm.superior_status,
-        type: JSON.parse(localStorage.getItem("type")).type
+        type: this.$route.params.type
       }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;

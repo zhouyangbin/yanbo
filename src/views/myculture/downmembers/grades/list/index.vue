@@ -478,7 +478,7 @@ export default {
         highlevel_status: this.memberForm.highlevel_status,
         superior_name: this.memberForm.superior_name,
         employee_name: this.memberForm.employee_name,
-        type: JSON.parse(localStorage.getItem("type")).type
+        type: this.$route.params.type
       }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.total = total;
