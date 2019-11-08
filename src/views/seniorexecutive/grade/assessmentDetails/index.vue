@@ -113,13 +113,21 @@
           :model="personalForm"
           label-width="110px"
         >
-          <el-form-item label="姓名(工号):">
+          <el-form-item
+            class="limit-width"
+            prop="name_or_workcode"
+            label="姓名(工号):"
+          >
             <el-input
               v-model="personalForm.name_or_workcode"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="事业部:">
+          <el-form-item
+            class="limit-width"
+            prop="department_ids"
+            label="事业部:"
+          >
             <el-cascader
               v-model="personalForm.department_ids"
               placeholder="请选择事业部"
@@ -128,7 +136,7 @@
               :show-all-levels="false"
             ></el-cascader>
           </el-form-item>
-          <el-form-item label="状态:">
+          <el-form-item class="limit-width" prop="status" label="状态:">
             <el-select v-model="personalForm.status" placeholder="请选择">
               <el-option
                 v-for="item in statusOptions"
@@ -139,31 +147,43 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="HRD:">
+          <el-form-item class="limit-width" prop="hrd_name" label="HRD:">
             <el-input
               v-model="personalForm.hrd_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="直接上级:">
+          <el-form-item
+            class="limit-width"
+            prop="superior_name"
+            label="直接上级:"
+          >
             <el-input
               v-model="personalForm.superior_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="HRBP:">
+          <el-form-item class="limit-width" prop="hrbp_name" label="HRBP:">
             <el-input
               v-model="personalForm.hrbp_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="253分布:">
+          <el-form-item
+            class="limit-width"
+            prop="distribution_253"
+            label="253分布:"
+          >
             <el-input
               v-model="personalForm.distribution_253"
               placeholder="请选择"
             ></el-input>
           </el-form-item>
-          <el-form-item label="组织部类别:">
+          <el-form-item
+            class="limit-width"
+            prop="executive_type"
+            label="组织部类别:"
+          >
             <el-select
               v-model="personalForm.executive_type"
               clearable
@@ -178,13 +198,13 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="隔级:">
+          <el-form-item class="limit-width" prop="isolation_name" label="隔级:">
             <el-input
               v-model="personalForm.isolation_name"
               placeholder="请输入姓名或工号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="总裁:">
+          <el-form-item class="limit-width" prop="president_name" label="总裁:">
             <el-input
               v-model="personalForm.president_name"
               placeholder="请输入姓名或工号"
@@ -197,25 +217,45 @@
         </el-form>
         <div class="table-header"></div>
         <el-table :data="userList" stripe style="width: 100%;margin-top:20px">
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column prop="workcode" label="工号"> </el-table-column>
-          <el-table-column prop="department" label="总部/事业部">
-          </el-table-column>
-          <el-table-column prop="business" label="大部门/分校">
-          </el-table-column>
-          <el-table-column prop="email" label="邮箱"> </el-table-column>
-          <el-table-column prop="executive_type_text" label="组织部类别">
-          </el-table-column>
-          <el-table-column prop="superior_name" label="直接上级">
-          </el-table-column>
-          <el-table-column prop="isolation_name" label="隔级">
-          </el-table-column>
-          <el-table-column prop="president_name" label="总裁">
-          </el-table-column>
-          <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
-          <el-table-column prop="hrd_name" label="HRD"> </el-table-column>
-          <el-table-column prop="state" fixed="right" width="80" label="状态">
-          </el-table-column>
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column
+            prop="workcode"
+            label="工号"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            prop="department"
+            label="总部/事业部"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="business"
+            label="大部门/分校"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="email"
+            label="邮箱"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            prop="executive_type_text"
+            label="组织部类别"
+          ></el-table-column>
+          <el-table-column
+            prop="superior_name"
+            label="直接上级"
+          ></el-table-column>
+          <el-table-column prop="isolation_name" label="隔级"></el-table-column>
+          <el-table-column prop="president_name" label="总裁"></el-table-column>
+          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
+          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
+          <el-table-column
+            prop="state"
+            fixed="right"
+            width="80"
+            label="状态"
+          ></el-table-column>
           <el-table-column label="操作" fixed="right" width="180">
             <template slot-scope="scope">
               <el-button @click="modify(scope.row)" type="text" size="small"
@@ -410,6 +450,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.getUserList();
     },
     viewIndicators(data) {
       // 查看指标
@@ -453,6 +494,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+.limit-width >>> .el-form-item__content {
+  width: 194px;
+}
+</style>
 <style lang="scss" scoped>
 .assessment-detail {
   color: #303133;
