@@ -4,7 +4,7 @@ export const FAIL = "失败";
 export const ERROR = "错误";
 export const SUCCESS = "成功";
 export const ATTENTION = "提示";
-export const YES= "是";
+export const YES = "是";
 export const NO = "否";
 export const FILE_SIZE_ERROR: string = "文件超出大小！";
 export const UPDATE_PASSWORD_ERR: string = "修改密码错误！";
@@ -258,7 +258,6 @@ export const DEFAULT_TABLE23221 = [
     isChildren: true
   }
 ];
-
 
 export const BUSINESS_UNIT_AND_FUNCTIONAL_UNIT = "业务单元/职能单元";
 export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";

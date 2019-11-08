@@ -78,7 +78,8 @@ export default {
       if (v != "" && v.length >= 6) {
         getUserDetail({
           empID: v
-        }).then(res => {
+        })
+          .then(res => {
             if (res) {
               this.infoForm.plusuplevelName = res.name;
               this.infoForm.plusuplevelBU = res.department_name;

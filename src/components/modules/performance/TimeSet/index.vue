@@ -264,7 +264,7 @@ export default {
               confirm_start_time,
               confirm_end_time,
               appeal_start_time,
-              appeal_end_time,
+              appeal_end_time
             } = this.timeForm;
             return postPerformanceTime(this.$route.params.orgID, {
               start_time: start_time,
@@ -276,7 +276,7 @@ export default {
               confirm_start_time: confirm_start_time,
               confirm_end_time: confirm_end_time,
               appeal_start_time: appeal_start_time,
-              appeal_end_time: appeal_end_time,
+              appeal_end_time: appeal_end_time
             })
               .then(res => {
                 //   console.log(res)

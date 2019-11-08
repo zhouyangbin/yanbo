@@ -4,7 +4,11 @@
     <section class="content-container">
       <section>
         <el-form
-         :inline="true" :model="conditionForm" ref="conditionForm" style="margin-bottom:20px">
+          :inline="true"
+          :model="conditionForm"
+          ref="conditionForm"
+          style="margin-bottom:20px"
+        >
           <!--el-form-item :label="constants.BU" label-width="80px">
             <el-select
               v-model="evaluation_id"

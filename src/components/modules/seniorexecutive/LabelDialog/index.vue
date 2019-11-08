@@ -11,7 +11,13 @@
         infoType === "add" ? constants.ADD_NEW_LABEL : constants.UPDATE_LABEL
       }}
     </div>
-    <el-form :rules="rules" ref="tplForm" :model="tplForm" border class="tpl-form">
+    <el-form
+      :rules="rules"
+      ref="tplForm"
+      :model="tplForm"
+      border
+      class="tpl-form"
+    >
       <el-form-item label="标签类型" prop="tag_type" class="tag-type">
         <el-select v-model="tplForm.tag_type" :placeholder="constants.TAG_TYPE">
           <el-option
@@ -165,7 +171,9 @@ export default {
       this.initData.rules.find((v, i) => {
         newInitData[i].name = v.name;
       });
-      this.initData.forced ? (this.tplForm.forced = true) : (this.tplForm.forced = false)
+      this.initData.forced
+        ? (this.tplForm.forced = true)
+        : (this.tplForm.forced = false);
       this.table23221 = newInitData;
     }
   },

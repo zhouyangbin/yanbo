@@ -150,7 +150,8 @@ const router = new Router({
         {
           path: PATH_PERFORMANCE_TAGS,
           components: {
-            default: () => import("@/views/performance/label/settings/index.vue"),
+            default: () =>
+              import("@/views/performance/label/settings/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
