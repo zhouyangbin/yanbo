@@ -426,10 +426,18 @@
           >
             <template slot-scope="scope">
               <!-- {{ scope.row.highlevel_is_agree }} {{scope.row.highlevel_status}} -->
-              <div class="reject_status" v-if="scope.row.highlevel_is_agree == 1">
+              <div
+                class="reject_status"
+                v-if="scope.row.highlevel_is_agree == 1"
+              >
                 <div>{{ constants.REJECT }}</div>
               </div>
-              <div v-if="scope.row.highlevel_is_agree == 0 || scope.row.highlevel_is_agree == 2 ">
+              <div
+                v-if="
+                  scope.row.highlevel_is_agree == 0 ||
+                    scope.row.highlevel_is_agree == 2
+                "
+              >
                 {{
                   (
                     constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
