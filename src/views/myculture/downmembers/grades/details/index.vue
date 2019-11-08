@@ -185,7 +185,7 @@ export default {
         },
         {
           label: MY_DOWN_MEMBER,
-          href: PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id)
+          href: PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id,JSON.parse(localStorage.getItem("type")).type)
         },
         {
           label: "隔级详情",

@@ -167,12 +167,14 @@ export const PATH_MEMBER_CULTURE_DETAILS_HISTORY = (
 ) => `/culture/membersgrades/${id}/type/${type}/${uid}/history`;
 export const PATH_DOWN_MEMBER_CULTURE_DETAILS = (
   id: string = ":id",
+  type: string = ":type",
   uid: String = ":uid"
-) => `/culture/downmembersgrades/${id}/${uid}`;
+) => `/culture/downmembersgrades/${id}/type/${type}/${uid}`;
 export const PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY = (
   id: string = ":id",
+  type: string = ":type",
   uid: String = ":uid"
-) => `/culture/downmembersgrades/${id}/${uid}/history`;
+) => `/culture/downmembersgrades/${id}/type/${type}/${uid}/history`;
 // 我的文化评分导出
 export const PATH_EXPORT_CULTURE_GRADE = (id: string, type: String) =>
   `${base}culture/web/${id}/team/export?${qs.stringify({

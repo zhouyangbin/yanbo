@@ -635,9 +635,6 @@ export default {
     getEndList(val) {
       this.gradeListType = val;
     },
-    goDetail(val, id) {
-      this.$router.push(PATH_DOWN_MEMBER_CULTURE_DETAILS(id, val));
-    },
     highDetail() {
       const isHigh = { type: this.highType };
       localStorage.setItem("type", JSON.stringify(isHigh));

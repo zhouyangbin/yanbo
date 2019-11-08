@@ -490,7 +490,7 @@ export default {
     },
     goDetail(row) {
       this.$router.push(
-        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
+        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id,JSON.parse(localStorage.getItem("type")).type, row.id)
       );
     },
     postSummary(data) {
