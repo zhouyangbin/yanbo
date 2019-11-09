@@ -492,7 +492,7 @@ export default {
       this.$router.push(
         PATH_DOWN_MEMBER_CULTURE_DETAILS(
           this.$route.params.id,
-          JSON.parse(localStorage.getItem("type")).type,
+          this.$route.params.type,
           row.id
         )
       );
