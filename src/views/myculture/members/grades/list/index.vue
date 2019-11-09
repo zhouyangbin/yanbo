@@ -379,7 +379,6 @@ export default {
       // this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
-      console.log(this.$route.params.type);
       const type = this.$route.params.type;
       this.$router.push(
         PATH_MEMBER_CULTURE_DETAILS(this.$route.params.id, type, row.id)
