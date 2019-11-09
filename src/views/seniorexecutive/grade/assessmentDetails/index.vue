@@ -246,7 +246,65 @@
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
         </el-form>
-        <div class="table-header"></div>
+        <div class="table-operate">
+          <el-button
+            type="primary"
+            class="view-btn"
+            icon="el-icon-view"
+            @click="viewDistribution"
+            >查看分布</el-button
+          >
+          <el-menu
+            class="el-menu-demo btn-group"
+            mode="horizontal"
+            @select="handleSelect"
+          >
+            <el-menu-item index="reminder">
+              <template slot="title">
+                <i class="el-icon-bell"></i>
+                <span>提醒</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="addPerson">
+              <template slot="title">
+                <i class="el-icon-plus"></i>
+                <span>添加人员</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="exportList">
+              <template slot="title">
+                <i class="el-icon-download"></i>
+                <span>导出名单</span>
+              </template>
+            </el-menu-item>
+            <el-submenu index="4">
+              <template slot="title">
+                <i class="el-icon-more"></i>
+              </template>
+              <el-menu-item index="uploadFinancialIndicators">
+                <template slot="title">
+                  <i class="el-icon-upload2"></i>
+                  <span>上传财务指标</span>
+                </template>
+              </el-menu-item>
+              <el-menu-item index="uploadWorkObjectives">
+                <template slot="title">
+                  <i class="el-icon-upload2"></i>
+                  <span>上传工作目标</span>
+                </template>
+              </el-menu-item>
+              <el-menu-item index="remove">
+                <template slot="title">
+                  <i class="el-icon-delete"></i>
+                  <span>移除</span>
+                </template>
+              </el-menu-item>
+            </el-submenu>
+          </el-menu>
+          <div class="table-number">
+            <i class="el-icon-info"></i> 共400人，已选 <span>0</span> 人
+          </div>
+        </div>
         <el-table :data="userList" stripe style="width: 100%;margin-top:20px">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column
@@ -456,6 +514,18 @@ export default {
     }
   },
   methods: {
+    handleSelect(key) {
+      console.log(key);
+      // reminder
+      // addPerson
+      // exportList
+      // uploadFinancialIndicators
+      // uploadWorkObjectives
+      // remove
+    },
+    viewDistribution() {
+      // 查看分布
+    },
     modifySettings() {
       this.infoType = "modify";
       this.showDialog = true;
@@ -538,6 +608,41 @@ export default {
 <style scoped>
 .limit-width >>> .el-form-item__content {
   width: 194px;
+}
+.table-operate {
+  display: flex;
+  padding: 16px 24px;
+}
+.table-operate .view-btn {
+  padding: 8px 12px;
+}
+.table-operate .btn-group {
+  margin: 0 10px;
+  border-bottom: none;
+}
+.table-operate .btn-group >>> .el-menu-item {
+  height: 32px;
+  line-height: 32px;
+  border: 1px solid #dcdfe6 !important;
+}
+.table-operate .btn-group >>> .el-menu-item.is-active {
+  color: #38d0af;
+  border: 1px solid #38d0af;
+}
+.table-operate .btn-group >>> .el-submenu {
+  height: 32px;
+  line-height: 32px;
+}
+.table-operate .btn-group >>> .el-submenu__title {
+  height: 32px;
+  line-height: 32px;
+}
+.table-operate .table-number {
+  line-height: 32px;
+}
+.table-operate .table-number span,
+.table-operate .table-number i {
+  color: #38d0af;
 }
 </style>
 <style lang="scss" scoped>
