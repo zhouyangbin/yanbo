@@ -43,7 +43,7 @@
             >
           </div>
           <div class="container-desc">
-            <partition :data="summary"></partition>
+            <partition :data="highSmmary"></partition>
           </div>
           <div class="container-list">
             <div class="container-list-message">
@@ -181,7 +181,7 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column prop="_271_level" label="271等级">
+              <el-table-column style="text-algin: left" prop="_271_level" label="271等级">
                 <template slot-scope="scope">
                   {{
                     scope.row._271_level
@@ -388,7 +388,7 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column prop="_271_level" label="271等级">
+              <el-table-column style="text-algin: left" prop="_271_level" label="271等级">
                 <template slot-scope="scope">
                   {{
                     scope.row._271_level
@@ -598,6 +598,7 @@ export default {
             if (key == 2) {
               this.isHigh = true;
               this.highType = key;
+              console.log(this.postSummary(res.users[key].overview));
               this.highSmmary = this.postSummary(res.users[key].overview);
               this.high_evaluation_name = res.evaluations[key].name;
               this.high_end_time = res.evaluations[key].end_time;
