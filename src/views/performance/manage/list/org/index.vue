@@ -211,12 +211,12 @@
             width="80"
           ></el-table-column>
           <el-table-column
-            prop="department"
+            prop="syb_department"
             :label="constants.BASE_OR_BU"
             width="100"
           ></el-table-column>
           <el-table-column
-            prop="syb_department"
+            prop="department"
             :label="constants.DEP_OR_SUB"
             width="100"
           ></el-table-column>

@@ -94,7 +94,7 @@ export default {
           .then(res => {
             if (res) {
               this.infoForm.name = res.name;
-              this.infoForm.BU = res.department_name;
+              this.infoForm.BU = res.department_name || res.department;
               this.infoForm.dep = res.first_department;
               this.infoForm.level = res.level;
               this.infoForm.email = res.email;

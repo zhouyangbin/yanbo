@@ -82,7 +82,8 @@ export default {
           .then(res => {
             if (res) {
               this.infoForm.plusuplevelName = res.name;
-              this.infoForm.plusuplevelBU = res.department_name;
+              this.infoForm.plusuplevelBU =
+                res.department_name || res.department;
               this.infoForm.plusuplevelEmail = res.email;
             } else {
               this.infoForm.plusuplevelName = "";
