@@ -93,9 +93,9 @@ export default {
           })
           .catch(e => {});
       } else {
-        this.infoForm.llntervalName = "";
-        this.infoForm.lntervalBU = "";
-        this.infoForm.lntervalEmail = "";
+        this.infoForm.plusuplevelName = "";
+        this.infoForm.plusuplevelBU = "";
+        this.infoForm.plusuplevelEmail = "";
       }
     }
   },
