@@ -255,7 +255,12 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column style="text-algin: left" prop="_271_level" width="100" label="271等级">
+          <el-table-column
+            style="text-algin: left"
+            prop="_271_level"
+            width="100"
+            label="271等级"
+          >
             <template slot-scope="scope">
               {{
                 scope.row._271_level ? getLevelText(scope.row._271_level) : "无"

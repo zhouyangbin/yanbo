@@ -181,7 +181,11 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column style="text-algin: left" prop="_271_level" label="271等级">
+              <el-table-column
+                style="text-algin: left"
+                prop="_271_level"
+                label="271等级"
+              >
                 <template slot-scope="scope">
                   {{
                     scope.row._271_level
@@ -388,7 +392,11 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column style="text-algin: left" prop="_271_level" label="271等级">
+              <el-table-column
+                style="text-algin: left"
+                prop="_271_level"
+                label="271等级"
+              >
                 <template slot-scope="scope">
                   {{
                     scope.row._271_level
