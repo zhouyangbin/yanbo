@@ -623,15 +623,31 @@ export default {
 .table-operate .btn-group >>> .el-menu-item {
   height: 32px;
   line-height: 32px;
+  color: #606266;
   border: 1px solid #dcdfe6 !important;
 }
-.table-operate .btn-group >>> .el-menu-item.is-active {
+.table-operate .btn-group >>> .el-menu-item [class^="el-icon-"],
+.table-operate .btn-group >>> .el-submenu [class^="el-icon-"] {
+  font-size: 14px;
+  color: #606266;
+}
+.table-operate .btn-group >>> .el-menu-item:hover,
+.table-operate .btn-group >>> .el-submenu:hover {
   color: #38d0af;
-  border: 1px solid #38d0af;
+  border: 1px solid #38d0af !important;
+}
+.table-operate .btn-group >>> .el-menu-item:hover [class^="el-icon-"],
+.table-operate .btn-group >>> .el-submenu:hover [class^="el-icon-"] {
+  color: #38d0af;
+}
+.table-operate .btn-group >>> .el-menu-item.is-active {
+  color: #606266;
 }
 .table-operate .btn-group >>> .el-submenu {
+  box-sizing: border-box;
   height: 32px;
   line-height: 32px;
+  border: 1px solid #dcdfe6 !important;
 }
 .table-operate .btn-group >>> .el-submenu__title {
   height: 32px;
