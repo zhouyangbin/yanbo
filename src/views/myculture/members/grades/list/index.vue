@@ -307,7 +307,7 @@ export default {
           label: MEMBERS_GRADE_LIST,
           href: PATH_MEMBER_CULTURE_LIST(
             this.$route.params.id,
-            this.$route.params.type,
+            this.$route.params.type
           )
         },
         {
