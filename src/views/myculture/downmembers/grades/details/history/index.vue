@@ -13,7 +13,7 @@ import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMBER_CULTURE_DETAILS,
-  PATH_MEMBER_CULTURE_DETAILS_HISTORY
+  PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY
 } from "@/constants/URL";
 import history from "@/views/myculture/levels/history/index.vue";
 
@@ -27,7 +27,7 @@ export default {
         },
         {
           label: MY_DOWN_MEMBER,
-          href: PATH_MEMBER_CULTURE_DETAILS_HISTORY(
+          href: PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(
             this.$route.params.id,
             this.$route.params.type,
             this.$route.params.uid

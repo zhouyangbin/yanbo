@@ -369,10 +369,7 @@ export default {
       nav: [
         {
           label: DOWN_MEMBERS_GRADE_LIST,
-          href: PATH_DOWN_MEMBER_CULTURE_LIST(
-            this.$route.params.id,
-            this.$route.params.type
-          )
+          href: PATH_DOWN_MEMEBER_CULTURE_GRADE
         },
         {
           label: MY_DOWN_MEMBER,
