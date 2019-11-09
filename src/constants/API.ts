@@ -485,5 +485,24 @@ export const getPerformanceUser = (id: String, params: Object) =>
   // sendGet(`/executive-performance/admin/performances/${id}/users`, params)
   sendGet(`/js/getPerformanceUser.json`, params);
 
+// 高管绩效 设置评分时间
 export const postPerformanceSetTime = (id: String, params: Object) =>
   sendPost(`/executive-performance/admin/performance/${id}/set-time`, params);
+
+// 高管绩效 给评分添加员工
+export const postAddPerson = (performance_id: String, params: Object) =>
+  sendPost(
+    `/executive-performance/admin/performance/${performance_id}/users`,
+    params
+  );
+
+// 高管绩效 提醒
+export const getPerformanceNotice = (id: String) =>
+  sendGet(`/executive-performance/admin/performances/${id}/notice`);
+
+// 高管绩效 删除人员
+export const deletePerformanceUser = (performance_id: String, params: Object) =>
+  sendDelete(
+    `/executive-performance/admin/performance/${performance_id}/users`,
+    params
+  );

@@ -278,7 +278,13 @@
             <i class="el-icon-info"></i> 共400人，已选 <span>0</span> 人
           </div>
         </div>
-        <el-table :data="userList" stripe style="width: 100%;margin-top:20px">
+        <el-table
+          :data="userList"
+          stripe
+          style="width: 100%;margin-top:20px"
+          ref="multipleTable"
+          @selection-change="handleSelectionChange"
+        >
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column
             prop="workcode"
@@ -378,7 +384,10 @@ import {
   getPerformanceTypes,
   getPerformanceDetail,
   getPerformanceUser,
-  getExecutiveTypes
+  getExecutiveTypes,
+  getUserDetail,
+  getPerformanceNotice,
+  deletePerformanceUser
 } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
@@ -454,7 +463,8 @@ export default {
         distribution_253: "",
         hrd_name: ""
       },
-      userList: []
+      userList: [],
+      performance_user_ids: []
     };
   },
   computed: {
@@ -487,8 +497,17 @@ export default {
     }
   },
   methods: {
+    handleSelectionChange(val) {
+      // performance_user_ids的id是哪一个字段
+      // this.performance_user_ids
+      console.log(val);
+    },
     reminder() {
-      console.log("reminder");
+      getPerformanceNotice(this.performanceId)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {});
     },
     addPerson() {
       console.log("addPerson");
@@ -503,7 +522,14 @@ export default {
       console.log("uploadWorkObjectives");
     },
     removeList() {
-      console.log("removeList");
+      if (this.performance_user_ids.length === 0) {
+        return false;
+      }
+      deletePerformanceUser(this.performanceId, this.performance_user_ids)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {});
     },
     viewDistribution() {
       // 查看分布
