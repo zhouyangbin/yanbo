@@ -566,11 +566,11 @@ export default {
             visible_271: this.timesForm.visible_271,
             feeling_is_necessary: this.timesForm.feeling_is_necessary
           };
-          //!fix
           if (this.isBatchSetTime) {
             postBatchTimeSettings(orgId, postData)
               .then(res => {
                 this.close();
+                this.$refs["timesForm"].resetFilter();
               })
               .catch(e => {});
           } else {
