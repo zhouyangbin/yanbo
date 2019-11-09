@@ -367,6 +367,15 @@
       :performanceId="performanceId"
       :initTime="initTime"
     ></setup-time>
+    <modify-user
+      v-if="showModifyUser"
+      :visible="showModifyUser"
+      @close="modifyUserClose"
+      :userType="userType"
+      :performanceId="performanceId"
+      :executiveTypes="executiveTypes"
+      :userInfo="userInfo"
+    ></modify-user>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
@@ -401,6 +410,9 @@ export default {
     ),
     "setup-time": AsyncComp(
       import("@/components/modules/seniorexecutive/SetupTime/index.vue")
+    ),
+    "modify-user": AsyncComp(
+      import("@/components/modules/seniorexecutive/ModifyUser/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
@@ -464,7 +476,10 @@ export default {
         hrd_name: ""
       },
       userList: [],
-      performance_user_ids: []
+      performance_user_ids: [],
+      showModifyUser: false,
+      userInfo: {},
+      userType: "add"
     };
   },
   computed: {
@@ -497,6 +512,9 @@ export default {
     }
   },
   methods: {
+    modifyUserClose() {
+      this.showModifyUser = false;
+    },
     handleSelectionChange(val) {
       // performance_user_ids的id是哪一个字段
       // this.performance_user_ids
@@ -510,7 +528,8 @@ export default {
         .catch(e => {});
     },
     addPerson() {
-      console.log("addPerson");
+      this.userType = "add";
+      this.showModifyUser = true;
     },
     exportList() {
       console.log("exportList");
@@ -579,6 +598,9 @@ export default {
     },
     modify(data) {
       // 修改
+      // this.userInfo
+      this.userType = "modify";
+      this.showModifyUser = true;
     },
     getUserList() {
       getPerformanceUser(this.performanceId, this.personalForm)
