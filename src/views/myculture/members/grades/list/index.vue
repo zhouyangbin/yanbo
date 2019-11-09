@@ -268,6 +268,7 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
+  PATH_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getMembersList } from "@/constants/API";
@@ -304,7 +305,10 @@ export default {
       nav: [
         {
           label: MEMBERS_GRADE_LIST,
-          href: PATH_MEMEBER_CULTURE_GRADE
+          href: PATH_MEMBER_CULTURE_LIST(
+            this.$route.params.id,
+            this.$route.params.type,
+          )
         },
         {
           label: MY_MEMBERS,

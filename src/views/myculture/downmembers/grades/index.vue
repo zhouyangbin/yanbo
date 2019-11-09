@@ -66,7 +66,7 @@
             <el-table :data="tableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
-              <el-table-column min-width="90" label="自评分数/上级分数">
+              <el-table-column min-width="110" label="自评分数/上级分数">
                 <template slot-scope="scope">
                   <span class="self-text">
                     {{
@@ -85,7 +85,7 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column min-width="110" label="自评平均分/上级平均分">
+              <el-table-column min-width="130" label="自评平均分/上级平均分">
                 <template slot-scope="scope">
                   <span class="self-text">
                     {{
@@ -606,7 +606,6 @@ export default {
             if (key == 2) {
               this.isHigh = true;
               this.highType = key;
-              console.log(this.postSummary(res.users[key].overview));
               this.highSmmary = this.postSummary(res.users[key].overview);
               this.high_evaluation_name = res.evaluations[key].name;
               this.high_end_time = res.evaluations[key].end_time;
