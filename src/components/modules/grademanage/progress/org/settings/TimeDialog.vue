@@ -379,7 +379,7 @@ export default {
       }
     };
     const offlinetalkStartTimeValidator = (rule, value, callback) => {
-      if (this.timesForm.upLeader_end && value <= this.timesForm.upLeader_end) {
+      if (this.timesForm.upLeader_end && value <= this.timesForm.upLeader_end && value < formatTime(new Date())) {
         callback(new Error(OFFLINETALK_TIME_VALIDATE_MSG));
       } else {
         callback();
