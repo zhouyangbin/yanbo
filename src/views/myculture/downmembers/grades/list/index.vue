@@ -113,8 +113,6 @@
         <br />
         <br />
         <el-table
-          header-cell-class-name="text-center"
-          cell-class-name="text-center"
           @selection-change="selectionChange"
           :data="tableData"
           stripe

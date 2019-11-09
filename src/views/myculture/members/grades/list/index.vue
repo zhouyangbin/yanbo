@@ -71,8 +71,6 @@
         <br />
         <br />
         <el-table
-          header-cell-class-name="text-center"
-          cell-class-name="text-center"
           :data="tableData"
           stripe
           style="width: 100%"
@@ -305,10 +303,7 @@ export default {
       nav: [
         {
           label: MEMBERS_GRADE_LIST,
-          href: PATH_MEMBER_CULTURE_LIST(
-            this.$route.params.id,
-            this.$route.params.type
-          )
+          href: PATH_MEMEBER_CULTURE_GRADE
         },
         {
           label: MY_MEMBERS,
