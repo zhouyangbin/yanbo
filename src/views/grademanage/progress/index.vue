@@ -393,9 +393,7 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue"),
     "time-setting": AsyncComp(
-      import(
-        "@/components/modules/grademanage/progress/org/settings/TimeDialog.vue"
-      )
+      import("@/components/modules/grademanage/progress/org/settings/TimeDialog.vue")
     )
   },
   methods: {

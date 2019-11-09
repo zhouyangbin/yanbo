@@ -13,6 +13,7 @@ import {
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
+  PATH_PERFORMANCE_TAGS,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
@@ -157,6 +158,14 @@ const router = new Router({
           }
         },
         {
+          path: PATH_PERFORMANCE_TAGS,
+          components: {
+            default: () =>
+              import("@/views/performance/label/settings/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
           path: PATH_ACCESS_ROLES,
           components: {
             default: () => import("@/views/rolemanage/index.vue"),
@@ -265,9 +274,7 @@ const router = new Router({
           path: PATH_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import(
-                "@/views/myculture/members/grades/details/history/index.vue"
-              ),
+              import("@/views/myculture/members/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -283,9 +290,7 @@ const router = new Router({
           path: PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import(
-                "@/views/myculture/downmembers/grades/details/history/index.vue"
-              ),
+              import("@/views/myculture/downmembers/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

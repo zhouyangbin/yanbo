@@ -140,16 +140,26 @@ export const getOrgTree = () => sendGet(`/performance/admin/organization`);
 // 新增模板
 export const postTpl = (params: object) =>
   sendPost(`/performance/admin/templates`, params);
-// 更新模板
-export const putTpl = (id: string, params: object) =>
-  sendPut(`/performance/admin/templates/${id}`, params);
+
 // 获取模板详情
 export const getTpl = (id: string) =>
   sendGet(`/performance/admin/templates/${id}`);
 // 获取规则列表
 export const getRuleList = (params: object) =>
   sendGet(`/performance/admin/rule`, params);
+// 获取标签列表
+export const getAdminTags = (params: object) =>
+  sendGet(`/performance/admin/label`, params);
+// 添加标签
+export const postAdminTags = (params: object) =>
+  sendPost(`/performance/admin/label`, params);
+// 跟新标签
+export const putAdminTagChange = (id: string, params: object) =>
+  sendPut(`/performance/admin/label/${id}`, params);
+
 // 跟新规则
+export const putTpl = (id: string, params: object) =>
+  sendPut(`/performance/admin/templates/${id}`, params);
 
 export const putRule = (id: String, params: Object) =>
   sendPut(`/performance/admin/rule/${id}`, params);

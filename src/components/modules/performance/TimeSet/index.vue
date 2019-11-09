@@ -14,37 +14,10 @@
       :model="timeForm"
       class="timeForm"
     >
-      <el-form-item label="目标设定" prop="targetEndTime">
+      <el-form-item label="绩效周期" label-width="120px" prop="targetEndTime">
         <div>
           <el-date-picker
-            :disabled="startTargetDisable"
-            :clearable="false"
-            :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm"
-            popper-class="date-picker-container"
-            format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.targetStartTime"
-            type="datetime"
-            placeholder="选择开始时间"
-          ></el-date-picker>
-          <span>&nbsp; 至 &nbsp;</span>
-          <el-date-picker
-            :disabled="endTargetDisable"
-            :clearable="false"
-            :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm"
-            popper-class="date-picker-container"
-            format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.targetEndTime"
-            type="datetime"
-            placeholder="选择结束时间"
-          ></el-date-picker>
-        </div>
-      </el-form-item>
-      <el-form-item label="评分时间" prop="endTime">
-        <div>
-          <el-date-picker
-            :disabled="startDisable"
+            :disabled="true"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
@@ -56,13 +29,138 @@
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="endDisable"
+            :disabled="true"
             :clearable="false"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
             v-model="timeForm.endTime"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item label="*指标设定" label-width="120px" prop="endTime">
+        <div>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.start_time"
+            type="datetime"
+            placeholder="选择开始时间"
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.end_time"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item label="*评分时间" label-width="120px" prop="endTime">
+        <div>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.target_start_time"
+            type="datetime"
+            placeholder="选择开始时间"
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.target_end_time"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item label="*隔级评时间" label-width="120px" prop="endTime">
+        <div>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.high_level_start_time"
+            type="datetime"
+            placeholder="选择开始时间"
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.high_level_end_time"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item label="*结果确认时间" label-width="120px" prop="endTime">
+        <div>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.confirm_start_time"
+            type="datetime"
+            placeholder="选择开始时间"
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.confirm_end_time"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
+        </div>
+      </el-form-item>
+      <el-form-item label="*可申诉时间段" label-width="120px" prop="endTime">
+        <div>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.appeal_start_time"
+            type="datetime"
+            placeholder="选择开始时间"
+          ></el-date-picker>
+          <span>&nbsp; 至 &nbsp;</span>
+          <el-date-picker
+            :clearable="false"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm"
+            popper-class="date-picker-container"
+            format="yyyy-MM-dd HH:mm"
+            v-model="timeForm.appeal_end_time"
             type="datetime"
             placeholder="选择结束时间"
           ></el-date-picker>
@@ -130,10 +228,18 @@ export default {
     };
     return {
       timeForm: {
-        targetStartTime: this.initTime.targetStartTime || "",
-        targetEndTime: this.initTime.targetEndTime || "",
         startTime: this.initTime.startTime || "",
-        endTime: this.initTime.endTime || ""
+        endTime: this.initTime.endTime || "",
+        start_time: this.initTime.start_time || "",
+        end_time: this.initTime.end_time || "",
+        target_start_time: this.initTime.target_start_time || "",
+        target_end_time: this.initTime.target_end_time || "",
+        high_level_start_time: this.initTime.high_level_start_time || "",
+        high_level_end_time: this.initTime.high_level_end_time || "",
+        confirm_start_time: this.initTime.confirm_start_time || "",
+        confirm_end_time: this.initTime.confirm_end_time || "",
+        appeal_start_time: this.initTime.appeal_start_time || "",
+        appeal_end_time: this.initTime.appeal_end_time || ""
       },
       timeFormRules: {
         endTime: [{ validator: endTimeValidator, trigger: "change" }],
@@ -157,16 +263,28 @@ export default {
           //   console.log(this.timeForm)
           if (this.formCheck()) {
             const {
-              startTime,
-              endTime,
-              targetStartTime,
-              targetEndTime
+              start_time,
+              end_time,
+              target_start_time,
+              target_end_time,
+              high_level_start_time,
+              high_level_end_time,
+              confirm_start_time,
+              confirm_end_time,
+              appeal_start_time,
+              appeal_end_time
             } = this.timeForm;
             return postPerformanceTime(this.$route.params.orgID, {
-              start_time: startTime,
-              end_time: endTime,
-              target_start_time: targetStartTime,
-              target_end_time: targetEndTime
+              start_time: target_start_time,
+              end_time: target_end_time,
+              target_start_time: start_time,
+              target_end_time: end_time,
+              high_level_start_time: high_level_start_time,
+              high_level_end_time: high_level_end_time,
+              confirm_start_time: confirm_start_time,
+              confirm_end_time: confirm_end_time,
+              appeal_start_time: appeal_start_time,
+              appeal_end_time: appeal_end_time
             })
               .then(res => {
                 //   console.log(res)
@@ -180,23 +298,23 @@ export default {
       });
     },
     formCheck() {
-      if (!this.timeForm.targetStartTime) {
+      if (!this.timeForm.start_time) {
         this.$notify({
           title: "警告",
-          message: "目标设定开始时间不能为空!",
+          message: "指标设定开始时间不能为空!",
           type: "warning"
         });
         return false;
       }
-      if (!this.timeForm.targetEndTime) {
+      if (!this.timeForm.end_time) {
         this.$notify({
           title: "警告",
-          message: "目标设定结束时间不能为空!",
+          message: "指标设定结束时间不能为空!",
           type: "warning"
         });
         return false;
       }
-      if (!this.timeForm.startTime) {
+      if (!this.timeForm.target_start_time) {
         this.$notify({
           title: "警告",
           message: "评分开始时间不能为空!",
@@ -204,7 +322,7 @@ export default {
         });
         return false;
       }
-      if (!this.timeForm.endTime) {
+      if (!this.timeForm.target_end_time) {
         this.$notify({
           title: "警告",
           message: "评分结束时间不能为空!",
@@ -212,10 +330,50 @@ export default {
         });
         return false;
       }
-      if (this.timeForm.startTime < this.timeForm.targetEndTime) {
+      if (!this.timeForm.high_level_start_time) {
         this.$notify({
           title: "警告",
-          message: "目标设定结束时间不能大于评分开始!",
+          message: "隔级评开始时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.high_level_end_time) {
+        this.$notify({
+          title: "警告",
+          message: "隔级评结束时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.confirm_start_time) {
+        this.$notify({
+          title: "警告",
+          message: "结果确认开始时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.confirm_start_time) {
+        this.$notify({
+          title: "警告",
+          message: "结果确认结束时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.appeal_start_time) {
+        this.$notify({
+          title: "警告",
+          message: "可申述开始时间不能为空!",
+          type: "warning"
+        });
+        return false;
+      }
+      if (!this.timeForm.appeal_end_time) {
+        this.$notify({
+          title: "警告",
+          message: "可申述结束时间不能为空!",
           type: "warning"
         });
         return false;
