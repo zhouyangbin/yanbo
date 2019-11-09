@@ -327,9 +327,9 @@ import {
   HIGHLV_STATUS
 } from "@/constants/TEXT";
 import {
-  PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_LIST,
-  PATH_DOWN_MEMBER_CULTURE_DETAILS
+  PATH_DOWN_MEMBER_CULTURE_DETAILS,
+  PATH_DOWN_MEMEBER_CULTURE_GRADE
 } from "@/constants/URL";
 import { getDownMembersList, postReject } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
