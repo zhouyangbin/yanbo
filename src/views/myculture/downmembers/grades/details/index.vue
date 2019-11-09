@@ -188,7 +188,7 @@ export default {
           label: MY_DOWN_MEMBER,
           href: PATH_DOWN_MEMBER_CULTURE_LIST(
             this.$route.params.id,
-            this.$route.params.type,
+            this.$route.params.type
           )
         },
         {
