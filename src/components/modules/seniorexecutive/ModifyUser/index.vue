@@ -37,7 +37,7 @@
       <el-form-item label="HRD" prop="hrd_workcode">
         <el-input v-model="userForm.hrd_workcode"></el-input>
       </el-form-item>
-      <el-form-item label="HRD" prop="executive_type">
+      <el-form-item label="高管类别" prop="executive_type">
         <el-select
           v-model="userForm.executive_type"
           clearable
