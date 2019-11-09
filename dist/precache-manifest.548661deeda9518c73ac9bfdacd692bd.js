@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "7e22866b61a07b0602b9",
+    "revision": "a75434b2bc0419529341",
     "url": "//pingfen-performance.chengjiukehu.com/css/app.3bba3352.css"
   },
   {
-    "revision": "7e22866b61a07b0602b9",
-    "url": "//pingfen-performance.chengjiukehu.com/js/app.14b544ef.js"
+    "revision": "a75434b2bc0419529341",
+    "url": "//pingfen-performance.chengjiukehu.com/js/app.495eb2f6.js"
   },
   {
     "revision": "7bafbe12653129c0e735",
@@ -344,8 +344,8 @@ self.__precacheManifest = [
     "url": "//pingfen-performance.chengjiukehu.com/js/chunk-3cd4c72f.be495cb7.js"
   },
   {
-    "revision": "a20155c18fea190673d9",
-    "url": "//pingfen-performance.chengjiukehu.com/js/chunk-3fa1245d.f848eec2.js"
+    "revision": "414bbd84646b697133f4",
+    "url": "//pingfen-performance.chengjiukehu.com/js/chunk-3fa1245d.4f5a9bb5.js"
   },
   {
     "revision": "9b9943781ea44a49a96e",
@@ -756,12 +756,12 @@ self.__precacheManifest = [
     "url": "//pingfen-performance.chengjiukehu.com/js/chunk-vendors.3ba4f0f6.js"
   },
   {
-    "revision": "732389ded34cb9c52dd88271f1345af9",
-    "url": "//pingfen-performance.chengjiukehu.com/fonts/element-icons.732389de.ttf"
-  },
-  {
     "revision": "535877f50039c0cb49a6196a5b7517cd",
     "url": "//pingfen-performance.chengjiukehu.com/fonts/element-icons.535877f5.woff"
+  },
+  {
+    "revision": "732389ded34cb9c52dd88271f1345af9",
+    "url": "//pingfen-performance.chengjiukehu.com/fonts/element-icons.732389de.ttf"
   },
   {
     "revision": "38f5f9956177376df287b6c60849e283",
@@ -776,7 +776,7 @@ self.__precacheManifest = [
     "url": "//pingfen-performance.chengjiukehu.com/img/blank_sign.3c8dda7e.png"
   },
   {
-    "revision": "d1abeee6491fcf2f66df62f7633900fc",
+    "revision": "11feb599f4b81b1d373c9cb4df9eb8f8",
     "url": "//pingfen-performance.chengjiukehu.com/index.html"
   },
   {
