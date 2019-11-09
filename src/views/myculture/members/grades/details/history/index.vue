@@ -26,12 +26,13 @@ export default {
         },
         {
           label: MY_MEMBERS,
-          href: PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+          href: PATH_MEMBER_CULTURE_LIST(this.$route.params.id,this.$route.params.type)
         },
         {
           label: "下级详情",
           href: PATH_MEMBER_CULTURE_DETAILS(
             this.$route.params.id,
+            this.$route.params.type,
             this.$route.params.uid
           )
         },

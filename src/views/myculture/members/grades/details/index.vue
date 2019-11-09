@@ -188,7 +188,7 @@ export default {
           label: MY_MEMBERS,
           href: PATH_MEMBER_CULTURE_LIST(
             this.$route.params.id,
-            JSON.parse(localStorage.getItem("type")).type
+            this.$route.params.type,
           )
         },
         {
@@ -327,6 +327,7 @@ export default {
       this.$router.push(
         PATH_MEMBER_CULTURE_DETAILS_HISTORY(
           this.$route.params.id,
+          this.$route.params.type,
           this.$route.params.uid
         )
       );
