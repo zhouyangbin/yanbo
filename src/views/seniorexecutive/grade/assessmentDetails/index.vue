@@ -249,58 +249,31 @@
         <div class="table-operate">
           <el-button
             type="primary"
-            class="view-btn"
             icon="el-icon-view"
             @click="viewDistribution"
             >查看分布</el-button
           >
-          <el-menu
-            class="el-menu-demo btn-group"
-            mode="horizontal"
-            @select="handleSelect"
-          >
-            <el-menu-item index="reminder">
-              <template slot="title">
-                <i class="el-icon-bell"></i>
-                <span>提醒</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="addPerson">
-              <template slot="title">
-                <i class="el-icon-plus"></i>
-                <span>添加人员</span>
-              </template>
-            </el-menu-item>
-            <el-menu-item index="exportList">
-              <template slot="title">
-                <i class="el-icon-download"></i>
-                <span>导出名单</span>
-              </template>
-            </el-menu-item>
-            <el-submenu index="4">
-              <template slot="title">
-                <i class="el-icon-more"></i>
-              </template>
-              <el-menu-item index="uploadFinancialIndicators">
-                <template slot="title">
-                  <i class="el-icon-upload2"></i>
-                  <span>上传财务指标</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item index="uploadWorkObjectives">
-                <template slot="title">
-                  <i class="el-icon-upload2"></i>
-                  <span>上传工作目标</span>
-                </template>
-              </el-menu-item>
-              <el-menu-item index="remove">
-                <template slot="title">
-                  <i class="el-icon-delete"></i>
-                  <span>移除</span>
-                </template>
-              </el-menu-item>
-            </el-submenu>
-          </el-menu>
+          <el-button-group class="btn-group">
+            <el-button icon="el-icon-bell" @click="reminder">提醒</el-button>
+            <el-button icon="el-icon-plus" @click="addPerson"
+              >添加人员</el-button
+            >
+            <el-button icon="el-icon-download" @click="exportList"
+              >导出名单</el-button
+            >
+            <el-popover placement="bottom" width="120" trigger="hover">
+              <div class="more-btn" @click="uploadFinancialIndicators">
+                <i class="el-icon-upload2"></i><span>上传财务指标</span>
+              </div>
+              <div class="more-btn" @click="uploadWorkObjectives">
+                <i class="el-icon-upload2"></i><span>上传工作目标</span>
+              </div>
+              <div class="more-btn" @click="removeList">
+                <i class="el-icon-delete"></i><span>移除</span>
+              </div>
+              <el-button icon="el-icon-more" slot="reference"></el-button>
+            </el-popover>
+          </el-button-group>
           <div class="table-number">
             <i class="el-icon-info"></i> 共400人，已选 <span>0</span> 人
           </div>
@@ -514,14 +487,23 @@ export default {
     }
   },
   methods: {
-    handleSelect(key) {
-      console.log(key);
-      // reminder
-      // addPerson
-      // exportList
-      // uploadFinancialIndicators
-      // uploadWorkObjectives
-      // remove
+    reminder() {
+      console.log("reminder");
+    },
+    addPerson() {
+      console.log("addPerson");
+    },
+    exportList() {
+      console.log("exportList");
+    },
+    uploadFinancialIndicators() {
+      console.log("uploadFinancialIndicators");
+    },
+    uploadWorkObjectives() {
+      console.log("uploadWorkObjectives");
+    },
+    removeList() {
+      console.log("removeList");
     },
     viewDistribution() {
       // 查看分布
@@ -609,56 +591,17 @@ export default {
 .limit-width >>> .el-form-item__content {
   width: 194px;
 }
-.table-operate {
-  display: flex;
-  padding: 16px 24px;
+.more-btn {
+  padding: 0 20px;
+  line-height: 36px;
+  cursor: pointer;
 }
-.table-operate .view-btn {
-  padding: 8px 12px;
+.more-btn i {
+  margin-right: 5px;
 }
-.table-operate .btn-group {
-  margin: 0 10px;
-  border-bottom: none;
-}
-.table-operate .btn-group >>> .el-menu-item {
-  height: 32px;
-  line-height: 32px;
-  color: #606266;
-  border: 1px solid #dcdfe6 !important;
-}
-.table-operate .btn-group >>> .el-menu-item [class^="el-icon-"],
-.table-operate .btn-group >>> .el-submenu [class^="el-icon-"] {
-  font-size: 14px;
-  color: #606266;
-}
-.table-operate .btn-group >>> .el-menu-item:hover,
-.table-operate .btn-group >>> .el-submenu:hover {
-  color: #38d0af;
-  border: 1px solid #38d0af !important;
-}
-.table-operate .btn-group >>> .el-menu-item:hover [class^="el-icon-"],
-.table-operate .btn-group >>> .el-submenu:hover [class^="el-icon-"] {
-  color: #38d0af;
-}
-.table-operate .btn-group >>> .el-menu-item.is-active {
-  color: #606266;
-}
-.table-operate .btn-group >>> .el-submenu {
-  box-sizing: border-box;
-  height: 32px;
-  line-height: 32px;
-  border: 1px solid #dcdfe6 !important;
-}
-.table-operate .btn-group >>> .el-submenu__title {
-  height: 32px;
-  line-height: 32px;
-}
-.table-operate .table-number {
-  line-height: 32px;
-}
-.table-operate .table-number span,
-.table-operate .table-number i {
-  color: #38d0af;
+.more-btn:hover {
+  background-color: #eefcf7;
+  color: #75e4bc;
 }
 </style>
 <style lang="scss" scoped>
@@ -832,6 +775,19 @@ export default {
       .on-query {
         width: 66.66%;
         text-align: right;
+      }
+    }
+    .table-operate {
+      display: flex;
+      .btn-group {
+        margin: 0 10px;
+      }
+    }
+    .table-number {
+      line-height: 40px;
+      i,
+      span {
+        color: #38d0af;
       }
     }
   }
