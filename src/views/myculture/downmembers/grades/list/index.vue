@@ -328,6 +328,7 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
+  PATH_DOWN_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getDownMembersList, postReject } from "@/constants/API";
@@ -368,7 +369,10 @@ export default {
       nav: [
         {
           label: DOWN_MEMBERS_GRADE_LIST,
-          href: PATH_DOWN_MEMEBER_CULTURE_GRADE
+          href: PATH_DOWN_MEMBER_CULTURE_LIST(
+            this.$route.params.id,
+            this.$route.params.type
+          )
         },
         {
           label: MY_DOWN_MEMBER,
