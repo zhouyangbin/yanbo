@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "652cc8c5f2aa497126f8",
+    "revision": "3d4f610a215410ea56cc",
     "url": "//pingfen-performance.chengjiukehu.com/css/app.3bba3352.css"
   },
   {
-    "revision": "652cc8c5f2aa497126f8",
-    "url": "//pingfen-performance.chengjiukehu.com/js/app.3ef9ce1b.js"
+    "revision": "3d4f610a215410ea56cc",
+    "url": "//pingfen-performance.chengjiukehu.com/js/app.78f580fa.js"
   },
   {
     "revision": "6b12af95e4b2f78dd617",
@@ -356,12 +356,12 @@ self.__precacheManifest = [
     "url": "//pingfen-performance.chengjiukehu.com/js/chunk-42109afe.f7800b25.js"
   },
   {
-    "revision": "48c065c8eebf2898b924",
+    "revision": "622fee075569c36ab27b",
     "url": "//pingfen-performance.chengjiukehu.com/css/chunk-422b3a17.b2dc9307.css"
   },
   {
-    "revision": "48c065c8eebf2898b924",
-    "url": "//pingfen-performance.chengjiukehu.com/js/chunk-422b3a17.058b1078.js"
+    "revision": "622fee075569c36ab27b",
+    "url": "//pingfen-performance.chengjiukehu.com/js/chunk-422b3a17.3d856448.js"
   },
   {
     "revision": "712b1210e678b5e10ba8",
@@ -474,14 +474,6 @@ self.__precacheManifest = [
   {
     "revision": "8a507ee9b5908b07c119",
     "url": "//pingfen-performance.chengjiukehu.com/js/chunk-635b4516.1d25f5d9.js"
-  },
-  {
-    "revision": "9fdd460eb5bcfb4479cb",
-    "url": "//pingfen-performance.chengjiukehu.com/css/chunk-651d7854.f8521505.css"
-  },
-  {
-    "revision": "9fdd460eb5bcfb4479cb",
-    "url": "//pingfen-performance.chengjiukehu.com/js/chunk-651d7854.04eefa6b.js"
   },
   {
     "revision": "d417a7ba17345b96b42c",
@@ -626,6 +618,14 @@ self.__precacheManifest = [
   {
     "revision": "6a962894cb7f845eb2a5",
     "url": "//pingfen-performance.chengjiukehu.com/js/chunk-963c2a74.093a8a06.js"
+  },
+  {
+    "revision": "8e9631df728f5a782bdd",
+    "url": "//pingfen-performance.chengjiukehu.com/css/chunk-975adeaa.3775108c.css"
+  },
+  {
+    "revision": "8e9631df728f5a782bdd",
+    "url": "//pingfen-performance.chengjiukehu.com/js/chunk-975adeaa.c5489de9.js"
   },
   {
     "revision": "244f3fe34057c4550a6a",
@@ -776,7 +776,7 @@ self.__precacheManifest = [
     "url": "//pingfen-performance.chengjiukehu.com/img/blank_sign.3c8dda7e.png"
   },
   {
-    "revision": "92b7066179d472a8be0fa5b0742cad65",
+    "revision": "1ae8d4bb610aac870ff098778a9e105f",
     "url": "//pingfen-performance.chengjiukehu.com/index.html"
   },
   {
