@@ -18,7 +18,10 @@
     >
       <emp-info :infoForm="infoForm" :infoType="infoType"></emp-info>
       <leader-info :infoForm="infoForm" :infoType="infoType"></leader-info>
-      <plusuplevel-info :infoForm="infoForm" :infoType="infoType"></plusuplevel-info>
+      <plusuplevel-info
+        :infoForm="infoForm"
+        :infoType="infoType"
+      ></plusuplevel-info>
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
@@ -171,7 +174,14 @@ export default {
           //console.log(this.infoType)
           if (this.infoType === "add") {
             // 添加的情况下
-            const { num, email, leaderNum, leaderEmail,  plusuplevelNum, plusuplevelEmail } = this.infoForm;
+            const {
+              num,
+              email,
+              leaderNum,
+              leaderEmail,
+              plusuplevelNum,
+              plusuplevelEmail
+            } = this.infoForm;
             const postData = {
               workcode: num,
               email,
@@ -186,8 +196,13 @@ export default {
               })
               .catch(e => {});
           } else {
-            const { email, leaderNum, leaderEmail,  plusuplevelNum, plusuplevelEmail } = this.infoForm;
-            // console.log(this.currentInfo);
+            const {
+              email,
+              leaderNum,
+              leaderEmail,
+              plusuplevelNum,
+              plusuplevelEmail
+            } = this.infoForm;
             return pathPerformanceUser(
               this.$route.params.orgID,
               this.currentInfo.id,

@@ -211,12 +211,12 @@
             width="80"
           ></el-table-column>
           <el-table-column
-            prop="department"
+            prop="syb_department"
             :label="constants.BASE_OR_BU"
             width="100"
           ></el-table-column>
           <el-table-column
-            prop="syb_department"
+            prop="department"
             :label="constants.DEP_OR_SUB"
             width="100"
           ></el-table-column>
@@ -733,16 +733,16 @@ export default {
       return {
         startTime: this.depInfo.start_time,
         endTime: this.depInfo.end_time,
-        start_time: "",
-        end_time: "",
-        target_start_time: "",
-        target_end_time: "",
-        high_level_start_time: "",
-        high_level_end_time: "",
-        confirm_start_time: "",
-        confirm_end_time: "",
-        appeal_start_time: "",
-        appeal_end_time: "",
+        start_time: this.depInfo.target_start_time,
+        end_time: this.depInfo.target_end_time,
+        target_start_time: this.depInfo.score_start_time,
+        target_end_time: this.depInfo.score_end_time,
+        high_level_start_time: this.depInfo.high_level_start_time,
+        high_level_end_time: this.depInfo.high_level_end_time,
+        confirm_start_time: this.depInfo.confirm_start_time,
+        confirm_end_time: this.depInfo.confirm_end_time,
+        appeal_start_time: this.depInfo.appeal_start_time,
+        appeal_end_time: this.depInfo.appeal_end_time,
         finalEnd: this.depInfo.performance_name_end_time
       };
     },

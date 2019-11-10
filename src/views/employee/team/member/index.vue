@@ -68,8 +68,8 @@
       <level
         v-if="!inReviewStage"
         :readOnly="shouldMapping || stage >= 50"
-        :B_level="B_level"
-        v-on:update="B_level = $event"
+        :label_id="label_id"
+        v-on:update="label_id = $event"
         v-model="level"
       ></level>
       <br />
@@ -139,7 +139,7 @@ export default {
       targets: [],
       level: "",
       score: "",
-      B_level: "A",
+      label_id: "",
       cardConfig: {
         min: 0,
         max: 5,
@@ -211,9 +211,6 @@ export default {
     }
   },
   methods: {
-    change_B_level(v){
-      console.log(123)
-    },
     normalizeTargets(arr) {
       return arr.map(v => {
         v.mark =
@@ -282,7 +279,8 @@ export default {
             need_attach_score,
             score_rule,
             stage,
-            score_level
+            score_level,
+            label_id
           } = res;
 
           this.basicInfo = {
@@ -301,6 +299,7 @@ export default {
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_attach_score.score;
+          this.label_id = label_id;
         })
         .catch(e => {});
     },
@@ -353,7 +352,7 @@ export default {
           })
             .then(() => {
               const postData = this.getPostData();
-              console.log(this.B_level);
+              console.log(postData);
               return postUserPerformance(this.$route.params.uid, postData)
                 .then(res => {
                   this.$message({
@@ -401,7 +400,8 @@ export default {
         },
         total_score: this.total,
         score_level: this.level,
-        evaluation: this.comments
+        evaluation: this.comments,
+        label_id: this.label_id
       };
     }
   },

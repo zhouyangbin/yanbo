@@ -4,10 +4,10 @@
       <span>
         结果/ 
       </span>
-      <span v-if="readOnly" class="level" v-on:click="()=>{this.tip_A_show = true}" >
+      <span v-if="readOnly" class="level" @click="()=>{this.tip_A_show = !this.tip_A_show}" >
         {{ value }}
         <span class="Badge_logo"></span>
-        <span v-if="tip_A_show" class="tip_A" v-on:mouseleave="()=>{this.tip_A_show = false}"></span>
+        <span v-if="tip_A_show" class="tip_A"></span>
       </span>
       <el-select v-model="innerLevel" v-else placeholder="请选择">
         <el-option
@@ -22,11 +22,11 @@
           <el-col :span="6">标签/</el-col>
           <el-col :span="10" height="100px">
             <el-radio
-                v-for="(vulue, key) in levalLabelRules"
+                v-for="(Labelvulue, key) in levalLabelRules"
                 :key="key"
-                :label="value"
+                :label="key"
                 v-model="innerBlevel"
-                >{{ value }}
+                >{{ Labelvulue }}
             </el-radio>
           </el-col>
       </el-row>
@@ -41,7 +41,7 @@ export default {
       type: String,
       default: ""
     },
-    B_level: {
+    label_id: {
       type: String,
       default: ""
     },
@@ -53,7 +53,6 @@ export default {
   data() {
     return {
       levels: ["S", "A", "B", "C", "D"],
-      radio: this.B_level,
       levalLabelRules: {},
       id:1,
       tip_A_show:false
@@ -71,7 +70,7 @@ export default {
       )
       .then(res => {
           console.log(res);
-          this.levalLabelRules = levalLabelRules;
+          this.levalLabelRules = res;
       })
       .catch(e => {});
     }
@@ -87,7 +86,7 @@ export default {
     },
     innerBlevel: {
       get: function() {
-        return this.B_level;
+        return this.label_id;
       },
       set: function(v) {
         this.$emit("update", v);
