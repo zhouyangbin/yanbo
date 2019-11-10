@@ -76,13 +76,13 @@
                 label="标签分布"
               >
                 <template slot-scope="scope">
-                  <el-tag class="status-tag top-style">
-                    <span class="top-style-text">{{scope.row.score_level.includes('S')}}</span>
+                  <el-tag v-if="scope.row.score_level==S || scope.row.score_level==A" class="status-tag top-style">
+                    <span class="top-style-text">{{scope.row.label_name}}</span>
                   </el-tag>
-                  <el-tag class="status-tag bplus-style">
+                  <el-tag v-if="scope.row.score_level==B" class="status-tag bplus-style">
                     <span class="bplus-style-text">{{scope.row.label_name}}</span>
                   </el-tag>
-                  <el-tag class="status-tag other-style">
+                  <el-tag v-else class="status-tag other-style">
                     <span class="other-style-text">{{scope.row.label_name}}</span>
                   </el-tag>
                 </template>
