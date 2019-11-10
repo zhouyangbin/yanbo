@@ -141,7 +141,7 @@
           ></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item label="*可申述时间段" label-width="120px" prop="endTime">
+      <el-form-item label="*可申诉时间段" label-width="120px" prop="endTime">
         <div>
           <el-date-picker
             :clearable="false"
