@@ -40,7 +40,9 @@ import {
   PATH_PERFORMANCE_TPL_SETTINGS,
   PATH_PERFORMANCE_LABEL_SETTINGS,
   PATH_ASSESSMENT_DATAILS,
-  PATH_PERFORMANCE_TARGET_SET
+  PATH_PERFORMANCE_TARGET_SET,
+  PATH_PERFORMANCE_TARGET_DETAIL,
+  PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -342,6 +344,21 @@ const router = new Router({
           path: PATH_PERFORMANCE_TARGET_SET(),
           components: {
             default: () => import("@/views/employee/my/gradeDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TARGET_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/my/targetDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(),
+          components: {
+            default: () =>
+              import("@/views/employee/team/targetDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

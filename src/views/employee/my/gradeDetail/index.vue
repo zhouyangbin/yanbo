@@ -2,167 +2,128 @@
   <div class="target-settings">
     <nav-bar :list="nav"></nav-bar>
     <div>
-      <el-row class="target-header">
-        <el-row class="title">{{ $route.params.name }}</el-row>
-        <el-row class="user-info flex">
-          <!-- <img src="" alt=""> -->
-          <span class="img">我是图片</span>
-          <el-col>
-            <el-row class="user-name">
-              <span>{{ userInfo.name }}</span>
-              <el-divider direction="vertical"></el-divider>
-              <span>{{ userInfo.workcode }}</span>
-            </el-row>
-            <el-row>
-              <el-col :span="3">
-                <el-row class="other-info-title">直接上级</el-row>
-                <el-row
-                  >{{ userInfo.superior_name }}({{
-                    userInfo.superior_workcode
-                  }})</el-row
-                >
-              </el-col>
-              <el-col :span="5">
-                <el-row class="other-info-title">部门</el-row>
-                <el-row>
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    :content="userInfo.department"
-                    placement="top"
-                  >
-                    <div class="text-over">{{ userInfo.department }}</div>
-                  </el-tooltip>
-                </el-row>
-              </el-col>
-              <el-col :span="3">
-                <el-row class="other-info-title">岗位</el-row>
-                <el-row>{{ userInfo.station }}</el-row>
-              </el-col>
-              <el-col :span="5">
-                <el-row class="other-info-title">考核周期</el-row>
-                <el-row>{{ userInfo.cycle }}</el-row>
-              </el-col>
-              <el-col :span="5">
-                <el-row class="other-info-title">指标设定截止时间</el-row>
-                <el-row>{{ userInfo.deadline }}</el-row>
-              </el-col>
-              <el-button icon="el-icon-upload2" class="upload-target"
-                >上传指标</el-button
-              >
-            </el-row>
-            <el-row class="linkman"
-              >如直接上级的姓名或工号有误，请联系HRBP。</el-row
+      <detail-header :user-info="userInfo" :self="true"></detail-header>
+      <el-row>
+        <el-row
+          v-for="(targetItem, index) in allTarget"
+          :key="index"
+          class="target-detail"
+        >
+          <el-row class="target-detail-title">
+            <span class="target-title">{{ targetItem.type }}</span>
+            <span class="target-weight">权重{{ targetItem.weight }}%</span>
+          </el-row>
+          <el-form :ref="`form${index}`" :model="targetItem">
+            <el-table
+              :data="targetItem.table"
+              border
+              :header-cell-style="{
+                backgroundColor: '#F5F6F7',
+                color: '#303133'
+              }"
             >
-          </el-col>
-        </el-row>
-      </el-row>
-      <el-row
-        v-for="(targetItem, index) in allTarget"
-        :key="index"
-        class="target-detail"
-      >
-        <el-row class="target-detail-title">
-          <span class="target-title">{{ targetItem.type }}</span>
-          <span class="target-weight">权重{{ targetItem.weight }}%</span>
-        </el-row>
-        <el-form :ref="`form${index}`" :model="targetItem">
-          <el-table
-            :data="targetItem.table"
-            border
-            :header-cell-style="{
-              backgroundColor: '#F5F6F7',
-              color: '#303133'
-            }"
-          >
-            <el-table-column label="权重" width="180" align="center">
-              <template slot-scope="scope">
-                <div v-if="targetItem.isMoney">{{ scope.row.weights }}%</div>
-                <el-form-item
-                  v-if="!targetItem.isMoney"
-                  :prop="`table.${scope.$index}.weights`"
-                  :rules="rules.weights"
-                >
-                  <el-input
-                    v-model.number="scope.row.weights"
-                    type="number"
-                    size="small"
+              <el-table-column label="权重" width="180" align="center">
+                <template slot-scope="scope">
+                  <div v-if="targetItem.isMoney">{{ scope.row.weights }}%</div>
+                  <el-form-item
+                    v-if="!targetItem.isMoney"
+                    :prop="`table.${scope.$index}.weights`"
+                    :rules="rules.weights"
                   >
-                    <template slot="append"
-                      >%</template
+                    <el-input
+                      v-model.number="scope.row.weights"
+                      type="number"
+                      size="small"
+                      oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
-                  </el-input>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column
-              v-if="targetItem.isMoney"
-              label="指标名称"
-              min-width="240"
-              align="center"
-              prop="target"
-            ></el-table-column>
-            <el-table-column
-              v-if="!targetItem.isMoney"
-              label="指标名称"
-              min-width="240"
-              align="center"
-              :render-header="changeLabel"
-              prop="target"
-            >
-              <template slot-scope="scope">
-                <el-form-item
-                  :prop="`table.${scope.$index}.target`"
-                  :rules="rules.target"
-                >
-                  <el-input
-                    type="textarea"
-                    v-model="scope.row.target"
-                    autosize
-                  ></el-input>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="具体工作/任务描述"
-              min-width="300"
-              header-align="center"
-              v-if="targetItem.table[0].content !== undefined"
-            >
-              <template slot-scope="scope">
-                <div v-if="targetItem.isMoney">{{ scope.row.content }}</div>
-                <el-form-item
-                  v-if="!targetItem.isMoney"
-                  :prop="`table.${scope.$index}.content`"
-                  :rules="rules.content"
-                >
-                  <el-input
-                    type="textarea"
-                    v-model="scope.row.content"
-                    autosize
-                  ></el-input>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="衡量标准"
-              min-width="300"
-              header-align="center"
-            >
-              <template slot-scope="scope">
-                <ul>
-                  <li
-                    class="flex"
+                      <template slot="append"
+                        >%</template
+                      >
+                    </el-input>
+                  </el-form-item>
+                </template>
+              </el-table-column>
+              <el-table-column
+                v-if="targetItem.isMoney"
+                label="指标名称"
+                min-width="240"
+                align="center"
+                prop="target"
+              ></el-table-column>
+              <el-table-column
+                v-if="!targetItem.isMoney"
+                label="指标名称"
+                min-width="240"
+                align="center"
+                :render-header="changeLabel"
+                prop="target"
+              >
+                <template slot-scope="scope">
+                  <el-form-item
+                    :prop="`table.${scope.$index}.target`"
+                    :rules="rules.target"
+                  >
+                    <div class="flex">
+                      <el-input
+                        type="textarea"
+                        v-model="scope.row.target"
+                        :autosize="{ minRows: 12 }"
+                      ></el-input>
+                      <i
+                        class="el-icon-delete delete-target"
+                        v-show="targetItem.table.length > 1"
+                        @click="deleteTarget(index, `${scope.$index}`)"
+                      ></i>
+                    </div>
+                  </el-form-item>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="具体工作/任务描述"
+                min-width="300"
+                header-align="center"
+                v-if="targetItem.table[0].content !== undefined"
+              >
+                <template slot-scope="scope">
+                  <div v-if="targetItem.isMoney">{{ scope.row.content }}</div>
+                  <el-form-item
+                    v-if="!targetItem.isMoney"
+                    :prop="`table.${scope.$index}.content`"
+                    :rules="rules.content"
+                  >
+                    <el-input
+                      type="textarea"
+                      v-model="scope.row.content"
+                      :autosize="{ minRows: 12 }"
+                    ></el-input>
+                  </el-form-item>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="衡量标准"
+                min-width="300"
+                header-align="center"
+              >
+                <template slot-scope="scope">
+                  <ul v-if="targetItem.isMoney">
+                    <li
+                      class="flex"
+                      v-for="(item, index) in scope.row.metrics"
+                      :key="index"
+                    >
+                      <el-col class="measure-title">
+                        <span v-if="item.is_required" class="is-required"
+                          >*</span
+                        >
+                        <span>&nbsp;{{ item.name }}</span>
+                      </el-col>
+                      <el-col>{{ item.content }}</el-col>
+                    </li>
+                  </ul>
+                  <el-row
                     v-for="(item, index) in scope.row.metrics"
                     :key="index"
                   >
-                    <el-col class="measure-title" v-if="targetItem.isMoney">
-                      <span v-if="item.is_required" class="is-required">*</span>
-                      <span>&nbsp;{{ item.name }}</span>
-                    </el-col>
-                    <el-col v-if="targetItem.isMoney">{{
-                      item.content
-                    }}</el-col>
                     <el-form-item
                       v-if="!targetItem.isMoney"
                       :label="item.name"
@@ -176,31 +137,60 @@
                         v-model="item.content"
                       ></el-input>
                     </el-form-item>
-                  </li>
-                </ul>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-button
-            icon="el-icon-plus"
-            class="add-target"
-            v-if="!targetItem.isMoney"
-            @click="addTarget(index)"
-            >添加考核</el-button
-          >
-        </el-form>
+                  </el-row>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button
+              icon="el-icon-plus"
+              class="add-target"
+              v-if="!targetItem.isMoney && getTableLen(index) <= 4"
+              @click="addTarget(index)"
+              >添加考核项</el-button
+            >
+          </el-form>
+        </el-row>
+        <ul class="sub-total">
+          <li>
+            财务维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("finance") }}%
+          </li>
+          <li>
+            工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%
+          </li>
+          <li>
+            团队维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("team") }}%
+          </li>
+          <li class="performance-total">
+            业绩维度合计&nbsp;&nbsp;&nbsp;{{
+              this.handleSubTotal("finance") +
+                this.handleSubTotal("work") +
+                this.handleSubTotal("team")
+            }}%
+          </li>
+        </ul>
       </el-row>
-      <el-button @click="submitForm()">an</el-button>
+      <el-row class="footer-button">
+        <el-button @click="submitForm" class="submit-button">提交</el-button>
+        <el-button @click="temporaryMemory" class="tempeorary-memory"
+          >暂存</el-button
+        >
+        <el-button @click="returnList">返回</el-button>
+      </el-row>
     </div>
   </div>
 </template>
 <script>
 import { MY_GRADE } from "@/constants/TEXT";
-import { PATH_EMPLOYEE_MY } from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_MY,
+  PATH_PERFORMANCE_TARGET_DETAIL
+} from "@/constants/URL";
 import {
   getPerformanceUserInfo,
   getUniqueTemplate,
-  getTargetContent
+  getTargetContent,
+  postSaveDraft,
+  postSubmitTargetContent
 } from "@/constants/API";
 import { Divider } from "element-ui";
 
@@ -218,14 +208,18 @@ export default {
         }
       ],
       userInfo: {
+        performance_name: "",
+        stage: 0,
+        opinion: "",
+        avatar: "",
         name: "",
         workcode: "",
         superior_name: "",
         superior_workcode: "",
-        department: "",
-        station: "",
+        executive_type: "",
+        department_name: "",
         cycle: "",
-        deadline: ""
+        indicator_setting_end_time: ""
       },
       allTarget: [],
       rules: {
@@ -249,9 +243,28 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "detail-header": () =>
+      import("@/components/modules/employee/targetDetailsHeader/Index")
   },
   methods: {
+    getTableLen(index) {
+      return this.allTarget[index].table.length;
+    },
+    // 小计
+    handleSubTotal(type) {
+      let subTotal = 0;
+      this.allTarget.forEach(v => {
+        if (v.basicType === type) {
+          v.table.forEach(value => {
+            if (value.weights !== "") {
+              subTotal += value.weights;
+            }
+          });
+        }
+      });
+      return subTotal;
+    },
     changeLabel(h, { column }) {
       return h("div", [
         h("span", column.label),
@@ -266,36 +279,47 @@ export default {
     getUserInfo() {
       let data = {
         performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid
+        performance_user_id: this.$route.params.uid,
+        workcode: ""
       };
       getPerformanceUserInfo(data)
         .then(res => {
           const {
+            performance_name,
+            stage,
+            opinion,
+            avatar,
             name,
             workcode,
             superior_name,
             superior_workcode,
-            department,
-            station,
+            executive_type,
+            department_name,
             cycle,
-            deadline
+            indicator_setting_end_time
           } = res;
           this.userInfo = {
+            performance_name,
+            stage,
+            opinion,
+            avatar,
             name,
             workcode,
             superior_name,
             superior_workcode,
-            department,
-            station,
+            executive_type,
+            department_name,
             cycle,
-            deadline
+            indicator_setting_end_time
           };
         })
         .catch(() => {});
     },
     getWrokAndTeamTarget() {
       let data = {
-        performance_id: this.$route.params.id
+        performance_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid,
+        workcode: ""
       };
       getUniqueTemplate(data)
         .then(res => {
@@ -305,53 +329,143 @@ export default {
           this.allTarget = [];
           if (isTeam) {
             let team = res.team;
-            this.allTarget[team.sort - 1] = {
+            this.$set(this.allTarget, team.sort - 1, {
+              basicType: "team",
               isMoney: 0,
               sort: team.sort,
               type: team.type,
               weight: team.weight,
               table: team.template_columns
-            };
+            });
           }
           if (isWork) {
             let work = res.work;
-            this.allTarget[work.sort - 1] = {
+            this.$set(this.allTarget, work.sort - 1, {
+              basicType: "work",
               isMoney: 0,
               sort: work.sort,
               type: work.type,
               weight: work.weight,
               table: work.template_columns
-            };
+            });
           }
           if (isFinance) {
             let finance = res.finance;
-            this.allTarget[finance.sort - 1] = {
+            this.$set(this.allTarget, finance.sort - 1, {
+              basicType: "finance",
               isMoney: 1,
               sort: finance.sort,
               type: finance.type,
               weight: finance.weight,
               table: finance.template_columns
-            };
+            });
           }
         })
         .catch(() => {});
+    },
+    handleSubmitData() {
+      let work = {};
+      let team = {};
+      this.allTarget.forEach(v => {
+        if (v.basicType === "work") {
+          work = v;
+        }
+        if (v.basicType === "team") {
+          team = v;
+        }
+      });
+      let postData = {
+        work: work,
+        team: team
+      };
+      return postData;
     },
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
       let refs = Object.keys(this.$refs);
       let total = 0;
-      refs.forEach((v, i) => {
-        this.$refs[v][0].validate(valid => {
+      let err = "";
+      for (let i = 0; i < refs.length; i++) {
+        let flag = 0;
+        this.$refs[refs[i]][0].validate((valid, errObj) => {
           if (valid) {
             total++;
+          } else {
+            err = Object.keys(errObj);
+            flag = 1;
           }
         });
-        return total;
-      });
-      if (total === refs.length) {
-        // TODO 向后端发送请求
-        alert("hhh");
+        if (flag) {
+          let location = err[0].split(".");
+          let line = 0;
+          let content = "";
+          // 未填项为权重、指标名称、具体工作中的一项
+          if (location.length === 3) {
+            if (location[2] === "weights") {
+              content = "权重";
+            } else if (location[2] === "target") {
+              content = "指标名称";
+            } else if (location[2] === "content") {
+              content = "具体工作/任务描述";
+            }
+          } else if (location.length === 5) {
+            content = this.allTarget[i].table[line].metrics[location[3]].name;
+          }
+          line = parseInt(location[1]);
+          this.$message.error(
+            `${this.allTarget[i].type}第${line + 1}行${content}不能为空`
+          );
+          return false;
+        }
       }
+      for (let i = 0; i < this.allTarget.length; i++) {
+        if (
+          this.allTarget[i].weight !==
+          this.handleSubTotal(this.allTarget[i].basicType)
+        ) {
+          this.$message.error(
+            `${this.allTarget[i].type}权重之和不等于${this.allTarget[i].weight}%, 请检查`
+          );
+          return false;
+        }
+      }
+      if (total === refs.length) {
+        this.$confirm("是否确认提交指标?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        })
+          .then(() => {
+            postSubmitTargetContent(
+              this.$route.params.uid,
+              this.handleSubmitData()
+            )
+              .then(res => {
+                this.$router.push(
+                  PATH_PERFORMANCE_TARGET_DETAIL(
+                    this.$route.params.id,
+                    this.$route.params.uid
+                  )
+                );
+              })
+              .catch(() => {});
+          })
+          .catch(() => {});
+      }
+    },
+    temporaryMemory() {
+      // 向后端发送请求
+      postSaveDraft(this.$route.params.uid, this.handleSubmitData())
+        .then(res => {
+          this.$message({ type: "success", message: "暂存成功" });
+        })
+        .catch(() => {});
+    },
+    returnList() {
+      postSaveDraft(this.$route.params.uid, this.handleSubmitData())
+        .then(res => {
+          this.$router.push("/employee/my");
+        })
+        .catch(() => {});
     },
     addTarget(index) {
       let data = {
@@ -361,6 +475,9 @@ export default {
       getTargetContent(data).then(res => {
         this.allTarget[index].table.push(res[0]);
       });
+    },
+    deleteTarget(index, rowIndex) {
+      this.allTarget[index].table.splice(rowIndex, 1);
     }
   },
   created() {
@@ -387,45 +504,12 @@ export default {
 .target-settings .target-detail >>> .el-form-item__content {
   line-height: normal;
 }
-.target-settings .target-header {
-  background-color: #ffffff;
-  padding: 0 30px 20px 30px;
-  margin-bottom: 20px;
-}
-.target-settings .target-header .title {
-  text-align: center;
-  color: #303133;
-  font-size: 22px;
-  font-weight: 500;
-  padding: 23px 0;
-}
-.target-settings .flex {
-  display: flex;
-}
-.target-settings .target-header .user-info .img {
-  width: 62px;
-}
-.target-settings .target-header .user-info .user-name {
-  font-size: 16px;
-  color: #303133;
-  font-weight: 500;
-}
-.target-settings .target-header .user-info .other-info-title {
-  color: #909399;
-  margin-top: 10px;
-  margin-bottom: 5px;
-}
-.target-settings .target-header .user-info .upload-target {
-  float: right;
-  margin-top: 15px;
-}
-.target-settings .target-header .user-info .linkman {
-  margin-top: 8px;
-  color: #ff8519;
+.target-settings .target-detail .measure-standard >>> .el-form-item {
+  margin-bottom: 16px;
 }
 .target-settings .target-detail {
   background-color: #ffffff;
-  margin: 6px 30px;
+  margin: 8px 30px;
   padding: 20px;
   border-radius: 3px;
 }
@@ -456,5 +540,41 @@ export default {
   width: 100%;
   margin-top: 10px;
   border: 1px dashed #dcdfe6;
+}
+.target-settings .target-detail .delete-target {
+  font-size: 18px;
+  cursor: pointer;
+  margin: auto 0;
+  margin-left: 6px;
+}
+.target-settings .target-detail .delete-target:hover {
+  color: #55dbbb;
+}
+.target-settings .sub-total {
+  background-color: #ffffff;
+  margin: 0 30px;
+  padding: 5px 0;
+  border-radius: 3px;
+  list-style: none;
+}
+.target-settings .sub-total li {
+  padding: 5px 20px;
+}
+.target-settings .sub-total .performance-total {
+  font-weight: bold;
+}
+.target-settings .footer-button {
+  text-align: center;
+  margin: 20px 0;
+}
+.target-settings .footer-button .submit-button {
+  background-color: #38d0af;
+  color: #ffffff;
+  border: 1px solid #38d0af;
+}
+.target-settings .footer-button .tempeorary-memory {
+  background-color: #66a8ff;
+  color: #ffffff;
+  border: 1px solid #66a8ff;
 }
 </style>

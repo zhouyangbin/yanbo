@@ -6,10 +6,10 @@
         "work":{
             "sort":2,
             "type":"工作指标",
-            "weight":"20",
+            "weight":20,
             "template_columns":[
                 {
-                    "weights":"10",
+                    "weights":10,
                     "target":"指标名称",
                     "content":"工作指标内容",
                     "metrics":[
@@ -50,17 +50,17 @@
         "team":{
             "sort":1,
             "type":"团队指标",
-            "weight":"80",
+            "weight":80,
             "template_columns":[
                 {
-                    "weights":"20",
+                    "weights":20,
                     "target":"我是指标一",
                     "content":"团队指标内容",
                     "metrics":[
                         {
                             "key": "outstanding",
                             "name": "卓越（2分）",
-                            "content":"我很棒",
+                            "content":"我很棒hhhhhh哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
                             "is_required":1
                         },
                         {
@@ -94,7 +94,7 @@
         "finance":{
             "sort":3,
             "type":"财务指标",
-            "weight":"20",
+            "weight":20,
             "template_columns":[
                 {
                     "weights":10,

@@ -99,11 +99,7 @@ export default {
       // );
       // 高管
       this.$router.push(
-        PATH_PERFORMANCE_TARGET_SET(
-          row.name,
-          row.performance_id,
-          row.performance_user_id
-        )
+        PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id)
       );
     },
     handleCurrentChange() {

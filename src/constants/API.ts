@@ -461,7 +461,7 @@ export const getPerformanceUserInfo = (params: Object) =>
   // sendGet(`/executive-performance/web/target/header-info`, params);
   sendGet(`/js/getPerformanceUserInfo.json`, params);
 
-// 高管绩效指标设定-获取工作维度指标/团队维度指标
+// 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
   // sendGet(`/executive-performance/web/ExecutivePerformance/uniqueTemplate`, params);
   sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
@@ -470,6 +470,26 @@ export const getUniqueTemplate = (params: Object) =>
 export const getTargetContent = (params: Object) =>
   // sendGet(`/executive-performance/web/target/items`, params);
   sendGet(`/js/getTargetContent.json`, params);
+
+// 高管绩效指标设定提交
+export const postSubmitTargetContent = (id: String, params: Object) =>
+  sendPost(`/executive-performance/web/self/${id}/set-targets`, params);
+// 高管绩效指标设定暂存草稿
+export const postSaveDraft = (id: String, params: Object) =>
+  sendPost(`/executive-performance/web/self/${id}/draft`, params);
+
+// 高管绩效指标模版下载
+export const getTargetTemplate = (id: String) =>
+  sendGet(`/executive-performance/web/${id}/target/template`);
+
+// 高管绩效上级确认指标
+export const postSuperAffirmTarget = (params: Object) =>
+  sendPost(`/executive-performance/web/target/confirm`, params);
+
+// 高管绩效审批记录
+export const getExamineLog = (params: Object) =>
+  // sendGet(`/executive-performance/web/approve/record`)
+  sendGet(`/js/getExamineLog.json`);
 // // 获取事业部列表
 // export const getBUList = () =>
 //   // sendGet(`/admin/api/departments`);

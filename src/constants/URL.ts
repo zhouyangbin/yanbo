@@ -191,9 +191,17 @@ export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 考核详情
 export const PATH_ASSESSMENT_DATAILS = "/performance/assessment/details";
-// 我的业绩中高管评分指标详情页面
-export const PATH_PERFORMANCE_TARGET_SET = (
-  name = ":name",
-  id = ":id",
-  uid = ":uid"
-) => `/performance/targetsettings/${name}/${id}/${uid}`;
+// 我的业绩中高管评分高管自评页面
+export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
+  `/performance/targetsettings/${id}/${uid}`;
+export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
+  `/performance/targetdetails/${id}/${uid}`;
+// 高管绩效 上传文件
+export const PATH_UPLOAD_FILE = (uid: String) =>
+  `${base}/executive-performance/web/self/${uid}/import-targets`;
+// 高管绩效 我的团队上级确认页面
+export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
+  gradeID: String = ":gradeID",
+  id: String = ":id",
+  workcode = ":workcode"
+) => `/employee/team/${gradeID}/target/${id}/${workcode}`;
