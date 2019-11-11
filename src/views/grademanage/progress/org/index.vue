@@ -318,7 +318,7 @@
             width="200"
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.first_department == ''"> —— </span>
+              <span v-if="scope.row.first_department == ''"> — — </span>
               <span v-if="scope.row.first_department != ''">
                 {{ scope.row.first_department }}
               </span>
@@ -360,7 +360,7 @@
             width="80"
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.highlevel_workcode == ''"> —— </span>
+              <span v-if="scope.row.highlevel_workcode == ''"> — — </span>
               <span v-if="scope.row.highlevel_workcode != ''">
                 {{ scope.row.highlevel_workcode }}
               </span>
@@ -372,7 +372,7 @@
             width="100"
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.highlevel_name == ''"> —— </span>
+              <span v-if="scope.row.highlevel_name == ''"> — — </span>
               <span v-if="scope.row.highlevel_name != ''">
                 {{ scope.row.highlevel_name }}
               </span>
@@ -384,7 +384,7 @@
             width="150"
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.highlevel_department == ''"> —— </span>
+              <span v-if="scope.row.highlevel_department == ''"> — — </span>
               <span v-if="scope.row.highlevel_department != ''">
                 {{ scope.row.highlevel_department }}
               </span>
@@ -396,7 +396,7 @@
             width="150"
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.highlevel_email == ''"> —— </span>
+              <span v-if="scope.row.highlevel_email == ''"> — — </span>
               <span v-if="scope.row.highlevel_email != ''">
                 {{ scope.row.highlevel_email }}
               </span>
