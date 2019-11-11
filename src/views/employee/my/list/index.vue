@@ -7,7 +7,7 @@
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column label="类型">
           <template slot-scope="scope">
-            <div>{{scope.row.p_type | handlePType}}</div>
+            <div>{{ scope.row.p_type | handlePType }}</div>
           </template>
         </el-table-column>
         <el-table-column
@@ -32,8 +32,18 @@
         ></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button v-if="handleWriteTargetButton(scope.row)" type="text" @click="goWriteTarget(scope.row)">填写指标</el-button>
-            <el-button v-if="handleCheckTargetButton(scope.row)" type="text" @click="goTargetDetail(scope.row)">查看详情</el-button>
+            <el-button
+              v-if="handleWriteTargetButton(scope.row)"
+              type="text"
+              @click="goWriteTarget(scope.row)"
+              >填写指标</el-button
+            >
+            <el-button
+              v-if="handleCheckTargetButton(scope.row)"
+              type="text"
+              @click="goTargetDetail(scope.row)"
+              >查看详情</el-button
+            >
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{
               constants.DETAILS
             }}</el-button>
@@ -101,12 +111,12 @@ export default {
   filters: {
     handlePType(val) {
       let type = "";
-      if (val === 'normal') {
+      if (val === "normal") {
         type = "员工绩效";
-      }else if (type === "executive") {
+      } else if (type === "executive") {
         type = "高管绩效";
       }
-      return type
+      return type;
     }
   },
   methods: {
@@ -114,13 +124,21 @@ export default {
      * 显示填写指标按钮
      */
     handleWriteTargetButton(row) {
-      return row.p_type === "executive" && row.stage === '指标设定阶段' && row.target_status === '指标填写中';
+      return (
+        row.p_type === "executive" &&
+        row.stage === "指标设定阶段" &&
+        row.target_status === "指标填写中"
+      );
     },
     /**
      * 显示查看详情按钮（指标）
      */
     handleCheckTargetButton(row) {
-      return row.p_type === "executive" && (row.stage === '指标设定阶段' || row.stage === '评分未开始') && (row.target_status === '指标确认中' || '指标已确认');
+      return (
+        row.p_type === "executive" &&
+        (row.stage === "指标设定阶段" || row.stage === "评分未开始") &&
+        (row.target_status === "指标确认中" || "指标已确认")
+      );
     },
     /**
      * 点击跳转到指标填写
@@ -134,7 +152,10 @@ export default {
      * 跳转到指标详情页面
      */
     goTargetDetail(row) {
-      PATH_PERFORMANCE_TARGET_DETAIL(row.performance_id, row.performance_user_id)
+      PATH_PERFORMANCE_TARGET_DETAIL(
+        row.performance_id,
+        row.performance_user_id
+      );
     },
     /**
      * 原有的跳转

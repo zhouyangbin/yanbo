@@ -106,7 +106,6 @@ export default {
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
-      // console.log(value)
       if (
         this.timeForm.startTime &&
         value &&

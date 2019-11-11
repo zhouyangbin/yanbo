@@ -23,18 +23,11 @@
         :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
         prop="department_ids"
       >
-        <el-tree
-          class="select-tree"
-          empty-text="努力加载中..."
-          @check-change="treeChange"
-          :props="defaultProps"
-          :default-checked-keys="tplForm.department_ids"
-          node-key="department_id"
-          ref="tree"
-          :filter-node-method="filterNode"
-          show-checkbox
-          :data="orgTree"
-        ></el-tree>
+        <common-tree
+          :orgTree="orgTree"
+          :department_ids="tplForm.department_ids"
+          @selectedIds="selectedOrg"
+        ></common-tree>
       </el-form-item>
       <el-form-item
         :label="constants.EXECUTIVE_TYPE_TEXT"
@@ -145,13 +138,9 @@ import {
   UPDATE_TPL,
   CONFIRM,
   CANCEL,
-  EXECUTIVE_PERFORMANCE_TYPE,
-  EXECUTIVE_ENUM_PERFORMANCE_CONFIG_PROPERTY,
   TPL_NAME,
   BUSINESS_UNIT_AND_FUNCTIONAL_UNIT,
   PLEASE_SELECT_MULTIPLE,
-  EXECUTIVE_TYPE,
-  STANDARD_OF_MEASUREMENT,
   EXECUTIVE_TYPE_TEXT,
   PERFORMANCE_TYPE,
   PLEASE_SELECT_PERFORMANCE_TYPE,
@@ -165,7 +154,7 @@ import {
   postPerformanceTpl,
   getPerformanceTpl
 } from "@/constants/API";
-
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
     visible: {
@@ -176,7 +165,7 @@ export default {
       type: String,
       default: "add"
     },
-    tplId: {
+    performanceId: {
       type: Number,
       default: 0
     },
@@ -222,7 +211,7 @@ export default {
           {
             type: "array",
             required: true,
-            message: "请至少选择一个高管类型",
+            message: "请至少选择一个组织部类型",
             trigger: "change"
           }
         ],
@@ -271,13 +260,9 @@ export default {
         UPDATE_TPL,
         CONFIRM,
         CANCEL,
-        EXECUTIVE_PERFORMANCE_TYPE,
-        EXECUTIVE_ENUM_PERFORMANCE_CONFIG_PROPERTY,
         TPL_NAME,
         BUSINESS_UNIT_AND_FUNCTIONAL_UNIT,
         PLEASE_SELECT_MULTIPLE,
-        EXECUTIVE_TYPE,
-        STANDARD_OF_MEASUREMENT,
         EXECUTIVE_TYPE_TEXT,
         PERFORMANCE_TYPE,
         PLEASE_SELECT_PERFORMANCE_TYPE,
@@ -288,11 +273,11 @@ export default {
       }
     };
   },
-  // computed: {
-  //   checkedKeys() {
-  //     return this.tplForm.department_ids.map(({ department_id }) => department_id);
-  //   }
-  // },
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   watch: {
     tplForm: {
       handler: function(val, oldVal) {
@@ -304,21 +289,16 @@ export default {
     }
   },
   methods: {
+    selectedOrg(data) {
+      this.tplForm.department_ids = data;
+    },
     louseFouce(item) {
       item.sort = item.sort || 0;
       item.weight = item.weight || 0;
     },
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.department_name.indexOf(value) !== -1;
-    },
-    treeChange(data, checked, indeterminate) {
-      this.tplForm.department_ids = this.$refs.tree.getCheckedNodes();
-    },
     close() {
       this.$emit("close");
     },
-    handleCheckedExecutiveType() {},
     submit() {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
@@ -331,17 +311,16 @@ export default {
               return false;
             }
           }
-          this.tplForm.department_ids = this.tplForm.department_ids.map(
-            v => v.department_id
-          );
           if (this.infoType == "add") {
             return postPerformanceTpl(this.tplForm).then(res => {
               this.close();
             });
           } else {
-            return putPerformanceTpls(this.tplId, this.tplForm).then(res => {
-              this.close();
-            });
+            return putPerformanceTpls(this.performanceId, this.tplForm).then(
+              res => {
+                this.close();
+              }
+            );
           }
         }
       });
@@ -351,8 +330,8 @@ export default {
     this.$refs["tplForm"].resetFields();
   },
   created() {
-    if (this.infoType != "add" && this.tplId) {
-      getPerformanceTpl(this.tplId).then(res => {
+    if (this.infoType != "add" && this.performanceId) {
+      getPerformanceTpl(this.performanceId).then(res => {
         const {
           name,
           department_ids,
@@ -398,9 +377,5 @@ export default {
 .tpl-form .input-type {
   float: left;
   width: 33.33%;
-}
-.tpl-form .select-tree {
-  max-height: 260px;
-  overflow: auto;
 }
 </style>

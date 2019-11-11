@@ -656,7 +656,7 @@ export const PERFORMANCE_TARGET = "绩效目标";
 export const TARGET_WEIGH = "权重";
 export const CHANGE_RECORDS = "修改日志";
 export const FINISH_DATE = "完成期限";
-export const EXECUTIVE_PERFORMANCE = "高管绩效";
+export const EXECUTIVE_PERFORMANCE = "组织部绩效";
 export const LABEL_SETTING = "标签设置";
 export const ADD_NEW_TPL = "新增模板";
 export const SERIAL_NUMBER = "序号";
@@ -666,7 +666,7 @@ export const INDICATOR_TYPE_AND_PROPORTION = "指标类型及占比";
 export const ID_DET_TPL_CONFIRM = "是否确认删除模板？";
 export const UPDATE_TPL = "修改模板";
 export const PLEASE_SELECT_MULTIPLE = "请选择，可多选";
-export const EXECUTIVE_TYPE_TEXT = "高管类型";
+export const EXECUTIVE_TYPE_TEXT = "组织部类型";
 export const TEMPLATE_FIELD = "模板字段";
 export const IS_THE_MEASUREMENT_REQUIRED = "衡量标准是否必填";
 export const SORT = "排序";
@@ -677,94 +677,6 @@ export const FORCED_DISTRIBUTION_OR_NOT = "是否强制分布";
 export const UPDATE_LABEL = "修改标签";
 export const LABEL_TYPE = "标签类型";
 export const FORCED_DISTRIBUTION = "强制分布";
-export const EXECUTIVE_TYPE = [
-  {
-    key: "1",
-    value: "事业群总裁"
-  },
-  {
-    key: "2",
-    value: "事业部总经理/项目组负责人"
-  },
-  {
-    key: "3",
-    value: "事业部/项目组总部其他高管"
-  },
-  {
-    key: "4",
-    value: "分校校长/分公司负责人"
-  },
-  {
-    key: "5",
-    value: "分校高管/分公司其他高管"
-  },
-  {
-    key: "6",
-    value: "集团中台高管"
-  },
-  {
-    key: "7",
-    value: "集团后台高管"
-  }
-];
-export const EXECUTIVE_PERFORMANCE_TYPE = [
-  {
-    key: "1",
-    value: "年度"
-  },
-  {
-    key: "2",
-    value: "半年度"
-  },
-  {
-    key: "3",
-    value: "季度"
-  },
-  {
-    key: "4",
-    value: "月度"
-  }
-];
-export const EXECUTIVE_ENUM_PERFORMANCE_CONFIG_PROPERTY = [
-  {
-    key: "1",
-    value: "权重"
-  },
-  {
-    key: "2",
-    value: "指标名称"
-  },
-  {
-    key: "3",
-    value: "具体工作/任务描述"
-  },
-  {
-    key: "4",
-    value: "衡量指标"
-  }
-];
-export const STANDARD_OF_MEASUREMENT = [
-  {
-    key: "1",
-    value: "卓越（2分）"
-  },
-  {
-    key: "2",
-    value: "优秀（1.5分）"
-  },
-  {
-    key: "3",
-    value: "良好（1分）"
-  },
-  {
-    key: "4",
-    value: "待改进（0.5分）"
-  },
-  {
-    key: "5",
-    value: "不合格（0分）"
-  }
-];
 export const EXECUTIVE_LABEL_TYPE = ["253", "271", "23221", "2521"];
 export const FORCED_DISTRIBUTION_VALUE = [
   {
@@ -903,7 +815,8 @@ export const SUPERIOR_OPINION = "上级意见";
 export const IMMEDIATE_SUPERIOR = "直接上级";
 export const ASSESS_CYCLE = "考核周期";
 export const SET_TARGET_DEADLINE = "指标设定截止时间";
-export const ERROR_MESSAGE_CONTACT_USER = "如直接上级的姓名或工号有误，请联系HRBP。";
+export const ERROR_MESSAGE_CONTACT_USER =
+  "如直接上级的姓名或工号有误，请联系HRBP。";
 export const SENIOR_UPLOAD_TARGET = "上传指标";
 export const TARGET_DETAIL = "指标详情";
 export const CHECK_EXAMINE_LOG = "查看审批记录";

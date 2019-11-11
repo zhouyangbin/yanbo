@@ -4,10 +4,10 @@
     @close="close"
     width="650px"
     :visible="visible"
-    class="tplDialog"
+    class="tpl-dialog"
   >
     <div slot="title" class="title">
-      {{ infoType === "add" ? "创建高管绩效考核" : "修改高管绩效考核" }}
+      {{ infoType === "add" ? "创建组织部绩效考核" : "修改组织部绩效考核" }}
     </div>
     <el-form
       :rules="rules"
@@ -19,67 +19,74 @@
       <el-form-item label="考核名称" prop="name">
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="适用范围" prop="labelName">
-        <el-select v-model="ruleForm.range" placeholder="请选择事业部">
-          <el-option
-            v-for="v of departments"
-            :key="v.key"
-            :label="v.value"
-            :value="v.key"
-          ></el-option>
-        </el-select>
+      <el-form-item label="适用范围" prop="department_ids">
+        <common-tree
+          :orgTree="orgTree"
+          @selectedIds="selectedOrg"
+          :department_ids="ruleForm.department_ids"
+        ></common-tree>
       </el-form-item>
-      <el-form-item label="绩效类型" prop="type">
+      <el-form-item
+        class="is-required"
+        label="绩效类型"
+        prop="performance_type"
+      >
         <el-select
-          v-model="ruleForm.type"
+          v-model="ruleForm.performance_type"
           :placeholder="constants.PLEASE_SELECT_PERFORMANCE_TYPE"
         >
           <el-option
-            v-for="v of constants.EXECUTIVE_PERFORMANCE_TYPE"
-            :key="v.key"
-            :label="v.value"
-            :value="v.key"
+            v-for="item in performanceTypes"
+            :key="item.key"
+            :label="item.name"
+            :value="item.key"
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item class="is-required" label="绩效周期" prop="endTime">
+      <el-form-item label="考核年份" prop="year">
+        <el-date-picker
+          v-model="ruleForm.year"
+          value-format="yyyy"
+          type="year"
+          placeholder="请选择考核年份"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item class="is-required" label="考核周期" prop="end_time">
         <div>
           <el-date-picker
-            @change="calculateEndDate"
-            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="startPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.startTime"
+            v-model="ruleForm.start_time"
             type="datetime"
-            placeholder="选择开始时间"
+            placeholder="请选择"
           ></el-date-picker>
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
-            :disabled="ruleForm.property == ''"
             :clearable="false"
             :picker-options="endPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.endTime"
+            v-model="ruleForm.end_time"
             type="datetime"
-            placeholder="选择结束时间"
+            placeholder="请选择"
           ></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item class="no-margin-bottom" label="绩效模板" prop="tpl">
-        <div class="rule-name">这是绩效模板</div>
+      <el-form-item label="绩效模板" prop="tpl">
+        <div class="rule-name">{{ ruleForm.tpl }}</div>
       </el-form-item>
-      <el-form-item class="no-margin-bottom" label="标签规则" prop="rules">
-        <div class="rule-name">这是标签规则</div>
+      <el-form-item label="标签规则" prop="tag_type">
+        <div class="rule-name">{{ ruleForm.tag_type }}</div>
       </el-form-item>
-      <el-form-item label="是否允许申诉" prop="isAppeal">
-        <el-radio-group v-model="ruleForm.isAppeal">
+      <el-form-item label="是否允许申诉" prop="allow_appeal">
+        <el-radio-group v-model="ruleForm.allow_appeal">
           <el-radio :label="1">是</el-radio>
-          <el-radio :label="2">否</el-radio>
+          <el-radio :label="0">否</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -97,16 +104,28 @@
 </template>
 <script>
 import {
-  EXECUTIVE_PERFORMANCE_TYPE,
   CONFIRM,
   CANCEL,
   PLS_SELECT_START_TIME,
   MSG_FILL_GRADE_NAME,
   END_TIME_NOT_LESS_THAN_START_TIME
 } from "@/constants/TEXT";
+import {
+  postAddPerformanceAssessment,
+  putPerformanceAssessment,
+  getPerformanceTypes,
+  getTplDepartments,
+  getTagDepartments,
+  getPerformanceDetail
+} from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
-const debounce = require("lodash.debounce");
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   props: {
     visible: {
       type: Boolean,
@@ -120,45 +139,61 @@ export default {
       type: Object,
       default: () => ({})
     },
-    initData: {
-      type: Object,
-      default: () => ({})
+    performanceId: {
+      type: String,
+      default: ""
     },
-    departmentsOps: {
+    performanceTypes: {
+      type: Array,
+      default: () => []
+    },
+    orgTree: {
       type: Array,
       default: () => []
     }
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
-      if (!this.ruleForm.startTime) {
+      if (!this.ruleForm.start_time) {
         callback(new Error(PLS_SELECT_START_TIME));
-      } else if (!!value && value <= this.ruleForm.startTime) {
+      } else if (!!value && value <= this.ruleForm.start_time) {
         callback(new Error(END_TIME_NOT_LESS_THAN_START_TIME));
       } else {
         callback();
       }
     };
     return {
-      departments: [],
+      isWatch: true,
+      departmentIds: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        endTime: [{ validator: endTimeValidator, trigger: "change" }]
+        department_ids: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个业务单元/职能单元",
+            trigger: "change"
+          }
+        ],
+        year: [
+          { required: true, message: "考核周期不能为空", trigger: "blur" }
+        ],
+        end_time: [{ validator: endTimeValidator, trigger: "change" }]
       },
       ruleForm: {
         name: "",
-        range: [],
-        type: "1",
-        startTime: this.initTime.startTime || "",
-        endTime: this.initTime.endTime || "",
+        department_ids: [],
+        performance_type: "annual",
+        year: "",
+        start_time: this.initTime.start_time || "",
+        end_time: this.initTime.end_time || "",
         tpl: "",
-        rules: "",
-        isAppeal: 1
+        tag_type: "",
+        allow_appeal: 1
       },
       constants: {
-        EXECUTIVE_PERFORMANCE_TYPE,
         CONFIRM,
         CANCEL,
         PLS_SELECT_START_TIME,
@@ -167,72 +202,12 @@ export default {
       }
     };
   },
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-    submit() {
-      this.$refs["ruleForm"].validate(valid => {
-        if (valid) {
-          // if (this.infoType == "add") {
-          // } else {
-          // }
-        }
-      });
-    },
-    calculateEndDate: debounce(function(date) {
-      if (!this.ruleForm.endTime) {
-        let dateObj = new Date(date.replace(/-/gi, "/"));
-        switch (this.ruleForm.property) {
-          case "1":
-            dateObj.setFullYear(dateObj.getFullYear() + 1);
-            dateObj = this.add7Days(dateObj);
-            break;
-          case "2":
-            dateObj = this.addMonth(dateObj, 6);
-            break;
-          case "3":
-            dateObj = this.addMonth(dateObj, 3);
-            break;
-          case "4":
-            if (dateObj.getMonth() > 10) {
-              dateObj.setFullYear(dateObj.getFullYear() + 1);
-              dateObj.setMonth(0);
-            } else {
-              dateObj.setMonth(dateObj.getMonth() + 1);
-            }
-            break;
-          case "5":
-          case "6":
-            return;
-        }
-        this.ruleForm.endTime = formatTime(dateObj);
-      }
-    }, 500)
-  },
-  beforeDestroy() {
-    this.$refs["ruleForm"].resetFields();
-  },
-  created() {
-    if (this.infoType != "add" && this.initData.id) {
-      getTpl(this.initData.id).then(res => {
-        const { labelName, department_id, type_id, template_columns } = res;
-        // console.log(template_columns)
-        this.ruleForm = {
-          labelName,
-          dp: department_id
-        };
-      });
-    }
-  },
   computed: {
     startPickerOptions() {
       return {
-        disabledDate(date) {
-          // 小于当前日期的disable
+        disabledDate: date => {
           const dt = formatTime(new Date(date));
           const now = formatTime(new Date()).split(" ")[0] + " 00:00";
-
           return dt < now;
         }
       };
@@ -242,45 +217,107 @@ export default {
         disabledDate: date => {
           const dt = formatTime(new Date(date));
           let now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          if (this.ruleForm.startTime) {
-            // 小于开始时间的disable
-            now = this.ruleForm.startTime;
+          if (this.ruleForm.start_time) {
+            now = this.ruleForm.start_time;
           }
-          // 默认小于当期日期
           return dt < now;
         }
       };
     }
+  },
+  watch: {
+    departmentIds: {
+      handler: function(val, oldVal) {
+        if (val.length > 0 && this.isWatch) {
+          let getData = {
+            department_ids: val
+          };
+          // 获取选中事业部的绩效模板和标签规则
+          getTagDepartments(getData).then(res => {
+            this.ruleForm.tag_type = res.tag_type;
+          });
+          getTplDepartments(getData).then(res => {
+            this.ruleForm.tpl = res;
+          });
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  created() {
+    if (this.infoType != "add" && this.performanceId) {
+      // 获取弹框信息
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          this.isWatch = false;
+          const {
+            name,
+            department_ids,
+            performance_type,
+            year,
+            start_time,
+            end_time,
+            tag_type,
+            allow_appeal
+          } = res;
+          this.ruleForm = {
+            name,
+            department_ids,
+            performance_type,
+            year,
+            start_time,
+            end_time,
+            tag_type,
+            allow_appeal
+          };
+        })
+        .catch(e => {});
+    }
+  },
+  methods: {
+    selectedOrg(data) {
+      this.departmentIds = data;
+      this.ruleForm.department_ids = data;
+    },
+    close() {
+      this.$emit("close");
+    },
+    submit() {
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          if (this.infoType == "add") {
+            return postAddPerformanceAssessment(this.ruleForm).then(res => {
+              this.close();
+            });
+          } else {
+            return putPerformanceAssessment(
+              this.performanceId,
+              this.ruleForm
+            ).then(res => {
+              this.close();
+            });
+          }
+        }
+      });
+    }
+  },
+  beforeDestroy() {
+    this.$refs["ruleForm"].resetFields();
   }
 };
 </script>
 <style scoped>
-.tplDialog .title {
-  text-align: left;
-}
-.tplDialog >>> .el-dialog__header {
+.tpl-dialog >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
 }
-.tplDialog >>> .el-form-item {
-  margin-bottom: 22px;
-}
-/* .tplDialog >>> .el-checkbox-group,
-.tplDialog >>> .el-checkbox-group + .el-checkbox {
-  margin-left: -30px !important;
-} */
-.ml-10 {
-  margin-left: 10px;
-}
-.no-margin-bottom {
-  margin-bottom: 0 !important;
-}
-.tplDialog >>> .el-form-item .el-input-group__prepend,
-.tplDialog >>> .el-form-item .el-input-group__append {
+.tpl-dialog >>> .el-form-item .el-input-group__prepend,
+.tpl-dialog >>> .el-form-item .el-input-group__append {
   padding: 0 10px !important;
   background-color: #fff !important;
   border: none !important;
 }
-.tplDialog .rule-name {
+.tpl-dialog .rule-name {
   color: #52ddab;
 }
 </style>

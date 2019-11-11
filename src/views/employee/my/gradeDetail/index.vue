@@ -11,7 +11,9 @@
         >
           <el-row class="target-detail-title">
             <span class="target-title">{{ targetItem.type }}</span>
-            <span class="target-weight">{{constants.TARGET_WEIGH}}{{ targetItem.weight }}%</span>
+            <span class="target-weight"
+              >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span
+            >
           </el-row>
           <el-form :ref="`form${index}`" :model="targetItem">
             <el-table
@@ -22,7 +24,11 @@
                 color: '#303133'
               }"
             >
-              <el-table-column :label="constants.TARGET_WEIGH" width="180" align="center">
+              <el-table-column
+                :label="constants.TARGET_WEIGH"
+                width="180"
+                align="center"
+              >
                 <template slot-scope="scope">
                   <div v-if="targetItem.isMoney">{{ scope.row.weights }}%</div>
                   <el-form-item
@@ -36,7 +42,9 @@
                       size="small"
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
-                      <template slot="append">%</template>
+                      <template slot="append"
+                        >%</template
+                      >
                     </el-input>
                   </el-form-item>
                 </template>
@@ -144,13 +152,15 @@
               class="add-target"
               v-if="!targetItem.isMoney && getTableLen(index) <= 4"
               @click="addTarget(index)"
-              >{{constants.ADD_TARGET_LINE}}</el-button
+              >{{ constants.ADD_TARGET_LINE }}</el-button
             >
           </el-form>
         </el-row>
         <ul class="sub-total">
           <li>
-            {{constants.FINANCE_DIMENSIONALITY_SUBTOTAL}}&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("finance") }}%
+            {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
+              this.handleSubTotal("finance")
+            }}%
           </li>
           <li>
             工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%

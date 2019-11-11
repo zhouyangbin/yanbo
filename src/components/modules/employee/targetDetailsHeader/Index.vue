@@ -8,7 +8,9 @@
           class="superior-idea flex"
           v-if="userInfo.opinion && userInfo.stage === 1 && self"
         >
-          <el-col style="width: 80px;">{{constants.SUPERIOR_OPINION}}：</el-col>
+          <el-col style="width: 80px;"
+            >{{ constants.SUPERIOR_OPINION }}：</el-col
+          >
           <el-col>{{ userInfo.opinion }}</el-col>
         </el-row>
         <el-row class="user-info flex">
@@ -29,7 +31,9 @@
             </el-row>
             <el-row class="flex">
               <el-col class="super">
-                <el-row class="other-info-title">{{constants.IMMEDIATE_SUPERIOR}}</el-row>
+                <el-row class="other-info-title">{{
+                  constants.IMMEDIATE_SUPERIOR
+                }}</el-row>
                 <el-row
                   >{{ userInfo.superior_name }}({{
                     userInfo.superior_workcode
@@ -37,7 +41,9 @@
                 >
               </el-col>
               <el-col class="department">
-                <el-row class="other-info-title">{{constants.LABEL_DEPARTMENT}}</el-row>
+                <el-row class="other-info-title">{{
+                  constants.LABEL_DEPARTMENT
+                }}</el-row>
                 <el-row>
                   <el-tooltip
                     class="item"
@@ -50,17 +56,21 @@
                 </el-row>
               </el-col>
               <el-col class="cycle">
-                <el-row class="other-info-title">{{constants.ASSESS_CYCLE}}</el-row>
+                <el-row class="other-info-title">{{
+                  constants.ASSESS_CYCLE
+                }}</el-row>
                 <el-row>{{ userInfo.cycle }}</el-row>
               </el-col>
               <el-col class="deadline">
-                <el-row class="other-info-title">{{constants.SET_TARGET_DEADLINE}}</el-row>
+                <el-row class="other-info-title">{{
+                  constants.SET_TARGET_DEADLINE
+                }}</el-row>
                 <el-row>{{ userInfo.indicator_setting_end_time }}</el-row>
               </el-col>
             </el-row>
-            <el-row class="linkman"
-              >{{constants.ERROR_MESSAGE_CONTACT_USER}}</el-row
-            >
+            <el-row class="linkman">{{
+              constants.ERROR_MESSAGE_CONTACT_USER
+            }}</el-row>
           </el-col>
         </el-row>
       </el-row>
@@ -70,7 +80,7 @@
           class="btn"
           @click="uploadTarget"
           v-if="userInfo.stage === 1"
-          >{{constants.SENIOR_UPLOAD_TARGET}}</el-button
+          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
         >
       </el-row>
     </el-row>
@@ -89,7 +99,7 @@ import {
   SET_TARGET_DEADLINE,
   ERROR_MESSAGE_CONTACT_USER,
   SENIOR_UPLOAD_TARGET
-}from "@/constants/TEXT"
+} from "@/constants/TEXT";
 export default {
   props: {
     userInfo: {

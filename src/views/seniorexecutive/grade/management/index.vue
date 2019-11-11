@@ -1,46 +1,58 @@
 <template>
   <div class="grade-management">
     <nav-bar :list="nav"></nav-bar>
-    <div class="create-btn">
-      <el-button type="primary" @click="createTpl">创建高管绩效考核</el-button>
-    </div>
     <section class="content-container">
       <el-row align="middle" type="flex" justify="space-between">
         <div>
-          <span>高管绩效考核列表：</span>
-          <el-select
+          <span>组织部绩效考核列表：</span>
+          <el-cascader
             v-model="filterForm.dp"
             :placeholder="constants.LABEL_SELECT_DIVISION"
-          >
-            <el-option
-              v-for="item in dpOptions"
-              :key="item.key"
-              :label="item.value"
-              :value="item.key"
-            ></el-option>
-          </el-select>
+            :props="filterProps"
+            :options="orgTree"
+            :show-all-levels="false"
+          ></el-cascader>
           <el-button style="margin-left:30px" round @click="resetFilter">
             {{ constants.LABEL_EMPTY }}
           </el-button>
         </div>
         <div>
-          <el-radio-group v-model="status" size="medium">
-            <el-radio-button label="1">全部</el-radio-button>
-            <el-radio-button label="2">草稿</el-radio-button>
-            <el-radio-button label="3">进行中</el-radio-button>
-            <el-radio-button label="4">已结束</el-radio-button>
+          <el-radio-group
+            v-model="statuses"
+            @change="changeStatuses"
+            size="medium"
+          >
+            <el-radio-button label="">全部</el-radio-button>
+            <el-radio-button label="1">草稿</el-radio-button>
+            <el-radio-button label="2">进行中</el-radio-button>
+            <el-radio-button label="3">已结束</el-radio-button>
           </el-radio-group>
+          <el-button class="create-btn" type="primary" @click="createTpl"
+            >创建组织部绩效考核</el-button
+          >
         </div>
       </el-row>
-      <div class="grade-management-list">
+      <div
+        class="grade-management-list"
+        v-for="item in performancesList"
+        :key="item.id"
+      >
         <div class="list-top">
-          <span class="state doing">进行中</span>
+          <span v-if="item.status === 1" class="state draft">草稿</span>
+          <span v-if="item.status === 2" class="state doing">进行中</span>
+          <span v-if="item.status === 3" class="state ending">已结束</span>
           <div class="bread-crumb">
-            <span>2019组织部绩效考核</span>
+            <span>{{ item.name }}</span>
             <span class="dividing-line">|</span>
-            <span>集团中台</span>
+            <span class="list-top-range"
+              >{{ item.range }}{{ item.range }}{{ item.range }}{{ item.range
+              }}{{ item.range }}{{ item.range }}</span
+            >
             <span class="dividing-line">|</span>
-            <span>年度</span>
+            <span v-if="item.performance_type === 'annual'">年度</span>
+            <span v-if="item.performance_type === 'semi-annual'">半年度</span>
+            <span v-if="item.performance_type === 'quarter'">季度</span>
+            <span v-if="item.performance_type === 'monthly'">月度</span>
           </div>
           <div class="operate-btns">
             <el-tooltip
@@ -49,7 +61,7 @@
               content="考核详情"
               placement="top"
             >
-              <i class="view-details" @click="linkToDetail"></i>
+              <i class="view-details" @click="linkToDetail(item.id)"></i>
             </el-tooltip>
             <el-tooltip
               class="item"
@@ -59,36 +71,79 @@
             >
               <i class="delete" @click="deleteAssessment"></i>
             </el-tooltip>
-            <el-button @click="openAssessment" type="primary"
+            <el-button
+              v-if="item.status === 1"
+              @click="openAssessment"
+              type="primary"
               >开启考核</el-button
             >
           </div>
         </div>
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="date" label="考核周期" width="180">
-          </el-table-column>
-          <el-table-column prop="name" label="起止时间" width="180">
-          </el-table-column>
-          <el-table-column prop="num" label="考核人数"> </el-table-column>
-          <el-table-column prop="writting" label="指标填写中">
-          </el-table-column>
-          <el-table-column prop="determing" label="指标确认中">
-          </el-table-column>
-          <el-table-column prop="num" label="自评中"> </el-table-column>
-          <el-table-column prop="num" label="复评中"> </el-table-column>
-          <el-table-column prop="num" label="隔级审核中"> </el-table-column>
-          <el-table-column prop="num" label="总裁审核中"> </el-table-column>
-          <el-table-column prop="num" label="确认中"> </el-table-column>
-          <el-table-column prop="num" label="已确认"> </el-table-column>
-        </el-table>
+        <div class="list-middle">
+          <div class="list-middle-left">
+            <div class="list-middle-items">
+              <div>考核周期</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>起止时间</div>
+              <div class="list-middle-item">{{ item.year }}</div>
+            </div>
+          </div>
+          <div class="list-middle-right">
+            <div class="list-middle-items">
+              <div>考核人数</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>指标填写中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>指标确认中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>自评中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>复评中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>隔级审核中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>总裁审核中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>确认中</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+            <div class="list-middle-items">
+              <div>已确认</div>
+              <div class="list-middle-item">{{ item.is_draft }}</div>
+            </div>
+          </div>
+        </div>
         <div class="list-timeline">
-          <div class="time-line">指标设定</div>
+          <div class="time-line active">指标设定</div>
           <div class="time-line-sign active" data="11月15日"></div>
-          <div class="time-line-circle">。。。。。。</div>
-          <div class="time-line-sign" data="11月18日"></div>
-          <div class="time-line">自评</div>
-          <div class="time-line-sign" data="11月23日"></div>
-          <div class="time-line">上级评分</div>
+          <div class="time-line-circle active">
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+            <div class="circle-list"></div>
+          </div>
+          <div class="time-line-sign active" data="11月18日"></div>
+          <div class="time-line active">自评</div>
+          <div class="time-line-sign active" data="11月23日"></div>
+          <div class="time-line active">上级评分</div>
           <div class="time-line-sign active" data="11月30日"></div>
           <div class="time-line">隔级审核</div>
           <div class="time-line-sign" data="12月1日"></div>
@@ -106,38 +161,63 @@
     </section>
     <assessment-dialog
       v-if="showDialog"
-      :initData="initData"
-      :departmentsOps="options"
-      @close="tplDialogClose"
       :visible="showDialog"
+      @close="tplDialogClose"
       :infoType="infoType"
+      :performanceTypes="performanceTypes"
+      :orgTree="orgTree"
     ></assessment-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
-      :tipsText="delText"
-      @close="confirmDialogClose"
       :visible="showConfirmDialog"
+      :tipsText="tipsText"
+      @confirm="confirmDialog"
+      @close="closeDialog"
     ></confirm-dialog>
   </div>
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
+import { putOpenAssessment, delAssessment } from "@/constants/API";
+import {
+  getOrganization,
+  getPerformanceTypes,
+  getAdminPerformancesList
+} from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "assessment-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
+    ),
+    "confirm-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
+    ),
+    pagination: () => import("@/components/common/Pagination/index.vue")
+  },
   data() {
     return {
+      filterProps: {
+        value: "department_id",
+        label: "department_name",
+        children: "children"
+      },
       currentPage: 1,
       total: 0,
       showDialog: false,
       infoType: "add",
       showConfirmDialog: false,
-      delText: "",
-      initData: {},
-      dpOptions: [],
-      tableData: [],
+      tipsText: "",
+      type: "",
+      requestLink: "",
+      requestType: "",
+      id: 0,
+      performancesList: [],
+      orgTree: [],
       nav: [
         {
-          label: "高管绩效考核列表",
+          label: "组织部绩效考核列表",
           active: true
         }
       ],
@@ -149,20 +229,41 @@ export default {
         LABEL_EMPTY,
         LABEL_SELECT_DIVISION
       },
-      status: "1"
+      statuses: ""
     };
   },
-  components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "assessment-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/AssessmentDialog/index.vue")
-    ),
-    "confirm-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+  watch: {
+    filterForm: {
+      handler: function(v) {
+        let filterData = {
+          page: 1,
+          statuses: this.statuses,
+          department_ids: v.dp
+        };
+        this.currentPage = 1;
+        // 获取绩效考核列表
+        this.getPerformanceList(filterData);
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
+    changeStatuses() {
+      this.getPerformanceList({
+        statuses: this.statuses,
+        page: this.currentPage
+      });
+    },
+    getPerformanceList(getData) {
+      getAdminPerformancesList(getData)
+        .then(res => {
+          const { total, data } = res;
+          this.performancesList = data;
+          this.total = total;
+        })
+        .catch(e => {});
+    },
     createTpl() {
       // 创建模板
       this.infoType = "add";
@@ -170,7 +271,6 @@ export default {
     },
     tplDialogClose() {
       this.showDialog = false;
-      // 关闭弹框
     },
     updateTpl(row) {
       // 修改
@@ -178,38 +278,57 @@ export default {
       this.showDialog = true;
     },
     resetFilter() {
-      // this.filterForm = {
-      //   dp: []
-      // };
+      this.filterForm = {
+        dp: []
+      };
     },
     handleCurrentChange() {
       this.currentPage = val;
     },
-    linkToDetail() {
-      this.$router.replace("/performance/assessment/details");
+    linkToDetail(id) {
+      this.$router.replace(`/performance/assessment/details/${id}`);
     },
     deleteAssessment() {
       this.showConfirmDialog = true;
-      this.delText = "是否确认删除考核？";
+      this.tipsText = "是否确认删除考核？";
     },
-    confirmDialogClose() {
+    closeDialog() {
       this.showConfirmDialog = false;
+    },
+    confirmDialog() {
+      // 确定按钮 判断是开启还是删除的框
+      console.log("确定");
+      // this.showConfirmDialog = false;
+      // putOpenAssessment(id).then(res => {
+      //   console.log(res)
+      // }).catch(e => {});
+      // delAssessment(id).then(res => {
+      //   console.log(res)
+      // }).catch(e => {});
     },
     openAssessment() {
       this.showConfirmDialog = true;
-      this.delText = "是否确认启动考核？";
+      this.tipsText = "是否确认启动考核？";
     }
   },
-  created() {}
+  created() {
+    getOrganization()
+      .then(res => {
+        this.orgTree = res;
+      })
+      .catch(e => {});
+    getPerformanceTypes()
+      .then(res => {
+        this.performanceTypes = res;
+      })
+      .catch(e => {});
+  }
 };
 </script>
 <style lang="scss" scoped>
 .grade-management {
-  position: relative;
   .create-btn {
-    position: absolute;
-    right: 20px;
-    top: 10px;
+    margin-left: 24px;
   }
   .grade-management-list {
     background-color: #fff;
@@ -243,6 +362,14 @@ export default {
         .dividing-line {
           margin: 0 12px;
           color: #dcdfe6ff;
+        }
+        .list-top-range {
+          display: inline-block;
+          max-width: 200px;
+          vertical-align: middle;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
       .operate-btns {
@@ -279,19 +406,58 @@ export default {
         }
       }
     }
+    .list-middle {
+      padding: 16px;
+      text-align: center;
+      overflow: hidden;
+      .list-middle-left,
+      .list-middle-right {
+        display: flex;
+        color: #909399;
+        background-color: #fafafa;
+        .list-middle-items {
+          box-sizing: border-box;
+          padding: 14px 16px;
+          .list-middle-item {
+            margin-top: 8px;
+            color: #303133;
+          }
+        }
+      }
+      .list-middle-left {
+        float: left;
+        .list-middle-items {
+          width: 140px;
+          .list-middle-item {
+            line-height: 20px;
+          }
+        }
+      }
+      .list-middle-right {
+        margin-left: 284px;
+        .list-middle-items {
+          flex: 1;
+          .list-middle-item {
+            line-height: 40px;
+          }
+        }
+      }
+    }
     .list-timeline {
       display: flex;
-      padding: 22px 30px;
-      padding: 22px 30px 40px 30px;
+      padding: 0 30px 40px 30px;
       .time-line {
         width: 15%;
         padding: 6px 0;
         text-align: center;
+        border-bottom: 4px solid #e6e9f0;
+      }
+      .time-line.active {
         border-bottom: 4px solid #38d0afff;
       }
       .time-line-sign {
         position: relative;
-        top: 28px;
+        top: 26px;
         width: 12px;
         height: 12px;
         margin: 0 4px;
@@ -301,7 +467,7 @@ export default {
         &::after {
           position: absolute;
           left: -24px;
-          top: 11px;
+          top: 14px;
           width: 66px;
           content: attr(data);
           color: #909399ff;
@@ -321,10 +487,26 @@ export default {
         }
       }
       .time-line-circle {
+        min-width: 45px;
         position: relative;
-        top: 16px;
-        font-size: 18px;
-        margin-right: -10px;
+        top: 22px;
+        left: 0;
+        .circle-list {
+          display: inline-block;
+          margin-right: 4px;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: #e6e9f0;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .time-line-circle.active {
+        .circle-list {
+          background-color: #38d0afff;
+        }
       }
     }
   }

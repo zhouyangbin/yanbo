@@ -189,8 +189,6 @@ export const PATH_PERFORMANCE_GRADE_MANAGEMENT = "/performance/scoremangement";
 export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
-// 考核详情
-export const PATH_ASSESSMENT_DATAILS = "/performance/assessment/details";
 // 我的业绩中高管评分高管填写指标页面
 export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
   `/performance/targetsettings/${id}/${uid}`;
@@ -205,3 +203,5 @@ export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   id: String = ":id",
   workcode = ":workcode"
 ) => `/employee/team/${gradeID}/target/${id}/${workcode}`;
+export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
+  `/performance/assessment/details/${id}`;

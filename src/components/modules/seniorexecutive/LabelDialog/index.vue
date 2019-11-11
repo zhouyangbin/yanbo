@@ -163,7 +163,12 @@
         prop="departments"
         label-width="140px"
       >
-        <el-tree
+        <common-tree
+          :orgTree="orgTree"
+          @selectedIds="selectedOrg"
+          :department_ids="tplForm.departments"
+        ></common-tree>
+        <!-- <el-tree
           empty-text="努力加载中..."
           @check-change="treeChange"
           :props="defaultProps"
@@ -174,7 +179,7 @@
           show-checkbox
           :data="orgTree"
           class="select-tree"
-        ></el-tree>
+        ></el-tree> -->
       </el-form-item>
       <el-form-item
         :label="constants.FORCED_DISTRIBUTION"
@@ -220,8 +225,13 @@ import {
   getOrganization,
   getAdminTagDetails
 } from "@/constants/API";
-
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   props: {
     visible: {
       type: Boolean,
@@ -234,10 +244,6 @@ export default {
     initData: {
       type: Object,
       default: () => ({})
-    },
-    departmentsOps: {
-      type: Array,
-      default: () => []
     },
     orgTree: {
       type: Array,
@@ -301,6 +307,9 @@ export default {
     }
   },
   methods: {
+    selectedOrg(data) {
+      this.tplForm.departments = data;
+    },
     close() {
       this.$emit("close");
     },

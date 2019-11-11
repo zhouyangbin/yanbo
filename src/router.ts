@@ -331,7 +331,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_ASSESSMENT_DATAILS,
+          path: PATH_ASSESSMENT_DATAILS(),
           components: {
             default: () =>
               import(

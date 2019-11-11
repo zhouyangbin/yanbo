@@ -4,8 +4,10 @@
     <detail-header :user-info="userInfo" :self="true"></detail-header>
     <target-content :all-target="allTarget"></target-content>
     <el-row class="footer-button">
-      <el-button @click="checkExamine">{{constants.CHECK_EXAMINE_LOG}}</el-button>
-      <el-button @click="returnList">{{constants.TARGET_RETURN}}</el-button>
+      <el-button @click="checkExamine">{{
+        constants.CHECK_EXAMINE_LOG
+      }}</el-button>
+      <el-button @click="returnList">{{ constants.TARGET_RETURN }}</el-button>
     </el-row>
     <examine-detail
       :is-examine-dialog="isExamineDialog"

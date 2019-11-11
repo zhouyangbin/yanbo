@@ -3,27 +3,20 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true">
+        <el-form :inline="true" ref="filterForm" :model="filterForm">
           <el-form-item class="content-search">
-            <el-input
-              placeholder="输入关键字进行过滤"
-              v-model="filterText"
-            ></el-input>
-            <el-tree
-              class="select-tree"
-              empty-text="努力加载中..."
-              @check-change="treeChange"
-              :props="defaultProps"
-              :default-checked-keys="checkedKeys"
-              node-key="department_id"
-              ref="tree"
-              :filter-node-method="filterNode"
-              show-checkbox
-              :data="orgTree"
-            ></el-tree>
+            <el-cascader
+              v-model="filterForm.dp"
+              placeholder="请选择事业部"
+              :props="filterProps"
+              :options="orgTree"
+              :show-all-levels="false"
+            ></el-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="reset">{{ constants.RESET }}</el-button>
+            <el-button round @click="resetForm">{{
+              constants.RESET
+            }}</el-button>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -97,26 +90,20 @@
       @close="tplDialogClose"
       :visible="showDialog"
       :infoType="infoType"
-      :tplId="tplId"
+      :performanceId="performanceId"
       :performanceTypes="performanceTypes"
       :executiveTypes="executiveTypes"
       :tplFields="tplFields"
       :tplMeasures="tplMeasures"
       :orgTree="orgTree"
     ></tpl-dialog>
-    <el-dialog
-      title="提示"
-      :visible.sync="showConfirmDialog"
-      width="30%"
-      class="del-dialog"
-      :before-close="handleClose"
-    >
-      <span>{{ dialogText }}</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showConfirmDialog = false">取 消</el-button>
-        <el-button type="primary" @click="confirmBtn">确 定</el-button>
-      </span>
-    </el-dialog>
+    <confirm-dialog
+      v-if="showConfirmDialog"
+      :visible="showConfirmDialog"
+      :tipsText="tipsText"
+      @confirm="confirmDialog"
+      @close="closeDialog"
+    ></confirm-dialog>
   </div>
 </template>
 <script>
@@ -154,15 +141,20 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "tpl-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/TplDialog/index.vue")
+    ),
+    "confirm-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
     )
   },
   data() {
     return {
-      filterText: "",
-      checkedNodes: [],
-      defaultProps: {
+      filterProps: {
+        value: "department_id",
         label: "department_name",
         children: "children"
+      },
+      filterForm: {
+        dp: []
       },
       performanceTypes: [],
       executiveTypes: [],
@@ -173,10 +165,10 @@ export default {
       total: 0,
       infoType: "add",
       showDialog: false,
-      dialogText: "是否确认删除模板？",
-      tplId: 0,
+      tipsText: "是否确认删除模板？",
+      performanceId: 0,
       showConfirmDialog: false,
-      department_ids: [],
+      department_ids: "", // 数组还是字符串，需要跟后台确定一下
       canCreateTpl: true,
       tableData: [],
       initData: {},
@@ -203,26 +195,23 @@ export default {
     };
   },
   watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val);
-    }
-  },
-  computed: {
-    checkedKeys() {
-      return this.checkedNodes.map(({ department_id }) => department_id);
+    filterForm: {
+      handler: function(v) {
+        let filterData = {
+          page: 1,
+          department_ids: v.dp
+        };
+        this.currentPage = 1;
+        this.getTplList(filterData);
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
     filterNode(value, data) {
       if (!value) return true;
       return data.department_name.indexOf(value) !== -1;
-    },
-    treeChange(data, checked, indeterminate) {
-      this.department_ids = this.$refs.tree.getCheckedNodes();
-      let getData = {
-        department_ids: this.department_ids.map(v => v.department_id)
-      };
-      this.getTplList(getData);
     },
     getTplList(getData) {
       getAdminTpls(getData)
@@ -233,9 +222,10 @@ export default {
         })
         .catch(e => {});
     },
-    reset() {
-      this.filterText = "";
-      this.getTplList({});
+    resetForm() {
+      this.filterForm = {
+        dp: []
+      };
     },
     createTpl() {
       this.infoType = "add";
@@ -253,24 +243,25 @@ export default {
     },
     updateTpl(row) {
       this.infoType = "modify";
-      this.tplId = row.id;
+      this.performanceId = row.id;
       this.showDialog = true;
     },
     delTpl(row) {
-      this.tplId = row.id;
+      this.performanceId = row.id;
       this.showConfirmDialog = true;
-      this.dialogText = "是否确认删除模板？";
+      this.tipsText = "是否确认删除模板？";
       // 删除 是否确认删除模板？or 该模板正在使用中，不能删除。
     },
-    confirmBtn() {
-      deleteTpls(this.tplId)
+    closeDialog() {
+      this.showConfirmDialog = false;
+    },
+    confirmDialog() {
+      deleteTpls(this.performanceId)
         .then(res => {
+          this.showConfirmDialog = false;
           debugger;
         })
         .catch(e => {});
-    },
-    handleClose() {
-      this.showConfirmDialog = false;
     }
   },
   created() {

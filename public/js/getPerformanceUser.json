@@ -1,0 +1,24 @@
+{
+  "status": 200,
+  "message": "Success",
+  "data": [
+      {
+          "id": 1,
+          "performance_id": 1,
+          "name": "一",
+          "workcode": "1",
+          "executive_type": "bu_president",
+          "executive_type_text": "集团后台高管",
+          "superior_name": "二",
+          "superior_workcode": "2",
+          "isolation_name": "三",
+          "isolation_workcode": "3",
+          "president_name": "四",
+          "president_workcode": "4",
+          "hrd_name": "五",
+          "hrd_workcode": "5",
+          "hrbp_name": "六",
+          "hrbp_workcode": "6"
+      }
+  ]
+}
