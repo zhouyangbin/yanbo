@@ -897,3 +897,19 @@ export const DEFAULT_TABLE2521 = [
     isChildren: true
   }
 ];
+
+// 指标设定
+export const SUPERIOR_OPINION = "上级意见";
+export const IMMEDIATE_SUPERIOR = "直接上级";
+export const ASSESS_CYCLE = "考核周期";
+export const SET_TARGET_DEADLINE = "指标设定截止时间";
+export const ERROR_MESSAGE_CONTACT_USER = "如直接上级的姓名或工号有误，请联系HRBP。";
+export const SENIOR_UPLOAD_TARGET = "上传指标";
+export const TARGET_DETAIL = "指标详情";
+export const CHECK_EXAMINE_LOG = "查看审批记录";
+export const TARGET_RETURN = "返回";
+export const TARGET_NAME = "指标名称";
+export const TASK_DESCRIPTION = "具体工作/任务描述";
+export const YARD_STICK = "衡量标准";
+export const ADD_TARGET_LINE = "添加考核项";
+export const FINANCE_DIMENSIONALITY_SUBTOTAL = "财务维度小计";

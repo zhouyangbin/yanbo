@@ -8,7 +8,7 @@
           class="superior-idea flex"
           v-if="userInfo.opinion && userInfo.stage === 1 && self"
         >
-          <el-col style="width: 80px;">上级意见：</el-col>
+          <el-col style="width: 80px;">{{constants.SUPERIOR_OPINION}}：</el-col>
           <el-col>{{ userInfo.opinion }}</el-col>
         </el-row>
         <el-row class="user-info flex">
@@ -21,7 +21,6 @@
           <div class="img avatar-name" v-else>
             {{ userInfo.name.substr(userInfo.name.length - 1, 1) }}
           </div>
-          <!-- <span class="img">{{ userInfo.avatar }}</span> -->
           <el-col>
             <el-row class="user-name">
               <span>{{ userInfo.name }}</span>
@@ -30,7 +29,7 @@
             </el-row>
             <el-row class="flex">
               <el-col class="super">
-                <el-row class="other-info-title">直接上级</el-row>
+                <el-row class="other-info-title">{{constants.IMMEDIATE_SUPERIOR}}</el-row>
                 <el-row
                   >{{ userInfo.superior_name }}({{
                     userInfo.superior_workcode
@@ -38,7 +37,7 @@
                 >
               </el-col>
               <el-col class="department">
-                <el-row class="other-info-title">部门</el-row>
+                <el-row class="other-info-title">{{constants.LABEL_DEPARTMENT}}</el-row>
                 <el-row>
                   <el-tooltip
                     class="item"
@@ -51,16 +50,16 @@
                 </el-row>
               </el-col>
               <el-col class="cycle">
-                <el-row class="other-info-title">考核周期</el-row>
+                <el-row class="other-info-title">{{constants.ASSESS_CYCLE}}</el-row>
                 <el-row>{{ userInfo.cycle }}</el-row>
               </el-col>
               <el-col class="deadline">
-                <el-row class="other-info-title">指标设定截止时间</el-row>
+                <el-row class="other-info-title">{{constants.SET_TARGET_DEADLINE}}</el-row>
                 <el-row>{{ userInfo.indicator_setting_end_time }}</el-row>
               </el-col>
             </el-row>
             <el-row class="linkman"
-              >如直接上级的姓名或工号有误，请联系HRBP。</el-row
+              >{{constants.ERROR_MESSAGE_CONTACT_USER}}</el-row
             >
           </el-col>
         </el-row>
@@ -71,7 +70,7 @@
           class="btn"
           @click="uploadTarget"
           v-if="userInfo.stage === 1"
-          >上传指标</el-button
+          >{{constants.SENIOR_UPLOAD_TARGET}}</el-button
         >
       </el-row>
     </el-row>
@@ -82,6 +81,15 @@
   </div>
 </template>
 <script>
+import {
+  SUPERIOR_OPINION,
+  IMMEDIATE_SUPERIOR,
+  LABEL_DEPARTMENT,
+  ASSESS_CYCLE,
+  SET_TARGET_DEADLINE,
+  ERROR_MESSAGE_CONTACT_USER,
+  SENIOR_UPLOAD_TARGET
+}from "@/constants/TEXT"
 export default {
   props: {
     userInfo: {
@@ -95,6 +103,15 @@ export default {
   },
   data() {
     return {
+      constants: {
+        SUPERIOR_OPINION,
+        IMMEDIATE_SUPERIOR,
+        LABEL_DEPARTMENT,
+        ASSESS_CYCLE,
+        SET_TARGET_DEADLINE,
+        ERROR_MESSAGE_CONTACT_USER,
+        SENIOR_UPLOAD_TARGET
+      },
       isUpload: false
     };
   },
@@ -103,6 +120,10 @@ export default {
       import("@/components/modules/employee/uploadTarget/index")
   },
   methods: {
+    /**
+     * 根据不同的状态，加载不同的图片，如1 => 指标填写中
+     * @param stage 状态
+     */
     stageImg(stage) {
       let src = "";
       switch (stage) {
@@ -121,9 +142,15 @@ export default {
       }
       return src;
     },
+    /**
+     * 点击上传指标
+     */
     uploadTarget() {
       this.isUpload = true;
     },
+    /**
+     * 关闭上传指标弹窗
+     */
     closeUploadDialog() {
       this.isUpload = false;
     }

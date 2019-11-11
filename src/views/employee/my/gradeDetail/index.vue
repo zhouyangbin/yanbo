@@ -11,7 +11,7 @@
         >
           <el-row class="target-detail-title">
             <span class="target-title">{{ targetItem.type }}</span>
-            <span class="target-weight">权重{{ targetItem.weight }}%</span>
+            <span class="target-weight">{{constants.TARGET_WEIGH}}{{ targetItem.weight }}%</span>
           </el-row>
           <el-form :ref="`form${index}`" :model="targetItem">
             <el-table
@@ -22,7 +22,7 @@
                 color: '#303133'
               }"
             >
-              <el-table-column label="权重" width="180" align="center">
+              <el-table-column :label="constants.TARGET_WEIGH" width="180" align="center">
                 <template slot-scope="scope">
                   <div v-if="targetItem.isMoney">{{ scope.row.weights }}%</div>
                   <el-form-item
@@ -36,23 +36,21 @@
                       size="small"
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
-                      <template slot="append"
-                        >%</template
-                      >
+                      <template slot="append">%</template>
                     </el-input>
                   </el-form-item>
                 </template>
               </el-table-column>
               <el-table-column
                 v-if="targetItem.isMoney"
-                label="指标名称"
+                :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
                 prop="target"
               ></el-table-column>
               <el-table-column
                 v-if="!targetItem.isMoney"
-                label="指标名称"
+                :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
                 :render-header="changeLabel"
@@ -79,7 +77,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                label="具体工作/任务描述"
+                :label="constants.TASK_DESCRIPTION"
                 min-width="300"
                 header-align="center"
                 v-if="targetItem.table[0].content !== undefined"
@@ -100,7 +98,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                label="衡量标准"
+                :label="constants.YARD_STICK"
                 min-width="300"
                 header-align="center"
               >
@@ -146,13 +144,13 @@
               class="add-target"
               v-if="!targetItem.isMoney && getTableLen(index) <= 4"
               @click="addTarget(index)"
-              >添加考核项</el-button
+              >{{constants.ADD_TARGET_LINE}}</el-button
             >
           </el-form>
         </el-row>
         <ul class="sub-total">
           <li>
-            财务维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("finance") }}%
+            {{constants.FINANCE_DIMENSIONALITY_SUBTOTAL}}&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("finance") }}%
           </li>
           <li>
             工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%
@@ -180,7 +178,16 @@
   </div>
 </template>
 <script>
-import { MY_GRADE } from "@/constants/TEXT";
+import {
+  MY_GRADE,
+  TARGET_WEIGH,
+  TARGET_NAME,
+  TARGET_DETAIL,
+  TASK_DESCRIPTION,
+  YARD_STICK,
+  ADD_TARGET_LINE,
+  FINANCE_DIMENSIONALITY_SUBTOTAL
+} from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
   PATH_PERFORMANCE_TARGET_DETAIL
@@ -197,13 +204,21 @@ import { Divider } from "element-ui";
 export default {
   data() {
     return {
+      constants: {
+        TARGET_WEIGH,
+        TARGET_NAME,
+        TASK_DESCRIPTION,
+        YARD_STICK,
+        ADD_TARGET_LINE,
+        FINANCE_DIMENSIONALITY_SUBTOTAL
+      },
       nav: [
         {
           label: MY_GRADE,
           href: PATH_EMPLOYEE_MY
         },
         {
-          label: "指标详情",
+          label: TARGET_DETAIL,
           active: true
         }
       ],

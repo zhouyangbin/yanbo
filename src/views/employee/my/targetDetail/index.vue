@@ -4,8 +4,8 @@
     <detail-header :user-info="userInfo" :self="true"></detail-header>
     <target-content :all-target="allTarget"></target-content>
     <el-row class="footer-button">
-      <el-button @click="checkExamine">查看审批记录</el-button>
-      <el-button @click="returnList">返回</el-button>
+      <el-button @click="checkExamine">{{constants.CHECK_EXAMINE_LOG}}</el-button>
+      <el-button @click="returnList">{{constants.TARGET_RETURN}}</el-button>
     </el-row>
     <examine-detail
       :is-examine-dialog="isExamineDialog"
@@ -15,19 +15,28 @@
   </div>
 </template>
 <script>
-import { MY_GRADE } from "@/constants/TEXT";
+import {
+  MY_GRADE,
+  TARGET_DETAIL,
+  CHECK_EXAMINE_LOG,
+  TARGET_RETURN
+} from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
 import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
 export default {
   data() {
     return {
+      constants: {
+        CHECK_EXAMINE_LOG,
+        TARGET_RETURN
+      },
       nav: [
         {
           label: MY_GRADE,
           href: PATH_EMPLOYEE_MY
         },
         {
-          label: "指标详情",
+          label: TARGET_DETAIL,
           active: true
         }
       ],
@@ -59,6 +68,9 @@ export default {
       import("@/components/modules/employee/checkExamineDetail/index")
   },
   methods: {
+    /**
+     * 得到当前用户信息，用于展示在页面头部
+     */
     getUserInfo() {
       let data = {
         performance_id: this.$route.params.id,
@@ -98,6 +110,9 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 得到模版设置中配置的信息，以及用户暂存的信息
+     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
@@ -146,12 +161,21 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 查看审批记录
+     */
     checkExamine() {
       this.isExamineDialog = true;
     },
+    /**
+     * 关闭审批记录弹窗
+     */
     closeExamine() {
       this.isExamineDialog = false;
     },
+    /**
+     * 返回到我的评分列表页
+     */
     returnList() {
       this.$router.push("/employee/my");
     }
