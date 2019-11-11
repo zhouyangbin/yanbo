@@ -484,6 +484,9 @@
           ></pagination>
         </el-row>
         <br />
+        <div @click="tips" class="rule">
+          <img src="@/assets/img/box.png" alt="">
+        </div>
       </section>
     </section>
   </div>
@@ -594,6 +597,15 @@ export default {
       import("@/components/modules/myculture/finished/lower/index.vue")
   },
   methods: {
+    tips() {
+      this.$alert(
+        '<p>1-总：打分前，对团队中的271排名做到心中有数：前面的20%，后面的10%；</br>2-分：打分时，对团队中每个成员的具体得分负责：看标准，核案例，确定得分；</br>3-总：打分后，根据步骤1和步骤2，微调/确定最终271，确保前20%和后10%的精准。</p>',
+        '“上级评”打分方法推荐：',
+        {
+          dangerouslyUseHTMLString: true
+        }
+      );
+    },
     getLevelText(num) {
       return LEVEL_ALIAS[num];
     },
@@ -845,5 +857,18 @@ export default {
   color: #adadad;
   text-align: center;
   margin-top: 20px;
+}
+.rule {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+}
+.rule img {
+  height: 120px;
+  opacity: 1.0;
+  filter:alpha(opacity=100);
+}
+.rule img:hover {
+  cursor: pointer;
 }
 </style>

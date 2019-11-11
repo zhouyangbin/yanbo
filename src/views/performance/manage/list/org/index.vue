@@ -213,8 +213,12 @@
             prop="syb_department"
             :label="constants.DEP_OR_SUB"
             width="200"
-          ></el-table-column>
-
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.syb_department == ''"> —— </span>
+              <span v-if="scope.row.syb_department != ''"> {{ scope.row.syb_department }} </span>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="email"
             :label="constants.EMAIL"
