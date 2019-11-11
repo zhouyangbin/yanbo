@@ -319,9 +319,10 @@
           >
             <template slot-scope="scope">
               <span v-if="scope.row.first_department == ''"> —— </span>
-              <span v-if="scope.row.first_department != ''"> {{ scope.row.first_department }} </span>
+              <span v-if="scope.row.first_department != ''">
+                {{ scope.row.first_department }}
+              </span>
             </template>
-
           </el-table-column>
           <el-table-column
             prop="level"
@@ -358,9 +359,11 @@
             :label="constants.PLUS_UP_LEVEL + constants.NUMBER"
             width="80"
           >
-             <template slot-scope="scope">
+            <template slot-scope="scope">
               <span v-if="scope.row.highlevel_workcode == ''"> —— </span>
-              <span v-if="scope.row.highlevel_workcode != ''"> {{ scope.row.highlevel_workcode }} </span>
+              <span v-if="scope.row.highlevel_workcode != ''">
+                {{ scope.row.highlevel_workcode }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column
@@ -370,7 +373,9 @@
           >
             <template slot-scope="scope">
               <span v-if="scope.row.highlevel_name == ''"> —— </span>
-              <span v-if="scope.row.highlevel_name != ''"> {{ scope.row.highlevel_name }} </span>
+              <span v-if="scope.row.highlevel_name != ''">
+                {{ scope.row.highlevel_name }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column
@@ -380,7 +385,9 @@
           >
             <template slot-scope="scope">
               <span v-if="scope.row.highlevel_department == ''"> —— </span>
-              <span v-if="scope.row.highlevel_department != ''"> {{ scope.row.highlevel_department }} </span>
+              <span v-if="scope.row.highlevel_department != ''">
+                {{ scope.row.highlevel_department }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column
@@ -388,9 +395,11 @@
             :label="constants.PLUS_UP_LEVEL + constants.EMAIL"
             width="150"
           >
-             <template slot-scope="scope">
+            <template slot-scope="scope">
               <span v-if="scope.row.highlevel_email == ''"> —— </span>
-              <span v-if="scope.row.highlevel_email != ''"> {{ scope.row.highlevel_email }} </span>
+              <span v-if="scope.row.highlevel_email != ''">
+                {{ scope.row.highlevel_email }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column prop="_271_level" label="271等级" width="150">

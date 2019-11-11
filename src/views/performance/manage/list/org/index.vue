@@ -216,7 +216,9 @@
           >
             <template slot-scope="scope">
               <span v-if="scope.row.syb_department == ''"> —— </span>
-              <span v-if="scope.row.syb_department != ''"> {{ scope.row.syb_department }} </span>
+              <span v-if="scope.row.syb_department != ''">
+                {{ scope.row.syb_department }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column
