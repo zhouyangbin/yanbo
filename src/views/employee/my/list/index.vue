@@ -114,13 +114,13 @@ export default {
      * 显示填写指标按钮
      */
     handleWriteTargetButton(row) {
-      return row.stage === '指标设定阶段' && row.target_status === '指标填写中';
+      return row.p_type === "executive" && row.stage === '指标设定阶段' && row.target_status === '指标填写中';
     },
     /**
      * 显示查看详情按钮（指标）
      */
     handleCheckTargetButton(row) {
-      return (row.stage === '指标设定阶段' || row.stage === '评分未开始') && (row.target_status === '指标确认中' || '指标已确认');
+      return row.p_type === "executive" && (row.stage === '指标设定阶段' || row.stage === '评分未开始') && (row.target_status === '指标确认中' || '指标已确认');
     },
     /**
      * 点击跳转到指标填写
@@ -133,7 +133,7 @@ export default {
     /**
      * 跳转到指标详情页面
      */
-    goTargetDetail() {
+    goTargetDetail(row) {
       PATH_PERFORMANCE_TARGET_DETAIL(row.performance_id, row.performance_user_id)
     },
     /**
