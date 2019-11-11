@@ -45,7 +45,7 @@
         <div>
           <el-date-picker
             :clearable="false"
-            :picker-options="pickerOptions"
+            :disabled="startDisable"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
@@ -56,6 +56,7 @@
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :clearable="false"
+            :disabled="endDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -70,6 +71,7 @@
         <div>
           <el-date-picker
             :clearable="false"
+            :disabled="targetstartDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -81,6 +83,7 @@
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :clearable="false"
+            :disabled="targetendDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -95,6 +98,7 @@
         <div>
           <el-date-picker
             :clearable="false"
+            :disabled="highlevelstartDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -106,6 +110,7 @@
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :clearable="false"
+            :disabled="highlevelendDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -120,6 +125,7 @@
         <div>
           <el-date-picker
             :clearable="false"
+            :disabled="confirmstarttimeDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -131,6 +137,7 @@
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :clearable="false"
+            :disabled="confirmendtimeDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -145,6 +152,7 @@
         <div>
           <el-date-picker
             :clearable="false"
+            :disabled="appealstarttimeDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -156,6 +164,7 @@
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :clearable="false"
+            :disabled="appealendtimeDisable"
             :picker-options="pickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
@@ -170,7 +179,7 @@
       <el-form-item label-width="0px">
         <el-row type="flex" justify="center">
           <el-button
-            :disabled="endDisable"
+            :disabled="confirmendtimeDisable"
             round
             type="primary"
             @click="submitForm('timeForm')"
@@ -410,23 +419,80 @@ export default {
     },
     startDisable() {
       return (
-        this.initTime.startTime &&
-        formatTime(new Date(this.initTime.startTime.replace(/-/gi, "/"))) <
+        this.initTime.start_time &&
+        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <
           formatTime(new Date())
       );
     },
     endDisable() {
       return (
-        this.initTime.endTime &&
-        formatTime(new Date(this.initTime.endTime.replace(/-/gi, "/"))) <
+        this.initTime.end_time &&
+        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <
           formatTime(new Date())
       );
     },
-    endTargetDisable() {
+    targetstartDisable() {
       return (
-        this.initTime.targetEndTime &&
-        formatTime(new Date(this.initTime.targetEndTime.replace(/-/gi, "/"))) <
-          formatTime(new Date())
+        this.initTime.target_start_time &&
+        formatTime(
+          new Date(this.initTime.target_start_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    targetendDisable() {
+      return (
+        this.initTime.target_end_time &&
+        formatTime(
+          new Date(this.initTime.target_end_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    highlevelstartDisable() {
+      return (
+        this.initTime.high_level_start_time &&
+        formatTime(
+          new Date(this.initTime.high_level_start_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    highlevelendDisable() {
+      return (
+        this.initTime.high_level_end_time &&
+        formatTime(
+          new Date(this.initTime.high_level_end_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    confirmstarttimeDisable() {
+      return (
+        this.initTime.confirm_start_time &&
+        formatTime(
+          new Date(this.initTime.confirm_start_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    confirmendtimeDisable() {
+      return (
+        this.initTime.confirm_end_time &&
+        formatTime(
+          new Date(this.initTime.confirm_end_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    appealstarttimeDisable() {
+      return (
+        this.initTime.appeal_start_time &&
+        formatTime(
+          new Date(this.initTime.appeal_start_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    appealendtimeDisable() {
+      return (
+        this.initTime.appeal_end_time &&
+        formatTime(
+          new Date(this.initTime.appeal_end_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
       );
     }
   }
