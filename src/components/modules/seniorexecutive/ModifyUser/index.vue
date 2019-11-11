@@ -17,10 +17,17 @@
       class="user-form"
     >
       <el-form-item label="姓名/工号:" prop="workcdoe">
-        <el-input v-model="userForm.workcdoe" @input="searchME"></el-input>
+        <el-input
+          v-model="userForm.workcdoe"
+          @input="searchME"
+          :disabled="infoType !== 'add'"
+        ></el-input>
       </el-form-item>
       <el-form-item label="邮箱:" prop="email">
-        <el-input v-model="userForm.email"></el-input>
+        <el-input
+          v-model="userForm.email"
+          :disabled="infoType !== 'add'"
+        ></el-input>
       </el-form-item>
       <el-form-item label="直接上级:" prop="superior_workcode">
         <el-input v-model="userForm.superior_workcode"></el-input>
@@ -81,7 +88,7 @@
 </template>
 <script>
 import {} from "@/constants/TEXT";
-import { postAddPerson, getUserDetail } from "@/constants/API";
+import { postAddStaff, putEmployeeInfo, getUserDetail } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
@@ -92,6 +99,10 @@ export default {
     userType: {
       type: String,
       default: "add"
+    },
+    userId: {
+      type: String,
+      default: ""
     },
     performanceId: {
       type: String,
@@ -174,11 +185,19 @@ export default {
     submit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          postAddPerson(this.performanceId, this.userForm)
-            .then(res => {
-              console.log(res);
-            })
-            .catch(e => {});
+          if (this.userType != "add") {
+            putEmployeeInfo(this.performanceId, this.userId, this.userForm)
+              .then(res => {
+                console.log(res);
+              })
+              .catch(e => {});
+          } else {
+            postAddStaff(this.performanceId, this.userForm)
+              .then(res => {
+                console.log(res);
+              })
+              .catch(e => {});
+          }
         } else {
           return false;
         }

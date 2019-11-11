@@ -490,9 +490,20 @@ export const postPerformanceSetTime = (id: String, params: Object) =>
   sendPost(`/executive-performance/admin/performance/${id}/set-time`, params);
 
 // 高管绩效 给评分添加员工
-export const postAddPerson = (performance_id: String, params: Object) =>
+export const postAddStaff = (performance_id: String, params: Object) =>
   sendPost(
     `/executive-performance/admin/performance/${performance_id}/users`,
+    params
+  );
+
+// 高管绩效 更新员工信息
+export const putEmployeeInfo = (
+  performance_id: String,
+  performance_user_id: String,
+  params: Object
+) =>
+  sendPut(
+    `/executive-performance/admin/performance/${performance_id}/users/${performance_user_id}`,
     params
   );
 

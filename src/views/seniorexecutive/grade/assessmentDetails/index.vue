@@ -372,6 +372,7 @@
       :visible="showModifyUser"
       @close="modifyUserClose"
       :userType="userType"
+      :userId="userId"
       :performanceId="performanceId"
       :executiveTypes="executiveTypes"
       :userInfo="userInfo"
@@ -479,7 +480,8 @@ export default {
       performance_user_ids: [],
       showModifyUser: false,
       userInfo: {},
-      userType: "add"
+      userType: "add",
+      userId: ""
     };
   },
   computed: {
