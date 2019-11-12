@@ -139,7 +139,7 @@ export default {
                   " - " +
                   res[i].workcode +
                   " - " +
-                  res[i].department;
+                  res[i].department_name;
               }
               cb(res);
             }
