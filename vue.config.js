@@ -14,7 +14,6 @@ module.exports = {
     //proxy: "https:/1pingfen.test.com"
     //proxy: "https://pingfen-performance-api.chengjiukehu.com"
     proxy: "https://pingfen-performance-api-test.chengjiukehu.com"
-
   },
   chainWebpack: config => {
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));

@@ -63,7 +63,11 @@
         :comments.sync="comments"
       ></comments>
       <br />
-      <total-mark v-if="!inReviewStage" :score="this.score" :total="total"></total-mark>
+      <total-mark
+        v-if="!inReviewStage"
+        :score="this.score"
+        :total="total"
+      ></total-mark>
       <br />
       <level
         v-if="!inReviewStage"

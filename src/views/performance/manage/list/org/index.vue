@@ -770,8 +770,9 @@ export default {
     canPublish() {
       return (
         this.initTime.confirm_start_time &&
-        formatTime(new Date(this.initTime.confirm_start_time.replace(/-/gi, "/"))) <=
-          formatTime(new Date())
+        formatTime(
+          new Date(this.initTime.confirm_start_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     }
   }
