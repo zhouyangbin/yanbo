@@ -441,7 +441,7 @@ export default {
 
       for (let i = 0; i < s.length; i++) {
         if (s[i].status != 50) {
-          this.$alert("所选隔级中存在未在隔级评阶段的员工！");
+          this.$alert("所选隔级中存在未在当前阶段的员工！");
           this.$refs.tableData.clearSelection();
         } else {
           this.selectedArr.push(s[i]);
