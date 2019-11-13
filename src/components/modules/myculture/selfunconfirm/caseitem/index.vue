@@ -10,7 +10,7 @@
         <br />
         <div class="leader-reason">
           <div class="label">上级评理由：</div>
-          <div
+          <div style="white-space:normal;word-wrap:break-word;word-break:break-all"
             :inner-html.prop="
               data.superior_case | linebreak | placeholder('无')
             "
@@ -21,6 +21,7 @@
         <div v-for="(v, i) in data.self_cases || []" :key="i" class="my-case">
           <div class="label">我的{{ i + 3 }}分理由：</div>
           <div
+            style="white-space:normal;word-wrap:break-word;word-break:break-all"
             :inner-html.prop="v | linebreak | placeholder('无')"
             class="reason"
           ></div>
