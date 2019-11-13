@@ -436,8 +436,9 @@ export default {
             type: 2
           })
             .then(res => {
+              const count = res.count;
               this.$message({
-                message: CONST_OPERATIONS_SUCCESS,
+                message: `除${ count }人处于驳回中，其他批量操作成功!`,
                 type: "success"
               });
               this.refreshData({ page: 1, ...this.memberForm });
@@ -463,7 +464,7 @@ export default {
       })
         .then(res => {
           this.$message({
-            message: CONST_OPERATIONS_SUCCESS,
+            message: "操作成功!",
             type: "success"
           });
           this.refreshData({ page: 1, ...this.memberForm });

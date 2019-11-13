@@ -62,10 +62,11 @@ export default {
         reason: this.rejectReason
       })
         .then(res => {
-          this.$message({
-            message: "操作成功!",
-            type: "success"
-          });
+          console.log(res,"rees");
+          // this.$message({
+          //   message: "操作成功!",
+          //   type: "success"
+          // });
           this.callback();
           this.$emit("update:visible", false);
         })
