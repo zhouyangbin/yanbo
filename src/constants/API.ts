@@ -517,3 +517,6 @@ export const deletePerformanceUser = (performance_id: String, params: Object) =>
     `/executive-performance/admin/performance/${performance_id}/users`,
     params
   );
+// 高管绩效 我的直属下级列表
+export const postMyUnderLower = (params: Object) =>
+  sendPost(`/executive-performance/web/directly/under-lower`, params)

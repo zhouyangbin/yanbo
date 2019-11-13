@@ -58,7 +58,7 @@ import {
   EXPORT_DETAILS,
   LABEL_DEPARTMENT
 } from "@/constants/TEXT";
-import { PATH_EMPLOYY_TEAM_GRADE_DETAIL } from "@/constants/URL";
+import { PATH_EMPLOYY_TEAM_GRADE_DETAIL, PATH_PERFORMANCE_TEAM_GRADE_DETAIL } from "@/constants/URL";
 import { getTeamGradeList } from "@/constants/API";
 import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 
@@ -91,7 +91,9 @@ export default {
   },
   methods: {
     goDetail(row) {
-      this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.id));
+      // 组织部绩效 团队评分 详情
+      this.$router.push(PATH_PERFORMANCE_TEAM_GRADE_DETAIL(row.id));
+      // this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.id));
     },
     getList(data) {
       return getTeamGradeList(data)

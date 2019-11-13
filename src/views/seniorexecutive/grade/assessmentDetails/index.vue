@@ -674,17 +674,28 @@ export default {
     display: flex;
     padding: 40px 30px;
     .time-line {
+      position: relative;
       width: 15%;
-      padding: 6px 0;
+      padding: 6px 0 30px 0;
       text-align: center;
       border-bottom: 4px solid #e6e9f0;
+      &::after {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 26px;
+        width: 100%;
+        content: attr(data);
+        color: #FF8519;
+        font-size: 12px;
+      }
     }
     .time-line.active {
       border-bottom: 4px solid #38d0afff;
     }
     .time-line-sign {
       position: relative;
-      top: 26px;
+      top: 50px;
       width: 12px;
       height: 12px;
       margin: 0 4px;
@@ -716,7 +727,7 @@ export default {
     .time-line-circle {
       min-width: 45px;
       position: relative;
-      top: 22px;
+      top: 47px;
       left: 0;
       .circle-list {
         display: inline-block;
