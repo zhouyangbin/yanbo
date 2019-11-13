@@ -343,7 +343,7 @@ export default {
         .then(res => {
           const count = res.count;
           this.$message({
-            message: `除${ count }人处于驳回中，其他批量操作成功!`,
+            message: `除${count}人处于驳回中，其他批量操作成功!`,
             type: "success"
           });
           this.afterReject();
