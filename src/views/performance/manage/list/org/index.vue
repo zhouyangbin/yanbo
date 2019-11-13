@@ -769,8 +769,8 @@ export default {
     },
     canPublish() {
       return (
-        this.initTime.startTime &&
-        formatTime(new Date(this.initTime.startTime.replace(/-/gi, "/"))) <=
+        this.initTime.confirm_start_time &&
+        formatTime(new Date(this.initTime.confirm_start_time.replace(/-/gi, "/"))) <=
           formatTime(new Date())
       );
     }

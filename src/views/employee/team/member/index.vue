@@ -67,6 +67,7 @@
       <br />
       <level
         v-if="!inReviewStage"
+        :canEdit="canEdit"
         :readOnly="shouldMapping || stage >= 50"
         :label_id="label_id"
         v-on:update="label_id = $event"
@@ -139,7 +140,7 @@ export default {
       targets: [],
       level: "",
       score: "",
-      label_id: "",
+      label_id: Number,
       cardConfig: {
         min: 0,
         max: 5,
@@ -279,8 +280,7 @@ export default {
             need_attach_score,
             score_rule,
             stage,
-            score_level,
-            label_id
+            score_level
           } = res;
 
           this.basicInfo = {
@@ -299,7 +299,7 @@ export default {
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_attach_score.score;
-          this.label_id = label_id;
+          this.label_id = res.superior_score.label_id || null;
         })
         .catch(e => {});
     },

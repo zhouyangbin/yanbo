@@ -538,6 +538,10 @@ export const ENUM_PERFORMANCE_FINISH = [
     value: "上级评中"
   },
   {
+    key: 35,
+    value: "隔级评中"
+  },
+  {
     key: 50,
     value: "申诉中"
   },

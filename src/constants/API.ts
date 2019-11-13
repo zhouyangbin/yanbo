@@ -224,7 +224,12 @@ export const getTeamGradeList = (params: Object) =>
 // 某个评分的团队成员列表
 export const getTeamList = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}`, params);
-
+//团队评分的上级整体提交
+export const highLevelAllSubmit = (id: String, params: Object) =>
+  sendPost(`/performance/api/superior/${id}/submit`, params);
+//上级审查记录
+export const highLevelReview = (id: String, params: Object) =>
+  sendGet(`/performance/api/superior/${id}/review`, params);
 // export const getTeamUserDetail = (orgID: String, uid: String) =>
 //   sendGet(`/performance/api/superior/${orgID}/${uid}`);
 

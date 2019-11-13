@@ -4,10 +4,16 @@
       <span>
         结果/ 
       </span>
-      <span v-if="readOnly" class="level" @click="()=>{this.tip_A_show = !this.tip_A_show}" >
+      <span v-if="readOnly" class="level">
         {{ value }}
-        <span class="Badge_logo"></span>
-        <span v-if="tip_A_show" class="tip_A"></span>
+          <el-popover
+                placement="top"
+                width="331"
+                >
+                <div class="tip_A">
+                </div>
+                <el-button slot="reference" type="text" class="Badge_logo"></el-button>
+              </el-popover>
       </span>
       <el-select v-model="innerLevel" v-else placeholder="请选择">
         <el-option
@@ -18,15 +24,20 @@
         >
         </el-option>
       </el-select>
-      <el-row v-if="value == 'B'">
+      <el-row v-if="value != 'B'">
+          <el-col :span="6">标签/</el-col>
+          <el-tag v-if="levalLabelRules.length">{{getlevalLabelRules(levalLabelRules)}}</el-tag>
+      </el-row>
+      <el-row v-if="value == 'B' ">
           <el-col :span="6">标签/</el-col>
           <el-col :span="10" height="100px">
             <el-radio
-                v-for="(Labelvulue, key) in levalLabelRules"
-                :key="key"
-                :label="key"
+                :disabled="!canEdit"
+                v-for="item of levalLabelRules"
+                :key="item.id"
+                :label="item.id"
                 v-model="innerBlevel"
-                >{{ Labelvulue }}
+                >{{ item.name }}
             </el-radio>
           </el-col>
       </el-row>
@@ -42,10 +53,14 @@ export default {
       default: ""
     },
     label_id: {
-      type: String,
+      type: Number,
       default: ""
     },
     readOnly: {
+      type: Boolean,
+      default: false
+    },
+    canEdit: {
       type: Boolean,
       default: false
     }
@@ -53,12 +68,12 @@ export default {
   data() {
     return {
       levels: ["S", "A", "B", "C", "D"],
-      levalLabelRules: {},
-      id:1,
-      tip_A_show:false
+      levalLabelRules: [],
+      id:1
     };
   },
   created() {
+    console.log(this.label_id)
     this.getTagsRules();
   },
   methods: {
@@ -73,6 +88,10 @@ export default {
           this.levalLabelRules = res;
       })
       .catch(e => {});
+    },
+    getlevalLabelRules(data){
+      this.$emit("update", data[0].id.toString());
+      return data[0].name;
     }
   },
   computed: {
@@ -81,6 +100,7 @@ export default {
         return this.value;
       },
       set: function(v) {
+        console.log(v)
         this.$emit("input", v);
       }
     },
@@ -89,20 +109,29 @@ export default {
         return this.label_id;
       },
       set: function(v) {
+        console.log(v)
         this.$emit("update", v);
       }
     }
+  },
+  watch: {
+     value(newV,oldV) {
+       // do something
+       console.log(newV,oldV);
+       this.getTagsRules();
+     }
   }
 };
 </script>
 <style scoped>
-.Badge_logo {
+.Badge_logo{
   width: 12px;
   height: 12px;
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  cursor: pointer;
+  padding: 0;
+  position: relative;
+  top: -9px;
+  left: -4px;
+  border:none;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -111,12 +140,6 @@ export default {
 .tip_A{
   width: 331px;
   height: 254px;
-  display: inline-block;
-  position: absolute;
-  top: 20px;
-  right:10px;
-  z-index: 1;
-  cursor: pointer;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
