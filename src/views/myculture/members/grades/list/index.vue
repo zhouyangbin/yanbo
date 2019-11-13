@@ -486,7 +486,7 @@ hr.dash {
   z-index: 2;
   position: absolute;
   height: 100%;
-  left: 50%;
+  left: 32%;
   transform: translate(-50%, -50%);
   top: 50%;
 }

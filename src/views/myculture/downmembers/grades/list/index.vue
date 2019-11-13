@@ -277,7 +277,19 @@
           <el-table-column
             prop="stage_name"
             :label="constants.LABEL_STATUS"
-          ></el-table-column>
+          >
+            <template slot-scope="scope">
+              <div class="reject_status" v-if="scope.row.reject_status == 1">
+                <div>{{ constants.REJECT }}</div>
+              </div>
+              <div class="complain_status" v-if="scope.row.reject_status == 2">
+                <div>{{ constants.APPEAL }}</div>
+              </div>
+              <div v-if="scope.row.reject_status == 0">
+                {{ scope.row.stage_name }}
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS">
             <template slot-scope="scope">
               <el-button
@@ -324,7 +336,8 @@ import {
   LEADER_SOCRE,
   LABEL_STATUS,
   OPERATIONS,
-  HIGHLV_STATUS
+  HIGHLV_STATUS,
+  REJECT,APPEAL
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
@@ -392,7 +405,8 @@ export default {
         LEADER_SOCRE,
         LABEL_STATUS,
         OPERATIONS,
-        HIGHLV_STATUS
+        HIGHLV_STATUS,
+        REJECT,APPEAL
       }
     };
   },
@@ -559,6 +573,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@mixin target-metro {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
 .my-grade-list .content-container {
   padding: 20px;
 }
@@ -642,5 +661,47 @@ hr.dash {
   color: #adadad;
   letter-spacing: 0.17px;
   padding: 0 5px;
+}
+.reject_status div {
+  border-radius: 20px;
+  border: solid 2px #e94a2d;
+  color: #e94a2d;
+  width: 60px;
+  transform: rotateZ(-12deg);
+}
+.complain_status,
+.reject_status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  left: 32%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
+@include target-metro {
+  .complain_status,
+  .reject_status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 100%;
+  }
+}
+.complain_status div {
+  border-radius: 20px;
+  border: solid 2px #46beeb;
+  color: #46beeb;
+  width: 60px;
+  transform: rotateZ(-12deg);
 }
 </style>
