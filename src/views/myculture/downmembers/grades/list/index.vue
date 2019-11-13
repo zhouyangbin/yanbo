@@ -274,10 +274,7 @@
             prop="highlevel_status_name"
             :label="constants.HIGHLV_STATUS"
           ></el-table-column>
-          <el-table-column
-            prop="stage_name"
-            :label="constants.LABEL_STATUS"
-          >
+          <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
             <template slot-scope="scope">
               <div class="reject_status" v-if="scope.row.reject_status == 1">
                 <div>{{ constants.REJECT }}</div>
@@ -337,7 +334,8 @@ import {
   LABEL_STATUS,
   OPERATIONS,
   HIGHLV_STATUS,
-  REJECT,APPEAL
+  REJECT,
+  APPEAL
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
@@ -406,7 +404,8 @@ export default {
         LABEL_STATUS,
         OPERATIONS,
         HIGHLV_STATUS,
-        REJECT,APPEAL
+        REJECT,
+        APPEAL
       }
     };
   },
