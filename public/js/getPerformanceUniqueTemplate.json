@@ -97,7 +97,7 @@
             "weight":20,
             "template_columns":[
                 {
-                    "weights":10,
+                    "weights":20,
                     "target":"指标名称",
                     "content":"工作指标内容",
                     "metrics":[

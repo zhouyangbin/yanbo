@@ -43,8 +43,7 @@
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
                       <template slot="append"
-                        >%</template
-                      >
+                        >%</template>
                     </el-input>
                   </el-form-item>
                 </template>
@@ -273,10 +272,16 @@ export default {
       import("@/components/modules/employee/targetDetailsHeader/Index")
   },
   methods: {
+    /**
+     * 计算当前table的长度
+     */
     getTableLen(index) {
       return this.allTarget[index].table.length;
     },
-    // 小计
+    /**
+     * 小计，计算出每个维度用户输入的总权重
+     * @param type 计算的维度
+     */
     handleSubTotal(type) {
       let subTotal = 0;
       this.allTarget.forEach(v => {
@@ -290,6 +295,9 @@ export default {
       });
       return subTotal;
     },
+    /**
+     * 改变table的表头
+     */
     changeLabel(h, { column }) {
       return h("div", [
         h("span", column.label),
@@ -301,6 +309,9 @@ export default {
         h("span", "项）")
       ]);
     },
+    /**
+     * 得到页面头部的用户信息
+     */
     getUserInfo() {
       let data = {
         performance_id: this.$route.params.id,
@@ -340,6 +351,9 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 得到设定的维度信息
+     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
@@ -348,6 +362,9 @@ export default {
       };
       getUniqueTemplate(data)
         .then(res => {
+          /**
+           * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
+           */
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
@@ -388,7 +405,12 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 点击确认、暂存、返回时向后端传递参数
+     * @returns postData 向后端传递的参数对象
+     */
     handleSubmitData() {
+      //TODO 后端修改了请求参数，需要按照新接口文档进行修改
       let work = {};
       let team = {};
       this.allTarget.forEach(v => {
@@ -401,12 +423,21 @@ export default {
       });
       let postData = {
         work: work,
-        team: team
+        team: team,
+        performance_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid
       };
       return postData;
     },
+    /**
+     * 点击提交按钮
+     */
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
+      // refs 取到每个表单的ref
+      // total 验证通过的表单数量
+      // err validate返回的错误信息
+      // flag 验证通过flag为0，验证未通过flag为1
       let refs = Object.keys(this.$refs);
       let total = 0;
       let err = "";
@@ -424,7 +455,8 @@ export default {
           let location = err[0].split(".");
           let line = 0;
           let content = "";
-          // 未填项为权重、指标名称、具体工作中的一项
+          // 长度 === 3：未填项为权重、指标名称、具体工作中的一项
+          // 长度 === 5: 为填项为衡量标准中的某一项
           if (location.length === 3) {
             if (location[2] === "weights") {
               content = "权重";
@@ -443,6 +475,7 @@ export default {
           return false;
         }
       }
+      // 验证每个维度填写的权重之和是否等于该维度模版中的总权重
       for (let i = 0; i < this.allTarget.length; i++) {
         if (
           this.allTarget[i].weight !==
@@ -454,6 +487,7 @@ export default {
           return false;
         }
       }
+      // 表单及权重验证通过进行二次弹窗，点击确定才会发送请求
       if (total === refs.length) {
         this.$confirm("是否确认提交指标?", "提示", {
           confirmButtonText: "确定",
@@ -477,14 +511,19 @@ export default {
           .catch(() => {});
       }
     },
+    /**
+     * 点击暂存按钮，不需要进行验证，只需要把数据发送给后端，成功时提示暂存成功
+     */
     temporaryMemory() {
-      // 向后端发送请求
       postSaveDraft(this.$route.params.uid, this.handleSubmitData())
         .then(res => {
           this.$message({ type: "success", message: "暂存成功" });
         })
         .catch(() => {});
     },
+    /**
+     * 点击返回按钮，不需要进行验证，成功时回到我的评分列表页
+     */
     returnList() {
       postSaveDraft(this.$route.params.uid, this.handleSubmitData())
         .then(res => {
@@ -492,6 +531,9 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 点击添加考核项按钮
+     */
     addTarget(index) {
       let data = {
         performance_id: this.$route.params.id,
@@ -501,6 +543,9 @@ export default {
         this.allTarget[index].table.push(res[0]);
       });
     },
+    /**
+     * 删除考核项按钮
+     */
     deleteTarget(index, rowIndex) {
       this.allTarget[index].table.splice(rowIndex, 1);
     }

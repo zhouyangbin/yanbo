@@ -64,6 +64,9 @@ export default {
     close() {
       this.$emit("close");
     },
+    /**
+     * 得到审批记录的数据
+     */
     getExamineDetail() {
       let data = {
         workcode: this.workCode
@@ -86,6 +89,9 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 区分状态显示
+     */
     showStatus(status) {
       let state = "";
       switch (status) {
@@ -107,6 +113,9 @@ export default {
       }
       return state;
     },
+    /**
+     * 根据不同的状态加载不同的标签类型
+     */
     showType(status) {
       let type = "";
       switch (status) {

@@ -61,6 +61,9 @@ export default {
     close() {
       this.$emit("close");
     },
+    /**
+     * 下载模版按钮
+     */
     downloadTemplate() {
       getTargetTemplate(this.$route.params.uid)
         .then(res => {
@@ -68,7 +71,11 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 上传指标成功
+     */
     uploadSuccess(response, file, fileList) {
+      //TODO 待修改
       if (
         response &&
         response.data &&
@@ -88,7 +95,11 @@ export default {
       }
       console.log(response, file, fileList);
     },
+    /**
+     * 上传指标失败
+     */
     uploadError(err, file, fileList) {
+      // TODO 待修改
       const errObj = JSON.parse(err.message);
       // this.tableData = errObj.data
       // this.showTable = true

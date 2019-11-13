@@ -42,6 +42,9 @@ export default {
     close() {
       this.$emit("close");
     },
+    /**
+     * 同意该指标
+     */
     submitAgreeContent() {
       let postData = {
         performance_user_id: this.$route.params.id,

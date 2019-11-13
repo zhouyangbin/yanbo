@@ -89,6 +89,9 @@ export default {
       import("@/components/modules/employee/checkExamineDetail/index")
   },
   methods: {
+    /**
+     * 得到当前下级用户的信息
+     */
     getUserInfo() {
       let data = {
         performance_id: "",
@@ -128,6 +131,9 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 得到当前下级的指标
+     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: "",
@@ -176,26 +182,47 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * 点击同意
+     */
     agreeTarget() {
       this.isAgreeDialog = true;
     },
+    /**
+     * 关闭同意弹窗
+     */
     closeAgreeDialog() {
       this.isAgreeDialog = false;
     },
+    /**
+     * 点击待共识
+     */
     rejectTarget() {
       this.isRejectDialog = true;
     },
+    /**
+     * 关闭待共识弹窗
+     */
     closeRejectDialog() {
       this.isRejectDialog = false;
     },
+    /**
+     * 点击返回下属评分列表，回到下属列表页
+     */
     returnGradeList() {
       this.$router.push(
         PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
       );
     },
+    /**
+     * 点击查看审批记录
+     */
     checkExamine() {
       this.isExamineDialog = true;
     },
+    /**
+     * 关闭审批记录
+     */
     closeExamine() {
       this.isExamineDialog = false;
     }
