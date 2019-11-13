@@ -499,7 +499,14 @@ export default {
         employee_name: this.memberForm.employee_name,
         type: this.$route.params.type
       }).then(res => {
-        const { total, data, overview, evaluation_name, end_time, edit_status } = res;
+        const {
+          total,
+          data,
+          overview,
+          evaluation_name,
+          end_time,
+          edit_status
+        } = res;
         this.total = total;
         this.tableData = data;
         this.evaluation_name = evaluation_name;
@@ -560,7 +567,7 @@ export default {
   },
   computed: {
     hasSelectedItem() {
-      return this.selectedArr.length > 0 && this.editStatus == 0 ;
+      return this.selectedArr.length > 0 && this.editStatus == 0;
     }
     // notAllowedBatch() {
     //   return this.selectedArr.some(
