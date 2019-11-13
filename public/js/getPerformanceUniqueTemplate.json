@@ -9,7 +9,7 @@
             "weight":20,
             "template_columns":[
                 {
-                    "weights":10,
+                    "weights":20,
                     "target":"指标名称",
                     "content":"工作指标内容",
                     "metrics":[
@@ -53,7 +53,7 @@
             "weight":80,
             "template_columns":[
                 {
-                    "weights":20,
+                    "weights":80,
                     "target":"我是指标一",
                     "content":"团队指标内容",
                     "metrics":[
@@ -97,7 +97,7 @@
             "weight":20,
             "template_columns":[
                 {
-                    "weights":10,
+                    "weights":20,
                     "target":"指标名称",
                     "content":"工作指标内容",
                     "metrics":[

@@ -43,8 +43,7 @@
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
                       <template slot="append"
-                        >%</template
-                      >
+                        >%</template>
                     </el-input>
                   </el-form-item>
                 </template>
@@ -352,6 +351,7 @@ export default {
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
+          console.log(res)
           if (isTeam) {
             let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
@@ -389,21 +389,34 @@ export default {
         .catch(() => {});
     },
     handleSubmitData() {
-      let work = {};
-      let team = {};
-      this.allTarget.forEach(v => {
-        if (v.basicType === "work") {
-          work = v;
-        }
-        if (v.basicType === "team") {
-          team = v;
-        }
-      });
-      let postData = {
-        work: work,
-        team: team
-      };
-      return postData;
+      let init = this.allTarget
+      let team = [];
+      let work = [];
+
+      for( var i = 0; i < init.length - 1; i++ ){
+          let tableLen = init[i].table;
+          for( var r = 0; r < tableLen.length; r++ ){
+            let metrics = tableLen[r].metrics;
+            let n = {};
+            for( var l = 0; l < metrics.length; l++ ){
+              n[ metrics[ l ].key ] = metrics[ l ].content;
+            }
+            n.type   = init[ i ].type;
+            n.weight = init[ i ].weight;
+
+            if( init[i].basicType == "team" ){
+              team.push( n );
+            }else if( init[i].basicType == "work" ){
+              work.push( n );
+            }
+          }
+      }
+      let post = {
+        "team" : team,
+        "work" : work
+      }
+		  console.log( post )
+      return post;
     },
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
