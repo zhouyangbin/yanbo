@@ -10,7 +10,8 @@
         <br />
         <div class="leader-reason">
           <div class="label">上级评理由：</div>
-          <div style="white-space:normal;word-wrap:break-word;word-break:break-all"
+          <div
+            style="white-space:normal;word-wrap:break-word;word-break:break-all"
             :inner-html.prop="
               data.superior_case | linebreak | placeholder('无')
             "
