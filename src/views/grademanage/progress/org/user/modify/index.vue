@@ -125,6 +125,7 @@ import {
 export default {
   data() {
     return {
+      currentStatus: 0,
       isManager: false,
       basicInfo: {
         name: "",
@@ -201,6 +202,7 @@ export default {
   methods: {
     getMemberDetail() {
       getUserGradeContent(this.$route.params.uid).then(res => {
+        
         const {
           evaluation_type,
           advantage,
@@ -209,12 +211,14 @@ export default {
           name,
           workcode,
           _271_level,
-          _271_is_necessary
+          _271_is_necessary,
+          status
         } = res;
         this.isManager = evaluation_type == 2;
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = name;
+        this.currentStatus = status;
         this.basicInfo = {
           name: name,
           workcode: workcode
@@ -232,23 +236,23 @@ export default {
     },
     submit() {
       let postData = this.composePostData();
-      //不是高管，是BP  可以修改
-      if (!this.isManager) {
-        postData.reason = this.reason;
-        postBpModify(this.$route.params.uid, postData).then(res => {
-          this.$message({
-            message: "修改成功",
-            type: "success"
+      //不是高管，是BP并且在线下合议状态  可以修改
+      if (!this.isManager && this.currentStatus == 55) {
+          postData.reason = this.reason;
+          postBpModify(this.$route.params.uid, postData).then(res => {
+            this.$message({
+              message: "修改成功",
+              type: "success"
+            });
+            this.$router.go(-1);
           });
-          this.$router.go(-1);
-        });
       }
-      //是高管
       else {
         const valid = this.validate();
         if (!valid) {
           return;
         }
+        // 是高管
         if (this.forReject) {
           reevaluate(this.$route.params.uid, postData)
             .then(res => {
@@ -259,7 +263,9 @@ export default {
               this.$router.go(-1);
             })
             .catch(e => {});
-        } else {
+        }
+        // 申诉
+        else {
           postData.reason = this.reason;
           postManagerModify(this.$route.params.uid, postData)
             .then(res => {
