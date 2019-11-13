@@ -47,6 +47,9 @@ export default {
     close() {
       this.$emit("close");
     },
+    /**
+     * 驳回该指标，需进行验证
+     */
     submitRejectReason() {
       this.$refs.form.validate(valid => {
         if (valid) {
