@@ -202,7 +202,6 @@ export default {
   methods: {
     getMemberDetail() {
       getUserGradeContent(this.$route.params.uid).then(res => {
-        
         const {
           evaluation_type,
           advantage,
@@ -238,16 +237,15 @@ export default {
       let postData = this.composePostData();
       //不是高管，是BP并且在线下合议状态  可以修改
       if (!this.isManager && this.currentStatus == 55) {
-          postData.reason = this.reason;
-          postBpModify(this.$route.params.uid, postData).then(res => {
-            this.$message({
-              message: "修改成功",
-              type: "success"
-            });
-            this.$router.go(-1);
+        postData.reason = this.reason;
+        postBpModify(this.$route.params.uid, postData).then(res => {
+          this.$message({
+            message: "修改成功",
+            type: "success"
           });
-      }
-      else {
+          this.$router.go(-1);
+        });
+      } else {
         const valid = this.validate();
         if (!valid) {
           return;
