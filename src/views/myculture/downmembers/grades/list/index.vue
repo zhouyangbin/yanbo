@@ -578,7 +578,7 @@ export default {
   },
   computed: {
     hasSelectedItem() {
-      return this.selectedArr.length > 0 && this.editStatus == 0;
+      return this.selectedArr.length > 0;
     }
     // notAllowedBatch() {
     //   return this.selectedArr.some(
