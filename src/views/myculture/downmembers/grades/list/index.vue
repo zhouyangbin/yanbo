@@ -438,9 +438,9 @@ export default {
     selectionChange(s) {
       // console.log(formatTime(new Date()))
       // this.selectedArr = s;
-      
-      for(let i = 0; i < s.length; i++) {
-        if(s[i].status != 50) {
+
+      for (let i = 0; i < s.length; i++) {
+        if (s[i].status != 50) {
           this.$alert("所选隔级中存在未在隔级评阶段的员工！");
           this.$refs.tableData.clearSelection();
         } else {
