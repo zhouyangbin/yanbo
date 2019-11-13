@@ -440,7 +440,8 @@ export default {
       // this.selectedArr = s;
 
       for (let i = 0; i < s.length; i++) {
-        if (s[i].status != 50) {
+        if (s[i].stage != 50) {
+          console.log(s[i]);
           this.$alert("所选隔级中存在未在当前阶段的员工！");
           this.$refs.tableData.clearSelection();
         } else {
