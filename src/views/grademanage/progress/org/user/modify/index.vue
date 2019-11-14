@@ -201,6 +201,7 @@ export default {
   methods: {
     getMemberDetail() {
       getUserGradeContent(this.$route.params.uid).then(res => {
+        console.log(res);
         const {
           evaluation_type,
           advantage,
@@ -210,13 +211,13 @@ export default {
           workcode,
           _271_level,
           _271_is_necessary,
-          stage
+          status
         } = res;
         this.isManager = evaluation_type == 2;
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = name;
-        this.currentStatus = stage;
+        this.currentStatus = status;
         this.basicInfo = {
           name: name,
           workcode: workcode
@@ -235,7 +236,7 @@ export default {
     submit() {
       let postData = this.composePostData();
       //不是高管，是BP并且在线下合议状态  可以修改
-      if (!this.isManager && this.currentStatus == 55) {
+      if (!this.isManager && this.currentStatus == 45) {
         postData.reason = this.reason;
         postBpModify(this.$route.params.uid, postData).then(res => {
           this.$message({
