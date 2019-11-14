@@ -78,7 +78,7 @@ export default {
   methods: {},
   created() {
     let data = {
-      performance_id: thsi.performanceId,
+      performance_id: this.performanceId,
       type: this.grade
     };
     getMyUnderLowerHeader(data)

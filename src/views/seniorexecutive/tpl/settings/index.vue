@@ -11,6 +11,7 @@
               :props="filterProps"
               :options="orgTree"
               :show-all-levels="false"
+              @change="handleChange"
             ></el-cascader>
           </el-form-item>
           <el-form-item>
@@ -77,7 +78,7 @@
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="page"
           :page-sizes="[10, 20, 50]"
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
@@ -166,17 +167,17 @@ export default {
       tplMeasures: [],
       orgTree: [],
       indicatorTypes: [],
-      currentPage: 1,
+      page: 1,
+      perPage: 10,
       total: 0,
       infoType: "add",
       showDialog: false,
       tipsText: "是否确认删除模板？",
       performanceId: 0,
       showConfirmDialog: false,
-      department_ids: "", // 数组还是字符串，需要跟后台确定一下
-      canCreateTpl: true,
+      department_ids: [],
+      canCreateTpl: true, // to do 是否有 新增模板的权限
       tableData: [],
-      initData: {},
       constants: {
         LABEL_SELECT_DIVISION,
         ADD_NEW_TPL,
@@ -199,31 +200,30 @@ export default {
       ]
     };
   },
-  watch: {
-    filterForm: {
-      handler: function(v) {
-        let filterData = {
-          page: 1,
-          department_ids: v.dp
-        };
-        this.currentPage = 1;
-        this.getTplList(filterData);
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   methods: {
+    handleChange(value) {
+      this.department_ids = value;
+      this.page = 1;
+      this.getTplList();
+    },
+    /**
+     * 新增模板和修改模板 确定按钮
+     */
     tplDialog() {
       this.showDialog = false;
-      this.getTplList({});
+      this.getTplList();
     },
     filterNode(value, data) {
       if (!value) return true;
       return data.department_name.indexOf(value) !== -1;
     },
-    getTplList(getData) {
-      getAdminTpls(getData)
+    getTplList() {
+      let filterData = {
+        page: this.page,
+        perPage: this.perPage,
+        department_ids: this.department_ids
+      };
+      getAdminTpls(filterData)
         .then(res => {
           const { total, data } = res;
           this.tableData = data;
@@ -244,11 +244,12 @@ export default {
       this.showDialog = false;
     },
     handleCurrentChange(val) {
-      // 分页
-      this.currentPage = val;
+      this.page = val;
+      this.getTplList();
     },
     handleSizeChange(val) {
-      this.currentPage = val;
+      this.perPage = val;
+      this.getTplList();
     },
     updateTpl(row) {
       this.infoType = "modify";
@@ -273,7 +274,7 @@ export default {
     }
   },
   created() {
-    this.getTplList({});
+    this.getTplList();
     getPerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
