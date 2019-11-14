@@ -175,7 +175,7 @@ export default {
       tipsText: "是否确认删除模板？",
       performanceId: 0,
       showConfirmDialog: false,
-      department_ids: [],
+      department_ids: "",
       canCreateTpl: true, // to do 是否有 新增模板的权限
       tableData: [],
       constants: {
@@ -202,7 +202,7 @@ export default {
   },
   methods: {
     handleChange(value) {
-      this.department_ids = value;
+      this.department_ids = value[1];
       this.page = 1;
       this.getTplList();
     },
@@ -221,7 +221,7 @@ export default {
       let filterData = {
         page: this.page,
         perPage: this.perPage,
-        department_ids: this.department_ids
+        department_ids: this.department_ids.split(",")
       };
       getAdminTpls(filterData)
         .then(res => {
