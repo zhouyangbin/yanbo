@@ -1,5 +1,5 @@
 <template>
-  <div class="lower-level">
+  <div class="partition-level">
     <section>
       <div class="filter-box" v-show="grade === 'sub'">
         <div class="filter-title">
@@ -9,7 +9,7 @@
           :inline="true"
           ref="filterForm"
           :model="filterForm"
-          class="demo-form-inline"
+          class="demo-form-inline screening-form"
         >
           <el-form-item prop="name">
             <el-input
@@ -43,6 +43,45 @@
             <el-button @click="resetForm('filterForm')">清空</el-button>
           </el-form-item>
         </el-form>
+        <el-table :data="lowerList" style="width: 100%">
+          <el-table-column prop="workcode" label="工号" width="100">
+          </el-table-column>
+          <el-table-column prop="name" label="姓名">
+            <template slot-scope="scope">
+              <span class="grade-name">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="sub_department_name"
+            :show-overflow-tooltip="true"
+            label="大部门/分校"
+          >
+          </el-table-column>
+          <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
+          <el-table-column prop="isolation_name" label="隔级">
+          </el-table-column>
+          <el-table-column prop="self_score" label="自评分"> </el-table-column>
+          <el-table-column prop="superior_score" label="复评分">
+          </el-table-column>
+          <el-table-column prop="culture" label="文化评分"> </el-table-column>
+          <el-table-column prop="final" label="最终成绩"> </el-table-column>
+          <el-table-column prop="score_tag" label="标签分布"> </el-table-column>
+          <el-table-column prop="stage" label="状态">
+            <template slot-scope="scope">
+              <span class="grade-stage">{{ scope.row.stage }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="hrbp_name" label="操作">
+            <template slot-scope="scope">
+              <div class="grade-operation" @click="viewDetail(scope.row)">
+                详情
+              </div>
+              <div class="grade-operation" @click="viewDetail(scope.row)">
+                处理申述
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </section>
     <el-row type="flex" justify="end">
@@ -56,7 +95,7 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { postMyUnderLower, getAdminTagTypes } from "@/constants/API";
+import { getMyUnderLower, getAdminTagTypes } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import {
   LABEL_EMPTY,
@@ -96,10 +135,14 @@ export default {
         stage: "",
         score_tag: ""
       },
-      tagOptions: []
+      tagOptions: [],
+      lowerList: []
     };
   },
   methods: {
+    viewDetail(data) {
+      console.log(row);
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
@@ -114,8 +157,9 @@ export default {
         stage: this.filterForm.stage,
         score_tag: this.filterForm.score_tag
       };
-      postMyUnderLower(data).then(res => {
-        this.lowerList = res;
+      getMyUnderLower(data).then(res => {
+        this.total = res.total;
+        this.lowerList = res.data;
       });
     }
   },
@@ -129,4 +173,28 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.partition-level {
+  background-color: #fff;
+  .filter-box {
+    padding: 24px;
+    .filter-title {
+      color: #303133;
+      .filter-number {
+        margin-left: 6px;
+        font-size: 14px;
+        color: #909399;
+      }
+    }
+    .screening-form {
+      margin-top: 24px;
+      .el-form-item {
+        margin-bottom: 16px;
+        .el-form-item__content {
+          line-height: 32px;
+        }
+      }
+    }
+  }
+}
+</style>

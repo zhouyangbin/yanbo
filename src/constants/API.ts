@@ -518,5 +518,10 @@ export const deletePerformanceUser = (performance_id: String, params: Object) =>
     params
   );
 // 高管绩效 我的直属下级列表
-export const postMyUnderLower = (params: Object) =>
-  sendPost(`/executive-performance/web/directly/under-lower`, params);
+export const getMyUnderLower = (params: Object) =>
+  // sendGet(`/executive-performance/web/directly/under-lower`, params);
+  sendGet(`/js/getMyUnderLower.json`, params);
+
+export const getMyIsolationUnderLower = (params: Object) =>
+  // sendGet(`/executive-performance/web/isolation/under-lower`, params)
+  sendGet("/js/getMyIsolationUnderLower.json", params);

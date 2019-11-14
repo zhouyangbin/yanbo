@@ -30,7 +30,7 @@
         <div class="time-line-sign" data="12月30日"></div>
       </div>
     </section>
-    <section>
+    <section class="content-container">
       <el-radio-group class="group-list" v-model="grade" @change="changeGrade">
         <el-radio-button label="sub">我的直属下级</el-radio-button>
         <el-radio-button label="nextSub">我的隔级下属</el-radio-button>
@@ -83,6 +83,11 @@ export default {
   created() {}
 };
 </script>
+<style scoped>
+.assessment-detail .group-list >>> .el-radio-button__inner {
+  border: none;
+}
+</style>
 <style lang="scss" scoped>
 .assessment-detail {
   color: #303133;
