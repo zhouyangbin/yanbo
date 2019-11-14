@@ -201,7 +201,6 @@ export default {
   methods: {
     getMemberDetail() {
       getUserGradeContent(this.$route.params.uid).then(res => {
-        console.log(res);
         const {
           evaluation_type,
           advantage,
