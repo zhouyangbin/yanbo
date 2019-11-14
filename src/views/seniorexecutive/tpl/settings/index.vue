@@ -50,10 +50,11 @@
           ></el-table-column>
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="executive_type_text"
+            prop="executive_types_text"
             :label="constants.ORGANIZATION_DEPARTMENT_MEMBER_TYPE"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="performance_indicator_types_text"
             :label="constants.INDICATOR_TYPE_AND_PROPORTION"
           ></el-table-column>
@@ -267,7 +268,6 @@ export default {
       deleteTpls(this.performanceId)
         .then(res => {
           this.showConfirmDialog = false;
-          debugger;
         })
         .catch(e => {});
     }
