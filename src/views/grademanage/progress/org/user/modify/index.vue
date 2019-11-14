@@ -249,8 +249,7 @@ export default {
         if (!valid) {
           return;
         }
-        // 非高管 申诉
-        if (!this.isManager) {
+        if (this.forReject) {
           reevaluate(this.$route.params.uid, postData)
             .then(res => {
               this.$message({
@@ -260,9 +259,7 @@ export default {
               this.$router.go(-1);
             })
             .catch(e => {});
-        }
-        // 高管
-        else {
+        } else {
           postData.reason = this.reason;
           postManagerModify(this.$route.params.uid, postData)
             .then(res => {
