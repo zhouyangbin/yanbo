@@ -250,8 +250,8 @@ export default {
         if (!valid) {
           return;
         }
-        // 是高管
-        if (this.forReject) {
+        // 非高管 申诉
+        if (!this.isManager) {
           reevaluate(this.$route.params.uid, postData)
             .then(res => {
               this.$message({
@@ -262,7 +262,7 @@ export default {
             })
             .catch(e => {});
         }
-        // 申诉
+        // 高管
         else {
           postData.reason = this.reason;
           postManagerModify(this.$route.params.uid, postData)
