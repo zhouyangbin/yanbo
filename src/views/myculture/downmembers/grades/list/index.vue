@@ -699,7 +699,7 @@ hr.dash {
   height: 100%;
   left: 32%;
   transform: translate(-50%, -50%);
-  top: 58%;
+  top: 50%;
 }
 @include target-metro {
   .complain_status,
