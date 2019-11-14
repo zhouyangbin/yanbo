@@ -63,7 +63,7 @@
                 >查看详情</el-button
               >
             </div>
-            <el-table style="width: 100%" :data="tableData">
+            <el-table stripe style="width: 100%" :data="tableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
               <el-table-column min-width="110" label="自评分数/上级分数">
@@ -296,7 +296,7 @@
                 >查看详情</el-button
               >
             </div>
-            <el-table :data="stafftableData">
+            <el-table stripe style="width: 100%" :data="stafftableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
               <el-table-column min-width="110" label="自评分数/上级分数">

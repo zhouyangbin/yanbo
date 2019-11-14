@@ -12,7 +12,7 @@
         <el-button
           v-if="has_history"
           @click="goHistory"
-          style="align-self:flex-start"
+          style="align-self:flex-start;margin-right: 170px;"
           type="primary"
           >{{ constants.CHANGE_RECORDS }}</el-button
         >
