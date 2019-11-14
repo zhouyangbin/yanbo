@@ -147,6 +147,11 @@
                 </template>
               </el-table-column>
               <el-table-column prop="stage_status" label="状态" align="center">
+                <template slot-scope="scope">
+                  <span>
+                    {{ get_stage_status(scope.row.stage) }}
+                  </span>
+                </template>
               </el-table-column>
               <el-table-column prop="ops" label="操作">
                 <template slot-scope="scope">
@@ -439,6 +444,12 @@ export default {
           });
         })
         .catch(e => {});
+    },
+    get_stage_status(status) {
+      let status_text = this.constants.ENUM_PERFORMANCE_FINISH.filter(
+        item => item.key == status
+      )[0].value;
+      return status_text;
     }
   },
   computed: {},
