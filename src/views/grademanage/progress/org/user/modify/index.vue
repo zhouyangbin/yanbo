@@ -210,7 +210,7 @@ export default {
           workcode,
           _271_level,
           _271_is_necessary,
-          status
+          stage
         } = res;
         this.isManager = evaluation_type == 2;
         this.advantage = advantage;
