@@ -686,7 +686,7 @@ export default {
         top: 26px;
         width: 100%;
         content: attr(data);
-        color: #FF8519;
+        color: #ff8519;
         font-size: 12px;
       }
     }

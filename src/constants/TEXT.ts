@@ -809,3 +809,61 @@ export const DEFAULT_TABLE2521 = [
     isChildren: true
   }
 ];
+export const STAGEOPTIONS = [
+  {
+    label: "待导入目标",
+    value: 0
+  },
+  {
+    label: "指标填写中",
+    value: 1
+  },
+  {
+    label: "指标确认中",
+    value: 10
+  },
+  {
+    label: "指标已确认",
+    value: 20
+  },
+  {
+    label: "评分未开始",
+    value: 30
+  },
+  {
+    label: "自评中",
+    value: 40
+  },
+  {
+    label: "复评中",
+    value: 50
+  },
+  {
+    label: "隔级审核中",
+    value: 60
+  },
+  {
+    label: "总裁审核中",
+    value: 70
+  },
+  {
+    label: "已审核",
+    value: 80
+  },
+  {
+    label: "确认中（确认成绩）",
+    value: 90
+  },
+  {
+    label: "申诉中",
+    value: 100
+  },
+  {
+    label: "已确认",
+    value: 110
+  },
+  {
+    label: "已结束",
+    value: 120
+  }
+];

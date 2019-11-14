@@ -58,7 +58,10 @@ import {
   EXPORT_DETAILS,
   LABEL_DEPARTMENT
 } from "@/constants/TEXT";
-import { PATH_EMPLOYY_TEAM_GRADE_DETAIL, PATH_PERFORMANCE_TEAM_GRADE_DETAIL } from "@/constants/URL";
+import {
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_PERFORMANCE_TEAM_GRADE_DETAIL
+} from "@/constants/URL";
 import { getTeamGradeList } from "@/constants/API";
 import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 

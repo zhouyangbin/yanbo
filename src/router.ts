@@ -182,7 +182,8 @@ const router = new Router({
         {
           path: PATH_PERFORMANCE_TEAM_GRADE_DETAIL(),
           components: {
-            default: () => import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),
+            default: () =>
+              import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
