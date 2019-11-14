@@ -87,7 +87,7 @@
               style="width: 100%"
               :header-cell-style="{ background: '#eef1f6' }"
             >
-              <el-table-column prop="id" label="id"></el-table-column>
+              <el-table-column prop="workcode" label="工号"></el-table-column>
               <el-table-column prop="name" :label="constants.LABEL_NAME">
                 <template slot-scope="scope">
                   <el-row type="flex" align="middle">
