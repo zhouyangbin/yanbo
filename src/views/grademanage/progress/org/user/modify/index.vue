@@ -51,7 +51,7 @@
           <div class="mark-label">
             为{{ employee_name }}的{{
               scores[selectGradeItem].question_name
-            }}项目评分
+            }} 项目评分
           </div>
           <br />
           <grade-slider
