@@ -31,24 +31,24 @@
       </div>
     </section>
     <section class="content-container">
-      <el-radio-group class="group-list" v-model="grade" @change="changeGrade">
-        <el-radio-button label="sub">我的直属下级</el-radio-button>
-        <el-radio-button label="nextSub">我的隔级下属</el-radio-button>
+      <el-radio-group class="group-list" v-model="grade">
+        <el-radio-button label="superior">我的直属下级</el-radio-button>
+        <el-radio-button label="isolation">我的隔级下属</el-radio-button>
       </el-radio-group>
       <lower-level
         :performanceId="performanceId"
-        v-show="grade === 'sub'"
+        v-show="grade === 'superior'"
       ></lower-level>
       <partition-level
         :performanceId="performanceId"
-        v-show="grade === 'nextSub'"
+        v-show="grade === 'isolation'"
       ></partition-level>
     </section>
   </div>
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { postMyUnderLower } from "@/constants/API";
+import { postMyUnderLower, getMyUnderLowerHeader } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
@@ -71,16 +71,22 @@ export default {
           active: true
         }
       ],
-      grade: "sub",
+      grade: "superior",
       performanceId: this.$route.params.id
     };
   },
-  methods: {
-    changeGrade() {
-      console.log(this.grade);
-    }
-  },
-  created() {}
+  methods: {},
+  created() {
+    let data = {
+      performance_id: thsi.performanceId,
+      type: this.grade
+    };
+    getMyUnderLowerHeader(data)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {});
+  }
 };
 </script>
 <style scoped>

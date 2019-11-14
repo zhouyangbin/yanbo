@@ -1,0 +1,35 @@
+{
+  "0": {
+      "stage": "指标设定",
+      "date": "11月15日",
+      "writing": 100,
+      "confirming": 300
+  },
+  "1": {
+      "stage": "自评",
+      "date": "11月25日",
+      "self-assessment": 100
+  },
+  "2": {
+      "stage": "上级评分",
+      "date": "12月15日",
+      "re-evaluation": 100
+  },
+  "3": {
+      "stage": "隔级审核",
+      "date": "12月31日",
+      "auditing": 20
+  },
+  "4": {
+      "stage": "总裁审核",
+      "date": "12月31日",
+      "auditing": 20
+  },
+  "5": {
+      "stage": "结果确认",
+      "date": "12月31日",
+      "result-verification": 2,
+      "appeal": 1
+  },
+  "performance_name": "2020年组织部绩效考核"
+}

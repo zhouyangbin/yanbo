@@ -41,7 +41,7 @@
             :label="constants.TPL_NAME"
           ></el-table-column>
           <el-table-column
-            prop="department_text"
+            prop="departments_text"
             :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
           ></el-table-column>
           <el-table-column
@@ -54,7 +54,7 @@
             :label="constants.ORGANIZATION_DEPARTMENT_MEMBER_TYPE"
           ></el-table-column>
           <el-table-column
-            prop="performance_indicator_type_text"
+            prop="performance_indicator_types_text"
             :label="constants.INDICATOR_TYPE_AND_PROPORTION"
           ></el-table-column>
           <el-table-column :label="constants.LABEL_OPERATIONS">
@@ -96,6 +96,8 @@
       :tplFields="tplFields"
       :tplMeasures="tplMeasures"
       :orgTree="orgTree"
+      :indicatorTypes="indicatorTypes"
+      @confirm="tplDialog"
     ></tpl-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
@@ -133,7 +135,8 @@ import {
   getExecutiveTypes,
   getTplFields,
   getTplMeasures,
-  getOrganization
+  getOrganization,
+  getIndicatorTypes
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -161,6 +164,7 @@ export default {
       tplFields: [],
       tplMeasures: [],
       orgTree: [],
+      indicatorTypes: [],
       currentPage: 1,
       total: 0,
       infoType: "add",
@@ -209,6 +213,10 @@ export default {
     }
   },
   methods: {
+    tplDialog() {
+      this.showDialog = false;
+      this.getTplList({});
+    },
     filterNode(value, data) {
       if (!value) return true;
       return data.department_name.indexOf(value) !== -1;
@@ -289,6 +297,11 @@ export default {
     getOrganization()
       .then(res => {
         this.orgTree = res;
+      })
+      .catch(e => {});
+    getIndicatorTypes()
+      .then(res => {
+        this.indicatorTypes = res;
       })
       .catch(e => {});
   }
