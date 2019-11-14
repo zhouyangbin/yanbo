@@ -217,7 +217,7 @@ export default {
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = name;
-        this.currentStatus = status;
+        this.currentStatus = stage;
         this.basicInfo = {
           name: name,
           workcode: workcode
