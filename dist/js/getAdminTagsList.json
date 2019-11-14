@@ -1,0 +1,27 @@
+{
+    "status":200,
+    "message":"Success",
+    "data":{
+        "current_page":1,
+        "data":[
+            {
+                "id":1,
+                "tag_type":"2521",
+                "force_distribution":1,
+                "status":0,
+                "departments_text":"集团总部，集团总部-万怡挺，集团总部-白云峰",
+                "rule_text":"Top: 20% Middle: 50% Bottom: 30% (B+: 20% B-: 10% )"
+            }
+        ],
+        "first_page_url":"http://pingfen.test/executive-performance/admin/tags?page=1",
+        "from":1,
+        "last_page":1,
+        "last_page_url":"http://pingfen.test/executive-performance/admin/tags?page=1",
+        "next_page_url":null,
+        "path":"http://pingfen.test/executive-performance/admin/tags",
+        "per_page":20,
+        "prev_page_url":null,
+        "to":1,
+        "total":1
+    }
+}
