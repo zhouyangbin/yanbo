@@ -402,7 +402,7 @@ export default {
         cancelButtonText: "暂不提交"
       })
         .then(({ value }) => {
-          console.log(value);
+          //console.log(value);
           this.Allsubmit_send(value);
         })
         .catch(() => {});
@@ -417,7 +417,7 @@ export default {
           dangerouslyUseHTMLString: true,
           confirmButtonText: "提交",
           callback: action => {
-            console.log(123);
+            //console.log(123);
           },
           cancelButtonText: "暂不提交"
         }

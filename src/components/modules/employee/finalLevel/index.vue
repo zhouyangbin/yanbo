@@ -81,7 +81,7 @@ export default {
     getTagsRules() {
       return postAdminTagsRules(this.id, this.value, "superior")
         .then(res => {
-          console.log(res);
+          //console.log(res);
           this.levalLabelRules = res;
         })
         .catch(e => {});
@@ -97,7 +97,7 @@ export default {
         return this.value;
       },
       set: function(v) {
-        console.log(v);
+        //console.log(v);
         this.$emit("input", v);
       }
     },
@@ -106,7 +106,7 @@ export default {
         return this.label_id;
       },
       set: function(v) {
-        console.log(v);
+        //console.log(v);
         this.$emit("update", v);
       }
     }

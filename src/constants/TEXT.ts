@@ -193,6 +193,7 @@ export const DEFAULT_TABLE23221 = [
   {
     id: "1",
     name: "Top",
+    is_show: false,
     level: "S/A",
     range: -1,
     threshold: 20,
@@ -202,6 +203,7 @@ export const DEFAULT_TABLE23221 = [
   {
     id: "2",
     name: "Middle(50%)",
+    is_show: false,
     level: "B",
     range: 0,
     threshold: 50,
@@ -211,6 +213,7 @@ export const DEFAULT_TABLE23221 = [
   {
     parent_id: "2",
     name: "B+(自定义)",
+    is_show: false,
     level: "--",
     range: -1,
     threshold: 30,
@@ -221,6 +224,7 @@ export const DEFAULT_TABLE23221 = [
   {
     parent_id: "2",
     name: "B(自定义)",
+    is_show: false,
     level: "--",
     range: 0,
     threshold: 20,
@@ -231,6 +235,7 @@ export const DEFAULT_TABLE23221 = [
   {
     id: "3",
     name: "Bottom",
+    is_show: false,
     level: "--",
     range: 1,
     threshold: 30,
@@ -240,16 +245,18 @@ export const DEFAULT_TABLE23221 = [
   {
     parent_id: "3",
     name: "B-(自定义)",
+    is_show: false,
     level: "--",
     range: 0,
     threshold: 20,
     range_des: "20%",
-    computation_rule_name: "四舍五入取整数",
+    computation_rule_name: "四舍不五入取整数",
     isChildren: true
   },
   {
     parent_id: "3",
     name: "C/D(自定义)",
+    is_show: false,
     level: "C/D",
     range: 1,
     threshold: 10,

@@ -75,6 +75,7 @@
           </el-table-column>
           <!-- 是否强制分布 -->
           <el-table-column
+            v-if="2 < 1"
             prop="type"
             :label="constants.FORCED_DISTRIBUTION_OR_NOT"
             width="120"

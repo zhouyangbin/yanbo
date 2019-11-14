@@ -356,7 +356,7 @@ export default {
           })
             .then(() => {
               const postData = this.getPostData();
-              console.log(postData);
+              //console.log(postData);
               return postUserPerformance(this.$route.params.uid, postData)
                 .then(res => {
                   this.$message({

@@ -40,6 +40,11 @@
               ></el-input>
             </template>
           </el-table-column>
+          <el-table-column label="是否展示给员工" align="center">
+            <template slot-scope="scope">
+              <el-checkbox v-model="scope.row.is_show"></el-checkbox>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="level"
             label="对应等级"
@@ -60,7 +65,11 @@
           ></el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item :label="constants.FORCED_DISTRIBUTION_OR_NOT" prop="forced">
+      <el-form-item
+        v-if="2 < 1"
+        :label="constants.FORCED_DISTRIBUTION_OR_NOT"
+        prop="forced"
+      >
         <el-checkbox v-model="tplForm.forced"></el-checkbox>
       </el-form-item>
     </el-form>
@@ -150,7 +159,9 @@ export default {
       this.$emit("close");
     },
     submit() {
-      console.log(this.tplForm.forced);
+      this.table23221.find(item => {
+        item.is_show = item.is_show ? 1 : 0;
+      });
       let postData = {
         type: this.tplForm.tag_type,
         rules: this.table23221,
@@ -170,10 +181,11 @@ export default {
       let newInitData = JSON.parse(JSON.stringify(this.table23221));
       this.initData.rules.find((v, i) => {
         newInitData[i].name = v.name;
+        newInitData[i].is_show = v.is_show ? true : false;
       });
-      this.initData.forced
-        ? (this.tplForm.forced = true)
-        : (this.tplForm.forced = false);
+      this.initData.forced = 0;
+      //? (this.tplForm.forced = true)
+      //: (this.tplForm.forced = false);
       this.table23221 = newInitData;
     }
   },
