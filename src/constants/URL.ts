@@ -82,6 +82,9 @@ export const PATH_EMPLYEE_MY_DETAIL = (
 ) => `/employee/my/${orgID}/${id}`;
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
+// 组织部绩效 团队评分 详情
+export const PATH_PERFORMANCE_TEAM_GRADE_DETAIL = (id: String = ":id") =>
+  `/performance/team/${id}`;
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
   uid: String = ":uid"

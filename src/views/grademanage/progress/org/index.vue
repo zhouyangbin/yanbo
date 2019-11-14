@@ -694,9 +694,7 @@ export default {
       import("@/components/modules/grademanage/progress/org/import/Dialog.vue")
     ),
     "time-setting": AsyncComp(
-      import(
-        "@/components/modules/grademanage/progress/org/settings/TimeDialog.vue"
-      )
+      import("@/components/modules/grademanage/progress/org/settings/TimeDialog.vue")
     ),
     "info-dialog": AsyncComp(
       import("@/components/modules/grademanage/progress/org/info/Dialog.vue")

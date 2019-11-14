@@ -1,0 +1,185 @@
+<template>
+  <div class="assessment-detail">
+    <nav-bar :list="nav"></nav-bar>
+    <br />
+    <section class="content-container bg-white">
+      <div class="content-title">
+        <div>测试考核一</div>
+      </div>
+      <div class="list-timeline">
+        <div class="time-line active" data="填写中100/确认中300">指标设定</div>
+        <div class="time-line-sign active" data="11月15日"></div>
+        <div class="time-line-circle active">
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+          <div class="circle-list"></div>
+        </div>
+        <div class="time-line-sign active" data="11月18日"></div>
+        <div class="time-line active">自评</div>
+        <div class="time-line-sign active" data="11月23日"></div>
+        <div class="time-line">上级评分</div>
+        <div class="time-line-sign" data="11月30日"></div>
+        <div class="time-line">隔级审核</div>
+        <div class="time-line-sign" data="12月1日"></div>
+        <div class="time-line">总裁审核</div>
+        <div class="time-line-sign" data="12月18日"></div>
+        <div class="time-line">结果确认</div>
+        <div class="time-line-sign" data="12月30日"></div>
+      </div>
+    </section>
+    <section class="content-container">
+      <el-radio-group class="group-list" v-model="grade">
+        <el-radio-button label="superior">我的直属下级</el-radio-button>
+        <el-radio-button label="isolation">我的隔级下属</el-radio-button>
+      </el-radio-group>
+      <lower-level
+        :performanceId="performanceId"
+        v-show="grade === 'superior'"
+      ></lower-level>
+      <partition-level
+        :performanceId="performanceId"
+        v-show="grade === 'isolation'"
+      ></partition-level>
+    </section>
+  </div>
+</template>
+<script>
+import { AsyncComp } from "@/utils/asyncCom";
+import { postMyUnderLower, getMyUnderLowerHeader } from "@/constants/API";
+import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
+import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
+export default {
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "lower-level": () =>
+      import("@/components/modules/seniorexecutive/LowerLevel/index.vue"),
+    "partition-level": () =>
+      import("@/components/modules/seniorexecutive/LowerLevel/index.vue")
+  },
+  data() {
+    return {
+      nav: [
+        {
+          label: "团队评分",
+          href: PATH_EMPLOYEE_TEAM
+        },
+        {
+          label: "评分详情",
+          active: true
+        }
+      ],
+      grade: "superior",
+      performanceId: this.$route.params.id
+    };
+  },
+  methods: {},
+  created() {
+    let data = {
+      performance_id: this.performanceId,
+      type: this.grade
+    };
+    getMyUnderLowerHeader(data)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {});
+  }
+};
+</script>
+<style scoped>
+.assessment-detail .group-list >>> .el-radio-button__inner {
+  border: none;
+}
+</style>
+<style lang="scss" scoped>
+.assessment-detail {
+  color: #303133;
+  .bg-white {
+    background-color: white;
+  }
+  .content-title {
+    font-size: 22px;
+    text-align: center;
+  }
+  .list-timeline {
+    display: flex;
+    padding: 40px 30px;
+    .time-line {
+      position: relative;
+      width: 15%;
+      padding: 6px 0 30px 0;
+      text-align: center;
+      border-bottom: 4px solid #e6e9f0;
+      &::after {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 26px;
+        width: 100%;
+        content: attr(data);
+        color: #ff8519;
+        font-size: 12px;
+      }
+    }
+    .time-line.active {
+      border-bottom: 4px solid #38d0afff;
+    }
+    .time-line-sign {
+      position: relative;
+      top: 50px;
+      width: 12px;
+      height: 12px;
+      margin: 0 4px;
+      box-sizing: border-box;
+      border: 3px solid #e6e9f0ff;
+      border-radius: 50%;
+      &::after {
+        position: absolute;
+        left: -24px;
+        top: 14px;
+        width: 66px;
+        content: attr(data);
+        color: #909399ff;
+        font-size: 12px;
+      }
+    }
+    .time-line-sign.active {
+      border: 3px solid #38d0afff;
+      &::before {
+        position: absolute;
+        left: -6px;
+        top: -26px;
+        content: "\E79E";
+        font-family: "element-icons" !important;
+        font-size: 18px;
+        color: #38d0afff;
+      }
+    }
+    .time-line-circle {
+      min-width: 45px;
+      position: relative;
+      top: 47px;
+      left: 0;
+      .circle-list {
+        display: inline-block;
+        margin-right: 4px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #e6e9f0;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+    .time-line-circle.active {
+      .circle-list {
+        background-color: #38d0afff;
+      }
+    }
+  }
+}
+</style>

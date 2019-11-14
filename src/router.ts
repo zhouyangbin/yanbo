@@ -18,6 +18,7 @@ import {
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLYEE_MY_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_PERFORMANCE_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_MSG_MOBILE,
@@ -182,6 +183,14 @@ const router = new Router({
           }
         },
         {
+          path: PATH_PERFORMANCE_TEAM_GRADE_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
           path: PATH_EMPLYEE_MY_DETAIL(),
           components: {
             default: () => import("@/views/employee/my/index.vue"),
@@ -261,9 +270,7 @@ const router = new Router({
           path: PATH_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import(
-                "@/views/myculture/members/grades/details/history/index.vue"
-              ),
+              import("@/views/myculture/members/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -279,9 +286,7 @@ const router = new Router({
           path: PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import(
-                "@/views/myculture/downmembers/grades/details/history/index.vue"
-              ),
+              import("@/views/myculture/downmembers/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -334,9 +339,7 @@ const router = new Router({
           path: PATH_ASSESSMENT_DATAILS(),
           components: {
             default: () =>
-              import(
-                "@/views/seniorexecutive/grade/assessmentDetails/index.vue"
-              ),
+              import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
