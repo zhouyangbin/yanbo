@@ -83,12 +83,13 @@
         </el-table>
         <br />
         <el-pagination
+          v-if="total"
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="pageSize"
+          :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
@@ -138,8 +139,8 @@ export default {
         label: "department_name",
         children: "children"
       },
-      currentPage: 1,
-      pageSize: 10,
+      page: 1,
+      perPage: 10,
       total: 0,
       infoType: "add",
       showDialog: false,
@@ -221,14 +222,14 @@ export default {
      * 改变分页size
      */
     handleSizeChange(val) {
-      this.pageSize = val;
+      this.perPage = val;
       this.getAdminTagsList();
     },
     /**
      * 改变分页page
      */
     handleCurrentChange(val) {
-      this.currentPage = val;
+      this.page = val;
       this.getAdminTagsList();
     },
     updateTpl(row) {
@@ -240,8 +241,8 @@ export default {
     getAdminTagsList() {
       let data = {
         department_ids: this.evaluation_id,
-        page: this.currentPage,
-        perPage: this.pageSize
+        page: this.page,
+        perPage: this.perPage
       };
       getAdminTags(data)
         .then(res => {
