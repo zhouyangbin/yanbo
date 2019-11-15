@@ -42,7 +42,7 @@
             :label="constants.TPL_NAME"
           ></el-table-column>
           <el-table-column
-            prop="department_text"
+            prop="departments_text"
             :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
           ></el-table-column>
           <el-table-column
@@ -51,11 +51,12 @@
           ></el-table-column>
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="executive_type_text"
+            prop="executive_types_text"
             :label="constants.ORGANIZATION_DEPARTMENT_MEMBER_TYPE"
           ></el-table-column>
           <el-table-column
-            prop="performance_indicator_type_text"
+            :show-overflow-tooltip="true"
+            prop="performance_indicator_types_text"
             :label="constants.INDICATOR_TYPE_AND_PROPORTION"
           ></el-table-column>
           <el-table-column :label="constants.LABEL_OPERATIONS">
@@ -261,7 +262,7 @@ export default {
       deleteTpls(this.performanceId)
         .then(res => {
           this.showConfirmDialog = false;
-          debugger;
+          this.getTplList();
         })
         .catch(e => {});
     }

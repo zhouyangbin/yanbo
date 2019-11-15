@@ -404,8 +404,7 @@ export const postPerformanceTpl = (params: Object) =>
 
 // 高管绩效  绩效模板信息
 export const getPerformanceTpl = (id: String) =>
-  // sendGet(`/executive-performance/admin/templates/${id}`, { req_type: 1 });
-  sendGet(`/js/getPerformanceTpl.json`, { req_type: 1 });
+  sendGet(`/executive-performance/admin/templates/${id}`, { req_type: 1 });
 // 高管绩效  修改模板
 export const putPerformanceTpls = (id: String, params: Object) =>
   sendPut(`/executive-performance/admin/templates/${id}`, params);
