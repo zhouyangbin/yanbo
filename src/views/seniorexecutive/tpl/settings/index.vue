@@ -80,7 +80,7 @@
           @current-change="handleCurrentChange"
           :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="10"
+          :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
