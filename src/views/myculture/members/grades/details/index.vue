@@ -174,7 +174,7 @@ export default {
   mixins: [recommendMx],
   data() {
     return {
-      isHaveZero: false,
+      isZero: false,
       employee_name: "",
       rejectReason: "",
       appealReason: [],
@@ -379,11 +379,11 @@ export default {
         return;
       }
       for (let key = 1; key <= 4; key++) {
-        if (this.composePostData()[key].score === 0) {
-          this.isHaveZero = true;
+        if (this.composePostData()[key].score == 0) {
+          this.isZero = true;
         }
       }
-      if (this.isHaveZero) {
+      if (this.isZero) {
         this.$confirm("当前有0分项，是否提交?", "提示", {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
@@ -403,7 +403,7 @@ export default {
               .catch(e => {});
           })
           .catch(() => {
-            this.isHaveZero = false;
+            this.isZero = false;
           });
       } else {
         this.$confirm("是否确定提交, 是否继续?", "提示", {
