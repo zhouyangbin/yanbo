@@ -135,8 +135,8 @@ export default {
   data() {
     return {
       filterProps: {
-        value: "department_id",
-        label: "department_name",
+        value: "id",
+        label: "name",
         children: "children"
       },
       page: 1,

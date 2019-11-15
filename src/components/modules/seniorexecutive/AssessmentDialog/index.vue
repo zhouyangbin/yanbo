@@ -77,16 +77,18 @@
           ></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item label="绩效模板" prop="tag">
-        <div class="rule-name">{{ ruleForm.tag }}</div>
+      <el-form-item label="绩效模板">
+        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
+          {{ item.name }}
+        </div>
       </el-form-item>
-      <el-form-item label="标签规则" prop="templates">
+      <el-form-item label="标签规则">
         <div
           class="rule-name"
           v-for="item in ruleForm.templates"
           :key="item.id"
         >
-          <span>{{ item.templates }}</span>
+          {{ item.tag_type }}
         </div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
@@ -243,12 +245,12 @@ export default {
           // 获取选中事业部的绩效模板和标签规则
           getTagDepartments(getData)
             .then(res => {
-              this.tagType = res;
+              this.ruleForm.tag = res;
             })
             .catch(e => {});
           getTplDepartments(getData)
             .then(res => {
-              this.performanceTpl = res;
+              this.ruleForm.templates = res;
             })
             .catch(e => {});
         }
