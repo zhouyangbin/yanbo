@@ -4,24 +4,24 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/css/chunk-51b546f8.5f676a03.css"
   },
   {
-    "revision": "ab354217493196724ff5bd4dd895cdab",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getTagDetails.json"
-  },
-  {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "//pingfen-executive.chengjiukehu.com/robots.txt"
   },
   {
-    "revision": "199047902b806f80dd6a6a1217dd2c6d",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getTplDepartments.json"
+    "revision": "ee941943e3dcc695128b",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-51b546f8.ec847eda.js"
   },
   {
-    "revision": "0dc54d5844cf5c90356d",
-    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-57b17a5a.7119fec5.css"
+    "revision": "97f7672da09759caec9b",
+    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-0111ed3f.7e4da948.css"
   },
   {
     "revision": "d8ab46ba4cf3617fef09",
     "url": "//pingfen-executive.chengjiukehu.com/css/chunk-0154b341.abfaf7b3.css"
+  },
+  {
+    "revision": "d8ab46ba4cf3617fef09",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-0154b341.5b3b51ad.js"
   },
   {
     "revision": "8da8228fed3e1c423fd1",
@@ -368,8 +368,8 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/js/chunk-3cd4c72f.178a0763.js"
   },
   {
-    "revision": "0df268fcccc96a305224",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-3fa1245d.a4a17b3a.js"
+    "revision": "791c0ed291e883bf1ec5",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-3fa1245d.43ee2125.js"
   },
   {
     "revision": "76ac2d5568e86b532fd7",
@@ -460,16 +460,16 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/js/chunk-50673718.d145ff48.js"
   },
   {
-    "revision": "2ba998deca423c4ee060",
-    "url": "//pingfen-executive.chengjiukehu.com/js/app.3b54c195.js"
+    "revision": "f409704178712235dde4",
+    "url": "//pingfen-executive.chengjiukehu.com/js/app.c8960a63.js"
   },
   {
-    "revision": "ee941943e3dcc695128b",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-51b546f8.ec847eda.js"
+    "revision": "97f7672da09759caec9b",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-0111ed3f.2a0af1df.js"
   },
   {
-    "revision": "d8ab46ba4cf3617fef09",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-0154b341.5b3b51ad.js"
+    "revision": "0dc54d5844cf5c90356d",
+    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-57b17a5a.7119fec5.css"
   },
   {
     "revision": "0dc54d5844cf5c90356d",
@@ -864,16 +864,8 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/img/blank_sign.3c8dda7e.png"
   },
   {
-    "revision": "26ec358cb70f7d4108b8582bcc697771",
+    "revision": "7a22819e8964557511b464fc9d53e6d8",
     "url": "//pingfen-executive.chengjiukehu.com/index.html"
-  },
-  {
-    "revision": "822e96bd1397553ed75d83d8be1bac68",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getAdminPerformancesList.json"
-  },
-  {
-    "revision": "a5fa16b7af14d65133af2b44daa36e4a",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getAdminTagTypesRules.json"
   },
   {
     "revision": "9a5e01a96d8bb9649d511962165fb287",
@@ -884,43 +876,51 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/js/getAdminTagTypes.json"
   },
   {
-    "revision": "215e79fededcf79afe3537ca0a1515b9",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getMyUnderLowerHeader.json"
+    "revision": "822e96bd1397553ed75d83d8be1bac68",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getAdminPerformancesList.json"
   },
   {
-    "revision": "e2ad961cdf9554d90c0755cf4d6067de",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getMyIsolationUnderLower.json"
+    "revision": "a5fa16b7af14d65133af2b44daa36e4a",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getAdminTagTypesRules.json"
   },
   {
     "revision": "f6f9e6e33517d70fb19ba8f8d152ba76",
     "url": "//pingfen-executive.chengjiukehu.com/js/getMyUnderLower.json"
   },
   {
-    "revision": "89daf5fa7f863aa1749c631514008edc",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getPerformanceUser.json"
+    "revision": "e2ad961cdf9554d90c0755cf4d6067de",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getMyIsolationUnderLower.json"
+  },
+  {
+    "revision": "215e79fededcf79afe3537ca0a1515b9",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getMyUnderLowerHeader.json"
   },
   {
     "revision": "176e7997f3e4bd3bcb4b836fec205f94",
     "url": "//pingfen-executive.chengjiukehu.com/js/getPerformanceDetail.json"
   },
   {
-    "revision": "97f7672da09759caec9b",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-0111ed3f.2a0af1df.js"
-  },
-  {
-    "revision": "668a5ea8ba4bc6e8677019360f5d13f8",
-    "url": "//pingfen-executive.chengjiukehu.com/js/getTagDepartments.json"
+    "revision": "89daf5fa7f863aa1749c631514008edc",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getPerformanceUser.json"
   },
   {
     "revision": "6ddfb50f47791cf9724c46b3974b918a",
     "url": "//pingfen-executive.chengjiukehu.com/js/getPerformanceTpl.json"
   },
   {
-    "revision": "97f7672da09759caec9b",
-    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-0111ed3f.7e4da948.css"
+    "revision": "668a5ea8ba4bc6e8677019360f5d13f8",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getTagDepartments.json"
   },
   {
-    "revision": "2ba998deca423c4ee060",
+    "revision": "199047902b806f80dd6a6a1217dd2c6d",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getTplDepartments.json"
+  },
+  {
+    "revision": "ab354217493196724ff5bd4dd895cdab",
+    "url": "//pingfen-executive.chengjiukehu.com/js/getTagDetails.json"
+  },
+  {
+    "revision": "f409704178712235dde4",
     "url": "//pingfen-executive.chengjiukehu.com/css/app.ffc85409.css"
   }
 ];
