@@ -59,7 +59,7 @@
         <br />
       </div>
       <div v-if="showTotal && canEdit">
-        <total-mark :total="total"></total-mark>
+        <total-mark :total="total" :score="score"></total-mark>
         <br />
       </div>
       <div>
@@ -182,9 +182,12 @@ export default {
         : parseFloat(
             this.targets
               .map(v => v.weights * (v.mark || 0))
-              .reduce((pre, next) => pre + next, 0) +
-              (parseFloat(this.myAdditionMark.score) || 0)
+              .reduce((pre, next) => pre + next, 0) //+
+            //(parseFloat(this.myAdditionMark.score) || 0)
           ).toFixed(2);
+    },
+    score() {
+      return (parseFloat(this.myAdditionMark.score) || 0).toFixed(2);
     },
     cardData() {
       return this.published ? this.targets : this.hideLeaderInfo(this.targets);
@@ -216,7 +219,6 @@ export default {
         .catch(e => {});
     },
     getPostData() {
-      // console.log(this.$route.params)
       return {
         score: this.targets.map(({ id, mark, desc }) => ({
           target_id: id,
@@ -242,7 +244,6 @@ export default {
         "self"
       )
         .then(res => {
-          // console.log(res)
           const {
             targets,
             superior_workcode,

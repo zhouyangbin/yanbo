@@ -247,7 +247,7 @@ export const DEFAULT_TABLE23221 = [
     name: "B-(自定义)",
     is_show: false,
     level: "--",
-    range: 0,
+    range: 1,
     threshold: 20,
     range_des: "20%",
     computation_rule_name: "四舍不五入取整数",

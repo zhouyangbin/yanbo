@@ -40,7 +40,7 @@
               ></el-input>
             </template>
           </el-table-column>
-          <el-table-column label="是否展示给员工" align="center">
+          <el-table-column label="是否展示给员工" align="center" width="80">
             <template slot-scope="scope">
               <el-checkbox v-model="scope.row.is_show"></el-checkbox>
             </template>
@@ -61,7 +61,7 @@
             prop="computation_rule_name"
             align="center"
             label="计算规则"
-            width="120"
+            width="140"
           ></el-table-column>
         </el-table>
       </el-form-item>

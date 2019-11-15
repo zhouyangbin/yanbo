@@ -4,7 +4,21 @@
       <span>
         结果/
       </span>
-      <span v-if="readOnly" class="level">
+
+      <el-select
+        v-if="operate_status"
+        v-model="innerLevel"
+        placeholder="请选择"
+      >
+        <el-option
+          v-for="item in levels"
+          :key="item"
+          :label="item"
+          :value="item"
+        >
+        </el-option>
+      </el-select>
+      <span v-else class="level">
         {{ value }}
         <el-popover placement="top" width="331">
           <div class="tip_A"></div>
@@ -15,15 +29,6 @@
           ></el-button>
         </el-popover>
       </span>
-      <el-select v-model="innerLevel" v-else placeholder="请选择">
-        <el-option
-          v-for="item in levels"
-          :key="item"
-          :label="item"
-          :value="item"
-        >
-        </el-option>
-      </el-select>
       <el-row v-if="value != 'B'">
         <el-col :span="6">标签/</el-col>
         <el-tag v-if="levalLabelRules.length">{{
@@ -55,12 +60,16 @@ export default {
       default: ""
     },
     label_id: {
-      type: Number,
-      default: null
+      type: null,
+      default: ""
     },
     readOnly: {
       type: Boolean,
       default: false
+    },
+    operate_status: {
+      type: Boolean,
+      default: null
     },
     canEdit: {
       type: Boolean,
@@ -79,10 +88,16 @@ export default {
   },
   methods: {
     getTagsRules() {
-      return postAdminTagsRules(this.id, this.value, "superior")
+      if (!this.value) {
+        return false;
+      }
+      return postAdminTagsRules(this.id, this.value, "superior") //请求 label标签接口
         .then(res => {
-          //console.log(res);
           this.levalLabelRules = res;
+          if (this.value != "B") {
+            //假如  props 的label_id 不是B 那么就取res的第一个id
+            this.$emit("update_label_id", res[0].id);
+          }
         })
         .catch(e => {});
     },
@@ -93,28 +108,30 @@ export default {
   },
   computed: {
     innerLevel: {
+      //计算等级
       get: function() {
         return this.value;
       },
       set: function(v) {
-        //console.log(v);
         this.$emit("input", v);
       }
     },
     innerBlevel: {
+      //计算标签
       get: function() {
         return this.label_id;
       },
       set: function(v) {
-        //console.log(v);
-        this.$emit("update", v);
+        this.$emit("update_label_id", v);
       }
     }
   },
   watch: {
     value(newV, oldV) {
-      // do something
-      console.log(newV, oldV);
+      if (this.value == "B") {
+        //假如 结果等级变化为B级 那么 label_id 就清空
+        this.$emit("update_label_id", "");
+      }
       this.getTagsRules();
     }
   }

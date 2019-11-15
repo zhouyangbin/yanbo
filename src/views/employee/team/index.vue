@@ -137,7 +137,10 @@
                     }}</span>
                   </el-tag>
                   <el-tag
-                    v-if="scope.row.score_level == 'C'"
+                    v-if="
+                      scope.row.score_level == 'C' ||
+                        scope.row.score_level == 'D'
+                    "
                     class="status-tag other-style"
                   >
                     <span class="other-style-text">{{
@@ -352,7 +355,7 @@ export default {
               //可以直接提交
               this.Allsubmit_step3();
             } else {
-              let tip_html = `<p>不符合标签分布要求，如继续提交，将处罚邮件至一级部门负责人和HRBP，是否确认继续</p>\
+              let tip_html = `<p>不符合标签分布要求，如继续提交，将触发邮件至一级部门负责人和HRBP，是否确认继续</p>\
                        <p>分布结果检查 :</p>\
                        <p style='${
                          top_Diff >= 0 ? "display:none" : null
@@ -407,7 +410,6 @@ export default {
         cancelButtonText: "暂不提交"
       })
         .then(({ value }) => {
-          //console.log(value);
           this.Allsubmit_send(value);
         })
         .catch(() => {});
@@ -421,9 +423,6 @@ export default {
         {
           dangerouslyUseHTMLString: true,
           confirmButtonText: "提交",
-          callback: action => {
-            //console.log(123);
-          },
           cancelButtonText: "暂不提交"
         }
       )
@@ -438,6 +437,7 @@ export default {
       };
       return highLevelAllSubmit(this.$route.params.id, data)
         .then(res => {
+          this.refreshList(postData);
           this.$message({
             message: res,
             type: "success"

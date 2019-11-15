@@ -73,8 +73,9 @@
         v-if="!inReviewStage"
         :canEdit="canEdit"
         :readOnly="shouldMapping || stage >= 50"
+        :operate_status="operate_status"
         :label_id="label_id"
-        v-on:update="label_id = $event"
+        @update_label_id="set_label_id"
         v-model="level"
       ></level>
       <br />
@@ -144,7 +145,7 @@ export default {
       targets: [],
       level: "",
       score: "",
-      label_id: Number,
+      label_id: null,
       cardConfig: {
         min: 0,
         max: 5,
@@ -174,7 +175,8 @@ export default {
         EMPYEE_NAME,
         LABEL_CONFIRM
       },
-      showReviewDia: false
+      showReviewDia: false,
+      operate_status: true
     };
   },
   components: {
@@ -216,6 +218,9 @@ export default {
     }
   },
   methods: {
+    set_label_id(id) {
+      this.label_id = id;
+    },
     normalizeTargets(arr) {
       return arr.map(v => {
         v.mark =
@@ -304,6 +309,7 @@ export default {
           this.stage = stage;
           this.score = self_attach_score.score;
           this.label_id = res.superior_score.label_id || null;
+          this.operate_status = res.operate_status;
         })
         .catch(e => {});
     },
@@ -343,20 +349,26 @@ export default {
           });
           return reject(false);
         }
+        if (!this.label_id && !this.level) {
+          this.$notify.error({
+            title: ERROR,
+            message: "请选择标签"
+          });
+          return reject(false);
+        }
         return resolve(true);
       });
     },
     submit() {
       return this.beforeSubmitCheck()
         .then(() => {
-          return this.$confirm("请确认无误再提交, 是否继续?", ATTENTION, {
+          return this.$confirm("提交后仍可修改评分，是否继续？", ATTENTION, {
             confirmButtonText: CONFIRM,
             cancelButtonText: CANCEL,
             type: "warning"
           })
             .then(() => {
               const postData = this.getPostData();
-              //console.log(postData);
               return postUserPerformance(this.$route.params.uid, postData)
                 .then(res => {
                   this.$message({
