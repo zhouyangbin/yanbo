@@ -441,8 +441,10 @@ export const getTplMeasures = () =>
 
 // 高管绩效  获取业绩指标类型
 export const getIndicatorTypes = () =>
-  // sendGet(`/executive-performance/admin/templates/performance-indicator-types`, {req_type: 1});
-  sendGet(`/js/getIndicatorTypes.json`, { req_type: 1 });
+  sendGet(
+    `/executive-performance/admin/templates/performance-indicator-types`,
+    { req_type: 1 }
+  );
 
 // 高管绩效 创建绩效考核
 export const postAddPerformanceAssessment = (params: Object) =>

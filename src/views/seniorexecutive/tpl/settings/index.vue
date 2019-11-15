@@ -4,8 +4,9 @@
     <section class="content-container">
       <section>
         <el-form :inline="true" ref="filterForm" :model="filterForm">
-          <el-form-item class="content-search">
+          <el-form-item class="content-search" prop="dp">
             <el-cascader
+              @change="handleChange"
               v-model="filterForm.dp"
               placeholder="请选择事业部"
               :props="filterProps"
@@ -14,7 +15,7 @@
             ></el-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="resetForm">{{
+            <el-button round @click="resetForm('filterForm')">{{
               constants.RESET
             }}</el-button>
           </el-form-item>
@@ -73,10 +74,11 @@
         </el-table>
         <br />
         <el-pagination
+          v-if="total"
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="page"
           :page-sizes="[10, 20, 50]"
           :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
@@ -96,6 +98,8 @@
       :tplFields="tplFields"
       :tplMeasures="tplMeasures"
       :orgTree="orgTree"
+      :indicatorTypes="indicatorTypes"
+      @define="tplDefine"
     ></tpl-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
@@ -133,7 +137,8 @@ import {
   getExecutiveTypes,
   getTplFields,
   getTplMeasures,
-  getOrganization
+  getOrganization,
+  getIndicatorTypes
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -161,17 +166,18 @@ export default {
       tplFields: [],
       tplMeasures: [],
       orgTree: [],
-      currentPage: 1,
+      indicatorTypes: [],
+      page: 1,
+      perPage: 10,
       total: 0,
       infoType: "add",
       showDialog: false,
       tipsText: "是否确认删除模板？",
       performanceId: 0,
       showConfirmDialog: false,
-      department_ids: "", // 数组还是字符串，需要跟后台确定一下
+      department_ids: "",
       canCreateTpl: true,
       tableData: [],
-      initData: {},
       constants: {
         LABEL_SELECT_DIVISION,
         ADD_NEW_TPL,
@@ -194,40 +200,35 @@ export default {
       ]
     };
   },
-  watch: {
-    filterForm: {
-      handler: function(v) {
-        let filterData = {
-          page: 1,
-          department_ids: v.dp
-        };
-        console.log(this.filterForm);
-        this.currentPage = 1;
-        this.getTplList(filterData);
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   methods: {
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.department_name.indexOf(value) !== -1;
+    tplDefine() {
+      this.showDialog = false;
+      this.getTplList();
     },
-    getTplList(getData) {
-      getAdminTpls(getData)
+    handleChange(value) {
+      this.department_ids = value[1];
+      this.page = 1;
+      this.getTplList();
+    },
+    getTplList() {
+      let data = {
+        page: this.page,
+        perPage: this.perPage,
+        department_ids: this.department_ids.split(",")
+      };
+      getAdminTpls(data)
         .then(res => {
-          console.log(res);
           const { total, data } = res;
           this.tableData = data;
           this.total = total;
         })
         .catch(e => {});
     },
-    resetForm() {
-      this.filterForm = {
-        dp: []
-      };
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+      this.page = 1;
+      this.department_ids = "";
+      this.getTplList();
     },
     createTpl() {
       this.infoType = "add";
@@ -237,11 +238,10 @@ export default {
       this.showDialog = false;
     },
     handleCurrentChange(val) {
-      // 分页
-      this.currentPage = val;
+      this.page = val;
     },
     handleSizeChange(val) {
-      this.currentPage = val;
+      this.perPage = val;
     },
     updateTpl(row) {
       this.infoType = "modify";
@@ -249,7 +249,6 @@ export default {
       this.showDialog = true;
     },
     delTpl(row) {
-      console.log(1);
       this.performanceId = row.id;
       this.showConfirmDialog = true;
       this.tipsText = "是否确认删除模板？";
@@ -268,7 +267,7 @@ export default {
     }
   },
   created() {
-    this.getTplList({});
+    this.getTplList();
     getPerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
@@ -292,6 +291,11 @@ export default {
     getOrganization()
       .then(res => {
         this.orgTree = res;
+      })
+      .catch(e => {});
+    getIndicatorTypes()
+      .then(res => {
+        this.indicatorTypes = res;
       })
       .catch(e => {});
   }
