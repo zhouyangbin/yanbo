@@ -43,8 +43,7 @@
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
                       <template slot="append"
-                        >%</template
-                      >
+                        >%</template>
                     </el-input>
                   </el-form-item>
                 </template>
@@ -305,7 +304,7 @@ export default {
         h("br"),
         h("span", "（最多可填写"),
         h("span", 5, {
-          style: "color: red;"
+          style: "color: red !important;"
         }),
         h("span", "项）")
       ]);
@@ -370,7 +369,7 @@ export default {
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
-          console.log(res);
+          console.log(res)
           if (isTeam) {
             let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
@@ -412,32 +411,32 @@ export default {
      * @returns postData 向后端传递的参数对象
      */
     handleSubmitData() {
-      let init = this.allTarget;
+      let init = this.allTarget
       let team = [];
       let work = [];
 
-      for (var i = 0; i < init.length - 1; i++) {
-        let tableLen = init[i].table;
-        for (var r = 0; r < tableLen.length; r++) {
-          let metrics = tableLen[r].metrics;
-          let n = {};
-          for (var l = 0; l < metrics.length; l++) {
-            n[metrics[l].key] = metrics[l].content;
-          }
-          n.type = init[i].type;
-          n.weight = init[i].weight;
+      for( var i = 0; i < init.length - 1; i++ ){
+          let tableLen = init[i].table;
+          for( var r = 0; r < tableLen.length; r++ ){
+            let metrics = tableLen[r].metrics;
+            let n = {};
+            for( var l = 0; l < metrics.length; l++ ){
+              n[ metrics[ l ].key ] = metrics[ l ].content;
+            }
+            n.type   = init[ i ].type;
+            n.weight = init[ i ].weight;
 
-          if (init[i].basicType == "team") {
-            team.push(n);
-          } else if (init[i].basicType == "work") {
-            work.push(n);
+            if( init[i].basicType == "team" ){
+              team.push( n );
+            }else if( init[i].basicType == "work" ){
+              work.push( n );
+            }
           }
-        }
       }
       let post = {
-        team: team,
-        work: work
-      };
+        "team" : team,
+        "work" : work
+      }
       return post;
     },
     /**
@@ -493,9 +492,7 @@ export default {
           this.handleSubTotal(this.allTarget[i].basicType)
         ) {
           this.$message.error(
-            `${this.allTarget[i].type}权重之和不等于${
-              this.allTarget[i].weight
-            }%, 请检查`
+            `${this.allTarget[i].type}权重之和不等于${this.allTarget[i].weight}%, 请检查`
           );
           return false;
         }

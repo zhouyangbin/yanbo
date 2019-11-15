@@ -52,11 +52,18 @@
       </el-table>
       <br />
       <el-row type="flex" justify="end">
-        <pagination
+        <el-pagination
+          v-if="tableData==[]"
+          background
+          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :currentPage="currentPage"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 50]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-        ></pagination>
+        >
+        </el-pagination>
       </el-row>
       <br />
     </section>
@@ -106,7 +113,6 @@ export default {
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   filters: {
     handlePType(val) {
@@ -177,6 +183,7 @@ export default {
           const { total, data } = res;
           this.total = total;
           this.tableData = data;
+          console.log(data,total)
         })
         .catch(e => {});
     }

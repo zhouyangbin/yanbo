@@ -14,10 +14,11 @@
       <el-form-item label="上传文件">
         <el-upload
           class="upload-demo"
-          :action="constants.PATH_UPLOAD_FILE($route.params.uid)"
+          :action="constants.PATH_UPLOAD_FILE(this.$route.params.uid)"
           :headers="uploadHeader"
           :on-success="uploadSuccess"
           :on-error="uploadError"
+          @before-upload="beforeUpload"
         >
           <el-button type="text">选择文件</el-button>
         </el-upload>
@@ -34,7 +35,7 @@
   </el-dialog>
 </template>
 <script>
-import { getTargetTemplate } from "@/constants/API";
+import { getTargetTemplate, postUploadIndex } from "@/constants/API";
 import { PATH_UPLOAD_FILE } from "@/constants/URL";
 export default {
   props: {
@@ -49,6 +50,9 @@ export default {
         PATH_UPLOAD_FILE
       }
     };
+  },
+  created(){
+    console.log(this.$route.params.uid)
   },
   computed: {
     uploadHeader() {
@@ -110,9 +114,12 @@ export default {
         msg = errObj.message;
       }
       this.$notify.error({
-        title: ERROR,
+        title: "ERROR",
         message: msg || `${file.name}${UPLOAD_FAIL}`
       });
+    },
+    beforeUpload(file){
+      console.log(file)
     }
   }
 };

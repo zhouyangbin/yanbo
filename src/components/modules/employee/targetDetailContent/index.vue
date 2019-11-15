@@ -116,7 +116,7 @@ export default {
         h("br"),
         h("span", "（最多可填写"),
         h("span", 5, {
-          style: "color: red;"
+          style: "color: red !important;"
         }),
         h("span", "项）")
       ]);
