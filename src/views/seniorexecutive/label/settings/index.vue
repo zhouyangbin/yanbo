@@ -173,7 +173,6 @@ export default {
       evaluation_id: []
     };
   },
-
   methods: {
     checkCascader() {
       this.getAdminTagsList()
@@ -256,7 +255,7 @@ export default {
   created() {
     this.getAdminTagsList();
     getOrganization()
-      .then(res => {
+      .then(res => { 
         this.orgTree = res;
       })
       .catch(e => {});

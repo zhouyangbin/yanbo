@@ -81,6 +81,7 @@ export default {
       };
       getPerformanceUserInfo(data)
         .then(res => {
+          console.log(res)
           const {
             performance_name,
             stage,

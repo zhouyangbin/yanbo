@@ -192,6 +192,8 @@ export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 我的业绩中高管评分高管填写指标页面
 export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
   `/performance/targetsettings/${id}/${uid}`;
+
+  // 我的业绩中高管评分高管填写指标页面(只读)
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
   `/performance/targetdetails/${id}/${uid}`;
 
@@ -206,4 +208,4 @@ export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
   `/performance/assessment/details/${id}`;
 
   export const PATH_UPLOAD_FILE = (uid: String) =>
-  `${base}/executive-performance/web/self/${uid}/import-targets`;
+  `${base}executive-performance/web/self/${uid}/import-targets`;

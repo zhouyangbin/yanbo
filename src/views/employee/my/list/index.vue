@@ -52,8 +52,13 @@
       </el-table>
       <br />
       <el-row type="flex" justify="end">
+        <!-- <pagination
+          @current-change="handleCurrentChange"
+          :currentPage="currentPage"
+          :total="total"
+        ></pagination> -->
         <el-pagination
-          v-if="tableData==[]"
+          v-if="tableData!=[]"
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -108,11 +113,16 @@ export default {
         OPERATIONS,
         GRADE_STATUS,
         TARGET_STATUS
-      }
+      },
+      pageSize: 10
     };
+  },
+  mounted(){
+    console.log(this.tableData)
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   filters: {
     handlePType(val) {
@@ -171,25 +181,28 @@ export default {
         PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
       );
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList({
-        page: val
+        page: val,
+        perPage:this.pageSize
       });
+    },
+    handleSizeChange(val){
+      this.pageSize = val
+      this.refreshList({ page: 1 ,perPage:val});
     },
     refreshList(data) {
       return getMyPerformanceList(data)
         .then(res => {
-          const { total, data } = res;
-          this.total = total;
-          this.tableData = data;
-          console.log(data,total)
+          this.total = res.length
+          this.tableData = res;
         })
         .catch(e => {});
     }
   },
   created() {
-    this.refreshList({ page: 1 });
+    this.refreshList({ page: 1 ,perPage:10});
   }
 };
 </script>

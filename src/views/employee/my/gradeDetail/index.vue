@@ -369,7 +369,6 @@ export default {
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
-          console.log(res)
           if (isTeam) {
             let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
@@ -425,7 +424,6 @@ export default {
             }
             n.type   = init[ i ].type;
             n.weight = init[ i ].weight;
-
             if( init[i].basicType == "team" ){
               team.push( n );
             }else if( init[i].basicType == "work" ){
