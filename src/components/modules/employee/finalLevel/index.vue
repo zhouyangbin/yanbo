@@ -35,10 +35,11 @@
           getlevalLabelRules(levalLabelRules)
         }}</el-tag>
       </el-row>
-      <el-row v-if="value == 'B'">
+      <el-row v-if="value == 'B'" style="margin-top: 10px">
         <el-col :span="6">标签/</el-col>
-        <el-col :span="10" height="100px">
+        <el-col :span="18" height="100px">
           <el-radio
+            style="display: block; margin-top: 5px"
             :disabled="!canEdit"
             v-for="item of levalLabelRules"
             :key="item.id"
