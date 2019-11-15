@@ -503,13 +503,17 @@ export const getAdminPerformancesList = (params: Object) =>
 
 // 高管绩效 获取标签
 export const getTagDepartments = (params: Object) =>
-  // sendGet(`/executive-performance/admin/performances/get-tag-by-departments`, params);
-  sendGet(`/js/getTagDepartments.json`, params);
+  sendGet(
+    `/executive-performance/admin/performances/get-tag-by-departments`,
+    params
+  );
 
 // 高管绩效 获取标签
 export const getTplDepartments = (params: Object) =>
-  // sendGet(`/executive-performance/admin/performances/get-templates-by-departments`, params);
-  sendGet(`/js/getTplDepartments.json`, params);
+  sendGet(
+    `/executive-performance/admin/performances/get-templates-by-departments`,
+    params
+  );
 
 // 高管绩效 绩效考核详情
 export const getPerformanceDetail = (id: String) =>

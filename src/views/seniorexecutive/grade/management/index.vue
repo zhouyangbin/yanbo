@@ -244,7 +244,7 @@ export default {
   },
   methods: {
     handleChange(value) {
-      this.department_ids = value[1];
+      this.department_ids = value.length > 0 ? value[value.length - 1] : "";
       this.page = 1;
       this.getPerformanceList();
     },
@@ -270,7 +270,6 @@ export default {
         .catch(e => {});
     },
     createTpl() {
-      // 创建模板
       this.infoType = "add";
       this.showDialog = true;
     },
@@ -278,7 +277,6 @@ export default {
       this.showDialog = false;
     },
     updateTpl(row) {
-      // 修改
       this.infoType = "modify";
       this.showDialog = true;
     },
