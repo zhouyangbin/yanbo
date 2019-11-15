@@ -317,9 +317,7 @@ export default {
       return this.beforeSubmitCheck()
         .then(() => {
           this.$confirm(
-            `自评分为${
-              this.total
-            }分，请确认无误再提交，一经提交无法修改, 是否继续?`,
+            `自评分为${this.total}分，请确认无误再提交，一经提交无法修改, 是否继续?`,
             "提示",
             {
               confirmButtonText: CONFIRM,

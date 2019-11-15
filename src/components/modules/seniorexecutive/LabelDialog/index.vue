@@ -160,13 +160,13 @@
       </el-form-item>
       <el-form-item
         :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
-        prop="departments"
+        prop="department_ids"
         label-width="140px"
       >
         <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
-          :department_ids="tplForm.departments"
+          :department_ids="tplForm.department_ids"
         ></common-tree>
         <!-- <el-tree
           empty-text="努力加载中..."
@@ -223,7 +223,8 @@ import {
   getAdminTagTypes,
   getAdminTagTypesRules,
   getOrganization,
-  getAdminTagDetails
+  getAdminTagDetails,
+  putAdminTagChange
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -256,7 +257,7 @@ export default {
         tag_type: [
           { required: true, message: "请选择标签类型", trigger: "change" }
         ],
-        departments: [
+        department_ids: [
           {
             type: "array",
             required: true,
@@ -269,7 +270,7 @@ export default {
       tplForm: {
         tag_type: "23221",
         rules: {},
-        departments: [],
+        department_ids: [],
         force_distribution: false
       },
       constants: {
@@ -303,12 +304,12 @@ export default {
   },
   computed: {
     checkedKeys() {
-      return this.tplForm.departments.map(({ department_id }) => department_id);
+      return this.tplForm.department_ids.map(({ department_id }) => department_id);
     }
   },
   methods: {
     selectedOrg(data) {
-      this.tplForm.departments = data;
+      this.tplForm.department_ids = data;
     },
     close() {
       this.$emit("close");
@@ -406,22 +407,19 @@ export default {
             // 2521传递的标签规则参数
             rules = this.handle2521TagRules();
           }
-          let departments = [];
-          this.tplForm.departments.forEach((v, i) => {
-            departments.push(v.department_id);
-          });
           let postData = {
             tag_type: this.tplForm.tag_type,
             force_distribution: this.tplForm.force_distribution ? 1 : 0,
-            department_ids: departments,
+            department_ids: this.tplForm.department_ids,
             rules: rules
           };
           if (this.infoType == "add") {
             return postAdminTags(postData).then(res => {
               this.close();
+              this.$emit("getList")
             });
           } else {
-            return putAdminTagChange(postData).then(res => {
+            return putAdminTagChange(this.initData.id).then(res => {
               this.close();
             });
           }
@@ -438,7 +436,7 @@ export default {
       return data.department_name.indexOf(value) !== -1;
     },
     treeChange(data, checked, indeterminate) {
-      this.tplForm.departments = this.$refs.tree.getCheckedNodes();
+      this.tplForm.department_ids = this.$refs.tree.getCheckedNodes();
     },
     /**
      * 将后端返回数据中的children提取到外层，并追加在当前包含children的对象后面
@@ -474,7 +472,7 @@ export default {
         } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[3]) {
           this.table2521 = this.handleTagRulesDataStructure(res.rules);
         }
-        this.tplForm.departments = res.department_ids;
+        this.tplForm.department_ids = res.department_ids;
         // TODO 强制分布1的时候不为true
         this.tplForm.force_distribution = res.force_distribution ? true : false;
         this.tagName = res.tag_type;
