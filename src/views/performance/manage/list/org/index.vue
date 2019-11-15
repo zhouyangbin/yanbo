@@ -115,7 +115,6 @@
               >{{ constants.REMINDER }}12</el-button
             -->
             <el-button
-              :disabled="selection.length === 0"
               @click="reminder"
               class="action-btn"
               icon="el-icon-bell"
