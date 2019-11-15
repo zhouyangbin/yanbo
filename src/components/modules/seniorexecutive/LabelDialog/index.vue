@@ -11,7 +11,7 @@
         infoType === "add" ? constants.ADD_NEW_LABEL : constants.UPDATE_LABEL
       }}
     </div>
-    <el-form :rules="rules" ref="tplForm" :model="tplForm" class="tplForm">
+    <el-form :rules="rules" ref="tplForm" :model="tplForm" class="tpl-form">
       <el-form-item :label="constants.LABEL_TYPE" prop="tag_type">
         <el-select
           v-model="tplForm.tag_type"
@@ -160,10 +160,15 @@
       </el-form-item>
       <el-form-item
         :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
-        prop="departments"
+        prop="department_ids"
         label-width="140px"
       >
-        <el-tree
+        <common-tree
+          :orgTree="orgTree"
+          @selectedIds="selectedOrg"
+          :department_ids="tplForm.department_ids"
+        ></common-tree>
+        <!-- <el-tree
           empty-text="努力加载中..."
           @check-change="treeChange"
           :props="defaultProps"
@@ -173,7 +178,8 @@
           :filter-node-method="filterNode"
           show-checkbox
           :data="orgTree"
-        ></el-tree>
+          class="select-tree"
+        ></el-tree> -->
       </el-form-item>
       <el-form-item
         :label="constants.FORCED_DISTRIBUTION"
@@ -217,10 +223,16 @@ import {
   getAdminTagTypes,
   getAdminTagTypesRules,
   getOrganization,
-  getAdminTagDetails
+  getAdminTagDetails,
+  putAdminTagChange
 } from "@/constants/API";
-
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   props: {
     visible: {
       type: Boolean,
@@ -234,10 +246,6 @@ export default {
       type: Object,
       default: () => ({})
     },
-    departmentsOps: {
-      type: Array,
-      default: () => []
-    },
     orgTree: {
       type: Array,
       default: () => []
@@ -249,7 +257,7 @@ export default {
         tag_type: [
           { required: true, message: "请选择标签类型", trigger: "change" }
         ],
-        departments: [
+        department_ids: [
           {
             type: "array",
             required: true,
@@ -262,7 +270,7 @@ export default {
       tplForm: {
         tag_type: "23221",
         rules: {},
-        departments: [],
+        department_ids: [],
         force_distribution: false
       },
       constants: {
@@ -296,10 +304,15 @@ export default {
   },
   computed: {
     checkedKeys() {
-      return this.tplForm.departments.map(({ department_id }) => department_id);
+      return this.tplForm.department_ids.map(
+        ({ department_id }) => department_id
+      );
     }
   },
   methods: {
+    selectedOrg(data) {
+      this.tplForm.department_ids = data;
+    },
     close() {
       this.$emit("close");
     },
@@ -396,22 +409,19 @@ export default {
             // 2521传递的标签规则参数
             rules = this.handle2521TagRules();
           }
-          let departments = [];
-          this.tplForm.departments.forEach((v, i) => {
-            departments.push(v.department_id);
-          });
           let postData = {
             tag_type: this.tplForm.tag_type,
             force_distribution: this.tplForm.force_distribution ? 1 : 0,
-            department_ids: departments,
+            department_ids: this.tplForm.department_ids,
             rules: rules
           };
           if (this.infoType == "add") {
             return postAdminTags(postData).then(res => {
               this.close();
+              this.$emit("getList");
             });
           } else {
-            return putAdminTagChange(postData).then(res => {
+            return putAdminTagChange(this.initData.id).then(res => {
               this.close();
             });
           }
@@ -428,7 +438,7 @@ export default {
       return data.department_name.indexOf(value) !== -1;
     },
     treeChange(data, checked, indeterminate) {
-      this.tplForm.departments = this.$refs.tree.getCheckedNodes();
+      this.tplForm.department_ids = this.$refs.tree.getCheckedNodes();
     },
     /**
      * 将后端返回数据中的children提取到外层，并追加在当前包含children的对象后面
@@ -464,7 +474,7 @@ export default {
         } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[3]) {
           this.table2521 = this.handleTagRulesDataStructure(res.rules);
         }
-        this.tplForm.departments = res.department_ids;
+        this.tplForm.department_ids = res.department_ids;
         // TODO 强制分布1的时候不为true
         this.tplForm.force_distribution = res.force_distribution ? true : false;
         this.tagName = res.tag_type;
@@ -518,12 +528,8 @@ export default {
 .label-dialog .add-padding {
   padding-left: 20px;
 }
-.select-tree {
+.tpl-form .select-tree {
   max-height: 260px;
   overflow: auto;
-}
-.select-tree >>> .el-tree-node__content {
-  height: auto;
-  line-height: auto;
 }
 </style>

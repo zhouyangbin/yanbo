@@ -82,9 +82,6 @@ export const PATH_EMPLYEE_MY_DETAIL = (
 ) => `/employee/my/${orgID}/${id}`;
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
-// 组织部绩效 团队评分 详情
-export const PATH_PERFORMANCE_TEAM_GRADE_DETAIL = (id: String = ":id") =>
-  `/performance/team/${id}`;
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
   uid: String = ":uid"
@@ -192,6 +189,21 @@ export const PATH_PERFORMANCE_GRADE_MANAGEMENT = "/performance/scoremangement";
 export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
-// 考核详情
+// 我的业绩中高管评分高管填写指标页面
+export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
+  `/performance/targetsettings/${id}/${uid}`;
+export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
+  `/performance/targetdetails/${id}/${uid}`;
+
+// 高管绩效 我的团队上级确认页面
+export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
+  gradeID: String = ":gradeID",
+  id: String = ":id",
+  workcode = ":workcode"
+) => `/employee/team/${gradeID}/target/${id}/${workcode}`;
+
 export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
   `/performance/assessment/details/${id}`;
+
+export const PATH_UPLOAD_FILE = (uid: String) =>
+  `${base}/executive-performance/web/self/${uid}/import-targets`;

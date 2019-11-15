@@ -671,7 +671,7 @@ export const TEMPLATE_FIELD = "模板字段";
 export const IS_THE_MEASUREMENT_REQUIRED = "衡量标准是否必填";
 export const SORT = "排序";
 export const ADD_NEW_LABEL = "新增标签";
-export const TAG_NAME = "标签名称";
+export const TAG_NAME = "标签类型";
 export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";
 export const FORCED_DISTRIBUTION_OR_NOT = "是否强制分布";
 export const UPDATE_LABEL = "修改标签";
@@ -809,61 +809,20 @@ export const DEFAULT_TABLE2521 = [
     isChildren: true
   }
 ];
-export const STAGEOPTIONS = [
-  {
-    label: "待导入目标",
-    value: 0
-  },
-  {
-    label: "指标填写中",
-    value: 1
-  },
-  {
-    label: "指标确认中",
-    value: 10
-  },
-  {
-    label: "指标已确认",
-    value: 20
-  },
-  {
-    label: "评分未开始",
-    value: 30
-  },
-  {
-    label: "自评中",
-    value: 40
-  },
-  {
-    label: "复评中",
-    value: 50
-  },
-  {
-    label: "隔级审核中",
-    value: 60
-  },
-  {
-    label: "总裁审核中",
-    value: 70
-  },
-  {
-    label: "已审核",
-    value: 80
-  },
-  {
-    label: "确认中（确认成绩）",
-    value: 90
-  },
-  {
-    label: "申诉中",
-    value: 100
-  },
-  {
-    label: "已确认",
-    value: 110
-  },
-  {
-    label: "已结束",
-    value: 120
-  }
-];
+
+// 指标设定
+export const SUPERIOR_OPINION = "上级意见";
+export const IMMEDIATE_SUPERIOR = "直接上级";
+export const ASSESS_CYCLE = "考核周期";
+export const SET_TARGET_DEADLINE = "指标设定截止时间";
+export const ERROR_MESSAGE_CONTACT_USER =
+  "如直接上级的姓名或工号有误，请联系HRBP。";
+export const SENIOR_UPLOAD_TARGET = "上传指标";
+export const TARGET_DETAIL = "指标详情";
+export const CHECK_EXAMINE_LOG = "查看审批记录";
+export const TARGET_RETURN = "返回";
+export const TARGET_NAME = "指标名称";
+export const TASK_DESCRIPTION = "具体工作/任务描述";
+export const YARD_STICK = "衡量标准";
+export const ADD_TARGET_LINE = "添加考核项";
+export const FINANCE_DIMENSIONALITY_SUBTOTAL = "财务维度小计";

@@ -18,7 +18,6 @@ import {
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLYEE_MY_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
-  PATH_PERFORMANCE_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_MSG_MOBILE,
@@ -40,7 +39,10 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_TPL_SETTINGS,
   PATH_PERFORMANCE_LABEL_SETTINGS,
-  PATH_ASSESSMENT_DATAILS
+  PATH_ASSESSMENT_DATAILS,
+  PATH_PERFORMANCE_TARGET_SET,
+  PATH_PERFORMANCE_TARGET_DETAIL,
+  PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -176,14 +178,6 @@ const router = new Router({
           path: PATH_EMPLOYY_TEAM_GRADE_DETAIL(),
           components: {
             default: () => import("@/views/employee/team/index.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        },
-        {
-          path: PATH_PERFORMANCE_TEAM_GRADE_DETAIL(),
-          components: {
-            default: () =>
-              import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -337,6 +331,28 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TARGET_SET(),
+          components: {
+            default: () => import("@/views/employee/my/gradeDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TARGET_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/my/targetDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(),
+          components: {
+            default: () =>
+              import("@/views/employee/team/targetDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

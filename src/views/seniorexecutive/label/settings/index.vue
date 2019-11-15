@@ -3,34 +3,16 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true" :model="conditionForm" ref="conditionForm">
+        <el-form :inline="true" ref="conditionForm" :model="conditionForm">
           <el-form-item>
-            <el-select
+            <el-cascader
               v-model="evaluation_id"
+              :props="filterProps"
               :placeholder="constants.LABEL_SELECT_DIVISION"
-              @change="changeDepartment"
-            >
-              <el-option
-                v-for="item in departments"
-                :key="item.value"
-                :label="item.label"
-                :value="item"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-select
-              v-model="evaluation_id"
-              :placeholder="constants.LABEL_SELECT_DIVISION"
-              @change="changeDepartment"
-            >
-              <el-option
-                v-for="item in departments"
-                :key="item.value"
-                :label="item.label"
-                :value="item"
-              ></el-option>
-            </el-select>
+              :options="orgTree"
+              :show-all-levels="false"
+              @change="checkCascader"
+            ></el-cascader>
           </el-form-item>
           <el-form-item>
             <el-button round @click="resetForm('conditionForm')">{{
@@ -100,11 +82,17 @@
           </el-table-column>
         </el-table>
         <br />
-        <pagination
-          :currentPage="currentPage"
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 50]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-        ></pagination>
+        >
+        </el-pagination>
       </section>
     </section>
     <label-dialog
@@ -115,6 +103,7 @@
       :visible="showDialog"
       :infoType="infoType"
       :orgTree="orgTree"
+      @getList="getAdminTagsList"
     ></label-dialog>
   </div>
 </template>
@@ -140,12 +129,17 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "label-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/LabelDialog/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    )
   },
   data() {
     return {
+      filterProps: {
+        value: "department_id",
+        label: "department_name",
+        children: "children"
+      },
       currentPage: 1,
+      pageSize: 10,
       total: 0,
       infoType: "add",
       showDialog: false,
@@ -174,24 +168,15 @@ export default {
           label: LABEL_SETTING,
           active: true
         }
-      ]
+      ],
+      evaluation_id: []
     };
   },
-  computed: {
-    evaluation_id: {
-      // 获取evaluation_id
-      get() {
-        return this.evaluationId;
-      },
-      set(obj) {
-        this.evaluationId = obj;
-        this.conditionForm = Object.assign({}, this.conditionForm, {
-          evaluation_id: obj.value
-        });
-      }
-    }
-  },
+
   methods: {
+    checkCascader() {
+      this.getAdminTagsList();
+    },
     /**
      * 将后端返回数据中的children提取到外层，并追加在当前包含children的对象后面
      * @param arr 后端返回的数组
@@ -215,7 +200,8 @@ export default {
       return newArr;
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.evaluation_id = [];
+      this.getAdminTagsList();
     },
     changeDepartment(item) {
       this.conditionForm = Object.assign({}, this.conditionForm, {
@@ -231,9 +217,19 @@ export default {
       this.showDialog = false;
       // 关闭弹框
     },
+    /**
+     * 改变分页size
+     */
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.getAdminTagsList();
+    },
+    /**
+     * 改变分页page
+     */
     handleCurrentChange(val) {
-      // 分页
       this.currentPage = val;
+      this.getAdminTagsList();
     },
     updateTpl(row) {
       // 修改
@@ -242,7 +238,12 @@ export default {
       this.showDialog = true;
     },
     getAdminTagsList() {
-      getAdminTags()
+      let data = {
+        department_ids: this.evaluation_id,
+        page: this.currentPage,
+        perPage: this.pageSize
+      };
+      getAdminTags(data)
         .then(res => {
           const { data, total } = res;
           this.total = total;
