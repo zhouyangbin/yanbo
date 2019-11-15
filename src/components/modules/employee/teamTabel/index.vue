@@ -48,10 +48,7 @@
                       class="overview_tip_color"
                     >
                       超出{{
-                        Math.abs(
-                          overview[1].child[0].expected -
-                            overview[1].child[0].count
-                        )
+                        Math.abs(overview[0].expected - overview[0].count)
                       }}人
                     </span>
                   </span>

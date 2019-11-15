@@ -300,7 +300,7 @@ export default {
         .then(res => {
           const { user, overview, performanceInfo } = res;
           this.tableData = user.data || [];
-          this.total = user.total || [];
+          this.total = user.total;
           this.overview = overview || [];
           this.name = performanceInfo.name || "";
           this.Allsubmit_action = performanceInfo.submit;
