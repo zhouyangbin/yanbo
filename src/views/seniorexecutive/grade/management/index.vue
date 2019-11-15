@@ -153,11 +153,19 @@
           <div class="time-line-sign" data="12月30日"></div>
         </div>
       </div>
-      <pagination
+      <el-pagination
+        background
+        v-show="total"
+        class=""
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :currentPage="currentPage"
+        :current-page="page"
+        :page-sizes="[10, 20, 50]"
+        :page-size="perPage"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      ></pagination>
+      >
+      </el-pagination>
     </section>
     <assessment-dialog
       v-if="showDialog"
@@ -193,8 +201,7 @@ export default {
     ),
     "confirm-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    )
   },
   data() {
     return {
@@ -203,7 +210,8 @@ export default {
         label: "department_name",
         children: "children"
       },
-      currentPage: 1,
+      page: 1,
+      perPage: 10,
       total: 0,
       showDialog: false,
       infoType: "add",
@@ -235,29 +243,30 @@ export default {
   watch: {
     filterForm: {
       handler: function(v) {
-        let filterData = {
-          page: 1,
-          statuses: this.statuses,
-          department_ids: v.dp
-        };
-        this.currentPage = 1;
+        this.page = 1;
         // 获取绩效考核列表
-        this.getPerformanceList(filterData);
+        this.getPerformanceList();
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    changeStatuses() {
-      this.getPerformanceList({
-        statuses: this.statuses,
-        page: this.currentPage
-      });
+    handleSizeChange(val) {
+      this.perPage = val;
     },
-    getPerformanceList(getData) {
-      getAdminPerformancesList(getData)
+    changeStatuses() {
+      this.getPerformanceList();
+    },
+    getPerformanceList() {
+      let data = {
+        statuses: this.statuses,
+        page: this.page,
+        perPage: this.perPage
+      };
+      getAdminPerformancesList(data)
         .then(res => {
+          console.log(res)
           const { total, data } = res;
           this.performancesList = data;
           this.total = total;
@@ -283,7 +292,7 @@ export default {
       };
     },
     handleCurrentChange() {
-      this.currentPage = val;
+      this.page = val;
     },
     linkToDetail(id) {
       this.$router.replace(`/performance/assessment/details/${id}`);
