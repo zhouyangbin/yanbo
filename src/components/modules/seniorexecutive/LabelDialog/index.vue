@@ -304,7 +304,9 @@ export default {
   },
   computed: {
     checkedKeys() {
-      return this.tplForm.department_ids.map(({ department_id }) => department_id);
+      return this.tplForm.department_ids.map(
+        ({ department_id }) => department_id
+      );
     }
   },
   methods: {
@@ -416,7 +418,7 @@ export default {
           if (this.infoType == "add") {
             return postAdminTags(postData).then(res => {
               this.close();
-              this.$emit("getList")
+              this.$emit("getList");
             });
           } else {
             return putAdminTagChange(this.initData.id).then(res => {

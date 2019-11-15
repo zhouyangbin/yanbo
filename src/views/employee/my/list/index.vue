@@ -53,7 +53,7 @@
       <br />
       <el-row type="flex" justify="end">
         <el-pagination
-          v-if="tableData==[]"
+          v-if="tableData == []"
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -112,7 +112,7 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
   },
   filters: {
     handlePType(val) {
@@ -183,7 +183,7 @@ export default {
           const { total, data } = res;
           this.total = total;
           this.tableData = data;
-          console.log(data,total)
+          console.log(data, total);
         })
         .catch(e => {});
     }

@@ -129,8 +129,7 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "label-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/LabelDialog/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    )
   },
   data() {
     return {
@@ -176,7 +175,7 @@ export default {
 
   methods: {
     checkCascader() {
-      this.getAdminTagsList()
+      this.getAdminTagsList();
     },
     /**
      * 将后端返回数据中的children提取到外层，并追加在当前包含children的对象后面
@@ -202,7 +201,7 @@ export default {
     },
     resetForm(formName) {
       this.evaluation_id = [];
-      this.getAdminTagsList()
+      this.getAdminTagsList();
     },
     changeDepartment(item) {
       this.conditionForm = Object.assign({}, this.conditionForm, {
@@ -241,8 +240,8 @@ export default {
     getAdminTagsList() {
       let data = {
         department_ids: this.evaluation_id,
-        page : this.currentPage,
-        perPage:this.pageSize
+        page: this.currentPage,
+        perPage: this.pageSize
       };
       getAdminTags(data)
         .then(res => {

@@ -266,7 +266,7 @@ export default {
       };
       getAdminPerformancesList(data)
         .then(res => {
-          console.log(res)
+          console.log(res);
           const { total, data } = res;
           this.performancesList = data;
           this.total = total;

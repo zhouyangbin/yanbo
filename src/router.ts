@@ -261,9 +261,7 @@ const router = new Router({
           path: PATH_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import(
-                "@/views/myculture/members/grades/details/history/index.vue"
-              ),
+              import("@/views/myculture/members/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -279,9 +277,7 @@ const router = new Router({
           path: PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(),
           components: {
             default: () =>
-              import(
-                "@/views/myculture/downmembers/grades/details/history/index.vue"
-              ),
+              import("@/views/myculture/downmembers/grades/details/history/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -334,9 +330,7 @@ const router = new Router({
           path: PATH_ASSESSMENT_DATAILS(),
           components: {
             default: () =>
-              import(
-                "@/views/seniorexecutive/grade/assessmentDetails/index.vue"
-              ),
+              import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

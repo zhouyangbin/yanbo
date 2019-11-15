@@ -201,7 +201,7 @@ export default {
           page: 1,
           department_ids: v.dp
         };
-        console.log(this.filterForm)
+        console.log(this.filterForm);
         this.currentPage = 1;
         this.getTplList(filterData);
       },
@@ -217,7 +217,7 @@ export default {
     getTplList(getData) {
       getAdminTpls(getData)
         .then(res => {
-          console.log(res)
+          console.log(res);
           const { total, data } = res;
           this.tableData = data;
           this.total = total;
@@ -249,7 +249,7 @@ export default {
       this.showDialog = true;
     },
     delTpl(row) {
-      console.log(1)
+      console.log(1);
       this.performanceId = row.id;
       this.showConfirmDialog = true;
       this.tipsText = "是否确认删除模板？";

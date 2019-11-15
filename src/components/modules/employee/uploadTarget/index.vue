@@ -51,8 +51,8 @@ export default {
       }
     };
   },
-  created(){
-    console.log(this.$route.params.uid)
+  created() {
+    console.log(this.$route.params.uid);
   },
   computed: {
     uploadHeader() {
@@ -118,8 +118,8 @@ export default {
         message: msg || `${file.name}${UPLOAD_FAIL}`
       });
     },
-    beforeUpload(file){
-      console.log(file)
+    beforeUpload(file) {
+      console.log(file);
     }
   }
 };

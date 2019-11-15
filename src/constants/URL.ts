@@ -205,5 +205,5 @@ export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
 export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
   `/performance/assessment/details/${id}`;
 
-  export const PATH_UPLOAD_FILE = (uid: String) =>
+export const PATH_UPLOAD_FILE = (uid: String) =>
   `${base}/executive-performance/web/self/${uid}/import-targets`;

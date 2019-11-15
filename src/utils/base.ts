@@ -63,14 +63,3 @@ export function sendDelete(url: string, params: object) {
 export function sendAll(iterable: any[], callback: (value: any[]) => any) {
   return axios.all(iterable).then(axios.spread(callback));
 }
-export function sendForm(url: string, params: object) {
-  return new Promise((resolve, reject) => {
-    http.post(url, params, {
-        contentType: 'multipart/form-data'
-    }).then(response => {
-        resolve(response.params);
-    }, err => {
-        reject(err)
-    })
-  })
-} 
