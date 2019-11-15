@@ -155,8 +155,8 @@ export default {
   data() {
     return {
       filterProps: {
-        value: "department_id",
-        label: "department_name",
+        value: "id",
+        label: "name",
         children: "children"
       },
       filterForm: {
@@ -207,7 +207,7 @@ export default {
       this.getTplList();
     },
     handleChange(value) {
-      this.department_ids = value[1];
+      this.department_ids = value.length > 0 ? value[value.length - 1] : "";
       this.page = 1;
       this.getTplList();
     },

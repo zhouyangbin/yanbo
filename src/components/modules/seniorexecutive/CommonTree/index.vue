@@ -5,7 +5,7 @@
     @check-change="treeChange"
     :props="defaultProps"
     :default-checked-keys="department_ids"
-    node-key="department_id"
+    node-key="id"
     ref="tree"
     :filter-node-method="filterNode"
     show-checkbox
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       defaultProps: {
-        label: "department_name",
+        label: "name",
         children: "children"
       }
     };
@@ -35,11 +35,11 @@ export default {
   methods: {
     filterNode(value, data) {
       if (!value) return true;
-      return data.department_name.indexOf(value) !== -1;
+      return data.name.indexOf(value) !== -1;
     },
     treeChange(data, checked, indeterminate) {
       let ids = this.$refs.tree.getCheckedNodes();
-      ids = ids.map(v => v.department_id);
+      ids = ids.map(v => v.id);
       this.$emit("selectedIds", ids);
     }
   },

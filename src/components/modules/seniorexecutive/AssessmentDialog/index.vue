@@ -77,11 +77,19 @@
           ></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item label="绩效模板" prop="tpl">
-        <div class="rule-name">{{ ruleForm.tpl }}</div>
+      <el-form-item label="绩效模板">
+        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
+          {{ item.name }}
+        </div>
       </el-form-item>
-      <el-form-item label="标签规则" prop="tag_type">
-        <div class="rule-name">{{ ruleForm.tag_type }}</div>
+      <el-form-item label="标签规则">
+        <div
+          class="rule-name"
+          v-for="item in ruleForm.templates"
+          :key="item.id"
+        >
+          {{ item.tag_type }}
+        </div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
         <el-radio-group v-model="ruleForm.allow_appeal">
@@ -189,10 +197,12 @@ export default {
         year: "",
         start_time: this.initTime.start_time || "",
         end_time: this.initTime.end_time || "",
-        tpl: "",
-        tag_type: "",
+        tag: [],
+        templates: [],
         allow_appeal: 1
       },
+      tagType: [],
+      performanceTpl: [],
       constants: {
         CONFIRM,
         CANCEL,
@@ -233,15 +243,18 @@ export default {
             department_ids: val
           };
           // 获取选中事业部的绩效模板和标签规则
-          getTagDepartments(getData).then(res => {
-            this.ruleForm.tag_type = res.tag_type;
-          });
-          getTplDepartments(getData).then(res => {
-            this.ruleForm.tpl = res;
-          });
+          getTagDepartments(getData)
+            .then(res => {
+              this.ruleForm.tag = res;
+            })
+            .catch(e => {});
+          getTplDepartments(getData)
+            .then(res => {
+              this.ruleForm.templates = res;
+            })
+            .catch(e => {});
         }
       },
-      deep: true,
       immediate: true
     }
   },
@@ -258,7 +271,7 @@ export default {
             year,
             start_time,
             end_time,
-            tag_type,
+            templates,
             allow_appeal
           } = res;
           this.ruleForm = {
@@ -268,7 +281,7 @@ export default {
             year,
             start_time,
             end_time,
-            tag_type,
+            templates,
             allow_appeal
           };
         })
