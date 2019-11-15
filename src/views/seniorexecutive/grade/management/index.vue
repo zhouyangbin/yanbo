@@ -6,6 +6,7 @@
         <div>
           <span>组织部绩效考核列表：</span>
           <el-cascader
+            @change="handleChange"
             v-model="filterForm.dp"
             :placeholder="constants.LABEL_SELECT_DIVISION"
             :props="filterProps"
@@ -213,6 +214,7 @@ export default {
       page: 1,
       perPage: 10,
       total: 0,
+      department_ids: "",
       showDialog: false,
       infoType: "add",
       showConfirmDialog: false,
@@ -240,18 +242,12 @@ export default {
       statuses: ""
     };
   },
-  watch: {
-    filterForm: {
-      handler: function(v) {
-        this.page = 1;
-        // 获取绩效考核列表
-        this.getPerformanceList();
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   methods: {
+    handleChange(value) {
+      this.department_ids = value[1];
+      this.page = 1;
+      this.getPerformanceList();
+    },
     handleSizeChange(val) {
       this.perPage = val;
     },
@@ -262,11 +258,11 @@ export default {
       let data = {
         statuses: this.statuses,
         page: this.page,
-        perPage: this.perPage
+        perPage: this.perPage,
+        department_ids: this.department_ids.split(",")
       };
       getAdminPerformancesList(data)
         .then(res => {
-          console.log(res);
           const { total, data } = res;
           this.performancesList = data;
           this.total = total;
@@ -290,6 +286,9 @@ export default {
       this.filterForm = {
         dp: []
       };
+      this.page = 1;
+      this.department_ids = "";
+      this.getPerformanceList();
     },
     handleCurrentChange() {
       this.page = val;
@@ -321,6 +320,7 @@ export default {
     }
   },
   created() {
+    this.getPerformanceList();
     getOrganization()
       .then(res => {
         this.orgTree = res;
