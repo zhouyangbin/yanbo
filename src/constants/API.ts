@@ -404,6 +404,7 @@ export const postPerformanceTpl = (params: Object) =>
 // 高管绩效  绩效模板信息
 export const getPerformanceTpl = (id: String) =>
   sendGet(`/executive-performance/admin/templates/${id}`, { req_type: 1 });
+
 // 高管绩效  修改模板
 export const putPerformanceTpls = (id: String, params: Object) =>
   sendPut(`/executive-performance/admin/templates/${id}`, params);
@@ -423,12 +424,10 @@ export const getOrganization = () =>
 // 高管绩效  获取高管类型
 export const getExecutiveTypes = () =>
   sendGet(`/executive-performance/admin/templates/executive-types`);
-// sendGet(`/js/getExecutiveTypes.json`);
 
 // 高管绩效  获取模板字段
 export const getTplFields = () =>
   sendGet(`/executive-performance/admin/templates/template-fields`);
-// sendGet(`/js/getTplFields.json`);
 
 // 高管绩效  获取衡量标准
 export const getTplMeasures = () =>
@@ -498,8 +497,7 @@ export const getExamineLog = (params: Object) =>
 //   sendGet(`/js/getTplMeasures.json`);
 // 高管绩效  获取绩效考核列表
 export const getAdminPerformancesList = (params: Object) =>
-  // sendGet(`/executive-performance/admin/performances`, params);
-  sendGet(`/js/getAdminPerformancesList.json`, params);
+  sendGet(`/executive-performance/admin/performances`, params);
 
 // 高管绩效 获取标签
 export const getTagDepartments = (params: Object) =>
