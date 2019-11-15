@@ -188,10 +188,6 @@ export default {
     orgTree: {
       type: Array,
       default: () => []
-    },
-    indicatorTypes: {
-      type: Array,
-      default: () => []
     }
   },
   data() {
@@ -235,7 +231,29 @@ export default {
         performance_type: "annual",
         template_fields: ["weight", "indicator_name"],
         measures: [],
-        performance_indicator_types: this.indicatorTypes
+        performance_indicator_types: [
+          {
+            label: "业绩指标类型一",
+            key: "finance",
+            name: "财务维度指标",
+            weight: 0,
+            sort: 0
+          },
+          {
+            label: "业绩指标类型二",
+            key: "work",
+            name: "工作维度指标",
+            weight: 0,
+            sort: 0
+          },
+          {
+            label: "业绩指标类型三",
+            key: "team",
+            name: "团队维度指标",
+            weight: 0,
+            sort: 0
+          }
+        ]
       },
       constants: {
         ADD_NEW_TPL,
@@ -295,12 +313,12 @@ export default {
           }
           if (this.infoType == "add") {
             return postPerformanceTpl(this.tplForm).then(res => {
-              this.$emit("confirm");
+              this.close();
             });
           } else {
             return putPerformanceTpls(this.performanceId, this.tplForm).then(
               res => {
-                this.$emit("confirm");
+                this.close();
               }
             );
           }

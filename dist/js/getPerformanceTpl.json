@@ -1,0 +1,44 @@
+{
+    "status": 200,
+    "message": "Success",
+    "data": {
+        "id": 22,
+        "name": "测试模板1",
+        "performance_type": "annual",
+        "template_fields": [
+            "weight",
+            "indicator_name",
+            "specific_job"
+        ],
+        "measures": [
+            "outstanding"
+        ],
+        "performance_indicator_types": [
+            {
+                "key": "finance",
+                "name": "财务维度指标1",
+                "weight": "75",
+                "sort": "0",
+                "label": "业绩指标类型一"
+            },
+            {
+                "key": "work",
+                "name": "工作维度指标1",
+                "weight": "25",
+                "sort": "0",
+                "label": "业绩指标类型二"
+            }
+        ],
+        "executive_types": [
+            "bu_president",
+            "bu_general_manager",
+            "bu_executive",
+            "subsidiary_principal"
+        ],
+        "department_ids": [
+            "D1001447",
+            "D1001448"
+        ],
+        "performance_type_text": "年度"
+    }
+}

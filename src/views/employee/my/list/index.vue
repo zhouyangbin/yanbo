@@ -104,6 +104,9 @@ export default {
       }
     };
   },
+  mounted(){
+    console.log(this.tableData)
+  },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue")
@@ -172,8 +175,10 @@ export default {
       });
     },
     refreshList(data) {
+      console.log(data)
       return getMyPerformanceList(data)
         .then(res => {
+          console.log(res)
           const { total, data } = res;
           this.total = total;
           this.tableData = data;
