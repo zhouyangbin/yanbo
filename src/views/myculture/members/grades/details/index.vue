@@ -374,56 +374,57 @@ export default {
       });
     },
     submit() {
-     
       const valid = this.validateData();
       if (!valid) {
         return;
       }
-      for(let key = 1; key <= 4; key++) {
-        if(this.composePostData()[key].score === 0) {
+      for (let key = 1; key <= 4; key++) {
+        if (this.composePostData()[key].score === 0) {
           this.isZero = true;
         }
       }
-      if(this.isZero) {
+      if (this.isZero) {
         this.$confirm("当前有0分项，是否提交?", "提示", {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
           type: "warning"
-        }).then(() => {
-          postMemberGrade(this.$route.params.uid, this.composePostData())
-            .then(res => {
-              this.$message({
-                message: CONST_ADD_SUCCESS,
-                type: "success"
-              });
-              this.$router.replace(
-                PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
-              );
-            })
-            .catch(e => {});
-        }).catch(() => {
-          this.isZero = false;
         })
+          .then(() => {
+            postMemberGrade(this.$route.params.uid, this.composePostData())
+              .then(res => {
+                this.$message({
+                  message: CONST_ADD_SUCCESS,
+                  type: "success"
+                });
+                this.$router.replace(
+                  PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+                );
+              })
+              .catch(e => {});
+          })
+          .catch(() => {
+            this.isZero = false;
+          });
       } else {
-          this.$confirm("是否确定提交, 是否继续?", "提示", {
+        this.$confirm("是否确定提交, 是否继续?", "提示", {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
           type: "warning"
         })
-        .then(() => {
-          postMemberGrade(this.$route.params.uid, this.composePostData())
-            .then(res => {
-              this.$message({
-                message: CONST_ADD_SUCCESS,
-                type: "success"
-              });
-              this.$router.replace(
-                PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
-              );
-            })
-            .catch(e => {});
-        })
-        .catch(() => {});
+          .then(() => {
+            postMemberGrade(this.$route.params.uid, this.composePostData())
+              .then(res => {
+                this.$message({
+                  message: CONST_ADD_SUCCESS,
+                  type: "success"
+                });
+                this.$router.replace(
+                  PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+                );
+              })
+              .catch(e => {});
+          })
+          .catch(() => {});
       }
     },
     levelChange(l) {
