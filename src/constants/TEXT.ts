@@ -533,6 +533,10 @@ export const ENUM_PERFORMANCE_FINISH = [
     value: "目标未导入"
   },
   {
+    key: 5,
+    value: "上级审核目标"
+  },
+  {
     key: 10,
     value: "目标已导入"
   },
