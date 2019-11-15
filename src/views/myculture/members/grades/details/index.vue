@@ -410,8 +410,7 @@ export default {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
           type: "warning"
-        })
-          .then(() => {
+        }).then(() => {
             postMemberGrade(this.$route.params.uid, this.composePostData())
               .then(res => {
                 this.$message({
