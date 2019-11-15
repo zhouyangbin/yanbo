@@ -107,7 +107,7 @@
               >{{ constants.EXPORT_DETAILS }}</el-button
             >
             <el-button
-              :disabled="!time_canReminder && isImported"
+              :disabled="!time_canReminder && !isImported"
               @click="reminder"
               class="action-btn"
               icon="el-icon-bell"
