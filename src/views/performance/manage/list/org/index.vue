@@ -106,21 +106,22 @@
               type="medium"
               >{{ constants.EXPORT_DETAILS }}</el-button
             >
-            <!--el-button
-              :disabled="!canReminder || afterEnd"
-              @click="reminder"
-              class="action-btn"
-              icon="el-icon-bell"
-              type="medium"
-              >{{ constants.REMINDER }}12</el-button
-            -->
             <el-button
+              :disabled="!canReminder || afterEnd"
               @click="reminder"
               class="action-btn"
               icon="el-icon-bell"
               type="medium"
               >{{ constants.REMINDER }}</el-button
             >
+            <!--el-button
+              :disabled="selection.length === 0"
+              @click="reminder"
+              class="action-btn"
+              icon="el-icon-bell"
+              type="medium"
+              >{{ constants.REMINDER }}</el-button
+            -->
             <el-button
               class="action-btn"
               :disabled="afterEnd"
@@ -761,16 +762,15 @@ export default {
     },
     isStarted() {
       return (
-        this.initTime.targetStartTime &&
-        formatTime(
-          new Date(this.initTime.targetStartTime.replace(/-/gi, "/"))
-        ) <= formatTime(new Date())
+        this.initTime.start_time &&
+        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <=
+          formatTime(new Date())
       );
     },
     afterEnd() {
       return (
-        this.initTime.endTime &&
-        formatTime(new Date(this.initTime.endTime.replace(/-/gi, "/"))) <=
+        this.initTime.end_time &&
+        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <=
           formatTime(new Date())
       );
     },
