@@ -45,7 +45,7 @@
           <div class="bread-crumb">
             <span>{{ item.name }}</span>
             <span class="dividing-line">|</span>
-            <span class="list-top-range">{{ item.range }}</span>
+            <span class="list-top-range">{{ item.departments_text }}</span>
             <span class="dividing-line">|</span>
             <span v-if="item.performance_type === 'annual'">年度</span>
             <span v-if="item.performance_type === 'semi-annual'">半年度</span>
@@ -70,7 +70,7 @@
               <i class="delete" @click="deleteAssessment(item.id)"></i>
             </el-tooltip>
             <el-button
-              v-if="item.status === 1"
+              v-if="item.can_start"
               @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
@@ -81,55 +81,64 @@
           <div class="list-middle-left">
             <div class="list-middle-items">
               <div>考核周期</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">
+                {{ item.year }}
+              </div>
             </div>
             <div class="list-middle-items">
               <div>起止时间</div>
-              <div class="list-middle-item">{{ item.year }}</div>
+              <div class="list-middle-item">
+                {{ item.start_time | filterDate }}至{{
+                  item.end_time | filterDate
+                }}
+              </div>
             </div>
           </div>
           <div class="list-middle-right">
             <div class="list-middle-items">
               <div>考核人数</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>指标填写中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>指标确认中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>自评中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>复评中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>隔级审核中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>总裁审核中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>确认中</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
             <div class="list-middle-items">
               <div>已确认</div>
-              <div class="list-middle-item">{{ item.is_draft }}</div>
+              <div class="list-middle-item">{{ item.users_count }}</div>
             </div>
           </div>
         </div>
         <div class="list-timeline">
           <div class="time-line active">指标设定</div>
-          <div class="time-line-sign active" data="11月15日"></div>
+          <div
+            class="time-line-sign active"
+            :data="item.indicator_setting_end_time"
+          ></div>
           <div class="time-line-circle active">
             <div class="circle-list"></div>
             <div class="circle-list"></div>
@@ -138,15 +147,30 @@
             <div class="circle-list"></div>
             <div class="circle-list"></div>
           </div>
-          <div class="time-line-sign active" data="11月18日"></div>
+          <div
+            class="time-line-sign active"
+            :data="item.self_evaluation_begin_time"
+          ></div>
           <div class="time-line active">自评</div>
-          <div class="time-line-sign active" data="11月23日"></div>
+          <div
+            class="time-line-sign active"
+            :data="item.superior_begin_time"
+          ></div>
           <div class="time-line active">上级评分</div>
-          <div class="time-line-sign active" data="11月30日"></div>
+          <div
+            class="time-line-sign active"
+            :data="item.isolation_begin_time"
+          ></div>
           <div class="time-line">隔级审核</div>
-          <div class="time-line-sign" data="12月1日"></div>
+          <div
+            class="time-line-sign"
+            :data="item.president_audit_begin_time"
+          ></div>
           <div class="time-line">总裁审核</div>
-          <div class="time-line-sign" data="12月18日"></div>
+          <div
+            class="time-line-sign"
+            :data="item.result_confirm_end_time"
+          ></div>
           <div class="time-line">结果确认</div>
           <div class="time-line-sign" data="12月30日"></div>
         </div>
@@ -239,6 +263,16 @@ export default {
       },
       statuses: ""
     };
+  },
+  filters: {
+    filterDate(val) {
+      let newVal = "";
+      if (val) {
+        newVal = /\d{4}-\d{1,2}-\d{1,2}/g.exec(val);
+        newVal = newVal[0];
+      }
+      return newVal;
+    }
   },
   methods: {
     handleChange(value) {

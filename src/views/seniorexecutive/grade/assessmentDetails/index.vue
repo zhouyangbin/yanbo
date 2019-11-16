@@ -399,6 +399,7 @@ import {
   getPerformanceNotice,
   deletePerformanceUser
 } from "@/constants/API";
+import { PATH_PERFORMANCE_GRADE_MANAGEMENT } from "@/constants/URL";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -457,7 +458,7 @@ export default {
       nav: [
         {
           label: "组织部绩效考核列表",
-          active: false
+          href: PATH_PERFORMANCE_GRADE_MANAGEMENT
         },
         {
           label: "考核详情",
