@@ -266,6 +266,9 @@ export default {
   },
   methods: {
     selectedOrg(data) {
+      if (data.length === 0) {
+        return false;
+      }
       this.ruleForm.department_ids = data;
       let getData = {
         department_ids: data
@@ -274,12 +277,16 @@ export default {
         .then(res => {
           this.ruleForm.tag = res;
         })
-        .catch(e => {});
+        .catch(e => {
+          this.ruleForm.department_ids = [];
+        });
       getTplDepartments(getData)
         .then(res => {
           this.ruleForm.templates = res;
         })
-        .catch(e => {});
+        .catch(e => {
+          this.ruleForm.department_ids = [];
+        });
     },
     close() {
       this.$emit("close");

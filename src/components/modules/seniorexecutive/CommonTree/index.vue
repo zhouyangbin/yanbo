@@ -43,8 +43,7 @@ export default {
       ids = ids.map(v => v.id);
       this.$emit("selectedIds", ids);
     }, 500)
-  },
-  created() {}
+  }
 };
 </script>
 <style scoped>

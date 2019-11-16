@@ -573,11 +573,16 @@ export default {
       this.tipsText = "是否确认启动考核？";
     },
     confirmDialog() {
-      // 确定按钮
-      // this.showConfirmDialog = false;
-      // putOpenAssessment(this.performanceId).then(res => {
-      //   console.log(res)
-      // }).catch(e => {});
+      if (data === "open") {
+        putOpenAssessment(this.performanceId)
+          .then(res => {
+            this.showConfirmDialog = false;
+            this.getPerformanceList();
+          })
+          .catch(e => {});
+      } else {
+        this.showConfirmDialog = false;
+      }
     },
     closeDialog() {
       this.showConfirmDialog = false;
@@ -613,6 +618,12 @@ export default {
     }
   },
   created() {
+    // 获取考核详情
+    getPerformanceDetail(this.performanceId)
+      .then(res => {
+        this.performanceDetail = res;
+      })
+      .catch(e => {});
     getOrganization()
       .then(res => {
         this.orgTree = res;
@@ -621,11 +632,6 @@ export default {
     getPerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
-      })
-      .catch(e => {});
-    getPerformanceDetail()
-      .then(res => {
-        this.performanceDetail = res;
       })
       .catch(e => {});
     getExecutiveTypes()

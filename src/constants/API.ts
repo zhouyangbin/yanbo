@@ -515,8 +515,7 @@ export const getTplDepartments = (params: Object) =>
 
 // 高管绩效 绩效考核详情
 export const getPerformanceDetail = (id: String) =>
-  // sendGet(`/executive-performance/admin/performances/${id}`)
-  sendGet(`/js/getPerformanceDetail.json`);
+  sendGet(`/executive-performance/admin/performances/${id}`);
 
 // 高管绩效 获取考核名单
 export const getPerformanceUser = (id: String, params: Object) =>

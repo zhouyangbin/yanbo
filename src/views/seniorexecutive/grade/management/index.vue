@@ -45,10 +45,7 @@
           <div class="bread-crumb">
             <span>{{ item.name }}</span>
             <span class="dividing-line">|</span>
-            <span class="list-top-range"
-              >{{ item.range }}{{ item.range }}{{ item.range }}{{ item.range
-              }}{{ item.range }}{{ item.range }}</span
-            >
+            <span class="list-top-range">{{ item.range }}</span>
             <span class="dividing-line">|</span>
             <span v-if="item.performance_type === 'annual'">年度</span>
             <span v-if="item.performance_type === 'semi-annual'">半年度</span>
@@ -319,6 +316,8 @@ export default {
             this.getPerformanceList();
           })
           .catch(e => {});
+      } else {
+        this.showConfirmDialog = false;
       }
     },
     openAssessment(id) {
