@@ -52,7 +52,7 @@
         >
         </el-date-picker>
       </el-form-item>
-      <el-form-item class="is-required" label="考核周期" prop="end_time">
+      <el-form-item class="is-required" label="考核周期" prop="period_end_time">
         <div>
           <el-date-picker
             :clearable="false"
@@ -60,7 +60,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.start_time"
+            v-model="ruleForm.period_start_time"
             type="datetime"
             placeholder="请选择"
           ></el-date-picker>
@@ -71,7 +71,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.end_time"
+            v-model="ruleForm.period_end_time"
             type="datetime"
             placeholder="请选择"
           ></el-date-picker>
@@ -162,9 +162,9 @@ export default {
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
-      if (!this.ruleForm.start_time) {
+      if (!this.ruleForm.period_start_time) {
         callback(new Error(PLS_SELECT_START_TIME));
-      } else if (!!value && value <= this.ruleForm.start_time) {
+      } else if (!!value && value <= this.ruleForm.period_start_time) {
         callback(new Error(END_TIME_NOT_LESS_THAN_START_TIME));
       } else {
         callback();
@@ -187,15 +187,15 @@ export default {
         year: [
           { required: true, message: "考核周期不能为空", trigger: "blur" }
         ],
-        end_time: [{ validator: endTimeValidator, trigger: "change" }]
+        period_end_time: [{ validator: endTimeValidator, trigger: "change" }]
       },
       ruleForm: {
         name: "",
         department_ids: [],
         performance_type: "annual",
         year: "",
-        start_time: this.initTime.start_time || "",
-        end_time: this.initTime.end_time || "",
+        period_start_time: this.initTime.period_start_time || "",
+        period_end_time: this.initTime.period_end_time || "",
         tag: [],
         templates: [],
         allow_appeal: 1
@@ -226,8 +226,8 @@ export default {
         disabledDate: date => {
           const dt = formatTime(new Date(date));
           let now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          if (this.ruleForm.start_time) {
-            now = this.ruleForm.start_time;
+          if (this.ruleForm.period_start_time) {
+            now = this.ruleForm.period_start_time;
           }
           return dt < now;
         }
@@ -245,8 +245,8 @@ export default {
             department_ids,
             performance_type,
             year,
-            start_time,
-            end_time,
+            period_start_time,
+            period_end_time,
             templates,
             allow_appeal
           } = res;
@@ -255,8 +255,8 @@ export default {
             department_ids,
             performance_type,
             year,
-            start_time,
-            end_time,
+            period_start_time,
+            period_end_time,
             templates,
             allow_appeal
           };
