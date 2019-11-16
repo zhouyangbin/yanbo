@@ -328,7 +328,7 @@ export default {
     Allsubmit_step1() {
       const h = this.$createElement;
       this.$confirm(
-        "您已评完完成所有直属下级的评分, 请整体检查分布情况，并提交至隔级审核 ",
+        "您已评完所有直属下级的评分, 请整体检查分布情况，并提交至隔级审核 ",
         "提示",
         {
           confirmButtonText: "提交",
