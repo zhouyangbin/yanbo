@@ -20,23 +20,11 @@
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="适用范围" prop="department_ids">
-        <el-tree
-          class="select-tree"
-          empty-text="努力加载中..."
-          @check-change="treeChange"
-          :props="defaultProps"
-          :default-checked-keys="ruleForm.department_ids"
-          node-key="id"
-          ref="tree"
-          :filter-node-method="filterNode"
-          show-checkbox
-          :data="orgTree"
-        ></el-tree>
-        <!-- <common-tree
+        <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
           :department_ids="ruleForm.department_ids"
-        ></common-tree> -->
+        ></common-tree>
       </el-form-item>
       <el-form-item
         class="is-required"
@@ -141,11 +129,11 @@ import {
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
-  // components: {
-  //   "common-tree": AsyncComp(
-  //     import("@/components/modules/seniorexecutive/CommonTree/index.vue")
-  //   )
-  // },
+  components: {
+    "common-tree": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+    )
+  },
   props: {
     visible: {
       type: Boolean,
@@ -183,10 +171,6 @@ export default {
       }
     };
     return {
-      defaultProps: {
-        label: "name",
-        children: "children"
-      },
       isWatch: true,
       rules: {
         name: [
@@ -281,16 +265,6 @@ export default {
     }
   },
   methods: {
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.name.indexOf(value) !== -1;
-    },
-    treeChange(data, checked, indeterminate) {
-      let ids = this.$refs.tree.getCheckedNodes();
-      ids = ids.map(v => v.id);
-      console.log(ids)
-      // this.$emit("selectedIds", ids);
-    },
     selectedOrg(data) {
       console.log(data);
       this.ruleForm.department_ids = data;
@@ -347,9 +321,5 @@ export default {
 }
 .tpl-dialog .rule-name {
   color: #52ddab;
-}
-.select-tree {
-  max-height: 260px;
-  overflow: auto;
 }
 </style>
