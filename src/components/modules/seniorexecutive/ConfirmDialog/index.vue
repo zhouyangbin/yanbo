@@ -24,6 +24,10 @@ export default {
     tipsText: {
       type: String,
       default: ""
+    },
+    confirmType: {
+      type: String,
+      default: "open"
     }
   },
   data() {
@@ -34,7 +38,7 @@ export default {
       this.$emit("close");
     },
     confirmBtn() {
-      this.$emit("confirm");
+      this.$emit("confirm", this.confirmType);
     }
   },
   created() {}

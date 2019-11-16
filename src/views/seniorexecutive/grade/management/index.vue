@@ -70,11 +70,11 @@
               content="删除"
               placement="top"
             >
-              <i class="delete" @click="deleteAssessment"></i>
+              <i class="delete" @click="deleteAssessment(item.id)"></i>
             </el-tooltip>
             <el-button
               v-if="item.status === 1"
-              @click="openAssessment"
+              @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
             >
@@ -182,6 +182,7 @@
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
+      :confirmType="confirmType"
       @confirm="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
@@ -221,9 +222,7 @@ export default {
       infoType: "add",
       showConfirmDialog: false,
       tipsText: "",
-      type: "",
-      requestLink: "",
-      requestType: "",
+      confirmType: "open",
       id: 0,
       performancesList: [],
       orgTree: [],
@@ -296,27 +295,37 @@ export default {
     linkToDetail(id) {
       this.$router.replace(`/performance/assessment/details/${id}`);
     },
-    deleteAssessment() {
+    deleteAssessment(id) {
+      this.performanceId = id;
       this.showConfirmDialog = true;
       this.tipsText = "是否确认删除考核？";
+      this.confirmType = "delete";
     },
     closeDialog() {
       this.showConfirmDialog = false;
     },
-    confirmDialog() {
-      // 确定按钮 判断是开启还是删除的框
-      console.log("确定");
-      // this.showConfirmDialog = false;
-      // putOpenAssessment(id).then(res => {
-      //   console.log(res)
-      // }).catch(e => {});
-      // delAssessment(id).then(res => {
-      //   console.log(res)
-      // }).catch(e => {});
+    confirmDialog(data) {
+      if (data === "open") {
+        putOpenAssessment(this.performanceId)
+          .then(res => {
+            this.showConfirmDialog = false;
+            this.getPerformanceList();
+          })
+          .catch(e => {});
+      } else if (data === "delete") {
+        delAssessment(this.performanceId)
+          .then(res => {
+            this.showConfirmDialog = false;
+            this.getPerformanceList();
+          })
+          .catch(e => {});
+      }
     },
-    openAssessment() {
+    openAssessment(id) {
+      this.performanceId = id;
       this.showConfirmDialog = true;
       this.tipsText = "是否确认启动考核？";
+      this.confirmType = "open";
     }
   },
   created() {

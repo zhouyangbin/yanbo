@@ -266,7 +266,6 @@ export default {
   },
   methods: {
     selectedOrg(data) {
-      console.log(data);
       this.ruleForm.department_ids = data;
       let getData = {
         department_ids: data
