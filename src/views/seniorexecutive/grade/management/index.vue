@@ -204,6 +204,7 @@
       :infoType="infoType"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
+      @define="tplDefine"
     ></assessment-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
@@ -281,6 +282,10 @@ export default {
     }
   },
   methods: {
+    tplDefine() {
+      this.showDialog = false;
+      this.getPerformanceList();
+    },
     handleChange(value) {
       this.department_ids = value.length > 0 ? value[value.length - 1] : "";
       this.page = 1;

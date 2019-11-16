@@ -296,14 +296,14 @@ export default {
         if (valid) {
           if (this.infoType == "add") {
             return postAddPerformanceAssessment(this.ruleForm).then(res => {
-              this.close();
+              this.$emit("define");
             });
           } else {
             return putPerformanceAssessment(
               this.performanceId,
               this.ruleForm
             ).then(res => {
-              this.close();
+              this.$emit("define");
             });
           }
         }

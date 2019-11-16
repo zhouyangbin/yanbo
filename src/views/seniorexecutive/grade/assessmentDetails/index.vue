@@ -116,7 +116,7 @@
           <div class="setting-detail">
             <div class="setting-key">是否允许申诉:</div>
             <div class="setting-value">
-              {{ performanceDetail.allow_appeal }}
+              {{ performanceDetail.allow_appeal === 1 ? "是" : "否" }}
             </div>
           </div>
           <div class="setting-detail">
