@@ -20,11 +20,23 @@
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="适用范围" prop="department_ids">
-        <common-tree
+        <el-tree
+          class="select-tree"
+          empty-text="努力加载中..."
+          @check-change="treeChange"
+          :props="defaultProps"
+          :default-checked-keys="ruleForm.department_ids"
+          node-key="id"
+          ref="tree"
+          :filter-node-method="filterNode"
+          show-checkbox
+          :data="orgTree"
+        ></el-tree>
+        <!-- <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
           :department_ids="ruleForm.department_ids"
-        ></common-tree>
+        ></common-tree> -->
       </el-form-item>
       <el-form-item
         class="is-required"
@@ -129,11 +141,11 @@ import {
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
-  components: {
-    "common-tree": AsyncComp(
-      import("@/components/modules/seniorexecutive/CommonTree/index.vue")
-    )
-  },
+  // components: {
+  //   "common-tree": AsyncComp(
+  //     import("@/components/modules/seniorexecutive/CommonTree/index.vue")
+  //   )
+  // },
   props: {
     visible: {
       type: Boolean,
@@ -171,8 +183,11 @@ export default {
       }
     };
     return {
+      defaultProps: {
+        label: "name",
+        children: "children"
+      },
       isWatch: true,
-      departmentIds: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
@@ -235,29 +250,6 @@ export default {
       };
     }
   },
-  watch: {
-    departmentIds: {
-      handler: function(val, oldVal) {
-        if (val.length > 0 && this.isWatch) {
-          let getData = {
-            department_ids: val
-          };
-          // 获取选中事业部的绩效模板和标签规则
-          getTagDepartments(getData)
-            .then(res => {
-              this.ruleForm.tag = res;
-            })
-            .catch(e => {});
-          getTplDepartments(getData)
-            .then(res => {
-              this.ruleForm.templates = res;
-            })
-            .catch(e => {});
-        }
-      },
-      immediate: true
-    }
-  },
   created() {
     if (this.infoType != "add" && this.performanceId) {
       // 获取弹框信息
@@ -289,9 +281,32 @@ export default {
     }
   },
   methods: {
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
+    treeChange(data, checked, indeterminate) {
+      let ids = this.$refs.tree.getCheckedNodes();
+      ids = ids.map(v => v.id);
+      console.log(ids)
+      // this.$emit("selectedIds", ids);
+    },
     selectedOrg(data) {
-      this.departmentIds = data;
+      console.log(data);
       this.ruleForm.department_ids = data;
+      let getData = {
+        department_ids: data
+      };
+      getTagDepartments(getData)
+        .then(res => {
+          this.ruleForm.tag = res;
+        })
+        .catch(e => {});
+      getTplDepartments(getData)
+        .then(res => {
+          this.ruleForm.templates = res;
+        })
+        .catch(e => {});
     },
     close() {
       this.$emit("close");
@@ -332,5 +347,9 @@ export default {
 }
 .tpl-dialog .rule-name {
   color: #52ddab;
+}
+.select-tree {
+  max-height: 260px;
+  overflow: auto;
 }
 </style>

@@ -154,19 +154,21 @@
           <div class="time-line-sign" data="12月30日"></div>
         </div>
       </div>
-      <el-pagination
-        background
-        v-show="total"
-        class=""
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page"
-        :page-sizes="[10, 20, 50]"
-        :page-size="perPage"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
+      <el-row type="flex" justify="end">
+        <el-pagination
+          background
+          v-if="total"
+          class="paging-box"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[10, 20, 50]"
+          :page-size="perPage"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        >
+        </el-pagination>
+      </el-row>
     </section>
     <assessment-dialog
       v-if="showDialog"
@@ -516,6 +518,9 @@ export default {
         }
       }
     }
+  }
+  .paging-box {
+    margin-top: 25px;
   }
 }
 </style>
