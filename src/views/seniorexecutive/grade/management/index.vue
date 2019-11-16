@@ -42,16 +42,22 @@
           <span v-if="item.status === 1" class="state draft">草稿</span>
           <span v-if="item.status === 2" class="state doing">进行中</span>
           <span v-if="item.status === 3" class="state ending">已结束</span>
-          <div class="bread-crumb">
-            <span>{{ item.name }}</span>
-            <span class="dividing-line">|</span>
-            <span class="list-top-range">{{ item.departments_text }}</span>
-            <span class="dividing-line">|</span>
-            <span v-if="item.performance_type === 'annual'">年度</span>
-            <span v-if="item.performance_type === 'semi-annual'">半年度</span>
-            <span v-if="item.performance_type === 'quarter'">季度</span>
-            <span v-if="item.performance_type === 'monthly'">月度</span>
-          </div>
+          <el-breadcrumb separator="|" class="bread-crumb">
+            <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ item.departments_text }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="item.performance_type === 'annual'"
+              >年度</el-breadcrumb-item
+            >
+            <el-breadcrumb-item v-if="item.performance_type === 'semi-annual'"
+              >半年度</el-breadcrumb-item
+            >
+            <el-breadcrumb-item v-if="item.performance_type === 'quarter'"
+              >季度</el-breadcrumb-item
+            >
+            <el-breadcrumb-item v-if="item.performance_type === 'monthly'"
+              >月度</el-breadcrumb-item
+            >
+          </el-breadcrumb>
           <div class="operate-btns">
             <el-tooltip
               class="item"
@@ -162,17 +168,17 @@
             :data="item.isolation_begin_time"
           ></div>
           <div class="time-line">隔级审核</div>
-          <div
-            class="time-line-sign"
-            :data="item.president_audit_begin_time"
-          ></div>
+          <div class="time-line-sign"></div>
           <div class="time-line">总裁审核</div>
           <div
             class="time-line-sign"
             :data="item.result_confirm_end_time"
           ></div>
           <div class="time-line">结果确认</div>
-          <div class="time-line-sign" data="12月30日"></div>
+          <div
+            class="time-line-sign"
+            :data="item.president_audit_begin_time"
+          ></div>
         </div>
       </div>
       <el-row type="flex" justify="end">
@@ -405,23 +411,10 @@ export default {
         background-color: #cdd0d6ff;
       }
       .bread-crumb {
-        float: left;
         line-height: 32px;
         font-size: 16px;
         font-weight: bold;
         color: #303133ff;
-        .dividing-line {
-          margin: 0 12px;
-          color: #dcdfe6ff;
-        }
-        .list-top-range {
-          display: inline-block;
-          max-width: 200px;
-          vertical-align: middle;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
       }
       .operate-btns {
         float: right;
