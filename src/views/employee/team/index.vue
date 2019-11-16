@@ -433,16 +433,19 @@ export default {
         .catch(() => {});
     },
     Allsubmit_send(input_content) {
+      let that = this;
       let data = {
         content: input_content
       };
       return highLevelAllSubmit(this.$route.params.id, data)
         .then(res => {
-          this.refreshList(postData);
-          this.$message({
-            message: res,
-            type: "success"
-          });
+          let postData = {
+            page: this.currentPage,
+            name: this.filterForm.name,
+            stage: this.filterForm.status
+          };
+          this.refreshList(postData); //再次请求接口
+          this.reviewList(); //再次请求接口
         })
         .catch(e => {});
     },
