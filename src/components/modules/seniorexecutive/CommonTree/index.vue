@@ -13,6 +13,7 @@
   ></el-tree>
 </template>
 <script>
+const debounce = require("lodash.debounce");
 export default {
   props: {
     orgTree: {
@@ -37,13 +38,12 @@ export default {
       if (!value) return true;
       return data.name.indexOf(value) !== -1;
     },
-    treeChange(data, checked, indeterminate) {
+    treeChange: debounce(function(data, checked, indeterminate) {
       let ids = this.$refs.tree.getCheckedNodes();
       ids = ids.map(v => v.id);
       this.$emit("selectedIds", ids);
-    }
-  },
-  created() {}
+    }, 500)
+  }
 };
 </script>
 <style scoped>

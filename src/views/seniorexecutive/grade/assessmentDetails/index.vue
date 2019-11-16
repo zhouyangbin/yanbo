@@ -5,13 +5,16 @@
     <section class="content-container bg-white">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
-        <div class="create-btn">
+        <div class="create-btn" v-if="performanceDetail.can_start">
           <el-button type="primary" @click="openAssessment">开启考核</el-button>
         </div>
       </div>
       <div class="list-timeline">
         <div class="time-line active" data="填写中100/确认中300">指标设定</div>
-        <div class="time-line-sign active" data="11月15日"></div>
+        <div
+          class="time-line-sign active"
+          :data="performanceDetail.indicator_setting_end_time"
+        ></div>
         <div class="time-line-circle active">
           <div class="circle-list"></div>
           <div class="circle-list"></div>
@@ -20,17 +23,32 @@
           <div class="circle-list"></div>
           <div class="circle-list"></div>
         </div>
-        <div class="time-line-sign active" data="11月18日"></div>
+        <div
+          class="time-line-sign active"
+          :data="performanceDetail.self_evaluation_begin_time"
+        ></div>
         <div class="time-line active">自评</div>
-        <div class="time-line-sign active" data="11月23日"></div>
+        <div
+          class="time-line-sign active"
+          :data="performanceDetail.superior_begin_time"
+        ></div>
         <div class="time-line">上级评分</div>
-        <div class="time-line-sign" data="11月30日"></div>
+        <div
+          class="time-line-sign"
+          :data="performanceDetail.isolation_begin_time"
+        ></div>
         <div class="time-line">隔级审核</div>
-        <div class="time-line-sign" data="12月1日"></div>
+        <div
+          class="time-line-sign"
+          :data="performanceDetail.president_audit_begin_time"
+        ></div>
         <div class="time-line">总裁审核</div>
-        <div class="time-line-sign" data="12月18日"></div>
+        <div class="time-line-sign"></div>
         <div class="time-line">结果确认</div>
-        <div class="time-line-sign" data="12月30日"></div>
+        <div
+          class="time-line-sign"
+          :data="performanceDetail.result_comfirm_end_time"
+        ></div>
       </div>
     </section>
     <section class="content-container">
@@ -46,29 +64,70 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">适用范围:</div>
-            <div class="setting-value">学习事业部</div>
+            <div class="setting-value">
+              {{ performanceDetail.departments_text }}
+            </div>
           </div>
           <div class="setting-detail">
-            <div class="setting-key">考核类型:</div>
-            <div class="setting-value">年度</div>
+            <div class="setting-key">绩效类型:</div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'annual'"
+            >
+              年度
+            </div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'semi-annual'"
+            >
+              半年度
+            </div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'quarter'"
+            >
+              季度
+            </div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'monthly'"
+            >
+              月度
+            </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">考核周期:</div>
-            <div class="setting-value">2019年3月-2019年12月</div>
+            <div class="setting-value">
+              {{ performanceDetail.period_start_time }}~{{
+                performanceDetail.period_end_time
+              }}
+            </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效模板:</div>
-            <div class="setting-value">
-              学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板
+            <div
+              class="setting-value"
+              v-for="item in performanceDetail.templates"
+              :key="item.id"
+            >
+              <span>{{ item.name }}</span>
             </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">是否允许申诉:</div>
-            <div class="setting-value">是</div>
+            <div class="setting-value">
+              {{ performanceDetail.allow_appeal === 1 ? "是" : "否" }}
+            </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">标签规则:</div>
-            <div class="setting-value">23221</div>
+            <div
+              class="setting-value"
+              v-for="item in performanceDetail.tag"
+              :key="item.id"
+            >
+              <span>{{ item.tag_type }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -399,6 +458,7 @@ import {
   getPerformanceNotice,
   deletePerformanceUser
 } from "@/constants/API";
+import { PATH_PERFORMANCE_GRADE_MANAGEMENT } from "@/constants/URL";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -457,7 +517,7 @@ export default {
       nav: [
         {
           label: "组织部绩效考核列表",
-          active: false
+          href: PATH_PERFORMANCE_GRADE_MANAGEMENT
         },
         {
           label: "考核详情",
@@ -573,11 +633,16 @@ export default {
       this.tipsText = "是否确认启动考核？";
     },
     confirmDialog() {
-      // 确定按钮
-      // this.showConfirmDialog = false;
-      // putOpenAssessment(this.performanceId).then(res => {
-      //   console.log(res)
-      // }).catch(e => {});
+      if (data === "open") {
+        putOpenAssessment(this.performanceId)
+          .then(res => {
+            this.showConfirmDialog = false;
+            this.getPerformanceList();
+          })
+          .catch(e => {});
+      } else {
+        this.showConfirmDialog = false;
+      }
     },
     closeDialog() {
       this.showConfirmDialog = false;
@@ -613,6 +678,13 @@ export default {
     }
   },
   created() {
+    // 获取考核详情
+    getPerformanceDetail(this.performanceId)
+      .then(res => {
+        console.log(res);
+        this.performanceDetail = res;
+      })
+      .catch(e => {});
     getOrganization()
       .then(res => {
         this.orgTree = res;
@@ -621,11 +693,6 @@ export default {
     getPerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
-      })
-      .catch(e => {});
-    getPerformanceDetail()
-      .then(res => {
-        this.performanceDetail = res;
       })
       .catch(e => {});
     getExecutiveTypes()
@@ -674,17 +741,28 @@ export default {
     display: flex;
     padding: 40px 30px;
     .time-line {
+      position: relative;
       width: 15%;
-      padding: 6px 0;
+      padding: 6px 0 30px 0;
       text-align: center;
       border-bottom: 4px solid #e6e9f0;
+      &::after {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 26px;
+        width: 100%;
+        content: attr(data);
+        color: #ff8519;
+        font-size: 12px;
+      }
     }
     .time-line.active {
       border-bottom: 4px solid #38d0afff;
     }
     .time-line-sign {
       position: relative;
-      top: 26px;
+      top: 50px;
       width: 12px;
       height: 12px;
       margin: 0 4px;
@@ -716,7 +794,7 @@ export default {
     .time-line-circle {
       min-width: 45px;
       position: relative;
-      top: 22px;
+      top: 47px;
       left: 0;
       .circle-list {
         display: inline-block;

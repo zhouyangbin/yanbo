@@ -172,7 +172,6 @@ export default {
     };
     return {
       isWatch: true,
-      departmentIds: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
@@ -235,29 +234,6 @@ export default {
       };
     }
   },
-  watch: {
-    departmentIds: {
-      handler: function(val, oldVal) {
-        if (val.length > 0 && this.isWatch) {
-          let getData = {
-            department_ids: val
-          };
-          // 获取选中事业部的绩效模板和标签规则
-          getTagDepartments(getData)
-            .then(res => {
-              this.ruleForm.tag = res;
-            })
-            .catch(e => {});
-          getTplDepartments(getData)
-            .then(res => {
-              this.ruleForm.templates = res;
-            })
-            .catch(e => {});
-        }
-      },
-      immediate: true
-    }
-  },
   created() {
     if (this.infoType != "add" && this.performanceId) {
       // 获取弹框信息
@@ -290,8 +266,27 @@ export default {
   },
   methods: {
     selectedOrg(data) {
-      this.departmentIds = data;
+      if (data.length === 0) {
+        return false;
+      }
       this.ruleForm.department_ids = data;
+      let getData = {
+        department_ids: data
+      };
+      getTagDepartments(getData)
+        .then(res => {
+          this.ruleForm.tag = res;
+        })
+        .catch(e => {
+          this.ruleForm.department_ids = [];
+        });
+      getTplDepartments(getData)
+        .then(res => {
+          this.ruleForm.templates = res;
+        })
+        .catch(e => {
+          this.ruleForm.department_ids = [];
+        });
     },
     close() {
       this.$emit("close");
@@ -301,14 +296,14 @@ export default {
         if (valid) {
           if (this.infoType == "add") {
             return postAddPerformanceAssessment(this.ruleForm).then(res => {
-              this.close();
+              this.$emit("define");
             });
           } else {
             return putPerformanceAssessment(
               this.performanceId,
               this.ruleForm
             ).then(res => {
-              this.close();
+              this.$emit("define");
             });
           }
         }

@@ -42,6 +42,7 @@
             :label="constants.TPL_NAME"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="departments_text"
             :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
           ></el-table-column>
