@@ -305,6 +305,7 @@ export default {
           this.name = performanceInfo.name || "";
           this.Allsubmit_action = performanceInfo.submit;
           this.reject_msg = performanceInfo.reject_msg;
+          performanceInfo.submit ? this.Allsubmit_step1() : null;
         })
         .catch(e => {});
     },
@@ -378,13 +379,13 @@ export default {
                        <p style='${
                          b_minus_diff >= 0 ? "display:none" : null
                        }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[2].child[0].name}总人数超出${Math.abs(
+                        ${overview[2].child[0].name}总人数缺少${Math.abs(
                 b_minus_diff
               )}人</span></p>\
                        <p style='${
                          cd_diff >= 0 ? "display:none" : null
                        }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[2].child[1].name}总人数超出${Math.abs(
+                        ${overview[2].child[1].name}总人数缺少${Math.abs(
                 cd_diff
               )}人</span></p>`;
               this.Allsubmit_step2(tip_html);

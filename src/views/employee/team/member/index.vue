@@ -309,7 +309,7 @@ export default {
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_score.score; //自评总分
-          this.label_id = res.superior_score.label_id || null;
+          this.label_id = parseInt(res.superior_score.label_id) || null;
           this.operate_status = res.operate_status;
         })
         .catch(e => {});
