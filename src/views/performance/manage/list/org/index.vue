@@ -776,7 +776,7 @@ export default {
         formatTime(
           new Date(this.initTime.target_start_time.replace(/-/gi, "/"))
         ) <= formatTime(new Date()) &&
-        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <=
+        formatTime(new Date(this.initTime.target_end_time.replace(/-/gi, "/"))) <=
           formatTime(new Date())
       );
     },
@@ -797,8 +797,8 @@ export default {
       // 指标设定 评分时间 隔级评时间 三个条件或运算
       return (
         this.target_canReminder ||
-        this.target_canReminder ||
-        this.target_canReminder
+        this.score_canReminder ||
+        this.high_canReminder
       );
     },
     canReminder() {

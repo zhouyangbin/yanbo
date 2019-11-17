@@ -66,6 +66,14 @@
         ></total-mark>
         <br />
       </div>
+      <div v-if="!canEdit">
+        <total-mark
+          :total="total"
+          :score="total"
+          :high_level_show="high_level_show"
+        ></total-mark>
+        <br />
+      </div>
       <div>
         <level
           v-if="level && published"

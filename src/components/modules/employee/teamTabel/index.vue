@@ -72,7 +72,7 @@
                 </el-popover>
                 <span
                   v-else
-                  class="overview_info_number_users clo_bg_1  margin_right_3"
+                  class="overview_info_number_users clo_bg_1"
                 >
                   {{ getUserInfo(overview[0].users) }}
                 </span>
@@ -207,7 +207,7 @@
                 </el-popover>
                 <span
                   v-else
-                  class="overview_info_number_users clo_bg_2  margin_right_3"
+                  class="overview_info_number_users clo_bg_2"
                 >
                   {{ getUserInfo(overview[1].child[1].users) }}
                 </span>
@@ -345,7 +345,7 @@
                 </el-popover>
                 <span
                   v-else
-                  class="overview_info_number_users clo_bg_3  margin_right_3"
+                  class="overview_info_number_users clo_bg_3"
                 >
                   {{ getUserInfo(overview[2].child[1].users) }}
                 </span>
@@ -476,11 +476,11 @@ export default {
   flex: 1;
 }
 .overview_info_number_info {
-  height: 92px;
+  height: 80px;
   display: flex;
 }
 .overview_info_number_info_des {
-  height: 92px;
+  height: 80px;
   flex: 1;
   display: flex;
   align-items: center;

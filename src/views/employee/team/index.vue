@@ -8,7 +8,7 @@
         </el-col>
         <el-col :span="6">
           <el-button
-            :disabled="!Allsubmit_action"
+            :disabled="Allsubmit_action"
             type="primary"
             @click="Allsubmit_step1"
             >整体提交</el-button
@@ -305,7 +305,8 @@ export default {
           this.name = performanceInfo.name || "";
           this.Allsubmit_action = performanceInfo.submit;
           this.reject_msg = performanceInfo.reject_msg;
-          performanceInfo.submit ? this.Allsubmit_step1() : null;
+          console.log(performanceInfo.submit)
+          performanceInfo.submit ? this.Allsubmit_step_load() : null;
         })
         .catch(e => {});
     },
@@ -325,82 +326,56 @@ export default {
         stage: this.filterForm.status
       });
     },
-    Allsubmit_step1() {
+ 
+    Allsubmit_step_load() {//页面进来调用方法
       const h = this.$createElement;
       this.$confirm(
         "您已评完所有直属下级的评分, 请整体检查分布情况，并提交至隔级审核 ",
         "提示",
         {
           confirmButtonText: "提交",
-          callback: action => {
-            if (action == "cancel") {
-              return false;
-            }
-            let overview = this.overview;
-            let top_Diff = overview[0].expected - overview[0].count,
-              b_plus_diff =
-                overview[1].child[0].expected - overview[1].child[0].count,
-              b_diff =
-                overview[1].child[1].expected - overview[1].child[1].count,
-              b_minus_diff =
-                overview[2].child[0].count - overview[2].child[0].expected,
-              cd_diff =
-                overview[2].child[1].count - overview[2].child[1].expected;
-            if (
-              top_Diff >= 0 &&
-              b_plus_diff >= 0 &&
-              b_diff >= 0 &&
-              b_minus_diff >= 0 &&
-              cd_diff >= 0
-            ) {
-              //可以直接提交
-              this.Allsubmit_step3();
-            } else {
-              let tip_html = `<p>不符合标签分布要求，如继续提交，将触发邮件至一级部门负责人和HRBP，是否确认继续</p>\
-                       <p>分布结果检查 :</p>\
-                       <p style='${
-                         top_Diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[0].name}总人数超出${Math.abs(
-                top_Diff
-              )}人</span></p>\
-                       <p style='${
-                         b_plus_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                         ${overview[1].child[0].name}总人数超出${Math.abs(
-                b_plus_diff
-              )}人</span></p>\
-                       <p style='${
-                         b_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[1].child[1].name}总人数超出${Math.abs(
-                b_diff
-              )}人</span></p>\
-                       <p style='${
-                         b_minus_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[2].child[0].name}总人数缺少${Math.abs(
-                b_minus_diff
-              )}人</span></p>\
-                       <p style='${
-                         cd_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[2].child[1].name}总人数缺少${Math.abs(
-                cd_diff
-              )}人</span></p>`;
-              this.Allsubmit_step2(tip_html);
-            }
-          },
+          
           cancelButtonText: "暂不提交"
         }
       )
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+            this.Allsubmit_step1();
         })
         .catch(() => {});
+    },
+    Allsubmit_step1(){//判断整体提交到走到哪一步
+      let overview = this.overview;
+      let top_Diff = overview[0].expected - overview[0].count,
+          b_plus_diff = overview[1].child[0].expected - overview[1].child[0].count,
+          b_diff = overview[1].child[1].expected - overview[1].child[1].count,
+          b_minus_diff = overview[2].child[0].count - overview[2].child[0].expected,
+          cd_diff = overview[2].child[1].count - overview[2].child[1].expected;
+          if (
+            top_Diff >= 0 &&
+            b_plus_diff >= 0 &&
+            b_diff >= 0 &&
+            b_minus_diff >= 0 &&
+            cd_diff >= 0
+          ) {
+            //可以直接提交
+            this.Allsubmit_step3();
+          } else {
+            let tip_html = `<p>不符合标签分布要求，是否确认继续提交？</p>\
+                       <p>分布结果检查 :</p>\
+                       <p style='${
+                         top_Diff >= 0 ? "display:none" : null
+                       }'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[0].name}总人数超出${Math.abs( op_Diff )}人</span></p>\
+                       <p style='${b_plus_diff >= 0 ? "display:none" : null }'> <span style='color: #EB0C00;margin-left:90px'>\
+                         ${overview[1].child[0].name}总人数超出${Math.abs( b_plus_diff )}人</span></p>\
+                       <p style='${b_diff >= 0 ? "display:none" : null}'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[1].child[1].name}总人数超出${Math.abs(b_diff)}人</span></p>\
+                       <p style='${b_minus_diff >= 0 ? "display:none" : null}'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[2].child[0].name}总人数缺少${Math.abs(b_minus_diff)}人</span></p>\
+                       <p style='${cd_diff >= 0 ? "display:none" : null}'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[2].child[1].name}总人数缺少${Math.abs(cd_diff)}人</span></p>`;
+              this.Allsubmit_step2(tip_html);
+            }
     },
     Allsubmit_step2(tip_html) {
       let taht = this;
