@@ -202,10 +202,7 @@
                     >{{ getUserInfo(overview[1].child[1].users) }}</el-button
                   >
                 </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_2"
-                >
+                <span v-else class="overview_info_number_users clo_bg_2">
                   {{ getUserInfo(overview[1].child[1].users) }}
                 </span>
               </template>
@@ -340,10 +337,7 @@
                     >{{ getUserInfo(overview[2].child[1].users) }}</el-button
                   >
                 </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_3"
-                >
+                <span v-else class="overview_info_number_users clo_bg_3">
                   {{ getUserInfo(overview[2].child[1].users) }}
                 </span>
               </template>

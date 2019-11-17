@@ -776,8 +776,9 @@ export default {
         formatTime(
           new Date(this.initTime.target_start_time.replace(/-/gi, "/"))
         ) <= formatTime(new Date()) &&
-        formatTime(new Date(this.initTime.target_end_time.replace(/-/gi, "/"))) <=
-          formatTime(new Date())
+        formatTime(
+          new Date(this.initTime.target_end_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     },
     high_canReminder() {

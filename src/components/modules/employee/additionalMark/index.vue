@@ -7,7 +7,11 @@
     <br />
     <el-row style="margin-left:110px" type="flex" justify="space-between">
       <div class="delight" style="flex: 1;width: 80%">
-        <span style="word-wrap: break-word;" :inner-html.prop="desc | linebreak" v-if="readOnly"></span>
+        <span
+          style="word-wrap: break-word;"
+          :inner-html.prop="desc | linebreak"
+          v-if="readOnly"
+        ></span>
         <el-input
           v-if="!readOnly"
           :maxlength="1000"
