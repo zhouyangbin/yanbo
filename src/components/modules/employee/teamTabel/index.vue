@@ -70,10 +70,7 @@
                     >{{ getUserInfo(overview[0].users) }}</el-button
                   >
                 </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_1"
-                >
+                <span v-else class="overview_info_number_users clo_bg_1">
                   {{ getUserInfo(overview[0].users) }}
                 </span>
               </template>
