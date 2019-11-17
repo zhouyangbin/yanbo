@@ -30,8 +30,8 @@
                         "%" +
                         ",最多" +
                         overview[0].expected +
-                        ")"
-                    }}人
+                        "人)"
+                    }}
                   </div>
                 </div>
                 <div class="overview_info_number_info">
@@ -58,11 +58,11 @@
             <div class="display_flex">
               <template>
                 <el-popover
+                  v-if="overview[0].users.length"
                   class="overview_info_number_users"
                   placement="top-start"
                   width="200"
                   trigger="hover"
-                  :content="getUserInfo(overview[0].users)"
                 >
                   <el-button
                     class="overview_info_number_users clo_bg_1"
@@ -70,7 +70,14 @@
                     >{{ getUserInfo(overview[0].users) }}</el-button
                   >
                 </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_1  margin_right_3"
+                >
+                  {{ getUserInfo(overview[0].users) }}
+                </span>
               </template>
+              <template> </template>
             </div>
           </el-col>
           <el-col :span="9" align="center">
@@ -87,19 +94,15 @@
                         "%" +
                         ",最多" +
                         overview[1].child[0].expected +
-                        ")"
-                    }}人
+                        "人)"
+                    }}
                   </div>
                   <div class="overview_head2 overview_info_number_head_title">
                     {{
                       overview[1].child[1].name +
-                        "(" +
                         overview[1].child[1].threshold +
-                        "%" +
-                        ",最多" +
-                        overview[1].child[1].expected +
-                        ")"
-                    }}人
+                        "%"
+                    }}
                   </div>
                 </div>
                 <div class="overview_info_number_info">
@@ -167,7 +170,8 @@
             <div class="display_flex">
               <template>
                 <el-popover
-                  class="overview_info_number_users margin_right_3"
+                  v-if="overview[1].child[0].users.length"
+                  class="overview_info_number_users"
                   placement="top-start"
                   width="200"
                   trigger="hover"
@@ -179,9 +183,16 @@
                     >{{ getUserInfo(overview[1].child[0].users) }}</el-button
                   >
                 </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_2  margin_right_3"
+                >
+                  {{ getUserInfo(overview[1].child[0].users) }}
+                </span>
               </template>
               <template>
                 <el-popover
+                  v-if="overview[1].child[1].users.length"
                   class="overview_info_number_users"
                   placement="top-start"
                   width="200"
@@ -194,6 +205,12 @@
                     >{{ getUserInfo(overview[1].child[1].users) }}</el-button
                   >
                 </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_2  margin_right_3"
+                >
+                  {{ getUserInfo(overview[1].child[1].users) }}
+                </span>
               </template>
             </div>
           </el-col>
@@ -211,8 +228,8 @@
                         "%" +
                         ",至少" +
                         overview[2].child[0].expected +
-                        ")"
-                    }}人
+                        "人)"
+                    }}
                   </div>
                   <div class="overview_head3 overview_info_number_head_title">
                     {{
@@ -222,8 +239,8 @@
                         "%" +
                         ",至少" +
                         overview[2].child[1].expected +
-                        ")"
-                    }}人
+                        "人)"
+                    }}
                   </div>
                 </div>
                 <div class="overview_info_number_info">
@@ -291,6 +308,7 @@
             <div class="display_flex">
               <template>
                 <el-popover
+                  v-if="overview[2].child[0].users.length"
                   class="overview_info_number_users margin_right_3"
                   placement="top-start"
                   width="200"
@@ -303,9 +321,16 @@
                     >{{ getUserInfo(overview[2].child[0].users) }}</el-button
                   >
                 </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_2  margin_right_3"
+                >
+                  {{ getUserInfo(overview[2].child[0].users) }}
+                </span>
               </template>
               <template>
                 <el-popover
+                  v-if="overview[2].child[1].users.length"
                   class="overview_info_number_users"
                   placement="top-start"
                   width="200"
@@ -318,6 +343,12 @@
                     >{{ getUserInfo(overview[2].child[1].users) }}</el-button
                   >
                 </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_3  margin_right_3"
+                >
+                  {{ getUserInfo(overview[2].child[1].users) }}
+                </span>
               </template>
             </div>
           </el-col>

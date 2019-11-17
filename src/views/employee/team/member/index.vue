@@ -290,7 +290,8 @@ export default {
             need_attach_score,
             score_rule,
             stage,
-            score_level
+            score_level,
+            operate_status
           } = res;
 
           this.basicInfo = {
@@ -299,7 +300,7 @@ export default {
             self_attach_score
           };
           this.targets = this.normalizeTargets(targets);
-
+          this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.comments = superior_score && superior_score.evaluation;
@@ -309,8 +310,7 @@ export default {
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_score.score; //自评总分
-          this.label_id = parseInt(res.superior_score.label_id) || null;
-          this.operate_status = res.operate_status;
+          this.label_id = parseInt(superior_score.label_id) || null;
         })
         .catch(e => {});
     },

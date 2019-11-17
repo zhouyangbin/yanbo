@@ -294,7 +294,7 @@ export default {
         if (this.targets.some(v => !v.desc)) {
           this.$notify.error({
             title: ERROR,
-            message: "请填写自评理由!"
+            message: "请填写目标的实际完成情况!"
           });
           return reject(true);
         }

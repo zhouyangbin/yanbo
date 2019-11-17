@@ -1,39 +1,49 @@
 <template>
   <el-row type="flex" justify="end" class="level-section">
     <el-col :span="4">
-      <span>
-        结果/
-      </span>
-
-      <el-select
-        v-if="operate_status"
-        v-model="innerLevel"
-        placeholder="请选择"
-      >
-        <el-option
-          v-for="item in levels"
-          :key="item"
-          :label="item"
-          :value="item"
-        >
-        </el-option>
-      </el-select>
-      <span v-else class="level">
-        {{ value }}
-        <el-popover placement="top" width="331">
-          <div class="tip_A"></div>
-          <el-button
-            slot="reference"
-            type="text"
-            class="Badge_logo"
-          ></el-button>
-        </el-popover>
-      </span>
+      <el-row justify="center">
+        <el-col :span="6">
+          <span style="line-height: 40px;">结果/</span>
+        </el-col>
+        <el-col :span="18">
+          <el-select
+            v-if="operate_status"
+            v-model="innerLevel"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in levels"
+              :key="item"
+              :label="item"
+              :value="item"
+            >
+            </el-option>
+          </el-select>
+          <span v-else class="level">
+            {{ value }}
+            <el-popover placement="top" width="331">
+              <div class="tip_A"></div>
+              <el-button
+                slot="reference"
+                type="text"
+                class="Badge_logo"
+              ></el-button>
+            </el-popover>
+          </span>
+        </el-col>
+      </el-row>
+      <br />
       <el-row v-if="value != 'B'">
         <el-col :span="6">标签/</el-col>
-        <el-tag v-if="levalLabelRules.length">{{
-          getlevalLabelRules(levalLabelRules)
-        }}</el-tag>
+        <el-tag
+          :class="
+            value == 'A' || value == 'S'
+              ? 'status-tag op-style'
+              : 'status-tag other-style'
+          "
+          v-if="levalLabelRules.length"
+          >{{ getlevalLabelRules(levalLabelRules) }}</el-tag
+        >
       </el-row>
       <el-row v-if="value == 'B'" style="margin-top: 10px">
         <el-col :span="6">标签/</el-col>
@@ -167,5 +177,27 @@ export default {
 .level-section .level {
   font-size: 26px;
   color: orange;
+}
+.top-style {
+  background: rgba(0, 140, 36, 0.1);
+  color: rgba(0, 177, 45, 1) !important;
+}
+.bplus-style {
+  background: rgba(255, 160, 77, 0.1);
+  color: rgba(255, 104, 0, 1);
+}
+.other-style {
+  background: rgba(123, 124, 130, 0.1);
+  color: rgba(92, 108, 139, 1);
+}
+.status-tag {
+  width: ;
+  height: 28px;
+  padding: 0 10px;
+  margin: 0;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
 }
 </style>
