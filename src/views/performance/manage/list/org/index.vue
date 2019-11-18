@@ -754,10 +754,9 @@ export default {
     },
     isStarted() {
       return (
-        this.initTime.targetStartTime &&
-        formatTime(
-          new Date(this.initTime.targetStartTime.replace(/-/gi, "/"))
-        ) <= formatTime(new Date())
+        this.initTime.start_time &&
+        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <=
+          formatTime(new Date())
       );
     },
     afterEnd() {
