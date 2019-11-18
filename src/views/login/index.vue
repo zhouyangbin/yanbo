@@ -44,7 +44,6 @@ export default {
     return {};
   },
   created() {
-    alert(this.$device.mobile);
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
