@@ -87,7 +87,7 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.result_comfirm_end_time"
+          :data="performanceDetail.result_confirm_end_time"
         ></div>
       </div>
     </section>
@@ -622,7 +622,7 @@ export default {
         isolation_begin_time: this.performanceDetail.isolation_begin_time,
         president_audit_begin_time: this.performanceDetail
           .president_audit_begin_time,
-        result_comfirm_end_time: this.performanceDetail.result_comfirm_end_time,
+        result_confirm_end_time: this.performanceDetail.result_confirm_end_time,
         appeal_begin_time: this.performanceDetail.appeal_begin_time,
         appeal_end_time: this.performanceDetail.appeal_end_time
       };

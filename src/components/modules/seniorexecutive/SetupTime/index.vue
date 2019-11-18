@@ -106,7 +106,7 @@
           placeholder="请选择"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="结果确认开始时间" prop="result_comfirm_end_time">
+      <el-form-item label="结果确认开始时间" prop="result_confirm_end_time">
         <el-date-picker
           :disabled="resultDisable"
           :clearable="false"
@@ -114,7 +114,7 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.result_comfirm_end_time"
+          v-model="timeForm.result_confirm_end_time"
           type="datetime"
           placeholder="请选择"
         ></el-date-picker>
@@ -348,7 +348,7 @@ export default {
         president_audit_begin_time: [
           { validator: presidentTimeValidator, trigger: "change" }
         ],
-        result_comfirm_end_time: [
+        result_confirm_end_time: [
           { validator: resultTimeValidator, trigger: "change" }
         ],
         appeal_begin_time: [
@@ -369,7 +369,7 @@ export default {
         isolation_begin_time: this.initTime.isolation_begin_time || "",
         president_audit_begin_time:
           this.initTime.president_audit_begin_time || "",
-        result_comfirm_end_time: this.initTime.result_comfirm_end_time || "",
+        result_confirm_end_time: this.initTime.result_confirm_end_time || "",
         appeal_begin_time: this.initTime.appeal_begin_time || "",
         appeal_end_time: this.initTime.appeal_end_time || ""
       }
@@ -460,9 +460,9 @@ export default {
     },
     resultDisable() {
       return (
-        this.initTime.result_comfirm_end_time &&
+        this.initTime.result_confirm_end_time &&
         formatTime(
-          new Date(this.initTime.result_comfirm_end_time.replace(/-/gi, "/"))
+          new Date(this.initTime.result_confirm_end_time.replace(/-/gi, "/"))
         ) < formatTime(new Date())
       );
     },
