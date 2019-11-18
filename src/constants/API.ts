@@ -459,18 +459,18 @@ export const delAssessment = (id: String) =>
 
 // 高管绩效指标设定-个人信息
 export const getPerformanceUserInfo = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/header-info`, params);
-  sendGet(`/js/getPerformanceUserInfo.json`, params);
+  sendGet(`/executive-performance/web/target/header-info`, params);
+  // sendGet(`/js/getPerformanceUserInfo.json`, params);
 
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-  // sendGet(`/executive-performance/web/ExecutivePerformance/uniqueTemplate`, params);
-  sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
+  sendGet(`/executive-performance/web/target/unique-template`, params);    
+  // sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
 
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/items`, params);
-  sendGet(`/js/getTargetContent.json`, params);
+  sendGet(`/executive-performance/web/target/items`, params);
+  // sendGet(`/js/getTargetContent.json`, params);
 
 // 高管绩效指标设定提交
 export const postSubmitTargetContent = (id: String, params: Object) =>
@@ -482,7 +482,6 @@ export const postSaveDraft = (id: String, params: Object) =>
 // 高管绩效指标模版下载
 export const getTargetTemplate = (performance_id: String) =>
   sendGet(`/executive-performance/web/${performance_id}/target/template`);
-// /executive-performance/web/{performance_id}/target/template
 
 // 高管绩效上级确认指标
 export const postSuperAffirmTarget = (params: Object) =>
@@ -498,8 +497,8 @@ export const getExamineLog = (params: Object) =>
 //   sendGet(`/js/getTplMeasures.json`);
 // 高管绩效  获取绩效考核列表
 export const getAdminPerformancesList = (params: Object) =>
-  // sendGet(`/executive-performance/admin/performances`, params);
-  sendGet(`/js/getAdminPerformancesList.json`, params);
+  sendGet(`/executive-performance/admin/performances`, params);
+  // sendGet(`/js/getAdminPerformancesList.json`, params);
 
 // 高管绩效 获取标签
 export const getTagDepartments = (params: Object) =>
@@ -517,13 +516,13 @@ export const getTplDepartments = (params: Object) =>
 
 // 高管绩效 绩效考核详情
 export const getPerformanceDetail = (id: String) =>
-  // sendGet(`/executive-performance/admin/performances/${id}`)
-  sendGet(`/js/getPerformanceDetail.json`);
+  sendGet(`/executive-performance/admin/performances/${id}`)
+  // sendGet(`/js/getPerformanceDetail.json`);
 
 // 高管绩效 获取考核名单
 export const getPerformanceUser = (id: String, params: Object) =>
-  // sendGet(`/executive-performance/admin/performances/${id}/users`, params)
-  sendGet(`/js/getPerformanceUser.json`, params);
+  sendGet(`/executive-performance/admin/performances/${id}/users`, params)
+  // sendGet(`/js/getPerformanceUser.json`, params);
 
 // 高管绩效 设置评分时间
 export const postPerformanceSetTime = (id: String, params: Object) =>
