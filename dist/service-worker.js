@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "//pingfen-performance.chengjiukehu.com/precache-manifest.e15253687f6e209bd078178416195f33.js"
+  "//pingfen-performance.chengjiukehu.com/precache-manifest.324e142dcd9bf4cabb624233a164a893.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "pingfen-pc"});

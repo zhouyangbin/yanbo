@@ -38,18 +38,23 @@ import {
   PATH_EMPLOYEE_MY
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
-import device from "vue-device-detector";
 import qs from "qs";
 export default {
   data() {
     return {};
   },
   created() {
+    alert(this.$device.mobile);
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
-    alert(device.mobile);
-    if (querys.from_mobile) {
+    // if (querys.from_mobile) {//参数判断
+    //   //判断手机跳转
+    //   this.$router.push({ path: PATH_MSG_MOBILE });
+    //   return;
+    // }
+    if (this.$device.mobile) {
+      //navigator.userAgent终端判断
       //判断手机跳转
       this.$router.push({ path: PATH_MSG_MOBILE });
       return;
