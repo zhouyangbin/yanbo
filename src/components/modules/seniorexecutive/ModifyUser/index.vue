@@ -107,9 +107,10 @@ import {} from "@/constants/TEXT";
 import {
   postAddStaff,
   putEmployeeInfo,
-  getSearchEmployees
+  getSearchEmployees,
+  getTplExecutiveTypes,
+  postUploadFinancialIndicators
 } from "@/constants/API";
-import { postUploadFinancialIndicators } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
@@ -128,10 +129,6 @@ export default {
     performanceId: {
       type: String,
       default: ""
-    },
-    executiveTypes: {
-      type: Array,
-      default: () => []
     },
     userInfo: {
       type: Object,
@@ -180,7 +177,8 @@ export default {
         ]
       },
       userOptions: [],
-      loading: false
+      loading: false,
+      executiveTypes: []
     };
   },
   methods: {
@@ -250,6 +248,12 @@ export default {
     this.$refs["userForm"].resetFields();
   },
   created() {
+    getTplExecutiveTypes(this.performanceId)
+      .then(res => {
+        this.executiveTypes = res;
+        console.log(res);
+      })
+      .catch(e => {});
     if (this.userType != "add") {
       // 修改
     }

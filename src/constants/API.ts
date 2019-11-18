@@ -570,3 +570,9 @@ export const postUploadFinancialIndicators = (id: String, params: Object) =>
     `/executive-performance/admin/performances/${id}/import-financial-indicators`,
     params
   );
+
+// 高管绩效  获取当前绩效下模板对应的组织部类别
+export const getTplExecutiveTypes = (id: String) =>
+  sendGet(
+    `/executive-performance/admin/performances/${id}/get-templates-executive-types`
+  );

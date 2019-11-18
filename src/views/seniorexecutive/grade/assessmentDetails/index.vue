@@ -394,21 +394,23 @@
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
             prop="business_unit_name"
+            width="200"
             label="总部/事业部"
           ></el-table-column>
           <el-table-column
             prop="sub_department_name"
             label="大部门/分校"
-            width="100"
+            width="200"
           ></el-table-column>
           <el-table-column
             prop="email"
             label="邮箱"
-            width="180"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="executive_type_text"
             label="组织部类别"
+            width="200"
           ></el-table-column>
           <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
           <el-table-column prop="hrd_name" label="HRD"></el-table-column>
@@ -495,7 +497,6 @@
       :userType="userType"
       :userId="userId"
       :performanceId="performanceId"
-      :executiveTypes="executiveTypes"
       :userInfo="userInfo"
     ></modify-user>
     <confirm-dialog
