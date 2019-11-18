@@ -371,7 +371,7 @@ export default {
                          top_Diff >= 0 ? "display:none" : null
                        }'> <span style='color: #EB0C00;margin-left:90px'>\
                         ${overview[0].name}总人数超出${Math.abs(
-          op_Diff
+          top_Diff
         )}人</span></p>\
                        <p style='${
                          b_plus_diff >= 0 ? "display:none" : null

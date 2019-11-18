@@ -80,7 +80,6 @@
           :readOnly="true"
           v-model="level"
         ></level>
-
         <br />
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
@@ -285,7 +284,7 @@ export default {
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
-          this.self_score = self_score.score || 0;
+          this.self_score = self_score != null ? self_score.score : 0;
           this.composeData(targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;

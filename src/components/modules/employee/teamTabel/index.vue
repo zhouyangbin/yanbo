@@ -63,6 +63,7 @@
                   placement="top-start"
                   width="200"
                   trigger="hover"
+                  :content="getUserInfo(overview[0].users)"
                 >
                   <el-button
                     class="overview_info_number_users clo_bg_1"
@@ -168,7 +169,7 @@
               <template>
                 <el-popover
                   v-if="overview[1].child[0].users.length"
-                  class="overview_info_number_users"
+                  class="overview_info_number_users margin_right_3"
                   placement="top-start"
                   width="200"
                   trigger="hover"
