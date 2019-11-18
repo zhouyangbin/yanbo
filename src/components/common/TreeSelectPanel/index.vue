@@ -58,7 +58,11 @@ export default {
       el.style.padding = "0px";
     },
     treeChange: debounce(function(data, checked, indeterminate) {
-      const nodes = this.$refs.tree.getCheckedNodes();
+      if (this.$refs.tree.getCheckedNodes()) {
+        const nodes = this.$refs.tree.getCheckedNodes();
+      } else {
+        const nodes = [];
+      }
       if (this.exclusive) {
         if (checked) {
           const rootID = this.findRoot(data.id).id;

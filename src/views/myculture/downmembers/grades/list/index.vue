@@ -113,6 +113,7 @@
         <br />
         <br />
         <el-table
+          ref="tableData"
           @selection-change="selectionChange"
           :data="tableData"
           stripe
@@ -274,10 +275,19 @@
             prop="highlevel_status_name"
             :label="constants.HIGHLV_STATUS"
           ></el-table-column>
-          <el-table-column
-            prop="stage_name"
-            :label="constants.LABEL_STATUS"
-          ></el-table-column>
+          <el-table-column prop="stage_name" :label="constants.LABEL_STATUS">
+            <template slot-scope="scope">
+              <div class="reject_status" v-if="scope.row.reject_status == 1">
+                <div>{{ constants.REJECT }}</div>
+              </div>
+              <div class="complain_status" v-if="scope.row.reject_status == 2">
+                <div>{{ constants.APPEAL }}</div>
+              </div>
+              <div v-if="scope.row.reject_status == 0">
+                {{ scope.row.stage_name }}
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" :label="constants.OPERATIONS">
             <template slot-scope="scope">
               <el-button
@@ -324,7 +334,9 @@ import {
   LEADER_SOCRE,
   LABEL_STATUS,
   OPERATIONS,
-  HIGHLV_STATUS
+  HIGHLV_STATUS,
+  REJECT,
+  APPEAL
 } from "@/constants/TEXT";
 import {
   PATH_DOWN_MEMBER_CULTURE_LIST,
@@ -338,6 +350,7 @@ import Vue from "vue";
 export default {
   data() {
     return {
+      editStatus: 0,
       total: 0,
       currentPage: 1,
       evaluation_name: "",
@@ -392,7 +405,9 @@ export default {
         LEADER_SOCRE,
         LABEL_STATUS,
         OPERATIONS,
-        HIGHLV_STATUS
+        HIGHLV_STATUS,
+        REJECT,
+        APPEAL
       }
     };
   },
@@ -422,7 +437,17 @@ export default {
     },
     selectionChange(s) {
       // console.log(formatTime(new Date()))
-      this.selectedArr = s;
+      // this.selectedArr = s;
+
+      for (let i = 0; i < s.length; i++) {
+        if (s[i].stage != 50) {
+          this.$alert("所选隔级中存在未在当前阶段的员工！");
+          this.$refs.tableData.clearSelection();
+          this.selectedArr = [];
+        } else {
+          this.selectedArr.push(s[i]);
+        }
+      }
     },
     batchPass() {
       this.$confirm("是否批量通过, 是否继续?", "提示", {
@@ -436,8 +461,9 @@ export default {
             type: 2
           })
             .then(res => {
+              const count = res.count;
               this.$message({
-                message: CONST_OPERATIONS_SUCCESS,
+                message: `除${count}人处于驳回中，其他批量操作成功!`,
                 type: "success"
               });
               this.refreshData({ page: 1, ...this.memberForm });
@@ -463,7 +489,7 @@ export default {
       })
         .then(res => {
           this.$message({
-            message: CONST_OPERATIONS_SUCCESS,
+            message: "操作成功!",
             type: "success"
           });
           this.refreshData({ page: 1, ...this.memberForm });
@@ -484,11 +510,19 @@ export default {
         employee_name: this.memberForm.employee_name,
         type: this.$route.params.type
       }).then(res => {
-        const { total, data, overview, evaluation_name, end_time } = res;
+        const {
+          total,
+          data,
+          overview,
+          evaluation_name,
+          end_time,
+          edit_status
+        } = res;
         this.total = total;
         this.tableData = data;
         this.evaluation_name = evaluation_name;
         this.end_time = end_time;
+        this.editStatus = edit_status;
         this.postSummary(overview);
       });
     },
@@ -558,6 +592,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@mixin target-metro {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
 .my-grade-list .content-container {
   padding: 20px;
 }
@@ -641,5 +680,47 @@ hr.dash {
   color: #adadad;
   letter-spacing: 0.17px;
   padding: 0 5px;
+}
+.reject_status div {
+  border-radius: 20px;
+  border: solid 2px #e94a2d;
+  color: #e94a2d;
+  width: 60px;
+  transform: rotateZ(-12deg);
+}
+.complain_status,
+.reject_status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  left: 32%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
+@include target-metro {
+  .complain_status,
+  .reject_status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 100%;
+  }
+}
+.complain_status div {
+  border-radius: 20px;
+  border: solid 2px #46beeb;
+  color: #46beeb;
+  width: 60px;
+  transform: rotateZ(-12deg);
 }
 </style>

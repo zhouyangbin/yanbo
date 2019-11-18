@@ -13,7 +13,6 @@ import {
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
-  PATH_PERFORMANCE_TAGS,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
@@ -36,8 +35,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
-  PATH_CULTURE_LEVEL_DETAIL_HISTORY,
-  PATH_MEMEBER_HIGH_DETAIL
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY
+  // PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -154,14 +153,6 @@ const router = new Router({
           path: PATH_PERFORMANCE_RULES,
           components: {
             default: () => import("@/views/performance/rules/index.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        },
-        {
-          path: PATH_PERFORMANCE_TAGS,
-          components: {
-            default: () =>
-              import("@/views/performance/label/settings/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

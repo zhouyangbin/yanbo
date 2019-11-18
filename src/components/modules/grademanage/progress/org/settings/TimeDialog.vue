@@ -379,6 +379,9 @@ export default {
       }
     };
     const offlinetalkStartTimeValidator = (rule, value, callback) => {
+      if (value < formatTime(new Date()) && !this.offlinetalk_start_disable) {
+        callback(new Error("线下合议开始时间必须大于当前时间"));
+      }
       if (this.timesForm.upLeader_end && value <= this.timesForm.upLeader_end) {
         callback(new Error(OFFLINETALK_TIME_VALIDATE_MSG));
       } else {

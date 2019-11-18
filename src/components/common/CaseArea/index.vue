@@ -1,6 +1,7 @@
 <template>
   <div class="CaseArea-page">
     <el-input
+      style="white-space:normal;word-wrap:break-word;word-break:break-all"
       :maxlength="maxlength"
       :readonly="readOnly"
       type="textarea"

@@ -140,13 +140,6 @@
         :index="constants.PATH_PERFORMANCE_RULES"
         >{{ constants.RULES_SETTING }}</el-menu-item
       >
-      <!--el-menu-item
-        v-if="canSetRules"
-        :class="{
-          'is-active': [constants.PATH_PERFORMANCE_TAGS].includes($route.path)
-        }"
-        :index="constants.PATH_PERFORMANCE_TAGS"
-        >标签设置</el-menu-item-->
     </el-submenu>
     <el-submenu
       :show-timeout="100"
@@ -203,7 +196,6 @@ import {
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
-  PATH_PERFORMANCE_TAGS,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
@@ -238,7 +230,6 @@ export default {
         TPL_SETTING,
         PATH_PERFORMANCE_TPL,
         PATH_PERFORMANCE_RULES,
-        PATH_PERFORMANCE_TAGS,
         RULES_SETTING,
         ACCESS_SETTING,
         ROLE_SETTING,

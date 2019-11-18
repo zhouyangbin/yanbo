@@ -59,7 +59,7 @@ export const PATH_PERFORMANCE_REPORT = "/performance/report";
 export const PATH_PERFORMANCE_MANAGER = "/performance/manage";
 export const PATH_PERFORMANCE_TPL = "/performance/tpl";
 export const PATH_PERFORMANCE_RULES = "/performance/rules";
-export const PATH_PERFORMANCE_TAGS = "/performance/tags";
+//
 export const PATH_ACCESS_ROLES = "/access/roles";
 //评分管理-详情
 export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>

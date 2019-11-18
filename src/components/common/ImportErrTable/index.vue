@@ -17,6 +17,11 @@
 </template>
 <script>
 export default {
+  created() {
+    if (!this.errorData) {
+      this.errorData = [];
+    }
+  },
   props: {
     errorData: {
       type: Array,
