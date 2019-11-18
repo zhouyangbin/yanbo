@@ -62,7 +62,7 @@ export default {
         reason: this.rejectReason
       })
         .then(res => {
-          console.log(res, "rees");
+          // console.log(res, "rees");
           // this.$message({
           //   message: "操作成功!",
           //   type: "success"
