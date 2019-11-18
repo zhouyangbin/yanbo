@@ -361,6 +361,8 @@ export default {
       timeForm: {
         start_time: this.initTime.start_time || "",
         end_time: this.initTime.end_time || "",
+        entirety_start_time: this.initTime.entirety_start_time || "",
+        entirety_end_time: this.initTime.entirety_end_time || "",
         indicator_setting_end_time:
           this.initTime.indicator_setting_end_time || "",
         self_evaluation_begin_time:

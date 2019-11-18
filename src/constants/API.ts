@@ -519,8 +519,7 @@ export const getPerformanceDetail = (id: String) =>
 
 // 高管绩效 获取考核名单
 export const getPerformanceUser = (id: String, params: Object) =>
-  // sendGet(`/executive-performance/admin/performances/${id}/users`, params)
-  sendGet(`/js/getPerformanceUser.json`, params);
+  sendGet(`/executive-performance/admin/performances/${id}/users`, params);
 
 // 高管绩效 设置评分时间
 export const postPerformanceSetTime = (id: String, params: Object) =>
@@ -558,5 +557,16 @@ export const deletePerformanceUser = (performance_id: String, params: Object) =>
 export const postUploadIndex = (performance_user_id: String, params: Object) =>
   sendPost(
     `/executive-performance/web/self/${performance_user_id}/import-targets`,
+    params
+  );
+
+// 高管绩效  查找员工
+export const getSearchEmployees = (params: Object) =>
+  sendGet(`/executive-performance/admin/performances/find-employees`, params);
+
+// 高管绩效  上传财务指标
+export const postUploadFinancialIndicators = (id: String, params: Object) =>
+  sendPatch(
+    `/executive-performance/admin/performances/${id}/import-financial-indicators`,
     params
   );
