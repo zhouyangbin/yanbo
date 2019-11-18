@@ -576,3 +576,9 @@ export const getTplExecutiveTypes = (id: String) =>
   sendGet(
     `/executive-performance/admin/performances/${id}/get-templates-executive-types`
   );
+
+// 高管绩效  财务指标模板
+export const getFinancialIndicators = () =>
+  sendGet(
+    `/executive-performance/admin/performances/templates/financial-indicators`
+  );
