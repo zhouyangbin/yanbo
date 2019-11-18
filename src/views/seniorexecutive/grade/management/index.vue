@@ -211,7 +211,7 @@
       :visible="showConfirmDialog"
       :tipsText="tipsText"
       :confirmType="confirmType"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>

@@ -384,7 +384,7 @@ export default {
         if (valid) {
           postPerformanceSetTime(this.performanceId, this.timeForm)
             .then(res => {
-              debugger;
+              this.$emit("define");
             })
             .catch(e => {});
         }

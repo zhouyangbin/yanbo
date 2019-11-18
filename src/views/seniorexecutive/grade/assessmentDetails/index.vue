@@ -481,6 +481,7 @@
       :performanceId="performanceId"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
+      @define="tplDefine"
     ></assessment-dialog>
     <setup-time
       v-if="showSetupTime"
@@ -488,7 +489,7 @@
       @close="setupTimeClose"
       :performanceId="performanceId"
       :initTime="initTime"
-      :confirm="confirmTime"
+      @define="confirmTime"
     ></setup-time>
     <modify-user
       v-if="showModifyUser"
@@ -503,7 +504,7 @@
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>
@@ -638,6 +639,10 @@ export default {
     }
   },
   methods: {
+    tplDefine() {
+      this.showDialog = false;
+      this.getPerformanceDetailData();
+    },
     confirmTime() {
       this.showSetupTime = false;
       this.getPerformanceDetailData();
