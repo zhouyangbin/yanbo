@@ -519,8 +519,7 @@ export const getPerformanceDetail = (id: String) =>
 
 // 高管绩效 获取考核名单
 export const getPerformanceUser = (id: String, params: Object) =>
-  // sendGet(`/executive-performance/admin/performances/${id}/users`, params)
-  sendGet(`/js/getPerformanceUser.json`, params);
+  sendGet(`/executive-performance/admin/performances/${id}/users`, params);
 
 // 高管绩效 设置评分时间
 export const postPerformanceSetTime = (id: String, params: Object) =>

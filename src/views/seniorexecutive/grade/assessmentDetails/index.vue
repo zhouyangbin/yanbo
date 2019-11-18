@@ -10,7 +10,17 @@
         </div>
       </div>
       <div class="list-timeline">
-        <div class="time-line active" data="填写中100/确认中300">指标设定</div>
+        <div
+          class="time-line active"
+          :data="
+            '填写中' +
+              performanceDetail.indicator_fill_in +
+              '/确认中' +
+              performanceDetail.indicator_confirm
+          "
+        >
+          指标设定
+        </div>
         <div
           class="time-line-sign active"
           :data="performanceDetail.indicator_setting_end_time"
@@ -27,24 +37,54 @@
           class="time-line-sign active"
           :data="performanceDetail.self_evaluation_begin_time"
         ></div>
-        <div class="time-line active">自评</div>
+        <div
+          class="time-line active"
+          :data="'自评中' + performanceDetail.self_evaluation"
+        >
+          自评
+        </div>
         <div
           class="time-line-sign active"
           :data="performanceDetail.superior_begin_time"
         ></div>
-        <div class="time-line">上级评分</div>
+        <div
+          class="time-line"
+          :data="'复评中' + performanceDetail.re_evaluation"
+        >
+          上级评分
+        </div>
         <div
           class="time-line-sign"
           :data="performanceDetail.isolation_begin_time"
         ></div>
-        <div class="time-line">隔级审核</div>
+        <div
+          class="time-line"
+          :data="'隔级审核中' + performanceDetail.isolation_adult"
+        >
+          隔级审核
+        </div>
         <div
           class="time-line-sign"
           :data="performanceDetail.president_audit_begin_time"
         ></div>
-        <div class="time-line">总裁审核</div>
+        <div
+          class="time-line"
+          :data="'总裁审核中' + performanceDetail.president_audit"
+        >
+          总裁审核
+        </div>
         <div class="time-line-sign"></div>
-        <div class="time-line">结果确认</div>
+        <div
+          class="time-line"
+          :data="
+            '确认中' +
+              performanceDetail.confirm +
+              '/已确认' +
+              performanceDetail.confirmed
+          "
+        >
+          结果确认
+        </div>
         <div
           class="time-line-sign"
           :data="performanceDetail.result_comfirm_end_time"
@@ -140,8 +180,8 @@
           <div class="time-setting-box">
             <div class="setting-key">整体起止时间:</div>
             <div class="setting-value">
-              {{ initTime.start_time | filterDate }} 至
-              {{ initTime.end_time | filterDate }}
+              {{ initTime.entirety_start_time | filterDate }} 至
+              {{ initTime.entirety_end_time | filterDate }}
             </div>
           </div>
           <div class="time-setting-box">
@@ -350,13 +390,13 @@
             label="工号"
             width="80"
           ></el-table-column>
+          <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
-            prop="department"
+            prop="executive_type"
             label="总部/事业部"
-            width="100"
           ></el-table-column>
           <el-table-column
-            prop="business"
+            prop="executive_type_text"
             label="大部门/分校"
             width="100"
           ></el-table-column>
@@ -369,14 +409,34 @@
             prop="executive_type_text"
             label="组织部类别"
           ></el-table-column>
+          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
+          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
           <el-table-column
             prop="superior_name"
             label="直接上级"
           ></el-table-column>
           <el-table-column prop="isolation_name" label="隔级"></el-table-column>
           <el-table-column prop="president_name" label="总裁"></el-table-column>
-          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
-          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
+          <el-table-column
+            prop="president_name"
+            label="自评分"
+          ></el-table-column>
+          <el-table-column
+            prop="president_name"
+            label="复评分"
+          ></el-table-column>
+          <el-table-column
+            prop="president_name"
+            label="文化评分"
+          ></el-table-column>
+          <el-table-column
+            prop="president_name"
+            label="最终成绩"
+          ></el-table-column>
+          <el-table-column
+            prop="president_name"
+            label="规则分部"
+          ></el-table-column>
           <el-table-column
             prop="state"
             fixed="right"
@@ -547,6 +607,8 @@ export default {
   computed: {
     initTime() {
       return {
+        entirety_start_time: this.performanceDetail.entirety_start_time,
+        entirety_end_time: this.performanceDetail.entirety_end_time,
         start_time: this.performanceDetail.start_time,
         end_time: this.performanceDetail.end_time,
         indicator_setting_end_time: this.performanceDetail
