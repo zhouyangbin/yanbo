@@ -20,13 +20,13 @@
         <el-input
           v-model="userForm.workcdoe"
           @input="searchME"
-          :disabled="infoType !== 'add'"
+          :disabled="userType !== 'add'"
         ></el-input>
       </el-form-item>
       <el-form-item label="邮箱:" prop="email">
         <el-input
           v-model="userForm.email"
-          :disabled="infoType !== 'add'"
+          :disabled="userType !== 'add'"
         ></el-input>
       </el-form-item>
       <el-form-item label="直接上级:" prop="superior_workcode">

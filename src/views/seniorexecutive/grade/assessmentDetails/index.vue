@@ -266,8 +266,8 @@
               :show-all-levels="false"
             ></el-cascader>
           </el-form-item>
-          <el-form-item class="limit-width" prop="status" label="状态:">
-            <el-select v-model="personalForm.status" placeholder="请选择">
+          <el-form-item class="limit-width" prop="stage" label="状态:">
+            <el-select v-model="personalForm.stage" placeholder="请选择">
               <el-option
                 v-for="item in statusOptions"
                 :key="item.value"
@@ -392,11 +392,11 @@
           ></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
-            prop="executive_type"
+            prop="business_unit_name"
             label="总部/事业部"
           ></el-table-column>
           <el-table-column
-            prop="executive_type_text"
+            prop="sub_department_name"
             label="大部门/分校"
             width="100"
           ></el-table-column>
@@ -418,27 +418,27 @@
           <el-table-column prop="isolation_name" label="隔级"></el-table-column>
           <el-table-column prop="president_name" label="总裁"></el-table-column>
           <el-table-column
-            prop="president_name"
+            prop="self_evaluation_score"
             label="自评分"
           ></el-table-column>
           <el-table-column
-            prop="president_name"
+            prop="re_evaluation_score"
             label="复评分"
           ></el-table-column>
           <el-table-column
-            prop="president_name"
+            prop="culture_score"
             label="文化评分"
           ></el-table-column>
           <el-table-column
-            prop="president_name"
+            prop="final_score"
             label="最终成绩"
           ></el-table-column>
           <el-table-column
-            prop="president_name"
-            label="规则分部"
+            prop="distribution_253"
+            label="规则分布"
           ></el-table-column>
           <el-table-column
-            prop="state"
+            prop="stage_text"
             fixed="right"
             width="80"
             label="状态"
@@ -587,7 +587,7 @@ export default {
       personalForm: {
         name_or_workcode: "",
         department_ids: [],
-        status: "",
+        stage: "",
         executive_type: "",
         superior_name: "",
         isolation_name: "",
