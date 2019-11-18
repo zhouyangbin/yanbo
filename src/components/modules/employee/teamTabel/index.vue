@@ -4,7 +4,7 @@
       <el-col>
         分布情况汇总
         <span>
-          <el-popover placement="right" width="331">
+          <el-popover placement="right" width="360">
             <div class="tip_A"></div>
             <el-button
               slot="reference"
@@ -398,12 +398,13 @@ export default {
   background-image: url("../../../../assets/img/what.png");
 }
 .tip_A {
-  width: 331px;
-  height: 254px;
+  width: 360px;
+  height: 207px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-image: url("../../../../assets/img/level_A.png");
+  background-image: url("../../../../assets/img/level_A.jpg");
+  background-size: 360px 207px;
 }
 .display_flex {
   display: flex;

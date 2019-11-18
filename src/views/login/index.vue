@@ -47,7 +47,9 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
+    alert(querys.from_mobile);
     if (querys.from_mobile) {
+      //判断手机跳转
       this.$router.push({ path: PATH_MSG_MOBILE });
       return;
     }
