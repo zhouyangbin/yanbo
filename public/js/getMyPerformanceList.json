@@ -1,0 +1,26 @@
+{
+    "data":[
+        {
+            "performance_id":1,
+            "performance_user_id":1,
+            "name":"9月绩效考核",
+            "type":"月度",
+            "start_time":"2018-10-01 00:00:00",
+            "end_time":"2018-10-31 23:59:59",
+            "target_status":"已导入",
+            "stage":"评分未开始",
+            "p_type":"normal"
+        },
+        {
+            "performance_id":2,
+            "performance_user_id":3,
+            "name":"10月绩效考核",
+            "type":"年度",
+            "start_time":"2018-10-01 00:00:00",
+            "end_time":"2019-10-31 23:59:59",
+            "target_status":"指标填写中",
+            "stage":"指标设定阶段",
+            "p_type":"executive"
+        }
+    ]
+}

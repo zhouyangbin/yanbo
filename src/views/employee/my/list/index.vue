@@ -109,9 +109,6 @@ export default {
       pageSize: 10
     };
   },
-  mounted(){
-    console.log(this.tableData)
-  },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue")
@@ -121,8 +118,8 @@ export default {
       let type = "";
       if (val === "normal") {
         type = "员工绩效";
-      } else if (type === "executive") {
-        type = "高管绩效";
+      } else if (val === "executive") {
+        type = "组织部绩效";
       }
       return type;
     }
@@ -160,10 +157,13 @@ export default {
      * 跳转到指标详情页面
      */
     goTargetDetail(row) {
-      PATH_PERFORMANCE_TARGET_DETAIL(
-        row.performance_id,
-        row.performance_user_id
-      );
+      this.$router.push(
+        PATH_PERFORMANCE_TARGET_DETAIL(
+          row.performance_id,
+          row.performance_user_id
+        )
+      )
+      
     },
     /**
      * 原有的跳转

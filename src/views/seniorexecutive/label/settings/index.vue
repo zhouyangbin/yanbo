@@ -187,7 +187,8 @@ export default {
       ],
       evaluation_id: [],
       dialogVisible:false,
-      deleteNumber:0
+      deleteNumber:0,
+      deleteIndex:0
     };
   },
   methods: {
@@ -271,14 +272,16 @@ export default {
     // 删除
     handleDelete(index,row){
       this.dialogVisible = true
-      this.deleteNumber = index
+      this.deleteNumber = row.id
+      this.deleteIndex = index
     },
     deleteMsg(){
       this.dialogVisible = false
-      this.orgTree.splice(this.deleteNumber,1)
       deleteLabel(this.deleteNumber)
-      .then(res=>{})
-      .catch(e=>{console.log(this.deleteNumber)})
+      .then(res=>{
+        this.orgTree.splice(this.deleteIndex,1)
+      })
+      .catch(e=>{})
     }
   },
   created() {

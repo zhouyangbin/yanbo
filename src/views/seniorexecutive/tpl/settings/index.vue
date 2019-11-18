@@ -249,7 +249,6 @@ export default {
       this.showDialog = true;
     },
     delTpl(row) {
-      console.log(1)
       this.performanceId = row.id;
       this.showConfirmDialog = true;
       this.tipsText = "是否确认删除模板？";

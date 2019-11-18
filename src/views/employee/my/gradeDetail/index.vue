@@ -303,9 +303,7 @@ export default {
         h("span", column.label),
         h("br"),
         h("span", "（最多可填写"),
-        h("span", 5, {
-          style: "color: red !important;"
-        }),
+        h("span",{style:{color:"red"}},5),
         h("span", "项）")
       ]);
     },
@@ -318,6 +316,7 @@ export default {
         performance_user_id: this.$route.params.uid,
         workcode: ""
       };
+     
       getPerformanceUserInfo(data)
         .then(res => {
           const {
@@ -654,5 +653,8 @@ export default {
   background-color: #66a8ff;
   color: #ffffff;
   border: 1px solid #66a8ff;
+}
+.has-gutter .el-table_1_column_2 .cell div:nth-last-child(3){
+  color: red !important;
 }
 </style>
