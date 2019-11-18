@@ -176,7 +176,7 @@ export default {
           { required: true, message: "请输入姓名或工号", trigger: "blur" }
         ],
         executive_type: [
-          { required: true, message: "请输入姓名或工号", trigger: "change" }
+          { required: true, message: "请选择高管类别", trigger: "change" }
         ]
       },
       userOptions: [],
