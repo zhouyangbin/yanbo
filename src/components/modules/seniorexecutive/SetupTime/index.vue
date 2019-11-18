@@ -361,8 +361,6 @@ export default {
       timeForm: {
         start_time: this.initTime.start_time || "",
         end_time: this.initTime.end_time || "",
-        entirety_start_time: this.initTime.entirety_start_time || "",
-        entirety_end_time: this.initTime.entirety_end_time || "",
         indicator_setting_end_time:
           this.initTime.indicator_setting_end_time || "",
         self_evaluation_begin_time:
@@ -384,8 +382,10 @@ export default {
     submit() {
       this.$refs["timeForm"].validate(valid => {
         if (valid) {
-          postPerformanceSetTime(this.performanceId, this.formatTime)
-            .then(res => {})
+          postPerformanceSetTime(this.performanceId, this.timeForm)
+            .then(res => {
+              debugger;
+            })
             .catch(e => {});
         }
       });

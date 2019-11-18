@@ -374,7 +374,8 @@
             </el-popover>
           </el-button-group>
           <div class="table-number">
-            <i class="el-icon-info"></i> 共400人，已选 <span>0</span> 人
+            <i class="el-icon-info"></i> 共{{ total }}人，已选
+            <span>{{ selectedNumber }}</span> 人
           </div>
         </div>
         <el-table
@@ -485,6 +486,7 @@
       @close="setupTimeClose"
       :performanceId="performanceId"
       :initTime="initTime"
+      :confirm="confirmTime"
     ></setup-time>
     <modify-user
       v-if="showModifyUser"
@@ -567,6 +569,7 @@ export default {
       performanceId: this.$route.params.id,
       currentPage: 1,
       total: 0,
+      selectedNumber: 0,
       showConfirmDialog: false,
       showDialog: false,
       showSetupTime: false,
@@ -607,8 +610,6 @@ export default {
   computed: {
     initTime() {
       return {
-        entirety_start_time: this.performanceDetail.entirety_start_time,
-        entirety_end_time: this.performanceDetail.entirety_end_time,
         start_time: this.performanceDetail.start_time,
         end_time: this.performanceDetail.end_time,
         indicator_setting_end_time: this.performanceDetail
@@ -636,6 +637,10 @@ export default {
     }
   },
   methods: {
+    confirmTime() {
+      this.showSetupTime = false;
+      this.getPerformanceDetailData();
+    },
     modifyUserClose() {
       this.showModifyUser = false;
     },
@@ -737,16 +742,17 @@ export default {
           this.userList = res;
         })
         .catch(e => {});
+    },
+    getPerformanceDetailData() {
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          this.performanceDetail = res;
+        })
+        .catch(e => {});
     }
   },
   created() {
-    // 获取考核详情
-    getPerformanceDetail(this.performanceId)
-      .then(res => {
-        console.log(res);
-        this.performanceDetail = res;
-      })
-      .catch(e => {});
+    this.getPerformanceDetailData();
     getOrganization()
       .then(res => {
         this.orgTree = res;

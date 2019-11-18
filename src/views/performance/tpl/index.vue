@@ -205,7 +205,6 @@ export default {
       });
     },
     resetForm() {
-      console.log(1);
       this.tplForm = { name: "", dp: "" };
     }
   },
