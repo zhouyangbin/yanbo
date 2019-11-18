@@ -63,3 +63,6 @@ export function sendDelete(url: string, params: object) {
 export function sendAll(iterable: any[], callback: (value: any[]) => any) {
   return axios.all(iterable).then(axios.spread(callback));
 }
+
+
+

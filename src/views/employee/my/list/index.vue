@@ -51,9 +51,8 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
         <el-pagination
-          v-if="tableData == []"
+          v-if="tableData!=[]"
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -64,8 +63,6 @@
           :total="total"
         >
         </el-pagination>
-      </el-row>
-      <br />
     </section>
   </div>
 </template>
@@ -108,19 +105,21 @@ export default {
         OPERATIONS,
         GRADE_STATUS,
         TARGET_STATUS
-      }
+      },
+      pageSize: 10
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   filters: {
     handlePType(val) {
       let type = "";
       if (val === "normal") {
         type = "员工绩效";
-      } else if (type === "executive") {
-        type = "高管绩效";
+      } else if (val === "executive") {
+        type = "组织部绩效";
       }
       return type;
     }
@@ -158,10 +157,13 @@ export default {
      * 跳转到指标详情页面
      */
     goTargetDetail(row) {
-      PATH_PERFORMANCE_TARGET_DETAIL(
-        row.performance_id,
-        row.performance_user_id
-      );
+      this.$router.push(
+        PATH_PERFORMANCE_TARGET_DETAIL(
+          row.performance_id,
+          row.performance_user_id
+        )
+      )
+      
     },
     /**
      * 原有的跳转
@@ -171,25 +173,28 @@ export default {
         PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
       );
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList({
-        page: val
+        page: val,
+        perPage:this.pageSize
       });
+    },
+    handleSizeChange(val){
+      this.pageSize = val
+      this.refreshList({ page: 1 ,perPage:val});
     },
     refreshList(data) {
       return getMyPerformanceList(data)
         .then(res => {
-          const { total, data } = res;
-          this.total = total;
-          this.tableData = data;
-          console.log(data, total);
+          this.total = res.length
+          this.tableData = res;
         })
         .catch(e => {});
     }
   },
   created() {
-    this.refreshList({ page: 1 });
+    this.refreshList({ page: 1 ,perPage:10});
   }
 };
 </script>
