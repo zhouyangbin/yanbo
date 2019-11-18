@@ -16,12 +16,26 @@
       :model="userForm"
       class="user-form"
     >
-      <el-form-item label="姓名/工号:" prop="workcdoe">
-        <el-input
-          v-model="userForm.workcdoe"
-          @input="searchME"
+      <el-form-item label="姓名/工号:" prop="workcode">
+        <el-select
+          v-model="userForm.workcode"
+          filterable
+          remote
+          clearable
+          reserve-keyword
+          placeholder="请输入姓名或工号"
+          :remote-method="searchME"
           :disabled="userType !== 'add'"
-        ></el-input>
+          :loading="loading"
+        >
+          <el-option
+            v-for="item in userOptions"
+            :key="item.workcode"
+            :label="item.workcode + item.name + item.email"
+            :value="item.workcode"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="邮箱:" prop="email">
         <el-input
@@ -62,7 +76,9 @@
       <el-form-item label="上传指标:">
         <el-upload
           class="upload-demo"
-          action="actionURL"
+          :action="
+            constants.postUploadFinancialIndicators(this.$route.params.id)
+          "
           :uploadSuccess="uploadSuccess"
         >
           <el-button size="small" type="primary">选择文件</el-button>
@@ -88,7 +104,12 @@
 </template>
 <script>
 import {} from "@/constants/TEXT";
-import { postAddStaff, putEmployeeInfo, getUserDetail } from "@/constants/API";
+import {
+  postAddStaff,
+  putEmployeeInfo,
+  getSearchEmployees
+} from "@/constants/API";
+import { postUploadFinancialIndicators } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
@@ -119,8 +140,11 @@ export default {
   },
   data() {
     return {
+      constants: {
+        postUploadFinancialIndicators
+      },
       userForm: {
-        workcdoe: "",
+        workcode: "",
         email: "",
         superior_workcode: "",
         isolation_workcode: "",
@@ -130,7 +154,7 @@ export default {
         executive_type: ""
       },
       userRules: {
-        workcdoe: [
+        workcode: [
           { required: true, message: "请输入姓名或工号", trigger: "blur" }
         ],
         email: [
@@ -155,28 +179,24 @@ export default {
           { required: true, message: "请输入姓名或工号", trigger: "change" }
         ]
       },
-      actionURL: ""
+      userOptions: [],
+      loading: false
     };
   },
-  components: {},
-  watch: {},
   methods: {
-    searchME(value) {
-      if (value != "") {
-        getUserDetail({
-          empID: value,
-          email: value
+    searchME(query) {
+      if (query !== "") {
+        this.loading = true;
+        getSearchEmployees({
+          name_or_workcode: query
         })
           .then(res => {
-            if (res) {
-              this.userForm.email = res.email;
-            } else {
-              this.userForm.email = "";
-            }
+            this.loading = false;
+            this.userOptions = res;
           })
           .catch(e => {});
       } else {
-        this.infoForm.email = "";
+        this.userOptions = [];
       }
     },
     close() {

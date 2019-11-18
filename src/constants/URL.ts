@@ -207,3 +207,7 @@ export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
 
 export const PATH_UPLOAD_FILE = (uid: String) =>
   `${base}/executive-performance/web/self/${uid}/import-targets`;
+
+// 高管绩效  上传财务指标
+export const postUploadFinancialIndicators = (id: String) =>
+  `${base}/executive-performance/admin/performances/${id}/import-financial-indicators`;

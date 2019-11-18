@@ -559,3 +559,14 @@ export const postUploadIndex = (performance_user_id: String, params: Object) =>
     `/executive-performance/web/self/${performance_user_id}/import-targets`,
     params
   );
+
+// 高管绩效  查找员工
+export const getSearchEmployees = (params: Object) =>
+  sendGet(`/executive-performance/admin/performances/find-employees`, params);
+
+// 高管绩效  上传财务指标
+export const postUploadFinancialIndicators = (id: String, params: Object) =>
+  sendPatch(
+    `/executive-performance/admin/performances/${id}/import-financial-indicators`,
+    params
+  );
