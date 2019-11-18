@@ -128,7 +128,7 @@
             >
             <el-button
               @click="batchDel"
-              :disabled="selection.length === 0 && afterEnd"
+              :disabled="selection.length === 0 || afterEnd"
               class="action-btn"
               icon="el-icon-delete"
               type="medium"
@@ -807,7 +807,7 @@ export default {
       );
     },
     afterEnd() {
-      //评分结束时间 是不是存在。并且 评分结束时间要小于等于当前时间
+      //评分确认结束时间 是不是存在。并且 评分确认结束时间要小于等于当前时间
       return (
         this.initTime.confirm_end_time &&
         formatTime(
