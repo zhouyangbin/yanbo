@@ -114,14 +114,6 @@
               type="medium"
               >{{ constants.REMINDER }}</el-button
             >
-            <!--el-button
-              :disabled="selection.length === 0"
-              @click="reminder"
-              class="action-btn"
-              icon="el-icon-bell"
-              type="medium"
-              >{{ constants.REMINDER }}</el-button
-            -->
             <el-button
               class="action-btn"
               :disabled="afterEnd"
@@ -136,7 +128,7 @@
             >
             <el-button
               @click="batchDel"
-              :disabled="selection.length === 0 || afterEnd"
+              :disabled="selection.length === 0 && afterEnd"
               class="action-btn"
               icon="el-icon-delete"
               type="medium"
@@ -817,9 +809,9 @@ export default {
     afterEnd() {
       //评分结束时间 是不是存在。并且 评分结束时间要小于等于当前时间
       return (
-        this.initTime.target_end_time &&
+        this.initTime.confirm_end_time &&
         formatTime(
-          new Date(this.initTime.target_end_time.replace(/-/gi, "/"))
+          new Date(this.initTime.confirm_end_time.replace(/-/gi, "/"))
         ) <= formatTime(new Date())
       );
     },
