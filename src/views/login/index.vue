@@ -38,6 +38,7 @@ import {
   PATH_EMPLOYEE_MY
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
+import device from "vue-device-detector";
 import qs from "qs";
 export default {
   data() {
@@ -47,7 +48,7 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
-    alert(JSON.stringify(querys));
+    alert(device.mobile);
     if (querys.from_mobile) {
       //判断手机跳转
       this.$router.push({ path: PATH_MSG_MOBILE });
