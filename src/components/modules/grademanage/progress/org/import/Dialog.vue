@@ -159,8 +159,8 @@ export default {
               this.close();
             })
             .catch(e => {
-              if(e.data.data) {
-                 this.eHRError = e.data.data;
+              if (e.data.data) {
+                this.eHRError = e.data.data;
               } else {
                 this.eHRError = [];
               }

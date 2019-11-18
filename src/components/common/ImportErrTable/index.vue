@@ -18,7 +18,7 @@
 <script>
 export default {
   created() {
-    if(!this.errorData) {
+    if (!this.errorData) {
       this.errorData = [];
     }
   },
