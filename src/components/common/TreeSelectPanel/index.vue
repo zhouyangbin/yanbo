@@ -58,10 +58,11 @@ export default {
       el.style.padding = "0px";
     },
     treeChange: debounce(function(data, checked, indeterminate) {
+      let nodes = [];
       if (this.$refs.tree.getCheckedNodes()) {
-        const nodes = this.$refs.tree.getCheckedNodes();
+        nodes = this.$refs.tree.getCheckedNodes();
       } else {
-        const nodes = [];
+        nodes = [];
       }
       if (this.exclusive) {
         if (checked) {

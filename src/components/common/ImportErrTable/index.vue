@@ -1,6 +1,6 @@
 <template>
   <el-table
-    v-if="errorData.length > 0"
+    v-if="errorData && errorData.length > 0"
     class="err-table"
     max-height="250"
     :data="errorData"
