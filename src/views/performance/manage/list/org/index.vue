@@ -36,7 +36,7 @@
                     <el-button
                       :disabled="isStarted"
                       @click="dialogImport = true"
-                      size="mini"
+                      size="5"
                       round
                       type="primary"
                       >{{ constants.IMPORT_RECORDS }}</el-button
@@ -53,6 +53,12 @@
                   <template slot="title">
                     {{ constants.LABEL_SUP }}
                     <span>({{ depInfo.superior_status }})</span>
+                  </template>
+                </el-step>
+                <el-step>
+                  <template slot="title">
+                    {{ constants.PLUS_LEVEL_SUP }}
+                    <span>({{ depInfo.high_level_status }})</span>
                   </template>
                 </el-step>
                 <el-step>
@@ -192,7 +198,7 @@
           <el-table-column
             fixed="left"
             type="selection"
-            width="55"
+            width="50"
           ></el-table-column>
           <el-table-column
             prop="workcode"
@@ -202,60 +208,77 @@
           <el-table-column
             prop="name"
             :label="constants.NAME"
-            width="100"
+            width="80"
           ></el-table-column>
           <el-table-column
-            prop="department"
+            prop="syb_department"
             :label="constants.BASE_OR_BU"
             width="100"
           ></el-table-column>
           <el-table-column
-            prop="syb_department"
+            prop="department"
             :label="constants.DEP_OR_SUB"
-            width="200"
-          >
-            <template slot-scope="scope">
-              <span v-if="scope.row.syb_department == ''"> — — </span>
-              <span v-if="scope.row.syb_department != ''">
-                {{ scope.row.syb_department }}
-              </span>
-            </template>
-          </el-table-column>
+            width="100"
+          ></el-table-column>
+
           <el-table-column
             prop="email"
             :label="constants.EMAIL"
-            width="180"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="superior_workcode"
             :label="constants.LEADER_NUMBER"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="superior_name"
             :label="constants.LEADER_NAME"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="syb_department"
             label="上级事业部"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="superior_email"
             label="上级邮箱"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            prop="high_level_workcode"
+            label="隔级工号"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            prop="high_level_name"
+            label="隔级姓名"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="target"
             :label="constants.TARGET_STATUS"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="self"
             :label="constants.SELF_EVALUATION_STATUS"
+            width="80"
           ></el-table-column>
           <el-table-column
             prop="superior"
             :label="constants.LEADER_EVALUATION_STATUS"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="high_level"
+            label="隔级评状态"
+            width="100"
           ></el-table-column>
 
-          <el-table-column prop="confirm" label="员工确认"></el-table-column>
+          <el-table-column prop="confirm" label="员工确认" width="auto">
+          </el-table-column>
           <el-table-column
             fixed="right"
             :label="constants.OPERATIONS"
@@ -370,6 +393,7 @@ import {
   LABEL_USER_DEL_MSG,
   LABEL_SELF,
   LABEL_SUP,
+  PLUS_LEVEL_SUP,
   APPEAL,
   TARGET_STATUS,
   ATTENTION,
@@ -456,6 +480,7 @@ export default {
         MODIFY_TIMES,
         LABEL_SELF,
         LABEL_SUP,
+        PLUS_LEVEL_SUP,
         APPEAL,
         TARGET_STATUS,
         UPLOAD_TARGET
@@ -708,13 +733,21 @@ export default {
       return {
         startTime: this.depInfo.start_time,
         endTime: this.depInfo.end_time,
-        targetStartTime: this.depInfo.target_start_time,
-        targetEndTime: this.depInfo.target_end_time,
+        start_time: this.depInfo.target_start_time,
+        end_time: this.depInfo.target_end_time,
+        target_start_time: this.depInfo.score_start_time,
+        target_end_time: this.depInfo.score_end_time,
+        high_level_start_time: this.depInfo.high_level_start_time,
+        high_level_end_time: this.depInfo.high_level_end_time,
+        confirm_start_time: this.depInfo.confirm_start_time,
+        confirm_end_time: this.depInfo.confirm_end_time,
+        appeal_start_time: this.depInfo.appeal_start_time,
+        appeal_end_time: this.depInfo.appeal_end_time,
         finalEnd: this.depInfo.performance_name_end_time
       };
     },
     step() {
-      return 4;
+      return 5;
     },
     canReminder() {
       return this.isImported && this.isStarted;

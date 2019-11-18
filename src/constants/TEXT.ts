@@ -60,7 +60,7 @@ export const LABEL_SELF = "自评";
 export const LABEL_SUP = "上级评";
 
 // LOGIN
-
+export const PLUS_LEVEL_SUP = "隔级评";
 export const LABEL_LOGOUT_MSG = "确定退出登录?";
 
 // 用户管理
@@ -167,6 +167,7 @@ export const LEADER_TIME_REQUIRE_MSG = "请填写上级评";
 export const UP_LEADER_TIME_REQUIRE_MSG = "请填写隔级上级评";
 export const OFFLINETALK_TIME_REQUIRE_MSG = "请填写线下合议";
 export const FACE_TIME_REQUIRE_MSG = "请填写员工确认";
+export const PLUS_UP_LEVEL_REQUIRE_MSG = "请填写隔级工号";
 export const NUMBER_REQUIRE_MSG = "请填写工号";
 export const EMAIL_FORMAT_MSG = "请输入正确的邮箱地址";
 export const LEADER_NUMBER_REQUIRE_MSG = "请填写上级工号";
