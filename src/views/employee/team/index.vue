@@ -8,7 +8,7 @@
         </el-col>
         <el-col :span="6">
           <el-button
-            :disabled="Allsubmit_action"
+            :disabled="!Allsubmit_action"
             type="primary"
             @click="Allsubmit_step1"
             >整体提交</el-button
@@ -305,7 +305,6 @@ export default {
           this.name = performanceInfo.name || "";
           this.Allsubmit_action = performanceInfo.submit;
           this.reject_msg = performanceInfo.reject_msg;
-          console.log(performanceInfo.submit);
           performanceInfo.submit ? this.Allsubmit_step_load() : null;
         })
         .catch(e => {});
@@ -340,7 +339,9 @@ export default {
         }
       )
         .then(() => {
-          this.Allsubmit_step1();
+          setTimeout(() => {
+            this.Allsubmit_step1();
+          }, 500);
         })
         .catch(() => {});
     },
@@ -416,7 +417,7 @@ export default {
       const h = this.$createElement;
       this.$confirm(
         "<p>是否确认提交至隔级审核</p>\
-                        <p>分布结果检查 : <span style='color: #EB0C00'> 全部符合23221分布比例要求</span></p>",
+         <p>分布结果检查 : <span style='color: #EB0C00'> 全部符合23221分布比例要求</span></p>",
         "提示",
         {
           dangerouslyUseHTMLString: true,

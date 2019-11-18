@@ -66,10 +66,10 @@
         ></total-mark>
         <br />
       </div>
-      <div v-if="!canEdit">
+      <div v-if="showTotal && !canEdit">
         <total-mark
           :total="total"
-          :score="total"
+          :score="self_score"
           :high_level_show="high_level_show"
         ></total-mark>
         <br />
@@ -167,7 +167,8 @@ export default {
         LEADER_NAME,
         BASIC_INFO
       },
-      high_level_show: 0
+      high_level_show: 0,
+      self_score: 0
     };
   },
   components: {
@@ -268,7 +269,8 @@ export default {
             superior_name,
             score_level,
             score,
-            publish_status
+            publish_status,
+            self_score
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -283,6 +285,7 @@ export default {
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
+          this.self_score = self_score.score || 0;
           this.composeData(targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;
