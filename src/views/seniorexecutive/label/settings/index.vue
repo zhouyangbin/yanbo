@@ -78,6 +78,10 @@
                 size="small"
                 >{{ constants.LABEL_MODIFY }}</el-button
               >
+              <el-button
+              size="mini"
+              type="text"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -105,6 +109,17 @@
       :orgTree="orgTree"
       @getList="getAdminTagsList"
     ></label-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      >
+      <span>是否确认删除标签？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="deleteMsg">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -122,7 +137,7 @@ import {
   RESET,
   FORCED_DISTRIBUTION_VALUE
 } from "@/constants/TEXT";
-import { getAdminTags, getOrganization } from "@/constants/API";
+import { getAdminTags, getOrganization ,deleteLabel} from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   components: {
@@ -170,7 +185,9 @@ export default {
           active: true
         }
       ],
-      evaluation_id: []
+      evaluation_id: [],
+      dialogVisible:false,
+      deleteNumber:0
     };
   },
   methods: {
@@ -250,6 +267,18 @@ export default {
           this.tableData = data;
         })
         .catch(() => {});
+    },
+    // 删除
+    handleDelete(index,row){
+      this.dialogVisible = true
+      this.deleteNumber = index
+    },
+    deleteMsg(){
+      this.dialogVisible = false
+      this.orgTree.splice(this.deleteNumber,1)
+      deleteLabel(this.deleteNumber)
+      .then(res=>{})
+      .catch(e=>{console.log(this.deleteNumber)})
     }
   },
   created() {

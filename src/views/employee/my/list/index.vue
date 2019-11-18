@@ -51,12 +51,6 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
-        <!-- <pagination
-          @current-change="handleCurrentChange"
-          :currentPage="currentPage"
-          :total="total"
-        ></pagination> -->
         <el-pagination
           v-if="tableData!=[]"
           background
@@ -69,8 +63,6 @@
           :total="total"
         >
         </el-pagination>
-      </el-row>
-      <br />
     </section>
   </div>
 </template>

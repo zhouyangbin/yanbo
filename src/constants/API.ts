@@ -558,3 +558,9 @@ export const deletePerformanceUser = (performance_id: String, params: Object) =>
     params
   );
 
+// 高管绩效 删除标签
+export const deleteLabel = (id: String, params: Object) =>
+  sendDelete(
+    `/executive-performance/admin/tags/${id}`,
+    params
+  );
