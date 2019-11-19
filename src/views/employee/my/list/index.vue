@@ -38,15 +38,12 @@
               @click="goWriteTarget(scope.row)"
               >填写指标</el-button
             >
-            <el-button
+            <!-- <el-button
               v-if="handleCheckTargetButton(scope.row)"
               type="text"
               @click="goTargetDetail(scope.row)"
-              >查看详情</el-button
-            >
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
+              >查看详情</el-button> -->
+            <el-button @click="goDetail(scope.row)" type="text" size="small">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -131,8 +128,8 @@ export default {
     handleWriteTargetButton(row) {
       return (
         row.p_type === "executive" &&
-        row.stage === "指标设定阶段" &&
-        row.target_status === "指标填写中"
+        row.stage_id === 1 &&
+        row.target_status_id === 1
       );
     },
     /**
@@ -141,8 +138,8 @@ export default {
     handleCheckTargetButton(row) {
       return (
         row.p_type === "executive" &&
-        (row.stage === "指标设定阶段" || row.stage === "评分未开始") &&
-        (row.target_status === "指标确认中" || "指标已确认")
+        (row.target_status_id === 1 || row.target_status_id === 0) &&
+        (row.stage_id === 10 || row.stage_id === 20)
       );
     },
     /**
@@ -157,21 +154,25 @@ export default {
      * 跳转到指标详情页面
      */
     goTargetDetail(row) {
-      this.$router.push(
-        PATH_PERFORMANCE_TARGET_DETAIL(
-          row.performance_id,
-          row.performance_user_id
-        )
-      )
+      
       
     },
     /**
      * 原有的跳转
      */
     goDetail(row) {
-      this.$router.push(
-        PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
-      );
+      if(row.p_type == "executive"){
+          this.$router.push(
+            PATH_PERFORMANCE_TARGET_DETAIL(
+              row.performance_id,
+              row.performance_user_id
+            )
+          )
+      }else if(row.p_type == "normal"){
+          this.$router.push(
+            PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+          );
+      }    
     },
     handleCurrentChange(val) {
       this.currentPage = val;
@@ -187,8 +188,8 @@ export default {
     refreshList(data) {
       return getMyPerformanceList(data)
         .then(res => {
-          this.total = res.length
-          this.tableData = res;
+          this.total = res.data.length
+          this.tableData = res.data;
         })
         .catch(e => {});
     }

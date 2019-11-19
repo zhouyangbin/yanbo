@@ -51,13 +51,15 @@ export default {
         "self"
       ).then(res => {
         const { performance_status } = res;
-
         if (performance_status >= 30) {
           this.currentComponent = "grade";
         } else {
           this.currentComponent = "set-targets";
         }
-      });
+      })
+      .catch(e=>{
+        console.log(1)
+      })
     }
   },
   created() {

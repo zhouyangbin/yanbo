@@ -229,8 +229,8 @@ export const postUserPerformanceDraft = (
 // 我的绩效评分列表
 
 export const getMyPerformanceList = (params: Object) =>
-  // sendGet(`/executive-performance/web/self/index`, params);
-  sendGet(`/js/getMyPerformanceList.json`, params);
+  sendGet(`/executive-performance/web/self/index`, params);
+  // sendGet(`/js/getMyPerformanceList.json`, params);
 // 团队里的详情
 export const getEmployeeDetail = (
   orgID: String,
@@ -467,13 +467,8 @@ export const getPerformanceUserInfo = (params: Object) =>
 
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-<<<<<<< HEAD
-  sendGet(`/executive-performance/web/target/unique-template`, params);    
+  sendGet(`/executive-performance/web/target/unique-template`, params);
   // sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
-=======
-  // sendGet(`/executive-performance/web/target/unique-template`, params);
-  sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
->>>>>>> feature-executive-performance-target-1.0
 
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
@@ -510,19 +505,6 @@ export const getAdminPerformancesList = (params: Object) =>
 
 // 高管绩效 获取标签
 export const getTagDepartments = (params: Object) =>
-<<<<<<< HEAD
-  sendGet(
-    `/executive-performance/admin/performances/get-tag-by-departments`,
-    params
-  );
-
-// 高管绩效 获取标签
-export const getTplDepartments = (params: Object) =>
-  sendGet(
-    `/executive-performance/admin/performances/get-templates-by-departments`,
-    params
-  );
-=======
   sendGet(`/executive-performance/admin/performances/get-tag-by-departments`, params);
   // sendGet(`/js/getTagDepartments.json`, params);
 
@@ -530,7 +512,6 @@ export const getTplDepartments = (params: Object) =>
 export const getTplDepartments = (params: Object) =>
   sendGet(`/executive-performance/admin/performances/get-templates-by-departments`, params);
   // sendGet(`/js/getTplDepartments.json`, params);
->>>>>>> feature-executive-performance-target-1.0
 
 // 高管绩效 绩效考核详情
 export const getPerformanceDetail = (id: String) =>
@@ -580,8 +561,4 @@ export const deleteLabel = (id: String) =>
   sendDelete(
     `/executive-performance/admin/tags/${id}`,
     {}
-<<<<<<< HEAD
   );
-=======
-  );
->>>>>>> feature-executive-performance-target-1.0

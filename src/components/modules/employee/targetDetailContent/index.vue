@@ -115,9 +115,7 @@ export default {
         h("span", column.label),
         h("br"),
         h("span", "（最多可填写"),
-        h("span", 5, {
-          style: "color: red !important;"
-        }),
+        h("span", { style: "color: red !important;"}, 5),
         h("span", "项）")
       ]);
     }

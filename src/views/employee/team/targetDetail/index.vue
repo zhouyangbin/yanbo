@@ -230,6 +230,7 @@ export default {
   created() {
     this.getUserInfo();
     this.getWrokAndTeamTarget();
+    console.log(this.userInfo)
   }
 };
 </script>

@@ -280,7 +280,8 @@ export default {
       this.dialogVisible = false
       deleteLabel(this.deleteNumber)
       .then(res=>{
-        this.orgTree.splice(this.deleteIndex,1)
+        this.getAdminTagsList();
+        // this.orgTree.splice(this.deleteIndex,1)
       })
       .catch(e=>{})
     }
