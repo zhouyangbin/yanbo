@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="common-upload"
-    title="上传工作指标"
+    title="上传财务指标"
     :visible="visible"
     @close="close"
     :close-on-click-modal="false"
@@ -51,9 +51,7 @@ export default {
       actionUrl: ""
     };
   },
-  created() {
-    console.log(this.$route.params.uid);
-  },
+  created() {},
   computed: {
     uploadHeader() {
       return {
@@ -65,12 +63,10 @@ export default {
     close() {
       this.$emit("close");
     },
-    /**
-     * 下载模版按钮
-     */
     downloadTemplate() {
-      getTargetTemplate(this.$route.params.uid)
+      getFinancialIndicators()
         .then(res => {
+          console.log(res);
           this.$message.success("下载成功");
         })
         .catch(() => {});
