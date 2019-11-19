@@ -755,12 +755,12 @@ export default {
       this.showConfirmDialog = true;
       this.tipsText = "是否确认启动考核？";
     },
-    confirmDialog() {
+    confirmDialog(data) {
       if (data === "open") {
         putOpenAssessment(this.performanceId)
           .then(res => {
             this.showConfirmDialog = false;
-            this.getPerformanceList();
+            this.getPerformanceDetailData();
           })
           .catch(e => {});
       } else {

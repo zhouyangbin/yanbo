@@ -1,7 +1,6 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <!-- <br> -->
     <br />
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
@@ -53,13 +52,13 @@
       <br />
       <el-row type="flex" justify="end">
         <el-pagination
-          v-if="tableData == []"
           background
+          v-if="total"
+          class="paging-box"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage"
+          :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
@@ -91,7 +90,8 @@ import { getMyPerformanceList } from "@/constants/API";
 export default {
   data() {
     return {
-      currentPage: 1,
+      page: 1,
+      perPage: 10,
       total: 0,
       tableData: [],
       nav: [
@@ -119,13 +119,19 @@ export default {
       let type = "";
       if (val === "normal") {
         type = "员工绩效";
-      } else if (type === "executive") {
+      } else if (val === "executive") {
         type = "高管绩效";
       }
       return type;
     }
   },
   methods: {
+    handleSizeChange(val) {
+      this.perPage = val;
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+    },
     /**
      * 显示填写指标按钮
      */
@@ -171,19 +177,12 @@ export default {
         PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
       );
     },
-    handleCurrentChange() {
-      this.currentPage = val;
-      this.refreshList({
-        page: val
-      });
-    },
     refreshList(data) {
       return getMyPerformanceList(data)
         .then(res => {
           const { total, data } = res;
           this.total = total;
           this.tableData = data;
-          console.log(data, total);
         })
         .catch(e => {});
     }
