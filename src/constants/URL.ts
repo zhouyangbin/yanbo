@@ -207,6 +207,5 @@ export const PATH_UPLOAD_FILE = (uid: String) =>
   `${base}/executive-performance/web/self/${uid}/import-targets`;
 // 高管绩效 评分详情
 export const PATH_PERFORMANCE_MY_DETAIL = (
-  performanceId: String = ":performanceId",
-  uid: String = ":uid"
-) => `/performance/my/${performanceId}/${uid}`;
+  performanceId: String = ":performanceId"
+) => `/performance/my/${performanceId}`;

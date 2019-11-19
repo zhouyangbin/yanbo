@@ -174,12 +174,7 @@ export default {
      */
     viewDetail(row) {
       if (row.p_type === "executive") {
-        this.$router.push(
-          PATH_PERFORMANCE_MY_DETAIL(
-            row.performance_id,
-            row.performance_user_id
-          )
-        );
+        this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
       } else {
         this.$router.push(
           PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
