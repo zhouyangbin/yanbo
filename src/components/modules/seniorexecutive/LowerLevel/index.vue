@@ -158,6 +158,7 @@ export default {
         score_tag: this.filterForm.score_tag
       };
       getMyUnderLower(data).then(res => {
+        debugger;
         this.total = res.total;
         this.lowerList = res.data;
       });

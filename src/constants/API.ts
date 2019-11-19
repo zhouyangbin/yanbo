@@ -589,6 +589,9 @@ export const postPerformanceUserImport = (id: String, params: Object) =>
     `/executive-performance/admin/performances/${id}/users/import`,
     params
   );
-// 高管绩效 我的隔级下属列表
+// 高管绩效 我的直属下级列表
 export const getMyUnderLower = (params: Object) =>
+  sendGet(`/executive-performance/web/directly/under-lower`, params);
+// 高管绩效 我的隔级下属列表
+export const getMyIsolationUnderLower = (params: Object) =>
   sendGet(`/executive-performance/web/isolation/under-lower`, params);

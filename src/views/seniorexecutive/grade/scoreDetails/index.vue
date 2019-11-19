@@ -138,11 +138,11 @@
       </el-radio-group>
       <lower-level
         :performanceId="performanceId"
-        v-show="grade === 'superior'"
+        v-if="grade === 'superior'"
       ></lower-level>
       <partition-level
         :performanceId="performanceId"
-        v-show="grade === 'isolation'"
+        v-if="grade === 'isolation'"
       ></partition-level>
     </section>
   </div>
@@ -171,7 +171,7 @@ export default {
         }
       ],
       grade: "superior",
-      performanceId: this.$route.params.id,
+      performanceId: this.$route.params.performanceId,
       performanceDetail: {},
       nowTime: ""
     };
@@ -186,7 +186,6 @@ export default {
       return newVal;
     }
   },
-  methods: {},
   created() {
     this.nowTime = new Date();
     getPerformanceDetail(this.performanceId)
