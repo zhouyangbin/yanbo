@@ -19,7 +19,7 @@
       <el-form-item label="考核名称" prop="name">
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="适用范围" prop="department_ids">
+      <el-form-item required label="适用范围">
         <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
@@ -78,16 +78,16 @@
         </div>
       </el-form-item>
       <el-form-item label="绩效模板">
-        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
-          {{ item.name }}
-        </div>
-      </el-form-item>
-      <el-form-item label="标签规则">
         <div
           class="rule-name"
           v-for="item in ruleForm.templates"
           :key="item.id"
         >
+          {{ item.name }}
+        </div>
+      </el-form-item>
+      <el-form-item label="标签规则">
+        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
           {{ item.tag_type }}
         </div>
       </el-form-item>
@@ -176,14 +176,14 @@ export default {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        department_ids: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个业务单元/职能单元",
-            trigger: "change"
-          }
-        ],
+        // department_ids: [
+          // {
+            // type: "array",
+            // required: true,
+            // message: "请至少选择一个业务单元/职能单元",
+            // trigger: "change"
+          // }
+        // ],
         year: [
           { required: true, message: "考核周期不能为空", trigger: "blur" }
         ],
@@ -267,6 +267,8 @@ export default {
   methods: {
     selectedOrg(data) {
       if (data.length === 0) {
+        this.ruleForm.templates = [];
+        this.ruleForm.tag = [];
         return false;
       }
       this.ruleForm.department_ids = data;
@@ -275,14 +277,24 @@ export default {
       };
       getTagDepartments(getData)
         .then(res => {
-          this.ruleForm.tag = res;
+          if(res) {
+            this.ruleForm.tag = res;
+          } else {
+            this.ruleForm.department_ids = [];
+            this.ruleForm.tag = [];
+          }
         })
         .catch(e => {
           this.ruleForm.department_ids = [];
         });
       getTplDepartments(getData)
         .then(res => {
-          this.ruleForm.templates = res;
+          if(res) {
+            this.ruleForm.templates = res;
+          } else {
+            this.ruleForm.department_ids = [];
+            this.ruleForm.templates = [];
+          }
         })
         .catch(e => {
           this.ruleForm.department_ids = [];
@@ -294,6 +306,10 @@ export default {
     submit() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
+          if(this.ruleForm.templates.length == 0 || this.ruleForm.tag.length == 0) {
+            this.$alert("请至少选择一个有效业务单元/职能单元!");
+            return false;
+          }
           if (this.infoType == "add") {
             return postAddPerformanceAssessment(this.ruleForm).then(res => {
               this.$emit("define");
