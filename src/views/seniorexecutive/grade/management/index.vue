@@ -221,7 +221,6 @@
           @current-change="handleCurrentChange"
           :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
@@ -325,6 +324,11 @@ export default {
     },
     handleSizeChange(val) {
       this.perPage = val;
+      this.getPerformanceList();
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getPerformanceList();
     },
     changeStatuses() {
       this.getPerformanceList();
@@ -362,9 +366,6 @@ export default {
       this.page = 1;
       this.department_ids = "";
       this.getPerformanceList();
-    },
-    handleCurrentChange() {
-      this.page = val;
     },
     linkToDetail(id) {
       this.$router.replace(`/performance/assessment/details/${id}`);
