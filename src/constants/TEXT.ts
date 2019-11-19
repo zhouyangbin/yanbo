@@ -826,3 +826,61 @@ export const TASK_DESCRIPTION = "具体工作/任务描述";
 export const YARD_STICK = "衡量标准";
 export const ADD_TARGET_LINE = "添加考核项";
 export const FINANCE_DIMENSIONALITY_SUBTOTAL = "财务维度小计";
+export const STAGEOPTIONS = [
+  {
+    key: 0,
+    value: "待导入目标"
+  },
+  {
+    key: 1,
+    value: "指标填写中"
+  },
+  {
+    key: 10,
+    value: "指标确认中"
+  },
+  {
+    key: 20,
+    value: "指标已确认"
+  },
+  {
+    key: 30,
+    value: "评分未开始"
+  },
+  {
+    key: 40,
+    value: "自评中"
+  },
+  {
+    key: 50,
+    value: "复评中"
+  },
+  {
+    key: 60,
+    value: "隔级审核中"
+  },
+  {
+    key: 70,
+    value: "总裁审核中"
+  },
+  {
+    key: 80,
+    value: "已审核"
+  },
+  {
+    key: 90,
+    value: "确认中（确认成绩）"
+  },
+  {
+    key: 100,
+    value: "申诉中"
+  },
+  {
+    key: 110,
+    value: "已确认"
+  },
+  {
+    key: 120,
+    value: "已结束"
+  }
+];

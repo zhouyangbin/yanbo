@@ -4,7 +4,7 @@
     <br />
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column label="类型">
+        <el-table-column label="类型" :prop="p_type">
           <template slot-scope="scope">
             <div>{{ scope.row.p_type | handlePType }}</div>
           </template>
@@ -22,30 +22,42 @@
           :label="constants.FINISHED_DATE"
         ></el-table-column>
         <el-table-column
-          prop="target_status"
+          prop="target_status_text"
           :label="constants.TARGET_STATUS"
         ></el-table-column>
         <el-table-column
-          prop="stage"
+          prop="stage_text"
           :label="constants.GRADE_STATUS"
         ></el-table-column>
-        <el-table-column prop="address" :label="constants.OPERATIONS">
+        <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button
-              v-if="handleWriteTargetButton(scope.row)"
+              v-if="scope.row.stage === 51"
               type="text"
-              @click="goWriteTarget(scope.row)"
-              >填写指标</el-button
+              @click="confirmationScore(scope.row)"
+              >确认成绩</el-button
             >
             <el-button
-              v-if="handleCheckTargetButton(scope.row)"
+              v-else-if="scope.row.stage === 53"
               type="text"
-              @click="goTargetDetail(scope.row)"
+              @click="applytChangeIndicator(scope.row)"
+              >申请调整指标</el-button
+            >
+            <el-button
+              v-else-if="scope.row.stage === 31"
+              type="text"
+              @click="fillInSelfEvaluation(scope.row)"
+              >填写自评</el-button
+            >
+            <el-button
+              v-else-if="scope.row.stage === 11"
+              type="text"
+              @click="fillInIndicator(scope.row)"
+              >填写指标</el-button
+            >
+            <el-button v-else type="text" @click="viewDetail(scope.row)"
               >查看详情</el-button
             >
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -54,7 +66,6 @@
         <el-pagination
           background
           v-if="total"
-          class="paging-box"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
@@ -83,7 +94,7 @@ import {
 import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_TARGET_SET,
-  PATH_PERFORMANCE_TARGET_DETAIL
+  PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
@@ -126,69 +137,58 @@ export default {
     }
   },
   methods: {
+    confirmationScore() {},
+    fillInSelfEvaluation() {},
+    getList() {
+      let data = {
+        page: this.page,
+        perPage: this.perPage
+      };
+      getMyPerformanceList(data).then(res => {
+        const { total, data } = res;
+        this.total = total;
+        this.tableData = data;
+      });
+    },
     handleSizeChange(val) {
       this.perPage = val;
+      this.getList();
     },
     handleCurrentChange(val) {
       this.page = val;
-    },
-    /**
-     * 显示填写指标按钮
-     */
-    handleWriteTargetButton(row) {
-      return (
-        row.p_type === "executive" &&
-        row.stage === "指标设定阶段" &&
-        row.target_status === "指标填写中"
-      );
-    },
-    /**
-     * 显示查看详情按钮（指标）
-     */
-    handleCheckTargetButton(row) {
-      return (
-        row.p_type === "executive" &&
-        (row.stage === "指标设定阶段" || row.stage === "评分未开始") &&
-        (row.target_status === "指标确认中" || "指标已确认")
-      );
+      this.getList();
     },
     /**
      * 点击跳转到指标填写
      */
-    goWriteTarget(row) {
+    fillInIndicator(row) {
       this.$router.push(
         PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id)
       );
     },
+    applytChangeIndicator(row) {
+      // 申请调整指标
+    },
     /**
      * 跳转到指标详情页面
      */
-    goTargetDetail(row) {
-      PATH_PERFORMANCE_TARGET_DETAIL(
-        row.performance_id,
-        row.performance_user_id
-      );
-    },
-    /**
-     * 原有的跳转
-     */
-    goDetail(row) {
-      this.$router.push(
-        PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
-      );
-    },
-    refreshList(data) {
-      return getMyPerformanceList(data)
-        .then(res => {
-          const { total, data } = res;
-          this.total = total;
-          this.tableData = data;
-        })
-        .catch(e => {});
+    viewDetail(row) {
+      if (row.p_type === "executive") {
+        this.$router.push(
+          PATH_PERFORMANCE_MY_DETAIL(
+            row.performance_id,
+            row.performance_user_id
+          )
+        );
+      } else {
+        this.$router.push(
+          PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+        );
+      }
     }
   },
   created() {
-    this.refreshList({ page: 1 });
+    this.getList();
   }
 };
 </script>
