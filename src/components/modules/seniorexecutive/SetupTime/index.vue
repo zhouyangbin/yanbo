@@ -106,7 +106,7 @@
           placeholder="请选择"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="结果确认开始时间" prop="result_comfirm_end_time">
+      <el-form-item label="结果确认开始时间" prop="result_confirm_end_time">
         <el-date-picker
           :disabled="resultDisable"
           :clearable="false"
@@ -114,7 +114,7 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.result_comfirm_end_time"
+          v-model="timeForm.result_confirm_end_time"
           type="datetime"
           placeholder="请选择"
         ></el-date-picker>
@@ -326,6 +326,12 @@ export default {
         value <= this.timeForm.appeal_begin_time
       ) {
         callback(new Error("申诉结束时间不能小于开始时间"));
+      } else if (
+        this.timeForm.result_confirm_end_time &&
+        value &&
+        this.timeForm.result_confirm_end_time < value
+      ) {
+        callback(new Error("申诉结束时间需小于等于结果确认截止时间"));
       } else {
         callback();
       }
@@ -348,7 +354,7 @@ export default {
         president_audit_begin_time: [
           { validator: presidentTimeValidator, trigger: "change" }
         ],
-        result_comfirm_end_time: [
+        result_confirm_end_time: [
           { validator: resultTimeValidator, trigger: "change" }
         ],
         appeal_begin_time: [
@@ -361,8 +367,6 @@ export default {
       timeForm: {
         start_time: this.initTime.start_time || "",
         end_time: this.initTime.end_time || "",
-        entirety_start_time: this.initTime.entirety_start_time || "",
-        entirety_end_time: this.initTime.entirety_end_time || "",
         indicator_setting_end_time:
           this.initTime.indicator_setting_end_time || "",
         self_evaluation_begin_time:
@@ -371,7 +375,7 @@ export default {
         isolation_begin_time: this.initTime.isolation_begin_time || "",
         president_audit_begin_time:
           this.initTime.president_audit_begin_time || "",
-        result_comfirm_end_time: this.initTime.result_comfirm_end_time || "",
+        result_confirm_end_time: this.initTime.result_confirm_end_time || "",
         appeal_begin_time: this.initTime.appeal_begin_time || "",
         appeal_end_time: this.initTime.appeal_end_time || ""
       }
@@ -384,8 +388,10 @@ export default {
     submit() {
       this.$refs["timeForm"].validate(valid => {
         if (valid) {
-          postPerformanceSetTime(this.performanceId, this.formatTime)
-            .then(res => {})
+          postPerformanceSetTime(this.performanceId, this.timeForm)
+            .then(res => {
+              this.$emit("define");
+            })
             .catch(e => {});
         }
       });
@@ -460,9 +466,9 @@ export default {
     },
     resultDisable() {
       return (
-        this.initTime.result_comfirm_end_time &&
+        this.initTime.result_confirm_end_time &&
         formatTime(
-          new Date(this.initTime.result_comfirm_end_time.replace(/-/gi, "/"))
+          new Date(this.initTime.result_confirm_end_time.replace(/-/gi, "/"))
         ) < formatTime(new Date())
       );
     },

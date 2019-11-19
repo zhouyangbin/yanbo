@@ -171,7 +171,6 @@ export default {
       }
     };
     return {
-      isWatch: true,
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
@@ -239,7 +238,6 @@ export default {
       // 获取弹框信息
       getPerformanceDetail(this.performanceId)
         .then(res => {
-          this.isWatch = false;
           const {
             name,
             department_ids,
@@ -267,6 +265,9 @@ export default {
   methods: {
     selectedOrg(data) {
       if (data.length === 0) {
+        return false;
+      }
+      if (this.infoType !== "add") {
         return false;
       }
       this.ruleForm.department_ids = data;

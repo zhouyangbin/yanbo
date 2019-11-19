@@ -107,7 +107,7 @@
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>

@@ -22,10 +22,22 @@
           指标设定
         </div>
         <div
-          class="time-line-sign active"
-          :data="performanceDetail.indicator_setting_end_time"
+          class="time-line-sign"
+          :class="
+            performanceDetail.indicator_setting_end_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.indicator_setting_end_time | filterDate"
         ></div>
-        <div class="time-line-circle active">
+        <div
+          class="time-line-circle"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+        >
           <div class="circle-list"></div>
           <div class="circle-list"></div>
           <div class="circle-list"></div>
@@ -34,18 +46,26 @@
           <div class="circle-list"></div>
         </div>
         <div
-          class="time-line-sign active"
-          :data="performanceDetail.self_evaluation_begin_time"
+          class="time-line-sign"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.self_evaluation_begin_time | filterDate"
         ></div>
         <div
-          class="time-line active"
+          class="time-line"
           :data="'自评中' + performanceDetail.self_evaluation"
         >
           自评
         </div>
         <div
-          class="time-line-sign active"
-          :data="performanceDetail.superior_begin_time"
+          class="time-line-sign"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.superior_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
@@ -55,7 +75,10 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.isolation_begin_time"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.isolation_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
@@ -65,7 +88,12 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.president_audit_begin_time"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.president_audit_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
@@ -73,7 +101,13 @@
         >
           总裁审核
         </div>
-        <div class="time-line-sign"></div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.result_comfirm_end_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.result_comfirm_end_time | filterDate"
+        ></div>
         <div
           class="time-line"
           :data="
@@ -87,7 +121,7 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.result_comfirm_end_time"
+          :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
     </section>
@@ -138,8 +172,8 @@
           <div class="setting-detail">
             <div class="setting-key">考核周期:</div>
             <div class="setting-value">
-              {{ performanceDetail.period_start_time }}~{{
-                performanceDetail.period_end_time
+              {{ performanceDetail.period_start_time | filterDate }}~{{
+                performanceDetail.period_end_time | filterDate
               }}
             </div>
           </div>
@@ -374,7 +408,8 @@
             </el-popover>
           </el-button-group>
           <div class="table-number">
-            <i class="el-icon-info"></i> 共400人，已选 <span>0</span> 人
+            <i class="el-icon-info"></i> 共{{ total }}人，已选
+            <span>{{ selectedNumber }}</span> 人
           </div>
         </div>
         <el-table
@@ -393,21 +428,23 @@
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
             prop="business_unit_name"
+            width="200"
             label="总部/事业部"
           ></el-table-column>
           <el-table-column
             prop="sub_department_name"
             label="大部门/分校"
-            width="100"
+            width="200"
           ></el-table-column>
           <el-table-column
             prop="email"
             label="邮箱"
-            width="180"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="executive_type_text"
             label="组织部类别"
+            width="200"
           ></el-table-column>
           <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
           <el-table-column prop="hrd_name" label="HRD"></el-table-column>
@@ -478,6 +515,7 @@
       :performanceId="performanceId"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
+      @define="tplDefine"
     ></assessment-dialog>
     <setup-time
       v-if="showSetupTime"
@@ -485,6 +523,7 @@
       @close="setupTimeClose"
       :performanceId="performanceId"
       :initTime="initTime"
+      @define="confirmTime"
     ></setup-time>
     <modify-user
       v-if="showModifyUser"
@@ -493,14 +532,13 @@
       :userType="userType"
       :userId="userId"
       :performanceId="performanceId"
-      :executiveTypes="executiveTypes"
       :userInfo="userInfo"
     ></modify-user>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>
@@ -567,6 +605,7 @@ export default {
       performanceId: this.$route.params.id,
       currentPage: 1,
       total: 0,
+      selectedNumber: 0,
       showConfirmDialog: false,
       showDialog: false,
       showSetupTime: false,
@@ -574,6 +613,7 @@ export default {
       performanceTypes: [],
       orgTree: [],
       tipsText: "",
+      nowTime: "",
       nav: [
         {
           label: "组织部绩效考核列表",
@@ -607,8 +647,6 @@ export default {
   computed: {
     initTime() {
       return {
-        entirety_start_time: this.performanceDetail.entirety_start_time,
-        entirety_end_time: this.performanceDetail.entirety_end_time,
         start_time: this.performanceDetail.start_time,
         end_time: this.performanceDetail.end_time,
         indicator_setting_end_time: this.performanceDetail
@@ -619,7 +657,7 @@ export default {
         isolation_begin_time: this.performanceDetail.isolation_begin_time,
         president_audit_begin_time: this.performanceDetail
           .president_audit_begin_time,
-        result_comfirm_end_time: this.performanceDetail.result_comfirm_end_time,
+        result_confirm_end_time: this.performanceDetail.result_confirm_end_time,
         appeal_begin_time: this.performanceDetail.appeal_begin_time,
         appeal_end_time: this.performanceDetail.appeal_end_time
       };
@@ -636,6 +674,14 @@ export default {
     }
   },
   methods: {
+    tplDefine() {
+      this.showDialog = false;
+      this.getPerformanceDetailData();
+    },
+    confirmTime() {
+      this.showSetupTime = false;
+      this.getPerformanceDetailData();
+    },
     modifyUserClose() {
       this.showModifyUser = false;
     },
@@ -737,16 +783,18 @@ export default {
           this.userList = res;
         })
         .catch(e => {});
+    },
+    getPerformanceDetailData() {
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          this.performanceDetail = res;
+        })
+        .catch(e => {});
     }
   },
   created() {
-    // 获取考核详情
-    getPerformanceDetail(this.performanceId)
-      .then(res => {
-        console.log(res);
-        this.performanceDetail = res;
-      })
-      .catch(e => {});
+    this.nowTime = new Date();
+    this.getPerformanceDetailData();
     getOrganization()
       .then(res => {
         this.orgTree = res;

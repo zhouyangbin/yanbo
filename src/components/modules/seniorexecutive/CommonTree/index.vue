@@ -42,7 +42,7 @@ export default {
       let ids = this.$refs.tree.getCheckedNodes();
       ids = ids.map(v => v.id);
       this.$emit("selectedIds", ids);
-    }, 500)
+    }, 10)
   }
 };
 </script>

@@ -211,7 +211,7 @@
       :visible="showConfirmDialog"
       :tipsText="tipsText"
       :confirmType="confirmType"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>
@@ -437,8 +437,9 @@ export default {
             center;
           background-size: 100% 100%;
           &:hover {
-            background: url("../../../../assets/img/view.png") no-repeat center
-              center;
+            background: url("../../../../assets/img/view-hover.png") no-repeat
+              center center;
+            background-size: 100% 100%;
           }
         }
         .delete {
@@ -446,8 +447,9 @@ export default {
             center;
           background-size: 100% 100%;
           &:hover {
-            background: url("../../../../assets/img/delete.png") no-repeat
+            background: url("../../../../assets/img/delete-hover.png") no-repeat
               center center;
+            background-size: 100% 100%;
           }
         }
         .el-button {
