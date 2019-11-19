@@ -5,8 +5,12 @@
         <el-col :span="2.5">
           分布情况汇总
           <span>
-            <el-popover placement="right" width="360">
-              <div class="tip_A"></div>
+            <el-popover
+              placement="right"
+              width="360"
+              style="position: relative;top: -7px;"
+            >
+              <span class="tip_A"></span>
               <el-button
                 slot="reference"
                 type="text"
@@ -25,7 +29,7 @@
     <section v-if="overview.length" class="progress-header" align="center">
       <template>
         <el-row :gutter="3">
-          <el-col :span="6">
+          <el-col :span="6" align="center">
             <div class="overview_info">
               <template v-if="overview[1].child" class="clo_bg_1">
                 <div class="overview_info_number_head">
@@ -216,7 +220,7 @@
               </template>
             </div>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="9" align="center">
             <div class="overview_info">
               <template v-if="overview[2].child" class="clo_bg_3">
                 <div class="overview_info_number_head">
