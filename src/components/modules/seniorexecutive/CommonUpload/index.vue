@@ -35,10 +35,7 @@
   </el-dialog>
 </template>
 <script>
-import {
-  getFinancialIndicators,
-  postUploadFinancialIndicators
-} from "@/constants/API";
+import { getFinancialIndicators } from "@/constants/API";
 export default {
   props: {
     visible: {

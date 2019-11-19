@@ -18,6 +18,7 @@
     >
       <el-form-item label="姓名/工号:" prop="workcode">
         <el-select
+          @change="selectUser"
           v-model="userForm.workcode"
           filterable
           remote
@@ -32,7 +33,7 @@
             v-for="item in userOptions"
             :key="item.workcode"
             :label="item.workcode + item.name + item.email"
-            :value="item.workcode"
+            :value="item.workcode + '-' + item.email"
           >
           </el-option>
         </el-select>
@@ -40,7 +41,7 @@
       <el-form-item label="邮箱:" prop="email">
         <el-input
           v-model="userForm.email"
-          :disabled="userType !== 'add'"
+          :disabled="userType !== 'add' || userForm.email !== ''"
         ></el-input>
       </el-form-item>
       <el-form-item label="直接上级:" prop="superior_workcode">
@@ -76,16 +77,16 @@
       <el-form-item label="上传指标:">
         <el-upload
           class="upload-demo"
-          :action="
-            constants.postUploadFinancialIndicators(this.$route.params.id)
-          "
+          :action="actionUrl"
           :uploadSuccess="uploadSuccess"
         >
           <el-button size="small" type="primary">选择文件</el-button>
         </el-upload>
       </el-form-item>
       <el-form-item label="提示信息:">
-        <span class="tip-info">上传成功！共1人。</span>
+        <span class="tip-info" :class="isUploadSuccess ? 'active' : ''"
+          >上传成功！共{{ uploadNum }}人。</span
+        >
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -108,8 +109,7 @@ import {
   postAddStaff,
   putEmployeeInfo,
   getSearchEmployees,
-  getTplExecutiveTypes,
-  postUploadFinancialIndicators
+  getTplExecutiveTypes
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -137,9 +137,6 @@ export default {
   },
   data() {
     return {
-      constants: {
-        postUploadFinancialIndicators
-      },
       userForm: {
         workcode: "",
         email: "",
@@ -178,10 +175,17 @@ export default {
       },
       userOptions: [],
       loading: false,
-      executiveTypes: []
+      executiveTypes: [],
+      actionUrl: "",
+      uploadNum: 0,
+      isUploadSuccess: false
     };
   },
   methods: {
+    selectUser(value) {
+      this.userForm.workcode = value.split("-")[0];
+      this.userForm.email = value.split("-")[1];
+    },
     searchME(query) {
       if (query !== "") {
         this.loading = true;
@@ -271,6 +275,9 @@ export default {
   width: 100%;
 }
 .modify-user .tip-info {
+  color: #fff;
+}
+.modify-user .tip-info.active {
   color: #eb0c00;
 }
 </style>
