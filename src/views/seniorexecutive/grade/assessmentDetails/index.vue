@@ -22,10 +22,22 @@
           指标设定
         </div>
         <div
-          class="time-line-sign active"
-          :data="performanceDetail.indicator_setting_end_time"
+          class="time-line-sign"
+          :class="
+            performanceDetail.indicator_setting_end_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.indicator_setting_end_time | filterDate"
         ></div>
-        <div class="time-line-circle active">
+        <div
+          class="time-line-circle"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+        >
           <div class="circle-list"></div>
           <div class="circle-list"></div>
           <div class="circle-list"></div>
@@ -34,18 +46,26 @@
           <div class="circle-list"></div>
         </div>
         <div
-          class="time-line-sign active"
-          :data="performanceDetail.self_evaluation_begin_time"
+          class="time-line-sign"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.self_evaluation_begin_time | filterDate"
         ></div>
         <div
-          class="time-line active"
+          class="time-line"
           :data="'自评中' + performanceDetail.self_evaluation"
         >
           自评
         </div>
         <div
-          class="time-line-sign active"
-          :data="performanceDetail.superior_begin_time"
+          class="time-line-sign"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.superior_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
@@ -55,7 +75,10 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.isolation_begin_time"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.isolation_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
@@ -65,7 +88,12 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.president_audit_begin_time"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.president_audit_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
@@ -73,7 +101,13 @@
         >
           总裁审核
         </div>
-        <div class="time-line-sign"></div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.result_comfirm_end_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.result_comfirm_end_time | filterDate"
+        ></div>
         <div
           class="time-line"
           :data="
@@ -87,7 +121,7 @@
         </div>
         <div
           class="time-line-sign"
-          :data="performanceDetail.result_confirm_end_time"
+          :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
     </section>
@@ -138,8 +172,8 @@
           <div class="setting-detail">
             <div class="setting-key">考核周期:</div>
             <div class="setting-value">
-              {{ performanceDetail.period_start_time }}~{{
-                performanceDetail.period_end_time
+              {{ performanceDetail.period_start_time | filterDate }}~{{
+                performanceDetail.period_end_time | filterDate
               }}
             </div>
           </div>
@@ -579,6 +613,7 @@ export default {
       performanceTypes: [],
       orgTree: [],
       tipsText: "",
+      nowTime: "",
       nav: [
         {
           label: "组织部绩效考核列表",
@@ -758,6 +793,7 @@ export default {
     }
   },
   created() {
+    this.nowTime = new Date();
     this.getPerformanceDetailData();
     getOrganization()
       .then(res => {

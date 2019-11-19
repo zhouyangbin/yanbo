@@ -326,6 +326,12 @@ export default {
         value <= this.timeForm.appeal_begin_time
       ) {
         callback(new Error("申诉结束时间不能小于开始时间"));
+      } else if (
+        this.timeForm.result_confirm_end_time &&
+        value &&
+        this.timeForm.result_confirm_end_time < value
+      ) {
+        callback(new Error("申诉结束时间需小于等于结果确认截止时间"));
       } else {
         callback();
       }
