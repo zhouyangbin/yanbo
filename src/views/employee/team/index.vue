@@ -1,10 +1,12 @@
 <template>
   <div>
     <nav-bar :list="nav"></nav-bar>
-    <section class="progress-header" align="center">
-      <el-row>
-        <el-col :span="12" :offset="6">
-          <p>{{ name }}</p>
+    <section class="progress-header">
+      <el-row justify="center">
+        <el-col align="center" :span="12" :offset="6">
+          <span class="text_22_blod">{{ name }}</span
+          ><br />
+          <span class="text_16">{{ department }}</span>
         </el-col>
         <el-col :span="6">
           <el-button
@@ -78,7 +80,7 @@
           }}</el-button>
         </el-form>
       </section>
-      <section style="min-height:400px">
+      <section class="progress-header" style="min-height:400px">
         <el-row type="flex" :gutter="20" align="top">
           <el-col>
             <el-table
@@ -261,6 +263,7 @@ export default {
         ENUM_PERFORMANCE_FINISH
       },
       name: "",
+      department: "",
       Allsubmit_action: false,
       reject_msg: "",
       content: "",
@@ -303,6 +306,7 @@ export default {
           this.total = user.total;
           this.overview = overview || [];
           this.name = performanceInfo.name || "";
+          this.department = performanceInfo.department || "";
           this.Allsubmit_action = performanceInfo.submit;
           this.reject_msg = performanceInfo.reject_msg;
           performanceInfo.submit ? this.Allsubmit_step_load() : null;
@@ -401,7 +405,6 @@ export default {
       }
     },
     Allsubmit_step2(tip_html) {
-      let taht = this;
       this.$prompt(tip_html, "提示", {
         dangerouslyUseHTMLString: true,
         confirmButtonText: "提交",
@@ -414,8 +417,7 @@ export default {
         .catch(() => {});
     },
     Allsubmit_step3() {
-      const h = this.$createElement;
-      this.$confirm(
+      this.$prompt(
         "<p>是否确认提交至隔级审核</p>\
          <p>分布结果检查 : <span style='color: #EB0C00'> 全部符合23221分布比例要求</span></p>",
         "提示",
@@ -425,8 +427,8 @@ export default {
           cancelButtonText: "暂不提交"
         }
       )
-        .then(() => {
-          this.Allsubmit_send();
+        .then(({ value }) => {
+          this.Allsubmit_send(value);
         })
         .catch(() => {});
     },
@@ -540,5 +542,11 @@ export default {
 }
 .overview_tip_color {
   color: #eb0c00;
+}
+.text_22_blod {
+  font-size: 18px;
+}
+.text_16 {
+  font-size: 16px;
 }
 </style>
