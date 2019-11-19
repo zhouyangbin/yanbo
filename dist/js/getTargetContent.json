@@ -1,0 +1,18 @@
+{
+    "status":200,
+    "message":"",
+    "data":[
+        {
+            "weights":0,
+            "target":"",
+            "content": "",
+            "metrics":[
+                {"key":"outstanding","name":"卓越（2分）","content":"","is_required":1},
+                {"key":"excellence","name":"优秀（1.5分）","content":"","is_required":0},
+                {"key":"good","name":"良好（1分）","content":"","is_required":0},
+                {"key":"to_be_improved","name":"待改进（0.5分）","content":"","is_required":0},
+                {"key":"disqualification","name":"不合格（0分）","content":"","is_required":0}
+            ]
+        }
+    ]
+}
