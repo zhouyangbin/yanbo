@@ -209,3 +209,6 @@ export const PATH_UPLOAD_FILE = (uid: String) =>
 export const PATH_PERFORMANCE_MY_DETAIL = (
   performanceId: String = ":performanceId"
 ) => `/performance/my/${performanceId}`;
+
+export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
+  `${base}/executive-performance/admin/performances/${id}/users/export`;

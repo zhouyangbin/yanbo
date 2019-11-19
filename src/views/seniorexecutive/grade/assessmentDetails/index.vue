@@ -394,14 +394,19 @@
           </el-form-item>
         </el-form>
         <div class="table-operate">
-          <el-button
+          <!-- <el-button
             type="primary"
             icon="el-icon-view"
             @click="viewDistribution"
             >查看分布</el-button
-          >
+          > -->
           <el-button-group class="btn-group">
-            <el-button icon="el-icon-bell" @click="reminder">提醒</el-button>
+            <el-button
+              icon="el-icon-bell"
+              :disabled="currentStage < 10"
+              @click="reminder"
+              >提醒</el-button
+            >
             <el-button icon="el-icon-plus" @click="addPerson"
               >添加人员</el-button
             >
@@ -571,7 +576,10 @@ import {
   getPerformanceNotice,
   deletePerformanceUser
 } from "@/constants/API";
-import { PATH_PERFORMANCE_GRADE_MANAGEMENT } from "@/constants/URL";
+import {
+  PATH_PERFORMANCE_GRADE_MANAGEMENT,
+  PATH_PERFORMANCE_USER_LIST
+} from "@/constants/URL";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -656,7 +664,8 @@ export default {
       showModifyUser: false,
       userInfo: {},
       userType: "add",
-      userId: ""
+      userId: "",
+      currentStage: 0
     };
   },
   computed: {
@@ -721,8 +730,11 @@ export default {
       this.showModifyUser = true;
     },
     exportList() {
-      // window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
-      console.log("exportList");
+      window.open(
+        PATH_PERFORMANCE_USER_LIST(this.performanceId),
+        "_blank",
+        "noopener"
+      );
     },
     uploadFinancialIndicators() {
       console.log("uploadFinancialIndicators");
@@ -807,6 +819,7 @@ export default {
     getPerformanceDetailData() {
       getPerformanceDetail(this.performanceId)
         .then(res => {
+          this.currentStage = res.stage;
           this.performanceDetail = res;
         })
         .catch(e => {});
