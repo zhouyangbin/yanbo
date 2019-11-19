@@ -17,6 +17,7 @@
       <div class="list-timeline">
         <div
           class="time-line"
+          :class="performanceDetail.stage === 0 ? '' : 'active'"
           :data="
             '填写中' +
               performanceDetail.indicator_fill_in +
@@ -28,6 +29,7 @@
         </div>
         <div
           class="time-line-sign"
+          :class="performanceDetail.stage === 0 ? '' : 'active'"
           :data="performanceDetail.indicator_setting_end_time | filterDate"
         ></div>
         <div
@@ -115,10 +117,12 @@
         </div>
         <div
           class="time-line-sign"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
           :data="performanceDetail.result_comfirm_end_time | filterDate"
         ></div>
         <div
           class="time-line"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
           :data="
             '确认中' +
               performanceDetail.confirm +
@@ -130,6 +134,7 @@
         </div>
         <div
           class="time-line-sign"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
           :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
