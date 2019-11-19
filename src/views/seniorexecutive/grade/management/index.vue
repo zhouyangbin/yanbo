@@ -195,18 +195,15 @@
           </div>
           <div
             class="time-line-sign"
-            :class="performanceDetail.stage === 60 ? 'active' : ''"
+            :class="item.stage === 60 ? 'active' : ''"
             :data="item.result_confirm_end_time | filterDate"
           ></div>
-          <div
-            class="time-line"
-            :class="performanceDetail.stage === 60 ? 'active' : ''"
-          >
+          <div class="time-line" :class="item.stage === 60 ? 'active' : ''">
             结果确认
           </div>
           <div
             class="time-line-sign"
-            :class="performanceDetail.stage === 60 ? 'active' : ''"
+            :class="item.stage === 60 ? 'active' : ''"
             :data="item.president_audit_begin_time | filterDate"
           ></div>
         </div>
