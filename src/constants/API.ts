@@ -582,3 +582,10 @@ export const getFinancialIndicators = () =>
   sendGet(
     `/executive-performance/admin/performances/templates/financial-indicators`
   );
+
+// 高管绩效  导入用户
+export const postPerformanceUserImport = (id: String, params: Object) =>
+  sendPost(
+    `/executive-performance/admin/performances/${id}/users/import`,
+    params
+  );

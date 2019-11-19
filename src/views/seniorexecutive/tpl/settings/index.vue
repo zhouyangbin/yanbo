@@ -82,7 +82,6 @@
           @current-change="handleCurrentChange"
           :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
@@ -241,9 +240,11 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
+      this.getTplList();
     },
     handleSizeChange(val) {
       this.perPage = val;
+      this.getTplList();
     },
     updateTpl(row) {
       this.infoType = "modify";

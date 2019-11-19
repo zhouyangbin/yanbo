@@ -19,7 +19,7 @@
         </div>
         <div>
           <el-radio-group
-            v-model="statuses"
+            v-model="status"
             @change="changeStatuses"
             size="medium"
           >
@@ -39,24 +39,15 @@
         :key="item.id"
       >
         <div class="list-top">
-          <span v-if="item.status === 1" class="state draft">草稿</span>
-          <span v-if="item.status === 2" class="state doing">进行中</span>
-          <span v-if="item.status === 3" class="state ending">已结束</span>
+          <span v-if="item.stage === 0" class="state draft">草稿</span>
+          <span v-else-if="item.stage === 60" class="state ending">已结束</span>
+          <span v-else class="state doing">进行中</span>
           <el-breadcrumb separator="|" class="bread-crumb">
             <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
             <el-breadcrumb-item>{{ item.departments_text }}</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="item.performance_type === 'annual'"
-              >年度</el-breadcrumb-item
-            >
-            <el-breadcrumb-item v-if="item.performance_type === 'semi-annual'"
-              >半年度</el-breadcrumb-item
-            >
-            <el-breadcrumb-item v-if="item.performance_type === 'quarter'"
-              >季度</el-breadcrumb-item
-            >
-            <el-breadcrumb-item v-if="item.performance_type === 'monthly'"
-              >月度</el-breadcrumb-item
-            >
+            <el-breadcrumb-item>{{
+              item.performance_type | filterType
+            }}</el-breadcrumb-item>
           </el-breadcrumb>
           <div class="operate-btns">
             <el-tooltip
@@ -76,7 +67,7 @@
               <i class="delete" @click="deleteAssessment(item.id)"></i>
             </el-tooltip>
             <el-button
-              v-if="item.can_start"
+              :disabled="!item.can_start"
               @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
@@ -107,45 +98,51 @@
             </div>
             <div class="list-middle-items">
               <div>指标填写中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.indicator_fill_in }}</div>
             </div>
             <div class="list-middle-items">
               <div>指标确认中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.indicator_confirm }}</div>
             </div>
             <div class="list-middle-items">
               <div>自评中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.self_evaluation }}</div>
             </div>
             <div class="list-middle-items">
               <div>复评中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.re_evaluation }}</div>
             </div>
             <div class="list-middle-items">
               <div>隔级审核中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.isolation_adult }}</div>
             </div>
             <div class="list-middle-items">
               <div>总裁审核中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.president_audit }}</div>
             </div>
             <div class="list-middle-items">
               <div>确认中</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.confirm }}</div>
             </div>
             <div class="list-middle-items">
               <div>已确认</div>
-              <div class="list-middle-item">{{ item.users_count }}</div>
+              <div class="list-middle-item">{{ item.confirmed }}</div>
             </div>
           </div>
         </div>
         <div class="list-timeline">
-          <div class="time-line active">指标设定</div>
+          <div class="time-line" :class="item.stage === 0 ? '' : 'active'">
+            指标设定
+          </div>
           <div
-            class="time-line-sign active"
-            :data="item.indicator_setting_end_time"
+            class="time-line-sign"
+            :class="item.stage === 0 ? '' : 'active'"
+            :data="item.indicator_setting_end_time | filterDate"
           ></div>
-          <div class="time-line-circle active">
+          <div
+            class="time-line-circle"
+            :class="item.self_evaluation_begin_time > nowTime ? 'active' : ''"
+          >
             <div class="circle-list"></div>
             <div class="circle-list"></div>
             <div class="circle-list"></div>
@@ -154,30 +151,63 @@
             <div class="circle-list"></div>
           </div>
           <div
-            class="time-line-sign active"
-            :data="item.self_evaluation_begin_time"
+            class="time-line-sign"
+            :class="item.self_evaluation_begin_time > nowTime ? 'active' : ''"
+            :data="item.self_evaluation_begin_time | filterDate"
           ></div>
-          <div class="time-line active">自评</div>
           <div
-            class="time-line-sign active"
-            :data="item.superior_begin_time"
-          ></div>
-          <div class="time-line active">上级评分</div>
-          <div
-            class="time-line-sign active"
-            :data="item.isolation_begin_time"
-          ></div>
-          <div class="time-line">隔级审核</div>
-          <div class="time-line-sign"></div>
-          <div class="time-line">总裁审核</div>
+            class="time-line"
+            :class="item.self_evaluation_begin_time > nowTime ? 'active' : ''"
+          >
+            自评
+          </div>
           <div
             class="time-line-sign"
-            :data="item.result_confirm_end_time"
+            :class="item.superior_begin_time > nowTime ? 'active' : ''"
+            :data="item.superior_begin_time | filterDate"
           ></div>
-          <div class="time-line">结果确认</div>
+          <div
+            class="time-line"
+            :class="item.superior_begin_time > nowTime ? 'active' : ''"
+          >
+            上级评分
+          </div>
           <div
             class="time-line-sign"
-            :data="item.president_audit_begin_time"
+            :class="item.isolation_begin_time > nowTime ? 'active' : ''"
+            :data="item.isolation_begin_time | filterDate"
+          ></div>
+          <div
+            class="time-line"
+            :class="item.isolation_begin_time > nowTime ? 'active' : ''"
+          >
+            隔级审核
+          </div>
+          <div
+            class="time-line-sign"
+            :class="item.president_audit_begin_time > nowTime ? 'active' : ''"
+          ></div>
+          <div
+            class="time-line"
+            :class="item.president_audit_begin_time > nowTime ? 'active' : ''"
+          >
+            总裁审核
+          </div>
+          <div
+            class="time-line-sign"
+            :class="performanceDetail.stage === 60 ? 'active' : ''"
+            :data="item.result_confirm_end_time | filterDate"
+          ></div>
+          <div
+            class="time-line"
+            :class="performanceDetail.stage === 60 ? 'active' : ''"
+          >
+            结果确认
+          </div>
+          <div
+            class="time-line-sign"
+            :class="performanceDetail.stage === 60 ? 'active' : ''"
+            :data="item.president_audit_begin_time | filterDate"
           ></div>
         </div>
       </div>
@@ -190,7 +220,6 @@
           @current-change="handleCurrentChange"
           :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
@@ -268,7 +297,8 @@ export default {
         LABEL_EMPTY,
         LABEL_SELECT_DIVISION
       },
-      statuses: ""
+      status: "",
+      nowTime: ""
     };
   },
   filters: {
@@ -279,6 +309,19 @@ export default {
         newVal = newVal[0];
       }
       return newVal;
+    },
+    filterType(val) {
+      let type = "";
+      if (val === "annual") {
+        type = "年度";
+      } else if (val === "semi-annual") {
+        type = "半年度";
+      } else if (val === "quarter") {
+        type = "季度";
+      } else if (val === "monthly") {
+        type = "月度";
+      }
+      return type;
     }
   },
   methods: {
@@ -293,13 +336,18 @@ export default {
     },
     handleSizeChange(val) {
       this.perPage = val;
+      this.getPerformanceList();
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getPerformanceList();
     },
     changeStatuses() {
       this.getPerformanceList();
     },
     getPerformanceList() {
       let data = {
-        statuses: this.statuses,
+        status: this.status,
         page: this.page,
         perPage: this.perPage,
         department_ids: this.department_ids.split(",")
@@ -330,9 +378,6 @@ export default {
       this.page = 1;
       this.department_ids = "";
       this.getPerformanceList();
-    },
-    handleCurrentChange() {
-      this.page = val;
     },
     linkToDetail(id) {
       this.$router.replace(`/performance/assessment/details/${id}`);
@@ -373,6 +418,7 @@ export default {
     }
   },
   created() {
+    this.nowTime = new Date();
     this.getPerformanceList();
     getOrganization()
       .then(res => {
