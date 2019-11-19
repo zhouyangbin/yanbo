@@ -459,6 +459,7 @@ export default {
         background-color: #cdd0d6ff;
       }
       .bread-crumb {
+        float: left;
         line-height: 32px;
         font-size: 16px;
         font-weight: bold;
