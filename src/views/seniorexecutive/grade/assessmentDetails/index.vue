@@ -5,13 +5,18 @@
     <section class="content-container bg-white">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
-        <div class="create-btn" v-if="performanceDetail.can_start">
-          <el-button type="primary" @click="openAssessment">开启考核</el-button>
+        <div class="create-btn">
+          <el-button
+            type="primary"
+            :disabled="performanceDetail.can_start"
+            @click="openAssessment"
+            >开启考核</el-button
+          >
         </div>
       </div>
       <div class="list-timeline">
         <div
-          class="time-line active"
+          class="time-line"
           :data="
             '填写中' +
               performanceDetail.indicator_fill_in +
@@ -23,11 +28,6 @@
         </div>
         <div
           class="time-line-sign"
-          :class="
-            performanceDetail.indicator_setting_end_time > nowTime
-              ? 'active'
-              : ''
-          "
           :data="performanceDetail.indicator_setting_end_time | filterDate"
         ></div>
         <div
@@ -56,6 +56,7 @@
         ></div>
         <div
           class="time-line"
+          :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
           :data="'自评中' + performanceDetail.self_evaluation"
         >
           自评
@@ -69,6 +70,9 @@
         ></div>
         <div
           class="time-line"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
           :data="'复评中' + performanceDetail.re_evaluation"
         >
           上级评分
@@ -82,6 +86,9 @@
         ></div>
         <div
           class="time-line"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
           :data="'隔级审核中' + performanceDetail.isolation_adult"
         >
           隔级审核
@@ -97,15 +104,17 @@
         ></div>
         <div
           class="time-line"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
           :data="'总裁审核中' + performanceDetail.president_audit"
         >
           总裁审核
         </div>
         <div
           class="time-line-sign"
-          :class="
-            performanceDetail.result_comfirm_end_time > nowTime ? 'active' : ''
-          "
           :data="performanceDetail.result_comfirm_end_time | filterDate"
         ></div>
         <div
@@ -533,6 +542,7 @@
       :userId="userId"
       :performanceId="performanceId"
       :userInfo="userInfo"
+      @define="confirmUser"
     ></modify-user>
     <confirm-dialog
       v-if="showConfirmDialog"
@@ -674,6 +684,10 @@ export default {
     }
   },
   methods: {
+    confirmUser() {
+      this.showModifyUser = false;
+      this.getUserList();
+    },
     tplDefine() {
       this.showDialog = false;
       this.getPerformanceDetailData();
@@ -702,6 +716,7 @@ export default {
       this.showModifyUser = true;
     },
     exportList() {
+      // window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
       console.log("exportList");
     },
     uploadFinancialIndicators() {

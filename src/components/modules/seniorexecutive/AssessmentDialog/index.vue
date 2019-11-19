@@ -19,7 +19,7 @@
       <el-form-item label="考核名称" prop="name">
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="适用范围" prop="department_ids">
+      <el-form-item class="is-required" label="适用范围" prop="department_ids">
         <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
@@ -175,14 +175,14 @@ export default {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        department_ids: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个业务单元/职能单元",
-            trigger: "change"
-          }
-        ],
+        // department_ids: [
+        //   {
+        //     type: "array",
+        //     required: true,
+        //     message: "请至少选择一个业务单元/职能单元",
+        //     trigger: "change"
+        //   }
+        // ],
         year: [
           { required: true, message: "考核周期不能为空", trigger: "blur" }
         ],
