@@ -4,7 +4,7 @@
     <br />
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column label="类型" :prop="p_type">
+        <el-table-column label="类型" prop="p_type">
           <template slot-scope="scope">
             <div>{{ scope.row.p_type | handlePType }}</div>
           </template>
