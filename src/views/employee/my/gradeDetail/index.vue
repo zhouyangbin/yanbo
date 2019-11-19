@@ -493,7 +493,9 @@ export default {
           this.handleSubTotal(this.allTarget[i].basicType)
         ) {
           this.$message.error(
-            `${this.allTarget[i].type}权重之和不等于${this.allTarget[i].weight}%, 请检查`
+            `${this.allTarget[i].type}权重之和不等于${
+              this.allTarget[i].weight
+            }%, 请检查`
           );
           return false;
         }

@@ -278,7 +278,7 @@ export default {
       };
       getTagDepartments(getData)
         .then(res => {
-          if(res) {
+          if (res) {
             this.ruleForm.tag = res;
           } else {
             this.ruleForm.department_ids = [];
@@ -290,7 +290,7 @@ export default {
         });
       getTplDepartments(getData)
         .then(res => {
-          if(res) {
+          if (res) {
             this.ruleForm.templates = res;
           } else {
             this.ruleForm.department_ids = [];
@@ -307,7 +307,10 @@ export default {
     submit() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
-          if(this.ruleForm.templates.length == 0 || this.ruleForm.tag.length == 0) {
+          if (
+            this.ruleForm.templates.length == 0 ||
+            this.ruleForm.tag.length == 0
+          ) {
             this.$alert("请至少选择一个有效业务单元/职能单元!");
             return false;
           }
