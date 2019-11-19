@@ -107,7 +107,7 @@
               >{{ constants.EXPORT_DETAILS }}</el-button
             >
             <el-button
-              :disabled="!canReminder || afterEnd"
+              :disabled="!time_canReminder && !isImported"
               @click="reminder"
               class="action-btn"
               icon="el-icon-bell"
@@ -727,7 +727,7 @@ export default {
       return this.depInfo.start_time && this.depInfo.end_time;
     },
     isImported() {
-      return !!this.depInfo.user_status;
+      return !!this.depInfo.user_status; //换算成Boolean 类型
     },
     initTime() {
       return {
@@ -749,10 +749,56 @@ export default {
     step() {
       return 5;
     },
+    target_canReminder() {
+      // 指标设定 都设置 并且 开始时间 <= 当前时间  结束时间 <= 当前时间
+      return (
+        this.initTime.start_time &&
+        this.initTime.end_time &&
+        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <=
+          formatTime(new Date()) &&
+        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <=
+          formatTime(new Date())
+      );
+    },
+    score_canReminder() {
+      // 评分时间 都设置 并且 开始时间 <= 当前时间  结束时间 <= 当前时间
+      return (
+        this.initTime.target_start_time &&
+        this.initTime.target_end_time &&
+        formatTime(
+          new Date(this.initTime.target_start_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date()) &&
+        formatTime(
+          new Date(this.initTime.target_end_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
+      );
+    },
+    high_canReminder() {
+      // 隔级评时间 都设置 并且 开始时间 <= 当前时间  结束时间 <= 当前时间
+      return (
+        this.initTime.high_level_start_time &&
+        this.initTime.high_level_end_time &&
+        formatTime(
+          new Date(this.initTime.high_level_start_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date()) &&
+        formatTime(
+          new Date(this.initTime.high_level_end_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
+      );
+    },
+    time_canReminder() {
+      // 指标设定 评分时间 隔级评时间 三个条件或运算
+      return (
+        this.target_canReminder ||
+        this.score_canReminder ||
+        this.high_canReminder
+      );
+    },
     canReminder() {
       return this.isImported && this.isStarted;
     },
     isStarted() {
+      //评分开始时间 是不是存在。并且 评分开始时间要小于等于当前时间
       return (
         this.initTime.start_time &&
         formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <=
@@ -760,17 +806,20 @@ export default {
       );
     },
     afterEnd() {
+      //评分确认结束时间 是不是存在。并且 评分确认结束时间要小于等于当前时间
       return (
-        this.initTime.endTime &&
-        formatTime(new Date(this.initTime.endTime.replace(/-/gi, "/"))) <=
-          formatTime(new Date())
+        this.initTime.confirm_end_time &&
+        formatTime(
+          new Date(this.initTime.confirm_end_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     },
     canPublish() {
       return (
-        this.initTime.startTime &&
-        formatTime(new Date(this.initTime.startTime.replace(/-/gi, "/"))) <=
-          formatTime(new Date())
+        this.initTime.confirm_start_time &&
+        formatTime(
+          new Date(this.initTime.confirm_start_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     }
   }

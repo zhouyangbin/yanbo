@@ -185,6 +185,94 @@ export const UPLOAD_FAIL = "上传失败";
 export const TPL_SETTING = "模板设置";
 export const TPL = "模板";
 export const RULES_SETTING = "规则设置";
+export const LABEL_SETTING = "标签设置";
+export const ADD_NEW_LABEL = "新增标签";
+export const UPDATE_LABEL = "更新标签";
+export const SERIAL_NUMBER = "序号";
+export const TAG_NAME = "标签名称";
+export const TAG_TYPE = "标签类型";
+
+export const DEFAULT_TABLE23221 = [
+  {
+    id: "1",
+    name: "Top",
+    is_show: false,
+    level: "S/A",
+    range: -1,
+    threshold: 20,
+    range_des: "<=20%",
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    id: "2",
+    name: "Middle(50%)",
+    is_show: false,
+    level: "B",
+    range: 0,
+    threshold: 50,
+    range_des: "50%",
+    computation_rule_name: ""
+  },
+  {
+    parent_id: "2",
+    name: "B+(自定义)",
+    is_show: false,
+    level: "--",
+    range: -1,
+    threshold: 30,
+    range_des: "<=30%",
+    computation_rule_name: "四舍五入取整数",
+    isChildren: true
+  },
+  {
+    parent_id: "2",
+    name: "B(自定义)",
+    is_show: false,
+    level: "--",
+    range: 0,
+    threshold: 20,
+    range_des: "20%",
+    computation_rule_name: "",
+    isChildren: true
+  },
+  {
+    id: "3",
+    name: "Bottom",
+    is_show: false,
+    level: "--",
+    range: 1,
+    threshold: 30,
+    range_des: ">=30%",
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    parent_id: "3",
+    name: "B-(自定义)",
+    is_show: false,
+    level: "--",
+    range: 1,
+    threshold: 20,
+    range_des: "20%",
+    computation_rule_name: "四舍不五入取整数",
+    isChildren: true
+  },
+  {
+    parent_id: "3",
+    name: "C/D(自定义)",
+    is_show: false,
+    level: "C/D",
+    range: 1,
+    threshold: 10,
+    range_des: ">=10%",
+    computation_rule_name: "四舍五入取整数",
+    isChildren: true
+  }
+];
+
+export const BUSINESS_UNIT_AND_FUNCTIONAL_UNIT = "业务单元/职能单元";
+export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";
+export const FORCED_DISTRIBUTION_OR_NOT = "是否强制分布";
+
 export const ACCESS_SETTING = "权限管理";
 export const ROLE_SETTING = "角色管理";
 export const ROLE = "角色";
@@ -476,6 +564,10 @@ export const ENUM_PERFORMANCE_FINISH = [
     value: "目标未导入"
   },
   {
+    key: 5,
+    value: "上级审核目标"
+  },
+  {
     key: 10,
     value: "目标已导入"
   },
@@ -486,6 +578,10 @@ export const ENUM_PERFORMANCE_FINISH = [
   {
     key: 30,
     value: "上级评中"
+  },
+  {
+    key: 35,
+    value: "隔级评中"
   },
   {
     key: 50,

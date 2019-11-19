@@ -63,11 +63,19 @@
         :comments.sync="comments"
       ></comments>
       <br />
-      <total-mark v-if="!inReviewStage" :total="total"></total-mark>
+      <total-mark
+        v-if="!inReviewStage"
+        :score="this.score"
+        :total="total"
+      ></total-mark>
       <br />
       <level
         v-if="!inReviewStage"
+        :canEdit="canEdit"
         :readOnly="shouldMapping || stage >= 50"
+        :operate_status="operate_status"
+        :label_id="label_id"
+        @update_label_id="set_label_id"
         v-model="level"
       ></level>
       <br />
@@ -136,6 +144,8 @@ export default {
       basicInfo: {},
       targets: [],
       level: "",
+      score: "",
+      label_id: null,
       cardConfig: {
         min: 0,
         max: 5,
@@ -165,7 +175,8 @@ export default {
         EMPYEE_NAME,
         LABEL_CONFIRM
       },
-      showReviewDia: false
+      showReviewDia: false,
+      operate_status: true
     };
   },
   components: {
@@ -207,6 +218,9 @@ export default {
     }
   },
   methods: {
+    set_label_id(id) {
+      this.label_id = id;
+    },
     normalizeTargets(arr) {
       return arr.map(v => {
         v.mark =
@@ -270,12 +284,14 @@ export default {
             targets,
             workcode,
             self_attach_score,
+            self_score,
             superior_attach_score,
             superior_score,
             need_attach_score,
             score_rule,
             stage,
-            score_level
+            score_level,
+            operate_status
           } = res;
 
           this.basicInfo = {
@@ -284,7 +300,7 @@ export default {
             self_attach_score
           };
           this.targets = this.normalizeTargets(targets);
-
+          this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.comments = superior_score && superior_score.evaluation;
@@ -293,6 +309,8 @@ export default {
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
           this.stage = stage;
+          this.score = self_score.score; //自评总分
+          this.label_id = parseInt(superior_score.label_id) || null;
         })
         .catch(e => {});
     },
@@ -332,20 +350,26 @@ export default {
           });
           return reject(false);
         }
+        if (!this.label_id && !this.level) {
+          this.$notify.error({
+            title: ERROR,
+            message: "请选择标签"
+          });
+          return reject(false);
+        }
         return resolve(true);
       });
     },
     submit() {
       return this.beforeSubmitCheck()
         .then(() => {
-          return this.$confirm("请确认无误再提交, 是否继续?", ATTENTION, {
+          return this.$confirm("提交后仍可修改评分，是否继续？", ATTENTION, {
             confirmButtonText: CONFIRM,
             cancelButtonText: CANCEL,
             type: "warning"
           })
             .then(() => {
               const postData = this.getPostData();
-
               return postUserPerformance(this.$route.params.uid, postData)
                 .then(res => {
                   this.$message({
@@ -393,7 +417,8 @@ export default {
         },
         total_score: this.total,
         score_level: this.level,
-        evaluation: this.comments
+        evaluation: this.comments,
+        label_id: this.label_id
       };
     }
   },

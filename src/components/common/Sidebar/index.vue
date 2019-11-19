@@ -140,6 +140,14 @@
         :index="constants.PATH_PERFORMANCE_RULES"
         >{{ constants.RULES_SETTING }}</el-menu-item
       >
+      <el-menu-item
+        v-if="canSetRules"
+        :class="{
+          'is-active': [constants.PATH_PERFORMANCE_TAGS].includes($route.path)
+        }"
+        :index="constants.PATH_PERFORMANCE_TAGS"
+        >标签设置</el-menu-item
+      >
     </el-submenu>
     <el-submenu
       :show-timeout="100"

@@ -3,7 +3,7 @@
     <div class="info">
       <section>
         <span class="label title"
-          >{{ constants.PERFORMANCE_TARGET }}{{ index + 1 }}:</span
+          >{{ constants.PERFORMANCE_TARGET }}{{ index + 1 }}:222</span
         >
         <div class="target-name">{{ data.target }}</div>
       </section>
