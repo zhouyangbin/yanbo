@@ -1,3 +1,27 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v0.2.7...v1.2.0) (2019-11-09)
+
+
+### Bug Fixes
+
+* **staging:** fix staging env ([1dfa956](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/1dfa956))
+* fix bug ([8cf448b](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/8cf448b))
+* fix bug ([864f72e](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/864f72e))
+* fix bug ([0390105](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/0390105))
+* 批量设置时间按钮增加限制 ([02ff4ae](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/02ff4ae))
+* 普通事业部271不可勾选 ([04140cf](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/04140cf))
+* 通知 ([64db027](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/64db027))
+* 隔级通知测试 ([14dc04f](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/14dc04f))
+
+
+### Features
+
+* fix bug ([2050f41](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/2050f41))
+* 更改员工/高管下级、隔级逻辑，重新对接接口 ([982d341](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/982d341))
+* 高管/员工 下级、隔级接口更改后对接 ([dfc1dac](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/dfc1dac))
+
+
+
 <a name="0.2.7"></a>
 ## [0.2.7](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v0.2.6...v0.2.7) (2019-06-12)
 
