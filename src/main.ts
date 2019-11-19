@@ -11,6 +11,7 @@ import placeholderFilter from "@/filter/placeholder";
 import linebreak from "@/filter/linebreak";
 import path from "@/filter/path";
 import Waves from "@/directives/waves/index.js";
+
 const RavenPlugin: any = RavenVue;
 Raven.config(process.env.VUE_APP_SENTRY_URL!, {
   environment: process.env.NODE_ENV,
