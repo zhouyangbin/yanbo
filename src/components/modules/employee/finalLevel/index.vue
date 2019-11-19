@@ -16,8 +16,7 @@
               :key="item"
               :label="item"
               :value="item"
-            >
-            </el-option>
+            ></el-option>
           </el-select>
           <span v-else class="level">
             {{ value }}
@@ -55,8 +54,8 @@
             :key="item.id"
             :label="item.id"
             v-model="innerBlevel"
-            >{{ item.name }}
-          </el-radio>
+            >{{ item.name }}</el-radio
+          >
         </el-col>
       </el-row>
     </el-col>

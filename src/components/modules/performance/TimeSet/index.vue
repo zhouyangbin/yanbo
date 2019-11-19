@@ -49,7 +49,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.start_time"
+            v-model="timeForm.target_start_time"
             type="datetime"
             placeholder="选择开始时间"
           ></el-date-picker>
@@ -61,7 +61,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.end_time"
+            v-model="timeForm.target_end_time"
             type="datetime"
             placeholder="选择结束时间"
           ></el-date-picker>
@@ -76,7 +76,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.target_start_time"
+            v-model="timeForm.start_time"
             type="datetime"
             placeholder="选择开始时间"
           ></el-date-picker>
@@ -88,7 +88,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.target_end_time"
+            v-model="timeForm.end_time"
             type="datetime"
             placeholder="选择结束时间"
           ></el-date-picker>
@@ -239,10 +239,10 @@ export default {
       timeForm: {
         startTime: this.initTime.startTime || "",
         endTime: this.initTime.endTime || "",
-        start_time: this.initTime.start_time || "",
-        end_time: this.initTime.end_time || "",
         target_start_time: this.initTime.target_start_time || "",
         target_end_time: this.initTime.target_end_time || "",
+        start_time: this.initTime.score_start_time || "",
+        end_time: this.initTime.score_end_time || "",
         high_level_start_time: this.initTime.high_level_start_time || "",
         high_level_end_time: this.initTime.high_level_end_time || "",
         confirm_start_time: this.initTime.confirm_start_time || "",
@@ -284,10 +284,10 @@ export default {
               appeal_end_time
             } = this.timeForm;
             return postPerformanceTime(this.$route.params.orgID, {
-              start_time: target_start_time,
-              end_time: target_end_time,
-              target_start_time: start_time,
-              target_end_time: end_time,
+              start_time: start_time,
+              end_time: end_time,
+              target_start_time: target_start_time,
+              target_end_time: target_end_time,
               high_level_start_time: high_level_start_time,
               high_level_end_time: high_level_end_time,
               confirm_start_time: confirm_start_time,
@@ -307,7 +307,7 @@ export default {
       });
     },
     formCheck() {
-      if (!this.timeForm.start_time) {
+      if (!this.timeForm.target_start_time) {
         this.$notify({
           title: "警告",
           message: "指标设定开始时间不能为空!",
@@ -315,7 +315,7 @@ export default {
         });
         return false;
       }
-      if (!this.timeForm.end_time) {
+      if (!this.timeForm.target_end_time) {
         this.$notify({
           title: "警告",
           message: "指标设定结束时间不能为空!",
@@ -323,7 +323,7 @@ export default {
         });
         return false;
       }
-      if (!this.timeForm.target_start_time) {
+      if (!this.timeForm.start_time) {
         this.$notify({
           title: "警告",
           message: "评分开始时间不能为空!",
@@ -331,7 +331,7 @@ export default {
         });
         return false;
       }
-      if (!this.timeForm.target_end_time) {
+      if (!this.timeForm.end_time) {
         this.$notify({
           title: "警告",
           message: "评分结束时间不能为空!",
@@ -363,7 +363,7 @@ export default {
         });
         return false;
       }
-      if (!this.timeForm.confirm_start_time) {
+      if (!this.timeForm.confirm_end_time) {
         this.$notify({
           title: "警告",
           message: "结果确认结束时间不能为空!",
@@ -418,20 +418,7 @@ export default {
       );
     },
     startDisable() {
-      return (
-        this.initTime.start_time &&
-        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <
-          formatTime(new Date())
-      );
-    },
-    endDisable() {
-      return (
-        this.initTime.end_time &&
-        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <
-          formatTime(new Date())
-      );
-    },
-    targetstartDisable() {
+      //指标设定开始时间 < 当前时间
       return (
         this.initTime.target_start_time &&
         formatTime(
@@ -439,7 +426,8 @@ export default {
         ) < formatTime(new Date())
       );
     },
-    targetendDisable() {
+    endDisable() {
+      //指标设定结束时间 < 当前时间
       return (
         this.initTime.target_end_time &&
         formatTime(
@@ -447,7 +435,26 @@ export default {
         ) < formatTime(new Date())
       );
     },
+    targetstartDisable() {
+      //评分时间开始 < 当前时间
+      return (
+        this.initTime.score_start_time &&
+        formatTime(
+          new Date(this.initTime.score_start_time.replace(/-/gi, "/"))
+        ) < formatTime(new Date())
+      );
+    },
+    targetendDisable() {
+      //评分时间结束 < 当前时间
+      // console.log(this.initTime)
+      return (
+        this.initTime.score_end_time &&
+        formatTime(new Date(this.initTime.score_end_time.replace(/-/gi, "/"))) <
+          formatTime(new Date())
+      );
+    },
     highlevelstartDisable() {
+      //隔级评分时间开始 < 当前时间
       return (
         this.initTime.high_level_start_time &&
         formatTime(
@@ -456,6 +463,7 @@ export default {
       );
     },
     highlevelendDisable() {
+      //隔级评分时间结束 < 当前时间
       return (
         this.initTime.high_level_end_time &&
         formatTime(

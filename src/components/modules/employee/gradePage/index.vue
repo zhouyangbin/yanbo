@@ -83,25 +83,25 @@
         <br />
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{
-          constants.SAVE_DRAFT
-        }}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">
+          {{ constants.SAVE_DRAFT }}
+        </el-button>
+        <el-button round size="medium" @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
       <el-row v-if="canReject && published" type="flex" justify="center">
         <div>
           到期将默认确认结果, 如有问题可
-          <el-button @click="visible = true" type="text">{{
-            constants.APPEAL
-          }}</el-button>
+          <el-button @click="visible = true" type="text">
+            {{ constants.APPEAL }}
+          </el-button>
         </div>
       </el-row>
       <el-row v-if="cancelReject && published" type="flex" justify="center">
-        <el-button @click="cancel" type="primary" round size="medium">{{
-          constants.CANCEL_APPEAL
-        }}</el-button>
+        <el-button @click="cancel" type="primary" round size="medium">
+          {{ constants.CANCEL_APPEAL }}
+        </el-button>
       </el-row>
       <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>

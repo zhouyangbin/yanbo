@@ -27,6 +27,7 @@
               </section>
             </div>
             <div
+              style="word-break: break-word;"
               v-if="
                 data.target_self_score &&
                   data.target_self_score.description != null
@@ -82,11 +83,9 @@
             >
               <section>
                 <span class="label">{{ constants.SELF_SCORE }}:</span> &nbsp;
-                <span
-                  >{{
-                    data.target_self_score && data.target_self_score.score
-                  }}分</span
-                >
+                <span>
+                  {{ data.target_self_score && data.target_self_score.score }}分
+                </span>
               </section>
             </div>
             <div

@@ -57,9 +57,9 @@
         <i class="el-icon-aim"></i>
         <span>{{ constants.MY_PERFORMANCE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">
-        {{ constants.MY_GRADE }}
-      </el-menu-item>
+      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{
+        constants.MY_GRADE
+      }}</el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [constants.PATH_EMPLOYEE_TEAM].includes($route.path)
@@ -78,9 +78,9 @@
         <i class="el-icon-edit-outline"></i>
         <span>{{ constants.CULTURE_GRADE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_GRADE_REPORT">
-        {{ constants.GRADE_REPORT }}
-      </el-menu-item>
+      <el-menu-item :index="constants.PATH_GRADE_REPORT">{{
+        constants.GRADE_REPORT
+      }}</el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [
@@ -204,6 +204,7 @@ import {
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
+  PATH_PERFORMANCE_TAGS,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
@@ -238,6 +239,7 @@ export default {
         TPL_SETTING,
         PATH_PERFORMANCE_TPL,
         PATH_PERFORMANCE_RULES,
+        PATH_PERFORMANCE_TAGS,
         RULES_SETTING,
         ACCESS_SETTING,
         ROLE_SETTING,

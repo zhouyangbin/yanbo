@@ -5,10 +5,10 @@
       <div class="bg-white">
         <el-row type="flex" justify="space-between" class="header">
           <span>{{ depInfo.name }}</span>
-          <span class="tip"
-            >{{ constants.FINISHED_DATE }}
-            {{ depInfo.performance_name_end_time }}</span
-          >
+          <span class="tip">
+            {{ constants.FINISHED_DATE }}
+            {{ depInfo.performance_name_end_time }}
+          </span>
         </el-row>
         <hr />
         <div class="time-line-panel bg-white">
@@ -21,10 +21,9 @@
               type="primary"
               round
               style="margin-right:20px"
-              >{{
-                hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES
-              }}</el-button
             >
+              {{ hasSchedule ? constants.MODIFY_TIMES : constants.SET_TIMES }}
+            </el-button>
           </el-row>
           <br />
           <br />
@@ -277,8 +276,11 @@
             width="100"
           ></el-table-column>
 
-          <el-table-column prop="confirm" label="员工确认" width="auto">
-          </el-table-column>
+          <el-table-column
+            prop="confirm"
+            label="员工确认"
+            width="auto"
+          ></el-table-column>
           <el-table-column
             fixed="right"
             :label="constants.OPERATIONS"
@@ -733,10 +735,10 @@ export default {
       return {
         startTime: this.depInfo.start_time,
         endTime: this.depInfo.end_time,
-        start_time: this.depInfo.target_start_time,
-        end_time: this.depInfo.target_end_time,
-        target_start_time: this.depInfo.score_start_time,
-        target_end_time: this.depInfo.score_end_time,
+        target_start_time: this.depInfo.target_start_time,
+        target_end_time: this.depInfo.target_end_time,
+        score_start_time: this.depInfo.score_start_time,
+        score_end_time: this.depInfo.score_end_time,
         high_level_start_time: this.depInfo.high_level_start_time,
         high_level_end_time: this.depInfo.high_level_end_time,
         confirm_start_time: this.depInfo.confirm_start_time,
@@ -752,17 +754,6 @@ export default {
     target_canReminder() {
       // 指标设定 都设置 并且 开始时间 <= 当前时间  结束时间 <= 当前时间
       return (
-        this.initTime.start_time &&
-        this.initTime.end_time &&
-        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <=
-          formatTime(new Date()) &&
-        formatTime(new Date(this.initTime.end_time.replace(/-/gi, "/"))) <=
-          formatTime(new Date())
-      );
-    },
-    score_canReminder() {
-      // 评分时间 都设置 并且 开始时间 <= 当前时间  结束时间 <= 当前时间
-      return (
         this.initTime.target_start_time &&
         this.initTime.target_end_time &&
         formatTime(
@@ -770,6 +761,19 @@ export default {
         ) <= formatTime(new Date()) &&
         formatTime(
           new Date(this.initTime.target_end_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
+      );
+    },
+    score_canReminder() {
+      // 评分时间 都设置 并且 开始时间 <= 当前时间  结束时间 <= 当前时间
+      return (
+        this.initTime.score_start_time &&
+        this.initTime.score_end_time &&
+        formatTime(
+          new Date(this.initTime.score_start_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date()) &&
+        formatTime(
+          new Date(this.initTime.score_end_time.replace(/-/gi, "/"))
         ) <= formatTime(new Date())
       );
     },
@@ -800,9 +804,10 @@ export default {
     isStarted() {
       //评分开始时间 是不是存在。并且 评分开始时间要小于等于当前时间
       return (
-        this.initTime.start_time &&
-        formatTime(new Date(this.initTime.start_time.replace(/-/gi, "/"))) <=
-          formatTime(new Date())
+        this.initTime.score_start_time &&
+        formatTime(
+          new Date(this.initTime.score_start_time.replace(/-/gi, "/"))
+        ) <= formatTime(new Date())
       );
     },
     afterEnd() {
@@ -815,6 +820,7 @@ export default {
       );
     },
     canPublish() {
+      //评分确认开始时间 是不是存在。并且 评分确认开始时间要小于等于当前时间
       return (
         this.initTime.confirm_start_time &&
         formatTime(

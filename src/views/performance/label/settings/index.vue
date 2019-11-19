@@ -58,8 +58,7 @@
             prop="id"
             :label="constants.SERIAL_NUMBER"
             width="50"
-          >
-          </el-table-column>
+          ></el-table-column>
           <el-table-column
             prop="type"
             :label="constants.TAG_TYPE"
@@ -69,9 +68,9 @@
             :label="constants.CORRESPONDING_GRADE_AND_PROPORTION"
             min-width="200"
           >
-            <template slot-scope="scope">
-              {{ scope.row.rules.map(item => item.name).join(",") }}
-            </template>
+            <template slot-scope="scope">{{
+              scope.row.rules.map(item => item.name).join(",")
+            }}</template>
           </el-table-column>
           <!-- 是否强制分布 -->
           <el-table-column
@@ -80,9 +79,9 @@
             :label="constants.FORCED_DISTRIBUTION_OR_NOT"
             width="120"
           >
-            <template slot-scope="scope">
-              {{ scope.row.forced ? constants.YES : constants.NO }}
-            </template>
+            <template slot-scope="scope">{{
+              scope.row.forced ? constants.YES : constants.NO
+            }}</template>
           </el-table-column>
           <el-table-column :label="constants.LABEL_OPERATIONS" width="120">
             <template slot-scope="scope">

@@ -1,24 +1,35 @@
 <template>
   <section>
     <section v-if="overview.length" class="progress-header">
-      <el-col>
-        分布情况汇总
-        <span>
-          <el-popover placement="right" width="360">
-            <div class="tip_A"></div>
-            <el-button
-              slot="reference"
-              type="text"
-              class="Badge_logo"
-            ></el-button>
-          </el-popover>
-        </span>
-      </el-col>
+      <el-row :gutter="3" class="text_16">
+        <el-col :span="2.5">
+          分布情况汇总
+          <span>
+            <el-popover
+              placement="right"
+              width="360"
+              style="position: relative;top: -7px;"
+            >
+              <span class="tip_A"></span>
+              <el-button
+                slot="reference"
+                type="text"
+                class="Badge_logo"
+              ></el-button>
+            </el-popover>
+          </span>
+        </el-col>
+        <el-col :span="21.5">
+          <div class="text_tip" style="line-height: 22px;">
+            如您的直属下级分散在多个部门（即团队评分列表中有多条评分），请整体统览，确保总下属人数符合分布要求后，在每条评分中分别提交。
+          </div>
+        </el-col>
+      </el-row>
     </section>
     <section v-if="overview.length" class="progress-header" align="center">
       <template>
         <el-row :gutter="3">
-          <el-col :span="6">
+          <el-col :span="6" align="center">
             <div class="overview_info">
               <template v-if="overview[1].child" class="clo_bg_1">
                 <div class="overview_info_number_head">
@@ -209,7 +220,7 @@
               </template>
             </div>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="9" align="center">
             <div class="overview_info">
               <template v-if="overview[2].child" class="clo_bg_3">
                 <div class="overview_info_number_head">
@@ -346,12 +357,6 @@
           </el-col>
         </el-row>
       </template>
-    </section>
-    <section v-if="overview.length" class="progress-header">
-      <span class="text_tip"
-        >请注意:
-        所有直属下级的评分结束后，还需要点击页面上方的【整体提交】按钮，将所有评分统一提交至下一节点审批。</span
-      >
     </section>
   </section>
 </template>
@@ -522,5 +527,9 @@ export default {
 .text_tip {
   color: #ff8519;
   font-size: 12px;
+}
+.text_16 {
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>

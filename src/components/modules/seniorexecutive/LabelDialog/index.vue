@@ -75,12 +75,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">
-          {{ constants.CONFIRM }}
-        </el-button>
-        <el-button round size="medium" @click="close" class="btn-reset">
-          {{ constants.CANCEL }}
-        </el-button>
+        <el-button round size="medium" @click="submit" type="primary">{{
+          constants.CONFIRM
+        }}</el-button>
+        <el-button round size="medium" @click="close" class="btn-reset">{{
+          constants.CANCEL
+        }}</el-button>
       </el-row>
     </div>
   </el-dialog>
