@@ -8,7 +8,7 @@
         <div class="create-btn">
           <el-button
             type="primary"
-            :disabled="performanceDetail.can_start"
+            :disabled="!performanceDetail.can_start"
             @click="openAssessment"
             >开启考核</el-button
           >

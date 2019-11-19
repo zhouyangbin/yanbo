@@ -76,7 +76,7 @@
               <i class="delete" @click="deleteAssessment(item.id)"></i>
             </el-tooltip>
             <el-button
-              :disabled="item.can_start"
+              :disabled="!item.can_start"
               @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
