@@ -19,7 +19,7 @@
         </div>
         <div>
           <el-radio-group
-            v-model="statuses"
+            v-model="status"
             @change="changeStatuses"
             size="medium"
           >
@@ -39,24 +39,15 @@
         :key="item.id"
       >
         <div class="list-top">
-          <span v-if="item.status === 1" class="state draft">草稿</span>
-          <span v-if="item.status === 2" class="state doing">进行中</span>
-          <span v-if="item.status === 3" class="state ending">已结束</span>
+          <span v-if="item.stage === 0" class="state draft">草稿</span>
+          <span v-else-if="item.stage === 60" class="state ending">已结束</span>
+          <span v-else class="state doing">进行中</span>
           <el-breadcrumb separator="|" class="bread-crumb">
             <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
             <el-breadcrumb-item>{{ item.departments_text }}</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="item.performance_type === 'annual'"
-              >年度</el-breadcrumb-item
-            >
-            <el-breadcrumb-item v-if="item.performance_type === 'semi-annual'"
-              >半年度</el-breadcrumb-item
-            >
-            <el-breadcrumb-item v-if="item.performance_type === 'quarter'"
-              >季度</el-breadcrumb-item
-            >
-            <el-breadcrumb-item v-if="item.performance_type === 'monthly'"
-              >月度</el-breadcrumb-item
-            >
+            <el-breadcrumb-item>{{
+              item.performance_type | filterType
+            }}</el-breadcrumb-item>
           </el-breadcrumb>
           <div class="operate-btns">
             <el-tooltip
@@ -76,7 +67,7 @@
               <i class="delete" @click="deleteAssessment(item.id)"></i>
             </el-tooltip>
             <el-button
-              :disabled="item.can_start"
+              :disabled="!item.can_start"
               @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
@@ -140,11 +131,12 @@
           </div>
         </div>
         <div class="list-timeline">
-          <div class="time-line">
+          <div class="time-line" :class="item.stage === 0 ? '' : 'active'">
             指标设定
           </div>
           <div
             class="time-line-sign"
+            :class="item.stage === 0 ? '' : 'active'"
             :data="item.indicator_setting_end_time | filterDate"
           ></div>
           <div
@@ -203,11 +195,18 @@
           </div>
           <div
             class="time-line-sign"
+            :class="performanceDetail.stage === 60 ? 'active' : ''"
             :data="item.result_confirm_end_time | filterDate"
           ></div>
-          <div class="time-line">结果确认</div>
+          <div
+            class="time-line"
+            :class="performanceDetail.stage === 60 ? 'active' : ''"
+          >
+            结果确认
+          </div>
           <div
             class="time-line-sign"
+            :class="performanceDetail.stage === 60 ? 'active' : ''"
             :data="item.president_audit_begin_time | filterDate"
           ></div>
         </div>
@@ -298,7 +297,7 @@ export default {
         LABEL_EMPTY,
         LABEL_SELECT_DIVISION
       },
-      statuses: "",
+      status: "",
       nowTime: ""
     };
   },
@@ -310,6 +309,19 @@ export default {
         newVal = newVal[0];
       }
       return newVal;
+    },
+    filterType(val) {
+      let type = "";
+      if (val === "annual") {
+        type = "年度";
+      } else if (val === "semi-annual") {
+        type = "半年度";
+      } else if (val === "quarter") {
+        type = "季度";
+      } else if (val === "monthly") {
+        type = "月度";
+      }
+      return type;
     }
   },
   methods: {
@@ -335,7 +347,7 @@ export default {
     },
     getPerformanceList() {
       let data = {
-        statuses: this.statuses,
+        status: this.status,
         page: this.page,
         perPage: this.perPage,
         department_ids: this.department_ids.split(",")
