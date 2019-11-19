@@ -218,6 +218,7 @@ export default {
       return newArr;
     },
     resetForm(formName) {
+      this.page = 1
       this.evaluation_id = [];
       this.getAdminTagsList();
     },

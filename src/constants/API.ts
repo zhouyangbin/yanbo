@@ -461,13 +461,13 @@ export const delAssessment = (id: String) =>
 
 // 高管绩效指标设定-个人信息
 export const getPerformanceUserInfo = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/header-info`, params);
-  sendGet(`/js/getPerformanceUserInfo.json`, params);
+  sendGet(`/executive-performance/web/target/header-info`, params);
+  // sendGet(`/js/getPerformanceUserInfo.json`, params);
 
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/unique-template`, params);
-  sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
+  sendGet(`/executive-performance/web/target/unique-template`, params);    
+  // sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
 
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
@@ -484,7 +484,6 @@ export const postSaveDraft = (id: String, params: Object) =>
 // 高管绩效指标模版下载
 export const getTargetTemplate = (performance_id: String) =>
   sendGet(`/executive-performance/web/${performance_id}/target/template`);
-// /executive-performance/web/{performance_id}/target/template
 
 // 高管绩效上级确认指标
 export const postSuperAffirmTarget = (params: Object) =>
@@ -492,8 +491,8 @@ export const postSuperAffirmTarget = (params: Object) =>
 
 // 高管绩效审批记录
 export const getExamineLog = (params: Object) =>
-  // sendGet(`/executive-performance/web/approve/record`)
-  sendGet(`/js/getExamineLog.json`);
+  sendGet(`/executive-performance/web/approve/record`)
+  // sendGet(`/js/getExamineLog.json`);
 // // 获取事业部列表
 // export const getBUList = () =>
 //   // sendGet(`/admin/api/departments`);
