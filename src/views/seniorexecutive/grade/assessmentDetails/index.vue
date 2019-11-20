@@ -2,6 +2,7 @@
   <div class="assessment-detail">
     <nav-bar :list="nav"></nav-bar>
     <br />
+    <span @click="goDetail">新加入口</span>
     <section class="content-container bg-white">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
@@ -592,8 +593,9 @@ import {
   PATH_PERFORMANCE_USER_LIST,
   postUploadFinancialIndicators,
   postUploadWorkIndicators,
-  getFinancialtpm, 
-  getWorktpm
+  getFinancialtpm,
+  getWorktpm,
+  PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
 
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
@@ -686,14 +688,14 @@ export default {
       userType: "add",
       currentStage: 0,
       showUploadWorkFile: false,
-      upload_title: '',
-      upload_action_url: '',
-      upload_type:'',
-      download_url: '',
+      upload_title: "",
+      upload_action_url: "",
+      upload_type: "",
+      download_url: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
-        getFinancialtpm, 
+        getFinancialtpm,
         getWorktpm
       }
     };
@@ -728,6 +730,9 @@ export default {
     }
   },
   methods: {
+    goDetail() {
+      this.$router.push(PATH_PERFORMANCE_MY_DETAIL(this.performanceId));
+    },
     confirmUser() {
       this.showModifyUser = false;
       this.getUserList();
@@ -877,16 +882,20 @@ export default {
     },
     showUploadWork(type) {
       this.showUploadWorkFile = true;
-      if(type == 'finance'){
-        this.upload_title =  '上传财务指标';
-        this.upload_action_url = this.constants.postUploadFinancialIndicators(this.performanceId);
+      if (type == "finance") {
+        this.upload_title = "上传财务指标";
+        this.upload_action_url = this.constants.postUploadFinancialIndicators(
+          this.performanceId
+        );
         this.download_url = this.constants.getFinancialtpm;
         this.upload_type = type;
-      }else{
-        this.upload_title =  '上传工作目标';
-        this.upload_action_url = this.constants.postUploadWorkIndicators(this.performanceId);
+      } else {
+        this.upload_title = "上传工作目标";
+        this.upload_action_url = this.constants.postUploadWorkIndicators(
+          this.performanceId
+        );
         this.download_url = this.constants.getWorktpm(this.performanceId);
-        this.upload_type = type
+        this.upload_type = type;
       }
     },
     upload_close() {

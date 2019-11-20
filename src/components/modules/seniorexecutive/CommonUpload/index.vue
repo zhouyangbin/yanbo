@@ -54,8 +54,7 @@ export default {
     upload_type: {
       type: String,
       default: ""
-    },
-
+    }
   },
   data() {
     return {
@@ -75,7 +74,7 @@ export default {
       this.$emit("close");
     },
     downloadTemplate() {
-      var link = document.createElement('a');
+      var link = document.createElement("a");
       link.setAttribute("download", "");
       link.href = this.download_url;
       link.click();

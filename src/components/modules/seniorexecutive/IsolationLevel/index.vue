@@ -10,24 +10,47 @@
           class="demo-form-inline screening-form"
         >
           <el-form-item prop="name">
-            <el-input
+            <el-select
               v-model="filterForm.name"
-              placeholder="请输入姓名"
-            ></el-input>
+              @change="changeName"
+              filterable
+              remote
+              clearable
+              reserve-keyword
+              placeholder="请输入姓名或工号"
+              :remote-method="searchME"
+              :loading="loading"
+            >
+              <el-option
+                v-for="item in userOptions"
+                :key="item.workcode"
+                :label="item.workcode + item.name + item.email"
+                :value="item.workcode"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item prop="stage">
-            <el-select v-model="filterForm.stage" placeholder="请选择状态">
+            <el-select
+              @change="changeStage"
+              v-model="filterForm.stage"
+              placeholder="请选择状态"
+            >
               <el-option
                 v-for="item in constants.STAGEOPTIONS"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.key"
+                :label="item.value"
+                :value="item.key"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="score_tag">
-            <el-select v-model="filterForm.score_tag" placeholder="请选择标签">
+            <el-select
+              @change="changeScoreTag"
+              v-model="filterForm.score_tag"
+              placeholder="请选择标签"
+            >
               <el-option
                 v-for="item in tagOptions"
                 :key="item.key"
@@ -57,7 +80,15 @@
               </el-table-column>
               <el-table-column prop="name" label="姓名">
                 <template slot-scope="scope">
-                  <span class="grade-name">{{ scope.row.name }}</span>
+                  <div v-if="scope.row.stage === 50">
+                    {{ scope.row.name
+                    }}<img
+                      class="stage-img"
+                      src="@/assets/img/stage.png"
+                      alt=""
+                    />
+                  </div>
+                  <div v-else>{{ scope.row.name }}</div>
                 </template>
               </el-table-column>
               <el-table-column
@@ -78,9 +109,9 @@
               <el-table-column prop="final" label="最终成绩"> </el-table-column>
               <el-table-column prop="score_tag" label="标签分布">
               </el-table-column>
-              <el-table-column prop="stage" label="状态">
+              <el-table-column prop="stage_text" label="状态">
                 <template slot-scope="scope">
-                  <span class="grade-stage">{{ scope.row.stage }}</span>
+                  <span class="grade-stage">{{ scope.row.stage_text }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="hrbp_name" label="操作">
@@ -109,7 +140,11 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { getMyIsolationUnderLower, getAdminTagTypes } from "@/constants/API";
+import {
+  getMyIsolationUnderLower,
+  getAdminTagTypes,
+  getSearchEmployees
+} from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import {
   LABEL_EMPTY,
@@ -152,15 +187,35 @@ export default {
       tagOptions: [],
       lowerList: [],
       teamList: [],
-      team_leader: ""
+      team_leader: "",
+      loading: false,
+      userOptions: []
     };
   },
   methods: {
-    handleOpen(key) {
-      console.log(key)
+    searchME(query) {
+      if (query !== "") {
+        this.loading = true;
+        getSearchEmployees({
+          name_or_workcode: query
+        })
+          .then(res => {
+            this.loading = false;
+            this.userOptions = res;
+          })
+          .catch(e => {});
+      } else {
+        this.userOptions = [];
+      }
     },
-    handleClose(key) {
-      console.log(key)
+    changeName() {
+      this.getMyLowerList();
+    },
+    changeStage() {
+      this.getMyLowerList();
+    },
+    changeScoreTag() {
+      this.getMyLowerList();
     },
     viewDetail(data) {
       console.log(row);
@@ -181,7 +236,7 @@ export default {
         team_leader: this.team_leader
       };
       getMyIsolationUnderLower(data).then(res => {
-        let {data, team, total} = res;
+        let { data, team, total } = res;
         this.total = total;
         this.lowerList = data;
         this.teamList = team;
@@ -212,6 +267,11 @@ export default {
         }
       }
     }
+  }
+  .stage-img {
+    display: inline-block;
+    width: 44px;
+    height: 18px;
   }
 }
 </style>
