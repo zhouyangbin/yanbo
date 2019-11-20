@@ -1,7 +1,7 @@
 <template>
   <div class="lower-level">
     <section>
-      <div class="filter-box" v-show="grade === 'sub'">
+      <div class="filter-box">
         <div class="filter-title">
           <span>考核人员明细</span><span class="filter-number">共10人</span>
         </div>
@@ -127,8 +127,8 @@ export default {
           active: true
         }
       ],
-      grade: "sub",
       page: 1,
+      perPage: 10,
       total: 0,
       filterForm: {
         name: "",
