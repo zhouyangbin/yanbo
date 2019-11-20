@@ -305,7 +305,7 @@ import {
 } from "@/constants/URL";
 import { getProgressList } from "@/constants/API";
 import { compact } from "@/utils/obj";
-import { AsyncComp } from "../../../../../FE-DINGDING-TDC/src/utils/asyncCom";
+import { AsyncComp } from "@/utils/asyncCom";
 
 export default {
   created() {
