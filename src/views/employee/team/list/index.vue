@@ -2,9 +2,13 @@
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
     <br />
-    <!-- <br> -->
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column label="类型" prop="p_type">
+          <template slot-scope="scope">
+            <div>{{ scope.row.p_type | handlePType }}</div>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="name"
           :label="constants.GRADE_NAME"
@@ -36,13 +40,17 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
-        <pagination
+       <el-pagination
+          v-if="tableData!=[]"
+          background
+          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :currentPage="currentPage"
+          :current-page="page"
+          :page-sizes="[10, 20, 50]"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-        ></pagination>
-      </el-row>
+        >
+        </el-pagination>
     </section>
   </div>
 </template>
@@ -58,15 +66,16 @@ import {
   EXPORT_DETAILS,
   LABEL_DEPARTMENT
 } from "@/constants/TEXT";
-import { PATH_EMPLOYY_TEAM_GRADE_DETAIL } from "@/constants/URL";
-import { getTeamGradeList } from "@/constants/API";
+import { PATH_EMPLOYY_TEAM_GRADE_DETAIL ,PATH_PERFORMANCE_MY_DETAIL} from "@/constants/URL";
+import { getTeamScore} from "@/constants/API";
 import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 
 export default {
   data() {
     return {
+      page:1,
       total: 0,
-      currentPage: 1,
+      currentPage:10,
       tableData: [],
       nav: [
         {
@@ -82,39 +91,60 @@ export default {
         GRADE_NAME,
         EXPORT_DETAILS,
         LABEL_DEPARTMENT
-      }
+      },
     };
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
+  filters: {
+    handlePType(val) {
+      let type = "";
+      if (val === "normal") {
+        type = "员工绩效";
+      } else if (val === "executive") {
+        type = "组织部绩效";
+      }
+      return type;
+    }
+  },
   methods: {
     goDetail(row) {
-      this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.id));
+      if(row.p_type == "executive"){
+        this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
+      }else{
+        this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.performance_id));
+      }
+      
     },
     getList(data) {
-      return getTeamGradeList(data)
+      return getTeamScore(data)
         .then(res => {
-          // console.log(res)
           const { total, data } = res;
           this.tableData = data;
           this.total = total;
         })
         .catch(e => {});
     },
+    // 改变页数
     handleCurrentChange(val) {
-      this.currentPage = val;
       this.getList({
-        page: val
+        page: val,
+        perPage:this.currentPage
       });
     },
     exportDetail(row) {
       window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
+    },
+    // 改变每页最大数量
+    handleSizeChange(val){
+      this.currentPage = val
+      this.getList({ page: this.page ,perPage:val});
     }
   },
   created() {
-    this.getList({ page: 1 });
+    this.getList({ page: 1 ,perPage:this.currentPage});
   }
 };
 </script>

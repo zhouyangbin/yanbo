@@ -69,6 +69,7 @@ export default {
      */
     getExamineDetail() {
       let data = {
+        // workcode改为performance_user_id
         workcode: this.workCode
       };
       getExamineLog(data)

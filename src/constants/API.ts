@@ -596,3 +596,6 @@ export const getMyUnderLower = (params: Object) =>
 // 高管绩效 我的隔级下属列表
 export const getMyIsolationUnderLower = (params: Object) =>
   sendGet(`/executive-performance/web/isolation/under-lower`, params);
+// 高管绩效 团队评分
+export const getTeamScore = (params: Object) =>
+sendGet(`/executive-performance/web/superior/index`,params)
