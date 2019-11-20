@@ -3,7 +3,7 @@
     <div class="info">
       <section>
         <span class="label title"
-          >{{ constants.PERFORMANCE_TARGET }}{{ index + 1 }}:222</span
+          >{{ constants.PERFORMANCE_TARGET }}{{ index + 1 }}:</span
         >
         <div class="target-name">{{ data.target }}</div>
       </section>
@@ -83,9 +83,11 @@
             >
               <section>
                 <span class="label">{{ constants.SELF_SCORE }}:</span> &nbsp;
-                <span>
-                  {{ data.target_self_score && data.target_self_score.score }}分
-                </span>
+                <span
+                  >{{
+                    data.target_self_score && data.target_self_score.score
+                  }}分</span
+                >
               </section>
             </div>
             <div
