@@ -32,32 +32,34 @@
         </el-col>
       </el-row>
       <br />
-      <el-row v-if="value != 'B'">
-        <el-col :span="6">标签/</el-col>
-        <el-tag
-          :class="
-            value == 'A' || value == 'S'
-              ? 'status-tag top-style'
-              : 'status-tag other-style'
-          "
-          v-if="levalLabelRules.length"
-          >{{ getlevalLabelRules(levalLabelRules) }}</el-tag
-        >
-      </el-row>
-      <el-row v-if="value == 'B'" style="margin-top: 10px">
-        <el-col :span="6">标签/</el-col>
-        <el-col :span="18" height="100px">
-          <el-radio
-            style="display: block; margin-top: 5px"
-            :disabled="!canEdit"
-            v-for="item of levalLabelRules"
-            :key="item.id"
-            :label="item.id"
-            v-model="innerBlevel"
-            >{{ item.name }}</el-radio
+      <div v-if="old_s">
+        <el-row v-if="value != 'B'">
+          <el-col :span="6">标签/</el-col>
+          <el-tag
+            :class="
+              value == 'A' || value == 'S'
+                ? 'status-tag top-style'
+                : 'status-tag other-style'
+            "
+            v-if="levalLabelRules.length"
+            >{{ getlevalLabelRules(levalLabelRules) }}</el-tag
           >
-        </el-col>
-      </el-row>
+        </el-row>
+        <el-row v-if="value == 'B'" style="margin-top: 10px">
+          <el-col :span="6">标签/</el-col>
+          <el-col :span="18" height="100px">
+            <el-radio
+              style="display: block; margin-top: 5px"
+              :disabled="!canEdit"
+              v-for="item of levalLabelRules"
+              :key="item.id"
+              :label="item.id"
+              v-model="innerBlevel"
+              >{{ item.name }}</el-radio
+            >
+          </el-col>
+        </el-row>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -84,6 +86,10 @@ export default {
     canEdit: {
       type: Boolean,
       default: false
+    },
+    old_s: {
+      type: null,
+      default: ""
     }
   },
   data() {
