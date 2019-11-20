@@ -15,7 +15,11 @@ import device from "vue-device-detector";
 const RavenPlugin: any = RavenVue;
 Raven.config(process.env.VUE_APP_SENTRY_URL!, {
   environment: process.env.NODE_ENV,
-  captureUnhandledRejections: true
+  captureUnhandledRejections: true,
+  ignoreErrors: [
+    "Do not support the current environment：notInDingTalk",
+    /^Non-Error exception captured with keys:/
+  ]
 })
   .addPlugin(RavenPlugin, Vue)
   .install();
