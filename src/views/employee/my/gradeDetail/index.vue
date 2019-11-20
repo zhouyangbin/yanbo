@@ -304,9 +304,7 @@ export default {
         h("span", column.label),
         h("br"),
         h("span", "（最多可填写"),
-        h("span", 5, {
-          style: "color: red !important;"
-        }),
+        h("span", { style: { color: "red" } }, 5),
         h("span", "项）")
       ]);
     },
@@ -319,6 +317,7 @@ export default {
         performance_user_id: this.$route.params.uid,
         workcode: ""
       };
+
       getPerformanceUserInfo(data)
         .then(res => {
           const {
@@ -370,7 +369,6 @@ export default {
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
-          console.log(res);
           if (isTeam) {
             let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
@@ -426,7 +424,6 @@ export default {
           }
           n.type = init[i].type;
           n.weight = init[i].weight;
-
           if (init[i].basicType == "team") {
             team.push(n);
           } else if (init[i].basicType == "work") {
@@ -659,5 +656,8 @@ export default {
   background-color: #66a8ff;
   color: #ffffff;
   border: 1px solid #66a8ff;
+}
+.has-gutter .el-table_1_column_2 .cell div:nth-last-child(3) {
+  color: red !important;
 }
 </style>

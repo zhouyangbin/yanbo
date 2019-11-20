@@ -9,6 +9,7 @@
           <el-button
             type="primary"
             :disabled="!performanceDetail.can_start"
+            v-if="performanceDetail.stage === 0"
             @click="openAssessment"
             >开启考核</el-button
           >
@@ -414,12 +415,33 @@
               >导出名单</el-button
             >
             <el-popover placement="bottom" width="120" trigger="hover">
+<<<<<<< HEAD
               <div class="more-btn" @click="showUploadWork">
                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
               </div>
               <div class="more-btn">
                 <i class="el-icon-upload2"></i><span>上传工作目标</span>
               </div>
+=======
+              <el-upload
+                class="upload-demo"
+                :action="
+                  constants.postUploadFinancialIndicators(this.performanceId)
+                "
+              >
+                <div class="more-btn">
+                  <i class="el-icon-upload2"></i><span>上传财务指标</span>
+                </div>
+              </el-upload>
+              <el-upload
+                class="upload-demo"
+                :action="constants.postUploadWorkIndicators(this.performanceId)"
+              >
+                <div class="more-btn">
+                  <i class="el-icon-upload2"></i><span>上传工作目标</span>
+                </div>
+              </el-upload>
+>>>>>>> 61b182c5eb59c3e3947a3d64c70428f4a7e99184
               <div class="more-btn" @click="removeList">
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
@@ -679,7 +701,7 @@ export default {
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators
-      },
+      }
     };
   },
   computed: {

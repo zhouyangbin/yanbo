@@ -51,9 +51,6 @@ export default {
       }
     };
   },
-  created() {
-    console.log(this.$route.params.uid);
-  },
   computed: {
     uploadHeader() {
       return {
@@ -97,7 +94,6 @@ export default {
           type: "success"
         });
       }
-      console.log(response, file, fileList);
     },
     /**
      * 上传指标失败
@@ -118,9 +114,7 @@ export default {
         message: msg || `${file.name}${UPLOAD_FAIL}`
       });
     },
-    beforeUpload(file) {
-      console.log(file);
-    }
+    beforeUpload(file) {}
   }
 };
 </script>

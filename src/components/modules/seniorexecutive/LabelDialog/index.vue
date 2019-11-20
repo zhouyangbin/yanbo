@@ -29,7 +29,7 @@
       <el-form-item label="标签规则" class="label-rules" prop="rules">
         <el-table
           :data="table253"
-          v-show="tplForm.tag_type === constants.EXECUTIVE_LABEL_TYPE[0]"
+          v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[0]"
           border
           style="width: 100%"
         >
@@ -61,7 +61,7 @@
         </el-table>
         <el-table
           :data="table271"
-          v-show="tplForm.tag_type === constants.EXECUTIVE_LABEL_TYPE[1]"
+          v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[1]"
           border
           style="width: 100%"
         >
@@ -93,7 +93,7 @@
         </el-table>
         <el-table
           :data="table23221"
-          v-show="tplForm.tag_type === constants.EXECUTIVE_LABEL_TYPE[2]"
+          v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[2]"
           border
           style="width: 100%"
         >
@@ -126,7 +126,7 @@
         </el-table>
         <el-table
           :data="table2521"
-          v-show="tplForm.tag_type === constants.EXECUTIVE_LABEL_TYPE[3]"
+          v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[3]"
           border
           style="width: 100%"
         >
@@ -396,16 +396,16 @@ export default {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
           let rules = [];
-          if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[0]) {
+          if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
             // 253传递的标签规则参数
             rules = this.handleTagRules(this.table253);
-          } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[1]) {
+          } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[1]) {
             // 271传递的标签规则参数
             rules = this.handleTagRules(this.table271);
-          } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[2]) {
+          } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[2]) {
             // 23221传递的标签规则参数
             rules = this.handle23221TagRules();
-          } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[3]) {
+          } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[3]) {
             // 2521传递的标签规则参数
             rules = this.handle2521TagRules();
           }
@@ -416,18 +416,23 @@ export default {
             rules: rules
           };
           if (this.infoType == "add") {
+            // 新增标签
             return postAdminTags(postData).then(res => {
               this.close();
               this.$emit("getList");
             });
           } else {
-            return putAdminTagChange(this.initData.id).then(res => {
+            let UpData = postData;
+            return putAdminTagChange(this.initData.id, UpData).then(res => {
               this.close();
+              this.$emit("getList");
             });
           }
         }
       });
     },
+    // 更新标签传递数据
+    updateTemplate() {},
     getAdminTagTypesList() {
       getAdminTagTypes().then(res => {
         this.tagTypesList = res;
@@ -448,10 +453,10 @@ export default {
     handleTagRulesDataStructure(arr) {
       let newArr = [];
       arr.forEach((v, i) => {
-        if (v.children === undefined) {
+        if (v.children == undefined) {
           newArr.push(v);
         }
-        if (v.children !== undefined) {
+        if (v.children != undefined) {
           newArr.push(v);
           v.children.forEach((obj, index) => {
             obj["isChildren"] = true;
@@ -465,13 +470,13 @@ export default {
     getTagDetails() {
       getAdminTagDetails(this.initData.id).then(res => {
         this.tplForm.tag_type = res.tag_type;
-        if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[0]) {
+        if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
           this.table253 = this.handleTagRulesDataStructure(res.rules);
-        } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[1]) {
+        } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[1]) {
           this.table271 = this.handleTagRulesDataStructure(res.rules);
-        } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[2]) {
+        } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[2]) {
           this.table23221 = this.handleTagRulesDataStructure(res.rules);
-        } else if (this.tplForm.tag_type === EXECUTIVE_LABEL_TYPE[3]) {
+        } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[3]) {
           this.table2521 = this.handleTagRulesDataStructure(res.rules);
         }
         this.tplForm.department_ids = res.department_ids;

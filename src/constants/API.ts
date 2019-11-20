@@ -458,18 +458,15 @@ export const delAssessment = (id: String) =>
 
 // 高管绩效指标设定-个人信息
 export const getPerformanceUserInfo = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/header-info`, params);
-  sendGet(`/js/getPerformanceUserInfo.json`, params);
+  sendGet(`/executive-performance/web/target/header-info`, params);
 
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-  // sendGet(`/executive-performance/web/ExecutivePerformance/uniqueTemplate`, params);
-  sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
+  sendGet(`/executive-performance/web/target/unique-template`, params);
 
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/items`, params);
-  sendGet(`/js/getTargetContent.json`, params);
+  sendGet(`/executive-performance/web/target/items`, params);
 
 // 高管绩效指标设定提交
 export const postSubmitTargetContent = (id: String, params: Object) =>
@@ -481,7 +478,6 @@ export const postSaveDraft = (id: String, params: Object) =>
 // 高管绩效指标模版下载
 export const getTargetTemplate = (performance_id: String) =>
   sendGet(`/executive-performance/web/${performance_id}/target/template`);
-// /executive-performance/web/{performance_id}/target/template
 
 // 高管绩效上级确认指标
 export const postSuperAffirmTarget = (params: Object) =>
@@ -489,12 +485,8 @@ export const postSuperAffirmTarget = (params: Object) =>
 
 // 高管绩效审批记录
 export const getExamineLog = (params: Object) =>
-  // sendGet(`/executive-performance/web/approve/record`)
-  sendGet(`/js/getExamineLog.json`);
-// // 获取事业部列表
-// export const getBUList = () =>
-//   // sendGet(`/admin/api/departments`);
-//   sendGet(`/js/getTplMeasures.json`);
+  sendGet(`/executive-performance/web/approve/record`);
+
 // 高管绩效  获取绩效考核列表
 export const getAdminPerformancesList = (params: Object) =>
   sendGet(`/executive-performance/admin/performances`, params);
@@ -553,12 +545,10 @@ export const deletePerformanceUser = (performance_id: String, params: Object) =>
     `/executive-performance/admin/performance/${performance_id}/users`,
     params
   );
-// 高管绩效 上传指标
-export const postUploadIndex = (performance_user_id: String, params: Object) =>
-  sendPost(
-    `/executive-performance/web/self/${performance_user_id}/import-targets`,
-    params
-  );
+
+// 高管绩效 删除标签
+export const deleteLabel = (id: String) =>
+  sendDelete(`/executive-performance/admin/tags/${id}`, {});
 
 // 高管绩效  查找员工
 export const getSearchEmployees = (params: Object) =>

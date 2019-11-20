@@ -49,7 +49,10 @@
               @click="fillInSelfEvaluation(scope.row)"
               >填写自评</el-button
             >
-            <el-button
+            <el-button @click="goDetail(scope.row)" type="text" size="small"
+              >查看详情</el-button
+            >
+            <!-- <el-button
               v-else-if="scope.row.stage === 11"
               type="text"
               @click="fillInIndicator(scope.row)"
@@ -57,25 +60,22 @@
             >
             <el-button v-else type="text" @click="viewDetail(scope.row)"
               >查看详情</el-button
-            >
+            > -->
           </template>
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
-        <el-pagination
-          background
-          v-if="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
-      </el-row>
-      <br />
+      <el-pagination
+        v-if="tableData != []"
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </section>
   </div>
 </template>
@@ -94,7 +94,8 @@ import {
 import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_TARGET_SET,
-  PATH_PERFORMANCE_MY_DETAIL
+  PATH_PERFORMANCE_MY_DETAIL,
+  PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
@@ -119,7 +120,8 @@ export default {
         OPERATIONS,
         GRADE_STATUS,
         TARGET_STATUS
-      }
+      },
+      pageSize: 10
     };
   },
   components: {
@@ -131,12 +133,32 @@ export default {
       if (val === "normal") {
         type = "员工绩效";
       } else if (val === "executive") {
-        type = "高管绩效";
+        type = "组织部绩效";
       }
       return type;
     }
   },
   methods: {
+    /**
+     * 显示填写指标按钮
+     */
+    handleWriteTargetButton(row) {
+      return (
+        row.p_type === "normal" &&
+        row.stage_id === 1 &&
+        row.target_status_id === 1
+      );
+    },
+    /**
+     * 显示查看详情按钮（指标）
+     */
+    handleCheckTargetButton(row) {
+      return (
+        row.p_type === "executive" &&
+        (row.target_status_id === 1 || row.target_status_id === 0) &&
+        (row.stage_id === 10 || row.stage_id === 20)
+      );
+    },
     confirmationScore() {},
     fillInSelfEvaluation() {},
     getList() {
@@ -172,10 +194,15 @@ export default {
     /**
      * 跳转到指标详情页面
      */
-    viewDetail(row) {
-      if (row.p_type === "executive") {
-        this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
-      } else {
+    goDetail(row) {
+      if (row.p_type == "executive") {
+        this.$router.push(
+          PATH_PERFORMANCE_TARGET_DETAIL(
+            row.performance_id,
+            row.performance_user_id
+          )
+        );
+      } else if (row.p_type == "normal") {
         this.$router.push(
           PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
         );
@@ -184,6 +211,15 @@ export default {
   },
   created() {
     this.getList();
+    // viewDetail(row) {
+    //   if (row.p_type === "executive") {
+    //     this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
+    //   } else {
+    //     this.$router.push(
+    //       PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+    //     );
+    //   }
+    // }
   }
 };
 </script>

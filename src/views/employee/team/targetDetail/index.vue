@@ -4,7 +4,7 @@
     <div>
       <detail-header :user-info="userInfo" :self="false"></detail-header>
       <target-content :all-target="allTarget"></target-content>
-      <el-row class="footer-button" v-if="userInfo.stage === 10">
+      <el-row class="footer-button" v-if="userInfo.stage == 10">
         <el-button class="agree-button" @click="agreeTarget">同意</el-button>
         <el-button class="wait-consensus" @click="rejectTarget"
           >待共识</el-button
@@ -230,6 +230,7 @@ export default {
   created() {
     this.getUserInfo();
     this.getWrokAndTeamTarget();
+    console.log(this.userInfo);
   }
 };
 </script>
