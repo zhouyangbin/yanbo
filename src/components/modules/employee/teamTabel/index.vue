@@ -10,7 +10,7 @@
               width="360"
               style="position: relative;top: -7px;"
             >
-              <span class="tip_A"></span>
+              <div class="tip_A"></div>
               <el-button
                 slot="reference"
                 type="text"
@@ -109,8 +109,9 @@
                   <div class="overview_head2 overview_info_number_head_title">
                     {{
                       overview[1].child[1].name +
+                        "(" +
                         overview[1].child[1].threshold +
-                        "%"
+                        "%人)"
                     }}
                   </div>
                 </div>

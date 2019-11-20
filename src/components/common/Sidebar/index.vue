@@ -141,7 +141,7 @@
         >{{ constants.RULES_SETTING }}</el-menu-item
       >
       <el-menu-item
-        v-if="canSetRules"
+        v-if="canSetTags"
         :class="{
           'is-active': [constants.PATH_PERFORMANCE_TAGS].includes($route.path)
         }"
@@ -289,6 +289,9 @@ export default {
     },
     canSetRules() {
       return this.permissions.includes(304);
+    },
+    canSetTags() {
+      return this.permissions.includes(305);
     }
   },
   directives: {
