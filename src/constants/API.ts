@@ -159,7 +159,7 @@ export const postAdminTags = (params: object) =>
 export const putAdminTagChange = (id: string, params: object) =>
   sendPut(`/performance/admin/label/${id}`, params);
 export const postAdminTagsRules = (id: string, level: string) =>
-  sendGet(`/performance/admin/label/rules/${id}/${level}`);
+  sendGet(`/performance/api/label/rules/${id}/${level}`);
 
 // 跟新规则
 
