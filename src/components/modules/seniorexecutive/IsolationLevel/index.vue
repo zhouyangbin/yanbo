@@ -42,7 +42,9 @@
           </el-form-item>
         </el-form>
         <div class="table-list">
-          <div class="select-team"></div>
+          <div class="select-team">
+            <div class="total-team">全部下属</div>
+          </div>
           <div class="display-data">
             <div class="display-team">
               <span class="team-name">刘二团队</span>
@@ -148,10 +150,18 @@ export default {
         score_tag: ""
       },
       tagOptions: [],
-      lowerList: []
+      lowerList: [],
+      teamList: [],
+      team_leader: ""
     };
   },
   methods: {
+    handleOpen(key) {
+      console.log(key)
+    },
+    handleClose(key) {
+      console.log(key)
+    },
     viewDetail(data) {
       console.log(row);
     },
@@ -167,11 +177,14 @@ export default {
         page: this.page,
         name: this.filterForm.name,
         stage: this.filterForm.stage,
-        score_tag: this.filterForm.score_tag
+        score_tag: this.filterForm.score_tag,
+        team_leader: this.team_leader
       };
       getMyIsolationUnderLower(data).then(res => {
-        this.total = res.total;
-        this.lowerList = res.data;
+        let {data, team, total} = res;
+        this.total = total;
+        this.lowerList = data;
+        this.teamList = team;
       });
     }
   },
