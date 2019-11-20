@@ -88,8 +88,8 @@ export default {
       default: false
     },
     old_s: {
-      type:null,
-      default:"",
+      type: null,
+      default: ""
     }
   },
   data() {

@@ -178,7 +178,7 @@ export default {
       },
       showReviewDia: false,
       operate_status: true,
-      old_s:'',//是否为老数据
+      old_s: "" //是否为老数据
     };
   },
   components: {
@@ -302,7 +302,7 @@ export default {
             workcode,
             self_attach_score
           };
-          this.old_s = _s
+          this.old_s = _s;
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
