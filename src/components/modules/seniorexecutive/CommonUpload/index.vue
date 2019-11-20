@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="common-upload"
-    title="上传财务指标"
+    :title="upload_title"
     :visible="visible"
     @close="close"
     :close-on-click-modal="false"
@@ -14,11 +14,7 @@
       <el-form-item label="上传文件">
         <el-upload
           class="upload-demo"
-          :action="actionUrl"
-          :headers="uploadHeader"
-          :on-success="uploadSuccess"
-          :on-error="uploadError"
-          @before-upload="beforeUpload"
+          :action="upload_action_url"
         >
           <el-button type="text">选择文件</el-button>
         </el-upload>
@@ -41,7 +37,15 @@ export default {
     visible: {
       type: Boolean,
       default: false
-    }
+    },
+    upload_title: {
+      type: String,
+      default: ""
+    },
+    upload_action_url: {
+      type: String,
+      default: ""
+    },
   },
   data() {
     return {

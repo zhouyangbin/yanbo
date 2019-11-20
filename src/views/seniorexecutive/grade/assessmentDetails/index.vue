@@ -415,24 +415,12 @@
               >导出名单</el-button
             >
             <el-popover placement="bottom" width="120" trigger="hover">
-              <el-upload
-                class="upload-demo"
-                :action="
-                  constants.postUploadFinancialIndicators(this.performanceId)
-                "
-              >
-                <div class="more-btn">
-                  <i class="el-icon-upload2"></i><span>上传财务指标</span>
-                </div>
-              </el-upload>
-              <el-upload
-                class="upload-demo"
-                :action="constants.postUploadWorkIndicators(this.performanceId)"
-              >
-                <div class="more-btn">
-                  <i class="el-icon-upload2"></i><span>上传工作目标</span>
-                </div>
-              </el-upload>
+              <div class="more-btn" @click="showUploadWork('finance')">
+                <i class="el-icon-upload2"></i><span>上传财务指标</span>
+              </div>
+              <div class="more-btn" @click="showUploadWork('work')">
+                <i class="el-icon-upload2"></i><span>上传工作目标</span>
+              </div>
               <div class="more-btn" @click="removeList">
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
@@ -574,6 +562,14 @@
       @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
+    <common-upload-dialog
+      v-if="showUploadWorkFile"
+      :visible="showUploadWorkFile"
+      :upload_title="upload_title"
+      :upload_action_url="upload_action_url"
+      @close="upload_close"
+    >
+    </common-upload-dialog>
   </div>
 </template>
 <script>
@@ -610,6 +606,9 @@ export default {
     ),
     "modify-user": AsyncComp(
       import("@/components/modules/seniorexecutive/ModifyUser/index.vue")
+    ),
+    "common-upload-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
@@ -681,6 +680,9 @@ export default {
       userId: "",
       userType: "add",
       currentStage: 0,
+      showUploadWorkFile: false,
+      upload_title: '',
+      upload_action_url: '',
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators
@@ -863,6 +865,19 @@ export default {
           this.performanceDetail = res;
         })
         .catch(e => {});
+    },
+    showUploadWork(type) {
+      this.showUploadWorkFile = true;
+      if(type == 'finance'){
+        this.upload_title =  '上传财务指标';
+        this.upload_action_url = this.constants.postUploadFinancialIndicators(this.performanceId);
+      }else{
+        this.upload_title =  '上传工作目标';
+        this.upload_action_url = this.constants.postUploadWorkIndicators(this.performanceId);
+      }
+    },
+    upload_close() {
+      this.showUploadWorkFile = false;
     }
   },
   created() {
