@@ -204,7 +204,6 @@ export default {
      * 跳转到指标详情页面
      */
     goDetail(row) {
-      console.log(row)
       if(row.p_type == "executive"){
           this.$router.push(
             PATH_PERFORMANCE_TARGET_DETAIL(
@@ -249,9 +248,6 @@ export default {
     //     );
     //   }
     // }
-  },
-  created() {
-    this.getList();
   }
 }
 
