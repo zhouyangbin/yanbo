@@ -9,6 +9,7 @@
           <el-button
             type="primary"
             :disabled="!performanceDetail.can_start"
+            v-if="performanceDetail.stage === 0"
             @click="openAssessment"
             >开启考核</el-button
           >

@@ -68,6 +68,7 @@
             </el-tooltip>
             <el-button
               :disabled="!item.can_start"
+              v-if="item.stage === 0"
               @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
