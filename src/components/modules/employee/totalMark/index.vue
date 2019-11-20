@@ -1,7 +1,11 @@
 <template>
   <el-row type="flex" justify="end" class="total-section">
     <el-col :span="4">
-      <span>总分/</span>
+      <span>自评总分/</span>
+      <span class="total-mark">{{ score }}</span>
+    </el-col>
+    <el-col :span="4" v-if="high_level_show">
+      <span>上级评总分/</span>
       <span :class="over ? 'beat' : ''" class="total-mark">{{ total }}</span>
     </el-col>
   </el-row>
@@ -12,6 +16,14 @@ export default {
     total: {
       type: [String, Number],
       default: ""
+    },
+    score: {
+      type: [String, Number],
+      default: ""
+    },
+    high_level_show: {
+      type: Number,
+      default: 1
     }
   },
   computed: {

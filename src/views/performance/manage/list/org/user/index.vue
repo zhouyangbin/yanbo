@@ -235,7 +235,7 @@ export default {
       self_time,
       superior_time,
       appeal_time,
-      end_time
+      confirm_end_time
     ) {
       this.progressArr = [];
       if (target_time) {
@@ -264,10 +264,10 @@ export default {
           value: appeal_time
         });
       }
-      if (end_time) {
+      if (confirm_end_time) {
         this.progressArr.push({
           text: "结束",
-          value: end_time
+          value: confirm_end_time
         });
       }
     },
@@ -291,6 +291,7 @@ export default {
             superior_time,
             appeal_time,
             end_time,
+            confirm_end_time,
             can_edit,
             score_level
           } = res;
@@ -306,7 +307,7 @@ export default {
             self_time,
             superior_time,
             appeal_time,
-            end_time
+            confirm_end_time
           );
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};

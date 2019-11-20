@@ -1,8 +1,63 @@
 <template>
   <div>
     <nav-bar :list="nav"></nav-bar>
+    <section class="progress-header">
+      <el-row justify="center">
+        <el-col align="center" :span="12" :offset="6">
+          <span class="text_22_blod">{{ name }}</span
+          ><br />
+          <span class="text_16">{{ department }}</span>
+        </el-col>
+        <el-col :span="6">
+          <el-button
+            :disabled="!Allsubmit_action"
+            type="primary"
+            @click="Allsubmit_step1"
+            >整体提交</el-button
+          >
+          <el-popover placement="bottom" width="270" trigger="click">
+            <p>提交记录</p>
+            <template>
+              <el-table :data="reviewData" height="250">
+                <el-table-column
+                  width="100"
+                  property="created_at"
+                  label="日期"
+                ></el-table-column>
+                <el-table-column
+                  width="100"
+                  property="name"
+                  label="姓名"
+                ></el-table-column>
+                <el-table-column
+                  width="80"
+                  property="type_text"
+                  label="状态"
+                ></el-table-column>
+              </el-table>
+            </template>
+            <el-button style="margin-left:10px" slot="reference"
+              >查看审批记录</el-button
+            >
+          </el-popover>
+        </el-col>
+      </el-row>
+      <el-row v-if="reject_msg" class="overview_tip_color">
+        <el-col :span="2" align="center">
+          <p>上级意见:</p>
+        </el-col>
+        <el-col :span="22" align="left">
+          <p>{{ reject_msg }}</p>
+        </el-col>
+      </el-row>
+    </section>
     <section class="content-container">
-      <section>
+      <team-tabel :overview="overview"></team-tabel>
+      <section class="progress-header">
+        <el-row :gutter="20" class="table-title">
+          <el-col class="table-title-desc" :span="2.5">考核人员明细</el-col>
+          <el-col class="table-title-num" :span="15">共{{ total }}人</el-col>
+        </el-row>
         <el-form :inline="true" :model="filterForm" ref="filterForm">
           <el-form-item prop="name">
             <el-input
@@ -11,42 +66,33 @@
             ></el-input>
           </el-form-item>
           <el-form-item prop="status">
-            <el-select
-              v-model="filterForm.status"
-              :placeholder="constants.PLS_SELECT"
-            >
-              <el-option label="未完成" value="0"></el-option>
-              <el-option label="已完成" value="1"></el-option>
+            <el-select v-model="filterForm.status" placeholder="请选择状态">
+              <el-option
+                v-for="v of constants.ENUM_PERFORMANCE_FINISH"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
             </el-select>
           </el-form-item>
-          <el-button
-            style="margin-left:30px"
-            round
-            @click="resetForm('filterForm')"
-            >{{ constants.LABEL_EMPTY }}</el-button
-          >
+          <el-button @click="resetForm('filterForm')">{{
+            constants.LABEL_EMPTY
+          }}</el-button>
         </el-form>
       </section>
-      <section style="min-height:400px">
+      <section class="progress-header" style="min-height:400px">
         <el-row type="flex" :gutter="20" align="top">
-          <el-col :span="18">
-            <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column
-                prop="name"
-                :label="constants.LABEL_NAME"
-                min-width="180"
-              >
+          <el-col>
+            <el-table
+              :data="tableData"
+              stripe
+              style="width: 100%"
+              :header-cell-style="{ background: '#eef1f6' }"
+            >
+              <el-table-column prop="workcode" label="工号"></el-table-column>
+              <el-table-column prop="name" :label="constants.LABEL_NAME">
                 <template slot-scope="scope">
                   <el-row type="flex" align="middle">
-                    <img
-                      v-if="scope.row.avatar"
-                      style="margin-right:15px;height:30px;width:30px"
-                      :src="`${scope.row.avatar}_30x30q100.jpg`"
-                      alt
-                    />
-                    <span class="stringAvatar" v-else>
-                      {{ scope.row.name.substr(scope.row.name.length - 2) }}
-                    </span>
                     <span>{{ scope.row.name }}</span>
                     <span class="appeal-tag" v-if="scope.row.has_appeal">
                       {{ constants.APPEAL }}
@@ -54,26 +100,93 @@
                   </el-row>
                 </template>
               </el-table-column>
+              <el-table-column prop="hr_name" label="HRBP"></el-table-column>
+              <el-table-column
+                prop="high_level_name"
+                label="隔级"
+              ></el-table-column>
               <el-table-column
                 prop="self_score"
-                :label="constants.SELF_EVALUATION"
-                width="180"
+                label="自评分"
               ></el-table-column>
               <el-table-column
                 prop="superior_score"
-                :label="constants.LABEL_SUP"
+                label="上级评分"
               ></el-table-column>
               <el-table-column
                 prop="score_level"
-                label="对应等级"
+                label="绩效等级"
               ></el-table-column>
-              <el-table-column prop="ops" :label="constants.OPERATIONS">
+              <el-table-column label="标签分布" align="center">
+                <template slot-scope="scope">
+                  <el-tag
+                    v-if="
+                      scope.row.score_level == 'A' ||
+                        scope.row.score_level == 'S'
+                    "
+                    class="status-tag top-style"
+                  >
+                    <span class="top-style-text">{{
+                      scope.row.label_name
+                    }}</span>
+                  </el-tag>
+                  <el-tag
+                    v-if="scope.row.score_level == 'B'"
+                    class="status-tag bplus-style"
+                  >
+                    <span class="bplus-style-text">{{
+                      scope.row.label_name
+                    }}</span>
+                  </el-tag>
+                  <el-tag
+                    v-if="
+                      scope.row.score_level == 'C' ||
+                        scope.row.score_level == 'D'
+                    "
+                    class="status-tag other-style"
+                  >
+                    <span class="other-style-text">{{
+                      scope.row.label_name
+                    }}</span>
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="stage_status" label="状态" align="center">
+                <template slot-scope="scope">
+                  <span>
+                    {{ get_stage_status(scope.row.stage) }}
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="ops" label="操作">
                 <template slot-scope="scope">
                   <el-button
+                    v-if="scope.row.operate_status == 1"
                     @click="goDetail(scope.row)"
                     type="text"
                     size="small"
-                    >{{ constants.DETAILS }}</el-button
+                    >详情</el-button
+                  >
+                  <el-button
+                    v-if="scope.row.operate_status == 2"
+                    @click="goDetail(scope.row)"
+                    type="text"
+                    size="small"
+                    >评分</el-button
+                  >
+                  <el-button
+                    v-if="scope.row.operate_status == 3"
+                    @click="goDetail(scope.row)"
+                    type="text"
+                    size="small"
+                    >修改评分</el-button
+                  >
+                  <el-button
+                    v-if="scope.row.operate_status == 4"
+                    @click="goDetail(scope.row)"
+                    type="text"
+                    size="small"
+                    >处理申诉</el-button
                   >
                 </template>
               </el-table-column>
@@ -86,9 +199,6 @@
                 :total="total"
               ></pagination>
             </el-row>
-          </el-col>
-          <el-col style="position:relative" :span="6">
-            <peformance-pie class="team-pie" :data="chartData"></peformance-pie>
           </el-col>
         </el-row>
       </section>
@@ -106,14 +216,19 @@ import {
   APPEAL,
   LABEL_EMPTY,
   GRADE_MANAGE,
-  PLS_SELECT
+  PLS_SELECT,
+  ENUM_PERFORMANCE_FINISH
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_EMPLOYEE_TEAM
 } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
-import { getTeamList } from "@/constants/API";
+import {
+  getTeamList,
+  highLevelAllSubmit,
+  highLevelReview
+} from "@/constants/API";
 
 export default {
   data() {
@@ -124,7 +239,7 @@ export default {
         status: "",
         name: ""
       },
-      chartData: [],
+      overview: [],
       nav: [
         {
           label: TEAM_GRADE,
@@ -144,18 +259,37 @@ export default {
         OPERATIONS,
         APPEAL,
         LABEL_EMPTY,
-        PLS_SELECT
-      }
+        PLS_SELECT,
+        ENUM_PERFORMANCE_FINISH
+      },
+      name: "",
+      department: "",
+      Allsubmit_action: false,
+      reject_msg: "",
+      content: "",
+      reviewData: []
     };
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "peformance-pie": AsyncComp(
-      import("@/components/modules/performance/GradePie/index.vue")
+    "team-tabel": AsyncComp(
+      import("@/components/modules/employee/teamTabel/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
+  created() {
+    this.reviewList();
+  },
   methods: {
+    getUserInfo(data) {
+      let users = [];
+      data.map(item => {
+        users.push(
+          item.name + "(" + item.score_level + " " + item.superior_score + ")"
+        );
+      });
+      return users.join(",") ? users.join(",") : "--";
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
@@ -167,10 +301,23 @@ export default {
     refreshList(data) {
       return getTeamList(this.$route.params.id, data)
         .then(res => {
-          const { user, overview } = res;
-          this.tableData = user.data;
+          const { user, overview, performanceInfo } = res;
+          this.tableData = user.data || [];
           this.total = user.total;
-          this.chartData = overview;
+          this.overview = overview || [];
+          this.name = performanceInfo.name || "";
+          this.department = performanceInfo.department || "";
+          this.Allsubmit_action = performanceInfo.submit;
+          this.reject_msg = performanceInfo.reject_msg;
+          performanceInfo.submit ? this.Allsubmit_step_load() : null;
+        })
+        .catch(e => {});
+    },
+    reviewList() {
+      return highLevelReview(this.$route.params.id)
+        .then(res => {
+          //const { user, overview, performanceInfo } = res;
+          this.reviewData = res;
         })
         .catch(e => {});
     },
@@ -179,16 +326,143 @@ export default {
       this.refreshList({
         page: val,
         name: this.filterForm.name,
-        superior_status: this.filterForm.status
+        stage: this.filterForm.status
       });
+    },
+
+    Allsubmit_step_load() {
+      //页面进来调用方法
+      const h = this.$createElement;
+      this.$confirm(
+        "您已评完所有直属下级的评分, 请整体检查分布情况，并提交至隔级审核 ",
+        "提示",
+        {
+          confirmButtonText: "提交",
+
+          cancelButtonText: "暂不提交"
+        }
+      )
+        .then(() => {
+          setTimeout(() => {
+            this.Allsubmit_step1();
+          }, 500);
+        })
+        .catch(() => {});
+    },
+    Allsubmit_step1() {
+      //判断整体提交到走到哪一步
+      let overview = this.overview;
+      let top_Diff = overview[0].expected - overview[0].count,
+        b_plus_diff =
+          overview[1].child[0].expected - overview[1].child[0].count,
+        b_diff = overview[1].child[1].expected - overview[1].child[1].count,
+        b_minus_diff =
+          overview[2].child[0].count - overview[2].child[0].expected,
+        cd_diff = overview[2].child[1].count - overview[2].child[1].expected;
+      if (
+        top_Diff >= 0 &&
+        b_plus_diff >= 0 &&
+        b_diff >= 0 &&
+        b_minus_diff >= 0 &&
+        cd_diff >= 0
+      ) {
+        //可以直接提交
+        this.Allsubmit_step3();
+      } else {
+        let tip_html = `<p>不符合标签分布要求，是否确认继续提交？</p>\
+                       <p>分布结果检查 :</p>\
+                       <p style='${
+                         top_Diff >= 0 ? "display:none" : null
+                       }'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[0].name}总人数超出${Math.abs(
+          top_Diff
+        )}人</span></p>\
+                       <p style='${
+                         b_plus_diff >= 0 ? "display:none" : null
+                       }'> <span style='color: #EB0C00;margin-left:90px'>\
+                         ${overview[1].child[0].name}总人数超出${Math.abs(
+          b_plus_diff
+        )}人</span></p>\
+                       <p style='${
+                         b_diff >= 0 ? "display:none" : null
+                       }'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[1].child[1].name}总人数超出${Math.abs(
+          b_diff
+        )}人</span></p>\
+                       <p style='${
+                         b_minus_diff >= 0 ? "display:none" : null
+                       }'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[2].child[0].name}总人数缺少${Math.abs(
+          b_minus_diff
+        )}人</span></p>\
+                       <p style='${
+                         cd_diff >= 0 ? "display:none" : null
+                       }'> <span style='color: #EB0C00;margin-left:90px'>\
+                        ${overview[2].child[1].name}总人数缺少${Math.abs(
+          cd_diff
+        )}人</span></p>`;
+        this.Allsubmit_step2(tip_html);
+      }
+    },
+    Allsubmit_step2(tip_html) {
+      this.$prompt(tip_html, "提示", {
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: "提交",
+        inputPlaceholder: "请输入理由",
+        cancelButtonText: "暂不提交"
+      })
+        .then(({ value }) => {
+          this.Allsubmit_send(value);
+        })
+        .catch(() => {});
+    },
+    Allsubmit_step3() {
+      this.$prompt(
+        "<p>是否确认提交至隔级审核</p>\
+         <p>分布结果检查 : <span style='color: #EB0C00'> 全部符合23221分布比例要求</span></p>",
+        "提示",
+        {
+          dangerouslyUseHTMLString: true,
+          confirmButtonText: "提交",
+          cancelButtonText: "暂不提交"
+        }
+      )
+        .then(({ value }) => {
+          this.Allsubmit_send(value);
+        })
+        .catch(() => {});
+    },
+    Allsubmit_send(input_content) {
+      let that = this;
+      let data = {
+        content: input_content
+      };
+      return highLevelAllSubmit(this.$route.params.id, data)
+        .then(res => {
+          let postData = {
+            page: this.currentPage,
+            name: this.filterForm.name,
+            stage: this.filterForm.status
+          };
+          this.refreshList(postData); //再次请求接口
+          this.reviewList(); //再次请求接口
+        })
+        .catch(e => {});
+    },
+    get_stage_status(status) {
+      let status_text = this.constants.ENUM_PERFORMANCE_FINISH.filter(
+        item => item.key == status
+      )[0].value;
+      return status_text;
     }
   },
+  computed: {},
   watch: {
     filterForm: {
       handler: function(v) {
         const postData = {
           name: v.name,
-          superior_status: v.status,
+          stage: v.status,
           page: 1
         };
         this.refreshList(postData);
@@ -201,12 +475,33 @@ export default {
 };
 </script>
 <style scoped>
+.progress-header {
+  background-color: white;
+  padding: 20px 10px 10px 10px;
+}
+.table-title {
+  line-height: 40px;
+}
+.table-title-desc {
+  font-weight: 500;
+  color: #303133;
+  font-size: 16px;
+}
+.table-title-num {
+  font-size: 14px;
+  line-height: 40px;
+  color: #909399;
+}
 .appeal-tag {
-  padding: 5px;
-  background: lightcoral;
-  color: white;
-  border-radius: 10px;
-  margin-left: 10px;
+  width: 32px;
+  height: 18px;
+  text-align: center;
+  background: rgba(244, 63, 2, 0.2);
+  border-radius: 10px 10px 10px 10px;
+  color: rgba(244, 63, 2, 1);
+  font-size: 12px;
+  position: absolute;
+  top: 10px;
 }
 .stringAvatar {
   width: 30px;
@@ -222,5 +517,36 @@ export default {
 .team-pie {
   position: absolute;
   top: 0;
+}
+.status-tag {
+  width: ;
+  height: 28px;
+  padding: 0 10px;
+  margin: 0;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
+}
+.top-style {
+  background: rgba(0, 140, 36, 0.1);
+  color: rgba(0, 177, 45, 1) !important;
+}
+.bplus-style {
+  background: rgba(255, 160, 77, 0.1);
+  color: rgba(255, 104, 0, 1);
+}
+.other-style {
+  background: rgba(213, 217, 226, 0.1);
+  color: rgba(92, 108, 139, 1);
+}
+.overview_tip_color {
+  color: #eb0c00;
+}
+.text_22_blod {
+  font-size: 18px;
+}
+.text_16 {
+  font-size: 16px;
 }
 </style>

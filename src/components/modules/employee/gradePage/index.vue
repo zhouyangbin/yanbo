@@ -59,7 +59,19 @@
         <br />
       </div>
       <div v-if="showTotal && canEdit">
-        <total-mark :total="total"></total-mark>
+        <total-mark
+          :total="total"
+          :score="total"
+          :high_level_show="high_level_show"
+        ></total-mark>
+        <br />
+      </div>
+      <div v-if="showTotal && !canEdit">
+        <total-mark
+          :total="total"
+          :score="self_score"
+          :high_level_show="high_level_show"
+        ></total-mark>
         <br />
       </div>
       <div>
@@ -68,29 +80,28 @@
           :readOnly="true"
           v-model="level"
         ></level>
-
         <br />
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="saveDraft" class="btn-reset">{{
-          constants.SAVE_DRAFT
-        }}</el-button>
-        <el-button round size="medium" @click="submit" type="primary">{{
-          constants.SUBMIT
-        }}</el-button>
+        <el-button round size="medium" @click="saveDraft" class="btn-reset">
+          {{ constants.SAVE_DRAFT }}
+        </el-button>
+        <el-button round size="medium" @click="submit" type="primary">
+          {{ constants.SUBMIT }}
+        </el-button>
       </el-row>
       <el-row v-if="canReject && published" type="flex" justify="center">
         <div>
           到期将默认确认结果, 如有问题可
-          <el-button @click="visible = true" type="text">{{
-            constants.APPEAL
-          }}</el-button>
+          <el-button @click="visible = true" type="text">
+            {{ constants.APPEAL }}
+          </el-button>
         </div>
       </el-row>
       <el-row v-if="cancelReject && published" type="flex" justify="center">
-        <el-button @click="cancel" type="primary" round size="medium">{{
-          constants.CANCEL_APPEAL
-        }}</el-button>
+        <el-button @click="cancel" type="primary" round size="medium">
+          {{ constants.CANCEL_APPEAL }}
+        </el-button>
       </el-row>
       <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>
@@ -154,7 +165,9 @@ export default {
         LEADER_NUMBER,
         LEADER_NAME,
         BASIC_INFO
-      }
+      },
+      high_level_show: 0,
+      self_score: 0
     };
   },
   components: {
@@ -186,6 +199,9 @@ export default {
               (parseFloat(this.myAdditionMark.score) || 0)
           ).toFixed(2);
     },
+    score() {
+      return (parseFloat(this.myAdditionMark.score) || 0).toFixed(2);
+    },
     cardData() {
       return this.published ? this.targets : this.hideLeaderInfo(this.targets);
     }
@@ -216,7 +232,6 @@ export default {
         .catch(e => {});
     },
     getPostData() {
-      // console.log(this.$route.params)
       return {
         score: this.targets.map(({ id, mark, desc }) => ({
           target_id: id,
@@ -242,7 +257,6 @@ export default {
         "self"
       )
         .then(res => {
-          // console.log(res)
           const {
             targets,
             superior_workcode,
@@ -254,7 +268,8 @@ export default {
             superior_name,
             score_level,
             score,
-            publish_status
+            publish_status,
+            self_score
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -269,6 +284,7 @@ export default {
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
+          this.self_score = self_score != null ? self_score.score : 0;
           this.composeData(targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;
@@ -288,7 +304,7 @@ export default {
         if (this.targets.some(v => !v.desc)) {
           this.$notify.error({
             title: ERROR,
-            message: "请填写自评理由!"
+            message: "请填写目标的实际完成情况!"
           });
           return reject(true);
         }

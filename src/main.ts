@@ -11,6 +11,7 @@ import placeholderFilter from "@/filter/placeholder";
 import linebreak from "@/filter/linebreak";
 import path from "@/filter/path";
 import Waves from "@/directives/waves/index.js";
+import device from "vue-device-detector";
 const RavenPlugin: any = RavenVue;
 Raven.config(process.env.VUE_APP_SENTRY_URL!, {
   environment: process.env.NODE_ENV,
@@ -25,6 +26,8 @@ Vue.config.productionTip = false;
 Vue.filter("placeholder", placeholderFilter);
 Vue.filter("linebreak", linebreak);
 Vue.filter("path", path);
+Vue.use(device); //使用判断终端模块
+
 // Raven.context(function() {
 //   new Vue({
 //     router,
