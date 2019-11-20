@@ -414,22 +414,12 @@
               >导出名单</el-button
             >
             <el-popover placement="bottom" width="120" trigger="hover">
-              <el-upload
-                class="upload-demo"
-                :action="constants.postUploadFinancialIndicators(this.performanceId)"
-                >
-                <div class="more-btn">
-                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
+              <div class="more-btn" @click="showUploadWork">
+                <i class="el-icon-upload2"></i><span>上传财务指标</span>
               </div>
-              </el-upload>
-              <el-upload
-                class="upload-demo"
-                :action="constants.postUploadWorkIndicators(this.performanceId)"
-                >
-                <div class="more-btn">
-                  <i class="el-icon-upload2"></i><span>上传工作目标</span>
-                </div>
-              </el-upload>
+              <div class="more-btn">
+                <i class="el-icon-upload2"></i><span>上传工作目标</span>
+              </div>
               <div class="more-btn" @click="removeList">
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
@@ -571,6 +561,10 @@
       @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
+    <common-upload-dialog
+    
+    >
+    </common-upload-dialog>
   </div>
 </template>
 <script>
@@ -607,6 +601,9 @@ export default {
     ),
     "modify-user": AsyncComp(
       import("@/components/modules/seniorexecutive/ModifyUser/index.vue")
+    ),
+    "common-upload-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
@@ -678,6 +675,7 @@ export default {
       userType: "add",
       userId: "",
       currentStage: 0,
+      showUploadWorkFile: false,
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators
@@ -839,6 +837,10 @@ export default {
           this.performanceDetail = res;
         })
         .catch(e => {});
+    },
+    showUploadWork() {
+      this.showUploadWorkFile = true;
+     console.log(this.showUploadWorkFile)
     }
   },
   created() {
