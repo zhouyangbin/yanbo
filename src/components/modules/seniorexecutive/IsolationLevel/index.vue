@@ -1,10 +1,8 @@
 <template>
-  <div class="lower-level">
+  <div class="isolation-level">
     <section>
-      <div class="filter-box" v-show="grade === 'sub'">
-        <div class="filter-title">
-          <span>考核人员明细</span><span class="filter-number">共10人</span>
-        </div>
+      <div class="filter-box">
+        <span>我的隔级下属</span>
         <el-form
           :inline="true"
           ref="filterForm"
@@ -43,45 +41,59 @@
             <el-button @click="resetForm('filterForm')">清空</el-button>
           </el-form-item>
         </el-form>
-        <el-table :data="lowerList" style="width: 100%">
-          <el-table-column prop="workcode" label="工号" width="100">
-          </el-table-column>
-          <el-table-column prop="name" label="姓名">
-            <template slot-scope="scope">
-              <span class="grade-name">{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="sub_department_name"
-            :show-overflow-tooltip="true"
-            label="大部门/分校"
-          >
-          </el-table-column>
-          <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
-          <el-table-column prop="isolation_name" label="隔级">
-          </el-table-column>
-          <el-table-column prop="self_score" label="自评分"> </el-table-column>
-          <el-table-column prop="superior_score" label="复评分">
-          </el-table-column>
-          <el-table-column prop="culture" label="文化评分"> </el-table-column>
-          <el-table-column prop="final" label="最终成绩"> </el-table-column>
-          <el-table-column prop="score_tag" label="标签分布"> </el-table-column>
-          <el-table-column prop="stage" label="状态">
-            <template slot-scope="scope">
-              <span class="grade-stage">{{ scope.row.stage }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="hrbp_name" label="操作">
-            <template slot-scope="scope">
-              <div class="grade-operation" @click="viewDetail(scope.row)">
-                详情
-              </div>
-              <div class="grade-operation" @click="viewDetail(scope.row)">
-                处理申述
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+        <div class="table-list">
+          <div class="select-team"></div>
+          <div class="display-data">
+            <div class="display-team">
+              <span class="team-name">刘二团队</span>
+              <span class="team-nums">共10人</span>
+              <span class="team-warning">Top超出1人</span>
+              <span class="view-response">查看提交理由</span>
+            </div>
+            <el-table :data="lowerList" style="width: 100%">
+              <el-table-column prop="workcode" label="工号" width="100">
+              </el-table-column>
+              <el-table-column prop="name" label="姓名">
+                <template slot-scope="scope">
+                  <span class="grade-name">{{ scope.row.name }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="sub_department_name"
+                :show-overflow-tooltip="true"
+                label="大部门/分校"
+              >
+              </el-table-column>
+              <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
+              <el-table-column prop="isolation_name" label="隔级">
+              </el-table-column>
+              <el-table-column prop="self_score" label="自评分">
+              </el-table-column>
+              <el-table-column prop="superior_score" label="复评分">
+              </el-table-column>
+              <el-table-column prop="culture" label="文化评分">
+              </el-table-column>
+              <el-table-column prop="final" label="最终成绩"> </el-table-column>
+              <el-table-column prop="score_tag" label="标签分布">
+              </el-table-column>
+              <el-table-column prop="stage" label="状态">
+                <template slot-scope="scope">
+                  <span class="grade-stage">{{ scope.row.stage }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="hrbp_name" label="操作">
+                <template slot-scope="scope">
+                  <div class="grade-operation" @click="viewDetail(scope.row)">
+                    详情
+                  </div>
+                  <div class="grade-operation" @click="viewDetail(scope.row)">
+                    处理申述
+                  </div>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </div>
       </div>
     </section>
     <el-row type="flex" justify="end">
@@ -127,8 +139,8 @@ export default {
           active: true
         }
       ],
-      grade: "sub",
       page: 1,
+      perPage: 10,
       total: 0,
       filterForm: {
         name: "",
@@ -158,7 +170,6 @@ export default {
         score_tag: this.filterForm.score_tag
       };
       getMyIsolationUnderLower(data).then(res => {
-        debugger;
         this.total = res.total;
         this.lowerList = res.data;
       });
@@ -175,18 +186,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.lower-level {
+.isolation-level {
   background-color: #fff;
   .filter-box {
     padding: 24px;
-    .filter-title {
-      color: #303133;
-      .filter-number {
-        margin-left: 6px;
-        font-size: 14px;
-        color: #909399;
-      }
-    }
     .screening-form {
       margin-top: 24px;
       .el-form-item {
