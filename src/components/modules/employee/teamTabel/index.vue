@@ -10,7 +10,7 @@
               width="360"
               style="position: relative;top: -7px;"
             >
-              <span class="tip_A"></span>
+              <div class="tip_A"></div>
               <el-button
                 slot="reference"
                 type="text"

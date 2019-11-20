@@ -117,7 +117,7 @@
                 prop="score_level"
                 label="绩效等级"
               ></el-table-column>
-              <el-table-column label="标签分布" align="center">
+              <el-table-column label="标签分布" align="left">
                 <template slot-scope="scope">
                   <el-tag
                     v-if="
@@ -529,15 +529,15 @@ export default {
   font-weight: 500;
 }
 .top-style {
-  background: rgba(0, 140, 36, 0.1);
+  background: #e8f5eb;
   color: rgba(0, 177, 45, 1) !important;
 }
 .bplus-style {
-  background: rgba(255, 160, 77, 0.1);
+  background: #fff0e3;
   color: rgba(255, 104, 0, 1);
 }
 .other-style {
-  background: rgba(213, 217, 226, 0.1);
+  background: #f1f2f5;
   color: rgba(92, 108, 139, 1);
 }
 .overview_tip_color {

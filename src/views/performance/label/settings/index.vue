@@ -99,6 +99,7 @@
           :currentPage="currentPage"
           @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="15"
         ></pagination>
       </section>
     </section>
@@ -136,7 +137,7 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "label-dialog": AsyncComp(
-      import("@/components/modules/seniorexecutive/LabelDialog/index.vue")
+      import("@/components/modules/performanceAlabel/LabelDialog/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
@@ -228,12 +229,17 @@ export default {
     },
     tplDialogClose() {
       this.showDialog = false;
-      this.getAdminTagsList();
+      this.getAdminTagsList({
+        page: this.currentPage
+      });
       // 关闭弹框
     },
     handleCurrentChange(val) {
-      // 分页
       this.currentPage = val;
+      const data = {
+        page: val
+      };
+      this.getAdminTagsList(data);
     },
     updateTpl(row) {
       // 修改
@@ -241,18 +247,18 @@ export default {
       this.initData = row;
       this.showDialog = true;
     },
-    getAdminTagsList() {
-      getAdminTags()
-        .then(res => {
-          const { data, total } = res;
-          this.total = total;
-          this.tableData = data;
-        })
-        .catch(() => {});
+    getAdminTagsList(data) {
+      return getAdminTags(data).then(res => {
+        const { data, total } = res;
+        this.total = 30;
+        this.tableData = data;
+      });
     }
   },
   created() {
-    this.getAdminTagsList();
+    this.getAdminTagsList({
+      page: this.currentPage
+    });
   }
 };
 </script>
