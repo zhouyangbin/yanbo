@@ -32,7 +32,7 @@
         </div>
         <div v-if="isHigh && gradeListType == 'pending'" class="container">
           <div class="container-role">
-            <span>高管</span>
+            <span>组织部成员</span>
             &nbsp; &nbsp;
             <span style="font-size: 14px;margin-left: 90px;color: #494949"
               >评分名称：{{ high_evaluation_name }}</span
