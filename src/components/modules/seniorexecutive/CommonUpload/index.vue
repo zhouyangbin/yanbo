@@ -12,10 +12,7 @@
         <el-button type="text" @click="downloadTemplate">下载</el-button>
       </el-form-item>
       <el-form-item label="上传文件">
-        <el-upload
-          class="upload-demo"
-          :action="upload_action_url"
-        >
+        <el-upload class="upload-demo" :action="upload_action_url">
           <el-button type="text">选择文件</el-button>
         </el-upload>
       </el-form-item>
@@ -45,7 +42,7 @@ export default {
     upload_action_url: {
       type: String,
       default: ""
-    },
+    }
   },
   data() {
     return {

@@ -681,8 +681,8 @@ export default {
       userType: "add",
       currentStage: 0,
       showUploadWorkFile: false,
-      upload_title: '',
-      upload_action_url: '',
+      upload_title: "",
+      upload_action_url: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators
@@ -868,12 +868,16 @@ export default {
     },
     showUploadWork(type) {
       this.showUploadWorkFile = true;
-      if(type == 'finance'){
-        this.upload_title =  '上传财务指标';
-        this.upload_action_url = this.constants.postUploadFinancialIndicators(this.performanceId);
-      }else{
-        this.upload_title =  '上传工作目标';
-        this.upload_action_url = this.constants.postUploadWorkIndicators(this.performanceId);
+      if (type == "finance") {
+        this.upload_title = "上传财务指标";
+        this.upload_action_url = this.constants.postUploadFinancialIndicators(
+          this.performanceId
+        );
+      } else {
+        this.upload_title = "上传工作目标";
+        this.upload_action_url = this.constants.postUploadWorkIndicators(
+          this.performanceId
+        );
       }
     },
     upload_close() {
