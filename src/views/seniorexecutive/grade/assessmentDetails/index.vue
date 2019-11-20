@@ -416,16 +416,18 @@
             <el-popover placement="bottom" width="120" trigger="hover">
               <el-upload
                 class="upload-demo"
-                :action="constants.postUploadFinancialIndicators(this.performanceId)"
-                >
+                :action="
+                  constants.postUploadFinancialIndicators(this.performanceId)
+                "
+              >
                 <div class="more-btn">
-                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
-              </div>
+                  <i class="el-icon-upload2"></i><span>上传财务指标</span>
+                </div>
               </el-upload>
               <el-upload
                 class="upload-demo"
                 :action="constants.postUploadWorkIndicators(this.performanceId)"
-                >
+              >
                 <div class="more-btn">
                   <i class="el-icon-upload2"></i><span>上传工作目标</span>
                 </div>
@@ -681,7 +683,7 @@ export default {
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators
-      },
+      }
     };
   },
   computed: {
