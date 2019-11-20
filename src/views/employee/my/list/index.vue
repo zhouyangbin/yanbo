@@ -43,7 +43,7 @@
               type="text"
               @click="goTargetDetail(scope.row)"
               >查看详情</el-button> -->
-            <el-button @click="goDetail(scope.row)" type="text" size="small">查看详情</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -127,7 +127,7 @@ export default {
      */
     handleWriteTargetButton(row) {
       return (
-        row.p_type === "executive" &&
+        row.p_type === "normal" &&
         row.stage_id === 1 &&
         row.target_status_id === 1
       );
@@ -161,6 +161,7 @@ export default {
      * 原有的跳转
      */
     goDetail(row) {
+      console.log(row)
       if(row.p_type == "executive"){
           this.$router.push(
             PATH_PERFORMANCE_TARGET_DETAIL(
