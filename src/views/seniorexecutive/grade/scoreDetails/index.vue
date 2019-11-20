@@ -4,12 +4,34 @@
     <br />
     <section class="content-container bg-white">
       <div class="content-title">
-        <div>测试考核一</div>
+        <div>{{ performanceDetail.name }}</div>
       </div>
       <div class="list-timeline">
-        <div class="time-line active" data="填写中100/确认中300">指标设定</div>
-        <div class="time-line-sign active" data="11月15日"></div>
-        <div class="time-line-circle active">
+        <div
+          class="time-line"
+          :class="performanceDetail.stage === 0 ? '' : 'active'"
+          :data="
+            '填写中' +
+              performanceDetail.indicator_fill_in +
+              '/确认中' +
+              performanceDetail.indicator_confirm
+          "
+        >
+          指标设定
+        </div>
+        <div
+          class="time-line-sign"
+          :class="performanceDetail.stage === 0 ? '' : 'active'"
+          :data="performanceDetail.indicator_setting_end_time | filterDate"
+        ></div>
+        <div
+          class="time-line-circle"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+        >
           <div class="circle-list"></div>
           <div class="circle-list"></div>
           <div class="circle-list"></div>
@@ -17,17 +39,96 @@
           <div class="circle-list"></div>
           <div class="circle-list"></div>
         </div>
-        <div class="time-line-sign active" data="11月18日"></div>
-        <div class="time-line active">自评</div>
-        <div class="time-line-sign active" data="11月23日"></div>
-        <div class="time-line">上级评分</div>
-        <div class="time-line-sign" data="11月30日"></div>
-        <div class="time-line">隔级审核</div>
-        <div class="time-line-sign" data="12月1日"></div>
-        <div class="time-line">总裁审核</div>
-        <div class="time-line-sign" data="12月18日"></div>
-        <div class="time-line">结果确认</div>
-        <div class="time-line-sign" data="12月30日"></div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.self_evaluation_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
+          :data="'自评中' + performanceDetail.self_evaluation"
+        >
+          自评
+        </div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.superior_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
+          :data="'复评中' + performanceDetail.re_evaluation"
+        >
+          上级评分
+        </div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.isolation_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
+          :data="'隔级审核中' + performanceDetail.isolation_adult"
+        >
+          隔级审核
+        </div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.president_audit_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="'总裁审核中' + performanceDetail.president_audit"
+        >
+          总裁审核
+        </div>
+        <div
+          class="time-line-sign"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :data="performanceDetail.result_comfirm_end_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :data="
+            '确认中' +
+              performanceDetail.confirm +
+              '/已确认' +
+              performanceDetail.confirmed
+          "
+        >
+          结果确认
+        </div>
+        <div
+          class="time-line-sign"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :data="performanceDetail.result_confirm_end_time | filterDate"
+        ></div>
       </div>
     </section>
     <section class="content-container">
@@ -37,20 +138,18 @@
       </el-radio-group>
       <lower-level
         :performanceId="performanceId"
-        v-show="grade === 'superior'"
+        v-if="grade === 'superior'"
       ></lower-level>
       <partition-level
         :performanceId="performanceId"
-        v-show="grade === 'isolation'"
+        v-if="grade === 'isolation'"
       ></partition-level>
     </section>
   </div>
 </template>
 <script>
-import { AsyncComp } from "@/utils/asyncCom";
-import { postMyUnderLower, getMyUnderLowerHeader } from "@/constants/API";
+import { getPerformanceDetail } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
-import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
@@ -72,18 +171,26 @@ export default {
         }
       ],
       grade: "superior",
-      performanceId: this.$route.params.id
+      performanceId: this.$route.params.performanceId,
+      performanceDetail: {},
+      nowTime: ""
     };
   },
-  methods: {},
+  filters: {
+    filterDate(val) {
+      let newVal = "";
+      if (val) {
+        newVal = /\d{4}-\d{1,2}-\d{1,2}/g.exec(val);
+        newVal = newVal[0];
+      }
+      return newVal;
+    }
+  },
   created() {
-    let data = {
-      performance_id: this.performanceId,
-      type: this.grade
-    };
-    getMyUnderLowerHeader(data)
+    this.nowTime = new Date();
+    getPerformanceDetail(this.performanceId)
       .then(res => {
-        console.log(res);
+        this.performanceDetail = res;
       })
       .catch(e => {});
   }

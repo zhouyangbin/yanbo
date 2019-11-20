@@ -425,12 +425,10 @@ export const getOrganization = () =>
 // 高管绩效  获取高管类型
 export const getExecutiveTypes = () =>
   sendGet(`/executive-performance/admin/templates/executive-types`);
-// sendGet(`/js/getExecutiveTypes.json`);
 
 // 高管绩效  获取模板字段
 export const getTplFields = () =>
   sendGet(`/executive-performance/admin/templates/template-fields`);
-// sendGet(`/js/getTplFields.json`);
 
 // 高管绩效  获取衡量标准
 export const getTplMeasures = () =>
@@ -562,3 +560,39 @@ export const deleteLabel = (id: String) =>
     `/executive-performance/admin/tags/${id}`,
     {}
   );
+
+// 高管绩效  查找员工
+export const getSearchEmployees = (params: Object) =>
+  sendGet(`/executive-performance/admin/performances/find-employees`, params);
+
+// 高管绩效  上传财务指标
+export const postUploadFinancialIndicators = (id: String, params: Object) =>
+  sendPatch(
+    `/executive-performance/admin/performances/${id}/import-financial-indicators`,
+    params
+  );
+
+// 高管绩效  获取当前绩效下模板对应的组织部类别
+export const getTplExecutiveTypes = (id: String) =>
+  sendGet(
+    `/executive-performance/admin/performances/${id}/get-templates-executive-types`
+  );
+
+// 高管绩效  财务指标模板
+export const getFinancialIndicators = () =>
+  sendGet(
+    `/executive-performance/admin/performances/templates/financial-indicators`
+  );
+
+// 高管绩效  导入用户
+export const postPerformanceUserImport = (id: String, params: Object) =>
+  sendPost(
+    `/executive-performance/admin/performances/${id}/users/import`,
+    params
+  );
+// 高管绩效 我的直属下级列表
+export const getMyUnderLower = (params: Object) =>
+  sendGet(`/executive-performance/web/directly/under-lower`, params);
+// 高管绩效 我的隔级下属列表
+export const getMyIsolationUnderLower = (params: Object) =>
+  sendGet(`/executive-performance/web/isolation/under-lower`, params);

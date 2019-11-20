@@ -1,5 +1,5 @@
 <template>
-  <div class="partition-level">
+  <div class="lower-level">
     <section>
       <div class="filter-box" v-show="grade === 'sub'">
         <div class="filter-title">
@@ -95,7 +95,7 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { getMyUnderLower, getAdminTagTypes } from "@/constants/API";
+import { getMyIsolationUnderLower, getAdminTagTypes } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import {
   LABEL_EMPTY,
@@ -157,7 +157,8 @@ export default {
         stage: this.filterForm.stage,
         score_tag: this.filterForm.score_tag
       };
-      getMyUnderLower(data).then(res => {
+      getMyIsolationUnderLower(data).then(res => {
+        debugger;
         this.total = res.total;
         this.lowerList = res.data;
       });
@@ -174,7 +175,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.partition-level {
+.lower-level {
   background-color: #fff;
   .filter-box {
     padding: 24px;

@@ -42,6 +42,7 @@
             :label="constants.TPL_NAME"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="departments_text"
             :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
           ></el-table-column>
@@ -81,7 +82,6 @@
           @current-change="handleCurrentChange"
           :current-page="page"
           :page-sizes="[10, 20, 50]"
-          :page-size="perPage"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         >
@@ -106,7 +106,7 @@
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>
@@ -240,9 +240,11 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
+      this.getTplList();
     },
     handleSizeChange(val) {
       this.perPage = val;
+      this.getTplList();
     },
     updateTpl(row) {
       this.infoType = "modify";

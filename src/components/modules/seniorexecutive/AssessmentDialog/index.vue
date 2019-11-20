@@ -19,7 +19,7 @@
       <el-form-item label="考核名称" prop="name">
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="适用范围" prop="department_ids">
+      <el-form-item class="is-required" label="适用范围">
         <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
@@ -52,7 +52,7 @@
         >
         </el-date-picker>
       </el-form-item>
-      <el-form-item class="is-required" label="考核周期" prop="end_time">
+      <el-form-item class="is-required" label="考核周期" prop="period_end_time">
         <div>
           <el-date-picker
             :clearable="false"
@@ -60,7 +60,7 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.start_time"
+            v-model="ruleForm.period_start_time"
             type="datetime"
             placeholder="请选择"
           ></el-date-picker>
@@ -71,23 +71,23 @@
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
-            v-model="ruleForm.end_time"
+            v-model="ruleForm.period_end_time"
             type="datetime"
             placeholder="请选择"
           ></el-date-picker>
         </div>
       </el-form-item>
       <el-form-item label="绩效模板">
-        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
-          {{ item.name }}
-        </div>
-      </el-form-item>
-      <el-form-item label="标签规则">
         <div
           class="rule-name"
           v-for="item in ruleForm.templates"
           :key="item.id"
         >
+          {{ item.name }}
+        </div>
+      </el-form-item>
+      <el-form-item label="标签规则">
+        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
           {{ item.tag_type }}
         </div>
       </el-form-item>
@@ -162,41 +162,39 @@ export default {
   },
   data() {
     const endTimeValidator = (rule, value, callback) => {
-      if (!this.ruleForm.start_time) {
+      if (!this.ruleForm.period_start_time) {
         callback(new Error(PLS_SELECT_START_TIME));
-      } else if (!!value && value <= this.ruleForm.start_time) {
+      } else if (!!value && value <= this.ruleForm.period_start_time) {
         callback(new Error(END_TIME_NOT_LESS_THAN_START_TIME));
       } else {
         callback();
       }
     };
     return {
-      isWatch: true,
-      departmentIds: [],
       rules: {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        department_ids: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个业务单元/职能单元",
-            trigger: "change"
-          }
-        ],
+        // department_ids: [
+        //   {
+        //     type: "array",
+        //     required: true,
+        //     message: "请至少选择一个业务单元/职能单元",
+        //     trigger: "change"
+        //   }
+        // ],
         year: [
           { required: true, message: "考核周期不能为空", trigger: "blur" }
         ],
-        end_time: [{ validator: endTimeValidator, trigger: "change" }]
+        period_end_time: [{ validator: endTimeValidator, trigger: "change" }]
       },
       ruleForm: {
         name: "",
         department_ids: [],
         performance_type: "annual",
         year: "",
-        start_time: this.initTime.start_time || "",
-        end_time: this.initTime.end_time || "",
+        period_start_time: this.initTime.period_start_time || "",
+        period_end_time: this.initTime.period_end_time || "",
         tag: [],
         templates: [],
         allow_appeal: 1
@@ -227,35 +225,12 @@ export default {
         disabledDate: date => {
           const dt = formatTime(new Date(date));
           let now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          if (this.ruleForm.start_time) {
-            now = this.ruleForm.start_time;
+          if (this.ruleForm.period_start_time) {
+            now = this.ruleForm.period_start_time;
           }
           return dt < now;
         }
       };
-    }
-  },
-  watch: {
-    departmentIds: {
-      handler: function(val, oldVal) {
-        if (val.length > 0 && this.isWatch) {
-          let getData = {
-            department_ids: val
-          };
-          // 获取选中事业部的绩效模板和标签规则
-          getTagDepartments(getData)
-            .then(res => {
-              this.ruleForm.tag = res;
-            })
-            .catch(e => {});
-          getTplDepartments(getData)
-            .then(res => {
-              this.ruleForm.templates = res;
-            })
-            .catch(e => {});
-        }
-      },
-      immediate: true
     }
   },
   created() {
@@ -263,14 +238,13 @@ export default {
       // 获取弹框信息
       getPerformanceDetail(this.performanceId)
         .then(res => {
-          this.isWatch = false;
           const {
             name,
             department_ids,
             performance_type,
             year,
-            start_time,
-            end_time,
+            period_start_time,
+            period_end_time,
             templates,
             allow_appeal
           } = res;
@@ -279,8 +253,8 @@ export default {
             department_ids,
             performance_type,
             year,
-            start_time,
-            end_time,
+            period_start_time,
+            period_end_time,
             templates,
             allow_appeal
           };
@@ -290,8 +264,42 @@ export default {
   },
   methods: {
     selectedOrg(data) {
-      this.departmentIds = data;
+      if (data.length === 0) {
+        this.ruleForm.templates = [];
+        this.ruleForm.tag = [];
+        return false;
+      }
+      if (this.infoType !== "add") {
+        return false;
+      }
       this.ruleForm.department_ids = data;
+      let getData = {
+        department_ids: data
+      };
+      getTagDepartments(getData)
+        .then(res => {
+          if (res) {
+            this.ruleForm.tag = res;
+          } else {
+            this.ruleForm.department_ids = [];
+            this.ruleForm.tag = [];
+          }
+        })
+        .catch(e => {
+          this.ruleForm.department_ids = [];
+        });
+      getTplDepartments(getData)
+        .then(res => {
+          if (res) {
+            this.ruleForm.templates = res;
+          } else {
+            this.ruleForm.department_ids = [];
+            this.ruleForm.templates = [];
+          }
+        })
+        .catch(e => {
+          this.ruleForm.department_ids = [];
+        });
     },
     close() {
       this.$emit("close");
@@ -299,16 +307,23 @@ export default {
     submit() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
+          if (
+            this.ruleForm.templates.length == 0 ||
+            this.ruleForm.tag.length == 0
+          ) {
+            this.$alert("请至少选择一个有效业务单元/职能单元!");
+            return false;
+          }
           if (this.infoType == "add") {
             return postAddPerformanceAssessment(this.ruleForm).then(res => {
-              this.close();
+              this.$emit("define");
             });
           } else {
             return putPerformanceAssessment(
               this.performanceId,
               this.ruleForm
             ).then(res => {
-              this.close();
+              this.$emit("define");
             });
           }
         }

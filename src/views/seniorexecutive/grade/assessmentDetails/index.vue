@@ -6,13 +6,40 @@
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
         <div class="create-btn">
-          <el-button type="primary" @click="openAssessment">开启考核</el-button>
+          <el-button
+            type="primary"
+            :disabled="!performanceDetail.can_start"
+            @click="openAssessment"
+            >开启考核</el-button
+          >
         </div>
       </div>
       <div class="list-timeline">
-        <div class="time-line active" data="填写中100/确认中300">指标设定</div>
-        <div class="time-line-sign active" data="11月15日"></div>
-        <div class="time-line-circle active">
+        <div
+          class="time-line"
+          :class="performanceDetail.stage === 0 ? '' : 'active'"
+          :data="
+            '填写中' +
+              performanceDetail.indicator_fill_in +
+              '/确认中' +
+              performanceDetail.indicator_confirm
+          "
+        >
+          指标设定
+        </div>
+        <div
+          class="time-line-sign"
+          :class="performanceDetail.stage === 0 ? '' : 'active'"
+          :data="performanceDetail.indicator_setting_end_time | filterDate"
+        ></div>
+        <div
+          class="time-line-circle"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+        >
           <div class="circle-list"></div>
           <div class="circle-list"></div>
           <div class="circle-list"></div>
@@ -20,17 +47,96 @@
           <div class="circle-list"></div>
           <div class="circle-list"></div>
         </div>
-        <div class="time-line-sign active" data="11月18日"></div>
-        <div class="time-line active">自评</div>
-        <div class="time-line-sign active" data="11月23日"></div>
-        <div class="time-line">上级评分</div>
-        <div class="time-line-sign" data="11月30日"></div>
-        <div class="time-line">隔级审核</div>
-        <div class="time-line-sign" data="12月1日"></div>
-        <div class="time-line">总裁审核</div>
-        <div class="time-line-sign" data="12月18日"></div>
-        <div class="time-line">结果确认</div>
-        <div class="time-line-sign" data="12月30日"></div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.self_evaluation_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.self_evaluation_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
+          :data="'自评中' + performanceDetail.self_evaluation"
+        >
+          自评
+        </div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.superior_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="
+            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
+          "
+          :data="'复评中' + performanceDetail.re_evaluation"
+        >
+          上级评分
+        </div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
+          :data="performanceDetail.isolation_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="
+            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
+          "
+          :data="'隔级审核中' + performanceDetail.isolation_adult"
+        >
+          隔级审核
+        </div>
+        <div
+          class="time-line-sign"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="performanceDetail.president_audit_begin_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="
+            performanceDetail.president_audit_begin_time > nowTime
+              ? 'active'
+              : ''
+          "
+          :data="'总裁审核中' + performanceDetail.president_audit"
+        >
+          总裁审核
+        </div>
+        <div
+          class="time-line-sign"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :data="performanceDetail.result_comfirm_end_time | filterDate"
+        ></div>
+        <div
+          class="time-line"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :data="
+            '确认中' +
+              performanceDetail.confirm +
+              '/已确认' +
+              performanceDetail.confirmed
+          "
+        >
+          结果确认
+        </div>
+        <div
+          class="time-line-sign"
+          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :data="performanceDetail.result_confirm_end_time | filterDate"
+        ></div>
       </div>
     </section>
     <section class="content-container">
@@ -46,29 +152,70 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">适用范围:</div>
-            <div class="setting-value">学习事业部</div>
+            <div class="setting-value">
+              {{ performanceDetail.departments_text }}
+            </div>
           </div>
           <div class="setting-detail">
-            <div class="setting-key">考核类型:</div>
-            <div class="setting-value">年度</div>
+            <div class="setting-key">绩效类型:</div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'annual'"
+            >
+              年度
+            </div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'semi-annual'"
+            >
+              半年度
+            </div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'quarter'"
+            >
+              季度
+            </div>
+            <div
+              class="setting-value"
+              v-if="performanceDetail.performance_type === 'monthly'"
+            >
+              月度
+            </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">考核周期:</div>
-            <div class="setting-value">2019年3月-2019年12月</div>
+            <div class="setting-value">
+              {{ performanceDetail.period_start_time | filterDate }}~{{
+                performanceDetail.period_end_time | filterDate
+              }}
+            </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效模板:</div>
-            <div class="setting-value">
-              学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板学习部门的绩效模板模板
+            <div
+              class="setting-value"
+              v-for="item in performanceDetail.templates"
+              :key="item.id"
+            >
+              <span>{{ item.name }}</span>
             </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">是否允许申诉:</div>
-            <div class="setting-value">是</div>
+            <div class="setting-value">
+              {{ performanceDetail.allow_appeal === 1 ? "是" : "否" }}
+            </div>
           </div>
           <div class="setting-detail">
             <div class="setting-key">标签规则:</div>
-            <div class="setting-value">23221</div>
+            <div
+              class="setting-value"
+              v-for="item in performanceDetail.tag"
+              :key="item.id"
+            >
+              <span>{{ item.tag_type }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -81,8 +228,8 @@
           <div class="time-setting-box">
             <div class="setting-key">整体起止时间:</div>
             <div class="setting-value">
-              {{ initTime.start_time | filterDate }} 至
-              {{ initTime.end_time | filterDate }}
+              {{ initTime.entirety_start_time | filterDate }} 至
+              {{ initTime.entirety_end_time | filterDate }}
             </div>
           </div>
           <div class="time-setting-box">
@@ -167,8 +314,8 @@
               :show-all-levels="false"
             ></el-cascader>
           </el-form-item>
-          <el-form-item class="limit-width" prop="status" label="状态:">
-            <el-select v-model="personalForm.status" placeholder="请选择">
+          <el-form-item class="limit-width" prop="stage" label="状态:">
+            <el-select v-model="personalForm.stage" placeholder="请选择">
               <el-option
                 v-for="item in statusOptions"
                 :key="item.value"
@@ -247,14 +394,19 @@
           </el-form-item>
         </el-form>
         <div class="table-operate">
-          <el-button
+          <!-- <el-button
             type="primary"
             icon="el-icon-view"
             @click="viewDistribution"
             >查看分布</el-button
-          >
+          > -->
           <el-button-group class="btn-group">
-            <el-button icon="el-icon-bell" @click="reminder">提醒</el-button>
+            <el-button
+              icon="el-icon-bell"
+              :disabled="currentStage < 10"
+              @click="reminder"
+              >提醒</el-button
+            >
             <el-button icon="el-icon-plus" @click="addPerson"
               >添加人员</el-button
             >
@@ -275,7 +427,8 @@
             </el-popover>
           </el-button-group>
           <div class="table-number">
-            <i class="el-icon-info"></i> 共400人，已选 <span>0</span> 人
+            <i class="el-icon-info"></i> 共{{ total }}人，已选
+            <span>{{ selectedNumber }}</span> 人
           </div>
         </div>
         <el-table
@@ -291,35 +444,57 @@
             label="工号"
             width="80"
           ></el-table-column>
+          <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
-            prop="department"
+            prop="business_unit_name"
+            width="200"
             label="总部/事业部"
-            width="100"
           ></el-table-column>
           <el-table-column
-            prop="business"
+            prop="sub_department_name"
             label="大部门/分校"
-            width="100"
+            width="200"
           ></el-table-column>
           <el-table-column
             prop="email"
             label="邮箱"
-            width="180"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="executive_type_text"
             label="组织部类别"
+            width="200"
           ></el-table-column>
+          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
+          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
           <el-table-column
             prop="superior_name"
             label="直接上级"
           ></el-table-column>
           <el-table-column prop="isolation_name" label="隔级"></el-table-column>
           <el-table-column prop="president_name" label="总裁"></el-table-column>
-          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
-          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
           <el-table-column
-            prop="state"
+            prop="self_evaluation_score"
+            label="自评分"
+          ></el-table-column>
+          <el-table-column
+            prop="re_evaluation_score"
+            label="复评分"
+          ></el-table-column>
+          <el-table-column
+            prop="culture_score"
+            label="文化评分"
+          ></el-table-column>
+          <el-table-column
+            prop="final_score"
+            label="最终成绩"
+          ></el-table-column>
+          <el-table-column
+            prop="distribution_253"
+            label="规则分布"
+          ></el-table-column>
+          <el-table-column
+            prop="stage_text"
             fixed="right"
             width="80"
             label="状态"
@@ -359,6 +534,7 @@
       :performanceId="performanceId"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
+      @define="tplDefine"
     ></assessment-dialog>
     <setup-time
       v-if="showSetupTime"
@@ -366,6 +542,7 @@
       @close="setupTimeClose"
       :performanceId="performanceId"
       :initTime="initTime"
+      @define="confirmTime"
     ></setup-time>
     <modify-user
       v-if="showModifyUser"
@@ -374,14 +551,14 @@
       :userType="userType"
       :userId="userId"
       :performanceId="performanceId"
-      :executiveTypes="executiveTypes"
       :userInfo="userInfo"
+      @define="confirmUser"
     ></modify-user>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @confirm="confirmDialog"
+      @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>
@@ -399,6 +576,10 @@ import {
   getPerformanceNotice,
   deletePerformanceUser
 } from "@/constants/API";
+import {
+  PATH_PERFORMANCE_GRADE_MANAGEMENT,
+  PATH_PERFORMANCE_USER_LIST
+} from "@/constants/URL";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -447,6 +628,7 @@ export default {
       performanceId: this.$route.params.id,
       currentPage: 1,
       total: 0,
+      selectedNumber: 0,
       showConfirmDialog: false,
       showDialog: false,
       showSetupTime: false,
@@ -454,10 +636,11 @@ export default {
       performanceTypes: [],
       orgTree: [],
       tipsText: "",
+      nowTime: "",
       nav: [
         {
           label: "组织部绩效考核列表",
-          active: false
+          href: PATH_PERFORMANCE_GRADE_MANAGEMENT
         },
         {
           label: "考核详情",
@@ -467,7 +650,7 @@ export default {
       personalForm: {
         name_or_workcode: "",
         department_ids: [],
-        status: "",
+        stage: "",
         executive_type: "",
         superior_name: "",
         isolation_name: "",
@@ -481,7 +664,8 @@ export default {
       showModifyUser: false,
       userInfo: {},
       userType: "add",
-      userId: ""
+      userId: "",
+      currentStage: 0
     };
   },
   computed: {
@@ -497,7 +681,7 @@ export default {
         isolation_begin_time: this.performanceDetail.isolation_begin_time,
         president_audit_begin_time: this.performanceDetail
           .president_audit_begin_time,
-        result_comfirm_end_time: this.performanceDetail.result_comfirm_end_time,
+        result_confirm_end_time: this.performanceDetail.result_confirm_end_time,
         appeal_begin_time: this.performanceDetail.appeal_begin_time,
         appeal_end_time: this.performanceDetail.appeal_end_time
       };
@@ -514,6 +698,18 @@ export default {
     }
   },
   methods: {
+    confirmUser() {
+      this.showModifyUser = false;
+      this.getUserList();
+    },
+    tplDefine() {
+      this.showDialog = false;
+      this.getPerformanceDetailData();
+    },
+    confirmTime() {
+      this.showSetupTime = false;
+      this.getPerformanceDetailData();
+    },
     modifyUserClose() {
       this.showModifyUser = false;
     },
@@ -534,7 +730,11 @@ export default {
       this.showModifyUser = true;
     },
     exportList() {
-      console.log("exportList");
+      window.open(
+        PATH_PERFORMANCE_USER_LIST(this.performanceId),
+        "_blank",
+        "noopener"
+      );
     },
     uploadFinancialIndicators() {
       console.log("uploadFinancialIndicators");
@@ -572,12 +772,17 @@ export default {
       this.showConfirmDialog = true;
       this.tipsText = "是否确认启动考核？";
     },
-    confirmDialog() {
-      // 确定按钮
-      // this.showConfirmDialog = false;
-      // putOpenAssessment(this.performanceId).then(res => {
-      //   console.log(res)
-      // }).catch(e => {});
+    confirmDialog(data) {
+      if (data === "open") {
+        putOpenAssessment(this.performanceId)
+          .then(res => {
+            this.showConfirmDialog = false;
+            this.getPerformanceDetailData();
+          })
+          .catch(e => {});
+      } else {
+        this.showConfirmDialog = false;
+      }
     },
     closeDialog() {
       this.showConfirmDialog = false;
@@ -610,9 +815,19 @@ export default {
           this.userList = res;
         })
         .catch(e => {});
+    },
+    getPerformanceDetailData() {
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          this.currentStage = res.stage;
+          this.performanceDetail = res;
+        })
+        .catch(e => {});
     }
   },
   created() {
+    this.nowTime = new Date();
+    this.getPerformanceDetailData();
     getOrganization()
       .then(res => {
         this.orgTree = res;
@@ -621,11 +836,6 @@ export default {
     getPerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
-      })
-      .catch(e => {});
-    getPerformanceDetail()
-      .then(res => {
-        this.performanceDetail = res;
       })
       .catch(e => {});
     getExecutiveTypes()
@@ -674,17 +884,28 @@ export default {
     display: flex;
     padding: 40px 30px;
     .time-line {
+      position: relative;
       width: 15%;
-      padding: 6px 0;
+      padding: 6px 0 30px 0;
       text-align: center;
       border-bottom: 4px solid #e6e9f0;
+      &::after {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 26px;
+        width: 100%;
+        content: attr(data);
+        color: #ff8519;
+        font-size: 12px;
+      }
     }
     .time-line.active {
       border-bottom: 4px solid #38d0afff;
     }
     .time-line-sign {
       position: relative;
-      top: 26px;
+      top: 50px;
       width: 12px;
       height: 12px;
       margin: 0 4px;
@@ -716,7 +937,7 @@ export default {
     .time-line-circle {
       min-width: 45px;
       position: relative;
-      top: 22px;
+      top: 47px;
       left: 0;
       .circle-list {
         display: inline-block;

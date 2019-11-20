@@ -182,7 +182,6 @@ export const PATH_CULTURE_LV_EXPORT = (params: Object) =>
     ...params,
     token: localStorage.getItem("talToken")
   })}`;
-// 高管绩效
 // 评分管理
 export const PATH_PERFORMANCE_GRADE_MANAGEMENT = "/performance/scoremangement";
 // 模板设置
@@ -196,7 +195,6 @@ export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
   // 我的业绩中高管评分高管填写指标页面(只读)
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
   `/performance/targetdetails/${id}/${uid}`;
-
 // 高管绩效 我的团队上级确认页面
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   gradeID: String = ":gradeID",
@@ -207,5 +205,12 @@ export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
 export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
   `/performance/assessment/details/${id}`;
 
-  export const PATH_UPLOAD_FILE = (uid: String) =>
-  `${base}executive-performance/web/self/${uid}/import-targets`;
+export const PATH_UPLOAD_FILE = (uid: String) =>
+  `${base}/executive-performance/web/self/${uid}/import-targets`;
+// 高管绩效 评分详情
+export const PATH_PERFORMANCE_MY_DETAIL = (
+  performanceId: String = ":performanceId"
+) => `/performance/my/${performanceId}`;
+
+export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
+  `${base}/executive-performance/admin/performances/${id}/users/export`;
