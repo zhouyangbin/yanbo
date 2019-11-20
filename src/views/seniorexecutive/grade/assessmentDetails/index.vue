@@ -514,7 +514,7 @@
           ></el-table-column>
           <el-table-column label="操作" fixed="right" width="180">
             <template slot-scope="scope">
-              <el-button @click="modify(scope.row)" type="text" size="small"
+              <el-button @click="modifyUser(scope.row)" type="text" size="small"
                 >修改</el-button
               >
               <el-button @click="remove(scope.row)" type="text" size="small"
@@ -562,8 +562,8 @@
       :visible="showModifyUser"
       @close="modifyUserClose"
       :userType="userType"
-      :userId="userId"
       :performanceId="performanceId"
+      :userId="userId"
       :userInfo="userInfo"
       @define="confirmUser"
     ></modify-user>
@@ -678,8 +678,8 @@ export default {
       performance_user_ids: [],
       showModifyUser: false,
       userInfo: {},
-      userType: "add",
       userId: "",
+      userType: "add",
       currentStage: 0,
       constants: {
         postUploadFinancialIndicators,
@@ -822,9 +822,30 @@ export default {
     remove(data) {
       // 移除
     },
-    modify(data) {
-      // 修改
-      // this.userInfo
+    modifyUser(data) {
+      this.userId = data.id;
+      let {
+        name,
+        workcode,
+        email,
+        superior_workcode,
+        isolation_workcode,
+        president_workcode,
+        hrbp_workcode,
+        hrd_workcode,
+        executive_type
+      } = data;
+      this.userInfo = {
+        name,
+        workcode,
+        email,
+        superior_workcode,
+        isolation_workcode,
+        president_workcode,
+        hrbp_workcode,
+        hrd_workcode,
+        executive_type
+      };
       this.userType = "modify";
       this.showModifyUser = true;
     },

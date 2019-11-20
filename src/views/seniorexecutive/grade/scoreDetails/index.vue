@@ -132,23 +132,23 @@
       </div>
     </section>
     <section class="content-container">
-      <el-radio-group class="group-list" v-model="grade">
+      <el-radio-group class="group-list" @change="changeType" v-model="type">
         <el-radio-button label="superior">我的直属下级</el-radio-button>
         <el-radio-button label="isolation">我的隔级下属</el-radio-button>
       </el-radio-group>
       <lower-level
         :performanceId="performanceId"
-        v-if="grade === 'superior'"
+        v-if="type === 'superior'"
       ></lower-level>
       <isolation-level
         :performanceId="performanceId"
-        v-if="grade === 'isolation'"
+        v-if="type === 'isolation'"
       ></isolation-level>
     </section>
   </div>
 </template>
 <script>
-import { getPerformanceDetail } from "@/constants/API";
+import { getPerformanceDetailHeader } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 export default {
   components: {
@@ -170,7 +170,7 @@ export default {
           active: true
         }
       ],
-      grade: "superior",
+      type: "superior",
       performanceId: this.$route.params.performanceId,
       performanceDetail: {},
       nowTime: ""
@@ -186,13 +186,24 @@ export default {
       return newVal;
     }
   },
+  methods: {
+    getPerformanceDetail() {
+      let data = {
+        type: this.type
+      };
+      getPerformanceDetailHeader(this.performanceId, data)
+        .then(res => {
+          this.performanceDetail = res;
+        })
+        .catch(e => {});
+    },
+    changeType() {
+      this.getPerformanceDetail();
+    }
+  },
   created() {
     this.nowTime = new Date();
-    getPerformanceDetail(this.performanceId)
-      .then(res => {
-        this.performanceDetail = res;
-      })
-      .catch(e => {});
+    this.getPerformanceDetail();
   }
 };
 </script>
