@@ -581,11 +581,14 @@ export const postPerformanceUserImport = (id: String, params: Object) =>
   );
 // 高管绩效 我的直属下级列表
 export const getMyUnderLower = (params: Object) =>
-  sendGet(`/executive-performance/web/directly/under-lower`, params);
+  // sendGet(`/executive-performance/web/directly/under-lower`, params);
+  sendGet("/js/getMyUnderLower.json");
 // 高管绩效 我的隔级下属列表
 export const getMyIsolationUnderLower = (params: Object) =>
-  sendGet(`/executive-performance/web/isolation/under-lower`, params);
+  // sendGet(`/executive-performance/web/isolation/under-lower`, params);
+  sendGet("/js/getMyIsolationUnderLower.json", params);
 
 // 高管绩效 绩效考核详情-上级-隔级
 export const getPerformanceDetailHeader = (id: String, params: Object) =>
-  sendGet(`/executive-performance/web/performances/${id}`, params);
+  // sendGet(`/executive-performance/web/performances/${id}`, params);
+  sendGet("/js/getPerformanceDetailHeader.json", params);
