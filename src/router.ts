@@ -43,7 +43,8 @@ import {
   PATH_PERFORMANCE_TARGET_SET,
   PATH_PERFORMANCE_TARGET_DETAIL,
   PATH_PERFORMANCE_TEAM_TARGET_AFFRIM,
-  PATH_PERFORMANCE_MY_DETAIL
+  PATH_PERFORMANCE_MY_DETAIL,
+  PATH_APPLICATION
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -339,6 +340,13 @@ const router = new Router({
           path: PATH_PERFORMANCE_TARGET_SET(),
           components: {
             default: () => import("@/views/employee/my/gradeDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_APPLICATION(),
+          components: {
+            default: () => import("@/views/employee/my/setting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

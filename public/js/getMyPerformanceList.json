@@ -1,0 +1,29 @@
+
+{
+        "data":[
+            {
+                "performance_id":1,
+                "performance_user_id":1,
+                "name":"9月绩效考核",
+                "type":"月度",
+                "start_time":"2018-10-01 00:00:00",
+                "end_time":"2018-10-31 23:59:59",
+                "stage":1,
+                "target_status":1,
+                "target_status_text":"已导入",
+                "stage_text":"评分未开始",
+                "p_type":"executive"
+            }
+        ],
+        "current_page":1,
+        "first_page_url":"http://www.culture.com:8081/performance/api/superior/1?page=1",
+        "from":1,
+        "last_page":1,
+        "last_page_url":"http://www.culture.com:8081/performance/api/superior/1?page=1",
+        "next_page_url":null,
+        "path":"http://www.culture.com:8081/performance/api/superior/1",
+        "per_page":20,
+        "prev_page_url":null,
+        "to":1,
+        "total":1
+}

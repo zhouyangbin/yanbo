@@ -49,18 +49,21 @@
               @click="fillInSelfEvaluation(scope.row)"
               >填写自评</el-button
             >
-            <el-button @click="goDetail(scope.row)" type="text" size="small"
-              >查看详情</el-button
-            >
             <!-- <el-button
               v-else-if="scope.row.stage === 11"
               type="text"
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
-            >
-            <el-button v-else type="text" @click="viewDetail(scope.row)"
-              >查看详情</el-button
-            > -->
+            >-->
+            <template slot-scope="scope" v-else-if="scope.row.stage == 20">
+              <el-button
+                type="text"
+                @click="applytChangeIndicator(scope.row)"
+                >申请调整指标</el-button
+              >
+              <el-button @click="goDetail(scope.row)" type="text" size="small">详情</el-button>
+            </template>
+            <el-button v-else @click="goDetail(scope.row)" type="text" size="small">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -94,7 +97,6 @@ import {
 import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_TARGET_SET,
-  PATH_PERFORMANCE_MY_DETAIL,
   PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
@@ -159,26 +161,20 @@ export default {
         (row.stage_id === 10 || row.stage_id === 20)
       );
     },
-    confirmationScore() {},
-    fillInSelfEvaluation() {},
-    getList() {
-      let data = {
-        page: this.page,
-        perPage: this.perPage
-      };
-      getMyPerformanceList(data).then(res => {
-        const { total, data } = res;
-        this.total = total;
-        this.tableData = data;
-      });
+    // 确认成绩
+    confirmationScore(row) {
+      this.$router.push(
+        PATH_PERFORMANCE_TARGET_DETAIL(
+            row.performance_id,
+            row.performance_user_id
+          )
+        )
     },
-    handleSizeChange(val) {
-      this.perPage = val;
-      this.getList();
-    },
-    handleCurrentChange(val) {
-      this.page = val;
-      this.getList();
+    // 填写自评
+    fillInSelfEvaluation(row) {
+      this.$router.push(
+        PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id)
+      );
     },
     /**
      * 点击跳转到指标填写
@@ -210,16 +206,7 @@ export default {
     }
   },
   created() {
-    this.getList();
-    // viewDetail(row) {
-    //   if (row.p_type === "executive") {
-    //     this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
-    //   } else {
-    //     this.$router.push(
-    //       PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
-    //     );
-    //   }
-    // }
+    this.refreshList({ page: 1 ,perPage:10});
   }
 };
 </script>
