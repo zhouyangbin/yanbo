@@ -109,8 +109,8 @@
                   <div class="overview_head2 overview_info_number_head_title">
                     {{
                       overview[1].child[1].name +
-                        overview[1].child[1].threshold +
-                        "%"
+                        "(" +overview[1].child[1].threshold +
+                        "%人)"
                     }}
                   </div>
                 </div>
