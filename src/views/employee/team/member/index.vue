@@ -75,6 +75,7 @@
         :readOnly="shouldMapping || stage >= 50"
         :operate_status="operate_status"
         :label_id="label_id"
+        :old_s="old_s"
         @update_label_id="set_label_id"
         v-model="level"
       ></level>
@@ -176,7 +177,8 @@ export default {
         LABEL_CONFIRM
       },
       showReviewDia: false,
-      operate_status: true
+      operate_status: true,
+      old_s:'',//是否为老数据
     };
   },
   components: {
@@ -291,7 +293,8 @@ export default {
             score_rule,
             stage,
             score_level,
-            operate_status
+            operate_status,
+            _s
           } = res;
 
           this.basicInfo = {
@@ -299,6 +302,7 @@ export default {
             workcode,
             self_attach_score
           };
+          this.old_s = _s
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
