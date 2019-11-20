@@ -32,29 +32,11 @@
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.stage === 51"
-              type="text"
-              @click="confirmationScore(scope.row)"
-              >确认成绩</el-button
-            >
-            <el-button
-              v-else-if="scope.row.stage === 53"
-              type="text"
-              @click="applytChangeIndicator(scope.row)"
-              >申请调整指标</el-button
-            >
-            <el-button
-              v-else-if="scope.row.stage === 31"
-              type="text"
-              @click="fillInSelfEvaluation(scope.row)"
-              >填写自评</el-button
-            >
-            <!-- <el-button
-              v-else-if="scope.row.stage === 11"
+              v-if="scope.row.stage == 1 && scope.row.p_type=='executive' "
               type="text"
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
-            >-->
+            >
             <template slot-scope="scope" v-else-if="scope.row.stage == 20">
               <el-button
                 type="text"
@@ -191,18 +173,36 @@ export default {
      * 跳转到指标详情页面
      */
     goDetail(row) {
-      if (row.p_type == "executive") {
-        this.$router.push(
-          PATH_PERFORMANCE_TARGET_DETAIL(
-            row.performance_id,
-            row.performance_user_id
+      if(row.p_type == "executive"){
+          this.$router.push(
+            PATH_PERFORMANCE_TARGET_DETAIL (
+              row.performance_id,
+              row.performance_user_id
+            )
           )
-        );
       } else if (row.p_type == "normal") {
         this.$router.push(
           PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
         );
       }
+    },
+    refreshList(data){
+      let dataList ={
+        page:data.page,
+        perPage:this.perPage
+      }
+      getMyPerformanceList(dataList).then(res=>{
+        this.tableData = res.data
+        this.total = res.data.length
+      })
+      .catch(()=>{})
+    },
+    handleSizeChange(val){
+      this.perPage = val
+      this.refreshList({page: 1 ,perPage:val})
+    },
+    handleCurrentChange(val){
+      this.refreshList({page: val ,perPage:this.perPage})
     }
   },
   created() {
