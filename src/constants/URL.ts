@@ -211,6 +211,20 @@ export const PATH_UPLOAD_FILE = (uid: String) =>
 export const PATH_PERFORMANCE_MY_DETAIL = (
   performanceId: String = ":performanceId"
 ) => `/performance/my/${performanceId}`;
-
+// 高管绩效  导出名单
 export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
-  `${base}/executive-performance/admin/performances/${id}/users/export`;
+  `${base}executive-performance/admin/performances/${id}/users/export`;
+// 高管绩效  上传财务指标
+export const postUploadFinancialIndicators = (id: String) =>
+    `${base}executive-performance/admin/performances/${id}/import-financial-indicators?token=${localStorage.getItem(
+      "talToken"
+    )}`;
+// 高管绩效  上传工作目标
+export const postUploadWorkIndicators = (id: String) =>
+    `${base}executive-performance/web/self/${id}/import-targets?token=${localStorage.getItem(
+      "talToken"
+    )}`;
+
+
+
+

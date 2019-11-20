@@ -140,10 +140,10 @@
         :performanceId="performanceId"
         v-if="grade === 'superior'"
       ></lower-level>
-      <partition-level
+      <isolation-level
         :performanceId="performanceId"
         v-if="grade === 'isolation'"
-      ></partition-level>
+      ></isolation-level>
     </section>
   </div>
 </template>
@@ -155,8 +155,8 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "lower-level": () =>
       import("@/components/modules/seniorexecutive/LowerLevel/index.vue"),
-    "partition-level": () =>
-      import("@/components/modules/seniorexecutive/LowerLevel/index.vue")
+    "isolation-level": () =>
+      import("@/components/modules/seniorexecutive/IsolationLevel/index.vue")
   },
   data() {
     return {

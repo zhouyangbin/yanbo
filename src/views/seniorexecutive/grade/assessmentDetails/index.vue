@@ -414,12 +414,22 @@
               >导出名单</el-button
             >
             <el-popover placement="bottom" width="120" trigger="hover">
-              <div class="more-btn" @click="uploadFinancialIndicators">
-                <i class="el-icon-upload2"></i><span>上传财务指标</span>
+              <el-upload
+                class="upload-demo"
+                :action="constants.postUploadFinancialIndicators(this.performanceId)"
+                >
+                <div class="more-btn">
+                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
               </div>
-              <div class="more-btn" @click="uploadWorkObjectives">
-                <i class="el-icon-upload2"></i><span>上传工作目标</span>
-              </div>
+              </el-upload>
+              <el-upload
+                class="upload-demo"
+                :action="constants.postUploadWorkIndicators(this.performanceId)"
+                >
+                <div class="more-btn">
+                  <i class="el-icon-upload2"></i><span>上传工作目标</span>
+                </div>
+              </el-upload>
               <div class="more-btn" @click="removeList">
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
@@ -578,7 +588,9 @@ import {
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
-  PATH_PERFORMANCE_USER_LIST
+  PATH_PERFORMANCE_USER_LIST,
+  postUploadFinancialIndicators,
+  postUploadWorkIndicators
 } from "@/constants/URL";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
@@ -665,7 +677,11 @@ export default {
       userInfo: {},
       userType: "add",
       userId: "",
-      currentStage: 0
+      currentStage: 0,
+      constants: {
+        postUploadFinancialIndicators,
+        postUploadWorkIndicators
+      },
     };
   },
   computed: {
