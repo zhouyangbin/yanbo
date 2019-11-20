@@ -2,6 +2,7 @@
   <div class="assessment-detail">
     <nav-bar :list="nav"></nav-bar>
     <br />
+    <span @click="goDetail">新加入口</span>
     <section class="content-container bg-white">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
@@ -9,6 +10,7 @@
           <el-button
             type="primary"
             :disabled="!performanceDetail.can_start"
+            v-if="performanceDetail.stage === 0"
             @click="openAssessment"
             >开启考核</el-button
           >
@@ -414,22 +416,12 @@
               >导出名单</el-button
             >
             <el-popover placement="bottom" width="120" trigger="hover">
-              <el-upload
-                class="upload-demo"
-                :action="constants.postUploadFinancialIndicators(this.performanceId)"
-                >
-                <div class="more-btn">
-                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
+              <div class="more-btn" @click="showUploadWork('finance')">
+                <i class="el-icon-upload2"></i><span>上传财务指标</span>
               </div>
-              </el-upload>
-              <el-upload
-                class="upload-demo"
-                :action="constants.postUploadWorkIndicators(this.performanceId)"
-                >
-                <div class="more-btn">
-                  <i class="el-icon-upload2"></i><span>上传工作目标</span>
-                </div>
-              </el-upload>
+              <div class="more-btn" @click="showUploadWork('work')">
+                <i class="el-icon-upload2"></i><span>上传工作目标</span>
+              </div>
               <div class="more-btn" @click="removeList">
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
@@ -511,7 +503,7 @@
           ></el-table-column>
           <el-table-column label="操作" fixed="right" width="180">
             <template slot-scope="scope">
-              <el-button @click="modify(scope.row)" type="text" size="small"
+              <el-button @click="modifyUser(scope.row)" type="text" size="small"
                 >修改</el-button
               >
               <el-button @click="remove(scope.row)" type="text" size="small"
@@ -559,8 +551,8 @@
       :visible="showModifyUser"
       @close="modifyUserClose"
       :userType="userType"
-      :userId="userId"
       :performanceId="performanceId"
+      :userId="userId"
       :userInfo="userInfo"
       @define="confirmUser"
     ></modify-user>
@@ -571,6 +563,16 @@
       @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
+    <common-upload-dialog
+      v-if="showUploadWorkFile"
+      :visible="showUploadWorkFile"
+      :upload_title="upload_title"
+      :upload_action_url="upload_action_url"
+      :upload_type="upload_type"
+      :download_url="download_url"
+      @close="upload_close"
+    >
+    </common-upload-dialog>
   </div>
 </template>
 <script>
@@ -590,8 +592,12 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_USER_LIST,
   postUploadFinancialIndicators,
-  postUploadWorkIndicators
+  postUploadWorkIndicators,
+  getFinancialtpm,
+  getWorktpm,
+  PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
+
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -607,6 +613,9 @@ export default {
     ),
     "modify-user": AsyncComp(
       import("@/components/modules/seniorexecutive/ModifyUser/index.vue")
+    ),
+    "common-upload-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
@@ -675,13 +684,20 @@ export default {
       performance_user_ids: [],
       showModifyUser: false,
       userInfo: {},
-      userType: "add",
       userId: "",
+      userType: "add",
       currentStage: 0,
+      showUploadWorkFile: false,
+      upload_title: "",
+      upload_action_url: "",
+      upload_type: "",
+      download_url: "",
       constants: {
         postUploadFinancialIndicators,
-        postUploadWorkIndicators
-      },
+        postUploadWorkIndicators,
+        getFinancialtpm,
+        getWorktpm
+      }
     };
   },
   computed: {
@@ -714,6 +730,9 @@ export default {
     }
   },
   methods: {
+    goDetail() {
+      this.$router.push(PATH_PERFORMANCE_MY_DETAIL(this.performanceId));
+    },
     confirmUser() {
       this.showModifyUser = false;
       this.getUserList();
@@ -819,9 +838,30 @@ export default {
     remove(data) {
       // 移除
     },
-    modify(data) {
-      // 修改
-      // this.userInfo
+    modifyUser(data) {
+      this.userId = data.id;
+      let {
+        name,
+        workcode,
+        email,
+        superior_workcode,
+        isolation_workcode,
+        president_workcode,
+        hrbp_workcode,
+        hrd_workcode,
+        executive_type
+      } = data;
+      this.userInfo = {
+        name,
+        workcode,
+        email,
+        superior_workcode,
+        isolation_workcode,
+        president_workcode,
+        hrbp_workcode,
+        hrd_workcode,
+        executive_type
+      };
       this.userType = "modify";
       this.showModifyUser = true;
     },
@@ -839,6 +879,27 @@ export default {
           this.performanceDetail = res;
         })
         .catch(e => {});
+    },
+    showUploadWork(type) {
+      this.showUploadWorkFile = true;
+      if (type == "finance") {
+        this.upload_title = "上传财务指标";
+        this.upload_action_url = this.constants.postUploadFinancialIndicators(
+          this.performanceId
+        );
+        this.download_url = this.constants.getFinancialtpm;
+        this.upload_type = type;
+      } else {
+        this.upload_title = "上传工作目标";
+        this.upload_action_url = this.constants.postUploadWorkIndicators(
+          this.performanceId
+        );
+        this.download_url = this.constants.getWorktpm(this.performanceId);
+        this.upload_type = type;
+      }
+    },
+    upload_close() {
+      this.showUploadWorkFile = false;
     }
   },
   created() {
