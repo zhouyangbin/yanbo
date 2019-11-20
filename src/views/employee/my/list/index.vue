@@ -49,12 +49,7 @@
               @click="fillInSelfEvaluation(scope.row)"
               >填写自评</el-button
             >
-            <!-- <el-button
-              v-if="handleCheckTargetButton(scope.row)"
-              type="text"
-              @click="goTargetDetail(scope.row)"
-              >查看详情</el-button> -->
-            <el-button @click="goDetail(scope.row)" type="text" size="small">详情</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small">查看详情</el-button>
             <!-- <el-button
               v-else-if="scope.row.stage === 11"
               type="text"
@@ -97,7 +92,8 @@ import {
 import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_TARGET_SET,
-  PATH_PERFORMANCE_MY_DETAIL
+  PATH_PERFORMANCE_MY_DETAIL,
+  PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
