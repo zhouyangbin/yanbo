@@ -291,7 +291,6 @@ export default {
       return this.permissions.includes(304);
     },
     canSetTags() {
-      console.log(this.permissions)
       return this.permissions.includes(305);
     }
   },
