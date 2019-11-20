@@ -192,7 +192,7 @@ export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
   `/performance/targetsettings/${id}/${uid}`;
 
-  // 我的业绩中高管评分高管填写指标页面(只读)
+// 我的业绩中高管评分高管填写指标页面(只读)
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
   `/performance/targetdetails/${id}/${uid}`;
 // 高管绩效 我的团队上级确认页面

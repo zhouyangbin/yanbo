@@ -230,7 +230,6 @@ export const postUserPerformanceDraft = (
 
 export const getMyPerformanceList = (params: Object) =>
   sendGet(`/executive-performance/web/self/index`, params);
-  // sendGet(`/js/getMyPerformanceList.json`, params);
 // 团队里的详情
 export const getEmployeeDetail = (
   orgID: String,
@@ -435,12 +434,11 @@ export const getTplMeasures = () =>
   sendGet(`/executive-performance/admin/templates/measures`);
 
 // 高管绩效  获取业绩指标类型
-export const getIndicatorTypes = () =>sendGet(
+export const getIndicatorTypes = () =>
+  sendGet(
     `/executive-performance/admin/templates/performance-indicator-types`,
     { req_type: 1 }
   );
-
-
 
 // 高管绩效 创建绩效考核
 export const postAddPerformanceAssessment = (params: Object) =>
@@ -461,17 +459,14 @@ export const delAssessment = (id: String) =>
 // 高管绩效指标设定-个人信息
 export const getPerformanceUserInfo = (params: Object) =>
   sendGet(`/executive-performance/web/target/header-info`, params);
-  // sendGet(`/js/getPerformanceUserInfo.json`, params);
 
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
   sendGet(`/executive-performance/web/target/unique-template`, params);
-  // sendGet(`/js/getPerformanceUniqueTemplate.json`, params);
 
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
   sendGet(`/executive-performance/web/target/items`, params);
-  // sendGet(`/js/getTargetContent.json`, params);
 
 // 高管绩效指标设定提交
 export const postSubmitTargetContent = (id: String, params: Object) =>
@@ -490,36 +485,33 @@ export const postSuperAffirmTarget = (params: Object) =>
 
 // 高管绩效审批记录
 export const getExamineLog = (params: Object) =>
-  sendGet(`/executive-performance/web/approve/record`)
-  // sendGet(`/js/getExamineLog.json`);
-// // 获取事业部列表
-// export const getBUList = () =>
-//   // sendGet(`/admin/api/departments`);
-//   sendGet(`/js/getTplMeasures.json`);
+  sendGet(`/executive-performance/web/approve/record`);
+
 // 高管绩效  获取绩效考核列表
 export const getAdminPerformancesList = (params: Object) =>
   sendGet(`/executive-performance/admin/performances`, params);
-  // sendGet(`/js/getAdminPerformancesList.json`, params);
 
 // 高管绩效 获取标签
 export const getTagDepartments = (params: Object) =>
-  sendGet(`/executive-performance/admin/performances/get-tag-by-departments`, params);
-  // sendGet(`/js/getTagDepartments.json`, params);
+  sendGet(
+    `/executive-performance/admin/performances/get-tag-by-departments`,
+    params
+  );
 
 // 高管绩效 获取标签
 export const getTplDepartments = (params: Object) =>
-  sendGet(`/executive-performance/admin/performances/get-templates-by-departments`, params);
-  // sendGet(`/js/getTplDepartments.json`, params);
+  sendGet(
+    `/executive-performance/admin/performances/get-templates-by-departments`,
+    params
+  );
 
 // 高管绩效 绩效考核详情
 export const getPerformanceDetail = (id: String) =>
-  sendGet(`/executive-performance/admin/performances/${id}`)
-  // sendGet(`/js/getPerformanceDetail.json`);
+  sendGet(`/executive-performance/admin/performances/${id}`);
 
 // 高管绩效 获取考核名单
 export const getPerformanceUser = (id: String, params: Object) =>
-  sendGet(`/executive-performance/admin/performances/${id}/users`, params)
-  // sendGet(`/js/getPerformanceUser.json`, params);
+  sendGet(`/executive-performance/admin/performances/${id}/users`, params);
 
 // 高管绩效 设置评分时间
 export const postPerformanceSetTime = (id: String, params: Object) =>
@@ -556,10 +548,7 @@ export const deletePerformanceUser = (performance_id: String, params: Object) =>
 
 // 高管绩效 删除标签
 export const deleteLabel = (id: String) =>
-  sendDelete(
-    `/executive-performance/admin/tags/${id}`,
-    {}
-  );
+  sendDelete(`/executive-performance/admin/tags/${id}`, {});
 
 // 高管绩效  查找员工
 export const getSearchEmployees = (params: Object) =>

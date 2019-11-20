@@ -79,9 +79,11 @@
                 >{{ constants.LABEL_MODIFY }}</el-button
               >
               <el-button
-              size="mini"
-              type="text"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                size="mini"
+                type="text"
+                @click="handleDelete(scope.$index, scope.row)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -109,11 +111,7 @@
       :orgTree="orgTree"
       @getList="getAdminTagsList"
     ></label-dialog>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      >
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
       <span>是否确认删除标签？</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -137,7 +135,7 @@ import {
   RESET,
   FORCED_DISTRIBUTION_VALUE
 } from "@/constants/TEXT";
-import { getAdminTags, getOrganization ,deleteLabel} from "@/constants/API";
+import { getAdminTags, getOrganization, deleteLabel } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   components: {
@@ -185,9 +183,9 @@ export default {
         }
       ],
       evaluation_id: [],
-      dialogVisible:false,
-      deleteNumber:0,
-      deleteIndex:0
+      dialogVisible: false,
+      deleteNumber: 0,
+      deleteIndex: 0
     };
   },
   methods: {
@@ -217,7 +215,7 @@ export default {
       return newArr;
     },
     resetForm(formName) {
-      this.page = 1
+      this.page = 1;
       this.evaluation_id = [];
       this.getAdminTagsList();
     },
@@ -270,25 +268,25 @@ export default {
         .catch(() => {});
     },
     // 删除
-    handleDelete(index,row){
-      this.dialogVisible = true
-      this.deleteNumber = row.id
-      this.deleteIndex = index
+    handleDelete(index, row) {
+      this.dialogVisible = true;
+      this.deleteNumber = row.id;
+      this.deleteIndex = index;
     },
-    deleteMsg(){
-      this.dialogVisible = false
+    deleteMsg() {
+      this.dialogVisible = false;
       deleteLabel(this.deleteNumber)
-      .then(res=>{
-        this.getAdminTagsList();
-        // this.orgTree.splice(this.deleteIndex,1)
-      })
-      .catch(e=>{})
+        .then(res => {
+          this.getAdminTagsList();
+          // this.orgTree.splice(this.deleteIndex,1)
+        })
+        .catch(e => {});
     }
   },
   created() {
     this.getAdminTagsList();
     getOrganization()
-      .then(res => { 
+      .then(res => {
         this.orgTree = res;
       })
       .catch(e => {});

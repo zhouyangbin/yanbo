@@ -114,8 +114,7 @@ export default {
         message: msg || `${file.name}${UPLOAD_FAIL}`
       });
     },
-    beforeUpload(file){
-    }
+    beforeUpload(file) {}
   }
 };
 </script>

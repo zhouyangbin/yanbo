@@ -45,21 +45,18 @@ export default {
   methods: {
     getStatus() {
       this.currentComponent = "";
-      getEmployeeDetail(
-        this.$route.params.orgID,
-        this.$route.params.id,
-        "self"
-      ).then(res => {
-        const { performance_status } = res;
-        if (performance_status >= 30) {
-          this.currentComponent = "grade";
-        } else {
-          this.currentComponent = "set-targets";
-        }
-      })
-      .catch(e=>{
-        console.log(1)
-      })
+      getEmployeeDetail(this.$route.params.orgID, this.$route.params.id, "self")
+        .then(res => {
+          const { performance_status } = res;
+          if (performance_status >= 30) {
+            this.currentComponent = "grade";
+          } else {
+            this.currentComponent = "set-targets";
+          }
+        })
+        .catch(e => {
+          console.log(1);
+        });
     }
   },
   created() {

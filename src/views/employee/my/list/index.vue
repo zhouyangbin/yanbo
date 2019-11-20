@@ -49,7 +49,9 @@
               @click="fillInSelfEvaluation(scope.row)"
               >填写自评</el-button
             >
-            <el-button @click="goDetail(scope.row)" type="text" size="small">查看详情</el-button>
+            <el-button @click="goDetail(scope.row)" type="text" size="small"
+              >查看详情</el-button
+            >
             <!-- <el-button
               v-else-if="scope.row.stage === 11"
               type="text"
@@ -63,17 +65,17 @@
         </el-table-column>
       </el-table>
       <br />
-        <el-pagination
-          v-if="tableData!=[]"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
+      <el-pagination
+        v-if="tableData != []"
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </section>
   </div>
 </template>
@@ -123,8 +125,7 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
   },
   filters: {
     handlePType(val) {
@@ -187,12 +188,6 @@ export default {
         PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id)
       );
     },
-    /**
-     * 跳转到指标详情页面
-     */
-    goTargetDetail(row) {
-      
-    },
     applytChangeIndicator(row) {
       // 申请调整指标
     },
@@ -200,41 +195,22 @@ export default {
      * 跳转到指标详情页面
      */
     goDetail(row) {
-      if(row.p_type == "executive"){
-          this.$router.push(
-            PATH_PERFORMANCE_TARGET_DETAIL(
-              row.performance_id,
-              row.performance_user_id
-            )
+      if (row.p_type == "executive") {
+        this.$router.push(
+          PATH_PERFORMANCE_TARGET_DETAIL(
+            row.performance_id,
+            row.performance_user_id
           )
-      }else if(row.p_type == "normal"){
-          this.$router.push(
-            PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
-          );
-      }    
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.refreshList({
-        page: val,
-        perPage:this.pageSize
-      });
-    },
-    handleSizeChange(val){
-      this.pageSize = val
-      this.refreshList({ page: 1 ,perPage:val});
-    },
-    refreshList(data) {
-      return getMyPerformanceList(data)
-        .then(res => {
-          this.total = res.data.length
-          this.tableData = res.data;
-        })
-        .catch(e => {});
+        );
+      } else if (row.p_type == "normal") {
+        this.$router.push(
+          PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+        );
+      }
     }
-    },
+  },
   created() {
-    this.refreshList({ page: 1 ,perPage:10});
+    this.getList();
     // viewDetail(row) {
     //   if (row.p_type === "executive") {
     //     this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
@@ -245,8 +221,7 @@ export default {
     //   }
     // }
   }
-}
-
+};
 </script>
 <style scoped>
 .my-grade-list .content-container {

@@ -31,7 +31,8 @@
           :data="table253"
           v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[0]"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column label="标签名称" align="center">
             <template slot-scope="scope">
               <el-input
@@ -62,7 +63,8 @@
           :data="table271"
           v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[1]"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column label="标签名称" align="center">
             <template slot-scope="scope">
               <el-input
@@ -93,7 +95,8 @@
           :data="table23221"
           v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[2]"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column label="标签名称" align="center">
             <template slot-scope="scope">
               <el-input
@@ -125,7 +128,8 @@
           :data="table2521"
           v-show="tplForm.tag_type == constants.EXECUTIVE_LABEL_TYPE[3]"
           border
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column label="标签名称" align="center">
             <template slot-scope="scope">
               <el-input
@@ -418,8 +422,8 @@ export default {
               this.$emit("getList");
             });
           } else {
-            let UpData = postData
-            return putAdminTagChange(this.initData.id,UpData).then(res => {
+            let UpData = postData;
+            return putAdminTagChange(this.initData.id, UpData).then(res => {
               this.close();
               this.$emit("getList");
             });
@@ -428,9 +432,7 @@ export default {
       });
     },
     // 更新标签传递数据
-    updateTemplate(){
-
-    },
+    updateTemplate() {},
     getAdminTagTypesList() {
       getAdminTagTypes().then(res => {
         this.tagTypesList = res;
