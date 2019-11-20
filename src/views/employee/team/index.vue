@@ -100,7 +100,11 @@
                   </el-row>
                 </template>
               </el-table-column>
-              <el-table-column v-if="1>2" prop="hr_name" label="HRBP"></el-table-column>
+              <el-table-column
+                v-if="1 > 2"
+                prop="hr_name"
+                label="HRBP"
+              ></el-table-column>
               <el-table-column
                 prop="high_level_name"
                 label="隔级"
