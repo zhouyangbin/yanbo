@@ -26,7 +26,7 @@
     ></reject-dialog>
     <examine-detail
       :is-examine-dialog="isExamineDialog"
-      :work-code="userInfo.workcode"
+      :perforamnce_user_id="userInfo.perforamnce_user_id"
       @close="closeExamine"
     ></examine-detail>
   </div>
@@ -61,13 +61,13 @@ export default {
         opinion: "",
         avatar: "",
         name: "",
-        workcode: "",
         superior_name: "",
         superior_workcode: "",
         executive_type: "",
         department_name: "",
         cycle: "",
-        indicator_setting_end_time: ""
+        indicator_setting_end_time: "",
+        perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
       isAgreeDialog: false,
@@ -106,7 +106,6 @@ export default {
             opinion,
             avatar,
             name,
-            workcode,
             superior_name,
             superior_workcode,
             executive_type,
@@ -120,13 +119,13 @@ export default {
             opinion,
             avatar,
             name,
-            workcode,
             superior_name,
             superior_workcode,
             executive_type,
             department_name,
             cycle,
-            indicator_setting_end_time
+            indicator_setting_end_time,
+            perforamnce_user_id:this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -230,7 +229,6 @@ export default {
   created() {
     this.getUserInfo();
     this.getWrokAndTeamTarget();
-    console.log(this.userInfo);
   }
 };
 </script>

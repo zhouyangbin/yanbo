@@ -189,8 +189,8 @@ export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 我的业绩中高管评分高管填写指标页面
-export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
-  `/performance/targetsettings/${id}/${uid}`;
+export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid",sign=":sign") =>
+  `/performance/targetsettings/${id}/${uid}/${sign}`;
 
 // 我的业绩中高管评分高管填写指标页面(只读)
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>

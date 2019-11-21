@@ -3,7 +3,14 @@
     <nav-bar :list="nav"></nav-bar>
     <detail-header :user-info="userInfo" :self="true"></detail-header>
     <target-content :all-target="allTarget"></target-content>
-    <el-row class="footer-button">
+    <!-- 需要判断是否为高管  current_user_identity: "self"-->
+    <el-row class="footer-button" v-if="userInfo.current_user_identity =='superior'">
+      <el-button @click="checkExamine">
+        {{constants.CHECK_EXAMINE_LOG}}
+        </el-button>
+      <el-button @click="ratingList">返回下属评分列表</el-button>
+    </el-row>
+    <el-row class="footer-button" v-else>
       <el-button @click="checkExamine">
         <!-- 查看审批记录 -->
         {{ constants.CHECK_EXAMINE_LOG }}
@@ -11,16 +18,9 @@
       <!-- 返回 -->
       <el-button @click="returnList">{{ constants.TARGET_RETURN }}</el-button>
     </el-row>
-    <!-- 需要判断是否为高管 -->
-    <!-- <el-row class="footer-button">
-      <el-button @click="checkExamine">
-        {{constants.CHECK_EXAMINE_LOG}}
-        </el-button>
-      <el-button @click="returnList">返回下属评分列表</el-button>
-    </el-row> -->
     <examine-detail
       :is-examine-dialog="isExamineDialog"
-      :work-code="userInfo.workcode"
+      :perforamnce_user_id="userInfo.perforamnce_user_id"
       @close="closeExamine"
     ></examine-detail>
   </div>
@@ -54,16 +54,18 @@ export default {
       userInfo: {
         performance_name: "",
         stage: 0,
+        current_user_identity:"",
         opinion: "",
         avatar: "",
         name: "",
-        workcode: "",
+        workcode:"",
         superior_name: "",
         superior_workcode: "",
         executive_type: "",
         department_name: "",
         cycle: "",
-        indicator_setting_end_time: ""
+        indicator_setting_end_time: "",
+        perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
       isExamineDialog: false
@@ -114,7 +116,8 @@ export default {
             executive_type,
             department_name,
             cycle,
-            indicator_setting_end_time
+            indicator_setting_end_time,
+            perforamnce_user_id:this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -187,9 +190,14 @@ export default {
      */
     returnList() {
       this.$router.push("/employee/my");
+    },
+    // 返回下属评分列表
+    ratingList(){
+      
     }
   },
   created() {
+    console.log(this.userInfo);
     this.getUserInfo();
     this.getWrokAndTeamTarget();
   }

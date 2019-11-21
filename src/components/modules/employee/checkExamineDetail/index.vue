@@ -50,7 +50,7 @@ export default {
       type: Boolean,
       default: false
     },
-    workCode: {
+    perforamnce_user_id: {
       tyoe: String,
       default: ""
     }
@@ -69,8 +69,7 @@ export default {
      */
     getExamineDetail() {
       let data = {
-        // workcode改为performance_user_id
-        workcode: this.workCode
+        perforamnce_user_id: this.perforamnce_user_id
       };
       getExamineLog(data)
         .then(res => {

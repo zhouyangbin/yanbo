@@ -30,13 +30,13 @@
     </div>
     <div slot="footer">
       <el-button @click="close">取消</el-button>
-      <el-button type="primary">确定</el-button>
+      <el-button type="primary" @click="cover">确定</el-button>
     </div>
   </el-dialog>
 </template>
 <script>
-import { getTargetTemplate, postUploadIndex } from "@/constants/API";
-import { PATH_UPLOAD_FILE } from "@/constants/URL";
+import { getTargetTemplate, postUploadIndex ,getUniqueTemplate} from "@/constants/API";
+import { PATH_UPLOAD_FILE ,} from "@/constants/URL";
 export default {
   props: {
     isUpload: {
@@ -61,6 +61,15 @@ export default {
   methods: {
     close() {
       this.$emit("close");
+    },
+    // 上传指标确认
+    cover(){
+      getUniqueTemplate({
+          sign:this.$route.params.sign,
+          performance_id:this.$route.params.id,
+          performance_user_id:this.$route.params.uid
+        })
+        this.close()
     },
     /**
      * 下载模版按钮
