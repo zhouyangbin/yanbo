@@ -6,8 +6,9 @@
       <el-row class="grow">
         <el-row
           class="superior-idea flex"
-          v-if="userInfo.opinion && userInfo.stage === 1 && self"
+          v-if="userInfo.opinion && userInfo.stage === 1 & self"
         >
+        <!-- 上级意见 -->
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
@@ -31,6 +32,7 @@
             </el-row>
             <el-row class="flex">
               <el-col class="super">
+                <!-- 直接上级 -->
                 <el-row class="other-info-title">{{
                   constants.IMMEDIATE_SUPERIOR
                 }}</el-row>
@@ -41,6 +43,7 @@
                 >
               </el-col>
               <el-col class="department">
+                <!-- 部门 -->
                 <el-row class="other-info-title">{{
                   constants.LABEL_DEPARTMENT
                 }}</el-row>
@@ -55,6 +58,7 @@
                   </el-tooltip>
                 </el-row>
               </el-col>
+              <!-- 考核周期 -->
               <el-col class="cycle">
                 <el-row class="other-info-title">{{
                   constants.ASSESS_CYCLE
@@ -62,12 +66,14 @@
                 <el-row>{{ userInfo.cycle }}</el-row>
               </el-col>
               <el-col class="deadline">
+                <!-- 指标设定截止时间 -->
                 <el-row class="other-info-title">{{
                   constants.SET_TARGET_DEADLINE
                 }}</el-row>
                 <el-row>{{ userInfo.indicator_setting_end_time }}</el-row>
               </el-col>
             </el-row>
+            <!-- 如直接上级的姓名或工号有误，请联系HRBP。 -->
             <el-row class="linkman">{{
               constants.ERROR_MESSAGE_CONTACT_USER
             }}</el-row>
@@ -75,13 +81,13 @@
         </el-row>
       </el-row>
       <el-row class="upload-target">
+        <!-- 上传指标 -->
         <el-button
           icon="el-icon-upload2"
           class="btn"
           @click="uploadTarget"
-          v-if="userInfo.stage === 1"
-          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
-        >
+          v-if="userInfo.current_user_identity==undefined"
+          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button>
       </el-row>
     </el-row>
     <upload-dialog
@@ -137,7 +143,7 @@ export default {
     stageImg(stage) {
       let src = "";
       switch (stage) {
-        case 1:
+        case 0:
           src = require("@/assets/img/target_writing.png");
           break;
         case 10:

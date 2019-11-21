@@ -249,6 +249,10 @@ export default {
     orgTree: {
       type: Array,
       default: () => []
+    },
+    tableData:{
+      type:Array,
+      default: () => []
     }
   },
   data() {
@@ -420,13 +424,13 @@ export default {
             return postAdminTags(postData).then(res => {
               this.close();
               this.$emit("getList");
-            });
+            }).catch(()=>{})
           } else {
             let UpData = postData;
             return putAdminTagChange(this.initData.id, UpData).then(res => {
               this.close();
               this.$emit("getList");
-            });
+            }).catch(() => {});
           }
         }
       });
