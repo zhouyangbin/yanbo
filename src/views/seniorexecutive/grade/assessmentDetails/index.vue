@@ -328,12 +328,21 @@
           <el-form-item
             class="limit-width"
             prop="distribution_253"
-            label="253分布:"
+            label="规则分布:"
           >
-            <el-input
+            <el-select
               v-model="personalForm.distribution_253"
+              clearable
               placeholder="请选择"
-            ></el-input>
+            >
+              <el-option
+                v-for="item in tagOptions"
+                :key="item.key"
+                :label="item.name"
+                :value="item.key"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item
             class="limit-width"
@@ -611,7 +620,8 @@ import {
   getExecutiveTypes,
   getUserDetail,
   getPerformanceNotice,
-  deletePerformanceUser
+  deletePerformanceUser,
+  getAdminTagTypes
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
@@ -674,6 +684,7 @@ export default {
         }
       ],
       executiveTypes: [],
+      tagOptions: [],
       performanceDetail: {},
       performanceId: this.$route.params.id,
       total: 0,
@@ -990,6 +1001,11 @@ export default {
     getExecutiveTypes()
       .then(res => {
         this.executiveTypes = res;
+      })
+      .catch(e => {});
+    getAdminTagTypes()
+      .then(res => {
+        this.tagOptions = res;
       })
       .catch(e => {});
     this.getUserList();
