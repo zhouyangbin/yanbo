@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "9abf8148db115b39f1c5",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-4ab548f8.34e04a3e.js"
+    "revision": "eb4056248c5fdb2809a9",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-4b70dc2b.28a96f9f.js"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "//pingfen-executive.chengjiukehu.com/robots.txt"
   },
   {
-    "revision": "eb4056248c5fdb2809a9",
-    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-4b70dc2b.877bb19c.css"
+    "revision": "625c96987a696854528f",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-4cd59b3a.19cda8cd.js"
   },
   {
     "revision": "f012f4d3062f176b63d7",
@@ -30,14 +30,6 @@ self.__precacheManifest = [
   {
     "revision": "69f56a4d8e07a4e4b5f3",
     "url": "//pingfen-executive.chengjiukehu.com/js/chunk-082e0c5e.96b26df6.js"
-  },
-  {
-    "revision": "c119aadd1487d56257ca",
-    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-0dd8c839.be237860.css"
-  },
-  {
-    "revision": "c119aadd1487d56257ca",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-0dd8c839.2c3204ea.js"
   },
   {
     "revision": "550a9c0c21e5d9997bd4",
@@ -324,12 +316,12 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/js/chunk-3214e7dc.1d288e74.js"
   },
   {
-    "revision": "922e752939d50c3c7f39",
+    "revision": "78910fbf96035f8dcf2e",
     "url": "//pingfen-executive.chengjiukehu.com/css/chunk-3339f97e.a17f45bb.css"
   },
   {
-    "revision": "922e752939d50c3c7f39",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-3339f97e.68c2bb77.js"
+    "revision": "78910fbf96035f8dcf2e",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-3339f97e.915c975e.js"
   },
   {
     "revision": "28ea5168ed4399199538",
@@ -492,20 +484,20 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/css/chunk-4ab548f8.3cb71121.css"
   },
   {
-    "revision": "3d911fd1adeea3dc147e",
-    "url": "//pingfen-executive.chengjiukehu.com/js/app.729a2c17.js"
+    "revision": "9abf8148db115b39f1c5",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-4ab548f8.34e04a3e.js"
+  },
+  {
+    "revision": "eb4056248c5fdb2809a9",
+    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-4b70dc2b.877bb19c.css"
+  },
+  {
+    "revision": "c143a26c3f28a612254f",
+    "url": "//pingfen-executive.chengjiukehu.com/js/app.1294922c.js"
   },
   {
     "revision": "f012f4d3062f176b63d7",
     "url": "//pingfen-executive.chengjiukehu.com/js/chunk-0111ed3f.3da806ec.js"
-  },
-  {
-    "revision": "eb4056248c5fdb2809a9",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-4b70dc2b.28a96f9f.js"
-  },
-  {
-    "revision": "625c96987a696854528f",
-    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-4cd59b3a.19cda8cd.js"
   },
   {
     "revision": "2d4be77b0297b2281801",
@@ -582,6 +574,14 @@ self.__precacheManifest = [
   {
     "revision": "a0adb6f3838fe77f25da",
     "url": "//pingfen-executive.chengjiukehu.com/js/chunk-5a422ce5.64e79314.js"
+  },
+  {
+    "revision": "47a5310a282882012439",
+    "url": "//pingfen-executive.chengjiukehu.com/css/chunk-5b27cb77.727018ff.css"
+  },
+  {
+    "revision": "47a5310a282882012439",
+    "url": "//pingfen-executive.chengjiukehu.com/js/chunk-5b27cb77.03c1914b.js"
   },
   {
     "revision": "b8af1e36b633eb8e755a",
@@ -976,11 +976,11 @@ self.__precacheManifest = [
     "url": "//pingfen-executive.chengjiukehu.com/img/target_writing.7ec299b7.png"
   },
   {
-    "revision": "3b4e2fdf7ca555d8261e5bbbe48836dc",
+    "revision": "d5c462fc64df4946a5b00a259e612431",
     "url": "//pingfen-executive.chengjiukehu.com/index.html"
   },
   {
-    "revision": "3d911fd1adeea3dc147e",
+    "revision": "c143a26c3f28a612254f",
     "url": "//pingfen-executive.chengjiukehu.com/css/app.ffc85409.css"
   }
 ];

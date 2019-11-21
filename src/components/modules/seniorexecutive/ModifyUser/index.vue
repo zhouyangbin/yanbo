@@ -190,16 +190,6 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (this.userType != "add") {
-            if (
-              JSON.stringify(this.userInfo) !== JSON.stringify(this.userForm)
-            ) {
-              this.$message({
-                showClose: true,
-                message: "您还没有修改员工信息",
-                type: "error"
-              });
-              return false;
-            }
             putEmployeeInfo(this.performanceId, this.userId, this.userForm)
               .then(res => {
                 this.$emit("define");
