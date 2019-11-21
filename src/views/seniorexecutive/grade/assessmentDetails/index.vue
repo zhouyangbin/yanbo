@@ -391,9 +391,9 @@
             <el-button icon="el-icon-plus" @click="addPerson"
               >添加人员</el-button
             >
-            <el-button icon="el-icon-download" @click="exportList"
-              >导出名单</el-button
-            >
+            <el-button icon="el-icon-download"
+              ><a class="down-load" download :href="exportUrl">导出名单</a>
+            </el-button>
             <el-popover placement="bottom" width="120" trigger="hover">
               <div class="more-btn" @click="showUploadWork('finance')">
                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
@@ -726,6 +726,7 @@ export default {
       showImportList: false,
       uploadTplUrl: "",
       importTplUrl: "",
+      exportUrl: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
@@ -974,6 +975,7 @@ export default {
   },
   created() {
     this.nowTime = new Date();
+    this.exportUrl = PATH_PERFORMANCE_USER_LIST(this.performanceId);
     this.getPerformanceDetailData();
     getOrganization()
       .then(res => {
@@ -1216,6 +1218,20 @@ export default {
       display: flex;
       .btn-group {
         margin: 0 10px;
+        .el-button {
+          &:hover {
+            .down-load {
+              color: #52ddab;
+            }
+          }
+        }
+        .down-load {
+          color: #606266;
+          text-decoration: none;
+          &:hover {
+            color: #52ddab;
+          }
+        }
       }
     }
     .table-number {
