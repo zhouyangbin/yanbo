@@ -21,7 +21,6 @@
   </el-select>
 </template>
 <script>
-const debounce = require("lodash.debounce");
 import { getSearchEmployees } from "@/constants/API";
 export default {
   props: {
@@ -63,9 +62,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.select-tree {
-  max-height: 260px;
-  overflow: auto;
-}
-</style>

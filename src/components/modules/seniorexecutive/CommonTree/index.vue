@@ -13,7 +13,6 @@
   ></el-tree>
 </template>
 <script>
-const debounce = require("lodash.debounce");
 export default {
   props: {
     orgTree: {
