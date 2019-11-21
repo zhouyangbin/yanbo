@@ -1,123 +1,147 @@
 <template>
   <el-dialog
-    class="import-list"
-    :visible="visible"
     @close="close"
-    :close-on-click-modal="false"
     width="650px"
+    :visible="visible"
+    :close-on-click-modal="false"
+    class="import-list"
   >
     <div slot="title" class="title">导入名单</div>
-    <el-form label-width="150px">
-      <el-form-item label="模版下载">
-        <el-button type="text" @click="downloadTemplate">下载</el-button>
-      </el-form-item>
-      <el-form-item label="上传文件">
-        <el-upload
-          class="upload-demo"
-          :action="upload_action_url"
-          :on-success="uploadSuccess"
-          :on-error="uploadError"
-        >
-          <el-button type="text">选择文件</el-button>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="提示信息"></el-form-item>
-    </el-form>
-    <div class="notice">
-      请注意：如页面已有工作指标内容，上传将覆盖所有工作指标内容。
-    </div>
-    <div slot="footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary">确定</el-button>
-    </div>
+    <el-tabs type="card" v-model="activeName">
+      <el-tab-pane label="从EHR读取" name="first">
+        <div>同步数据</div>
+        <div>提示信息</div>
+      </el-tab-pane>
+      <el-tab-pane label="上传文件" name="second">
+        <el-form label-width="80px">
+          <el-form-item label="模版下载">
+            <el-button type="text"
+              ><a class="down-load" download :href="importTplUrl"
+                >下载</a
+              ></el-button
+            >
+          </el-form-item>
+          <el-form-item label="上传文件">
+            <el-upload
+              class="upload-demo"
+              :action="uploadTplUrl"
+              :on-success="uploadSuccess"
+              :on-error="uploadError"
+            >
+              <el-button type="text">选择文件</el-button>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
   </el-dialog>
 </template>
+
 <script>
+import {
+  IMPORT_TIPS,
+  IMPORT_RECORDS,
+  EHR_IMPORT,
+  WORK_LEVEL,
+  ENUM_LEVELS,
+  EXCEL_IMPORT,
+  CONFIRM,
+  CANCEL,
+  IMPORT_SUCCESS,
+  SUCCESS,
+  ERROR,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAIL
+} from "@/constants/TEXT";
+import { postEHR } from "@/constants/API";
+import { PATH_IMPORT_BY_EXCEL, PATH_EXCEL_TPL } from "@/constants/URL";
+
 export default {
   props: {
     visible: {
       type: Boolean,
       default: false
     },
-    upload_action_url: {
+    uploadTplUrl: {
       type: String,
       default: ""
     },
-    download_url: {
-      type: String,
-      default: ""
-    },
-    upload_type: {
+    importTplUrl: {
       type: String,
       default: ""
     }
   },
   data() {
     return {
-      actionUrl: ""
+      activeName: "first"
     };
-  },
-  created() {},
-  computed: {
-    uploadHeader() {
-      return {
-        Authorization: `Bearer ${localStorage.getItem("talToken")}`
-      };
-    }
   },
   methods: {
     close() {
       this.$emit("close");
     },
-    downloadTemplate() {
-      var link = document.createElement("a");
-      link.setAttribute("download", "");
-      link.href = this.download_url;
-      link.click();
-    },
-    /**
-     * 上传成功
-     */
     uploadSuccess(response, file, fileList) {
-      if (
-        response &&
-        response.data &&
-        response.data.errors &&
-        response.data.errors.length > 0
-      ) {
-        this.$notify.error({
-          title: ERROR,
-          message: `上传内容有部分错误!`
-        });
-      } else {
-        this.$notify({
-          title: SUCCESS,
-          message: UPLOAD_SUCCESS,
-          type: "success"
-        });
-      }
+      this.$notify({
+        title: SUCCESS,
+        message: UPLOAD_SUCCESS,
+        type: "success"
+      });
+      this.close();
     },
-    /**
-     * 上传失败
-     */
-    uploadError(err, file, fileList) {
+    uploadErr(err, file, fileList) {
       const errObj = JSON.parse(err.message);
-      let msg;
-      if (errObj.status == 435 && errObj.data && errObj.data.errors) {
-        msg = errObj.data.errors[Object.keys(errObj.data.errors)[0]].join("/");
-      } else {
-        msg = errObj.message;
-      }
+      this.tableData = errObj.data;
+      this.showTable = true;
       this.$notify.error({
-        title: "ERROR",
-        message: msg || `${file.name}${UPLOAD_FAIL}`
+        title: ERROR,
+        message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
       });
     }
-  }
+  },
+  created() {}
 };
 </script>
 <style scoped>
 .import-list >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
+}
+.import-list >>> .el-dialog__body {
+  padding: 8px 0;
+}
+.import-list .down-load {
+  color: #52ddab;
+  text-decoration: none;
+}
+.import-list .title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+.import-list >>> .el-dialog {
+  padding: 20px 40px;
+}
+.import-tab {
+  position: relative;
+}
+.import-tab .tips {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  font-size: 12px;
+  color: grey;
+}
+.el-upload__tip >>> a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+.el-upload__tip {
+  text-align: center;
+  font-size: 14px;
+}
+.uploader {
+  margin-top: 10px;
+}
+.err-table >>> .cell {
+  font-size: 12px;
 }
 </style>

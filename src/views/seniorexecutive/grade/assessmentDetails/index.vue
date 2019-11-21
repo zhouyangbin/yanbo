@@ -542,7 +542,14 @@
       @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
-    <import-list v-if="showImportList" :visible="showImportList"></import-list>
+    <import-list
+      v-if="showImportList"
+      :visible="showImportList"
+      :uploadTplUrl="uploadTplUrl"
+      :importTplUrl="importTplUrl"
+      @close="closeImportList"
+    >
+    </import-list>
     <common-upload-dialog
       v-if="showUploadWorkFile"
       :visible="showUploadWorkFile"
@@ -574,7 +581,9 @@ import {
   postUploadFinancialIndicators,
   postUploadWorkIndicators,
   getFinancialtpm,
-  getWorktpm
+  getWorktpm,
+  PATH_PERFORMANCE_TPL_USER,
+  PATH_PERFORMANCE_IMPORT_USER
 } from "@/constants/URL";
 
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
@@ -676,6 +685,8 @@ export default {
       download_url: "",
       isLoading: true,
       showImportList: false,
+      uploadTplUrl: "",
+      importTplUrl: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
@@ -766,23 +777,12 @@ export default {
       );
     },
     importList() {
-      // 导入名单
       this.showImportList = true;
-      // if (type == "finance") {
-      //   this.upload_title = "上传财务指标";
-      //   this.upload_action_url = this.constants.postUploadFinancialIndicators(
-      //     this.performanceId
-      //   );
-      //   this.download_url = this.constants.getFinancialtpm;
-      //   this.upload_type = type;
-      // } else {
-      //   this.upload_title = "上传工作目标";
-      //   this.upload_action_url = this.constants.postUploadWorkIndicators(
-      //     this.performanceId
-      //   );
-      //   this.download_url = this.constants.getWorktpm(this.performanceId);
-      //   this.upload_type = type;
-      // }
+      this.importTplUrl = PATH_PERFORMANCE_TPL_USER;
+      this.uploadTplUrl = PATH_PERFORMANCE_IMPORT_USER(this.performanceId);
+    },
+    closeImportList() {
+      this.showImportList = false;
     },
     removeList() {
       if (this.performance_user_ids.length === 0) {
