@@ -59,9 +59,9 @@
                 <div class="container-list-message-left-space"></div>
               </div>
               <div class="container-list-message-left"></div>
-              <el-button type="primary" @click="highDetail()"
+              <!-- <el-button type="primary" @click="highDetail()"
                 >查看详情</el-button
-              >
+              > -->
             </div>
             <el-table stripe style="width: 100%" :data="tableData">
               <el-table-column prop="name" label="姓名" width="70">
