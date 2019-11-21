@@ -218,7 +218,11 @@ export const PATH_PERFORMANCE_MY_DETAIL = (
 ) => `/performance/my/${performanceId}`;
 // 高管绩效  导出名单
 export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
-  `${base}executive-performance/admin/performances/${id}/users/export`;
+  `${base}executive-performance/admin/performances/${id}/users/export?${qs.stringify(
+    {
+      token: localStorage.getItem("talToken")
+    }
+  )}`;
 // 高管绩效  财务指标模板
 export const getFinancialIndicators = () =>
   `${base}executive-performance/admin/performances/templates/financial-indicators`;

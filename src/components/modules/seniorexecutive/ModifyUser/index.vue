@@ -17,40 +17,46 @@
       class="user-form"
     >
       <el-form-item label="姓名/工号:" prop="workcode">
-        <el-select
-          v-model="userForm.workcode"
-          filterable
-          remote
-          clearable
-          reserve-keyword
-          placeholder="请输入姓名或工号"
-          :remote-method="searchME"
-          :disabled="userType !== 'add'"
-          :loading="loading"
-        >
-          <el-option
-            v-for="item in userOptions"
-            :key="item.workcode"
-            :label="item.workcode + item.name + item.email"
-            :value="item.workcode"
-          >
-          </el-option>
-        </el-select>
+        <common-select
+          :code="userForm.workcode"
+          :isDisabled="userType !== 'add'"
+          @selectedUser="selectWorkCode"
+        ></common-select>
       </el-form-item>
       <el-form-item label="直接上级:" prop="superior_workcode">
-        <el-input v-model="userForm.superior_workcode"></el-input>
+        <common-select
+          :code="userForm.superior_workcode"
+          :isDisabled="false"
+          @selectedUser="selectSubCode"
+        ></common-select>
       </el-form-item>
       <el-form-item label="隔级:" prop="isolation_workcode">
-        <el-input v-model="userForm.isolation_workcode"></el-input>
+        <common-select
+          :code="userForm.isolation_workcode"
+          :isDisabled="false"
+          @selectedUser="selectIsoCode"
+        ></common-select>
       </el-form-item>
       <el-form-item label="总裁:" prop="president_workcode">
-        <el-input v-model="userForm.president_workcode"></el-input>
+        <common-select
+          :code="userForm.president_workcode"
+          :isDisabled="false"
+          @selectedUser="selectPreCode"
+        ></common-select>
       </el-form-item>
       <el-form-item label="HRBP:" prop="hrbp_workcode">
-        <el-input v-model="userForm.hrbp_workcode"></el-input>
+        <common-select
+          :code="userForm.hrbp_workcode"
+          :isDisabled="false"
+          @selectedUser="selectHrbpCode"
+        ></common-select>
       </el-form-item>
       <el-form-item label="HRD:" prop="hrd_workcode">
-        <el-input v-model="userForm.hrd_workcode"></el-input>
+        <common-select
+          :code="userForm.hrd_workcode"
+          :isDisabled="false"
+          @selectedUser="selectHrdCode"
+        ></common-select>
       </el-form-item>
       <el-form-item label="组织部成员类别:" prop="executive_type">
         <el-select
@@ -114,6 +120,11 @@ export default {
       default: 0
     }
   },
+  components: {
+    "common-select": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonSelect/index.vue")
+    )
+  },
   data() {
     return {
       userForm: {
@@ -154,20 +165,23 @@ export default {
     };
   },
   methods: {
-    searchME(query) {
-      if (query !== "") {
-        this.loading = true;
-        getSearchEmployees({
-          name_or_workcode: query
-        })
-          .then(res => {
-            this.loading = false;
-            this.userOptions = res;
-          })
-          .catch(e => {});
-      } else {
-        this.userOptions = [];
-      }
+    selectWorkCode(data) {
+      this.userForm.workcode = data;
+    },
+    selectSubCode(data) {
+      this.userForm.superior_workcode = data;
+    },
+    selectIsoCode(data) {
+      this.userForm.isolation_workcode = data;
+    },
+    selectPreCode(data) {
+      this.userForm.president_workcode = data;
+    },
+    selectHrbpCode(data) {
+      this.userForm.hrbp_workcode = data;
+    },
+    selectHrdCode(data) {
+      this.userForm.hrd_workcode = data;
     },
     close() {
       this.$emit("close");

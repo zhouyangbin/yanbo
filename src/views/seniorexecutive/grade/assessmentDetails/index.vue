@@ -425,59 +425,89 @@
             label="工号"
             width="80"
           ></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
+            width="100"
+            prop="name"
+            label="姓名"
+          ></el-table-column>
+          <el-table-column
+            :show-overflow-tooltip="true"
             prop="business_unit_name"
             width="200"
             label="总部/事业部"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="sub_department_name"
             label="大部门/分校"
             width="200"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="email"
             label="邮箱"
-            width="100"
+            width="120"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="executive_type_text"
             label="组织部成员类别"
             width="200"
           ></el-table-column>
-          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
-          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
           <el-table-column
+            width="100"
+            prop="hrbp_name"
+            label="HRBP"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            prop="hrd_name"
+            label="HRD"
+          ></el-table-column>
+          <el-table-column
+            width="100"
             prop="superior_name"
             label="直接上级"
           ></el-table-column>
-          <el-table-column prop="isolation_name" label="隔级"></el-table-column>
-          <el-table-column prop="president_name" label="总裁"></el-table-column>
           <el-table-column
+            width="100"
+            prop="isolation_name"
+            label="隔级"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            prop="president_name"
+            label="总裁"
+          ></el-table-column>
+          <el-table-column
+            width="100"
             prop="self_evaluation_score"
             label="自评分"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="re_evaluation_score"
             label="复评分"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="culture_score"
             label="文化评分"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="final_score"
             label="最终成绩"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="distribution_253"
             label="规则分布"
           ></el-table-column>
           <el-table-column
             prop="stage_text"
             fixed="right"
-            width="80"
+            width="120"
             label="状态"
           ></el-table-column>
           <el-table-column label="操作" fixed="right" width="180">
@@ -499,11 +529,18 @@
         </el-table>
         <br />
         <el-row type="flex" justify="end">
-          <pagination
+          <el-pagination
+            background
+            v-if="total"
+            class="paging-box"
+            @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :currentPage="currentPage"
+            :current-page="personalForm.page"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
             :total="total"
-          ></pagination>
+          >
+          </el-pagination>
         </el-row>
       </div>
     </section>
@@ -609,8 +646,7 @@ export default {
     ),
     "import-list": AsyncComp(
       import("@/components/modules/seniorexecutive/ImportList/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    )
   },
   data() {
     return {
@@ -640,7 +676,6 @@ export default {
       executiveTypes: [],
       performanceDetail: {},
       performanceId: this.$route.params.id,
-      currentPage: 1,
       total: 0,
       selectedNumber: 0,
       showConfirmDialog: false,
@@ -671,7 +706,9 @@ export default {
         president_name: "",
         hrbp_name: "",
         distribution_253: "",
-        hrd_name: ""
+        hrd_name: "",
+        page: 1,
+        perPage: 10
       },
       userList: [],
       performance_user_ids: [],
@@ -740,6 +777,14 @@ export default {
     }
   },
   methods: {
+    handleSizeChange(val) {
+      this.personalForm.perPage = val;
+      this.getUserList();
+    },
+    handleCurrentChange(val) {
+      this.personalForm.page = val;
+      this.getUserList();
+    },
     confirmImportUser() {
       this.showModifyUser = false;
       this.getUserList();
@@ -833,9 +878,6 @@ export default {
     closeDialog() {
       this.showConfirmDialog = false;
     },
-    handleCurrentChange() {
-      this.currentPage = val;
-    },
     onQuery() {
       this.getUserList();
     },
@@ -893,8 +935,9 @@ export default {
     getUserList() {
       getPerformanceUser(this.performanceId, this.personalForm)
         .then(res => {
-          this.total = res.length;
-          this.userList = res;
+          let { data, total } = res;
+          this.total = total;
+          this.userList = data;
         })
         .catch(e => {});
     },
