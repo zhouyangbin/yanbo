@@ -12,7 +12,7 @@
             <span class="target-title">{{ targetItem.type }}</span>
             <!-- 权重 -->
             <span class="target-weight"
-              >{{ constants.TARGET_WEIGH }}{{ targetItem.weights }}%</span>
+              >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span>
           </el-row>
           <el-form :ref="`form${index}`" :model="targetItem">
             <el-table
@@ -271,7 +271,7 @@ export default {
       this.allTarget.forEach(v => {
         if (v.basicType === type) {
           v.table.forEach(value => {
-            if (value.weights !== "") {
+            if (value.weights !== null) {
               subTotal += Number(value.weights);
             }
           });

@@ -31,7 +31,7 @@
         ></el-table-column>
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <!-- <el-button
+            <el-button
               v-if="scope.row.stage == 0"
               type="text"
               @click="fillInIndicator(scope.row)"
@@ -44,9 +44,9 @@
               <el-button @click="goDetail(scope.row)" type="text" size="small"
                 >详情</el-button
               >
-            </template> -->
+            </template>
             <el-button
-              
+              v-else
               @click="goDetail(scope.row)"
               type="text"
               size="small"
