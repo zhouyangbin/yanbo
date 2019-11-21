@@ -415,33 +415,12 @@
               >导出名单</el-button
             >
             <el-popover placement="bottom" width="120" trigger="hover">
-<<<<<<< HEAD
-              <div class="more-btn" @click="showUploadWork">
+              <div class="more-btn" @click="showUploadWork('finance')">
                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
               </div>
-              <div class="more-btn">
+              <div class="more-btn" @click="showUploadWork('work')">
                 <i class="el-icon-upload2"></i><span>上传工作目标</span>
               </div>
-=======
-              <el-upload
-                class="upload-demo"
-                :action="
-                  constants.postUploadFinancialIndicators(this.performanceId)
-                "
-              >
-                <div class="more-btn">
-                  <i class="el-icon-upload2"></i><span>上传财务指标</span>
-                </div>
-              </el-upload>
-              <el-upload
-                class="upload-demo"
-                :action="constants.postUploadWorkIndicators(this.performanceId)"
-              >
-                <div class="more-btn">
-                  <i class="el-icon-upload2"></i><span>上传工作目标</span>
-                </div>
-              </el-upload>
->>>>>>> 61b182c5eb59c3e3947a3d64c70428f4a7e99184
               <div class="more-btn" @click="removeList">
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
@@ -584,7 +563,11 @@
       @close="closeDialog"
     ></confirm-dialog>
     <common-upload-dialog
-    
+      v-if="showUploadWorkFile"
+      :visible="showUploadWorkFile"
+      :upload_title="upload_title"
+      :upload_action_url="upload_action_url"
+      @close="upload_close"
     >
     </common-upload-dialog>
   </div>
@@ -698,6 +681,8 @@ export default {
       userId: "",
       currentStage: 0,
       showUploadWorkFile: false,
+      upload_title: '',
+      upload_action_url: '',
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators
@@ -860,9 +845,18 @@ export default {
         })
         .catch(e => {});
     },
-    showUploadWork() {
+    showUploadWork(type) {
       this.showUploadWorkFile = true;
-     console.log(this.showUploadWorkFile)
+      if(type == 'finance'){
+        this.upload_title =  '上传财务指标';
+        this.upload_action_url = this.constants.postUploadFinancialIndicators(this.performanceId);
+      }else{
+        this.upload_title =  '上传工作目标';
+        this.upload_action_url = this.constants.postUploadWorkIndicators(this.performanceId);
+      }
+    },
+    upload_close() {
+      this.showUploadWorkFile = false;
     }
   },
   created() {
