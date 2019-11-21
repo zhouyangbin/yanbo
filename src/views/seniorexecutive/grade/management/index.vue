@@ -35,6 +35,7 @@
       </el-row>
       <div
         class="grade-management-list"
+        v-loading="isLoading"
         v-for="item in performancesList"
         :key="item.id"
       >
@@ -42,13 +43,15 @@
           <span v-if="item.stage === 0" class="state draft">草稿</span>
           <span v-else-if="item.stage === 60" class="state ending">已结束</span>
           <span v-else class="state doing">进行中</span>
-          <el-breadcrumb separator="|" class="bread-crumb">
-            <el-breadcrumb-item>{{ item.name }}</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ item.departments_text }}</el-breadcrumb-item>
-            <el-breadcrumb-item>{{
-              item.performance_type | filterType
-            }}</el-breadcrumb-item>
-          </el-breadcrumb>
+          <div class="bread-crumb">
+            <div class="bread-crumb-name">{{ item.name }}</div>
+            <div class="bread-crumb-separator">|</div>
+            <div class="bread-crumb-name">{{ item.departments_text }}</div>
+            <div class="bread-crumb-separator">|</div>
+            <div class="bread-crumb-name">
+              {{ item.performance_type | filterType }}
+            </div>
+          </div>
           <div class="operate-btns">
             <el-tooltip
               class="item"
@@ -64,7 +67,11 @@
               content="删除"
               placement="top"
             >
-              <i class="delete" @click="deleteAssessment(item.id)"></i>
+              <i
+                class="delete"
+                v-if="item.stage === 0"
+                @click="deleteAssessment(item.id)"
+              ></i>
             </el-tooltip>
             <el-button
               :disabled="!item.can_start"
@@ -280,6 +287,7 @@ export default {
       confirmType: "open",
       id: 0,
       performancesList: [],
+      isLoading: true,
       orgTree: [],
       nav: [
         {
@@ -323,9 +331,9 @@ export default {
     }
   },
   methods: {
-    tplDefine() {
+    tplDefine(id) {
       this.showDialog = false;
-      this.getPerformanceList();
+      this.$router.replace(`/performance/assessment/details/${id}`);
     },
     handleChange(value) {
       this.department_ids = value.length > 0 ? value[value.length - 1] : "";
@@ -354,6 +362,7 @@ export default {
         .then(res => {
           const { total, data } = res;
           this.performancesList = data;
+          this.isLoading = false;
           this.total = total;
         })
         .catch(e => {});
@@ -461,10 +470,26 @@ export default {
       }
       .bread-crumb {
         float: left;
-        line-height: 32px;
         font-size: 16px;
         font-weight: bold;
         color: #303133ff;
+        overflow: hidden;
+        .bread-crumb-name {
+          float: left;
+          max-width: 240px;
+          height: 32px;
+          line-height: 32px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .bread-crumb-separator {
+          float: left;
+          margin: 0 12px;
+          height: 32px;
+          line-height: 32px;
+          color: #dcdfe6;
+        }
       }
       .operate-btns {
         float: right;

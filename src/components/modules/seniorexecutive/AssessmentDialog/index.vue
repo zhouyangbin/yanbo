@@ -19,7 +19,7 @@
       <el-form-item label="考核名称" prop="name">
         <el-input style="width:400px" v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item class="is-required" label="适用范围">
+      <el-form-item label="适用范围">
         <common-tree
           :orgTree="orgTree"
           @selectedIds="selectedOrg"
@@ -56,7 +56,6 @@
         <div>
           <el-date-picker
             :clearable="false"
-            :picker-options="startPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
@@ -67,7 +66,6 @@
           <span>&nbsp; 至 &nbsp;</span>
           <el-date-picker
             :clearable="false"
-            :picker-options="endPickerOptions"
             value-format="yyyy-MM-dd HH:mm"
             popper-class="date-picker-container"
             format="yyyy-MM-dd HH:mm"
@@ -78,17 +76,15 @@
         </div>
       </el-form-item>
       <el-form-item label="绩效模板">
-        <div
-          class="rule-name"
-          v-for="item in ruleForm.templates"
-          :key="item.id"
-        >
-          {{ item.name }}
+        <div class="rule-name tpl-name">
+          <span v-for="item in ruleForm.templates" :key="item.id">{{
+            item.name
+          }}</span>
         </div>
       </el-form-item>
       <el-form-item label="标签规则">
-        <div class="rule-name" v-for="item in ruleForm.tag" :key="item.id">
-          {{ item.tag_type }}
+        <div class="rule-name" v-if="ruleForm.tag">
+          {{ ruleForm.tag.tag_type }}
         </div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
@@ -175,14 +171,14 @@ export default {
         name: [
           { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
         ],
-        // department_ids: [
-        //   {
-        //     type: "array",
-        //     required: true,
-        //     message: "请至少选择一个业务单元/职能单元",
-        //     trigger: "change"
-        //   }
-        // ],
+        department_ids: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个业务单元/职能单元",
+            trigger: "change"
+          }
+        ],
         year: [
           { required: true, message: "考核周期不能为空", trigger: "blur" }
         ],
@@ -210,32 +206,8 @@ export default {
       }
     };
   },
-  computed: {
-    startPickerOptions() {
-      return {
-        disabledDate: date => {
-          const dt = formatTime(new Date(date));
-          const now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          return dt < now;
-        }
-      };
-    },
-    endPickerOptions() {
-      return {
-        disabledDate: date => {
-          const dt = formatTime(new Date(date));
-          let now = formatTime(new Date()).split(" ")[0] + " 00:00";
-          if (this.ruleForm.period_start_time) {
-            now = this.ruleForm.period_start_time;
-          }
-          return dt < now;
-        }
-      };
-    }
-  },
   created() {
     if (this.infoType != "add" && this.performanceId) {
-      // 获取弹框信息
       getPerformanceDetail(this.performanceId)
         .then(res => {
           const {
@@ -245,6 +217,7 @@ export default {
             year,
             period_start_time,
             period_end_time,
+            tag,
             templates,
             allow_appeal
           } = res;
@@ -256,6 +229,7 @@ export default {
             period_start_time,
             period_end_time,
             templates,
+            tag,
             allow_appeal
           };
         })
@@ -316,7 +290,7 @@ export default {
           }
           if (this.infoType == "add") {
             return postAddPerformanceAssessment(this.ruleForm).then(res => {
-              this.$emit("define");
+              this.$emit("define", res.id);
             });
           } else {
             return putPerformanceAssessment(
@@ -345,7 +319,29 @@ export default {
   background-color: #fff !important;
   border: none !important;
 }
-.tpl-dialog .rule-name {
-  color: #52ddab;
+</style>
+<style lang="scss" scoped>
+.tpl-dialog {
+  .rule-name {
+    color: #52ddab;
+  }
+  .tpl-name {
+    span {
+      margin-right: 8px;
+      position: relative;
+      &::after {
+        content: "、";
+        position: absolute;
+        right: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      &:last-child {
+        &::after {
+          content: "";
+        }
+      }
+    }
+  }
 }
 </style>

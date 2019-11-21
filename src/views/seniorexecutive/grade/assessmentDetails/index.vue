@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <br />
     <span @click="goDetail">新加入口</span>
-    <section class="content-container bg-white">
+    <section class="content-container bg-white" v-loading="isLoading">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
         <div class="create-btn">
@@ -160,29 +160,8 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效类型:</div>
-            <div
-              class="setting-value"
-              v-if="performanceDetail.performance_type === 'annual'"
-            >
-              年度
-            </div>
-            <div
-              class="setting-value"
-              v-if="performanceDetail.performance_type === 'semi-annual'"
-            >
-              半年度
-            </div>
-            <div
-              class="setting-value"
-              v-if="performanceDetail.performance_type === 'quarter'"
-            >
-              季度
-            </div>
-            <div
-              class="setting-value"
-              v-if="performanceDetail.performance_type === 'monthly'"
-            >
-              月度
+            <div class="setting-value">
+              {{ performanceDetail.performance_type | filterType }}
             </div>
           </div>
           <div class="setting-detail">
@@ -195,12 +174,12 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效模板:</div>
-            <div
-              class="setting-value"
-              v-for="item in performanceDetail.templates"
-              :key="item.id"
-            >
-              <span>{{ item.name }}</span>
+            <div class="setting-value performance-tpl">
+              <span
+                v-for="item in performanceDetail.templates"
+                :key="item.id"
+                >{{ item.name }}</span
+              >
             </div>
           </div>
           <div class="setting-detail">
@@ -211,12 +190,10 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">标签规则:</div>
-            <div
-              class="setting-value"
-              v-for="item in performanceDetail.tag"
-              :key="item.id"
-            >
-              <span>{{ item.tag_type }}</span>
+            <div class="setting-value">
+              <span v-if="performanceDetail.tag">{{
+                performanceDetail.tag.tag_type
+              }}</span>
             </div>
           </div>
         </div>
@@ -247,25 +224,25 @@
                 class="setting-value"
                 :data="initTime.self_evaluation_begin_time | filterDate"
               >
-                自评时间
+                自评开始时间
               </div>
               <div
                 class="setting-value"
                 :data="initTime.superior_begin_time | filterDate"
               >
-                上级评时间
+                上级评开始时间
               </div>
               <div
                 class="setting-value"
                 :data="initTime.isolation_begin_time | filterDate"
               >
-                隔级审核开始
+                隔级审核开始时间
               </div>
               <div
                 class="setting-value"
                 :data="initTime.president_audit_begin_time | filterDate"
               >
-                总裁审核时间开始
+                总裁审核开始时间
               </div>
               <div
                 class="setting-value"
@@ -291,7 +268,7 @@
           ref="personalForm"
           class="form-list"
           :model="personalForm"
-          label-width="110px"
+          label-width="120px"
         >
           <el-form-item
             class="limit-width"
@@ -362,7 +339,7 @@
           <el-form-item
             class="limit-width"
             prop="executive_type"
-            label="组织部类别:"
+            label="组织部成员类别:"
           >
             <el-select
               v-model="personalForm.executive_type"
@@ -403,6 +380,9 @@
             >查看分布</el-button
           > -->
           <el-button-group class="btn-group">
+            <el-button icon="el-icon-upload2" @click="importList"
+              >导入名单</el-button
+            >
             <el-button
               icon="el-icon-bell"
               :disabled="currentStage < 10"
@@ -464,7 +444,7 @@
           ></el-table-column>
           <el-table-column
             prop="executive_type_text"
-            label="组织部类别"
+            label="组织部成员类别"
             width="200"
           ></el-table-column>
           <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
@@ -563,6 +543,7 @@
       @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
+    <import-list v-if="showImportList" :visible="showImportList"></import-list>
     <common-upload-dialog
       v-if="showUploadWorkFile"
       :visible="showUploadWorkFile"
@@ -616,6 +597,9 @@ export default {
     ),
     "common-upload-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
+    ),
+    "import-list": AsyncComp(
+      import("@/components/modules/seniorexecutive/ImportList/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
@@ -692,6 +676,8 @@ export default {
       upload_action_url: "",
       upload_type: "",
       download_url: "",
+      isLoading: true,
+      showImportList: false,
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
@@ -727,6 +713,19 @@ export default {
         newVal = newVal[0];
       }
       return newVal;
+    },
+    filterType(val) {
+      let type = "";
+      if (val === "annual") {
+        type = "年度";
+      } else if (val === "semi-annual") {
+        type = "半年度";
+      } else if (val === "quarter") {
+        type = "季度";
+      } else if (val === "monthly") {
+        type = "月度";
+      }
+      return type;
     }
   },
   methods: {
@@ -771,11 +770,24 @@ export default {
         "noopener"
       );
     },
-    uploadFinancialIndicators() {
-      console.log("uploadFinancialIndicators");
-    },
-    uploadWorkObjectives() {
-      console.log("uploadWorkObjectives");
+    importList() {
+      // 导入名单
+      this.showUploadWorkFile = true;
+      // if (type == "finance") {
+      //   this.upload_title = "上传财务指标";
+      //   this.upload_action_url = this.constants.postUploadFinancialIndicators(
+      //     this.performanceId
+      //   );
+      //   this.download_url = this.constants.getFinancialtpm;
+      //   this.upload_type = type;
+      // } else {
+      //   this.upload_title = "上传工作目标";
+      //   this.upload_action_url = this.constants.postUploadWorkIndicators(
+      //     this.performanceId
+      //   );
+      //   this.download_url = this.constants.getWorktpm(this.performanceId);
+      //   this.upload_type = type;
+      // }
     },
     removeList() {
       if (this.performance_user_ids.length === 0) {
@@ -876,6 +888,7 @@ export default {
       getPerformanceDetail(this.performanceId)
         .then(res => {
           this.currentStage = res.stage;
+          this.isLoading = false;
           this.performanceDetail = res;
         })
         .catch(e => {});
@@ -1075,6 +1088,23 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+        }
+        .performance-tpl {
+          span {
+            margin-right: 8px;
+            position: relative;
+            &::after {
+              content: "、";
+              position: absolute;
+              right: -14px;
+              bottom: 0;
+            }
+            &:last-child {
+              &::after {
+                content: "";
+              }
+            }
+          }
         }
       }
     }
