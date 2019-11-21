@@ -767,7 +767,7 @@ export default {
     },
     importList() {
       // 导入名单
-      this.showUploadWorkFile = true;
+      this.showImportList = true;
       // if (type == "finance") {
       //   this.upload_title = "上传财务指标";
       //   this.upload_action_url = this.constants.postUploadFinancialIndicators(
@@ -895,7 +895,7 @@ export default {
         this.upload_action_url = this.constants.postUploadFinancialIndicators(
           this.performanceId
         );
-        this.download_url = this.constants.getFinancialtpm;
+        this.download_url = this.constants.getFinancialtpm(this.performanceId);
         this.upload_type = type;
       } else {
         this.upload_title = "上传工作目标";

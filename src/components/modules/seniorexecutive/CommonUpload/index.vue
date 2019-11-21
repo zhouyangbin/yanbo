@@ -1,15 +1,15 @@
 <template>
   <el-dialog
     class="common-upload"
-    :title="upload_title"
     :visible="visible"
     @close="close"
     :close-on-click-modal="false"
     width="650px"
   >
+    <div slot="title" class="title">{{ upload_title }}</div>
     <el-form label-width="150px">
       <el-form-item label="模版下载">
-        <el-button type="text" @click="downloadTemplate">下载</el-button>
+        <el-button type="text"><a class="down-load" download :href="download_url">下载</a></el-button>
       </el-form-item>
       <el-form-item label="上传文件">
         <el-upload
@@ -73,12 +73,6 @@ export default {
     close() {
       this.$emit("close");
     },
-    downloadTemplate() {
-      var link = document.createElement("a");
-      link.setAttribute("download", "");
-      link.href = this.download_url;
-      link.click();
-    },
     /**
      * 上传成功
      */
@@ -121,7 +115,11 @@ export default {
 };
 </script>
 <style scoped>
-.uploadTargetDialog .notice {
-  color: #ff8519;
+.common-upload >>> .el-dialog__header {
+  border-bottom: 1px solid #e4e7ed;
+}
+.common-upload .down-load {
+  color: #52ddab;
+  text-decoration: none;
 }
 </style>

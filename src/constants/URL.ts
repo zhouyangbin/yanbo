@@ -223,11 +223,12 @@ export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
 export const getFinancialIndicators = () =>
   `${base}/executive-performance/admin/performances/templates/financial-indicators`;
 // 下载高管绩效  财务指标模板
-export const getFinancialtpm = `${base}/executive-performance/admin/performances/templates/financial-indicators?${qs.stringify(
-  {
-    token: localStorage.getItem("talToken")
-  }
-)}`;
+export const getFinancialtpm = (id: String) =>
+  `${base}//executive-performance/admin/performances/${id}/templates/financial-indicators?${qs.stringify(
+    {
+      token: localStorage.getItem("talToken")
+    }
+  )}`;
 // 下载高管绩效  工作目标模板
 export const getWorktpm = (id: String) =>
   `${base}executive-performance/web/${id}/target/template?token=${localStorage.getItem(

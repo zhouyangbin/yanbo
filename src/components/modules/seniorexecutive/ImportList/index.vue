@@ -1,12 +1,12 @@
 <template>
   <el-dialog
-    class="common-upload"
-    :title="upload_title"
+    class="import-list"
     :visible="visible"
     @close="close"
     :close-on-click-modal="false"
     width="650px"
   >
+    <div slot="title" class="title">导入名单</div>
     <el-form label-width="150px">
       <el-form-item label="模版下载">
         <el-button type="text" @click="downloadTemplate">下载</el-button>
@@ -38,10 +38,6 @@ export default {
     visible: {
       type: Boolean,
       default: false
-    },
-    upload_title: {
-      type: String,
-      default: ""
     },
     upload_action_url: {
       type: String,
@@ -121,7 +117,7 @@ export default {
 };
 </script>
 <style scoped>
-.uploadTargetDialog .notice {
-  color: #ff8519;
+.import-list >>> .el-dialog__header {
+  border-bottom: 1px solid #e4e7ed;
 }
 </style>
