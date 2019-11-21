@@ -18,7 +18,6 @@
     >
       <el-form-item label="姓名/工号:" prop="workcode">
         <el-select
-          @change="selectUser"
           v-model="userForm.workcode"
           filterable
           remote
@@ -33,16 +32,10 @@
             v-for="item in userOptions"
             :key="item.workcode"
             :label="item.workcode + item.name + item.email"
-            :value="item.workcode + '-' + item.email"
+            :value="item.workcode"
           >
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="邮箱:" prop="email">
-        <el-input
-          v-model="userForm.email"
-          :disabled="userType !== 'add' || userForm.email !== ''"
-        ></el-input>
       </el-form-item>
       <el-form-item label="直接上级:" prop="superior_workcode">
         <el-input v-model="userForm.superior_workcode"></el-input>
@@ -122,10 +115,6 @@ export default {
       type: String,
       default: "add"
     },
-    userId: {
-      type: String,
-      default: ""
-    },
     performanceId: {
       type: String,
       default: ""
@@ -133,13 +122,16 @@ export default {
     userInfo: {
       type: Object,
       default: () => ({})
+    },
+    userId: {
+      type: String,
+      default: ""
     }
   },
   data() {
     return {
       userForm: {
         workcode: "",
-        email: "",
         superior_workcode: "",
         isolation_workcode: "",
         president_workcode: "",
@@ -149,9 +141,6 @@ export default {
       },
       userRules: {
         workcode: [
-          { required: true, message: "请输入姓名或工号", trigger: "blur" }
-        ],
-        email: [
           { required: true, message: "请输入姓名或工号", trigger: "blur" }
         ],
         superior_workcode: [
@@ -182,10 +171,6 @@ export default {
     };
   },
   methods: {
-    selectUser(value) {
-      this.userForm.workcode = value.split("-")[0];
-      this.userForm.email = value.split("-")[1];
-    },
     searchME(query) {
       if (query !== "") {
         this.loading = true;
@@ -208,6 +193,11 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (this.userType != "add") {
+            if (
+              JSON.stringify(this.userInfo) !== JSON.stringify(this.userForm)
+            ) {
+              return false;
+            }
             putEmployeeInfo(this.performanceId, this.userId, this.userForm)
               .then(res => {
                 this.$emit("define");
@@ -255,11 +245,18 @@ export default {
     getTplExecutiveTypes(this.performanceId)
       .then(res => {
         this.executiveTypes = res;
-        console.log(res);
       })
       .catch(e => {});
     if (this.userType != "add") {
-      // 修改
+      this.userForm = {
+        workcode: this.userInfo.workcode,
+        superior_workcode: this.userInfo.superior_workcode,
+        isolation_workcode: this.userInfo.isolation_workcode,
+        president_workcode: this.userInfo.president_workcode,
+        hrbp_workcode: this.userInfo.hrbp_workcode,
+        hrd_workcode: this.userInfo.hrd_workcode,
+        executive_type: this.userInfo.executive_type
+      };
     }
   }
 };
