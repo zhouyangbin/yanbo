@@ -59,9 +59,9 @@
                 <div class="container-list-message-left-space"></div>
               </div>
               <div class="container-list-message-left"></div>
-              <el-button type="primary" @click="highDetail()"
+              <!-- <el-button type="primary" @click="highDetail()"
                 >查看详情</el-button
-              >
+              > -->
             </div>
             <el-table :data="tableData">
               <el-table-column prop="name" label="姓名" width="70">
@@ -239,6 +239,13 @@
                 </template>
               </el-table-column> -->
             </el-table>
+            <div class="container-list-message">
+              <div class="container-list-message-left"></div>
+              <el-button type="primary" @click="highDetail()"
+                >查看更多(共{{ highNumber }}人)</el-button
+              >
+              <div class="container-list-message-left"></div>
+            </div>
           </div>
         </div>
         <div v-if="isStaff && gradeListType == 'pending'" class="container">
@@ -270,9 +277,9 @@
                 <div class="container-list-message-left-space"></div>
               </div>
               <div class="container-list-message-left"></div>
-              <el-button type="primary" @click="staffDetail()"
+              <!-- <el-button type="primary" @click="staffDetail()"
                 >查看详情</el-button
-              >
+              > -->
             </div>
             <el-table :data="stafftableData">
               <el-table-column prop="name" label="姓名" width="70">
@@ -450,6 +457,13 @@
                 </template>
               </el-table-column> -->
             </el-table>
+            <div class="container-list-message">
+              <div class="container-list-message-left"></div>
+              <el-button type="primary" @click="staffDetail()"
+                >查看更多(共{{ staffNumber }}人)</el-button
+              >
+              <div class="container-list-message-left"></div>
+            </div>
           </div>
         </div>
         <finished v-if="gradeListType == 'end'"></finished>
@@ -516,6 +530,8 @@ import {
 export default {
   data() {
     return {
+      highNumber: 0,
+      staffNumber: 0,
       highType: "",
       staffType: "",
       evaluation_id: 0, //  评分id
@@ -604,6 +620,7 @@ export default {
           Object.keys(res.evaluations).forEach(key => {
             // 高管
             if (key == 2) {
+              this.highNumber = res.users[key].data.length;
               this.isHigh = true;
               this.highType = key;
               this.highSmmary = this.postSummary(res.users[key].overview);
@@ -621,6 +638,7 @@ export default {
             }
             //员工
             if (key == 1) {
+              this.staffNumber = res.users[key].data.length;
               this.isStaff = true;
               this.staffType = key;
               this.summary = this.postSummary(res.users[key].overview);
