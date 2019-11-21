@@ -71,7 +71,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "150848" })
+        fzLogin({ workcode: "147463" })
           // 094203
           // 076533
           // 17600297195
