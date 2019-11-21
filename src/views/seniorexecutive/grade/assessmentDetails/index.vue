@@ -567,6 +567,8 @@
       :visible="showUploadWorkFile"
       :upload_title="upload_title"
       :upload_action_url="upload_action_url"
+      :upload_type="upload_type"
+      :download_url="download_url"
       @close="upload_close"
     >
     </common-upload-dialog>
@@ -589,8 +591,11 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_USER_LIST,
   postUploadFinancialIndicators,
-  postUploadWorkIndicators
+  postUploadWorkIndicators,
+  getFinancialtpm, 
+  getWorktpm
 } from "@/constants/URL";
+
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
@@ -683,9 +688,13 @@ export default {
       showUploadWorkFile: false,
       upload_title: '',
       upload_action_url: '',
+      upload_type:'',
+      download_url: '',
       constants: {
         postUploadFinancialIndicators,
-        postUploadWorkIndicators
+        postUploadWorkIndicators,
+        getFinancialtpm, 
+        getWorktpm
       }
     };
   },
@@ -850,9 +859,13 @@ export default {
       if(type == 'finance'){
         this.upload_title =  '上传财务指标';
         this.upload_action_url = this.constants.postUploadFinancialIndicators(this.performanceId);
+        this.download_url = this.constants.getFinancialtpm;
+        this.upload_type = type;
       }else{
         this.upload_title =  '上传工作目标';
         this.upload_action_url = this.constants.postUploadWorkIndicators(this.performanceId);
+        this.download_url = this.constants.getWorktpm(this.performanceId);
+        this.upload_type = type
       }
     },
     upload_close() {

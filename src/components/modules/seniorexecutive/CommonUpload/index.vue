@@ -15,6 +15,8 @@
         <el-upload
           class="upload-demo"
           :action="upload_action_url"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
         >
           <el-button type="text">选择文件</el-button>
         </el-upload>
@@ -31,7 +33,6 @@
   </el-dialog>
 </template>
 <script>
-import { getFinancialIndicators } from "@/constants/API";
 export default {
   props: {
     visible: {
@@ -43,6 +44,14 @@ export default {
       default: ""
     },
     upload_action_url: {
+      type: String,
+      default: ""
+    },
+    download_url: {
+      type: String,
+      default: ""
+    },
+    upload_type: {
       type: String,
       default: ""
     },
@@ -65,18 +74,15 @@ export default {
       this.$emit("close");
     },
     downloadTemplate() {
-      getFinancialIndicators()
-        .then(res => {
-          console.log(res);
-          this.$message.success("下载成功");
-        })
-        .catch(() => {});
+      var link = document.createElement('a');
+      link.setAttribute("download", "");
+      link.href = this.download_url;
+      link.click();
     },
     /**
-     * 上传指标成功
+     * 上传成功
      */
     uploadSuccess(response, file, fileList) {
-      //TODO 待修改
       if (
         response &&
         response.data &&
@@ -97,13 +103,10 @@ export default {
       console.log(response, file, fileList);
     },
     /**
-     * 上传指标失败
+     * 上传失败
      */
     uploadError(err, file, fileList) {
-      // TODO 待修改
       const errObj = JSON.parse(err.message);
-      // this.tableData = errObj.data
-      // this.showTable = true
       let msg;
       if (errObj.status == 435 && errObj.data && errObj.data.errors) {
         msg = errObj.data.errors[Object.keys(errObj.data.errors)[0]].join("/");
@@ -114,9 +117,6 @@ export default {
         title: "ERROR",
         message: msg || `${file.name}${UPLOAD_FAIL}`
       });
-    },
-    beforeUpload(file) {
-      console.log(file);
     }
   }
 };
