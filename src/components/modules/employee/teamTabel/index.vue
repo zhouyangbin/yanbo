@@ -111,7 +111,7 @@
                       overview[1].child[1].name +
                         "(" +
                         overview[1].child[1].threshold +
-                        "%人)"
+                        "%)"
                     }}
                   </div>
                 </div>
