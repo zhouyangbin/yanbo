@@ -9,9 +9,9 @@ export default {};
 <style lang="scss" scoped>
 .mobileNotify-page {
   height: 100vh;
-  background: #619BED;
+  background: #619bed;
   img {
-    width:100vw;
+    width: 100vw;
   }
 }
 </style>
