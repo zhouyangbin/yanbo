@@ -180,8 +180,7 @@
       <el-row class="footer-button">
         <el-button @click="submitForm" class="submit-button">提交</el-button>
         <el-button @click="temporaryMemory" class="tempeorary-memory"
-          >暂存</el-button
-        >
+          >暂存</el-button>
         <el-button @click="returnList">返回</el-button>
       </el-row>
     </div>
