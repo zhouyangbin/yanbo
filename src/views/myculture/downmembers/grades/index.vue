@@ -239,7 +239,7 @@
                 </template>
               </el-table-column> -->
             </el-table>
-             <div class="container-list-message">
+            <div class="container-list-message">
               <div class="container-list-message-left"></div>
               <el-button type="primary" @click="highDetail()"
                 >查看更多(共{{ highNumber }}人)</el-button
