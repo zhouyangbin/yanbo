@@ -227,7 +227,7 @@ export default {
       this.page = val;
     },
     getMyLowerList() {
-      let data = {
+      let getData = {
         performance_id: parseInt(this.performanceId),
         page: this.page,
         name: this.filterForm.name,
@@ -235,8 +235,8 @@ export default {
         score_tag: this.filterForm.score_tag,
         team_leader: this.team_leader
       };
-      getMyIsolationUnderLower(data).then(res => {
-        let { data, team, total } = res;
+      getMyIsolationUnderLower(getData).then(res => {
+        let { total, data, team } = res;
         this.total = total;
         this.lowerList = data;
         this.teamList = team;

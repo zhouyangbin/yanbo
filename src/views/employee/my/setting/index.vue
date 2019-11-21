@@ -43,7 +43,8 @@
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
                       <template slot="append"
-                        >%</template>
+                        >%</template
+                      >
                     </el-input>
                   </el-form-item>
                 </template>
@@ -227,7 +228,7 @@ export default {
         ADD_TARGET_LINE,
         FINANCE_DIMENSIONALITY_SUBTOTAL
       },
-      isExamineDialog:false,
+      isExamineDialog: false,
       nav: [
         {
           label: MY_GRADE,
@@ -277,7 +278,7 @@ export default {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
       import("@/components/modules/employee/targetDetailsHeader/Index"),
-      "examine-detail": () =>
+    "examine-detail": () =>
       import("@/components/modules/employee/checkExamineDetail/index")
   },
   methods: {
@@ -312,7 +313,7 @@ export default {
         h("span", column.label),
         h("br"),
         h("span", "（最多可填写"),
-        h("span",{style:{color:"red"}},5),
+        h("span", { style: { color: "red" } }, 5),
         h("span", "项）")
       ]);
     },
@@ -325,7 +326,7 @@ export default {
         performance_user_id: this.$route.params.uid,
         workcode: ""
       };
-     
+
       getPerformanceUserInfo(data)
         .then(res => {
           const {
@@ -418,31 +419,31 @@ export default {
      * @returns postData 向后端传递的参数对象
      */
     handleSubmitData() {
-      let init = this.allTarget
+      let init = this.allTarget;
       let team = [];
       let work = [];
 
-      for( var i = 0; i < init.length - 1; i++ ){
-          let tableLen = init[i].table;
-          for( var r = 0; r < tableLen.length; r++ ){
-            let metrics = tableLen[r].metrics;
-            let n = {};
-            for( var l = 0; l < metrics.length; l++ ){
-              n[ metrics[ l ].key ] = metrics[ l ].content;
-            }
-            n.type   = init[ i ].type;
-            n.weight = init[ i ].weight;
-            if( init[i].basicType == "team" ){
-              team.push( n );
-            }else if( init[i].basicType == "work" ){
-              work.push( n );
-            }
+      for (var i = 0; i < init.length - 1; i++) {
+        let tableLen = init[i].table;
+        for (var r = 0; r < tableLen.length; r++) {
+          let metrics = tableLen[r].metrics;
+          let n = {};
+          for (var l = 0; l < metrics.length; l++) {
+            n[metrics[l].key] = metrics[l].content;
           }
+          n.type = init[i].type;
+          n.weight = init[i].weight;
+          if (init[i].basicType == "team") {
+            team.push(n);
+          } else if (init[i].basicType == "work") {
+            work.push(n);
+          }
+        }
       }
       let post = {
-        "team" : team,
-        "work" : work
-      }
+        team: team,
+        work: work
+      };
       return post;
     },
     /**
@@ -498,7 +499,9 @@ export default {
           this.handleSubTotal(this.allTarget[i].basicType)
         ) {
           this.$message.error(
-            `${this.allTarget[i].type}权重之和不等于${this.allTarget[i].weight}%, 请检查`
+            `${this.allTarget[i].type}权重之和不等于${
+              this.allTarget[i].weight
+            }%, 请检查`
           );
           return false;
         }
@@ -576,7 +579,7 @@ export default {
      */
     closeExamine() {
       this.isExamineDialog = false;
-    },
+    }
   },
   created() {
     this.getUserInfo();
@@ -675,7 +678,7 @@ export default {
   color: #ffffff;
   border: 1px solid #66a8ff;
 }
-.has-gutter .el-table_1_column_2 .cell div:nth-last-child(3){
+.has-gutter .el-table_1_column_2 .cell div:nth-last-child(3) {
   color: red !important;
 }
 </style>

@@ -6,8 +6,8 @@
     <el-row class="footer-button">
       <el-button @click="checkExamine">
         <!-- 查看审批记录 -->
-        {{constants.CHECK_EXAMINE_LOG}}
-        </el-button>
+        {{ constants.CHECK_EXAMINE_LOG }}
+      </el-button>
       <!-- 返回 -->
       <el-button @click="returnList">{{ constants.TARGET_RETURN }}</el-button>
     </el-row>
@@ -117,7 +117,7 @@ export default {
             indicator_setting_end_time
           };
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     /**
      * 得到模版设置中配置的信息，以及用户暂存的信息
@@ -168,7 +168,7 @@ export default {
             });
           }
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     /**
      * 查看审批记录

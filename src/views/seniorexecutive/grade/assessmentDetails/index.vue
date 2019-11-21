@@ -2,7 +2,6 @@
   <div class="assessment-detail">
     <nav-bar :list="nav"></nav-bar>
     <br />
-    <span @click="goDetail">新加入口</span>
     <section class="content-container bg-white" v-loading="isLoading">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
@@ -575,8 +574,7 @@ import {
   postUploadFinancialIndicators,
   postUploadWorkIndicators,
   getFinancialtpm,
-  getWorktpm,
-  PATH_PERFORMANCE_MY_DETAIL
+  getWorktpm
 } from "@/constants/URL";
 
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
@@ -729,9 +727,6 @@ export default {
     }
   },
   methods: {
-    goDetail() {
-      this.$router.push(PATH_PERFORMANCE_MY_DETAIL(this.performanceId));
-    },
     confirmUser() {
       this.showModifyUser = false;
       this.getUserList();

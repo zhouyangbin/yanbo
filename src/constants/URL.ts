@@ -196,9 +196,9 @@ export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid") =>
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
   `/performance/targetdetails/${id}/${uid}`;
 
-  // 高管绩效 申请调整指标
-  export const PATH_APPLICATION = (id = ":id", uid = ":uid") =>
-  `/performance/settingdetails/${id}/${uid}`
+// 高管绩效 申请调整指标
+export const PATH_APPLICATION = (id = ":id", uid = ":uid") =>
+  `/performance/settingdetails/${id}/${uid}`;
 // 高管绩效 我的团队上级确认页面
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   gradeID: String = ":gradeID",
@@ -211,8 +211,6 @@ export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
 
 export const PATH_UPLOAD_FILE = (uid: String) =>
   `${base}/executive-performance/web/self/${uid}/import-targets`;
-
-
 
 // 高管绩效 评分详情
 export const PATH_PERFORMANCE_MY_DETAIL = (

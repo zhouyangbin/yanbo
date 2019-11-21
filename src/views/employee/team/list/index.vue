@@ -40,17 +40,17 @@
         </el-table-column>
       </el-table>
       <br />
-       <el-pagination
-          v-if="tableData!=[]"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
+      <el-pagination
+        v-if="total"
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </section>
   </div>
 </template>
@@ -66,16 +66,19 @@ import {
   EXPORT_DETAILS,
   LABEL_DEPARTMENT
 } from "@/constants/TEXT";
-import { PATH_EMPLOYY_TEAM_GRADE_DETAIL ,PATH_PERFORMANCE_MY_DETAIL} from "@/constants/URL";
-import { getTeamScore} from "@/constants/API";
+import {
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_PERFORMANCE_MY_DETAIL
+} from "@/constants/URL";
+import { getTeamScore } from "@/constants/API";
 import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 
 export default {
   data() {
     return {
-      page:1,
+      page: 1,
       total: 0,
-      currentPage:10,
+      currentPage: 10,
       tableData: [],
       nav: [
         {
@@ -91,12 +94,11 @@ export default {
         GRADE_NAME,
         EXPORT_DETAILS,
         LABEL_DEPARTMENT
-      },
+      }
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
   },
   filters: {
     handlePType(val) {
@@ -111,12 +113,11 @@ export default {
   },
   methods: {
     goDetail(row) {
-      if(row.p_type == "executive"){
+      if (row.p_type == "executive") {
         this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
-      }else{
+      } else {
         this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.performance_id));
       }
-      
     },
     getList(data) {
       return getTeamScore(data)
@@ -131,20 +132,20 @@ export default {
     handleCurrentChange(val) {
       this.getList({
         page: val,
-        perPage:this.currentPage
+        perPage: this.currentPage
       });
     },
     exportDetail(row) {
       window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
     },
     // 改变每页最大数量
-    handleSizeChange(val){
-      this.currentPage = val
-      this.getList({ page: this.page ,perPage:val});
+    handleSizeChange(val) {
+      this.currentPage = val;
+      this.getList({ page: this.page, perPage: val });
     }
   },
   created() {
-    this.getList({ page: 1 ,perPage:this.currentPage});
+    this.getList({ page: 1, perPage: this.currentPage });
   }
 };
 </script>
