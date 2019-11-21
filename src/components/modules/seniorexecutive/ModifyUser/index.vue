@@ -11,7 +11,7 @@
     </div>
     <el-form
       :rules="userRules"
-      label-width="110px"
+      label-width="160px"
       ref="userForm"
       :model="userForm"
       class="user-form"
@@ -52,7 +52,7 @@
       <el-form-item label="HRD:" prop="hrd_workcode">
         <el-input v-model="userForm.hrd_workcode"></el-input>
       </el-form-item>
-      <el-form-item label="高管类别:" prop="executive_type">
+      <el-form-item label="组织部成员类别:" prop="executive_type">
         <el-select
           v-model="userForm.executive_type"
           clearable
@@ -66,20 +66,6 @@
           >
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="上传指标:">
-        <el-upload
-          class="upload-demo"
-          :action="actionUrl"
-          :uploadSuccess="uploadSuccess"
-        >
-          <el-button size="small" type="primary">选择文件</el-button>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="提示信息:">
-        <span class="tip-info" :class="isUploadSuccess ? 'active' : ''"
-          >上传成功！共{{ uploadNum }}人。</span
-        >
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -164,10 +150,7 @@ export default {
       },
       userOptions: [],
       loading: false,
-      executiveTypes: [],
-      actionUrl: "",
-      uploadNum: 0,
-      isUploadSuccess: false
+      executiveTypes: []
     };
   },
   methods: {
@@ -196,6 +179,11 @@ export default {
             if (
               JSON.stringify(this.userInfo) !== JSON.stringify(this.userForm)
             ) {
+              this.$message({
+                showClose: true,
+                message: "您还没有修改员工信息",
+                type: "error"
+              });
               return false;
             }
             putEmployeeInfo(this.performanceId, this.userId, this.userForm)
@@ -214,28 +202,6 @@ export default {
           return false;
         }
       });
-    },
-    uploadSuccess(response, file, fileList) {
-      if (
-        response &&
-        response.data &&
-        response.data.errors &&
-        response.data.errors.length > 0
-      ) {
-        this.tableData = response.data.errors.slice();
-        this.$notify.error({
-          title: ERROR,
-          message: `上传内容有部分错误!`
-        });
-      } else {
-        this.tableData = [];
-        this.$notify({
-          title: SUCCESS,
-          message: UPLOAD_SUCCESS,
-          type: "success"
-        });
-        this.close();
-      }
     }
   },
   beforeDestroy() {
@@ -270,11 +236,5 @@ export default {
 }
 .modify-user >>> .el-form-item__content .el-select {
   width: 100%;
-}
-.modify-user .tip-info {
-  color: #fff;
-}
-.modify-user .tip-info.active {
-  color: #eb0c00;
 }
 </style>

@@ -38,11 +38,11 @@ export default {
       if (!value) return true;
       return data.name.indexOf(value) !== -1;
     },
-    treeChange: debounce(function(data, checked, indeterminate) {
+    treeChange(data, checked, indeterminate) {
       let ids = this.$refs.tree.getCheckedNodes();
       ids = ids.map(v => v.id);
       this.$emit("selectedIds", ids);
-    }, 10)
+    }
   }
 };
 </script>

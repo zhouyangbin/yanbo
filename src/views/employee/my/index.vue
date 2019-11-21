@@ -54,9 +54,7 @@ export default {
             this.currentComponent = "set-targets";
           }
         })
-        .catch(e => {
-          console.log(1);
-        });
+        .catch(e => {});
     }
   },
   created() {

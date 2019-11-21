@@ -119,7 +119,6 @@ export default {
     },
     getDepartment() {
       getDepartments().then(res => {
-        console.log(res);
         this.options = res;
       });
     },

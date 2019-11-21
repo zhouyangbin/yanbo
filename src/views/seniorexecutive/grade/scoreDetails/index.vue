@@ -2,7 +2,7 @@
   <div class="assessment-detail">
     <nav-bar :list="nav"></nav-bar>
     <br />
-    <section class="content-container bg-white">
+    <section class="content-container bg-white" v-loading="isLoading">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
       </div>
@@ -173,7 +173,8 @@ export default {
       type: "superior",
       performanceId: this.$route.params.performanceId,
       performanceDetail: {},
-      nowTime: ""
+      nowTime: "",
+      isLoading: true
     };
   },
   filters: {
@@ -193,6 +194,7 @@ export default {
       };
       getPerformanceDetailHeader(this.performanceId, data)
         .then(res => {
+          this.isLoading = false;
           this.performanceDetail = res;
         })
         .catch(e => {});
