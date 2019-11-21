@@ -110,8 +110,8 @@ export default {
       default: () => ({})
     },
     userId: {
-      type: String,
-      default: ""
+      type: Number,
+      default: 0
     }
   },
   data() {

@@ -9,8 +9,11 @@
     <div slot="title" class="title">导入名单</div>
     <el-tabs type="card" v-model="activeName">
       <el-tab-pane label="从EHR读取" name="first">
-        <div>同步数据</div>
-        <div>提示信息</div>
+        <el-form label-width="80px">
+          <el-form-item label="是否高管">
+            <el-switch v-model="name"></el-switch>
+          </el-form-item>
+        </el-form>
       </el-tab-pane>
       <el-tab-pane label="上传文件" name="second">
         <el-form label-width="80px">
@@ -34,6 +37,10 @@
         </el-form>
       </el-tab-pane>
     </el-tabs>
+    <span slot="footer" v-if="activeName === 'first'" class="dialog-footer">
+      <el-button @click="close">取消</el-button>
+      <el-button @click="confirmBtn" type="primary">确定</el-button>
+    </span>
   </el-dialog>
 </template>
 
@@ -73,7 +80,8 @@ export default {
   },
   data() {
     return {
-      activeName: "first"
+      activeName: "first",
+      name: false
     };
   },
   methods: {
@@ -88,7 +96,7 @@ export default {
       });
       this.close();
     },
-    uploadErr(err, file, fileList) {
+    uploadError(err, file, fileList) {
       const errObj = JSON.parse(err.message);
       this.tableData = errObj.data;
       this.showTable = true;
@@ -96,6 +104,10 @@ export default {
         title: ERROR,
         message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
       });
+    },
+    confirmBtn() {
+      // 发送请求，并关闭弹框
+      this.$emit("define");
     }
   },
   created() {}
