@@ -191,7 +191,7 @@ export default {
         year: "",
         period_start_time: this.initTime.period_start_time || "",
         period_end_time: this.initTime.period_end_time || "",
-        tag: [],
+        tag: {},
         templates: [],
         allow_appeal: 1
       },
@@ -239,8 +239,6 @@ export default {
   methods: {
     selectedOrg(data) {
       if (data.length === 0) {
-        this.ruleForm.templates = [];
-        this.ruleForm.tag = [];
         return false;
       }
       if (this.infoType !== "add") {
@@ -252,28 +250,14 @@ export default {
       };
       getTagDepartments(getData)
         .then(res => {
-          if (res) {
-            this.ruleForm.tag = res;
-          } else {
-            this.ruleForm.department_ids = [];
-            this.ruleForm.tag = [];
-          }
+          this.ruleForm.tag = res;
         })
-        .catch(e => {
-          this.ruleForm.department_ids = [];
-        });
+        .catch(e => {});
       getTplDepartments(getData)
         .then(res => {
-          if (res) {
-            this.ruleForm.templates = res;
-          } else {
-            this.ruleForm.department_ids = [];
-            this.ruleForm.templates = [];
-          }
+          this.ruleForm.templates = res;
         })
-        .catch(e => {
-          this.ruleForm.department_ids = [];
-        });
+        .catch(e => {});
     },
     close() {
       this.$emit("close");
@@ -283,9 +267,13 @@ export default {
         if (valid) {
           if (
             this.ruleForm.templates.length == 0 ||
-            this.ruleForm.tag.length == 0
+            !this.ruleForm.tag.tag_type
           ) {
-            this.$alert("请至少选择一个有效业务单元/职能单元!");
+            this.$message({
+              showClose: true,
+              message: "请至少选择一个有效业务单元/职能单元!",
+              type: "error"
+            });
             return false;
           }
           if (this.infoType == "add") {

@@ -1,73 +1,77 @@
 <template>
   <div class="isolation-level">
-    <section>
-      <div class="filter-box">
-        <span>我的隔级下属</span>
-        <el-form
-          :inline="true"
-          ref="filterForm"
-          :model="filterForm"
-          class="demo-form-inline screening-form"
+    <section style="min-height:400px">
+      <div class="filter-title">
+        <span>考核人员明细</span
+        ><span class="filter-number">共{{ total }}人</span>
+      </div>
+      <el-form
+        :inline="true"
+        ref="filterForm"
+        :model="filterForm"
+        class="demo-form-inline filter-form"
+      >
+        <el-form-item prop="name">
+          <common-select
+            :code="filterForm.name"
+            :isDisabled="false"
+            @selectedUser="selectWorkCode"
+          ></common-select>
+        </el-form-item>
+        <el-form-item prop="stage">
+          <el-select
+            @change="changeStage"
+            v-model="filterForm.stage"
+            placeholder="请选择状态"
+          >
+            <el-option
+              v-for="item in constants.STAGEOPTIONS"
+              :key="item.key"
+              :label="item.value"
+              :value="item.key"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="score_tag">
+          <el-select
+            @change="changeScoreTag"
+            v-model="filterForm.score_tag"
+            placeholder="请选择标签"
+          >
+            <el-option
+              v-for="item in tagOptions"
+              :key="item.key"
+              :label="item.name"
+              :value="item.key"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="resetForm('filterForm')">清空</el-button>
+        </el-form-item>
+      </el-form>
+      <el-row type="flex" :gutter="20" align="top">
+        <el-col
+          :span="3"
+          style="border-right: solid 1px rgba(233,235,242,1); min-height: 400px"
         >
-          <el-form-item prop="name">
-            <el-select
-              v-model="filterForm.name"
-              @change="changeName"
-              filterable
-              remote
-              clearable
-              reserve-keyword
-              placeholder="请输入姓名或工号"
-              :remote-method="searchME"
-              :loading="loading"
-            >
-              <el-option
-                v-for="item in userOptions"
-                :key="item.workcode"
-                :label="item.workcode + item.name + item.email"
-                :value="item.workcode"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="stage">
-            <el-select
-              @change="changeStage"
-              v-model="filterForm.stage"
-              placeholder="请选择状态"
-            >
-              <el-option
-                v-for="item in constants.STAGEOPTIONS"
-                :key="item.key"
-                :label="item.value"
-                :value="item.key"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="score_tag">
-            <el-select
-              @change="changeScoreTag"
-              v-model="filterForm.score_tag"
-              placeholder="请选择标签"
-            >
-              <el-option
-                v-for="item in tagOptions"
-                :key="item.key"
-                :label="item.name"
-                :value="item.key"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button @click="resetForm('filterForm')">清空</el-button>
-          </el-form-item>
-        </el-form>
-        <div class="table-list">
-          <div class="select-team">
-            <div class="total-team">全部下属</div>
-          </div>
+          <el-checkbox class="check_tag" v-model="team_leader"
+            >全部下属</el-checkbox
+          >
+          <el-radio
+            class="check_tag"
+            v-for="(item, index) in teamList"
+            :key="index"
+            v-model="team_leader"
+            :label="index"
+          >
+            {{ item.name }}
+            <!-- <span v-if="item.abnormal_status" class="Badge_logo"></span> -->
+          </el-radio>
+        </el-col>
+        <el-col :span="21" style="min-height: 400px">
           <div class="display-data">
             <div class="display-team">
               <span class="team-name">刘二团队</span>
@@ -75,76 +79,88 @@
               <span class="team-warning">Top超出1人</span>
               <span class="view-response">查看提交理由</span>
             </div>
-            <el-table :data="lowerList" style="width: 100%">
-              <el-table-column prop="workcode" label="工号" width="100">
-              </el-table-column>
-              <el-table-column prop="name" label="姓名">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.stage === 50">
-                    {{ scope.row.name
-                    }}<img
-                      class="stage-img"
-                      src="@/assets/img/stage.png"
-                      alt=""
-                    />
-                  </div>
-                  <div v-else>{{ scope.row.name }}</div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="sub_department_name"
-                :show-overflow-tooltip="true"
-                label="大部门/分校"
-              >
-              </el-table-column>
-              <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
-              <el-table-column prop="isolation_name" label="隔级">
-              </el-table-column>
-              <el-table-column prop="self_score" label="自评分">
-              </el-table-column>
-              <el-table-column prop="superior_score" label="复评分">
-              </el-table-column>
-              <el-table-column prop="culture" label="文化评分">
-              </el-table-column>
-              <el-table-column prop="final" label="最终成绩"> </el-table-column>
-              <el-table-column prop="score_tag" label="标签分布">
-              </el-table-column>
-              <el-table-column prop="stage_text" label="状态">
-                <template slot-scope="scope">
-                  <span class="grade-stage">{{ scope.row.stage_text }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="hrbp_name" label="操作">
-                <template slot-scope="scope">
-                  <div class="grade-operation" @click="viewDetail(scope.row)">
-                    详情
-                  </div>
-                  <div class="grade-operation" @click="viewDetail(scope.row)">
-                    处理申述
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
+            <el-button class="reject-btn" type="warning"
+              >驳回刘二团队</el-button
+            >
           </div>
-        </div>
-      </div>
+          <el-table :data="lowerList" class="lower-list" style="width: 100%">
+            <el-table-column prop="workcode" label="工号" width="100">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名">
+              <template slot-scope="scope">
+                <div v-if="scope.row.stage === 50">
+                  {{ scope.row.name
+                  }}<img
+                    class="stage-img"
+                    src="@/assets/img/stage.png"
+                    alt=""
+                  />
+                </div>
+                <div v-else>{{ scope.row.name }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="sub_department_name"
+              :show-overflow-tooltip="true"
+              label="大部门/分校"
+            >
+            </el-table-column>
+            <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
+            <el-table-column prop="isolation_name" label="隔级">
+            </el-table-column>
+            <el-table-column prop="self_score" label="自评分">
+            </el-table-column>
+            <el-table-column prop="superior_score" label="复评分">
+            </el-table-column>
+            <el-table-column prop="culture" label="文化评分"> </el-table-column>
+            <el-table-column prop="final" label="最终成绩"> </el-table-column>
+            <el-table-column prop="score_tag" label="标签分布">
+            </el-table-column>
+            <el-table-column prop="stage_text" label="状态">
+              <template slot-scope="scope">
+                <span class="grade-stage">{{ scope.row.stage_text }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="hrbp_name" label="操作">
+              <template slot-scope="scope">
+                <div
+                  class="grade-operation"
+                  v-if="scope.row.stage === 50"
+                  @click="handleAppeal(scope.row)"
+                >
+                  处理申述
+                </div>
+                <div
+                  class="grade-operation"
+                  v-else
+                  @click="viewDetail(scope.row)"
+                >
+                  详情
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </section>
     <el-row type="flex" justify="end">
-      <pagination
+      <el-pagination
+        v-if="total"
+        background
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :currentPage="page"
+        :current-page="page"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-      ></pagination>
+      >
+      </el-pagination>
     </el-row>
   </div>
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import {
-  getMyIsolationUnderLower,
-  getAdminTagTypes,
-  getSearchEmployees
-} from "@/constants/API";
+import { getMyIsolationUnderLower, getAdminTagTypes } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import {
   LABEL_EMPTY,
@@ -153,7 +169,9 @@ import {
 } from "@/constants/TEXT";
 export default {
   components: {
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    "common-select": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonSelect/index.vue")
+    )
   },
   props: {
     performanceId: {
@@ -187,28 +205,12 @@ export default {
       tagOptions: [],
       lowerList: [],
       teamList: [],
-      team_leader: "",
-      loading: false,
-      userOptions: []
+      team_leader: ""
     };
   },
   methods: {
-    searchME(query) {
-      if (query !== "") {
-        this.loading = true;
-        getSearchEmployees({
-          name_or_workcode: query
-        })
-          .then(res => {
-            this.loading = false;
-            this.userOptions = res;
-          })
-          .catch(e => {});
-      } else {
-        this.userOptions = [];
-      }
-    },
-    changeName() {
+    selectWorkCode(data) {
+      this.filterForm.name = data;
       this.getMyLowerList();
     },
     changeStage() {
@@ -217,14 +219,23 @@ export default {
     changeScoreTag() {
       this.getMyLowerList();
     },
-    viewDetail(data) {
-      console.log(row);
-    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.getMyLowerList();
     },
-    handleCurrentChange() {
+    handleCurrentChange(val) {
       this.page = val;
+      this.getMyLowerList();
+    },
+    handleSizeChange(val) {
+      this.perPage = val;
+      this.getMyLowerList();
+    },
+    viewDetail(data) {
+      // 查看详情
+    },
+    handleAppeal(data) {
+      // 处理申诉
     },
     getMyLowerList() {
       let getData = {
@@ -255,23 +266,79 @@ export default {
 </script>
 <style lang="scss" scoped>
 .isolation-level {
+  padding: 24px;
   background-color: #fff;
-  .filter-box {
-    padding: 24px;
-    .screening-form {
-      margin-top: 24px;
-      .el-form-item {
-        margin-bottom: 16px;
-        .el-form-item__content {
-          line-height: 32px;
-        }
+  .filter-title {
+    color: #303133;
+    .filter-number {
+      margin-left: 6px;
+      font-size: 14px;
+      color: #909399;
+    }
+  }
+  .filter-form {
+    margin-top: 24px;
+    .el-form-item {
+      margin-bottom: 16px;
+      .el-form-item__content {
+        line-height: 32px;
       }
     }
   }
-  .stage-img {
-    display: inline-block;
-    width: 44px;
-    height: 18px;
+  .display-data {
+    display: flex;
+    justify-content: space-between;
+    .display-team {
+      font-size: 14px;
+      .team-name {
+        margin-right: 6px;
+        color: #606266;
+      }
+      .team-nums {
+        color: #909399;
+      }
+      .team-warning {
+        color: #eb0c00;
+      }
+      .view-response {
+        margin-left: 24px;
+        color: #38d0af;
+        cursor: pointer;
+      }
+    }
+  }
+  .lower-list {
+    margin-bottom: 20px;
+    .stage-img {
+      display: inline-block;
+      width: 44px;
+      height: 18px;
+    }
+    .grade-stage {
+      .grade-stage-circle {
+        display: inline-block;
+        margin-right: 4px;
+        position: relative;
+        top: -2px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #38d0af;
+      }
+      .grade-stage-circle.stage-green {
+        background-color: #38d0af;
+      }
+      .grade-stage-circle.stage-orange {
+        background-color: #fdb926;
+      }
+      .grade-stage-circle.stage-red {
+        background-color: #ff0000;
+      }
+    }
+    .grade-operation {
+      color: #38d0af;
+      cursor: pointer;
+    }
   }
 }
 </style>
