@@ -3,10 +3,10 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true" ref="conditionForm" :model="conditionForm">
+        <el-form :inline="true">
           <el-form-item>
             <el-cascader
-              v-model="evaluation_id"
+              v-model="department_ids"
               :props="filterProps"
               :placeholder="constants.LABEL_SELECT_DIVISION"
               :options="orgTree"
@@ -15,7 +15,7 @@
             ></el-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="resetForm('conditionForm')">{{
+            <el-button round @click="resetForm()">{{
               constants.RESET
             }}</el-button>
           </el-form-item>
@@ -88,17 +88,19 @@
           </el-table-column>
         </el-table>
         <br />
-        <el-pagination
-          v-if="total"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
+        <el-row type="flex" justify="end">
+          <el-pagination
+            v-if="total"
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          >
+          </el-pagination>
+        </el-row>
       </section>
     </section>
     <label-dialog
@@ -112,11 +114,11 @@
       :tableData="tableData"
       @getList="getAdminTagsList"
     ></label-dialog>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="400px">
       <span>是否确认删除标签？</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="deleteMsg">确 定</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="deleteMsg">确定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -157,9 +159,6 @@ export default {
       total: 0,
       infoType: "add",
       showDialog: false,
-      options: [], // 业务单元/职能单元数据来源
-      conditionForm: { evaluation_name_id: "", evaluation_id: "" },
-      departments: [],
       canCreateTpl: true,
       tableData: [],
       initData: {},
@@ -183,7 +182,7 @@ export default {
           active: true
         }
       ],
-      evaluation_id: [],
+      department_ids: [],
       dialogVisible: false,
       deleteNumber: 0,
       deleteIndex: 0
@@ -191,6 +190,7 @@ export default {
   },
   methods: {
     checkCascader() {
+      this.page = 1;
       this.getAdminTagsList();
     },
     /**
@@ -217,13 +217,8 @@ export default {
     },
     resetForm(formName) {
       this.page = 1;
-      this.evaluation_id = [];
+      this.department_ids = [];
       this.getAdminTagsList();
-    },
-    changeDepartment(item) {
-      this.conditionForm = Object.assign({}, this.conditionForm, {
-        evaluation_id: item.value
-      });
     },
     createTpl() {
       // 创建模板
@@ -249,14 +244,13 @@ export default {
       this.getAdminTagsList();
     },
     updateTpl(row) {
-      // 修改
       this.infoType = "modify";
       this.initData = { id: row.id };
       this.showDialog = true;
     },
     getAdminTagsList() {
       let data = {
-        department_ids: this.evaluation_id,
+        department_ids: this.department_ids,
         page: this.page,
         perPage: this.perPage
       };

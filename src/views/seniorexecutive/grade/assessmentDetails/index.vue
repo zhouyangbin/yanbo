@@ -541,7 +541,6 @@
           <el-pagination
             background
             v-if="total"
-            class="paging-box"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="personalForm.page"

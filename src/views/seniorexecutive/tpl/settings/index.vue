@@ -75,17 +75,19 @@
           </el-table-column>
         </el-table>
         <br />
-        <el-pagination
-          v-if="total"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
+        <el-row type="flex" justify="end">
+          <el-pagination
+            v-if="total"
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          >
+          </el-pagination>
+        </el-row>
       </section>
     </section>
     <tpl-dialog

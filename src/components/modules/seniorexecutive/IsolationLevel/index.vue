@@ -125,6 +125,7 @@
         </el-col>
       </el-row>
     </section>
+    <br />
     <el-row type="flex" justify="end">
       <el-pagination
         v-if="total"
@@ -316,7 +317,6 @@ export default {
     }
   }
   .lower-list {
-    margin-bottom: 20px;
     .stage-img {
       display: inline-block;
       width: 44px;
