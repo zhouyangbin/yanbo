@@ -13,7 +13,7 @@
             :disabled="!Allsubmit_action"
             type="primary"
             @click="Allsubmit_step1"
-            >整体提交</el-button
+            >查看</el-button
           >
           <el-popover placement="bottom" width="270" trigger="click">
             <p>提交记录</p>
@@ -75,17 +75,26 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item prop="status">
+            <el-select v-model="filterForm.status" placeholder="请选择标签">
+              <el-option
+                v-for="v of constants.ENUM_PERFORMANCE_FINISH"
+                :key="v.key"
+                :label="v.value"
+                :value="v.key"
+              ></el-option>
+            </el-select>
+          </el-form-item>
           <el-button @click="resetForm('filterForm')">{{
             constants.LABEL_EMPTY
           }}</el-button>
         </el-form>
       </section>
-      <senior-list
-        :list_data="tableData"
+      <high-level-list
+      :list_data="tableData"
+      :department_id="department_id"
       >
-      </senior-list>
-      <pagination>
-      </pagination>
+      </high-level-list>
     </section>
     </section>
   </div>
@@ -110,9 +119,10 @@ import {
 } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import {
-  getTeamList,
+  getLevelTeamList,
   highLevelAllSubmit,
-  highLevelReview
+  highLevelReview,
+  getLevelTeamReview
 } from "@/constants/API";
 
 export default {
@@ -153,6 +163,8 @@ export default {
       reject_msg: "",
       content: "",
       reviewData: [],
+      tab_check:1,
+      department_id:this.$route.params.id,
     };
   },
   components: {
@@ -160,13 +172,14 @@ export default {
     "team-tabel": AsyncComp(
       import("@/components/modules/employee/teamTabel/index.vue")
     ),
-    "senior-list": AsyncComp(
-      import("@/components/modules/employee/seniorList/index.vue")
+    "high-level-list": AsyncComp(
+      import("@/components/modules/employee/highLevelList/index.vue")
     ),
     pagination: () => import("@/components/common/Pagination/index.vue")
   },
   created() {
     this.reviewList();
+    this.overReviewList();
   },
   methods: {
     getUserInfo(data) {
@@ -187,11 +200,19 @@ export default {
       );
     },
     refreshList(data) {
-      return getTeamList(this.$route.params.id, data)
+      return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
-          const { user, overview, performanceInfo } = res;
-          this.tableData = user.data || [];
-          this.total = user.total;
+          const { overview,list } = res;
+          this.tableData = list.data || [];
+          this.total = list.total;
+          performanceInfo.submit ? this.Allsubmit_step_load() : null;
+        })
+        .catch(e => {});
+    },
+    overReviewList(data) {
+      return getLevelTeamReview(this.$route.params.id, data)
+        .then(res => {
+          const { overview,performanceInfo } = res;
           this.overview = overview || [];
           this.name = performanceInfo.name || "";
           this.department = performanceInfo.department || "";

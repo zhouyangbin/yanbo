@@ -233,8 +233,29 @@ export const highLevelAllSubmit = (id: String, params: Object) =>
 //上级审查记录
 export const highLevelReview = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}/review`, params);
-// export const getTeamUserDetail = (orgID: String, uid: String) =>
-//   sendGet(`/performance/api/superior/${orgID}/${uid}`);
+//获取隔级列表
+export const getLevelTeamGradeList = (params: Object) =>
+  sendGet(`/performance/api/highlevel`, params); 
+// 隔级评分的团队成员列表
+export const getLevelTeamList = (id: String, params: Object) =>
+  sendGet(`/performance/api/highlevel/${id}`, params);
+// 隔级分布汇总接口
+export const getLevelTeamReview = (id: String) =>
+  sendGet(`/performance/api/highlevel/${id}/proportion`);
+//隔级 我的团队列表
+export const highLevelTeamList = (orgID: String) =>
+  sendGet(`/performance/api/highlevel/${orgID}/teams`);
+//隔级 评分详情
+export const getEmployeeLevelTeamDetail = (
+  orgID: String,
+  uid: String,
+  attach_for: string
+) =>
+  sendGet(
+    `/performance/api/${orgID}/${uid}?${qs.stringify({
+      attach_for
+    })}`
+  );
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>
