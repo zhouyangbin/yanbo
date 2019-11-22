@@ -7,6 +7,7 @@
     width="700px"
     @close="close"
   >
+  <span style="color:red" v-if='data!=[]'>还没有审核记录</span>
     <el-timeline class="line">
       <el-row v-for="(item, index) in lineData" :key="index">
         <el-col :span="4">{{ item.stage }}</el-col>
@@ -50,14 +51,15 @@ export default {
       type: Boolean,
       default: false
     },
-    workCode: {
+    perforamnce_user_id: {
       tyoe: String,
       default: ""
     }
   },
   data() {
     return {
-      lineData: []
+      lineData: [],
+      data:[]
     };
   },
   methods: {
@@ -69,11 +71,11 @@ export default {
      */
     getExamineDetail() {
       let data = {
-        // workcode改为performance_user_id
-        workcode: this.workCode
+        performance_user_id: this.perforamnce_user_id
       };
       getExamineLog(data)
         .then(res => {
+          this.data = res
           this.lineData = res.records;
           res.records.forEach(v => {
             if (v.sign === "green") {

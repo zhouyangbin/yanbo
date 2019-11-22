@@ -109,6 +109,7 @@
       :visible="showDialog"
       :infoType="infoType"
       :orgTree="orgTree"
+      :tableData="tableData"
       @getList="getAdminTagsList"
     ></label-dialog>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
@@ -278,7 +279,6 @@ export default {
       deleteLabel(this.deleteNumber)
         .then(res => {
           this.getAdminTagsList();
-          // this.orgTree.splice(this.deleteIndex,1)
         })
         .catch(e => {});
     }

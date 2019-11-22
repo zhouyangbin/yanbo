@@ -7,13 +7,12 @@
         <el-row
           v-for="(targetItem, index) in allTarget"
           :key="index"
-          class="target-detail"
-        >
+          class="target-detail">
           <el-row class="target-detail-title">
             <span class="target-title">{{ targetItem.type }}</span>
+            <!-- 权重 -->
             <span class="target-weight"
-              >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span
-            >
+              >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span>
           </el-row>
           <el-form :ref="`form${index}`" :model="targetItem">
             <el-table
@@ -22,105 +21,91 @@
               :header-cell-style="{
                 backgroundColor: '#F5F6F7',
                 color: '#303133'
-              }"
-            >
+              }">
               <el-table-column
                 :label="constants.TARGET_WEIGH"
                 width="180"
-                align="center"
-              >
+                align="center">
                 <template slot-scope="scope">
                   <div v-if="targetItem.isMoney">{{ scope.row.weights }}%</div>
                   <el-form-item
                     v-if="!targetItem.isMoney"
                     :prop="`table.${scope.$index}.weights`"
-                    :rules="rules.weights"
-                  >
+                    :rules="rules.weights">
                     <el-input
                       v-model.number="scope.row.weights"
                       type="number"
                       size="small"
-                      oninput="if(value > 100)value = 100;if(value < 0)value = 0"
-                    >
+                      oninput="if(value > 100)value = 100;if(value < 0)value = 0" >
                       <template slot="append"
-                        >%</template
-                      >
+                        >%</template>
                     </el-input>
                   </el-form-item>
                 </template>
               </el-table-column>
+              <!-- 指标名称 -->
               <el-table-column
                 v-if="targetItem.isMoney"
                 :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
-                prop="target"
-              ></el-table-column>
+                prop="target"></el-table-column>
               <el-table-column
                 v-if="!targetItem.isMoney"
                 :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
                 :render-header="changeLabel"
-                prop="target"
-              >
+                prop="target">
                 <template slot-scope="scope">
                   <el-form-item
                     :prop="`table.${scope.$index}.target`"
-                    :rules="rules.target"
-                  >
+                    :rules="rules.target">
                     <div class="flex">
                       <el-input
                         type="textarea"
                         v-model="scope.row.target"
-                        :autosize="{ minRows: 12 }"
-                      ></el-input>
+                        :autosize="{ minRows: 12 }"></el-input>
                       <i
                         class="el-icon-delete delete-target"
                         v-show="targetItem.table.length > 1"
-                        @click="deleteTarget(index, `${scope.$index}`)"
-                      ></i>
+                        @click="deleteTarget(index, `${scope.$index}`)"></i>
                     </div>
                   </el-form-item>
                 </template>
               </el-table-column>
+              <!-- 具体工作/任务描述 -->
               <el-table-column
                 :label="constants.TASK_DESCRIPTION"
                 min-width="300"
                 header-align="center"
-                v-if="targetItem.table[0].content !== undefined"
-              >
+                v-if="targetItem.table[0].content !== undefined">
                 <template slot-scope="scope">
                   <div v-if="targetItem.isMoney">{{ scope.row.content }}</div>
                   <el-form-item
                     v-if="!targetItem.isMoney"
                     :prop="`table.${scope.$index}.content`"
-                    :rules="rules.content"
-                  >
+                    :rules="rules.content">
                     <el-input
                       type="textarea"
                       v-model="scope.row.content"
-                      :autosize="{ minRows: 12 }"
-                    ></el-input>
+                      :autosize="{ minRows: 12 }"></el-input>
                   </el-form-item>
                 </template>
               </el-table-column>
               <el-table-column
                 :label="constants.YARD_STICK"
                 min-width="300"
-                header-align="center"
-              >
+                header-align="center">
                 <template slot-scope="scope">
                   <ul v-if="targetItem.isMoney">
                     <li
                       class="flex"
                       v-for="(item, index) in scope.row.metrics"
-                      :key="index"
-                    >
+                      :key="index">
                       <el-col class="measure-title">
                         <span v-if="item.is_required" class="is-required"
-                          >*</span
-                        >
+                          >*</span>
                         <span>&nbsp;{{ item.name }}</span>
                       </el-col>
                       <el-col>{{ item.content }}</el-col>
@@ -128,20 +113,17 @@
                   </ul>
                   <el-row
                     v-for="(item, index) in scope.row.metrics"
-                    :key="index"
-                  >
+                    :key="index">
                     <el-form-item
                       v-if="!targetItem.isMoney"
                       :label="item.name"
                       label-width="130px"
                       :prop="`table.${scope.$index}.metrics.${index}.content`"
-                      :rules="item.is_required ? metricsRules.content : {}"
-                    >
+                      :rules="item.is_required ? metricsRules.content : {}" >
                       <el-input
                         type="textarea"
                         autosize
-                        v-model="item.content"
-                      ></el-input>
+                        v-model="item.content"></el-input>
                     </el-form-item>
                   </el-row>
                 </template>
@@ -157,6 +139,7 @@
           </el-form>
         </el-row>
         <ul class="sub-total">
+          <!-- 财务维度小计 -->
           <li>
             {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
               this.handleSubTotal("finance")
@@ -184,7 +167,21 @@
         >
         <el-button @click="returnList">返回</el-button>
       </el-row>
+      <el-row class="footer-button" v-if="userInfo.opinion && userInfo.stage === 1 & self">
+        <el-button @click="submitForm" class="submit-button">提交</el-button>
+        <el-button @click="temporaryMemory" class="tempeorary-memory"
+          >暂存</el-button>
+        <el-button @click="checkExamine">
+        {{ constants.CHECK_EXAMINE_LOG }}
+      </el-button>
+        <el-button @click="returnList">返回</el-button>
+      </el-row>
     </div>
+    <examine-detail
+      :is-examine-dialog="isExamineDialog"
+      :perforamnce_user_id="userInfo.perforamnce_user_id"
+      @close="closeExamine"
+    ></examine-detail>
   </div>
 </template>
 <script>
@@ -196,7 +193,8 @@ import {
   TASK_DESCRIPTION,
   YARD_STICK,
   ADD_TARGET_LINE,
-  FINANCE_DIMENSIONALITY_SUBTOTAL
+  FINANCE_DIMENSIONALITY_SUBTOTAL,
+  CHECK_EXAMINE_LOG
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
@@ -220,7 +218,8 @@ export default {
         TASK_DESCRIPTION,
         YARD_STICK,
         ADD_TARGET_LINE,
-        FINANCE_DIMENSIONALITY_SUBTOTAL
+        FINANCE_DIMENSIONALITY_SUBTOTAL,
+        CHECK_EXAMINE_LOG
       },
       nav: [
         {
@@ -244,9 +243,11 @@ export default {
         executive_type: "",
         department_name: "",
         cycle: "",
-        indicator_setting_end_time: ""
+        indicator_setting_end_time: "",
+        perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
+      isExamineDialog:false,
       rules: {
         weights: [{ required: true, message: "权重不能为空", trigger: "blur" }],
         target: [
@@ -270,7 +271,9 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index")
+      import("@/components/modules/employee/targetDetailsHeader/Index"),
+      "examine-detail": () =>
+      import("@/components/modules/employee/checkExamineDetail/index")
   },
   methods: {
     /**
@@ -289,12 +292,22 @@ export default {
         if (v.basicType === type) {
           v.table.forEach(value => {
             if (value.weights !== "") {
-              subTotal += value.weights;
+              subTotal += Number(value.weights);
             }
           });
         }
       });
       return subTotal;
+    },
+    // 关闭审核窗口
+    closeExamine() {
+      this.isExamineDialog = false;
+    },
+    /**
+     * 查看审批记录
+     */
+    checkExamine() {
+      this.isExamineDialog = true;
     },
     /**
      * 改变table的表头
@@ -346,7 +359,8 @@ export default {
             executive_type,
             department_name,
             cycle,
-            indicator_setting_end_time
+            indicator_setting_end_time,
+            perforamnce_user_id : this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -365,12 +379,12 @@ export default {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
            */
-          const isTeam = res.team !== undefined;
-          const isWork = res.work !== undefined;
-          const isFinance = res.finance !== undefined;
+          const isTeam = res.data.team !== undefined;
+          const isWork = res.data.work !== undefined;
+          const isFinance = res.data.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
-            let team = res.team;
+            let team = res.data.team;
             this.$set(this.allTarget, team.sort - 1, {
               basicType: "team",
               isMoney: 0,
@@ -381,7 +395,7 @@ export default {
             });
           }
           if (isWork) {
-            let work = res.work;
+            let work = res.data.work;
             this.$set(this.allTarget, work.sort - 1, {
               basicType: "work",
               isMoney: 0,
@@ -392,14 +406,14 @@ export default {
             });
           }
           if (isFinance) {
-            let finance = res.finance;
+            let finance = res.data.finance;
             this.$set(this.allTarget, finance.sort - 1, {
               basicType: "finance",
               isMoney: 1,
               sort: finance.sort,
               type: finance.type,
               weight: finance.weight,
-              table: finance.template_columns
+              table: finance.template_columns||[]
             });
           }
         })
@@ -413,7 +427,6 @@ export default {
       let init = this.allTarget;
       let team = [];
       let work = [];
-
       for (var i = 0; i < init.length - 1; i++) {
         let tableLen = init[i].table;
         for (var r = 0; r < tableLen.length; r++) {
@@ -506,6 +519,7 @@ export default {
           .then(() => {
             postSubmitTargetContent(
               this.$route.params.uid,
+              this.$route.params.sign,
               this.handleSubmitData()
             )
               .then(res => {
@@ -550,7 +564,7 @@ export default {
         performance_user_id: this.$route.params.uid
       };
       getTargetContent(data).then(res => {
-        this.allTarget[index].table.push(res[0]);
+        this.allTarget[index].table.push(res);
       });
     },
     /**

@@ -32,7 +32,7 @@
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.stage == 1 && scope.row.p_type == 'executive'"
+              v-if="scope.row.stage == 0"
               type="text"
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
@@ -169,7 +169,7 @@ export default {
      */
     fillInIndicator(row) {
       this.$router.push(
-        PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id)
+        PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id,1)
       );
     },
     applytChangeIndicator(row) {
