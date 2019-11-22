@@ -167,7 +167,21 @@
         >
         <el-button @click="returnList">返回</el-button>
       </el-row>
+      <el-row class="footer-button" v-if="userInfo.opinion && userInfo.stage === 1 & self">
+        <el-button @click="submitForm" class="submit-button">提交</el-button>
+        <el-button @click="temporaryMemory" class="tempeorary-memory"
+          >暂存</el-button>
+        <el-button @click="checkExamine">
+        {{ constants.CHECK_EXAMINE_LOG }}
+      </el-button>
+        <el-button @click="returnList">返回</el-button>
+      </el-row>
     </div>
+    <examine-detail
+      :is-examine-dialog="isExamineDialog"
+      :perforamnce_user_id="userInfo.perforamnce_user_id"
+      @close="closeExamine"
+    ></examine-detail>
   </div>
 </template>
 <script>
@@ -179,7 +193,8 @@ import {
   TASK_DESCRIPTION,
   YARD_STICK,
   ADD_TARGET_LINE,
-  FINANCE_DIMENSIONALITY_SUBTOTAL
+  FINANCE_DIMENSIONALITY_SUBTOTAL,
+  CHECK_EXAMINE_LOG
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
@@ -203,7 +218,8 @@ export default {
         TASK_DESCRIPTION,
         YARD_STICK,
         ADD_TARGET_LINE,
-        FINANCE_DIMENSIONALITY_SUBTOTAL
+        FINANCE_DIMENSIONALITY_SUBTOTAL,
+        CHECK_EXAMINE_LOG
       },
       nav: [
         {
@@ -227,9 +243,11 @@ export default {
         executive_type: "",
         department_name: "",
         cycle: "",
-        indicator_setting_end_time: ""
+        indicator_setting_end_time: "",
+        perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
+      isExamineDialog:false,
       rules: {
         weights: [{ required: true, message: "权重不能为空", trigger: "blur" }],
         target: [
@@ -253,7 +271,9 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index")
+      import("@/components/modules/employee/targetDetailsHeader/Index"),
+      "examine-detail": () =>
+      import("@/components/modules/employee/checkExamineDetail/index")
   },
   methods: {
     /**
@@ -271,13 +291,23 @@ export default {
       this.allTarget.forEach(v => {
         if (v.basicType === type) {
           v.table.forEach(value => {
-            if (value.weights !== null) {
+            if (value.weights !== "") {
               subTotal += Number(value.weights);
             }
           });
         }
       });
       return subTotal;
+    },
+    // 关闭审核窗口
+    closeExamine() {
+      this.isExamineDialog = false;
+    },
+    /**
+     * 查看审批记录
+     */
+    checkExamine() {
+      this.isExamineDialog = true;
     },
     /**
      * 改变table的表头
@@ -329,9 +359,9 @@ export default {
             executive_type,
             department_name,
             cycle,
-            indicator_setting_end_time
+            indicator_setting_end_time,
+            perforamnce_user_id : this.$route.params.uid
           };
-          this.userInfo.perforamnce_user_id = this.$route.params.uid
         })
         .catch(() => {});
     },
@@ -386,7 +416,6 @@ export default {
               table: finance.template_columns||[]
             });
           }
-          console.log(this.allTarget)
         })
         .catch(() => {});
     },
@@ -535,7 +564,7 @@ export default {
         performance_user_id: this.$route.params.uid
       };
       getTargetContent(data).then(res => {
-        this.allTarget[index].table.push(res[0]);
+        this.allTarget[index].table.push(res);
       });
     },
     /**
@@ -546,7 +575,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.params)
     this.getUserInfo();
     this.getWrokAndTeamTarget();
   }
