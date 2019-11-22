@@ -168,18 +168,6 @@
           @selectedIds="selectedOrg"
           :department_ids="tplForm.department_ids"
         ></common-tree>
-        <!-- <el-tree
-          empty-text="努力加载中..."
-          @check-change="treeChange"
-          :props="defaultProps"
-          :default-checked-keys="checkedKeys"
-          node-key="department_id"
-          ref="tree"
-          :filter-node-method="filterNode"
-          show-checkbox
-          :data="orgTree"
-          class="select-tree"
-        ></el-tree> -->
       </el-form-item>
       <el-form-item
         :label="constants.FORCED_DISTRIBUTION"

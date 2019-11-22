@@ -12,7 +12,7 @@
             <span class="target-title">{{ targetItem.type }}</span>
             <!-- 权重 -->
             <span class="target-weight"
-              >{{ constants.TARGET_WEIGH }}{{ targetItem.weights }}%</span>
+              >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span>
           </el-row>
           <el-form :ref="`form${index}`" :model="targetItem">
             <el-table
@@ -167,7 +167,21 @@
         >
         <el-button @click="returnList">返回</el-button>
       </el-row>
+      <el-row class="footer-button" v-if="userInfo.opinion && userInfo.stage === 1 & self">
+        <el-button @click="submitForm" class="submit-button">提交</el-button>
+        <el-button @click="temporaryMemory" class="tempeorary-memory"
+          >暂存</el-button>
+        <el-button @click="checkExamine">
+        {{ constants.CHECK_EXAMINE_LOG }}
+      </el-button>
+        <el-button @click="returnList">返回</el-button>
+      </el-row>
     </div>
+    <examine-detail
+      :is-examine-dialog="isExamineDialog"
+      :perforamnce_user_id="userInfo.perforamnce_user_id"
+      @close="closeExamine"
+    ></examine-detail>
   </div>
 </template>
 <script>
@@ -179,7 +193,8 @@ import {
   TASK_DESCRIPTION,
   YARD_STICK,
   ADD_TARGET_LINE,
-  FINANCE_DIMENSIONALITY_SUBTOTAL
+  FINANCE_DIMENSIONALITY_SUBTOTAL,
+  CHECK_EXAMINE_LOG
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
@@ -203,7 +218,8 @@ export default {
         TASK_DESCRIPTION,
         YARD_STICK,
         ADD_TARGET_LINE,
-        FINANCE_DIMENSIONALITY_SUBTOTAL
+        FINANCE_DIMENSIONALITY_SUBTOTAL,
+        CHECK_EXAMINE_LOG
       },
       nav: [
         {
@@ -227,9 +243,11 @@ export default {
         executive_type: "",
         department_name: "",
         cycle: "",
-        indicator_setting_end_time: ""
+        indicator_setting_end_time: "",
+        perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
+      isExamineDialog:false,
       rules: {
         weights: [{ required: true, message: "权重不能为空", trigger: "blur" }],
         target: [
@@ -253,7 +271,9 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index")
+      import("@/components/modules/employee/targetDetailsHeader/Index"),
+      "examine-detail": () =>
+      import("@/components/modules/employee/checkExamineDetail/index")
   },
   methods: {
     /**
@@ -278,6 +298,16 @@ export default {
         }
       });
       return subTotal;
+    },
+    // 关闭审核窗口
+    closeExamine() {
+      this.isExamineDialog = false;
+    },
+    /**
+     * 查看审批记录
+     */
+    checkExamine() {
+      this.isExamineDialog = true;
     },
     /**
      * 改变table的表头
@@ -329,9 +359,9 @@ export default {
             executive_type,
             department_name,
             cycle,
-            indicator_setting_end_time
+            indicator_setting_end_time,
+            perforamnce_user_id : this.$route.params.uid
           };
-          this.userInfo.perforamnce_user_id = this.$route.params.uid
         })
         .catch(() => {});
     },
@@ -349,12 +379,12 @@ export default {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
            */
-          const isTeam = res.team !== undefined;
-          const isWork = res.work !== undefined;
-          const isFinance = res.finance !== undefined;
+          const isTeam = res.data.team !== undefined;
+          const isWork = res.data.work !== undefined;
+          const isFinance = res.data.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
-            let team = res.team;
+            let team = res.data.team;
             this.$set(this.allTarget, team.sort - 1, {
               basicType: "team",
               isMoney: 0,
@@ -365,7 +395,7 @@ export default {
             });
           }
           if (isWork) {
-            let work = res.work;
+            let work = res.data.work;
             this.$set(this.allTarget, work.sort - 1, {
               basicType: "work",
               isMoney: 0,
@@ -376,14 +406,14 @@ export default {
             });
           }
           if (isFinance) {
-            let finance = res.finance;
+            let finance = res.data.finance;
             this.$set(this.allTarget, finance.sort - 1, {
               basicType: "finance",
               isMoney: 1,
               sort: finance.sort,
               type: finance.type,
               weight: finance.weight,
-              table: finance.template_columns
+              table: finance.template_columns||[]
             });
           }
         })
@@ -397,7 +427,6 @@ export default {
       let init = this.allTarget;
       let team = [];
       let work = [];
-
       for (var i = 0; i < init.length - 1; i++) {
         let tableLen = init[i].table;
         for (var r = 0; r < tableLen.length; r++) {
@@ -535,7 +564,7 @@ export default {
         performance_user_id: this.$route.params.uid
       };
       getTargetContent(data).then(res => {
-        this.allTarget[index].table.push(res[0]);
+        this.allTarget[index].table.push(res);
       });
     },
     /**
@@ -546,7 +575,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.params)
     this.getUserInfo();
     this.getWrokAndTeamTarget();
   }

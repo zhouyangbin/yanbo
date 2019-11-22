@@ -336,9 +336,9 @@ export default {
             executive_type,
             department_name,
             cycle,
-            indicator_setting_end_time
+            indicator_setting_end_time,
+            perforamnce_user_id : this.$route.params.uid
           };
-          this.userInfo.perforamnce_user_id = this.$route.params.uid
         })
         .catch(() => {});
     },
@@ -356,12 +356,12 @@ export default {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
            */
-          const isTeam = res.team !== undefined;
-          const isWork = res.work !== undefined;
-          const isFinance = res.finance !== undefined;
+          const isTeam = res.data.team !== undefined;
+          const isWork = res.data.work !== undefined;
+          const isFinance = res.data.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
-            let team = res.team;
+            let team = res.data.team;
             this.$set(this.allTarget, team.sort - 1, {
               basicType: "team",
               isMoney: 0,
@@ -372,7 +372,7 @@ export default {
             });
           }
           if (isWork) {
-            let work = res.work;
+            let work = res.data.work;
             this.$set(this.allTarget, work.sort - 1, {
               basicType: "work",
               isMoney: 0,
@@ -383,7 +383,7 @@ export default {
             });
           }
           if (isFinance) {
-            let finance = res.finance;
+            let finance = res.data.finance;
             this.$set(this.allTarget, finance.sort - 1, {
               basicType: "finance",
               isMoney: 1,

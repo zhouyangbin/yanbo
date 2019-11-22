@@ -44,7 +44,8 @@ import {
   PATH_PERFORMANCE_TARGET_DETAIL,
   PATH_PERFORMANCE_TEAM_TARGET_AFFRIM,
   PATH_PERFORMANCE_MY_DETAIL,
-  PATH_APPLICATION
+  PATH_APPLICATION,
+  PATH_SUREAPPLICATION
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -347,6 +348,13 @@ const router = new Router({
           path: PATH_APPLICATION(),
           components: {
             default: () => import("@/views/employee/my/setting/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path:PATH_SUREAPPLICATION(),
+          components:{
+            default: () => import("@/views/employee/my/suresetting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

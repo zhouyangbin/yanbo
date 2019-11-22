@@ -4,18 +4,20 @@
     <detail-header :user-info="userInfo" :self="true"></detail-header>
     <target-content :all-target="allTarget"></target-content>
     <el-row class="footer-button" >
-      <el-button @click="checkExamine">
-        <!-- 查看审批记录 -->
-        {{ constants.CHECK_EXAMINE_LOG }}
-      </el-button>
-      <!-- 返回 -->
-      <el-button @click="returnList">{{ constants.TARGET_RETURN }}</el-button>
-    </el-row>
-    <examine-detail
-      :is-examine-dialog="isExamineDialog"
-      :perforamnce_user_id="userInfo.perforamnce_user_id"
-      @close="closeExamine"
-    ></examine-detail>
+        <el-button class="agree-button" @click="agreeTarget">同意</el-button>
+        <el-button class="wait-consensus" @click="rejectTarget"
+          >待共识</el-button>
+        <el-button @click="sureAdd">同意并加签</el-button>
+        <el-button @click="returnGradeList">返回下属评分列表</el-button>
+      </el-row>
+      <agree-dialog
+      :is-agree-dialog="isAgreeDialog"
+      @close="closeAgreeDialog"
+    ></agree-dialog>
+    <reject-dialog
+      :is-reject-dialog="isRejectDialog"
+      @close="closeRejectDialog"
+    ></reject-dialog>
   </div>
 </template>
 <script>
@@ -61,7 +63,9 @@ export default {
         perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
-      isExamineDialog: false
+      isExamineDialog: false,
+      isRejectDialog:false,
+      isAgreeDialog:false
     };
   },
   components: {
@@ -70,8 +74,10 @@ export default {
       import("@/components/modules/employee/targetDetailsHeader/Index"),
     "target-content": () =>
       import("@/components/modules/employee/targetDetailContent/index"),
-    "examine-detail": () =>
-      import("@/components/modules/employee/checkExamineDetail/index")
+      "agree-dialog": () =>
+      import("@/components/modules/employee/superiorAgreeTarget/index"),
+      "reject-dialog": () =>
+      import("@/components/modules/employee/superiorRejectTarget/index"),
   },
   methods: {
     /**
@@ -166,28 +172,39 @@ export default {
         })
         .catch(() => {});
     },
-    /**
-     * 查看审批记录
-     */
-    checkExamine() {
-      this.isExamineDialog = true;
-    },
-    /**
-     * 关闭审批记录弹窗
-     */
-    closeExamine() {
-      this.isExamineDialog = false;
-    },
-    /**
-     * 返回到我的评分列表页
-     */
-    returnList() {
-      this.$router.push("/employee/my");
-    },
     // 返回下属评分列表
-    ratingList(){
-      
-    }
+    returnGradeList(){
+      this.$router.push(
+        PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+      );
+    },
+    sureAdd(){
+
+    },
+    /**
+     * 点击待共识
+     */
+    rejectTarget() {
+      this.isRejectDialog = true;
+    },
+    /**
+     * 关闭待共识弹窗
+     */
+    closeRejectDialog() {
+      this.isRejectDialog = false;
+    },
+    /**
+     * 点击同意
+     */
+    agreeTarget() {
+      this.isAgreeDialog = true;
+    },
+    /**
+     * 关闭同意弹窗
+     */
+    closeAgreeDialog() {
+      this.isAgreeDialog = false;
+    },
   },
   created() {
     this.getUserInfo();
@@ -199,5 +216,15 @@ export default {
 .employee-target-detail .footer-button {
   text-align: center;
   margin: 20px 0;
+}
+ .footer-button .agree-button {
+  background-color: #38d0af;
+  color: #ffffff;
+  border: 1px solid #38d0af;
+}
+ .footer-button .wait-consensus {
+  background-color: #66a8ff;
+  color: #ffffff;
+  border: 1px solid #66a8ff;
 }
 </style>
