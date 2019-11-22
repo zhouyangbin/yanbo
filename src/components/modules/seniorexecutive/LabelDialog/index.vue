@@ -238,8 +238,8 @@ export default {
       type: Array,
       default: () => []
     },
-    tableData:{
-      type:Array,
+    tableData: {
+      type: Array,
       default: () => []
     }
   },
@@ -409,16 +409,20 @@ export default {
           };
           if (this.infoType == "add") {
             // 新增标签
-            return postAdminTags(postData).then(res => {
-              this.close();
-              this.$emit("getList");
-            }).catch(()=>{})
+            return postAdminTags(postData)
+              .then(res => {
+                this.close();
+                this.$emit("getList");
+              })
+              .catch(() => {});
           } else {
             let UpData = postData;
-            return putAdminTagChange(this.initData.id, UpData).then(res => {
-              this.close();
-              this.$emit("getList");
-            }).catch(() => {});
+            return putAdminTagChange(this.initData.id, UpData)
+              .then(res => {
+                this.close();
+                this.$emit("getList");
+              })
+              .catch(() => {});
           }
         }
       });

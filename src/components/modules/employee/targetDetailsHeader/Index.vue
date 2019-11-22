@@ -6,9 +6,9 @@
       <el-row class="grow">
         <el-row
           class="superior-idea flex"
-          v-if="userInfo.opinion && userInfo.stage === 1 & self"
+          v-if="userInfo.opinion && (userInfo.stage === 1) & self"
         >
-        <!-- 上级意见 -->
+          <!-- 上级意见 -->
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
@@ -86,8 +86,9 @@
           icon="el-icon-upload2"
           class="btn"
           @click="uploadTarget"
-          v-if="userInfo.current_user_identity==undefined"
-          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button>
+          v-if="userInfo.current_user_identity == undefined"
+          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
+        >
       </el-row>
     </el-row>
     <upload-dialog

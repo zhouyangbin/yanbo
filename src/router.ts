@@ -352,8 +352,8 @@ const router = new Router({
           }
         },
         {
-          path:PATH_SUREAPPLICATION(),
-          components:{
+          path: PATH_SUREAPPLICATION(),
+          components: {
             default: () => import("@/views/employee/my/suresetting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }

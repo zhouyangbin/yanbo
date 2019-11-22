@@ -3,14 +3,13 @@
     <nav-bar :list="nav"></nav-bar>
     <detail-header :user-info="userInfo" :self="true"></detail-header>
     <target-content :all-target="allTarget"></target-content>
-    <el-row class="footer-button" >
-        <el-button class="agree-button" @click="agreeTarget">同意</el-button>
-        <el-button class="wait-consensus" @click="rejectTarget"
-          >待共识</el-button>
-        <el-button @click="sureAdd">同意并加签</el-button>
-        <el-button @click="returnGradeList">返回下属评分列表</el-button>
-      </el-row>
-      <agree-dialog
+    <el-row class="footer-button">
+      <el-button class="agree-button" @click="agreeTarget">同意</el-button>
+      <el-button class="wait-consensus" @click="rejectTarget">待共识</el-button>
+      <el-button @click="sureAdd">同意并加签</el-button>
+      <el-button @click="returnGradeList">返回下属评分列表</el-button>
+    </el-row>
+    <agree-dialog
       :is-agree-dialog="isAgreeDialog"
       @close="closeAgreeDialog"
     ></agree-dialog>
@@ -49,23 +48,23 @@ export default {
       userInfo: {
         performance_name: "",
         stage: 0,
-        current_user_identity:"",
+        current_user_identity: "",
         opinion: "",
         avatar: "",
         name: "",
-        workcode:"",
+        workcode: "",
         superior_name: "",
         superior_workcode: "",
         executive_type: "",
         department_name: "",
         cycle: "",
         indicator_setting_end_time: "",
-        perforamnce_user_id:this.$route.params.uid
+        perforamnce_user_id: this.$route.params.uid
       },
       allTarget: [],
       isExamineDialog: false,
-      isRejectDialog:false,
-      isAgreeDialog:false
+      isRejectDialog: false,
+      isAgreeDialog: false
     };
   },
   components: {
@@ -74,10 +73,10 @@ export default {
       import("@/components/modules/employee/targetDetailsHeader/Index"),
     "target-content": () =>
       import("@/components/modules/employee/targetDetailContent/index"),
-      "agree-dialog": () =>
+    "agree-dialog": () =>
       import("@/components/modules/employee/superiorAgreeTarget/index"),
-      "reject-dialog": () =>
-      import("@/components/modules/employee/superiorRejectTarget/index"),
+    "reject-dialog": () =>
+      import("@/components/modules/employee/superiorRejectTarget/index")
   },
   methods: {
     /**
@@ -116,7 +115,7 @@ export default {
             department_name,
             cycle,
             indicator_setting_end_time,
-            perforamnce_user_id:this.$route.params.uid
+            perforamnce_user_id: this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -173,14 +172,12 @@ export default {
         .catch(() => {});
     },
     // 返回下属评分列表
-    returnGradeList(){
+    returnGradeList() {
       this.$router.push(
         PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
       );
     },
-    sureAdd(){
-
-    },
+    sureAdd() {},
     /**
      * 点击待共识
      */
@@ -204,7 +201,7 @@ export default {
      */
     closeAgreeDialog() {
       this.isAgreeDialog = false;
-    },
+    }
   },
   created() {
     this.getUserInfo();
@@ -217,12 +214,12 @@ export default {
   text-align: center;
   margin: 20px 0;
 }
- .footer-button .agree-button {
+.footer-button .agree-button {
   background-color: #38d0af;
   color: #ffffff;
   border: 1px solid #38d0af;
 }
- .footer-button .wait-consensus {
+.footer-button .wait-consensus {
   background-color: #66a8ff;
   color: #ffffff;
   border: 1px solid #66a8ff;
