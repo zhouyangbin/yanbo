@@ -57,19 +57,16 @@
           :span="3"
           style="border-right: solid 1px rgba(233,235,242,1); min-height: 400px"
         >
-          <el-checkbox class="check_tag" v-model="team_leader"
-            >全部下属</el-checkbox
-          >
-          <el-radio
-            class="check_tag"
-            v-for="(item, index) in teamList"
-            :key="index"
-            v-model="team_leader"
-            :label="index"
-          >
-            {{ item.name }}
-            <!-- <span v-if="item.abnormal_status" class="Badge_logo"></span> -->
-          </el-radio>
+          <el-radio-group @change="changeTeam" v-model="team_leader">
+            <el-radio class="check-tag" label="">全部下属</el-radio>
+            <el-radio
+              class="check-tag"
+              v-for="item in teamList"
+              :key="item.workcode"
+              :label="item.workcode"
+              >{{ item.name }}</el-radio
+            >
+          </el-radio-group>
         </el-col>
         <el-col :span="21" style="min-height: 400px">
           <div class="display-data">
@@ -116,25 +113,10 @@
             <el-table-column prop="final" label="最终成绩"> </el-table-column>
             <el-table-column prop="score_tag" label="标签分布">
             </el-table-column>
-            <el-table-column prop="stage_text" label="状态">
-              <template slot-scope="scope">
-                <span class="grade-stage">{{ scope.row.stage_text }}</span>
-              </template>
-            </el-table-column>
+            <el-table-column prop="stage_text" label="状态"></el-table-column>
             <el-table-column prop="hrbp_name" label="操作">
               <template slot-scope="scope">
-                <div
-                  class="grade-operation"
-                  v-if="scope.row.stage === 50"
-                  @click="handleAppeal(scope.row)"
-                >
-                  处理申述
-                </div>
-                <div
-                  class="grade-operation"
-                  v-else
-                  @click="viewDetail(scope.row)"
-                >
+                <div class="grade-operation" @click="viewDetail(scope.row)">
                   详情
                 </div>
               </template>
@@ -179,6 +161,13 @@ export default {
       default: ""
     }
   },
+  watch: {
+    level_team_model(newVal, oldVal) {
+      if (!newVal) {
+        this.team_leader = "";
+      }
+    }
+  },
   data() {
     return {
       constants: {
@@ -205,10 +194,14 @@ export default {
       tagOptions: [],
       lowerList: [],
       teamList: [],
-      team_leader: ""
+      team_leader: "",
+      level_team_model: false
     };
   },
   methods: {
+    changeTeam() {
+      this.getMyLowerList();
+    },
     selectWorkCode(data) {
       this.filterForm.name = data;
       this.getMyLowerList();
@@ -233,9 +226,6 @@ export default {
     },
     viewDetail(data) {
       // 查看详情
-    },
-    handleAppeal(data) {
-      // 处理申诉
     },
     getMyLowerList() {
       let getData = {
@@ -264,6 +254,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+.isolation-level .check-tag >>> .el-radio__inner {
+  display: none;
+}
+</style>
 <style lang="scss" scoped>
 .isolation-level {
   padding: 24px;
@@ -283,6 +278,19 @@ export default {
       .el-form-item__content {
         line-height: 32px;
       }
+    }
+  }
+  .check-tag {
+    width: 100%;
+    height: 22px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #303133;
+    line-height: 22px;
+    margin: 16px 0 0 0;
+    &:not(:first-child) {
+      padding-left: 20px;
+      color: #606266;
     }
   }
   .display-data {
@@ -313,27 +321,6 @@ export default {
       display: inline-block;
       width: 44px;
       height: 18px;
-    }
-    .grade-stage {
-      .grade-stage-circle {
-        display: inline-block;
-        margin-right: 4px;
-        position: relative;
-        top: -2px;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: #38d0af;
-      }
-      .grade-stage-circle.stage-green {
-        background-color: #38d0af;
-      }
-      .grade-stage-circle.stage-orange {
-        background-color: #fdb926;
-      }
-      .grade-stage-circle.stage-red {
-        background-color: #ff0000;
-      }
     }
     .grade-operation {
       color: #38d0af;

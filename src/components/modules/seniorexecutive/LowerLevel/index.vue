@@ -78,29 +78,10 @@
         <el-table-column prop="culture" label="文化评分"> </el-table-column>
         <el-table-column prop="final" label="最终成绩"> </el-table-column>
         <el-table-column prop="score_tag" label="标签分布"> </el-table-column>
-        <el-table-column prop="stage_text" label="状态">
-          <template slot-scope="scope">
-            <div class="grade-stage">
-              <i
-                v-if="scope.row.stage === 50"
-                class="grade-stage-circle stage-red"
-              ></i>
-              <i class="grade-stage-circle stage-green"></i>
-              <i class="grade-stage-circle stage-orange"></i>
-              {{ scope.row.stage_text }}
-            </div>
-          </template>
-        </el-table-column>
+        <el-table-column prop="stage_text" label="状态"></el-table-column>
         <el-table-column prop="hrbp_name" label="操作">
           <template slot-scope="scope">
-            <div
-              class="grade-operation"
-              v-if="scope.row.stage === 50"
-              @click="handleAppeal(scope.row)"
-            >
-              处理申述
-            </div>
-            <div class="grade-operation" v-else @click="viewDetail(scope.row)">
+            <div class="grade-operation" @click="viewDetail(scope.row)">
               详情
             </div>
           </template>
@@ -196,9 +177,6 @@ export default {
     viewDetail(data) {
       // 查看详情
     },
-    handleAppeal(data) {
-      // 处理申诉
-    },
     getMyLowerList() {
       let data = {
         performance_id: parseInt(this.performanceId),
@@ -252,27 +230,6 @@ export default {
       display: inline-block;
       width: 44px;
       height: 18px;
-    }
-    .grade-stage {
-      .grade-stage-circle {
-        display: inline-block;
-        margin-right: 4px;
-        position: relative;
-        top: -2px;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: #38d0af;
-      }
-      .grade-stage-circle.stage-green {
-        background-color: #38d0af;
-      }
-      .grade-stage-circle.stage-orange {
-        background-color: #fdb926;
-      }
-      .grade-stage-circle.stage-red {
-        background-color: #ff0000;
-      }
     }
     .grade-operation {
       color: #38d0af;
