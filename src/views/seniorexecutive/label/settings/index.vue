@@ -11,22 +11,18 @@
               :placeholder="constants.LABEL_SELECT_DIVISION"
               :options="orgTree"
               :show-all-levels="false"
-              @change="checkCascader"
+              @change="handleChange"
             ></el-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="resetForm()">{{
+            <el-button round @click="resetForm">{{
               constants.RESET
             }}</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              v-if="canCreateTpl"
-              @click="createTpl"
-              round
-              >{{ constants.ADD_NEW_LABEL }}</el-button
-            >
+            <el-button type="primary" @click="createTpl" round>{{
+              constants.ADD_NEW_LABEL
+            }}</el-button>
           </el-form-item>
         </el-form>
         <br />
@@ -54,7 +50,6 @@
             :label="constants.CORRESPONDING_GRADE_AND_PROPORTION"
             min-width="200"
           ></el-table-column>
-          <!-- 是否强制分布 -->
           <el-table-column
             prop="force_distribution"
             :label="constants.FORCED_DISTRIBUTION_OR_NOT"
@@ -105,14 +100,11 @@
     </section>
     <label-dialog
       v-if="showDialog"
-      :initData="initData"
-      :departmentsOps="options"
+      :userId="userId"
       @close="tplDialogClose"
       :visible="showDialog"
       :infoType="infoType"
       :orgTree="orgTree"
-      :tableData="tableData"
-      @getList="getAdminTagsList"
     ></label-dialog>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="400px">
       <span>是否确认删除标签？</span>
@@ -159,9 +151,8 @@ export default {
       total: 0,
       infoType: "add",
       showDialog: false,
-      canCreateTpl: true,
       tableData: [],
-      initData: {},
+      userId: 0,
       orgTree: [],
       constants: {
         LABEL_SELECT_DIVISION,
@@ -184,68 +175,37 @@ export default {
       ],
       department_ids: [],
       dialogVisible: false,
-      deleteNumber: 0,
-      deleteIndex: 0
+      deleteNumber: 0
     };
   },
   methods: {
-    checkCascader() {
+    handleChange() {
       this.page = 1;
       this.getAdminTagsList();
     },
-    /**
-     * 将后端返回数据中的children提取到外层，并追加在当前包含children的对象后面
-     * @param arr 后端返回的数组
-     * @return newArr 不包含children的数组
-     */
-    handleTagRulesDataStructure(arr) {
-      let newArr = [];
-      arr.forEach((v, i) => {
-        if (v.children === undefined) {
-          newArr.push(v);
-        }
-        if (v.children !== undefined) {
-          newArr.push(v);
-          v.children.forEach((obj, index) => {
-            obj["isChildren"] = true;
-            newArr.push(obj);
-          });
-          delete v.children;
-        }
-      });
-      return newArr;
-    },
-    resetForm(formName) {
+    resetForm() {
       this.page = 1;
       this.department_ids = [];
       this.getAdminTagsList();
     },
     createTpl() {
-      // 创建模板
       this.infoType = "add";
       this.showDialog = true;
     },
     tplDialogClose() {
       this.showDialog = false;
-      // 关闭弹框
     },
-    /**
-     * 改变分页size
-     */
     handleSizeChange(val) {
       this.perPage = val;
       this.getAdminTagsList();
     },
-    /**
-     * 改变分页page
-     */
     handleCurrentChange(val) {
       this.page = val;
       this.getAdminTagsList();
     },
     updateTpl(row) {
       this.infoType = "modify";
-      this.initData = { id: row.id };
+      this.userId = row.id;
       this.showDialog = true;
     },
     getAdminTagsList() {
@@ -262,11 +222,9 @@ export default {
         })
         .catch(() => {});
     },
-    // 删除
     handleDelete(index, row) {
       this.dialogVisible = true;
       this.deleteNumber = row.id;
-      this.deleteIndex = index;
     },
     deleteMsg() {
       this.dialogVisible = false;
