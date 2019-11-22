@@ -56,27 +56,21 @@
             width="120"
           >
             <template slot-scope="scope">
-              {{
-                (
-                  constants.FORCED_DISTRIBUTION_VALUE.filter(
-                    v => v.key === scope.row.force_distribution
-                  )[0] || {}
-                ).value
-              }}
+              {{ scope.row.force_distribution ? "是" : "否" }}
             </template>
           </el-table-column>
           <el-table-column :label="constants.LABEL_OPERATIONS" width="120">
             <template slot-scope="scope">
               <el-button
+                size="small"
                 type="text"
                 @click="updateTpl(scope.row)"
-                size="small"
                 >{{ constants.LABEL_MODIFY }}</el-button
               >
               <el-button
-                size="mini"
+                size="small"
                 type="text"
-                @click="handleDelete(scope.$index, scope.row)"
+                @click="handleDelete(scope.row)"
                 >删除</el-button
               >
             </template>
@@ -175,7 +169,7 @@ export default {
       ],
       department_ids: [],
       dialogVisible: false,
-      deleteNumber: 0
+      deleteId: 0
     };
   },
   methods: {
@@ -222,13 +216,13 @@ export default {
         })
         .catch(() => {});
     },
-    handleDelete(index, row) {
+    handleDelete(row) {
       this.dialogVisible = true;
-      this.deleteNumber = row.id;
+      this.deleteId = row.id;
     },
     deleteMsg() {
       this.dialogVisible = false;
-      deleteLabel(this.deleteNumber)
+      deleteLabel(this.deleteId)
         .then(res => {
           this.getAdminTagsList();
         })
