@@ -47,7 +47,7 @@ export default {
      */
     submitAgreeContent() {
       let postData = {
-        performance_user_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid,
         type: 2,
         reason: this.reason
       };
@@ -55,6 +55,10 @@ export default {
         .then(res => {
           this.$message.success("审批成功");
           this.close();
+          // 返回下属列表
+          // this.$router.push(
+          //   PATH_PERFORMANCE_MY_DETAIL(this.$route.params.id,this.$route.params.uid)
+          // );
         })
         .catch(() => {});
     }

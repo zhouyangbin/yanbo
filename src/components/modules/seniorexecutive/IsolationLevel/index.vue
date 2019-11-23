@@ -249,9 +249,11 @@ export default {
     getAdminTagTypes()
       .then(res => {
         this.tagOptions = res;
+        
       })
       .catch(e => {});
     this.getMyLowerList();
+    
   }
 };
 </script>

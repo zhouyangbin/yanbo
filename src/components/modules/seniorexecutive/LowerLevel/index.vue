@@ -106,7 +106,7 @@
 </template>
 <script>
 import { getMyUnderLower, getAdminTagTypes } from "@/constants/API";
-import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
+import { PATH_EMPLOYEE_TEAM ,PATH_PERFORMANCE_TEAM_TARGET_AFFRIM} from "@/constants/URL";
 import {
   LABEL_EMPTY,
   LABEL_SELECT_DIVISION,
@@ -116,6 +116,10 @@ import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
     performanceId: {
+      type: String,
+      default: ""
+    },
+    performance_user_id: {
       type: String,
       default: ""
     }
@@ -176,6 +180,11 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
+      this.$router.push(
+        PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(
+          this.performanceId,this.performance_user_id,data.workcode
+        )
+      );
       // 查看详情
     },
     getMyLowerList() {

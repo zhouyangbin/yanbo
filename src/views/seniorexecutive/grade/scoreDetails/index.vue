@@ -138,6 +138,7 @@
       </el-radio-group>
       <lower-level
         :performanceId="performanceId"
+        :performance_user_id ="performance_user_id"
         v-if="type === 'superior'"
       ></lower-level>
       <isolation-level
@@ -172,6 +173,7 @@ export default {
       ],
       type: "superior",
       performanceId: this.$route.params.performanceId,
+      performance_user_id:this.$route.params.uid,
       performanceDetail: {},
       nowTime: "",
       isLoading: true
@@ -206,7 +208,6 @@ export default {
   created() {
     this.nowTime = new Date();
     this.getPerformanceDetail();
-    
   }
 };
 </script>

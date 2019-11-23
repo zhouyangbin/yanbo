@@ -23,13 +23,8 @@
               :header-cell-style="{
                 backgroundColor: '#F5F6F7',
                 color: '#303133'
-<<<<<<< HEAD
-              }">
-              <!-- 权重 -->
-=======
               }"
             >
->>>>>>> 5dd995e6d647d5862331101869a71e3f981848b8
               <el-table-column
                 :label="constants.TARGET_WEIGH"
                 width="180"
@@ -49,8 +44,7 @@
                       oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                     >
                       <template slot="append"
-                        >%</template
-                      >
+                        >%</template>
                     </el-input>
                   </el-form-item>
                 </template>
@@ -61,27 +55,23 @@
                 :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
-                prop="target"
-              ></el-table-column>
+                prop="target"></el-table-column>
               <el-table-column
                 v-if="!targetItem.isMoney"
                 :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
                 :render-header="changeLabel"
-                prop="target"
-              >
+                prop="target">
                 <template slot-scope="scope">
                   <el-form-item
                     :prop="`table.${scope.$index}.target`"
-                    :rules="rules.target"
-                  >
+                    :rules="rules.target">
                     <div class="flex">
                       <el-input
                         type="textarea"
                         v-model="scope.row.target"
-                        :autosize="{ minRows: 12 }"
-                      ></el-input>
+                        :autosize="{ minRows: 12 }"></el-input>
                       <i
                         class="el-icon-delete delete-target"
                         v-show="targetItem.table.length > 1"
@@ -96,15 +86,13 @@
                 :label="constants.TASK_DESCRIPTION"
                 min-width="300"
                 header-align="center"
-                v-if="targetItem.table[0].content !== undefined"
-              >
+                v-if="targetItem.table[0].content !== undefined">
                 <template slot-scope="scope">
                   <!-- <div v-if="targetItem.isMoney">{{ scope.row.content }}</div> -->
                   <el-form-item
                     v-if="!targetItem.isMoney"
                     :prop="`table.${scope.$index}.content`"
-                    :rules="rules.content"
-                  >
+                    :rules="rules.content">
                     <el-input
                       type="textarea"
                       v-model="scope.row.content"
@@ -117,19 +105,16 @@
               <el-table-column
                 :label="constants.YARD_STICK"
                 min-width="300"
-                header-align="center"
-              >
+                header-align="center">
                 <template slot-scope="scope">
                   <ul v-if="targetItem.isMoney">
                     <li
                       class="flex"
                       v-for="(item, index) in scope.row.metrics"
-                      :key="index"
-                    >
+                      :key="index" >
                       <el-col class="measure-title">
                         <span v-if="item.is_required" class="is-required"
-                          >*</span
-                        >
+                          >*</span>
                         <span>&nbsp;{{ item.name }}</span>
                       </el-col>
                       <el-col>{{ item.content }}</el-col>
@@ -137,15 +122,13 @@
                   </ul>
                   <el-row
                     v-for="(item, index) in scope.row.metrics"
-                    :key="index"
-                  >
+                    :key="index">
                     <el-form-item
                       v-if="!targetItem.isMoney"
                       :label="item.name"
                       label-width="130px"
                       :prop="`table.${scope.$index}.metrics.${index}.content`"
-                      :rules="item.is_required ? metricsRules.content : {}"
-                    >
+                      :rules="item.is_required ? metricsRules.content : {}">
                       <el-input
                         type="textarea"
                         autosize
@@ -188,9 +171,7 @@
       </el-row>
       <el-row class="footer-button">
         <el-button @click="submitForm" class="submit-button">提交</el-button>
-        <el-button @click="temporaryMemory" class="tempeorary-memory"
-          >暂存</el-button
-        >
+        <el-button @click="temporaryMemory" class="tempeorary-memory" >暂存</el-button>
         <el-button @click="returnList">返回</el-button>
       </el-row>
       <el-row
@@ -198,9 +179,7 @@
         v-if="userInfo.opinion && (userInfo.stage === 1) & self"
       >
         <el-button @click="submitForm" class="submit-button">提交</el-button>
-        <el-button @click="temporaryMemory" class="tempeorary-memory"
-          >暂存</el-button
-        >
+        <el-button @click="temporaryMemory" class="tempeorary-memory">暂存</el-button>
         <el-button @click="checkExamine">
           {{ constants.CHECK_EXAMINE_LOG }}
         </el-button>
