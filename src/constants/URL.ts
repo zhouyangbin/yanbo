@@ -205,8 +205,14 @@ export const PATH_APPLICATION = (id = ":id", uid = ":uid") =>
 // 高管绩效 确认指标调整
 export const PATH_SUREAPPLICATION = (id = ":id", uid = ":uid") =>
   `/performance/suresetting/${id}/${uid}`;
+<<<<<<< HEAD
 // 高管绩效 同意并加签
 // export const PATH_SURE_ADD =
+=======
+  // 高管绩效 同意并加签
+  export const PATH_SURE_ADD = (id = ":id", uid = ":uid") =>
+  `/performance/sureaddsetting/${id}/${uid}`;
+>>>>>>> feature-wrr-test-1.0
 // 高管绩效 我的团队上级确认页面
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   gradeID: String = ":gradeID",

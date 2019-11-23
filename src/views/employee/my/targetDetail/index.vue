@@ -120,18 +120,18 @@ export default {
      */
     getWrokAndTeamTarget() {
       let data = {
+        sign:0,
         performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
-        workcode: ""
+        performance_user_id: this.$route.params.uid
       };
       getUniqueTemplate(data)
         .then(res => {
-          const isTeam = res.data.team !== undefined;
-          const isWork = res.data.work !== undefined;
-          const isFinance = res.data.finance !== undefined;
+          const isTeam = res.team !== undefined;
+          const isWork = res.work !== undefined;
+          const isFinance = res.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
-            let team = res.data.team;
+            let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
               basicType: "team",
               isMoney: 0,
@@ -142,7 +142,7 @@ export default {
             });
           }
           if (isWork) {
-            let work = res.data.work;
+            let work = res.work;
             this.$set(this.allTarget, work.sort - 1, {
               basicType: "work",
               isMoney: 0,
@@ -153,7 +153,7 @@ export default {
             });
           }
           if (isFinance) {
-            let finance = res.data.finance;
+            let finance = res.finance;
             this.$set(this.allTarget, finance.sort - 1, {
               basicType: "finance",
               isMoney: 1,

@@ -4,17 +4,17 @@
     <div>
       <detail-header :user-info="userInfo" :self="false"></detail-header>
       <target-content :all-target="allTarget"></target-content>
-      <el-row class="footer-button" v-if="userInfo.stage == 10">
+      <el-row class="footer-button">
         <el-button class="agree-button" @click="agreeTarget">同意</el-button>
         <el-button class="wait-consensus" @click="rejectTarget"
           >待共识</el-button
         >
         <el-button @click="returnGradeList">返回下属评分列表</el-button>
       </el-row>
-      <el-row class="footer-button" v-else>
+      <!-- <el-row class="footer-button">
         <el-button @click="checkExamine">查看审批记录</el-button>
         <el-button @click="returnGradeList">返回下属评分列表</el-button>
-      </el-row>
+      </el-row> -->
     </div>
     <agree-dialog
       :is-agree-dialog="isAgreeDialog"
@@ -35,7 +35,8 @@
 import { TEAM_GRADE, GRADE_MANAGE } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM,
-  PATH_EMPLOYY_TEAM_GRADE_DETAIL
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
 import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
 export default {
@@ -210,7 +211,7 @@ export default {
      */
     returnGradeList() {
       this.$router.push(
-        PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+        PATH_PERFORMANCE_MY_DETAIL(this.$route.params.gradeID)
       );
     },
     /**
@@ -229,6 +230,7 @@ export default {
   created() {
     this.getUserInfo();
     this.getWrokAndTeamTarget();
+    console.log(this.$route.params)
   }
 };
 </script>

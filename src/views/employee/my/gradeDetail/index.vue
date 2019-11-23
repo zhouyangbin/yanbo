@@ -23,8 +23,13 @@
               :header-cell-style="{
                 backgroundColor: '#F5F6F7',
                 color: '#303133'
+<<<<<<< HEAD
               }"
             >
+=======
+              }">
+              <!-- 权重 -->
+>>>>>>> feature-wrr-test-1.0
               <el-table-column
                 :label="constants.TARGET_WEIGH"
                 width="180"
@@ -94,7 +99,7 @@
                 v-if="targetItem.table[0].content !== undefined"
               >
                 <template slot-scope="scope">
-                  <div v-if="targetItem.isMoney">{{ scope.row.content }}</div>
+                  <!-- <div v-if="targetItem.isMoney">{{ scope.row.content }}</div> -->
                   <el-form-item
                     v-if="!targetItem.isMoney"
                     :prop="`table.${scope.$index}.content`"
@@ -108,6 +113,7 @@
                   </el-form-item>
                 </template>
               </el-table-column>
+              <!-- 衡量标准 -->
               <el-table-column
                 :label="constants.YARD_STICK"
                 min-width="300"
@@ -155,8 +161,7 @@
               class="add-target"
               v-if="!targetItem.isMoney && getTableLen(index) <= 4"
               @click="addTarget(index)"
-              >{{ constants.ADD_TARGET_LINE }}</el-button
-            >
+              >{{ constants.ADD_TARGET_LINE }}</el-button>
           </el-form>
         </el-row>
         <ul class="sub-total">
@@ -230,13 +235,15 @@ import {
   getUniqueTemplate,
   getTargetContent,
   postSaveDraft,
-  postSubmitTargetContent
+  postSubmitTargetContent,
+  getPerformanceDraft
 } from "@/constants/API";
 import { Divider } from "element-ui";
 
 export default {
   data() {
     return {
+      
       constants: {
         TARGET_WEIGH,
         TARGET_NAME,
@@ -246,6 +253,7 @@ export default {
         FINANCE_DIMENSIONALITY_SUBTOTAL,
         CHECK_EXAMINE_LOG
       },
+      userId:this.$route.params.uid,
       nav: [
         {
           label: MY_GRADE,
@@ -396,20 +404,19 @@ export default {
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
-        workcode: ""
+        performance_user_id: this.$route.params.uid
       };
       getUniqueTemplate(data)
         .then(res => {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
            */
-          const isTeam = res.data.team !== undefined;
-          const isWork = res.data.work !== undefined;
-          const isFinance = res.data.finance !== undefined;
+          const isTeam = res.team !== undefined;
+          const isWork = res.work !== undefined;
+          const isFinance = res.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
-            let team = res.data.team;
+            let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
               basicType: "team",
               isMoney: 0,
@@ -420,7 +427,7 @@ export default {
             });
           }
           if (isWork) {
-            let work = res.data.work;
+            let work = res.work;
             this.$set(this.allTarget, work.sort - 1, {
               basicType: "work",
               isMoney: 0,
@@ -431,7 +438,7 @@ export default {
             });
           }
           if (isFinance) {
-            let finance = res.data.finance;
+            let finance = res.finance;
             this.$set(this.allTarget, finance.sort - 1, {
               basicType: "finance",
               isMoney: 1,
@@ -545,9 +552,10 @@ export default {
             postSubmitTargetContent(
               this.$route.params.uid,
               this.$route.params.sign,
-              this.handleSubmitData()
+              this.allTarget
             )
               .then(res => {
+                localStorage.clearItem(this.userId)
                 this.$router.push(
                   PATH_PERFORMANCE_TARGET_DETAIL(
                     this.$route.params.id,
@@ -564,8 +572,9 @@ export default {
      * 点击暂存按钮，不需要进行验证，只需要把数据发送给后端，成功时提示暂存成功
      */
     temporaryMemory() {
-      postSaveDraft(this.$route.params.uid, this.handleSubmitData())
+      postSaveDraft(this.userId, this.allTarget)
         .then(res => {
+          localStorage.setItem(this.userId,1)
           this.$message({ type: "success", message: "暂存成功" });
         })
         .catch(() => {});
@@ -574,8 +583,9 @@ export default {
      * 点击返回按钮，不需要进行验证，成功时回到我的评分列表页
      */
     returnList() {
-      postSaveDraft(this.$route.params.uid, this.handleSubmitData())
+      postSaveDraft(this.$route.params.uid, this.allTarget)
         .then(res => {
+          localStorage.setItem(this.userId,1)
           this.$router.push("/employee/my");
         })
         .catch(() => {});
@@ -597,11 +607,27 @@ export default {
      */
     deleteTarget(index, rowIndex) {
       this.allTarget[index].table.splice(rowIndex, 1);
+    },
+    // 获取草稿信息
+    getUserMsg(){
+      let id = this.$route.params.uid
+      getPerformanceDraft(id)
+      .then(res=>{
+        for(let i=0;i<res.length;i++){
+          res[i].isMoney = Number(res[i].isMoney)
+        }
+       this.allTarget = res
+      })
+      .catch(()=>{})
     }
   },
   created() {
     this.getUserInfo();
-    this.getWrokAndTeamTarget();
+    if(localStorage.getItem(this.userId)==undefined){
+      this.getWrokAndTeamTarget();
+    }else{
+      this.getUserMsg()
+    }
   }
 };
 </script>

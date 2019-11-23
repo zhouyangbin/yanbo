@@ -213,6 +213,11 @@ export default {
     changeScoreTag() {
       this.getMyLowerList();
     },
+<<<<<<< HEAD
+=======
+    viewDetail(data) {
+    },
+>>>>>>> feature-wrr-test-1.0
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.getMyLowerList();

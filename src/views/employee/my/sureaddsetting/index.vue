@@ -1,14 +1,15 @@
 <template>
-  <div class="employee-target-detail">
+  <div class="team-target-detail">
     <nav-bar :list="nav"></nav-bar>
-    <detail-header :user-info="userInfo" :self="true"></detail-header>
-    <target-content :all-target="allTarget"></target-content>
-    <el-row class="footer-button">
-      <el-button class="agree-button" @click="agreeTarget">同意</el-button>
-      <el-button class="wait-consensus" @click="rejectTarget">待共识</el-button>
-      <el-button @click="sureAdd">同意并加签</el-button>
-      <el-button @click="returnGradeList">返回下属评分列表</el-button>
-    </el-row>
+    <div>
+      <detail-header :user-info="userInfo" :self="false"></detail-header>
+      <target-content :all-target="allTarget"></target-content>
+      <el-row class="footer-button">
+        <el-button class="agree-button" @click="agreeTarget">同意</el-button>
+        <el-button class="wait-consensus" @click="rejectTarget"
+          >待共识</el-button>
+      </el-row>
+    </div>
     <agree-dialog
       :is-agree-dialog="isAgreeDialog"
       @close="closeAgreeDialog"
@@ -20,55 +21,51 @@
   </div>
 </template>
 <script>
+import { TEAM_GRADE, GRADE_MANAGE } from "@/constants/TEXT";
 import {
-  MY_GRADE,
-  TARGET_DETAIL,
-  CHECK_EXAMINE_LOG,
-  TARGET_RETURN
-} from "@/constants/TEXT";
-import { PATH_EMPLOYEE_MY ,PATH_SURE_ADD } from "@/constants/URL";
+  PATH_EMPLOYEE_TEAM,
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL
+} from "@/constants/URL";
 import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
 export default {
   data() {
     return {
-      constants: {
-        CHECK_EXAMINE_LOG,
-        TARGET_RETURN
-      },
       nav: [
         {
-          label: MY_GRADE,
-          href: PATH_EMPLOYEE_MY
+          label: TEAM_GRADE,
+          href: PATH_EMPLOYEE_TEAM
         },
         {
-          label: TARGET_DETAIL,
+          label: GRADE_MANAGE,
+          href: PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+        },
+        {
+          label: "指标详情",
           active: true
         }
       ],
       userInfo: {
         performance_name: "",
         stage: 0,
-        current_user_identity: "",
         opinion: "",
         avatar: "",
         name: "",
-        workcode: "",
         superior_name: "",
         superior_workcode: "",
         executive_type: "",
         department_name: "",
         cycle: "",
         indicator_setting_end_time: "",
-        perforamnce_user_id: this.$route.params.uid
+        perforamnce_user_id:this.$route.params.uid
       },
       allTarget: [],
-      isExamineDialog: false,
+      isAgreeDialog: false,
       isRejectDialog: false,
-      isAgreeDialog: false
+      isExamineDialog: false
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "nav-bar": () => import("@/components/common/Navbar/index"),
     "detail-header": () =>
       import("@/components/modules/employee/targetDetailsHeader/Index"),
     "target-content": () =>
@@ -76,15 +73,17 @@ export default {
     "agree-dialog": () =>
       import("@/components/modules/employee/superiorAgreeTarget/index"),
     "reject-dialog": () =>
-      import("@/components/modules/employee/superiorRejectTarget/index")
+      import("@/components/modules/employee/superiorRejectTarget/index"),
   },
   methods: {
     /**
-     * 得到当前用户信息，用于展示在页面头部
+     * 得到当前下级用户的信息
      */
     getUserInfo() {
       let data = {
-        performance_user_id: this.$route.params.uid
+        performance_id: "",
+        performance_user_id: this.$route.params.id,
+        workcode: this.$route.params.workcode
       };
       getPerformanceUserInfo(data)
         .then(res => {
@@ -94,7 +93,6 @@ export default {
             opinion,
             avatar,
             name,
-            workcode,
             superior_name,
             superior_workcode,
             executive_type,
@@ -108,35 +106,34 @@ export default {
             opinion,
             avatar,
             name,
-            workcode,
             superior_name,
             superior_workcode,
             executive_type,
             department_name,
             cycle,
             indicator_setting_end_time,
-            perforamnce_user_id: this.$route.params.uid
+            perforamnce_user_id:this.$route.params.uid
           };
         })
         .catch(() => {});
     },
     /**
-     * 得到模版设置中配置的信息，以及用户暂存的信息
+     * 得到当前下级的指标
      */
     getWrokAndTeamTarget() {
       let data = {
-        performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
-        workcode: ""
+        performance_id: "",
+        performance_user_id: this.$route.params.id,
+        workcode: this.$route.params.workcode
       };
       getUniqueTemplate(data)
         .then(res => {
-          const isTeam = res.data.team !== undefined;
-          const isWork = res.data.work !== undefined;
-          const isFinance = res.data.finance !== undefined;
+          const isTeam = res.team !== undefined;
+          const isWork = res.work !== undefined;
+          const isFinance = res.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
-            let team = res.data.team;
+            let team = res.team;
             this.$set(this.allTarget, team.sort - 1, {
               basicType: "team",
               isMoney: 0,
@@ -147,7 +144,7 @@ export default {
             });
           }
           if (isWork) {
-            let work = res.data.work;
+            let work = res.work;
             this.$set(this.allTarget, work.sort - 1, {
               basicType: "work",
               isMoney: 0,
@@ -158,7 +155,7 @@ export default {
             });
           }
           if (isFinance) {
-            let finance = res.data.finance;
+            let finance = res.finance;
             this.$set(this.allTarget, finance.sort - 1, {
               basicType: "finance",
               isMoney: 1,
@@ -171,22 +168,18 @@ export default {
         })
         .catch(() => {});
     },
-    // 返回下属评分列表
-    returnGradeList() {
-      this.$router.push(
-        PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
-      );
+    /**
+     * 点击同意
+     */
+    agreeTarget() {
+      this.isAgreeDialog = true;
     },
-<<<<<<< HEAD
-    sureAdd() {},
-=======
-    // 同意并加签
-    sureAdd(){
-        this.$router.push(
-            PATH_SURE_ADD(this.$route.params.id,this.$route.params.uid)
-        )
+    /**
+     * 关闭同意弹窗
+     */
+    closeAgreeDialog() {
+      this.isAgreeDialog = false;
     },
->>>>>>> feature-wrr-test-1.0
     /**
      * 点击待共识
      */
@@ -199,37 +192,24 @@ export default {
     closeRejectDialog() {
       this.isRejectDialog = false;
     },
-    /**
-     * 点击同意
-     */
-    agreeTarget() {
-      this.isAgreeDialog = true;
-    },
-    /**
-     * 关闭同意弹窗
-     */
-    closeAgreeDialog() {
-      this.isAgreeDialog = false;
-    }
   },
   created() {
-      console.log(this.$route.params)
     this.getUserInfo();
     this.getWrokAndTeamTarget();
   }
 };
 </script>
 <style scoped>
-.employee-target-detail .footer-button {
+.team-target-detail .footer-button {
   text-align: center;
   margin: 20px 0;
 }
-.footer-button .agree-button {
+.team-target-detail .footer-button .agree-button {
   background-color: #38d0af;
   color: #ffffff;
   border: 1px solid #38d0af;
 }
-.footer-button .wait-consensus {
+.team-target-detail .footer-button .wait-consensus {
   background-color: #66a8ff;
   color: #ffffff;
   border: 1px solid #66a8ff;
