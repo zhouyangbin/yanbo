@@ -11,10 +11,6 @@
         >
         <el-button @click="returnGradeList">返回下属评分列表</el-button>
       </el-row>
-      <!-- <el-row class="footer-button">
-        <el-button @click="checkExamine">查看审批记录</el-button>
-        <el-button @click="returnGradeList">返回下属评分列表</el-button>
-      </el-row> -->
     </div>
     <agree-dialog
       :is-agree-dialog="isAgreeDialog"
@@ -24,11 +20,6 @@
       :is-reject-dialog="isRejectDialog"
       @close="closeRejectDialog"
     ></reject-dialog>
-    <examine-detail
-      :is-examine-dialog="isExamineDialog"
-      :perforamnce_user_id="userInfo.perforamnce_user_id"
-      @close="closeExamine"
-    ></examine-detail>
   </div>
 </template>
 <script>
@@ -38,7 +29,7 @@ import {
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
-import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
+import { getPerformanceUserInfo, postTeamtetails } from "@/constants/API";
 export default {
   data() {
     return {
@@ -72,8 +63,7 @@ export default {
       },
       allTarget: [],
       isAgreeDialog: false,
-      isRejectDialog: false,
-      isExamineDialog: false
+      isRejectDialog: false
     };
   },
   components: {
@@ -85,9 +75,7 @@ export default {
     "agree-dialog": () =>
       import("@/components/modules/employee/superiorAgreeTarget/index"),
     "reject-dialog": () =>
-      import("@/components/modules/employee/superiorRejectTarget/index"),
-    "examine-detail": () =>
-      import("@/components/modules/employee/checkExamineDetail/index")
+      import("@/components/modules/employee/superiorRejectTarget/index")
   },
   methods: {
     /**
@@ -140,7 +128,7 @@ export default {
         performance_user_id: this.$route.params.id,
         workcode: this.$route.params.workcode
       };
-      getUniqueTemplate(data)
+      postTeamtetails(data)
         .then(res => {
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;
@@ -211,18 +199,6 @@ export default {
      */
     returnGradeList() {
       this.$router.push(PATH_PERFORMANCE_MY_DETAIL(this.$route.params.gradeID));
-    },
-    /**
-     * 点击查看审批记录
-     */
-    checkExamine() {
-      this.isExamineDialog = true;
-    },
-    /**
-     * 关闭审批记录
-     */
-    closeExamine() {
-      this.isExamineDialog = false;
     }
   },
   created() {

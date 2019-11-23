@@ -465,8 +465,8 @@ export const getPerformanceDraft = (performance_user_id: String) =>
   sendGet(`/executive-performance/web/self/${performance_user_id}/get-draft`);
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/unique-template`, params);
-  sendGet(`/executive-performance/web/target/add`, params);
+  sendGet(`/executive-performance/web/target/init`, params);
+
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
   sendGet(`/executive-performance/web/target/items`, params);
@@ -614,3 +614,7 @@ export const getTagTplDepartments = () =>
   sendGet(
     `/executive-performance/admin/performances/get-has-tag-and-templates-departments`
   );
+// 高管绩效 查看个人 团队指标详情
+export const postTeamtetails = (params: Object) => {
+  sendPost(`/executive-performance/web/target/view`, params);
+};

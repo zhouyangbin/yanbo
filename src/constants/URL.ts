@@ -210,10 +210,10 @@ export const PATH_SURE_ADD = (id = ":id", uid = ":uid") =>
   `/performance/sureaddsetting/${id}/${uid}`;
 // 高管绩效 我的团队上级确认页面
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
-  gradeID: String = ":gradeID",
   id: String = ":id",
+  uid: String = ":uid",
   workcode = ":workcode"
-) => `/employee/team/${gradeID}/target/${id}/${workcode}`;
+) => `/employee/team/target/${id}/${uid}/${workcode}`;
 
 export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
   `/performance/assessment/details/${id}`;
@@ -223,8 +223,9 @@ export const PATH_UPLOAD_FILE = (uid: String) =>
 
 // 高管绩效 评分详情
 export const PATH_PERFORMANCE_MY_DETAIL = (
-  performanceId: String = ":performanceId"
-) => `/performance/my/${performanceId}`;
+  performanceId: String = ":performanceId",
+  uid: String = ":uid"
+) => `/performance/my/${performanceId}/${uid}`;
 // 高管绩效  导出名单
 export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
   `${base}executive-performance/admin/performances/${id}/users/export?${qs.stringify(

@@ -118,7 +118,12 @@ export default {
     goDetail(row) {
       // to do
       if (row.p_type == "executive") {
-        this.$router.push(PATH_PERFORMANCE_MY_DETAIL(row.performance_id));
+        this.$router.push(
+          PATH_PERFORMANCE_MY_DETAIL(
+            row.performance_id,
+            row.performance_user_id
+          )
+        );
       } else {
         this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.performance_id));
       }
