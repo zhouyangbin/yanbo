@@ -393,7 +393,7 @@
             >
             <el-button
               icon="el-icon-bell"
-              :disabled="currentStage < 10"
+              :disabled="currentStage < 100"
               @click="reminder"
               >提醒</el-button
             >
@@ -855,7 +855,7 @@ export default {
       this.delPerformanceUser();
     },
     viewDistribution() {
-      // 查看分布
+      // 查看分布 to do
     },
     modifySettings() {
       this.infoType = "modify";
