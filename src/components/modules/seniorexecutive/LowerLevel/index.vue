@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="name" label="姓名">
           <template slot-scope="scope">
-            <div v-if="scope.row.stage === 50">
+            <div v-if="scope.row.stage === 100">
               {{ scope.row.name
               }}<img class="stage-img" src="@/assets/img/stage.png" alt="" />
             </div>
@@ -176,7 +176,7 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      // 查看详情
+      // to do
     },
     getMyLowerList() {
       let data = {

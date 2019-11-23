@@ -6,7 +6,7 @@
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column label="类型" prop="p_type">
           <template slot-scope="scope">
-            <div>{{ scope.row.p_type | handlePType }}</div>
+            <div>{{ scope.row.p_type | handleType }}</div>
           </template>
         </el-table-column>
         <el-table-column
@@ -37,36 +37,26 @@
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
             >
-            <template slot-scope="scope" v-else-if="scope.row.stage == 20">
-              <el-button type="text" @click="applytChangeIndicator(scope.row)"
-                >申请调整指标</el-button
-              >
-              <el-button @click="goDetail(scope.row)" type="text" size="small"
-                >详情</el-button
-              >
-            </template>
-            <el-button
-              v-else
-              @click="goDetail(scope.row)"
-              type="text"
-              size="small"
+            <el-button v-else @click="viewDetail(scope.row)" type="text"
               >详情</el-button
             >
           </template>
         </el-table-column>
       </el-table>
       <br />
-      <el-pagination
-        v-if="tableData != []"
-        background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page"
-        :page-sizes="[10, 20, 50]"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
+      <el-row type="flex" justify="end">
+        <el-pagination
+          v-if="total"
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[10, 20, 50]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        >
+        </el-pagination>
+      </el-row>
     </section>
   </div>
 </template>
@@ -110,15 +100,14 @@ export default {
         OPERATIONS,
         GRADE_STATUS,
         TARGET_STATUS
-      },
-      pageSize: 10
+      }
     };
   },
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue")
   },
   filters: {
-    handlePType(val) {
+    handleType(val) {
       let type = "";
       if (val === "normal") {
         type = "员工绩效";
@@ -129,45 +118,8 @@ export default {
     }
   },
   methods: {
-    /**
-     * 显示填写指标按钮
-     */
-    handleWriteTargetButton(row) {
-      return (
-        row.p_type === "normal" &&
-        row.stage_id === 1 &&
-        row.target_status_id === 1
-      );
-    },
-    /**
-     * 显示查看详情按钮（指标）
-     */
-    handleCheckTargetButton(row) {
-      return (
-        row.p_type === "executive" &&
-        (row.target_status_id === 1 || row.target_status_id === 0) &&
-        (row.stage_id === 10 || row.stage_id === 20)
-      );
-    },
-    // 确认成绩
-    confirmationScore(row) {
-      this.$router.push(
-        PATH_PERFORMANCE_TARGET_DETAIL(
-          row.performance_id,
-          row.performance_user_id
-        )
-      );
-    },
-    // 填写自评
-    fillInSelfEvaluation(row) {
-      this.$router.push(
-        PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id)
-      );
-    },
-    /**
-     * 点击跳转到指标填写
-     */
     fillInIndicator(row) {
+      // to do
       this.$router.push(
         PATH_PERFORMANCE_TARGET_SET(
           row.performance_id,
@@ -176,13 +128,8 @@ export default {
         )
       );
     },
-    applytChangeIndicator(row) {
-      // 申请调整指标
-    },
-    /**
-     * 跳转到指标详情页面
-     */
-    goDetail(row) {
+    viewDetail(row) {
+      // to do
       if (row.p_type == "executive") {
         this.$router.push(
           PATH_PERFORMANCE_TARGET_DETAIL(
@@ -196,28 +143,30 @@ export default {
         );
       }
     },
-    refreshList(data) {
-      let dataList = {
-        page: data.page,
+    refreshList() {
+      let getData = {
+        page: this.page,
         perPage: this.perPage
       };
-      getMyPerformanceList(dataList)
+      getMyPerformanceList(getData)
         .then(res => {
-          this.tableData = res.data;
-          this.total = res.data.length;
+          let { total, data } = res;
+          this.total = total;
+          this.tableData = data;
         })
         .catch(() => {});
     },
     handleSizeChange(val) {
       this.perPage = val;
-      this.refreshList({ page: 1, perPage: val });
+      this.refreshList();
     },
     handleCurrentChange(val) {
-      this.refreshList({ page: val, perPage: this.perPage });
+      this.page = val;
+      this.refreshList();
     }
   },
   created() {
-    this.refreshList({ page: 1, perPage: 10 });
+    this.refreshList();
   }
 };
 </script>

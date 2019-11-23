@@ -84,7 +84,9 @@
       </el-form-item>
       <el-form-item label="标签规则">
         <div class="rule-name" v-if="ruleForm.tag">
-          {{ ruleForm.tag.tag_type }}
+          <span v-for="item in ruleForm.tag" :key="item.id">{{
+            item.tag_type
+          }}</span>
         </div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
@@ -120,7 +122,8 @@ import {
   getPerformanceTypes,
   getTplDepartments,
   getTagDepartments,
-  getPerformanceDetail
+  getPerformanceDetail,
+  getTagTplDepartments
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -197,6 +200,8 @@ export default {
       },
       tagType: [],
       performanceTpl: [],
+      optionalOrgTree: [],
+      optionalIds: [],
       constants: {
         CONFIRM,
         CANCEL,
@@ -207,34 +212,40 @@ export default {
     };
   },
   created() {
-    if (this.infoType != "add" && this.performanceId) {
-      getPerformanceDetail(this.performanceId)
-        .then(res => {
-          const {
-            name,
-            department_ids,
-            performance_type,
-            year,
-            period_start_time,
-            period_end_time,
-            tag,
-            templates,
-            allow_appeal
-          } = res;
-          this.ruleForm = {
-            name,
-            department_ids,
-            performance_type,
-            year,
-            period_start_time,
-            period_end_time,
-            templates,
-            tag,
-            allow_appeal
-          };
-        })
-        .catch(e => {});
-    }
+    getTagTplDepartments().then(res => {
+      this.optionalIds = res;
+      if (this.infoType != "add" && this.performanceId) {
+        this.orgTree = this.disabledOrgTree(this.orgTree);
+        getPerformanceDetail(this.performanceId)
+          .then(res => {
+            const {
+              name,
+              department_ids,
+              performance_type,
+              year,
+              period_start_time,
+              period_end_time,
+              tag,
+              templates,
+              allow_appeal
+            } = res;
+            this.ruleForm = {
+              name,
+              department_ids,
+              performance_type,
+              year,
+              period_start_time,
+              period_end_time,
+              templates,
+              tag,
+              allow_appeal
+            };
+          })
+          .catch(e => {});
+      } else {
+        this.orgTree = this.handleOrgTree(this.orgTree);
+      }
+    })
   },
   methods: {
     selectedOrg(data) {
@@ -290,6 +301,30 @@ export default {
           }
         }
       });
+    },
+    handleOrgTree(arr) {
+      for (var i in arr) {
+        if ('object' === typeof arr[i]) {
+          if (0 <= this.optionalIds.indexOf(arr[i].department_id)) {
+            arr[i].disabled = true;
+          }
+          if (undefined !== arr[i].children) {
+            this.handleOrgTree(arr[i].children)
+          }
+        }
+      }
+      return arr;
+    },
+    disabledOrgTree(arr) {
+      for (var i in arr) {
+        if ('object' === typeof arr[i]) {
+          arr[i].disabled = true;
+          if (undefined !== arr[i].children) {
+            this.disabledOrgTree(arr[i].children)
+          }
+        }
+      }
+      return arr;
     }
   },
   beforeDestroy() {

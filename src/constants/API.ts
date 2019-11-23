@@ -608,3 +608,9 @@ export const getMyIsolationUnderLower = (params: Object) =>
 // 高管绩效 团队评分
 export const getTeamScore = (params: Object) =>
   sendGet(`/executive-performance/web/superior/index`, params);
+
+// 高管绩效 获取已配置标签和绩效模板的部门
+export const getTagTplDepartments = () =>
+  sendGet(
+    `/executive-performance/admin/performances/get-has-tag-and-templates-departments`
+  );
