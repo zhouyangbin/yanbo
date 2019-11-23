@@ -176,7 +176,7 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      // 查看详情
+      // to do
     },
     getMyLowerList() {
       let data = {

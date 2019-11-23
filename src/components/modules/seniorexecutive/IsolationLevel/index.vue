@@ -226,7 +226,7 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      // 查看详情
+      // to do
     },
     getMyLowerList() {
       let getData = {
@@ -237,12 +237,14 @@ export default {
         score_tag: this.filterForm.score_tag,
         team_leader: this.team_leader
       };
-      getMyIsolationUnderLower(getData).then(res => {
-        let { total, data, team } = res;
-        this.total = total;
-        this.lowerList = data;
-        this.teamList = team;
-      });
+      getMyIsolationUnderLower(getData)
+        .then(res => {
+          let { total, data, team } = res;
+          this.total = total;
+          this.lowerList = data;
+          this.teamList = team;
+        })
+        .catch(e => {});
     }
   },
   created() {
