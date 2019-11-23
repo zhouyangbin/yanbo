@@ -245,6 +245,14 @@ export const getLevelTeamReview = (id: String) =>
 //隔级 我的团队列表
 export const highLevelTeamList = (orgID: String) =>
   sendGet(`/performance/api/highlevel/${orgID}/teams`);
+//根据隔级获取标签
+export const getLevelTags = (id: String) =>
+  sendGet(`/performance/api/label/rules/${id}`); 
+export const highLevelTeamReview = (id: String, params: Object) =>
+  sendGet(`/performance/api/highlevel/${id}/review`, params);
+//隔级同意
+export const highLevelteamAllsure = (id: String, params: Object) =>
+  sendPost(`/performance/api/highlevel/${id}/accept`, params);
 //隔级 评分详情
 export const getEmployeeLevelTeamDetail = (
   orgID: String,

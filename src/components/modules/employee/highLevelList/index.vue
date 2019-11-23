@@ -1,12 +1,49 @@
 <template>
   <div>
-      <section class="progress-header" style="min-height:400px">
+      <section class="progress-header">
         <el-row type="flex" :gutter="20" align="top">
-          <el-col :span="3" style="border-right: solid 1px rgba(233,235,242,1); min-height: 400px">
-            <el-checkbox class="check_tag" v-model="level_team_model">全部下属</el-checkbox>
-            <el-radio class="check_tag"  v-for="(item,index) in level_team_list" :key="index" v-model="level_team_id" :label="index">{{item.superior_name}}</el-radio>
+          <el-col :span="4" style="border-right: solid 1px rgba(233,235,242,1); min-height: 400px">
+            <el-radio class="check_tag"  v-for="(item,index) in level_team_list" :key="index" v-model="level_team_id" :label="item.superior_workcode">
+              {{item.superior_name}}
+              <span v-if="item.abnormal_status" class="Badge_logo"></span>
+            </el-radio>
           </el-col>
-          <el-col :span="21" style="min-height: 400px">
+          <el-col :span="20" style="min-height: 400px">
+            <el-row class="progress-header" style="display: flex; align-items: center;">
+              <el-col :span="18">
+                <span class="color_gray">{{team_name}}: </span>
+                <span class="total">共{{total}}人, </span>
+                <span class="overview_text"> {{team_overview_text}}</span>
+                <el-popover v-if="is_reject == 1" placement="bottom" width="488" trigger="click">
+                  <p>提交记录</p>
+                  <template>
+                    <el-table :data="team_reviewData" height="250">
+                      <el-table-column
+                        width="100"
+                        property="created_at"
+                        label="提交时间"
+                      ></el-table-column>
+                      <el-table-column
+                        width="288"
+                        property="name"
+                        label="提交理由"
+                      ></el-table-column>
+                      <el-table-column
+                        width="100"
+                        property="type_text"
+                        label="提交人"
+                      ></el-table-column>
+                    </el-table>
+                  </template>
+                  <el-button  class="show_relect_overview" size="medium" slot="reference" @click="team_submit_overview()"
+                    >查看提交理由</el-button
+                  >
+                </el-popover>
+              </el-col>
+              <el-col align="right" :span="6">
+                <el-button v-if="is_reject == 1" size="medium" type="warning">驳回{{team_name}}</el-button>
+              </el-col>
+            </el-row>
             <el-table
               :data="list_data"
               stripe
@@ -25,7 +62,6 @@
                 </template>
               </el-table-column>
               <el-table-column
-                v-if="1 > 2"
                 prop="hr_name"
                 label="HRBP"
               ></el-table-column>
@@ -135,18 +171,27 @@ import {
   PATH_EMPLOYEE_TEAM
 } from "@/constants/URL";
 import {
-  highLevelTeamList
+  highLevelTeamList,
+  highLevelTeamReview,
 } from "@/constants/API";
 export default {
   props: {
     list_data: {
       type: null,
-      default: () => ({})
+      default: () => [],
     },
     department_id: {
       type: String,
-      default: () => ({})
-    }
+      default: ''
+    },
+    total: {
+      type: [String,Number],
+      default: ''
+    },
+    team_overview: {
+      type: null,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -156,8 +201,11 @@ export default {
         ENUM_PERFORMANCE_FINISH
       },
       level_team_list: [],
-      level_team_model: true,
-      level_team_id:"",
+      level_team_id: null,
+      team_name: '全部下属',
+      is_reject: 0,//是否可以驳回
+      is_show_reject: 0,
+      team_reviewData: [],
     };
   },
   components: {},
@@ -165,11 +213,23 @@ export default {
     this.get_highLevelTeamList();
   },
   methods: {
-    get_highLevelTeamList() {
+    get_highLevelTeamList() {//请求隔级团队
       return highLevelTeamList(this.department_id)
         .then(res => {
-          console.log(res)
+          res.highLevelList.unshift({
+            abnormal_status: 0,
+            is_reject: 0,
+            superior_name: "全部下属",
+            superior_workcode: "",
+          });
           this.level_team_list = res.highLevelList;
+        })
+        .catch(e => {});
+    },
+    team_submit_overview() {//请求。审批记录
+      return highLevelTeamReview(this.department_id,{workcode:this.level_team_id})
+        .then(res => {
+          this.reviewData = res;
         })
         .catch(e => {});
     },
@@ -185,15 +245,18 @@ export default {
       return status_text;
     }
   },
-  computed: {},
+  computed: {
+    team_overview_text(){
+      return this.team_overview.join(",");
+    }
+  },
   watch: {
-    level_team_id(newv,oldv){
-    },
-    level_team_model(newv,oldv){
-      console.log(newv)
-      if(!newv){
-        this.level_team_id = false;
-      }
+    level_team_id(newv,oldv){//下属或者团队的data的监听
+        console.log( this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(","))
+        this.$emit("get_workcode",newv);
+        this.team_name = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.superior_name).join(",");
+        this.is_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");
+        this.is_show_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");
     },
   },
 };
@@ -201,7 +264,7 @@ export default {
 <style scoped>
 .progress-header {
   background-color: white;
-  padding: 20px 10px 10px 10px;
+  padding: 0px 10px 10px 10px;
 }
 .appeal-tag {
   width: 32px;
@@ -247,11 +310,43 @@ export default {
   height: 22px;
   font-size: 14px;
   font-weight: 500;
-  color: rgba(48,49,51,1);
+  color:rgba(56,208,175,1);
   line-height: 22px;
   margin: 16px 0 0 0;
 }
 .check_tag:not(:first-child) {
   padding-left: 20px;
+  color:rgba(96,98,102,1);
+}
+.Badge_logo {
+  width: 12px;
+  height: 12px;
+  margin-left: 10px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../../../assets/img/large_diff.png");
+  position: absolute;
+  top: 5px;
+}
+.color_gray {
+  color:rgba(96,98,102,1);
+}
+.total {
+  font-size:14px;
+  font-weight:400;
+  color:rgba(144,147,153,1);
+}
+.overview_text {
+  font-size:14px;
+  font-weight:400;
+  color:rgba(235,12,0,1);
+}
+.show_relect_overview {
+  font-size:14px;
+  font-weight:500;
+  color:rgba(56,208,175,1);
+  border: none;
+  background: none;
 }
 </style>

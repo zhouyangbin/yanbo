@@ -258,37 +258,41 @@ export default {
         this.Allsubmit_step3();
       } else {
         let tip_html = `<p>不符合标签分布要求，是否确认继续提交？</p>\
-                       <p>分布结果检查 :</p>\
-                       <p style='${
-                         top_Diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[0].name}总人数超出${Math.abs(
-          top_Diff
-        )}人</span></p>\
-                       <p style='${
-                         b_plus_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                         ${overview[1].child[0].name}总人数超出${Math.abs(
-          b_plus_diff
-        )}人</span></p>\
-                       <p style='${
-                         b_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[1].child[1].name}总人数超出${Math.abs(
-          b_diff
-        )}人</span></p>\
-                       <p style='${
-                         b_minus_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[2].child[0].name}总人数缺少${Math.abs(
-          b_minus_diff
-        )}人</span></p>\
-                       <p style='${
-                         cd_diff >= 0 ? "display:none" : null
-                       }'> <span style='color: #EB0C00;margin-left:90px'>\
-                        ${overview[2].child[1].name}总人数缺少${Math.abs(
-          cd_diff
-        )}人</span></p>`;
+                      <div style='display:flex'>
+                        <div style='width:100px;'>分布结果检查 :</div>\
+                         <div style='width:300px;'>\
+                            <p style='${
+                                             top_Diff >= 0 ? "display:none" : null
+                                           }'> <span style='color: #EB0C00;'>\
+                                            ${overview[0].name}总人数超出${Math.abs(
+                              top_Diff
+                            )}人</span></p>\
+                                           <p style='${
+                                             b_plus_diff >= 0 ? "display:none" : null
+                                           }'> <span style='color: #EB0C00;'>\
+                                             ${overview[1].child[0].name}总人数超出${Math.abs(
+                              b_plus_diff
+                            )}人</span></p>\
+                                           <p style='${
+                                             b_diff >= 0 ? "display:none" : null
+                                           }'> <span style='color: #EB0C00;'>\
+                                            ${overview[1].child[1].name}总人数超出${Math.abs(
+                              b_diff
+                            )}人</span></p>\
+                                           <p style='${
+                                             b_minus_diff >= 0 ? "display:none" : null
+                                           }'> <span style='color: #EB0C00;'>\
+                                            ${overview[2].child[0].name}总人数缺少${Math.abs(
+                              b_minus_diff
+                            )}人</span></p>\
+                                           <p style='${
+                                             cd_diff >= 0 ? "display:none" : null
+                                           }'> <span style='color: #EB0C00;'>\
+                                            ${overview[2].child[1].name}总人数缺少${Math.abs(
+                              cd_diff
+                            )}人</span></p>\
+                          </div>\
+                      </div>`;
         this.Allsubmit_step2(tip_html);
       }
     },
@@ -297,7 +301,9 @@ export default {
         dangerouslyUseHTMLString: true,
         confirmButtonText: "提交",
         inputPlaceholder: "请输入理由",
-        cancelButtonText: "暂不提交"
+        cancelButtonText: "暂不提交",
+        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]/,//判断是否为空
+        inputErrorMessage: '提交理由不能为空'
       })
         .then(({ value }) => {
           this.Allsubmit_send(value);
@@ -337,12 +343,6 @@ export default {
         })
         .catch(e => {});
     },
-    get_stage_status(status) {
-      let status_text = this.constants.ENUM_PERFORMANCE_FINISH.filter(
-        item => item.key == status
-      )[0].value;
-      return status_text;
-    }
   },
   computed: {},
   watch: {
