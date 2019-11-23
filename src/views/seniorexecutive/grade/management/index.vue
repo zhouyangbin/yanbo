@@ -41,7 +41,9 @@
       >
         <div class="list-top">
           <span v-if="item.stage === 0" class="state draft">草稿</span>
-          <span v-else-if="item.stage === 60" class="state ending">已结束</span>
+          <span v-else-if="item.stage === 600" class="state ending"
+            >已结束</span
+          >
           <span v-else class="state doing">进行中</span>
           <div class="bread-crumb">
             <div class="bread-crumb-name">{{ item.name }}</div>
@@ -203,15 +205,15 @@
           </div>
           <div
             class="time-line-sign"
-            :class="item.stage === 60 ? 'active' : ''"
+            :class="item.stage === 600 ? 'active' : ''"
             :data="item.result_confirm_end_time | filterDate"
           ></div>
-          <div class="time-line" :class="item.stage === 60 ? 'active' : ''">
+          <div class="time-line" :class="item.stage === 600 ? 'active' : ''">
             结果确认
           </div>
           <div
             class="time-line-sign"
-            :class="item.stage === 60 ? 'active' : ''"
+            :class="item.stage === 600 ? 'active' : ''"
             :data="item.president_audit_begin_time | filterDate"
           ></div>
         </div>
