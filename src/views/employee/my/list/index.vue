@@ -145,7 +145,7 @@ export default {
     },
     refreshList() {
       let getData = {
-        page: data.page,
+        page: this.page,
         perPage: this.perPage
       };
       getMyPerformanceList(getData)
