@@ -23,13 +23,8 @@
               :header-cell-style="{
                 backgroundColor: '#F5F6F7',
                 color: '#303133'
-<<<<<<< HEAD
               }"
             >
-=======
-              }">
-              <!-- 权重 -->
->>>>>>> feature-wrr-test-1.0
               <el-table-column
                 :label="constants.TARGET_WEIGH"
                 width="180"
@@ -161,7 +156,8 @@
               class="add-target"
               v-if="!targetItem.isMoney && getTableLen(index) <= 4"
               @click="addTarget(index)"
-              >{{ constants.ADD_TARGET_LINE }}</el-button>
+              >{{ constants.ADD_TARGET_LINE }}</el-button
+            >
           </el-form>
         </el-row>
         <ul class="sub-total">
@@ -243,7 +239,6 @@ import { Divider } from "element-ui";
 export default {
   data() {
     return {
-      
       constants: {
         TARGET_WEIGH,
         TARGET_NAME,
@@ -253,7 +248,7 @@ export default {
         FINANCE_DIMENSIONALITY_SUBTOTAL,
         CHECK_EXAMINE_LOG
       },
-      userId:this.$route.params.uid,
+      userId: this.$route.params.uid,
       nav: [
         {
           label: MY_GRADE,
@@ -555,7 +550,7 @@ export default {
               this.allTarget
             )
               .then(res => {
-                localStorage.clearItem(this.userId)
+                localStorage.clearItem(this.userId);
                 this.$router.push(
                   PATH_PERFORMANCE_TARGET_DETAIL(
                     this.$route.params.id,
@@ -574,7 +569,7 @@ export default {
     temporaryMemory() {
       postSaveDraft(this.userId, this.allTarget)
         .then(res => {
-          localStorage.setItem(this.userId,1)
+          localStorage.setItem(this.userId, 1);
           this.$message({ type: "success", message: "暂存成功" });
         })
         .catch(() => {});
@@ -585,7 +580,7 @@ export default {
     returnList() {
       postSaveDraft(this.$route.params.uid, this.allTarget)
         .then(res => {
-          localStorage.setItem(this.userId,1)
+          localStorage.setItem(this.userId, 1);
           this.$router.push("/employee/my");
         })
         .catch(() => {});
@@ -609,24 +604,24 @@ export default {
       this.allTarget[index].table.splice(rowIndex, 1);
     },
     // 获取草稿信息
-    getUserMsg(){
-      let id = this.$route.params.uid
+    getUserMsg() {
+      let id = this.$route.params.uid;
       getPerformanceDraft(id)
-      .then(res=>{
-        for(let i=0;i<res.length;i++){
-          res[i].isMoney = Number(res[i].isMoney)
-        }
-       this.allTarget = res
-      })
-      .catch(()=>{})
+        .then(res => {
+          for (let i = 0; i < res.length; i++) {
+            res[i].isMoney = Number(res[i].isMoney);
+          }
+          this.allTarget = res;
+        })
+        .catch(() => {});
     }
   },
   created() {
     this.getUserInfo();
-    if(localStorage.getItem(this.userId)==undefined){
+    if (localStorage.getItem(this.userId) == undefined) {
       this.getWrokAndTeamTarget();
-    }else{
-      this.getUserMsg()
+    } else {
+      this.getUserMsg();
     }
   }
 };

@@ -120,7 +120,7 @@ export default {
      */
     getWrokAndTeamTarget() {
       let data = {
-        sign:0,
+        sign: 0,
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };

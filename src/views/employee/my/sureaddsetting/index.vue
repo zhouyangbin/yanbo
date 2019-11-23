@@ -7,7 +7,8 @@
       <el-row class="footer-button">
         <el-button class="agree-button" @click="agreeTarget">同意</el-button>
         <el-button class="wait-consensus" @click="rejectTarget"
-          >待共识</el-button>
+          >待共识</el-button
+        >
       </el-row>
     </div>
     <agree-dialog
@@ -56,7 +57,7 @@ export default {
         department_name: "",
         cycle: "",
         indicator_setting_end_time: "",
-        perforamnce_user_id:this.$route.params.uid
+        perforamnce_user_id: this.$route.params.uid
       },
       allTarget: [],
       isAgreeDialog: false,
@@ -73,7 +74,7 @@ export default {
     "agree-dialog": () =>
       import("@/components/modules/employee/superiorAgreeTarget/index"),
     "reject-dialog": () =>
-      import("@/components/modules/employee/superiorRejectTarget/index"),
+      import("@/components/modules/employee/superiorRejectTarget/index")
   },
   methods: {
     /**
@@ -112,7 +113,7 @@ export default {
             department_name,
             cycle,
             indicator_setting_end_time,
-            perforamnce_user_id:this.$route.params.uid
+            perforamnce_user_id: this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -191,7 +192,7 @@ export default {
      */
     closeRejectDialog() {
       this.isRejectDialog = false;
-    },
+    }
   },
   created() {
     this.getUserInfo();

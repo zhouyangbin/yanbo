@@ -210,9 +210,7 @@ export default {
      * 点击返回下属评分列表，回到下属列表页
      */
     returnGradeList() {
-      this.$router.push(
-        PATH_PERFORMANCE_MY_DETAIL(this.$route.params.gradeID)
-      );
+      this.$router.push(PATH_PERFORMANCE_MY_DETAIL(this.$route.params.gradeID));
     },
     /**
      * 点击查看审批记录
@@ -230,7 +228,6 @@ export default {
   created() {
     this.getUserInfo();
     this.getWrokAndTeamTarget();
-    console.log(this.$route.params)
   }
 };
 </script>
