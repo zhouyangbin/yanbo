@@ -289,14 +289,14 @@ export default {
           }
           if (this.infoType == "add") {
             return postAddPerformanceAssessment(this.ruleForm).then(res => {
-              this.$emit("define", res.id);
+              this.$emit("update", res.id);
             });
           } else {
             return putPerformanceAssessment(
               this.performanceId,
               this.ruleForm
             ).then(res => {
-              this.$emit("define");
+              this.$emit("update");
             });
           }
         }
@@ -306,6 +306,8 @@ export default {
       for (var i in arr) {
         if ("object" === typeof arr[i]) {
           if (0 <= this.optionalIds.indexOf(arr[i].department_id)) {
+            arr[i].disabled = false;
+          } else {
             arr[i].disabled = true;
           }
           if (undefined !== arr[i].children) {

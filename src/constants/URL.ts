@@ -215,11 +215,9 @@ export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   workcode = ":workcode"
 ) => `/employee/team/target/${id}/${uid}/${workcode}`;
 
+// 高管绩效
 export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>
   `/performance/assessment/details/${id}`;
-
-export const PATH_UPLOAD_FILE = (uid: String) =>
-  `${base}/executive-performance/web/self/${uid}/import-targets`;
 
 // 高管绩效 评分详情
 export const PATH_PERFORMANCE_MY_DETAIL = (
@@ -268,3 +266,15 @@ export const PATH_PERFORMANCE_IMPORT_USER = (id: String) =>
   `${base}/executive-performance/admin/performances/${id}/users/import?token=${localStorage.getItem(
     "talToken"
   )}`;
+
+// 高管绩效 个人指标模板下载
+export const PATH_UPLOAD_TARGET = (uid: String) =>
+  `${base}/executive-performance/web/${uid}/target/templates?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+
+// 高管绩效 上传工作指标
+export const PATH_IMPORT_TARGET = (uid: String) =>
+  `${base}/executive-performance/web/self/${uid}/import-targets?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;

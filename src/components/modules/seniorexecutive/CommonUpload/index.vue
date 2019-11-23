@@ -6,19 +6,17 @@
     :close-on-click-modal="false"
     width="650px"
   >
-    <div slot="title" class="title">{{ upload_title }}</div>
+    <div slot="title" class="title">上传{{ uploadTitle }}</div>
     <el-form label-width="80px">
       <el-form-item label="模版下载">
         <el-button type="text"
-          ><a class="down-load" download :href="download_url"
-            >下载</a
-          ></el-button
+          ><a class="down-load" download :href="downloadUrl">下载</a></el-button
         >
       </el-form-item>
       <el-form-item label="上传文件">
         <el-upload
           class="upload-demo"
-          :action="upload_action_url"
+          :action="uploadActionUrl"
           :on-success="uploadSuccess"
           :on-error="uploadError"
         >
@@ -27,7 +25,9 @@
       </el-form-item>
     </el-form>
     <div class="notice">
-      请注意：如页面已有工作指标内容，上传将覆盖所有工作指标内容。
+      请注意：如页面已有{{ uploadTitle }}内容，上传将覆盖所有{{
+        upload_title
+      }}内容。
     </div>
   </el-dialog>
 </template>
@@ -39,35 +39,25 @@ export default {
       type: Boolean,
       default: false
     },
-    upload_title: {
+    uploadTitle: {
       type: String,
       default: ""
     },
-    upload_action_url: {
+    uploadActionUrl: {
       type: String,
       default: ""
     },
-    download_url: {
+    downloadUrl: {
       type: String,
       default: ""
     },
-    upload_type: {
+    uploadType: {
       type: String,
       default: ""
     }
   },
   data() {
-    return {
-      actionUrl: ""
-    };
-  },
-  created() {},
-  computed: {
-    uploadHeader() {
-      return {
-        Authorization: `Bearer ${localStorage.getItem("talToken")}`
-      };
-    }
+    return {};
   },
   methods: {
     close() {
@@ -79,7 +69,7 @@ export default {
         message: UPLOAD_SUCCESS,
         type: "success"
       });
-      this.close();
+      this.$emit("update");
     },
     uploadErr(err, file, fileList) {
       const errObj = JSON.parse(err.message);

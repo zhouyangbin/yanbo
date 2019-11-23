@@ -192,13 +192,13 @@ export default {
           if (this.userType != "add") {
             putEmployeeInfo(this.performanceId, this.userId, this.userForm)
               .then(res => {
-                this.$emit("define");
+                this.$emit("update");
               })
               .catch(e => {});
           } else {
             postAddStaff(this.performanceId, this.userForm)
               .then(res => {
-                this.$emit("define");
+                this.$emit("update");
               })
               .catch(e => {});
           }

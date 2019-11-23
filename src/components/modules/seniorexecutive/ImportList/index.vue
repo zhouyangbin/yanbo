@@ -106,8 +106,8 @@ export default {
       });
     },
     confirmBtn() {
-      // 发送请求，并关闭弹框
-      this.$emit("define");
+      // 发送请求，并关闭弹框 to do
+      this.$emit("update");
     }
   },
   created() {}

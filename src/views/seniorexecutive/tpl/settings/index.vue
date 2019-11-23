@@ -102,13 +102,13 @@
       :tplMeasures="tplMeasures"
       :orgTree="orgTree"
       :indicatorTypes="indicatorTypes"
-      @define="tplDefine"
+      @update="tplDefine"
     ></tpl-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @define="confirmDialog"
+      @update="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>

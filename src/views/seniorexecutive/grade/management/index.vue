@@ -240,14 +240,14 @@
       :infoType="infoType"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
-      @define="tplDefine"
+      @update="tplDefine"
     ></assessment-dialog>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
       :confirmType="confirmType"
-      @define="confirmDialog"
+      @update="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
   </div>

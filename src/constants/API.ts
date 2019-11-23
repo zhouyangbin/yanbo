@@ -488,10 +488,6 @@ export const postSaveDraft = (performance_user_id: String, params: Object) =>
     params
   );
 
-// 高管绩效指标模版下载
-export const getTargetTemplate = (performance_id: String) =>
-  sendGet(`/executive-performance/web/${performance_id}/target/template`);
-
 // 高管绩效上级确认指标
 export const postSuperAffirmTarget = (params: Object) =>
   sendPost(`/executive-performance/web/target/confirm`, params);

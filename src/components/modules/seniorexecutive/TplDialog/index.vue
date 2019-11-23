@@ -295,12 +295,12 @@ export default {
           }
           if (this.infoType == "add") {
             return postPerformanceTpl(this.tplForm).then(res => {
-              this.$emit("define");
+              this.$emit("update");
             });
           } else {
             return putPerformanceTpls(this.performanceId, this.tplForm).then(
               res => {
-                this.$emit("define");
+                this.$emit("update");
               }
             );
           }

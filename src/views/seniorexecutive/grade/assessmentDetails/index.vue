@@ -560,7 +560,7 @@
       :performanceId="performanceId"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
-      @define="tplDefine"
+      @update="tplDefine"
     ></assessment-dialog>
     <setup-time
       v-if="showSetupTime"
@@ -568,7 +568,7 @@
       @close="setupTimeClose"
       :performanceId="performanceId"
       :initTime="initTime"
-      @define="confirmTime"
+      @update="confirmTime"
     ></setup-time>
     <modify-user
       v-if="showModifyUser"
@@ -578,13 +578,13 @@
       :performanceId="performanceId"
       :userId="userId"
       :userInfo="userInfo"
-      @define="confirmUser"
+      @update="confirmUser"
     ></modify-user>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @define="confirmDialog"
+      @update="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
     <import-list
@@ -593,17 +593,18 @@
       :uploadTplUrl="uploadTplUrl"
       :importTplUrl="importTplUrl"
       @close="closeImportList"
-      @define="confirmImportUser"
+      @update="confirmImportUser"
     >
     </import-list>
     <common-upload-dialog
-      v-if="showUploadWorkFile"
-      :visible="showUploadWorkFile"
-      :upload_title="upload_title"
-      :upload_action_url="upload_action_url"
-      :upload_type="upload_type"
-      :download_url="download_url"
+      v-if="showUpload"
+      :visible="showUpload"
+      :uploadTitle="uploadTitle"
+      :uploadActionUrl="uploadActionUrl"
+      :uploadType="uploadType"
+      :downloadUrl="downloadUrl"
       @close="upload_close"
+      @update="confirmUpload"
     >
     </common-upload-dialog>
   </div>
@@ -727,11 +728,11 @@ export default {
       userId: 0,
       userType: "add",
       currentStage: 0,
-      showUploadWorkFile: false,
-      upload_title: "",
-      upload_action_url: "",
-      upload_type: "",
-      download_url: "",
+      showUpload: false,
+      uploadTitle: "",
+      uploadActionUrl: "",
+      uploadType: "",
+      downloadUrl: "",
       isLoading: true,
       showImportList: false,
       uploadTplUrl: "",
@@ -794,6 +795,10 @@ export default {
     },
     handleCurrentChange(val) {
       this.personalForm.page = val;
+      this.getUserList();
+    },
+    confirmUpload() {
+      this.showUpload = false;
       this.getUserList();
     },
     confirmImportUser() {
@@ -962,25 +967,25 @@ export default {
         .catch(e => {});
     },
     showUploadWork(type) {
-      this.showUploadWorkFile = true;
+      this.showUpload = true;
       if (type == "finance") {
-        this.upload_title = "上传财务指标";
-        this.upload_action_url = this.constants.postUploadFinancialIndicators(
+        this.uploadTitle = "财务指标";
+        this.uploadActionUrl = this.constants.postUploadFinancialIndicators(
           this.performanceId
         );
-        this.download_url = this.constants.getFinancialtpm(this.performanceId);
-        this.upload_type = type;
+        this.downloadUrl = this.constants.getFinancialtpm(this.performanceId);
+        this.uploadType = type;
       } else {
-        this.upload_title = "上传工作目标";
-        this.upload_action_url = this.constants.postUploadWorkIndicators(
+        this.uploadTitle = "工作目标";
+        this.uploadActionUrl = this.constants.postUploadWorkIndicators(
           this.performanceId
         );
-        this.download_url = this.constants.getWorktpm(this.performanceId);
-        this.upload_type = type;
+        this.downloadUrl = this.constants.getWorktpm(this.performanceId);
+        this.uploadType = type;
       }
     },
     upload_close() {
-      this.showUploadWorkFile = false;
+      this.showUpload = false;
     }
   },
   created() {

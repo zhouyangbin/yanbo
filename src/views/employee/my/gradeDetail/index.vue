@@ -11,7 +11,6 @@
         >
           <el-row class="target-detail-title">
             <span class="target-title">{{ targetItem.type }}</span>
-            <!-- 权重 -->
             <span class="target-weight"
               >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span
             >
