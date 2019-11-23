@@ -189,8 +189,11 @@ export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
 // 我的业绩中高管评分高管填写指标页面
-export const PATH_PERFORMANCE_TARGET_SET = (id = ":id", uid = ":uid",sign=":sign") =>
-  `/performance/targetsettings/${id}/${uid}/${sign}`;
+export const PATH_PERFORMANCE_TARGET_SET = (
+  id = ":id",
+  uid = ":uid",
+  sign = ":sign"
+) => `/performance/targetsettings/${id}/${uid}/${sign}`;
 
 // 我的业绩中高管评分高管填写指标页面(只读)
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
@@ -199,8 +202,8 @@ export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
 // 高管绩效 申请调整指标
 export const PATH_APPLICATION = (id = ":id", uid = ":uid") =>
   `/performance/settingdetails/${id}/${uid}`;
-  // 高管绩效 确认指标调整
-  export const PATH_SUREAPPLICATION = (id = ":id", uid = ":uid") =>
+// 高管绩效 确认指标调整
+export const PATH_SUREAPPLICATION = (id = ":id", uid = ":uid") =>
   `/performance/suresetting/${id}/${uid}`;
   // 高管绩效 同意并加签
   export const PATH_SURE_ADD = (id = ":id", uid = ":uid") =>
@@ -224,16 +227,21 @@ export const PATH_PERFORMANCE_MY_DETAIL = (
 ) => `/performance/my/${performanceId}`;
 // 高管绩效  导出名单
 export const PATH_PERFORMANCE_USER_LIST = (id: String = ":id") =>
-  `${base}executive-performance/admin/performances/${id}/users/export`;
+  `${base}executive-performance/admin/performances/${id}/users/export?${qs.stringify(
+    {
+      token: localStorage.getItem("talToken")
+    }
+  )}`;
 // 高管绩效  财务指标模板
 export const getFinancialIndicators = () =>
-  `${base}/executive-performance/admin/performances/templates/financial-indicators`;
+  `${base}executive-performance/admin/performances/templates/financial-indicators`;
 // 下载高管绩效  财务指标模板
-export const getFinancialtpm = `${base}/executive-performance/admin/performances/templates/financial-indicators?${qs.stringify(
-  {
-    token: localStorage.getItem("talToken")
-  }
-)}`;
+export const getFinancialtpm = (id: String) =>
+  `${base}executive-performance/admin/performances/${id}/templates/financial-indicators?${qs.stringify(
+    {
+      token: localStorage.getItem("talToken")
+    }
+  )}`;
 // 下载高管绩效  工作目标模板
 export const getWorktpm = (id: String) =>
   `${base}executive-performance/web/${id}/target/template?token=${localStorage.getItem(
@@ -247,5 +255,15 @@ export const postUploadFinancialIndicators = (id: String) =>
 // 高管绩效  上传工作指标
 export const postUploadWorkIndicators = (id: String) =>
   `${base}executive-performance/web/self/${id}/import-targets?token=${localStorage.getItem(
+    "talToken"
+  )}`;
+// 高管绩效 导入名单模板
+export const PATH_PERFORMANCE_TPL_USER = `${base}executive-performance/admin/performances/templates/users?token=${localStorage.getItem(
+  "talToken"
+)}`;
+
+// 高管绩效 导入考核名单
+export const PATH_PERFORMANCE_IMPORT_USER = (id: String) =>
+  `${base}/executive-performance/admin/performances/${id}/users/import?token=${localStorage.getItem(
     "talToken"
   )}`;

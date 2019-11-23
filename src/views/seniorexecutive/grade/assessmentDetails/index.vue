@@ -204,10 +204,10 @@
         </div>
         <div class="time-setting">
           <div class="time-setting-box">
-            <div class="setting-key">整体起止时间:</div>
+            <div class="setting-key">整体考核起止时间:</div>
             <div class="setting-value">
-              {{ initTime.entirety_start_time | filterDate }} 至
-              {{ initTime.entirety_end_time | filterDate }}
+              {{ initTime.start_time | filterDate }} 至
+              {{ initTime.end_time | filterDate }}
             </div>
           </div>
           <div class="time-setting-box">
@@ -328,12 +328,21 @@
           <el-form-item
             class="limit-width"
             prop="distribution_253"
-            label="253分布:"
+            label="规则分布:"
           >
-            <el-input
+            <el-select
               v-model="personalForm.distribution_253"
+              clearable
               placeholder="请选择"
-            ></el-input>
+            >
+              <el-option
+                v-for="item in tagOptions"
+                :key="item.key"
+                :label="item.name"
+                :value="item.key"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item
             class="limit-width"
@@ -391,9 +400,9 @@
             <el-button icon="el-icon-plus" @click="addPerson"
               >添加人员</el-button
             >
-            <el-button icon="el-icon-download" @click="exportList"
-              >导出名单</el-button
-            >
+            <el-button icon="el-icon-download"
+              ><a class="down-load" download :href="exportUrl">导出名单</a>
+            </el-button>
             <el-popover placement="bottom" width="120" trigger="hover">
               <div class="more-btn" @click="showUploadWork('finance')">
                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
@@ -425,59 +434,89 @@
             label="工号"
             width="80"
           ></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column
+            width="100"
+            prop="name"
+            label="姓名"
+          ></el-table-column>
+          <el-table-column
+            :show-overflow-tooltip="true"
             prop="business_unit_name"
             width="200"
             label="总部/事业部"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="sub_department_name"
             label="大部门/分校"
             width="200"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="email"
             label="邮箱"
-            width="100"
+            width="120"
           ></el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="executive_type_text"
             label="组织部成员类别"
             width="200"
           ></el-table-column>
-          <el-table-column prop="hrbp_name" label="HRBP"></el-table-column>
-          <el-table-column prop="hrd_name" label="HRD"></el-table-column>
           <el-table-column
+            width="100"
+            prop="hrbp_name"
+            label="HRBP"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            prop="hrd_name"
+            label="HRD"
+          ></el-table-column>
+          <el-table-column
+            width="100"
             prop="superior_name"
             label="直接上级"
           ></el-table-column>
-          <el-table-column prop="isolation_name" label="隔级"></el-table-column>
-          <el-table-column prop="president_name" label="总裁"></el-table-column>
           <el-table-column
+            width="100"
+            prop="isolation_name"
+            label="隔级"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            prop="president_name"
+            label="总裁"
+          ></el-table-column>
+          <el-table-column
+            width="100"
             prop="self_evaluation_score"
             label="自评分"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="re_evaluation_score"
             label="复评分"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="culture_score"
             label="文化评分"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="final_score"
             label="最终成绩"
           ></el-table-column>
           <el-table-column
+            width="100"
             prop="distribution_253"
             label="规则分布"
           ></el-table-column>
           <el-table-column
             prop="stage_text"
             fixed="right"
-            width="80"
+            width="120"
             label="状态"
           ></el-table-column>
           <el-table-column label="操作" fixed="right" width="180">
@@ -485,7 +524,7 @@
               <el-button @click="modifyUser(scope.row)" type="text" size="small"
                 >修改</el-button
               >
-              <el-button @click="remove(scope.row)" type="text" size="small"
+              <el-button @click="remove(scope.row.id)" type="text" size="small"
                 >移除</el-button
               >
               <el-button
@@ -499,11 +538,17 @@
         </el-table>
         <br />
         <el-row type="flex" justify="end">
-          <pagination
+          <el-pagination
+            background
+            v-if="total"
+            @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :currentPage="currentPage"
+            :current-page="personalForm.page"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
             :total="total"
-          ></pagination>
+          >
+          </el-pagination>
         </el-row>
       </div>
     </section>
@@ -542,7 +587,15 @@
       @define="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
-    <import-list v-if="showImportList" :visible="showImportList"></import-list>
+    <import-list
+      v-if="showImportList"
+      :visible="showImportList"
+      :uploadTplUrl="uploadTplUrl"
+      :importTplUrl="importTplUrl"
+      @close="closeImportList"
+      @define="confirmImportUser"
+    >
+    </import-list>
     <common-upload-dialog
       v-if="showUploadWorkFile"
       :visible="showUploadWorkFile"
@@ -566,7 +619,8 @@ import {
   getExecutiveTypes,
   getUserDetail,
   getPerformanceNotice,
-  deletePerformanceUser
+  deletePerformanceUser,
+  getAdminTagTypes
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
@@ -574,7 +628,10 @@ import {
   postUploadFinancialIndicators,
   postUploadWorkIndicators,
   getFinancialtpm,
-  getWorktpm
+  getWorktpm,
+  PATH_PERFORMANCE_TPL_USER,
+  PATH_PERFORMANCE_IMPORT_USER,
+  PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
@@ -598,8 +655,7 @@ export default {
     ),
     "import-list": AsyncComp(
       import("@/components/modules/seniorexecutive/ImportList/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    )
   },
   data() {
     return {
@@ -627,9 +683,9 @@ export default {
         }
       ],
       executiveTypes: [],
+      tagOptions: [],
       performanceDetail: {},
       performanceId: this.$route.params.id,
-      currentPage: 1,
       total: 0,
       selectedNumber: 0,
       showConfirmDialog: false,
@@ -660,13 +716,15 @@ export default {
         president_name: "",
         hrbp_name: "",
         distribution_253: "",
-        hrd_name: ""
+        hrd_name: "",
+        page: 1,
+        perPage: 10
       },
       userList: [],
       performance_user_ids: [],
       showModifyUser: false,
       userInfo: {},
-      userId: "",
+      userId: 0,
       userType: "add",
       currentStage: 0,
       showUploadWorkFile: false,
@@ -676,6 +734,9 @@ export default {
       download_url: "",
       isLoading: true,
       showImportList: false,
+      uploadTplUrl: "",
+      importTplUrl: "",
+      exportUrl: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
@@ -727,6 +788,18 @@ export default {
     }
   },
   methods: {
+    handleSizeChange(val) {
+      this.personalForm.perPage = val;
+      this.getUserList();
+    },
+    handleCurrentChange(val) {
+      this.personalForm.page = val;
+      this.getUserList();
+    },
+    confirmImportUser() {
+      this.showModifyUser = false;
+      this.getUserList();
+    },
     confirmUser() {
       this.showModifyUser = false;
       this.getUserList();
@@ -742,15 +815,20 @@ export default {
     modifyUserClose() {
       this.showModifyUser = false;
     },
-    handleSelectionChange(val) {
-      // performance_user_ids的id是哪一个字段
-      // this.performance_user_ids
-      console.log(val);
+    handleSelectionChange(data) {
+      this.selectedNumber = data.length;
+      this.performance_user_ids = [];
+      for (let i = 0; i < data.length; i++) {
+        this.performance_user_ids.push(data[i].id);
+      }
     },
     reminder() {
       getPerformanceNotice(this.performanceId)
         .then(res => {
-          console.log(res);
+          this.$message({
+            message: "提醒成功",
+            type: "success"
+          });
         })
         .catch(e => {});
     },
@@ -766,33 +844,15 @@ export default {
       );
     },
     importList() {
-      // 导入名单
-      this.showUploadWorkFile = true;
-      // if (type == "finance") {
-      //   this.upload_title = "上传财务指标";
-      //   this.upload_action_url = this.constants.postUploadFinancialIndicators(
-      //     this.performanceId
-      //   );
-      //   this.download_url = this.constants.getFinancialtpm;
-      //   this.upload_type = type;
-      // } else {
-      //   this.upload_title = "上传工作目标";
-      //   this.upload_action_url = this.constants.postUploadWorkIndicators(
-      //     this.performanceId
-      //   );
-      //   this.download_url = this.constants.getWorktpm(this.performanceId);
-      //   this.upload_type = type;
-      // }
+      this.showImportList = true;
+      this.importTplUrl = PATH_PERFORMANCE_TPL_USER;
+      this.uploadTplUrl = PATH_PERFORMANCE_IMPORT_USER(this.performanceId);
+    },
+    closeImportList() {
+      this.showImportList = false;
     },
     removeList() {
-      if (this.performance_user_ids.length === 0) {
-        return false;
-      }
-      deletePerformanceUser(this.performanceId, this.performance_user_ids)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(e => {});
+      this.delPerformanceUser();
     },
     viewDistribution() {
       // 查看分布
@@ -829,9 +889,6 @@ export default {
     closeDialog() {
       this.showConfirmDialog = false;
     },
-    handleCurrentChange() {
-      this.currentPage = val;
-    },
     onQuery() {
       this.getUserList();
     },
@@ -840,10 +897,24 @@ export default {
       this.getUserList();
     },
     viewIndicators(data) {
-      // 查看指标
+      this.$router.push(
+        PATH_PERFORMANCE_TARGET_DETAIL(this.performanceId, data.id)
+      );
     },
-    remove(data) {
-      // 移除
+    delPerformanceUser() {
+      let delData = {
+        performance_user_ids: this.performance_user_ids
+      };
+      deletePerformanceUser(this.performanceId, delData)
+        .then(res => {
+          this.performance_user_ids = [];
+          this.getUserList();
+        })
+        .catch(e => {});
+    },
+    remove(id) {
+      this.performance_user_ids = [id];
+      this.delPerformanceUser();
     },
     modifyUser(data) {
       this.userId = data.id;
@@ -875,7 +946,9 @@ export default {
     getUserList() {
       getPerformanceUser(this.performanceId, this.personalForm)
         .then(res => {
-          this.userList = res;
+          let { data, total } = res;
+          this.total = total;
+          this.userList = data;
         })
         .catch(e => {});
     },
@@ -895,7 +968,7 @@ export default {
         this.upload_action_url = this.constants.postUploadFinancialIndicators(
           this.performanceId
         );
-        this.download_url = this.constants.getFinancialtpm;
+        this.download_url = this.constants.getFinancialtpm(this.performanceId);
         this.upload_type = type;
       } else {
         this.upload_title = "上传工作目标";
@@ -912,6 +985,7 @@ export default {
   },
   created() {
     this.nowTime = new Date();
+    this.exportUrl = PATH_PERFORMANCE_USER_LIST(this.performanceId);
     this.getPerformanceDetailData();
     getOrganization()
       .then(res => {
@@ -926,6 +1000,11 @@ export default {
     getExecutiveTypes()
       .then(res => {
         this.executiveTypes = res;
+      })
+      .catch(e => {});
+    getAdminTagTypes()
+      .then(res => {
+        this.tagOptions = res;
       })
       .catch(e => {});
     this.getUserList();
@@ -1071,14 +1150,14 @@ export default {
         }
         .setting-key {
           float: left;
-          width: 90px;
+          width: 116px;
           text-align: right;
           color: #909399;
         }
         .setting-value {
           float: left;
           margin-left: 8px;
-          width: calc(100% - 98px);
+          width: calc(100% - 124px);
           line-height: 20px;
           overflow: hidden;
           white-space: nowrap;
@@ -1112,13 +1191,13 @@ export default {
           margin-bottom: 0;
         }
         .setting-key {
-          width: 110px;
+          width: 116px;
           text-align: right;
           color: #909399;
           margin-right: 8px;
         }
         .setting-detail {
-          width: calc(100% - 118px);
+          width: calc(100% - 124px);
           display: flex;
           justify-content: space-between;
           margin-bottom: 10px;
@@ -1154,6 +1233,20 @@ export default {
       display: flex;
       .btn-group {
         margin: 0 10px;
+        .el-button {
+          &:hover {
+            .down-load {
+              color: #52ddab;
+            }
+          }
+        }
+        .down-load {
+          color: #606266;
+          text-decoration: none;
+          &:hover {
+            color: #52ddab;
+          }
+        }
       }
     }
     .table-number {

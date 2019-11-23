@@ -3,30 +3,26 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true" ref="conditionForm" :model="conditionForm">
+        <el-form :inline="true">
           <el-form-item>
             <el-cascader
-              v-model="evaluation_id"
+              v-model="department_ids"
               :props="filterProps"
               :placeholder="constants.LABEL_SELECT_DIVISION"
               :options="orgTree"
               :show-all-levels="false"
-              @change="checkCascader"
+              @change="handleChange"
             ></el-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button round @click="resetForm('conditionForm')">{{
+            <el-button round @click="resetForm">{{
               constants.RESET
             }}</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              v-if="canCreateTpl"
-              @click="createTpl"
-              round
-              >{{ constants.ADD_NEW_LABEL }}</el-button
-            >
+            <el-button type="primary" @click="createTpl" round>{{
+              constants.ADD_NEW_LABEL
+            }}</el-button>
           </el-form-item>
         </el-form>
         <br />
@@ -54,69 +50,61 @@
             :label="constants.CORRESPONDING_GRADE_AND_PROPORTION"
             min-width="200"
           ></el-table-column>
-          <!-- 是否强制分布 -->
           <el-table-column
             prop="force_distribution"
             :label="constants.FORCED_DISTRIBUTION_OR_NOT"
             width="120"
           >
             <template slot-scope="scope">
-              {{
-                (
-                  constants.FORCED_DISTRIBUTION_VALUE.filter(
-                    v => v.key === scope.row.force_distribution
-                  )[0] || {}
-                ).value
-              }}
+              {{ scope.row.force_distribution ? "是" : "否" }}
             </template>
           </el-table-column>
           <el-table-column :label="constants.LABEL_OPERATIONS" width="120">
             <template slot-scope="scope">
               <el-button
+                size="small"
                 type="text"
                 @click="updateTpl(scope.row)"
-                size="small"
                 >{{ constants.LABEL_MODIFY }}</el-button
               >
               <el-button
-                size="mini"
+                size="small"
                 type="text"
-                @click="handleDelete(scope.$index, scope.row)"
+                @click="handleDelete(scope.row)"
                 >删除</el-button
               >
             </template>
           </el-table-column>
         </el-table>
         <br />
-        <el-pagination
-          v-if="total"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 50]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
+        <el-row type="flex" justify="end">
+          <el-pagination
+            v-if="total"
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          >
+          </el-pagination>
+        </el-row>
       </section>
     </section>
     <label-dialog
       v-if="showDialog"
-      :initData="initData"
-      :departmentsOps="options"
+      :userId="userId"
       @close="tplDialogClose"
       :visible="showDialog"
       :infoType="infoType"
       :orgTree="orgTree"
-      :tableData="tableData"
-      @getList="getAdminTagsList"
     ></label-dialog>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="400px">
       <span>是否确认删除标签？</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="deleteMsg">确 定</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="deleteMsg">确定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -157,12 +145,8 @@ export default {
       total: 0,
       infoType: "add",
       showDialog: false,
-      options: [], // 业务单元/职能单元数据来源
-      conditionForm: { evaluation_name_id: "", evaluation_id: "" },
-      departments: [],
-      canCreateTpl: true,
       tableData: [],
-      initData: {},
+      userId: 0,
       orgTree: [],
       constants: {
         LABEL_SELECT_DIVISION,
@@ -183,80 +167,44 @@ export default {
           active: true
         }
       ],
-      evaluation_id: [],
+      department_ids: [],
       dialogVisible: false,
-      deleteNumber: 0,
-      deleteIndex: 0
+      deleteId: 0
     };
   },
   methods: {
-    checkCascader() {
-      this.getAdminTagsList();
-    },
-    /**
-     * 将后端返回数据中的children提取到外层，并追加在当前包含children的对象后面
-     * @param arr 后端返回的数组
-     * @return newArr 不包含children的数组
-     */
-    handleTagRulesDataStructure(arr) {
-      let newArr = [];
-      arr.forEach((v, i) => {
-        if (v.children === undefined) {
-          newArr.push(v);
-        }
-        if (v.children !== undefined) {
-          newArr.push(v);
-          v.children.forEach((obj, index) => {
-            obj["isChildren"] = true;
-            newArr.push(obj);
-          });
-          delete v.children;
-        }
-      });
-      return newArr;
-    },
-    resetForm(formName) {
+    handleChange() {
       this.page = 1;
-      this.evaluation_id = [];
       this.getAdminTagsList();
     },
-    changeDepartment(item) {
-      this.conditionForm = Object.assign({}, this.conditionForm, {
-        evaluation_id: item.value
-      });
+    resetForm() {
+      this.page = 1;
+      this.department_ids = [];
+      this.getAdminTagsList();
     },
     createTpl() {
-      // 创建模板
       this.infoType = "add";
       this.showDialog = true;
     },
     tplDialogClose() {
       this.showDialog = false;
-      // 关闭弹框
     },
-    /**
-     * 改变分页size
-     */
     handleSizeChange(val) {
       this.perPage = val;
       this.getAdminTagsList();
     },
-    /**
-     * 改变分页page
-     */
     handleCurrentChange(val) {
       this.page = val;
       this.getAdminTagsList();
     },
     updateTpl(row) {
-      // 修改
       this.infoType = "modify";
-      this.initData = { id: row.id };
+      this.userId = row.id;
       this.showDialog = true;
     },
     getAdminTagsList() {
       let data = {
-        department_ids: this.evaluation_id,
+        department_ids: this.department_ids,
         page: this.page,
         perPage: this.perPage
       };
@@ -268,15 +216,13 @@ export default {
         })
         .catch(() => {});
     },
-    // 删除
-    handleDelete(index, row) {
+    handleDelete(row) {
       this.dialogVisible = true;
-      this.deleteNumber = row.id;
-      this.deleteIndex = index;
+      this.deleteId = row.id;
     },
     deleteMsg() {
       this.dialogVisible = false;
-      deleteLabel(this.deleteNumber)
+      deleteLabel(this.deleteId)
         .then(res => {
           this.getAdminTagsList();
         })

@@ -216,11 +216,11 @@
           ></div>
         </div>
       </div>
+      <br />
       <el-row type="flex" justify="end">
         <el-pagination
           background
           v-if="total"
-          class="paging-box"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
@@ -630,9 +630,6 @@ export default {
         }
       }
     }
-  }
-  .paging-box {
-    margin-top: 25px;
   }
 }
 </style>

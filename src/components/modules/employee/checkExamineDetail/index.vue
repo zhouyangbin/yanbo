@@ -7,7 +7,7 @@
     width="700px"
     @close="close"
   >
-  <span style="color:red" v-if='data!=[]'>还没有审核记录</span>
+    <span style="color:red" v-if="data != []">还没有审核记录</span>
     <el-timeline class="line">
       <el-row v-for="(item, index) in lineData" :key="index">
         <el-col :span="4">{{ item.stage }}</el-col>
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       lineData: [],
-      data:[]
+      data: []
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
       };
       getExamineLog(data)
         .then(res => {
-          this.data = res
+          this.data = res;
           this.lineData = res.records;
           res.records.forEach(v => {
             if (v.sign === "green") {

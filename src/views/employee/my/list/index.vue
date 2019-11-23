@@ -169,7 +169,11 @@ export default {
      */
     fillInIndicator(row) {
       this.$router.push(
-        PATH_PERFORMANCE_TARGET_SET(row.performance_id, row.performance_user_id,1)
+        PATH_PERFORMANCE_TARGET_SET(
+          row.performance_id,
+          row.performance_user_id,
+          1
+        )
       );
     },
     applytChangeIndicator(row) {

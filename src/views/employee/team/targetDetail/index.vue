@@ -68,7 +68,7 @@ export default {
         department_name: "",
         cycle: "",
         indicator_setting_end_time: "",
-        perforamnce_user_id:this.$route.params.uid
+        perforamnce_user_id: this.$route.params.uid
       },
       allTarget: [],
       isAgreeDialog: false,
@@ -126,7 +126,7 @@ export default {
             department_name,
             cycle,
             indicator_setting_end_time,
-            perforamnce_user_id:this.$route.params.uid
+            perforamnce_user_id: this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -230,7 +230,6 @@ export default {
   created() {
     this.getUserInfo();
     this.getWrokAndTeamTarget();
-    console.log(this.$route.params)
   }
 };
 </script>

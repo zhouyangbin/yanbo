@@ -35,8 +35,12 @@
   </el-dialog>
 </template>
 <script>
-import { getTargetTemplate, postUploadIndex ,getUniqueTemplate} from "@/constants/API";
-import { PATH_UPLOAD_FILE ,} from "@/constants/URL";
+import {
+  getTargetTemplate,
+  postUploadIndex,
+  getUniqueTemplate
+} from "@/constants/API";
+import { PATH_UPLOAD_FILE } from "@/constants/URL";
 export default {
   props: {
     isUpload: {
@@ -63,13 +67,13 @@ export default {
       this.$emit("close");
     },
     // 上传指标确认
-    cover(){
+    cover() {
       getUniqueTemplate({
-          sign:this.$route.params.sign,
-          performance_id:this.$route.params.id,
-          performance_user_id:this.$route.params.uid
-        })
-        this.close()
+        sign: this.$route.params.sign,
+        performance_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid
+      });
+      this.close();
     },
     /**
      * 下载模版按钮

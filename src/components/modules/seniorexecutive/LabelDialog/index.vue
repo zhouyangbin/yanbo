@@ -25,7 +25,6 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <!-- to do 需要改动的地方，先以中文显示，方便联调是改动 -->
       <el-form-item label="标签规则" class="label-rules" prop="rules">
         <el-table
           :data="table253"
@@ -230,16 +229,12 @@ export default {
       type: String,
       default: "add"
     },
-    initData: {
-      type: Object,
-      default: () => ({})
+    userId: {
+      type: Number,
+      default: 0
     },
     orgTree: {
       type: Array,
-      default: () => []
-    },
-    tableData:{
-      type:Array,
       default: () => []
     }
   },
@@ -409,16 +404,20 @@ export default {
           };
           if (this.infoType == "add") {
             // 新增标签
-            return postAdminTags(postData).then(res => {
-              this.close();
-              this.$emit("getList");
-            }).catch(()=>{})
+            return postAdminTags(postData)
+              .then(res => {
+                this.close();
+                this.$emit("getList");
+              })
+              .catch(() => {});
           } else {
             let UpData = postData;
-            return putAdminTagChange(this.initData.id, UpData).then(res => {
-              this.close();
-              this.$emit("getList");
-            }).catch(() => {});
+            return putAdminTagChange(this.userId, UpData)
+              .then(res => {
+                this.close();
+                this.$emit("getList");
+              })
+              .catch(() => {});
           }
         }
       });
@@ -460,7 +459,7 @@ export default {
       return newArr;
     },
     getTagDetails() {
-      getAdminTagDetails(this.initData.id).then(res => {
+      getAdminTagDetails(this.userId).then(res => {
         this.tplForm.tag_type = res.tag_type;
         if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
           this.table253 = this.handleTagRulesDataStructure(res.rules);
@@ -483,7 +482,7 @@ export default {
   },
   created() {
     this.getAdminTagTypesList();
-    if (this.infoType != "add" && this.initData.id) {
+    if (this.infoType != "add" && this.userId) {
       this.getTagDetails();
     }
   }
@@ -499,16 +498,6 @@ export default {
 .label-dialog >>> .el-form-item {
   margin-bottom: 22px;
 }
-/* .label-dialog >>> .el-checkbox-group,
-.label-dialog >>> .el-checkbox-group + .el-checkbox {
-  margin-left: -30px !important;
-} */
-.ml-10 {
-  margin-left: 10px;
-}
-.no-margin-bottom {
-  margin-bottom: 0 !important;
-}
 .label-dialog >>> .el-form-item .el-input-group__prepend,
 .label-dialog >>> .el-form-item .el-input-group__append {
   padding: 0 10px !important;
@@ -519,9 +508,6 @@ export default {
   float: left;
   width: 33.33%;
 }
-/* .label-rules >>> .el-form-item__content {
-  margin-left: 60px !important;
-} */
 .label-dialog .add-padding {
   padding-left: 20px;
 }

@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <detail-header :user-info="userInfo" :self="true"></detail-header>
     <target-content :all-target="allTarget"></target-content>
-    <el-row class="footer-button" >
+    <el-row class="footer-button">
       <el-button @click="checkExamine">
         <!-- 查看审批记录 -->
         {{ constants.CHECK_EXAMINE_LOG }}
@@ -47,18 +47,18 @@ export default {
       userInfo: {
         performance_name: "",
         stage: 0,
-        current_user_identity:"",
+        current_user_identity: "",
         opinion: "",
         avatar: "",
         name: "",
-        workcode:"",
+        workcode: "",
         superior_name: "",
         superior_workcode: "",
         executive_type: "",
         department_name: "",
         cycle: "",
         indicator_setting_end_time: "",
-        perforamnce_user_id:this.$route.params.uid
+        perforamnce_user_id: this.$route.params.uid
       },
       allTarget: [],
       isExamineDialog: false
@@ -110,7 +110,7 @@ export default {
             department_name,
             cycle,
             indicator_setting_end_time,
-            perforamnce_user_id:this.$route.params.uid
+            perforamnce_user_id: this.$route.params.uid
           };
         })
         .catch(() => {});
@@ -185,9 +185,7 @@ export default {
       this.$router.push("/employee/my");
     },
     // 返回下属评分列表
-    ratingList(){
-      
-    }
+    ratingList() {}
   },
   created() {
     this.getUserInfo();
