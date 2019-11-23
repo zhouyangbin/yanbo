@@ -245,7 +245,7 @@ export default {
       } else {
         this.orgTree = this.handleOrgTree(this.orgTree);
       }
-    })
+    });
   },
   methods: {
     selectedOrg(data) {
@@ -304,12 +304,12 @@ export default {
     },
     handleOrgTree(arr) {
       for (var i in arr) {
-        if ('object' === typeof arr[i]) {
+        if ("object" === typeof arr[i]) {
           if (0 <= this.optionalIds.indexOf(arr[i].department_id)) {
             arr[i].disabled = true;
           }
           if (undefined !== arr[i].children) {
-            this.handleOrgTree(arr[i].children)
+            this.handleOrgTree(arr[i].children);
           }
         }
       }
@@ -317,10 +317,10 @@ export default {
     },
     disabledOrgTree(arr) {
       for (var i in arr) {
-        if ('object' === typeof arr[i]) {
+        if ("object" === typeof arr[i]) {
           arr[i].disabled = true;
           if (undefined !== arr[i].children) {
-            this.disabledOrgTree(arr[i].children)
+            this.disabledOrgTree(arr[i].children);
           }
         }
       }
