@@ -203,7 +203,8 @@ export const PATH_APPLICATION = (id = ":id", uid = ":uid") =>
   export const PATH_SUREAPPLICATION = (id = ":id", uid = ":uid") =>
   `/performance/suresetting/${id}/${uid}`;
   // 高管绩效 同意并加签
-  // export const PATH_SURE_ADD = 
+  export const PATH_SURE_ADD = (id = ":id", uid = ":uid") =>
+  `/performance/sureaddsetting/${id}/${uid}`;
 // 高管绩效 我的团队上级确认页面
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   gradeID: String = ":gradeID",

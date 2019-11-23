@@ -45,7 +45,8 @@ import {
   PATH_PERFORMANCE_TEAM_TARGET_AFFRIM,
   PATH_PERFORMANCE_MY_DETAIL,
   PATH_APPLICATION,
-  PATH_SUREAPPLICATION
+  PATH_SUREAPPLICATION,
+  PATH_SURE_ADD
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -370,6 +371,14 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/employee/team/targetDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_SURE_ADD(),
+          components: {
+            default: () =>
+              import("@/views/employee/my/sureaddsetting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

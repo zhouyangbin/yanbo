@@ -218,7 +218,6 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      console.log(row);
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

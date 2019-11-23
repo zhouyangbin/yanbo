@@ -460,9 +460,13 @@ export const delAssessment = (id: String) =>
 export const getPerformanceUserInfo = (params: Object) =>
   sendGet(`/executive-performance/web/target/header-info`, params);
 
+  // 高管绩效 获取指标草稿
+  export const getPerformanceDraft = (performance_user_id:String)=>
+  sendGet(`/executive-performance/web/self/${performance_user_id}/get-draft`)
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-  sendGet(`/executive-performance/web/target/unique-template`, params);
+  // sendGet(`/executive-performance/web/target/unique-template`, params);
+  sendGet(`/executive-performance/web/target/add`,params)
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
   sendGet(`/executive-performance/web/target/items`, params);

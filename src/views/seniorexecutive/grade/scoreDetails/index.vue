@@ -196,6 +196,7 @@ export default {
         .then(res => {
           this.isLoading = false;
           this.performanceDetail = res;
+          console.log(this.performanceDetail)
         })
         .catch(e => {});
     },
@@ -206,6 +207,7 @@ export default {
   created() {
     this.nowTime = new Date();
     this.getPerformanceDetail();
+    
   }
 };
 </script>
