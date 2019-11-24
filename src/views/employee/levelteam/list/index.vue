@@ -26,7 +26,7 @@
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{
               constants.DETAILS
             }}</el-button>
-            <el-button v-if="false"
+            <el-button
               @click="exportDetail(scope.row)"
               type="text"
               size="small"

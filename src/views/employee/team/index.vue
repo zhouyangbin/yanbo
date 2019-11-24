@@ -302,7 +302,7 @@ export default {
         confirmButtonText: "提交",
         inputPlaceholder: "请输入理由",
         cancelButtonText: "暂不提交",
-        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]/,//判断是否为空
+        inputPattern: /\S/,//判断是否为空
         inputErrorMessage: '提交理由不能为空'
       })
         .then(({ value }) => {

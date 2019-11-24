@@ -97,6 +97,11 @@ export const PATH_EMPLOYEE_TEAM_MEMEBER = (
 //隔级详情
 export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/levelteam/${id}`;
+//隔级团队个人详情
+export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL = (
+  orgID: String = ":orgID",
+  id: String = ":id") =>
+  `/employee/levelteam/${orgID}/${id}`;
 //团队  个人详情
 export const PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",

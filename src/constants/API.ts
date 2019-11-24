@@ -253,6 +253,9 @@ export const highLevelTeamReview = (id: String, params: Object) =>
 //隔级同意
 export const highLevelteamAllsure = (id: String, params: Object) =>
   sendPost(`/performance/api/highlevel/${id}/accept`, params);
+//驳回隔级团队
+export const rejectHighLevelTeam = (id: String, code: String, params: Object) =>
+  sendPost(`/performance/api/highlevel/${id}/reject/${code}`, params);
 //隔级 评分详情
 export const getEmployeeLevelTeamDetail = (
   orgID: String,

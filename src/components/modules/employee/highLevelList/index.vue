@@ -4,7 +4,7 @@
         <el-row type="flex" :gutter="20" align="top">
           <el-col :span="4" style="border-right: solid 1px rgba(233,235,242,1); min-height: 400px">
             <el-radio class="check_tag"  v-for="(item,index) in level_team_list" :key="index" v-model="level_team_id" :label="item.superior_workcode">
-              {{item.superior_name}}
+              {{item.superior_name}}{{index >1 ? '团队' : null }}
               <span v-if="item.abnormal_status" class="Badge_logo"></span>
             </el-radio>
           </el-col>
@@ -14,23 +14,23 @@
                 <span class="color_gray">{{team_name}}: </span>
                 <span class="total">共{{total}}人, </span>
                 <span class="overview_text"> {{team_overview_text}}</span>
-                <el-popover v-if="is_reject == 1" placement="bottom" width="488" trigger="click">
+                <el-popover v-if="level_team_id" placement="bottom" width="688" trigger="click">
                   <p>提交记录</p>
                   <template>
                     <el-table :data="team_reviewData" height="250">
                       <el-table-column
-                        width="100"
+                        width="200"
                         property="created_at"
                         label="提交时间"
                       ></el-table-column>
                       <el-table-column
-                        width="288"
-                        property="name"
+                        width="388"
+                        property="content"
                         label="提交理由"
                       ></el-table-column>
                       <el-table-column
                         width="100"
-                        property="type_text"
+                        property="name"
                         label="提交人"
                       ></el-table-column>
                     </el-table>
@@ -41,9 +41,29 @@
                 </el-popover>
               </el-col>
               <el-col align="right" :span="6">
-                <el-button v-if="is_reject == 1" size="medium" type="warning">驳回{{team_name}}</el-button>
+                <el-button v-if="is_reject == 1" size="medium" type="warning" @click=" reject_team_show = true"
+                >{{reject_team_title}}
+              </el-button>
               </el-col>
             </el-row>
+            <el-dialog
+              :title="reject_team_title"
+              :visible.sync="reject_team_show"
+              width="30%"
+              >
+              <el-input
+                type="textarea"
+                placeholder="请输入驳回理由"
+                v-model="content"
+                rows="5"
+                autofocus="true"
+              >
+              </el-input>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="reject_team_show = false">取 消</el-button>
+                <el-button type="primary" @click="reject_send()">确 定</el-button>
+              </span>
+            </el-dialog>
             <el-table
               :data="list_data"
               stripe
@@ -167,12 +187,13 @@ import {
   ENUM_PERFORMANCE_FINISH
 } from "@/constants/TEXT";
 import {
-  PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER,
-  PATH_EMPLOYEE_TEAM
+  PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
 } from "@/constants/URL";
 import {
   highLevelTeamList,
   highLevelTeamReview,
+  rejectHighLevelTeam,
 } from "@/constants/API";
 export default {
   props: {
@@ -206,9 +227,13 @@ export default {
       is_reject: 0,//是否可以驳回
       is_show_reject: 0,
       team_reviewData: [],
+      reject_team_show: false,//是否显示驳回dialog
+      content: '',//驳回理由
     };
   },
-  components: {},
+  components: {
+
+  },
   created() {
     this.get_highLevelTeamList();
   },
@@ -226,17 +251,36 @@ export default {
         })
         .catch(e => {});
     },
-    team_submit_overview() {//请求。审批记录
+    team_submit_overview() {//提交理由
       return highLevelTeamReview(this.department_id,{workcode:this.level_team_id})
         .then(res => {
-          this.reviewData = res;
+          this.team_reviewData = res;
+        })
+        .catch(e => {});
+    },
+    reject_send() {//驳回
+      let that = this;
+      let data = {
+        content: this.content
+      };
+      return rejectHighLevelTeam(this.$route.params.id, this.level_team_id, data)
+        .then(res => {
+          console.logres
         })
         .catch(e => {});
     },
     goDetail(row) {
-      this.$router.push(
-        PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER(this.$route.params.id, row.id)
-      );
+      if(row.is_directly == 1){//隔级的直属下级
+        this.$router.push(
+          PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)//去到团队评分的个人详情页
+        );
+      }else{//隔级的团队里的个人详情
+        this.$router.push(
+          PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(this.$route.params.id, row.id)//去到团队评分的个人详情页
+        );
+      }
+      return;
+      
     },
     get_stage_status(status) {
       let status_text = this.constants.ENUM_PERFORMANCE_FINISH.filter(
@@ -246,13 +290,15 @@ export default {
     }
   },
   computed: {
-    team_overview_text(){
+    team_overview_text(){//获取隔级的不符合条件的描述
       return this.team_overview.join(",");
+    },
+    reject_team_title(){//获取驳回隔级团队的title
+      return '驳回'+this.team_name+'团队';
     }
   },
   watch: {
     level_team_id(newv,oldv){//下属或者团队的data的监听
-        console.log( this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(","))
         this.$emit("get_workcode",newv);
         this.team_name = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.superior_name).join(",");
         this.is_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");

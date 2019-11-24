@@ -10,27 +10,27 @@
         </el-col>
         <el-col align="center" :span="6">
           <el-button
-            :disabled="Allsubmit_action"
+            :disabled="!Allsubmit_action"
             type="primary"
             @click="Allsubmit_step1"
             >同意</el-button
           >
-          <el-popover placement="bottom" width="270" trigger="click">
+          <el-popover placement="bottom" width="488" trigger="click">
             <p>提交记录</p>
             <template>
-              <el-table :data="reviewData" height="250">
+              <el-table :data="reviewData" height="400">
                 <el-table-column
-                  width="100"
+                  width="150"
                   property="created_at"
                   label="日期"
                 ></el-table-column>
                 <el-table-column
-                  width="100"
+                  width="238"
                   property="name"
                   label="姓名"
                 ></el-table-column>
                 <el-table-column
-                  width="80"
+                  width="100"
                   property="type_text"
                   label="状态"
                 ></el-table-column>
@@ -111,7 +111,7 @@
 </template>
 <script>
 import {
-  TEAM_GRADE,
+  LEVEL_TEAM_GRADE,
   DETAILS,
   SELF_EVALUATION,
   LABEL_NAME,
@@ -125,7 +125,7 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
-  PATH_EMPLOYEE_TEAM
+  PATH_EMPLOYEE_LEVEL_TEAM
 } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import {
@@ -149,8 +149,8 @@ export default {
       overview: [],
       nav: [
         {
-          label: TEAM_GRADE,
-          href: PATH_EMPLOYEE_TEAM
+          label: LEVEL_TEAM_GRADE,
+          href: PATH_EMPLOYEE_LEVEL_TEAM
         },
         {
           label: GRADE_MANAGE,
@@ -195,6 +195,12 @@ export default {
   created() {
     this.overReviewList();
     this.get_LevelTags();
+    this.refreshList({
+        page: this.currentPage,
+        name: this.filterForm.name,
+        stage: this.filterForm.status,
+        label_id: this.filterForm.tags,
+      });
   },
   methods: {
     get_workcode(workcode){
@@ -247,7 +253,7 @@ export default {
           this.department = performanceInfo.department || "";
           this.Allsubmit_action = performanceInfo.submit;
           this.reject_msg = performanceInfo.reject_msg;
-          performanceInfo.submit ? this.Allsubmit_step_load() : null;
+          //performanceInfo.submit ? this.Allsubmit_step_load() : null;
         })
         .catch(e => {});
     },
@@ -349,7 +355,7 @@ export default {
         confirmButtonText: "提交",
         inputPlaceholder: "请输入理由",
         cancelButtonText: "暂不提交",
-        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]/,//判断是否为空
+        inputPattern: /\S/,//判断是否为空
         inputErrorMessage: '提交理由不能为空'
       })
         .then(({ value }) => {
@@ -359,7 +365,7 @@ export default {
     },
     Allsubmit_step3() {//可以直接 隔级同意
       this.$prompt(
-        "<p>是否确认提交至隔级审核</p>\
+        "<p>是否同意提交本次隔级评分</p>\
          <p>分布结果检查 : <span style='color: #EB0C00'> 全部符合23221分布比例要求</span></p>",
         "提示",
         {
@@ -378,6 +384,7 @@ export default {
       let data = {
         content: input_content
       };
+      console.log(123)
       return highLevelteamAllsure(this.$route.params.id, data)
         .then(res => {
           let postData = {
@@ -404,7 +411,6 @@ export default {
         this.currentPage = 1;
       },
       deep: true,
-      immediate: true
     }
   }
 };

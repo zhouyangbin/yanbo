@@ -22,6 +22,7 @@ import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_EMPLOYEE_LEVEL_TEAM,
   PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
   PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_MSG_MOBILE,
@@ -221,6 +222,13 @@ const router = new Router({
           path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(),
           components: {
             default: () => import("@/views/employee/levelteam/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/levelteam/gradePage/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
