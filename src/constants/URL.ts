@@ -278,3 +278,10 @@ export const PATH_IMPORT_TARGET = (uid: String) =>
   `${base}executive-performance/web/self/${uid}/import-targets?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
+// 高管绩效  导出明细
+export const PATH_EXPORT_DETAIL = (id: String) =>
+  `${base}executive-performance/admin/performances/${id}/users/export-detail?${qs.stringify(
+    {
+      token: localStorage.getItem("talToken")
+    }
+  )}`;

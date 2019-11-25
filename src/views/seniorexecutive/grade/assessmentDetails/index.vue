@@ -391,6 +391,9 @@
             <el-button icon="el-icon-upload2" @click="importList"
               >导入名单</el-button
             >
+            <el-button icon="el-icon-download"
+              ><a class="down-load" download :href="exportUrl">导出名单</a>
+            </el-button>
             <el-button
               icon="el-icon-bell"
               :disabled="currentStage < 100"
@@ -401,7 +404,9 @@
               >添加人员</el-button
             >
             <el-button icon="el-icon-download"
-              ><a class="down-load" download :href="exportUrl">导出名单</a>
+              ><a class="down-load" download :href="exportDetailUrl"
+                >导出明细</a
+              >
             </el-button>
             <el-popover placement="bottom" width="120" trigger="hover">
               <div class="more-btn" @click="showUploadWork('finance')">
@@ -626,6 +631,7 @@ import {
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_USER_LIST,
+  PATH_EXPORT_DETAIL,
   postUploadFinancialIndicators,
   postUploadWorkIndicators,
   getFinancialtpm,
@@ -638,7 +644,7 @@ import {
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
     "confirm-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
     ),
@@ -738,6 +744,7 @@ export default {
       uploadTplUrl: "",
       importTplUrl: "",
       exportUrl: "",
+      exportDetailUrl: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
@@ -840,13 +847,6 @@ export default {
     addPerson() {
       this.userType = "add";
       this.showModifyUser = true;
-    },
-    exportList() {
-      window.open(
-        PATH_PERFORMANCE_USER_LIST(this.performanceId),
-        "_blank",
-        "noopener"
-      );
     },
     importList() {
       this.showImportList = true;
@@ -991,6 +991,7 @@ export default {
   created() {
     this.nowTime = new Date();
     this.exportUrl = PATH_PERFORMANCE_USER_LIST(this.performanceId);
+    this.exportDetailUrl = PATH_EXPORT_DETAIL(this.performanceId);
     this.getPerformanceDetailData();
     getOrganization()
       .then(res => {
