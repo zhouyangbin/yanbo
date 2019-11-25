@@ -94,7 +94,10 @@
               :label="constants.TASK_DESCRIPTION"
               min-width="300"
               header-align="center"
-              v-if="targetItem.targets[0].content !== undefined"
+              v-if="
+                targetItem.targets[0] &&
+                  targetItem.targets[0].content !== undefined
+              "
             >
               <template slot-scope="scope">
                 <div v-if="targetItem.isFinancial">{{ scope.row.content }}</div>
@@ -350,7 +353,7 @@ export default {
               content = "具体工作/任务描述";
             }
           } else if (location.length === 5) {
-            content = this.indexTpl[i].table[line].metrics[location[3]].name;
+            content = this.indexTpl[i].targets[line].metrics[location[3]].name;
           }
           line = parseInt(location[1]);
           this.$message.error(
