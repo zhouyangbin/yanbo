@@ -15,13 +15,12 @@
           :label="constants.LABEL_DEPARTMENT"
         ></el-table-column>
         <el-table-column
-          prop="type"
+          prop="type_text"
           :label="constants.DURATION_TYPE"
         ></el-table-column>
         <el-table-column
-          v-if="false"
-          prop="end_time"
-          :label="constants.FINISHED_DATE"
+          prop="type_text"
+          label="状态"
         ></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -29,10 +28,6 @@
               constants.DETAILS
             }}</el-button>
             <el-button
-<<<<<<< HEAD
-              v-if="false"
-=======
->>>>>>> 016efbb0e808d30d93a44297785519699a1744a9
               @click="exportDetail(scope.row)"
               type="text"
               size="small"
@@ -66,7 +61,7 @@ import {
 } from "@/constants/TEXT";
 import { PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL } from "@/constants/URL";
 import { getLevelTeamGradeList } from "@/constants/API";
-import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
+import { PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE } from "@/constants/URL";
 
 export default {
   data() {
@@ -116,7 +111,10 @@ export default {
       });
     },
     exportDetail(row) {
-      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
+      var link = document.createElement("a");
+      link.setAttribute("download", "");
+      link.href = PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE(row.id);
+      link.click();
     }
   },
   created() {

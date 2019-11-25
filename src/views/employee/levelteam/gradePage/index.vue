@@ -16,11 +16,11 @@
       </div>
       <br />
       <card
+        class="card"
         :readOnly="readOnly"
         placeholder="请描述该项目标的实际完成情况"
         :desc.sync="targets[i].desc"
         :config="cardConfig"
-        class="card"
         v-for="(v, i) of cardData"
         v-model="targets[i].mark"
         :data="v"
@@ -30,10 +30,8 @@
       <br />
       <div
         v-if="
-          showComments &&
             superior_score &&
-            superior_score.evaluation &&
-            published
+            superior_score.evaluation
         "
       >
         <comments
@@ -51,7 +49,9 @@
         ></addition-mark>
         <br />
       </div>
-      <div v-if="leaderAdditionMark.evaluation && published">
+      <!-- 隔级阶段不需要判断是否发布成绩 -->
+      <div v-if="leaderAdditionMark.evaluation">  
+      <!-- <div v-if="leaderAdditionMark.evaluation" && published"> -->
         <addition-mark
           :readOnly="true"
           :prefixTitle="constants.LABEL_SUP"
@@ -69,14 +69,16 @@
         <br />
       </div>
       <div>
+        <!-- v-if="level" && published" -->
         <level
-          v-if="level && published"
+          v-if="level"
           :readOnly="true"
           v-model="level"
+          :old_s="true"
         ></level>
         <br />
       </div>
-      <el-row v-if="canEdit" type="flex" justify="center">
+      <!-- <el-row v-if="canEdit" type="flex" justify="center">
         <el-button round size="medium" @click="saveDraft" class="btn-reset">
           {{ constants.SAVE_DRAFT }}
         </el-button>
@@ -97,7 +99,7 @@
           {{ constants.CANCEL_APPEAL }}
         </el-button>
       </el-row>
-      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
+      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog> -->
     </section>
   </div>
 </template>
@@ -121,6 +123,7 @@ import {
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
+  getEmployeeLevelTeamDetail,
   postUserPerformanceDraft,
   postSelfPerformance,
   delCancelAppeal
@@ -133,6 +136,7 @@ import { PATH_EMPLOYEE_MY,
 export default {
   data() {
     return {
+      label_id: null,
       nav: [
         {
           label: LEVEL_TEAM_GRADE,
@@ -220,10 +224,13 @@ export default {
     }
   },
   methods: {
+    set_label_id(id) {
+      this.label_id = id;
+    },
     hideLeaderInfo(cards) {
       return cards.map(v => {
         let m = { ...v };
-        delete m.target_superior_score;
+        // delete m.target_submit_self_score;
         return m;
       });
     },
@@ -255,23 +262,22 @@ export default {
           score: this.myAdditionMark.score || 0,
           reason: this.myAdditionMark.evaluation || ""
         },
-        total_score: this.total
-        // score_level: this.level,
-        // evaluation: this.comments
+        total_score: this.total,
+        score_level: this.level,
+        evaluation: this.comments
       };
     },
     checkTotal() {
       return parseFloat(this.total) > 5;
     },
     getInfo() {
-      return getEmployeeDetail(
-        this.$route.params.orgID,
+      return getEmployeeLevelTeamDetail(
+        this.$route.params.performanceId,
         this.$route.params.id,
-        "self"
       )
         .then(res => {
           const {
-            targets,
+            submit_targets,
             superior_workcode,
             need_attach_score,
             stage,
@@ -282,7 +288,7 @@ export default {
             score_level,
             score,
             publish_status,
-            self_score
+            self_submit_score
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -298,8 +304,8 @@ export default {
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
-          this.self_score = self_score != null ? self_score.score : 0;
-          this.composeData(targets, stage);
+          this.self_score = self_submit_score != null ? self_submit_score.score : 0;
+          this.composeData(submit_targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;
           }
@@ -307,6 +313,7 @@ export default {
             this.readOnly = true;
             this.canEdit = true;
           }
+          this.label_id = parseInt(superior_score.label_id) || null;
         })
         .catch(e => {});
     },
@@ -380,8 +387,8 @@ export default {
           // 已导入
           this.readOnly = true;
           this.targets = targets.map(v => {
-            delete v.target_self_score;
-            delete v.target_superior_score;
+            delete v.target_submit_self_score;
+            delete v.target_submit_superior_score;
             return v;
           });
           this.need_attach_score = "";
@@ -393,11 +400,11 @@ export default {
           this.canEdit = true;
           this.showTotal = true;
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
             v.desc =
-              (v.target_self_score && v.target_self_score.description) || "";
-            delete v.target_self_score;
-            delete v.target_superior_score;
+              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
+            delete v.target_submit_self_score;
+            delete v.target_submit_superior_score;
             return v;
           });
           break;
@@ -407,9 +414,9 @@ export default {
           this.showTotal = true;
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
             v.desc =
-              (v.target_self_score && v.target_self_score.description) || "";
+              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
             return v;
           });
           break;
@@ -419,9 +426,9 @@ export default {
           this.showTotal = true;
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
             v.desc =
-              (v.target_self_score && v.target_self_score.description) || "";
+              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
             return v;
           });
           this.canReject = true;
@@ -433,9 +440,9 @@ export default {
           this.showTotal = true;
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
             v.desc =
-              (v.target_self_score && v.target_self_score.description) || "";
+              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
             return v;
           });
           this.canReject = false;
@@ -446,9 +453,9 @@ export default {
           this.canEdit = false;
           this.showTotal = true;
           this.targets = targets.map(v => {
-            v.mark = (v.target_self_score && v.target_self_score.score) || 0;
+            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
             v.desc =
-              (v.target_self_score && v.target_self_score.description) || "";
+              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
             return v;
           });
           this.canReject = false;

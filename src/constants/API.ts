@@ -257,16 +257,22 @@ export const highLevelteamAllsure = (id: String, params: Object) =>
 export const rejectHighLevelTeam = (id: String, code: String, params: Object) =>
   sendPost(`/performance/api/highlevel/${id}/reject/${code}`, params);
 //隔级 评分详情
+// export const getEmployeeLevelTeamDetail = (
+//   orgID: String,
+//   uid: String,
+//   attach_for: string
+// ) =>
+//   sendGet(
+//     `${test}/performance/api/${orgID}/${uid}?${qs.stringify({
+//       attach_for
+//     })}`
+//   );
 export const getEmployeeLevelTeamDetail = (
   orgID: String,
-  uid: String,
-  attach_for: string
+  uid: String
 ) =>
-  sendGet(
-    `${test}/performance/api/${orgID}/${uid}?${qs.stringify({
-      attach_for
-    })}`
-  );
+  sendGet(`/performance/api/highlevel/${orgID}/${uid}`);
+
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>
@@ -441,3 +447,5 @@ export const getLowerPlusList = (params: Object) =>
 // /culture/web/team/interval-evaluations/end
 export const getEndList = (params: Object) =>
   sendGet(`/culture/web/team/interval-evaluations/end`, params);
+
+  

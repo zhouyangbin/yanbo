@@ -40,7 +40,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
-  PATH_CULTURE_LEVEL_DETAIL_HISTORY
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY,
+  PATH_TEAM_DETAIL_MEMEBER
   // PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
 
@@ -208,6 +209,13 @@ const router = new Router({
           path: PATH_EMPLOYEE_TEAM_MEMEBER(),
           components: {
             default: () => import("@/views/employee/team/member/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_TEAM_DETAIL_MEMEBER(),
+          components: {
+            default: () => import("@/views/employee/levelteam/teamDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

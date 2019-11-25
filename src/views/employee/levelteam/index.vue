@@ -189,8 +189,8 @@ export default {
     ),
     "high-level-list": AsyncComp(
       import("@/components/modules/employee/highLevelList/index.vue")
-    )
-    // pagination: () => import("@/components/common/Pagination/index.vue")
+    ),
+    pagination: () => import("@/components/common/Pagination/index.vue")
   },
   created() {
     this.overReviewList();
@@ -217,7 +217,7 @@ export default {
     get_LevelTags(){//根据隔级获取标签
       return getLevelTags(1)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.ENUM_PERFORMANCE_TAGS = res;
         })
         .catch(e => {
@@ -228,7 +228,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    goDetail(row) {//跳转到详情
+    goDetail(row) {   //跳转到详情
       this.$router.push(
         PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
       );
@@ -384,7 +384,7 @@ export default {
       let data = {
         content: input_content
       };
-      console.log(123)
+      // console.log(123)
       return highLevelteamAllsure(this.$route.params.id, data)
         .then(res => {
           let postData = {

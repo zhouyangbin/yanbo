@@ -335,6 +335,10 @@ export default {
           };
           this.refreshList(postData); //再次请求接口
           this.reviewList(); //再次请求接口
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          });
         })
         .catch(e => {});
     },

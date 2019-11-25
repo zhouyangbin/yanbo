@@ -94,7 +94,6 @@
         }}</el-button>
       </el-row>
     </section>
-    <!-- 弹窗 “请输入理由” -->
     <review-dialog
       :callback="postReviewResult"
       v-if="showReviewDia"
@@ -104,7 +103,6 @@
 </template>
 <script>
 import {
-  LEVEL_TEAM_GRADE,
   TEAM_GRADE,
   SUBMIT,
   SAVE_DRAFT,
@@ -121,20 +119,21 @@ import {
   EMPLOYEE_WORKCODE,
   EMPYEE_NAME,
   DRAFT_SAVE_SUCCESSFULLY,
-  LABEL_CONFIRM
+  LABEL_CONFIRM,
+  LEVEL_TEAM_GRADE
 } from "@/constants/TEXT";
 import {
-  getEmployeeDetail, // 团队详情评分接口
+  getEmployeeDetail,
   postUserPerformance,
   postUserPerformanceDraft,
   postTargetReview
 } from "@/constants/API";
 
 import {
-  PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
-  PATH_EMPLOYEE_LEVEL_TEAM,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
-  PATH_EMPLOYEE_TEAM
+  PATH_EMPLOYEE_TEAM,
+  PATH_EMPLOYEE_LEVEL_TEAM,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL
 } from "@/constants/URL";
 
 export default {
@@ -169,6 +168,18 @@ export default {
           label: GRADE_DETAIL,
           active: true
         }
+        // {
+        //   label: TEAM_GRADE,
+        //   href: PATH_EMPLOYEE_TEAM
+        // },
+        // {
+        //   label: GRADE_MANAGE,
+        //   href: PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+        // },
+        // {
+        //   label: GRADE_DETAIL,
+        //   active: true
+        // }
       ],
       constants: {
         SUBMIT,
@@ -284,43 +295,43 @@ export default {
         this.$route.params.uid,
         "superior"
       )
-      .then(res => {
-        const {
-          name,
-          targets,
-          workcode,
-          self_attach_score,
-          self_score,
-          superior_attach_score,
-          superior_score,
-          need_attach_score,
-          score_rule,
-          stage,
-          score_level,
-          operate_status,
-          _s
-        } = res;
+        .then(res => {
+          const {
+            name,
+            targets,
+            workcode,
+            self_attach_score,
+            self_score,
+            superior_attach_score,
+            superior_score,
+            need_attach_score,
+            score_rule,
+            stage,
+            score_level,
+            operate_status,
+            _s
+          } = res;
 
-        this.basicInfo = {
-          name,
-          workcode,
-          self_attach_score
-        };
-        this.old_s = _s;
-        this.targets = this.normalizeTargets(targets);
-        this.operate_status = operate_status;
-        this.myAdditionMark = self_attach_score || {};
-        this.leaderAdditionMark = superior_attach_score || {};
-        this.comments = superior_score && superior_score.evaluation;
-        this.level =
-          score_level || (superior_score && superior_score.score_level);
-        this.hasLeaderAdditionMark = need_attach_score == 1;
-        this.rules = score_rule;
-        this.stage = stage;
-        this.score = self_score.score; //自评总分
-        this.label_id = parseInt(superior_score.label_id) || null;
-      })
-      .catch(e => {});
+          this.basicInfo = {
+            name,
+            workcode,
+            self_attach_score
+          };
+          this.old_s = _s;
+          this.targets = this.normalizeTargets(targets);
+          this.operate_status = operate_status;
+          this.myAdditionMark = self_attach_score || {};
+          this.leaderAdditionMark = superior_attach_score || {};
+          this.comments = superior_score && superior_score.evaluation;
+          this.level =
+            score_level || (superior_score && superior_score.score_level);
+          this.hasLeaderAdditionMark = need_attach_score == 1;
+          this.rules = score_rule;
+          this.stage = stage;
+          this.score = self_score.score; //自评总分
+          this.label_id = parseInt(superior_score.label_id) || null;
+        })
+        .catch(e => {});
     },
     beforeSubmitCheck() {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200
