@@ -320,7 +320,6 @@ export default {
           });
         });
       });
-      console.log(data)
       return data;
     },
     // 关闭审核窗口
