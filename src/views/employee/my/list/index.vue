@@ -130,13 +130,6 @@ export default {
         )
       );
     },
-<<<<<<< HEAD
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.refreshList({
-        page: val
-      });
-=======
     // 申请调整指标
     applyAdjustment(row){
 
@@ -155,7 +148,6 @@ export default {
           PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
         );
       }
->>>>>>> 63d5506f14f95859dedbc81caa772c22e91904e5
     },
     refreshList() {
       let getData = {

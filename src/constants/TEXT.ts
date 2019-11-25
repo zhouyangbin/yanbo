@@ -775,17 +775,8 @@ export const PERFORMANCE_TARGET = "绩效目标";
 export const TARGET_WEIGH = "权重";
 export const CHANGE_RECORDS = "修改日志";
 export const FINISH_DATE = "完成期限";
-<<<<<<< HEAD
-
-export const SELF_AVG = "自评平均分";
-export const SUP_AVG = "上级平均分";
-export const _271_LEVEL = "271等级";
-=======
 export const EXECUTIVE_PERFORMANCE = "组织部绩效";
-export const LABEL_SETTING = "标签设置";
 export const ADD_NEW_TPL = "新增模板";
-export const SERIAL_NUMBER = "序号";
-export const BUSINESS_UNIT_AND_FUNCTIONAL_UNIT = "业务单元/职能单元";
 export const ORGANIZATION_DEPARTMENT_MEMBER_TYPE = "组织部成员类型";
 export const INDICATOR_TYPE_AND_PROPORTION = "指标类型及占比";
 export const ID_DET_TPL_CONFIRM = "是否确认删除模板？";
@@ -795,11 +786,6 @@ export const EXECUTIVE_TYPE_TEXT = "组织部类型";
 export const TEMPLATE_FIELD = "模板字段";
 export const IS_THE_MEASUREMENT_REQUIRED = "衡量标准是否必填";
 export const SORT = "排序";
-export const ADD_NEW_LABEL = "新增标签";
-export const TAG_NAME = "标签类型";
-export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";
-export const FORCED_DISTRIBUTION_OR_NOT = "是否强制分布";
-export const UPDATE_LABEL = "修改标签";
 export const LABEL_TYPE = "标签类型";
 export const FORCED_DISTRIBUTION = "强制分布";
 export const EXECUTIVE_LABEL_TYPE = ["253", "271", "23221", "2521"];
@@ -851,54 +837,6 @@ export const DEFAULT_TABLE271 = [
     display_name: "Bottom",
     people_percent: 10,
     computation_rule_name: "不四舍五入取整数"
-  }
-];
-export const DEFAULT_TABLE23221 = [
-  {
-    id: "",
-    display_name: "Top",
-    people_percent: 20,
-    computation_rule_name: "四舍五入取整数"
-  },
-  {
-    id: "",
-    display_name: "Middle(50%)",
-    people_percent: 50,
-    computation_rule_name: ""
-  },
-  {
-    id: "",
-    display_name: "(自定义)",
-    people_percent: 30,
-    computation_rule_name: "",
-    isChildren: true
-  },
-  {
-    id: "",
-    display_name: "(自定义)",
-    people_percent: 20,
-    computation_rule_name: "",
-    isChildren: true
-  },
-  {
-    id: "",
-    display_name: "Bottom",
-    people_percent: 30,
-    computation_rule_name: "不四舍五入取整数"
-  },
-  {
-    id: "",
-    display_name: "(自定义)",
-    people_percent: 20,
-    computation_rule_name: "",
-    isChildren: true
-  },
-  {
-    id: "",
-    display_name: "(自定义)",
-    people_percent: 10,
-    computation_rule_name: "不四舍五入取整数",
-    isChildren: true
   }
 ];
 export const DEFAULT_TABLE2521 = [
@@ -1009,4 +947,3 @@ export const STAGEOPTIONS = [
     value: "已结束"
   }
 ];
->>>>>>> 63d5506f14f95859dedbc81caa772c22e91904e5
