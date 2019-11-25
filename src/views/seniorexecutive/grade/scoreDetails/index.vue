@@ -109,12 +109,12 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="performanceDetail.result_comfirm_end_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="
             '确认中' +
               performanceDetail.confirm +
@@ -126,7 +126,7 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
@@ -138,7 +138,7 @@
       </el-radio-group>
       <lower-level
         :performanceId="performanceId"
-        :performance_user_id ="performance_user_id"
+        :performance_user_id="performance_user_id"
         v-if="type === 'superior'"
       ></lower-level>
       <isolation-level
@@ -173,7 +173,7 @@ export default {
       ],
       type: "superior",
       performanceId: this.$route.params.performanceId,
-      performance_user_id:this.$route.params.uid,
+      performance_user_id: this.$route.params.uid,
       performanceDetail: {},
       nowTime: "",
       isLoading: true

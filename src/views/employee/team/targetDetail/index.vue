@@ -199,7 +199,10 @@ export default {
      */
     returnGradeList() {
       this.$router.push(
-        PATH_PERFORMANCE_MY_DETAIL(this.$route.params.id,this.$route.params.uid)
+        PATH_PERFORMANCE_MY_DETAIL(
+          this.$route.params.id,
+          this.$route.params.uid
+        )
       );
     }
   },

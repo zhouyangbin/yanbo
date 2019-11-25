@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="name" label="姓名">
           <template slot-scope="scope">
-            <div v-if="scope.row.stage === 50">
+            <div v-if="scope.row.stage === 100">
               {{ scope.row.name
               }}<img class="stage-img" src="@/assets/img/stage.png" alt="" />
             </div>
@@ -106,7 +106,10 @@
 </template>
 <script>
 import { getMyUnderLower, getAdminTagTypes } from "@/constants/API";
-import { PATH_EMPLOYEE_TEAM ,PATH_PERFORMANCE_TEAM_TARGET_AFFRIM} from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_TEAM,
+  PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
+} from "@/constants/URL";
 import {
   LABEL_EMPTY,
   LABEL_SELECT_DIVISION,
@@ -182,7 +185,9 @@ export default {
     viewDetail(data) {
       this.$router.push(
         PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(
-          this.performanceId,this.performance_user_id,data.workcode
+          this.performanceId,
+          this.performance_user_id,
+          data.workcode
         )
       );
       // 查看详情

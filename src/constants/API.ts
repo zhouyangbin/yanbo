@@ -459,19 +459,18 @@ export const delAssessment = (id: String) =>
 // 高管绩效指标设定-个人信息
 export const getPerformanceUserInfo = (params: Object) =>
   sendGet(`/executive-performance/web/target/header-info`, params);
-  
-  // 高管绩效 查看个人 团队指标详情
-  export const postTeamtetails = (params:Object)=>{
-    sendPost(`/executive-performance/web/target/view`,params)
-  }
 
-  // 高管绩效 获取指标草稿
-  export const getPerformanceDraft = (performance_user_id:String)=>
-  sendGet(`/executive-performance/web/self/${performance_user_id}/get-draft`)
+// 高管绩效 查看个人 团队指标详情
+export const getTeamtetails = (params: Object) => {
+  sendGet(`/executive-performance/web/target/view`, params);
+};
+
+// 高管绩效 获取指标草稿
+export const getPerformanceDraft = (performance_user_id: String) =>
+  sendGet(`/executive-performance/web/self/${performance_user_id}/get-draft`);
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
-  // sendGet(`/executive-performance/web/target/unique-template`, params);
-  sendGet(`/executive-performance/web/target/init`,params)
+  sendGet(`/executive-performance/web/target/init`, params);
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
   sendGet(`/executive-performance/web/target/items`, params);
@@ -479,11 +478,10 @@ export const getTargetContent = (params: Object) =>
 // 高管绩效指标设定提交
 export const postSubmitTargetContent = (
   performance_user_id: String,
-  sign: String,
   params: Object
 ) =>
   sendPost(
-    `/executive-performance/web/self/${performance_user_id}/${sign}/set-targets`,
+    `/executive-performance/web/self/${performance_user_id}/set-targets`,
     params
   );
 // 高管绩效指标设定暂存草稿
@@ -613,3 +611,9 @@ export const getMyIsolationUnderLower = (params: Object) =>
 // 高管绩效 团队评分
 export const getTeamScore = (params: Object) =>
   sendGet(`/executive-performance/web/superior/index`, params);
+
+// 高管绩效 获取已配置标签和绩效模板的部门
+export const getTagTplDepartments = () =>
+  sendGet(
+    `/executive-performance/admin/performances/get-has-tag-and-templates-departments`
+  );
