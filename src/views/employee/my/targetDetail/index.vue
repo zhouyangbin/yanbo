@@ -128,12 +128,28 @@ export default {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
            */
+          let arrData = [{
+                    "content": "",
+                    "disqualification": "",
+                    "excellence": "",
+                    "good": "",
+                    "id": "",
+                    "outstanding": "",
+                    "performance_id": "",
+                    "performance_user_id":"" ,
+                    "target": "",
+                    "to_be_improved": "",
+                    "type": "",
+                    "weights": ""}]
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
             let team = res.team;
+            if(team.targets[0] == undefined) {
+              team.targets = arrData
+              }
             team.template_columns = {
               content: team.targets[0].content,
               weights: team.targets[0].weights,
@@ -155,6 +171,9 @@ export default {
           }
           if (isWork) {
             let work = res.work;
+            if(work.targets[0] == undefined) {
+              work.targets = arrData
+            }
             work.template_columns = {
               content: work.targets[0].content,
               weights: work.targets[0].weights,
@@ -176,6 +195,9 @@ export default {
           }
           if (isFinance) {
             let finance = res.finance;
+            if(finance.targets[0] == undefined) {
+              finance.targets = arrData
+            }
             finance.template_columns = {
               content: finance.targets[0].content,
               weights: finance.targets[0].weights,
