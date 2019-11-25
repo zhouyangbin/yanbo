@@ -1,186 +1,186 @@
 <template>
-  <div class="target-settings">
+  <div class="index-detail">
     <nav-bar :list="nav"></nav-bar>
-    <div>
-      <detail-header :user-info="userInfo" :self="true"></detail-header>
-      <el-row>
-        <el-row
-          v-for="(targetItem, index) in allTarget"
-          :key="index"
-          class="target-detail"
-        >
-          <el-row class="target-detail-title">
-            <span class="target-title">{{ targetItem.type }}</span>
-            <!-- 权重 -->
-            <span class="target-weight"
-              >{{ constants.TARGET_WEIGH }}{{ targetItem.weight }}%</span
+    <detail-header
+      :user-info="userInfo"
+      @update="updatePage"
+      :self="true"
+    ></detail-header>
+    <section class="target-detail-box">
+      <el-row
+        class="target-detail"
+        v-for="(targetItem, index) in indexTpl"
+        :key="index"
+      >
+        <el-row class="target-detail-title">
+          <span class="target-title">{{ targetItem.name }}</span>
+          <span class="target-weight"
+            >{{ constants.TARGET_WEIGH
+            }}{{ targetItem.weight | filterWeight }}</span
+          >
+        </el-row>
+        <el-form :ref="`form${index}`" :model="targetItem">
+          <el-table
+            :data="targetItem.targets"
+            border
+            :header-cell-style="{
+              backgroundColor: '#F5F6F7',
+              color: '#303133'
+            }"
+          >
+            <el-table-column
+              :label="constants.TARGET_WEIGH"
+              width="180"
+              align="center"
             >
-          </el-row>
-          <el-form :ref="`form${index}`" :model="targetItem">
-            <el-table
-              :data="targetItem.table"
-              border
-              :header-cell-style="{
-                backgroundColor: '#F5F6F7',
-                color: '#303133'
-              }"
-            >
-              <el-table-column
-                :label="constants.TARGET_WEIGH"
-                width="180"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div v-if="targetItem.isMoney">{{ scope.row.weights }}%</div>
-                  <el-form-item
-                    v-if="!targetItem.isMoney"
-                    :prop="`table.${scope.$index}.weights`"
-                    :rules="rules.weights"
+              <template slot-scope="scope">
+                <div v-if="targetItem.isFinancial">
+                  {{ scope.row.weights }}%
+                </div>
+                <el-form-item
+                  v-if="!targetItem.isFinancial"
+                  :prop="`targets.${scope.$index}.weights`"
+                  :rules="rules.weights"
+                >
+                  <el-input
+                    v-model.number="scope.row.weights"
+                    type="number"
+                    size="small"
+                    oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                   >
-                    <el-input
-                      v-model.number="scope.row.weights"
-                      type="number"
-                      size="small"
-                      oninput="if(value > 100)value = 100;if(value < 0)value = 0"
+                    <template slot="append"
+                      >%</template
                     >
-                      <template slot="append"
-                        >%</template
-                      >
-                    </el-input>
-                  </el-form-item>
-                </template>
-              </el-table-column>
-              <!-- 指标名称 -->
-              <el-table-column
-                v-if="targetItem.isMoney"
-                :label="constants.TARGET_NAME"
-                min-width="240"
-                align="center"
-                prop="target"
-              ></el-table-column>
-              <el-table-column
-                v-if="!targetItem.isMoney"
-                :label="constants.TARGET_NAME"
-                min-width="240"
-                align="center"
-                :render-header="changeLabel"
-                prop="target"
-              >
-                <template slot-scope="scope">
-                  <el-form-item
-                    :prop="`table.${scope.$index}.target`"
-                    :rules="rules.target"
-                  >
-                    <div class="flex">
-                      <el-input
-                        type="textarea"
-                        v-model="scope.row.target"
-                        :autosize="{ minRows: 12 }"
-                      ></el-input>
-                      <i
-                        class="el-icon-delete delete-target"
-                        v-show="targetItem.table.length > 1"
-                        @click="deleteTarget(index, `${scope.$index}`)"
-                      ></i>
-                    </div>
-                  </el-form-item>
-                </template>
-              </el-table-column>
-              <!-- 具体工作/任务描述 -->
-              <el-table-column
-                :label="constants.TASK_DESCRIPTION"
-                min-width="300"
-                header-align="center"
-                v-if="targetItem.table[0].content !== undefined"
-              >
-                <template slot-scope="scope">
-                  <!-- <div v-if="targetItem.isMoney">{{ scope.row.content }}</div> -->
-                  <el-form-item
-                    v-if="!targetItem.isMoney"
-                    :prop="`table.${scope.$index}.content`"
-                    :rules="rules.content"
-                  >
+                  </el-input>
+                </el-form-item>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="targetItem.isFinancial"
+              :label="constants.TARGET_NAME"
+              min-width="240"
+              align="center"
+              prop="target"
+            ></el-table-column>
+            <el-table-column
+              v-if="!targetItem.isFinancial"
+              :label="constants.TARGET_NAME"
+              min-width="240"
+              align="center"
+              :render-header="changeLabel"
+              prop="target"
+            >
+              <template slot-scope="scope">
+                <el-form-item
+                  :prop="`targets.${scope.$index}.target`"
+                  :rules="rules.target"
+                >
+                  <div class="flex">
                     <el-input
                       type="textarea"
-                      v-model="scope.row.content"
+                      v-model="scope.row.target"
                       :autosize="{ minRows: 12 }"
                     ></el-input>
-                  </el-form-item>
-                </template>
-              </el-table-column>
-              <!-- 衡量标准 -->
-              <el-table-column
-                :label="constants.YARD_STICK"
-                min-width="300"
-                header-align="center"
-              >
-                <template slot-scope="scope">
-                  <ul v-if="targetItem.isMoney">
-                    <li
-                      class="flex"
-                      v-for="(item, index) in scope.row.metrics"
-                      :key="index"
-                    >
-                      <el-col class="measure-title">
-                        <span v-if="item.is_required" class="is-required"
-                          >*</span
-                        >
-                        <span>&nbsp;{{ item.name }}</span>
-                      </el-col>
-                      <el-col>{{ item.content }}</el-col>
-                    </li>
-                  </ul>
-                  <el-row
+                    <i
+                      class="el-icon-delete delete-target"
+                      v-show="targetItem.targets.length > 1"
+                      @click="deleteTarget(index, `${scope.$index}`)"
+                    ></i>
+                  </div>
+                </el-form-item>
+              </template>
+            </el-table-column>
+            <el-table-column
+              :label="constants.TASK_DESCRIPTION"
+              min-width="300"
+              header-align="center"
+              v-if="
+                targetItem.targets[0] &&
+                  targetItem.targets[0].content !== undefined
+              "
+            >
+              <template slot-scope="scope">
+                <div v-if="targetItem.isFinancial">{{ scope.row.content }}</div>
+                <el-form-item
+                  v-if="!targetItem.isFinancial"
+                  :prop="`targets.${scope.$index}.content`"
+                  :rules="rules.content"
+                >
+                  <el-input
+                    type="textarea"
+                    v-model="scope.row.content"
+                    :autosize="{ minRows: 12 }"
+                  ></el-input>
+                </el-form-item>
+              </template>
+            </el-table-column>
+            <el-table-column
+              :label="constants.YARD_STICK"
+              min-width="300"
+              header-align="center"
+            >
+              <template slot-scope="scope">
+                <ul v-if="targetItem.isFinancial">
+                  <li
+                    class="flex"
                     v-for="(item, index) in scope.row.metrics"
                     :key="index"
                   >
-                    <el-form-item
-                      v-if="!targetItem.isMoney"
-                      :label="item.name"
-                      label-width="130px"
-                      :prop="`table.${scope.$index}.metrics.${index}.content`"
-                      :rules="item.is_required ? metricsRules.content : {}"
-                    >
-                      <el-input
-                        type="textarea"
-                        autosize
-                        v-model="item.content"
-                      ></el-input>
-                    </el-form-item>
-                  </el-row>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-button
-              icon="el-icon-plus"
-              class="add-target"
-              v-if="!targetItem.isMoney && getTableLen(index) <= 4"
-              @click="addTarget(index)"
-              >{{ constants.ADD_TARGET_LINE }}</el-button>
-          </el-form>
-        </el-row>
-        <ul class="sub-total">
-          <!-- 财务维度小计 -->
-          <li>
-            {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
-              this.handleSubTotal("finance")
-            }}%
-          </li>
-          <li>
-            工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%
-          </li>
-          <li>
-            团队维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("team") }}%
-          </li>
-          <li class="performance-total">
-            业绩维度合计&nbsp;&nbsp;&nbsp;{{
-              this.handleSubTotal("finance") +
-                this.handleSubTotal("work") +
-                this.handleSubTotal("team")
-            }}%
-          </li>
-        </ul>
+                    <el-col class="measure-title">
+                      <span v-if="item.is_required" class="is-required">*</span>
+                      <span>&nbsp;{{ item.name }}</span>
+                    </el-col>
+                    <el-col>{{ item.content }}</el-col>
+                  </li>
+                </ul>
+                <el-row v-for="(item, index) in scope.row.metrics" :key="index">
+                  <el-form-item
+                    v-if="!targetItem.isFinancial"
+                    :label="item.name"
+                    label-width="130px"
+                    :prop="`targets.${scope.$index}.metrics.${index}.content`"
+                    :rules="item.is_required ? metricsRules.content : {}"
+                  >
+                    <el-input
+                      type="textarea"
+                      autosize
+                      v-model="item.content"
+                    ></el-input>
+                  </el-form-item>
+                </el-row>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-button
+            icon="el-icon-plus"
+            class="add-target"
+            v-if="!targetItem.isFinancial && getTableLen(index) <= 4"
+            @click="addTarget(index)"
+            >{{ constants.ADD_TARGET_LINE }}</el-button
+          >
+        </el-form>
       </el-row>
+      <ul class="sub-total">
+        <!-- 财务维度小计 -->
+        <li>
+          {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
+            this.handleSubTotal("finance")
+          }}%
+        </li>
+        <li>
+          工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%
+        </li>
+        <li>
+          团队维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("team") }}%
+        </li>
+        <li class="performance-total">
+          业绩维度合计&nbsp;&nbsp;&nbsp;{{
+            this.handleSubTotal("finance") +
+              this.handleSubTotal("work") +
+              this.handleSubTotal("team")
+          }}%
+        </li>
+      </ul>
       <el-row class="footer-button">
         <el-button @click="submitForm" class="submit-button">提交</el-button>
         <el-button @click="temporaryMemory" class="tempeorary-memory"
@@ -201,7 +201,7 @@
         </el-button>
         <el-button @click="returnList">返回</el-button>
       </el-row>
-    </div>
+    </section>
     <examine-detail
       :is-examine-dialog="isExamineDialog"
       :perforamnce_user_id="userInfo.perforamnce_user_id"
@@ -210,6 +210,7 @@
   </div>
 </template>
 <script>
+import { AsyncComp } from "@/utils/asyncCom";
 import {
   MY_GRADE,
   TARGET_WEIGH,
@@ -233,12 +234,18 @@ import {
   postSubmitTargetContent,
   getPerformanceDraft
 } from "@/constants/API";
-import { Divider } from "element-ui";
-
 export default {
+  components: {
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
+    "detail-header": AsyncComp(
+      import("@/components/modules/employee/targetDetailsHeader/Index")
+    ),
+    "examine-detail": AsyncComp(
+      import("@/components/modules/employee/checkExamineDetail/index")
+    )
+  },
   data() {
     return {
-      
       constants: {
         TARGET_WEIGH,
         TARGET_NAME,
@@ -248,7 +255,6 @@ export default {
         FINANCE_DIMENSIONALITY_SUBTOTAL,
         CHECK_EXAMINE_LOG
       },
-      userId:this.$route.params.uid,
       nav: [
         {
           label: MY_GRADE,
@@ -259,6 +265,7 @@ export default {
           active: true
         }
       ],
+      userId: this.$route.params.uid,
       userInfo: {
         performance_name: "",
         stage: 0,
@@ -274,8 +281,9 @@ export default {
         indicator_setting_end_time: "",
         perforamnce_user_id: this.$route.params.uid
       },
-      allTarget: [],
       isExamineDialog: false,
+      indexTpl: [],
+      handelIndexDetail: [],
       rules: {
         weights: [{ required: true, message: "权重不能为空", trigger: "blur" }],
         target: [
@@ -296,190 +304,21 @@ export default {
       }
     };
   },
-  components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index"),
-    "examine-detail": () =>
-      import("@/components/modules/employee/checkExamineDetail/index")
+  filters: {
+    filterWeight(val) {
+      return val + "%";
+    },
+    filterObject(val) {}
   },
   methods: {
-    /**
-     * 计算当前table的长度
-     */
-    getTableLen(index) {
-      return this.allTarget[index].table.length;
-    },
-    /**
-     * 小计，计算出每个维度用户输入的总权重
-     * @param type 计算的维度
-     */
-    handleSubTotal(type) {
-      let subTotal = 0;
-      this.allTarget.forEach(v => {
-        if (v.basicType === type) {
-          v.table.forEach(value => {
-            if (value.weights !== "") {
-              subTotal += Number(value.weights);
-            }
-          });
-        }
-      });
-      return subTotal;
-    },
-    // 关闭审核窗口
-    closeExamine() {
-      this.isExamineDialog = false;
-    },
-    /**
-     * 查看审批记录
-     */
-    checkExamine() {
-      this.isExamineDialog = true;
-    },
-    /**
-     * 改变table的表头
-     */
-    changeLabel(h, { column }) {
-      return h("div", [
-        h("span", column.label),
-        h("br"),
-        h("span", "（最多可填写"),
-        h("span", { style: { color: "red" } }, 5),
-        h("span", "项）")
-      ]);
-    },
-    /**
-     * 得到页面头部的用户信息
-     */
-    getUserInfo() {
-      let data = {
-        performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
-        workcode: ""
-      };
-
-      getPerformanceUserInfo(data)
+    temporaryMemory() {
+      postSaveDraft(this.userId, this.indexTpl)
         .then(res => {
-          const {
-            performance_name,
-            stage,
-            opinion,
-            avatar,
-            name,
-            workcode,
-            superior_name,
-            superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time
-          } = res;
-          this.userInfo = {
-            performance_name,
-            stage,
-            opinion,
-            avatar,
-            name,
-            workcode,
-            superior_name,
-            superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time,
-            perforamnce_user_id: this.$route.params.uid
-          };
+          localStorage.setItem(this.userId, 1);
+          this.$message({ type: "success", message: "暂存成功" });
         })
         .catch(() => {});
     },
-    /**
-     * 得到设定的维度信息
-     */
-    getWrokAndTeamTarget() {
-      let data = {
-        performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid
-      };
-      getUniqueTemplate(data)
-        .then(res => {
-          /**
-           * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
-           */
-          const isTeam = res.team !== undefined;
-          const isWork = res.work !== undefined;
-          const isFinance = res.finance !== undefined;
-          this.allTarget = [];
-          if (isTeam) {
-            let team = res.team;
-            this.$set(this.allTarget, team.sort - 1, {
-              basicType: "team",
-              isMoney: 0,
-              sort: team.sort,
-              type: team.type,
-              weight: team.weight,
-              table: team.template_columns
-            });
-          }
-          if (isWork) {
-            let work = res.work;
-            this.$set(this.allTarget, work.sort - 1, {
-              basicType: "work",
-              isMoney: 0,
-              sort: work.sort,
-              type: work.type,
-              weight: work.weight,
-              table: work.template_columns
-            });
-          }
-          if (isFinance) {
-            let finance = res.finance;
-            this.$set(this.allTarget, finance.sort - 1, {
-              basicType: "finance",
-              isMoney: 1,
-              sort: finance.sort,
-              type: finance.type,
-              weight: finance.weight,
-              table: finance.template_columns || []
-            });
-          }
-        })
-        .catch(() => {});
-    },
-    /**
-     * 点击确认、暂存、返回时向后端传递参数
-     * @returns postData 向后端传递的参数对象
-     */
-    handleSubmitData() {
-      let init = this.allTarget;
-      let team = [];
-      let work = [];
-      for (var i = 0; i < init.length - 1; i++) {
-        let tableLen = init[i].table;
-        for (var r = 0; r < tableLen.length; r++) {
-          let metrics = tableLen[r].metrics;
-          let n = {};
-          for (var l = 0; l < metrics.length; l++) {
-            n[metrics[l].key] = metrics[l].content;
-          }
-          n.type = init[i].type;
-          n.weight = init[i].weight;
-          if (init[i].basicType == "team") {
-            team.push(n);
-          } else if (init[i].basicType == "work") {
-            work.push(n);
-          }
-        }
-      }
-      let post = {
-        team: team,
-        work: work
-      };
-      return post;
-    },
-    /**
-     * 点击提交按钮
-     */
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
       // refs 取到每个表单的ref
@@ -514,24 +353,23 @@ export default {
               content = "具体工作/任务描述";
             }
           } else if (location.length === 5) {
-            content = this.allTarget[i].table[line].metrics[location[3]].name;
+            content = this.indexTpl[i].targets[line].metrics[location[3]].name;
           }
           line = parseInt(location[1]);
           this.$message.error(
-            `${this.allTarget[i].type}第${line + 1}行${content}不能为空`
+            `${this.indexTpl[i].type}第${line + 1}行${content}不能为空`
           );
           return false;
         }
       }
       // 验证每个维度填写的权重之和是否等于该维度模版中的总权重
-      for (let i = 0; i < this.allTarget.length; i++) {
+      for (let i = 0; i < this.indexTpl.length; i++) {
         if (
-          this.allTarget[i].weight !==
-          this.handleSubTotal(this.allTarget[i].basicType)
+          this.indexTpl[i].weight !== this.handleSubTotal(this.indexTpl[i].type)
         ) {
           this.$message.error(
-            `${this.allTarget[i].type}权重之和不等于${
-              this.allTarget[i].weight
+            `${this.indexTpl[i].type}权重之和不等于${
+              this.indexTpl[i].weight
             }%, 请检查`
           );
           return false;
@@ -547,10 +385,10 @@ export default {
             postSubmitTargetContent(
               this.$route.params.uid,
               this.$route.params.sign,
-              this.allTarget
+              this.indexTpl
             )
               .then(res => {
-                localStorage.clearItem(this.userId)
+                localStorage.clearItem(this.userId);
                 this.$router.push(
                   PATH_PERFORMANCE_TARGET_DETAIL(
                     this.$route.params.id,
@@ -563,161 +401,280 @@ export default {
           .catch(() => {});
       }
     },
-    /**
-     * 点击暂存按钮，不需要进行验证，只需要把数据发送给后端，成功时提示暂存成功
-     */
-    temporaryMemory() {
-      postSaveDraft(this.userId, this.allTarget)
-        .then(res => {
-          localStorage.setItem(this.userId,1)
-          this.$message({ type: "success", message: "暂存成功" });
-        })
-        .catch(() => {});
-    },
-    /**
-     * 点击返回按钮，不需要进行验证，成功时回到我的评分列表页
-     */
     returnList() {
-      postSaveDraft(this.$route.params.uid, this.allTarget)
+      postSaveDraft(this.$route.params.uid, this.indexTpl)
         .then(res => {
-          localStorage.setItem(this.userId,1)
+          localStorage.setItem(this.userId, 1);
           this.$router.push("/employee/my");
         })
         .catch(() => {});
     },
-    /**
-     * 点击添加考核项按钮
-     */
+    handleSubTotal(type) {
+      let subTotal = 0;
+      this.indexTpl.forEach(v => {
+        if (v.type === type) {
+          v.targets.forEach(value => {
+            if (value.weights !== "") {
+              subTotal += Number(value.weights);
+            }
+          });
+        }
+      });
+      return subTotal;
+    },
     addTarget(index) {
       let data = {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
       getTargetContent(data).then(res => {
-        this.allTarget[index].table.push(res);
+        this.indexTpl[index].targets.push(res);
       });
     },
-    /**
-     * 删除考核项按钮
-     */
-    deleteTarget(index, rowIndex) {
-      this.allTarget[index].table.splice(rowIndex, 1);
+    getTableLen(index) {
+      return this.indexTpl[index].targets.length;
     },
-    // 获取草稿信息
-    getUserMsg(){
-      let id = this.$route.params.uid
+    changeLabel(h, { column }) {
+      return h("div", [
+        h("span", column.label),
+        h("br"),
+        h("span", "（最多可填写"),
+        h("span", { style: { color: "red" } }, 5),
+        h("span", "项）")
+      ]);
+    },
+    deleteTarget(index, rowIndex) {
+      this.indexTpl[index].targets.splice(rowIndex, 1);
+    },
+    updatePage() {
+      // to do 上传完工作指标，后续内容
+    },
+    getUserInfo() {
+      let data = {
+        performance_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid,
+        workcode: ""
+      };
+      getPerformanceUserInfo(data)
+        .then(res => {
+          const {
+            performance_name,
+            stage,
+            opinion,
+            avatar,
+            name,
+            workcode,
+            superior_name,
+            superior_workcode,
+            executive_type,
+            department_name,
+            cycle,
+            indicator_setting_end_time
+          } = res;
+          this.userInfo = {
+            performance_name,
+            stage,
+            opinion,
+            avatar,
+            name,
+            workcode,
+            superior_name,
+            superior_workcode,
+            executive_type,
+            department_name,
+            cycle,
+            indicator_setting_end_time,
+            perforamnce_user_id: this.$route.params.uid
+          };
+        })
+        .catch(() => {});
+    },
+    closeExamine() {
+      this.isExamineDialog = false;
+    },
+    checkExamine() {
+      this.isExamineDialog = true;
+    },
+    getUserMsg() {
+      let id = this.$route.params.uid;
       getPerformanceDraft(id)
-      .then(res=>{
-        for(let i=0;i<res.length;i++){
-          res[i].isMoney = Number(res[i].isMoney)
+        .then(res => {
+          for (let i = 0; i < res.length; i++) {
+            res[i].isFinancial = Number(res[i].isFinancial);
+          }
+          this.indexTpl = res;
+        })
+        .catch(() => {});
+    },
+    getWrokAndTeamTarget() {
+      let data = {
+        performance_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid
+      };
+      getUniqueTemplate(data)
+        .then(res => {
+          // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
+          const isTeam = res.team !== undefined;
+          const isWork = res.work !== undefined;
+          const isFinance = res.finance !== undefined;
+          this.indexTpl = [];
+          if (isTeam) {
+            let team = res.team;
+            this.$set(this.indexTpl, team.sort - 1, {
+              key: team.key,
+              isFinancial: false,
+              sort: team.sort,
+              name: team.name,
+              weight: team.weight,
+              targets: team.targets || [],
+              template_columns: team.template_columns
+            });
+          }
+          if (isWork) {
+            let work = res.work;
+            this.$set(this.indexTpl, work.sort - 1, {
+              key: work.key,
+              isFinancial: false,
+              sort: work.sort,
+              type: work.key,
+              name: work.name,
+              weight: work.weight,
+              targets: work.targets || [],
+              template_columns: work.template_columns
+            });
+          }
+          if (isFinance) {
+            let finance = res.finance;
+            this.$set(this.indexTpl, finance.sort - 1, {
+              key: finance.key,
+              isFinancial: true,
+              sort: finance.sort,
+              type: finance.key,
+              name: finance.name,
+              weight: finance.weight,
+              targets: finance.targets || [],
+              template_columns: finance.template_columns
+            });
+          }
+          this.handleIndexData(this.indexTpl);
+        })
+        .catch(() => {});
+    },
+    handleIndexData(indexTpl) {
+      for (let i = 0; i < indexTpl.length; i++) {
+        for (let j = 0; j < indexTpl[i].targets.length; j++) {
+          indexTpl[i].targets[j].metrics = indexTpl[i].template_columns.metrics;
         }
-       this.allTarget = res
-      })
-      .catch(()=>{})
+      }
+      this.indexTpl = indexTpl;
     }
   },
   created() {
     this.getUserInfo();
-    if(localStorage.getItem(this.userId)==undefined){
+    if (localStorage.getItem(this.userId) == undefined) {
       this.getWrokAndTeamTarget();
-    }else{
-      this.getUserMsg()
+    } else {
+      this.getUserMsg();
     }
   }
 };
 </script>
 <style scoped>
-.target-settings .text-over {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.target-settings .flex {
-  display: flex;
-}
-.target-settings .target-detail >>> .el-table th div {
+.index-detail .target-detail >>> .el-table th div {
   line-height: 20px;
 }
-.target-settings .target-detail .el-form-item {
+.index-detail .target-detail .el-form-item {
   margin-bottom: 16px;
 }
-.target-settings .target-detail >>> .el-form-item__content {
+.index-detail .target-detail >>> .el-form-item__content {
   line-height: normal;
 }
-.target-settings .target-detail .measure-standard >>> .el-form-item {
+.index-detail .target-detail .measure-standard >>> .el-form-item {
   margin-bottom: 16px;
 }
-.target-settings .target-detail {
-  background-color: #ffffff;
-  margin: 8px 30px;
-  padding: 20px;
-  border-radius: 3px;
-}
-.target-settings .target-detail .target-detail-title {
-  margin-bottom: 10px;
-}
-.target-settings .target-detail .target-title {
-  font-size: 16px;
-  font-weight: 500;
-}
-.target-settings .target-detail .target-weight {
-  color: #909399;
-  margin-left: 10px;
-}
-.target-settings .target-detail .measure-title {
-  width: 180px;
-  text-align: right;
-  flex-shrink: 1;
-}
-.target-settings .target-detail .measure-title .is-required {
-  color: #f56c6c;
-}
-.target-settings .target-detail ul {
-  padding: 0;
-  margin: 0;
-}
-.target-settings .target-detail .add-target {
-  width: 100%;
-  margin-top: 10px;
-  border: 1px dashed #dcdfe6;
-}
-.target-settings .target-detail .delete-target {
-  font-size: 18px;
-  cursor: pointer;
-  margin: auto 0;
-  margin-left: 6px;
-}
-.target-settings .target-detail .delete-target:hover {
-  color: #55dbbb;
-}
-.target-settings .sub-total {
-  background-color: #ffffff;
-  margin: 0 30px;
-  padding: 5px 0;
-  border-radius: 3px;
-  list-style: none;
-}
-.target-settings .sub-total li {
-  padding: 5px 20px;
-}
-.target-settings .sub-total .performance-total {
-  font-weight: bold;
-}
-.target-settings .footer-button {
-  text-align: center;
-  margin: 20px 0;
-}
-.target-settings .footer-button .submit-button {
-  background-color: #38d0af;
-  color: #ffffff;
-  border: 1px solid #38d0af;
-}
-.target-settings .footer-button .tempeorary-memory {
-  background-color: #66a8ff;
-  color: #ffffff;
-  border: 1px solid #66a8ff;
-}
-.has-gutter .el-table_1_column_2 .cell div:nth-last-child(3) {
-  color: red !important;
+</style>
+<style lang="scss" scoped>
+.index-detail {
+  .target-detail-box {
+    background-color: #ffffff;
+    margin: 8px 30px;
+    padding: 20px;
+    border-radius: 3px;
+    .target-detail {
+      margin-bottom: 8px;
+      border-radius: 3px;
+      background-color: #fff;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .target-detail-title {
+        margin-bottom: 10px;
+        .target-title {
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .target-weight {
+          margin-left: 10px;
+          color: #909399;
+        }
+      }
+      .flex {
+        display: flex;
+      }
+      .measure-title {
+        width: 180px;
+        text-align: right;
+        flex-shrink: 1;
+        .is-required {
+          color: #f56c6c;
+        }
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+      .add-target {
+        width: 100%;
+        margin-top: 10px;
+        border: 1px dashed #dcdfe6;
+      }
+      .delete-target {
+        font-size: 18px;
+        cursor: pointer;
+        margin: auto 0;
+        margin-left: 6px;
+        &:hover {
+          color: #55dbbb;
+        }
+      }
+    }
+    .sub-total {
+      background-color: #ffffff;
+      margin: 0 30px;
+      padding: 5px 0;
+      border-radius: 3px;
+      list-style: none;
+      li {
+        padding: 5px 20px;
+      }
+      .performance-total {
+        font-weight: bold;
+      }
+    }
+    .footer-button {
+      text-align: center;
+      margin: 20px 0;
+      .submit-button {
+        background-color: #38d0af;
+        color: #ffffff;
+        border: 1px solid #38d0af;
+      }
+      .tempeorary-memory {
+        background-color: #66a8ff;
+        color: #ffffff;
+        border: 1px solid #66a8ff;
+      }
+    }
+  }
 }
 </style>

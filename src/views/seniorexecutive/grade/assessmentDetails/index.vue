@@ -118,12 +118,12 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="performanceDetail.result_comfirm_end_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="
             '确认中' +
               performanceDetail.confirm +
@@ -135,7 +135,7 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 60 ? 'active' : ''"
+          :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
@@ -391,9 +391,12 @@
             <el-button icon="el-icon-upload2" @click="importList"
               >导入名单</el-button
             >
+            <el-button icon="el-icon-download"
+              ><a class="down-load" download :href="exportUrl">导出名单</a>
+            </el-button>
             <el-button
               icon="el-icon-bell"
-              :disabled="currentStage < 10"
+              :disabled="currentStage < 100"
               @click="reminder"
               >提醒</el-button
             >
@@ -401,7 +404,9 @@
               >添加人员</el-button
             >
             <el-button icon="el-icon-download"
-              ><a class="down-load" download :href="exportUrl">导出名单</a>
+              ><a class="down-load" download :href="exportDetailUrl"
+                >导出明细</a
+              >
             </el-button>
             <el-popover placement="bottom" width="120" trigger="hover">
               <div class="more-btn" @click="showUploadWork('finance')">
@@ -560,7 +565,7 @@
       :performanceId="performanceId"
       :performanceTypes="performanceTypes"
       :orgTree="orgTree"
-      @define="tplDefine"
+      @update="tplDefine"
     ></assessment-dialog>
     <setup-time
       v-if="showSetupTime"
@@ -568,7 +573,7 @@
       @close="setupTimeClose"
       :performanceId="performanceId"
       :initTime="initTime"
-      @define="confirmTime"
+      @update="confirmTime"
     ></setup-time>
     <modify-user
       v-if="showModifyUser"
@@ -578,13 +583,13 @@
       :performanceId="performanceId"
       :userId="userId"
       :userInfo="userInfo"
-      @define="confirmUser"
+      @update="confirmUser"
     ></modify-user>
     <confirm-dialog
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
-      @define="confirmDialog"
+      @update="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
     <import-list
@@ -593,17 +598,18 @@
       :uploadTplUrl="uploadTplUrl"
       :importTplUrl="importTplUrl"
       @close="closeImportList"
-      @define="confirmImportUser"
+      @update="confirmImportUser"
     >
     </import-list>
     <common-upload-dialog
-      v-if="showUploadWorkFile"
-      :visible="showUploadWorkFile"
-      :upload_title="upload_title"
-      :upload_action_url="upload_action_url"
-      :upload_type="upload_type"
-      :download_url="download_url"
+      v-if="showUpload"
+      :visible="showUpload"
+      :uploadTitle="uploadTitle"
+      :uploadActionUrl="uploadActionUrl"
+      :uploadType="uploadType"
+      :downloadUrl="downloadUrl"
       @close="upload_close"
+      @update="confirmUpload"
     >
     </common-upload-dialog>
   </div>
@@ -625,6 +631,7 @@ import {
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_USER_LIST,
+  PATH_EXPORT_DETAIL,
   postUploadFinancialIndicators,
   postUploadWorkIndicators,
   getFinancialtpm,
@@ -637,7 +644,7 @@ import {
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
     "confirm-dialog": AsyncComp(
       import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
     ),
@@ -727,16 +734,17 @@ export default {
       userId: 0,
       userType: "add",
       currentStage: 0,
-      showUploadWorkFile: false,
-      upload_title: "",
-      upload_action_url: "",
-      upload_type: "",
-      download_url: "",
+      showUpload: false,
+      uploadTitle: "",
+      uploadActionUrl: "",
+      uploadType: "",
+      downloadUrl: "",
       isLoading: true,
       showImportList: false,
       uploadTplUrl: "",
       importTplUrl: "",
       exportUrl: "",
+      exportDetailUrl: "",
       constants: {
         postUploadFinancialIndicators,
         postUploadWorkIndicators,
@@ -796,6 +804,10 @@ export default {
       this.personalForm.page = val;
       this.getUserList();
     },
+    confirmUpload() {
+      this.showUpload = false;
+      this.getUserList();
+    },
     confirmImportUser() {
       this.showModifyUser = false;
       this.getUserList();
@@ -836,13 +848,6 @@ export default {
       this.userType = "add";
       this.showModifyUser = true;
     },
-    exportList() {
-      window.open(
-        PATH_PERFORMANCE_USER_LIST(this.performanceId),
-        "_blank",
-        "noopener"
-      );
-    },
     importList() {
       this.showImportList = true;
       this.importTplUrl = PATH_PERFORMANCE_TPL_USER;
@@ -855,7 +860,7 @@ export default {
       this.delPerformanceUser();
     },
     viewDistribution() {
-      // 查看分布
+      // 查看分布 to do
     },
     modifySettings() {
       this.infoType = "modify";
@@ -962,30 +967,31 @@ export default {
         .catch(e => {});
     },
     showUploadWork(type) {
-      this.showUploadWorkFile = true;
+      this.showUpload = true;
       if (type == "finance") {
-        this.upload_title = "上传财务指标";
-        this.upload_action_url = this.constants.postUploadFinancialIndicators(
+        this.uploadTitle = "财务指标";
+        this.uploadActionUrl = this.constants.postUploadFinancialIndicators(
           this.performanceId
         );
-        this.download_url = this.constants.getFinancialtpm(this.performanceId);
-        this.upload_type = type;
+        this.downloadUrl = this.constants.getFinancialtpm(this.performanceId);
+        this.uploadType = type;
       } else {
-        this.upload_title = "上传工作目标";
-        this.upload_action_url = this.constants.postUploadWorkIndicators(
+        this.uploadTitle = "工作目标";
+        this.uploadActionUrl = this.constants.postUploadWorkIndicators(
           this.performanceId
         );
-        this.download_url = this.constants.getWorktpm(this.performanceId);
-        this.upload_type = type;
+        this.downloadUrl = this.constants.getWorktpm(this.performanceId);
+        this.uploadType = type;
       }
     },
     upload_close() {
-      this.showUploadWorkFile = false;
+      this.showUpload = false;
     }
   },
   created() {
     this.nowTime = new Date();
     this.exportUrl = PATH_PERFORMANCE_USER_LIST(this.performanceId);
+    this.exportDetailUrl = PATH_EXPORT_DETAIL(this.performanceId);
     this.getPerformanceDetailData();
     getOrganization()
       .then(res => {

@@ -38,7 +38,7 @@ export default {
       this.$emit("close");
     },
     confirmBtn() {
-      this.$emit("define", this.confirmType);
+      this.$emit("update", this.confirmType);
     }
   },
   created() {}

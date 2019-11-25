@@ -26,7 +26,7 @@ import {
   CHECK_EXAMINE_LOG,
   TARGET_RETURN
 } from "@/constants/TEXT";
-import { PATH_EMPLOYEE_MY ,PATH_SURE_ADD } from "@/constants/URL";
+import { PATH_EMPLOYEE_MY, PATH_SURE_ADD } from "@/constants/URL";
 import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
 export default {
   data() {
@@ -178,10 +178,10 @@ export default {
       );
     },
     // 同意并加签
-    sureAdd(){
-        this.$router.push(
-            PATH_SURE_ADD(this.$route.params.id,this.$route.params.uid)
-        )
+    sureAdd() {
+      this.$router.push(
+        PATH_SURE_ADD(this.$route.params.id, this.$route.params.uid)
+      );
     },
     /**
      * 点击待共识
@@ -209,7 +209,6 @@ export default {
     }
   },
   created() {
-      console.log(this.$route.params)
     this.getUserInfo();
     this.getWrokAndTeamTarget();
   }

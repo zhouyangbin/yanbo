@@ -390,7 +390,7 @@ export default {
         if (valid) {
           postPerformanceSetTime(this.performanceId, this.timeForm)
             .then(res => {
-              this.$emit("define");
+              this.$emit("update");
             })
             .catch(e => {});
         }

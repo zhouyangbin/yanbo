@@ -152,15 +152,9 @@ export default {
       }
       return src;
     },
-    /**
-     * 点击上传指标
-     */
     uploadTarget() {
       this.isUpload = true;
     },
-    /**
-     * 关闭上传指标弹窗
-     */
     closeUploadDialog() {
       this.isUpload = false;
     }

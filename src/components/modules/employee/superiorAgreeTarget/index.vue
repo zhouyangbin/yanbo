@@ -47,7 +47,7 @@ export default {
      */
     submitAgreeContent() {
       let postData = {
-        performance_user_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid,
         type: 2,
         reason: this.reason
       };

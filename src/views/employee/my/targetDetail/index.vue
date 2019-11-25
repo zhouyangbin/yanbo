@@ -26,7 +26,7 @@ import {
   TARGET_RETURN
 } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
-import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
+import { getPerformanceUserInfo, postTeamtetails } from "@/constants/API";
 export default {
   data() {
     return {
@@ -120,11 +120,11 @@ export default {
      */
     getWrokAndTeamTarget() {
       let data = {
-        sign:0,
+        sign: 0,
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getUniqueTemplate(data)
+      postTeamtetails(data)
         .then(res => {
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;

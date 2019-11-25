@@ -70,14 +70,31 @@
         </el-col>
         <el-col :span="21" style="min-height: 400px">
           <div class="display-data">
-            <div class="display-team">
-              <span class="team-name">刘二团队</span>
-              <span class="team-nums">共10人</span>
-              <span class="team-warning">Top超出1人</span>
-              <span class="view-response">查看提交理由</span>
+            <div class="display-team" v-if="teamDetail.name">
+              <span class="team-name">{{ teamDetail.name }}</span>
+              <span class="team-nums">共{{ teamDetail.total }}人</span>
+              <span class="team-warning">{{ teamDetail.notice_text }}</span>
+              <el-popover placement="top-start" width="200" trigger="hover">
+                <div v-for="item in teamDetail.submit_reasons" :key="item">
+                  {{ item }}
+                </div>
+                <span
+                  slot="reference"
+                  v-if="
+                    teamDetail.submit_reasons &&
+                      teamDetail.submit_reasons.length > 0
+                  "
+                  class="view-response"
+                  >查看提交理由</span
+                >
+              </el-popover>
             </div>
-            <el-button class="reject-btn" type="warning"
-              >驳回刘二团队</el-button
+            <el-button
+              v-if="teamDetail.name"
+              @click="rejectTeam(teamDetail.workcode)"
+              class="reject-btn"
+              type="warning"
+              >驳回{{ teamDetail.name }}</el-button
             >
           </div>
           <el-table :data="lowerList" class="lower-list" style="width: 100%">
@@ -85,7 +102,7 @@
             </el-table-column>
             <el-table-column prop="name" label="姓名">
               <template slot-scope="scope">
-                <div v-if="scope.row.stage === 50">
+                <div v-if="scope.row.stage === 100">
                   {{ scope.row.name
                   }}<img
                     class="stage-img"
@@ -162,13 +179,6 @@ export default {
       default: ""
     }
   },
-  watch: {
-    level_team_model(newVal, oldVal) {
-      if (!newVal) {
-        this.team_leader = "";
-      }
-    }
-  },
   data() {
     return {
       constants: {
@@ -196,12 +206,24 @@ export default {
       lowerList: [],
       teamList: [],
       team_leader: "",
-      level_team_model: false
+      teamDetail: {}
     };
   },
   methods: {
     changeTeam() {
+      // to do
       this.getMyLowerList();
+      if (this.team_leader === "") {
+        return false;
+      }
+      for (let i = 0; i < this.teamList.length; i++) {
+        if (this.team_leader === this.teamList[i].workcode) {
+          this.teamDetail = this.teamList[i];
+        }
+      }
+    },
+    rejectTeam(workcode) {
+      // to do
     },
     selectWorkCode(data) {
       this.filterForm.name = data;
@@ -226,7 +248,7 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      // 查看详情
+      // to do
     },
     getMyLowerList() {
       let getData = {
@@ -237,12 +259,14 @@ export default {
         score_tag: this.filterForm.score_tag,
         team_leader: this.team_leader
       };
-      getMyIsolationUnderLower(getData).then(res => {
-        let { total, data, team } = res;
-        this.total = total;
-        this.lowerList = data;
-        this.teamList = team;
-      });
+      getMyIsolationUnderLower(getData)
+        .then(res => {
+          let { total, data, team } = res;
+          this.total = total;
+          this.lowerList = data;
+          this.teamList = team;
+        })
+        .catch(e => {});
     }
   },
   created() {
