@@ -111,6 +111,7 @@ export default {
      */
     uploadError(err, file, fileList) {
       // TODO 待修改
+      console.log(1)
       const errObj = JSON.parse(err.message);
       // this.tableData = errObj.data
       // this.showTable = true
