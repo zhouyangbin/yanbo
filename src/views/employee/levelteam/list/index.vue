@@ -9,7 +9,8 @@
           prop="name"
           :label="constants.GRADE_NAME"
         ></el-table-column>
-        <el-table-column v-if="false"
+        <el-table-column
+          v-if="false"
           prop="department"
           :label="constants.LABEL_DEPARTMENT"
         ></el-table-column>
@@ -17,7 +18,8 @@
           prop="type"
           :label="constants.DURATION_TYPE"
         ></el-table-column>
-        <el-table-column v-if="false"
+        <el-table-column
+          v-if="false"
           prop="end_time"
           :label="constants.FINISHED_DATE"
         ></el-table-column>
@@ -26,7 +28,8 @@
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{
               constants.DETAILS
             }}</el-button>
-            <el-button v-if="false"
+            <el-button
+              v-if="false"
               @click="exportDetail(scope.row)"
               type="text"
               size="small"

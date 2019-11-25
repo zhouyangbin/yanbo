@@ -1,131 +1,120 @@
 <template>
   <div>
-      <section class="progress-header" style="min-height:400px">
-        <el-row type="flex" :gutter="20" align="top">
-          <el-col>
-            <el-table
-              :data="list_data"
-              stripe
-              style="width: 100%"
-              :header-cell-style="{ background: '#eef1f6' }"
-            >
-              <el-table-column prop="workcode" label="工号"></el-table-column>
-              <el-table-column prop="name" :label="constants.LABEL_NAME">
-                <template slot-scope="scope">
-                  <el-row type="flex" align="middle">
-                    <span>{{ scope.row.name }}</span>
-                    <span class="appeal-tag" v-if="scope.row.has_appeal">
-                      {{ constants.APPEAL }}
-                    </span>
-                  </el-row>
-                </template>
-              </el-table-column>
-              <el-table-column
-                v-if="1 > 2"
-                prop="hr_name"
-                label="HRBP"
-              ></el-table-column>
-              <el-table-column
-                prop="high_level_name"
-                label="隔级"
-              ></el-table-column>
-              <el-table-column
-                prop="self_score"
-                label="自评分"
-              ></el-table-column>
-              <el-table-column
-                prop="superior_score"
-                label="上级评分"
-              ></el-table-column>
-              <el-table-column
-                prop="score_level"
-                label="绩效等级"
-              ></el-table-column>
-              <el-table-column label="标签分布" align="left">
-                <template slot-scope="scope">
-                  <el-tag
-                    v-if="
-                      scope.row.score_level == 'A' ||
-                        scope.row.score_level == 'S'
-                    "
-                    class="status-tag top-style"
-                  >
-                    <span class="top-style-text">{{
-                      scope.row.label_name
-                    }}</span>
-                  </el-tag>
-                  <el-tag
-                    v-if="scope.row.score_level == 'B'"
-                    class="status-tag bplus-style"
-                  >
-                    <span class="bplus-style-text">{{
-                      scope.row.label_name
-                    }}</span>
-                  </el-tag>
-                  <el-tag
-                    v-if="
-                      scope.row.score_level == 'C' ||
-                        scope.row.score_level == 'D'
-                    "
-                    class="status-tag other-style"
-                  >
-                    <span class="other-style-text">{{
-                      scope.row.label_name
-                    }}</span>
-                  </el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column prop="stage_status" label="状态" align="center">
-                <template slot-scope="scope">
-                  <span>
-                    {{ get_stage_status(scope.row.stage) }}
+    <section class="progress-header" style="min-height:400px">
+      <el-row type="flex" :gutter="20" align="top">
+        <el-col>
+          <el-table
+            :data="list_data"
+            stripe
+            style="width: 100%"
+            :header-cell-style="{ background: '#eef1f6' }"
+          >
+            <el-table-column prop="workcode" label="工号"></el-table-column>
+            <el-table-column prop="name" :label="constants.LABEL_NAME">
+              <template slot-scope="scope">
+                <el-row type="flex" align="middle">
+                  <span>{{ scope.row.name }}</span>
+                  <span class="appeal-tag" v-if="scope.row.has_appeal">
+                    {{ constants.APPEAL }}
                   </span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="ops" label="操作">
-                <template slot-scope="scope">
-                  <el-button
-                    v-if="scope.row.operate_status == 1"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >详情</el-button
-                  >
-                  <el-button
-                    v-if="scope.row.operate_status == 2"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >评分</el-button
-                  >
-                  <el-button
-                    v-if="scope.row.operate_status == 3"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >修改评分</el-button
-                  >
-                  <el-button
-                    v-if="scope.row.operate_status == 4"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >处理申诉</el-button
-                  >
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
+                </el-row>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="1 > 2"
+              prop="hr_name"
+              label="HRBP"
+            ></el-table-column>
+            <el-table-column
+              prop="high_level_name"
+              label="隔级"
+            ></el-table-column>
+            <el-table-column prop="self_score" label="自评分"></el-table-column>
+            <el-table-column
+              prop="superior_score"
+              label="上级评分"
+            ></el-table-column>
+            <el-table-column
+              prop="score_level"
+              label="绩效等级"
+            ></el-table-column>
+            <el-table-column label="标签分布" align="left">
+              <template slot-scope="scope">
+                <el-tag
+                  v-if="
+                    scope.row.score_level == 'A' || scope.row.score_level == 'S'
+                  "
+                  class="status-tag top-style"
+                >
+                  <span class="top-style-text">{{ scope.row.label_name }}</span>
+                </el-tag>
+                <el-tag
+                  v-if="scope.row.score_level == 'B'"
+                  class="status-tag bplus-style"
+                >
+                  <span class="bplus-style-text">{{
+                    scope.row.label_name
+                  }}</span>
+                </el-tag>
+                <el-tag
+                  v-if="
+                    scope.row.score_level == 'C' || scope.row.score_level == 'D'
+                  "
+                  class="status-tag other-style"
+                >
+                  <span class="other-style-text">{{
+                    scope.row.label_name
+                  }}</span>
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="stage_status" label="状态" align="center">
+              <template slot-scope="scope">
+                <span>
+                  {{ get_stage_status(scope.row.stage) }}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="ops" label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  v-if="scope.row.operate_status == 1"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >详情</el-button
+                >
+                <el-button
+                  v-if="scope.row.operate_status == 2"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >评分</el-button
+                >
+                <el-button
+                  v-if="scope.row.operate_status == 3"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >修改评分</el-button
+                >
+                <el-button
+                  v-if="scope.row.operate_status == 4"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >处理申诉</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </section>
   </div>
 </template>
 <script>
-import {
-  LABEL_NAME,
-  APPEAL,
-  ENUM_PERFORMANCE_FINISH
-} from "@/constants/TEXT";
+import { LABEL_NAME, APPEAL, ENUM_PERFORMANCE_FINISH } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_EMPLOYEE_TEAM
@@ -143,7 +132,7 @@ export default {
         LABEL_NAME,
         APPEAL,
         ENUM_PERFORMANCE_FINISH
-      },
+      }
     };
   },
   components: {},
@@ -182,7 +171,7 @@ export default {
   top: 10px;
 }
 .status-tag {
-  width: ;
+  min-width: 60px;
   height: 28px;
   padding: 0 10px;
   margin: 0;

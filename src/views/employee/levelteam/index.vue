@@ -90,17 +90,15 @@
           }}</el-button>
         </el-form>
       </section>
-      <high-level-list
-      :list_data="tableData"
-      :department_id="department_id"
-      >
+      <high-level-list :list_data="tableData" :department_id="department_id">
       </high-level-list>
     </section>
-    </section>
+    <!-- </section> -->
   </div>
 </template>
 <script>
 import {
+  LEVEL_TEAM_GRADE,
   TEAM_GRADE,
   DETAILS,
   SELF_EVALUATION,
@@ -114,6 +112,7 @@ import {
   ENUM_PERFORMANCE_FINISH
 } from "@/constants/TEXT";
 import {
+  PATH_EMPLOYEE_LEVEL_TEAM,
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_EMPLOYEE_TEAM
 } from "@/constants/URL";
@@ -137,8 +136,10 @@ export default {
       overview: [],
       nav: [
         {
-          label: TEAM_GRADE,
-          href: PATH_EMPLOYEE_TEAM
+          // label: TEAM_GRADE,
+          // href: PATH_EMPLOYEE_TEAM
+          label: LEVEL_TEAM_GRADE,
+          href: PATH_EMPLOYEE_LEVEL_TEAM
         },
         {
           label: GRADE_MANAGE,
@@ -163,8 +164,8 @@ export default {
       reject_msg: "",
       content: "",
       reviewData: [],
-      tab_check:1,
-      department_id:this.$route.params.id,
+      tab_check: 1,
+      department_id: this.$route.params.id
     };
   },
   components: {
@@ -174,8 +175,8 @@ export default {
     ),
     "high-level-list": AsyncComp(
       import("@/components/modules/employee/highLevelList/index.vue")
-    ),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    )
+    // pagination: () => import("@/components/common/Pagination/index.vue")
   },
   created() {
     this.reviewList();
@@ -202,7 +203,7 @@ export default {
     refreshList(data) {
       return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
-          const { overview,list } = res;
+          const { overview, list } = res;
           this.tableData = list.data || [];
           this.total = list.total;
           performanceInfo.submit ? this.Allsubmit_step_load() : null;
@@ -212,7 +213,7 @@ export default {
     overReviewList(data) {
       return getLevelTeamReview(this.$route.params.id, data)
         .then(res => {
-          const { overview,performanceInfo } = res;
+          const { overview, performanceInfo } = res;
           this.overview = overview || [];
           this.name = performanceInfo.name || "";
           this.department = performanceInfo.department || "";
@@ -426,16 +427,6 @@ export default {
 .team-pie {
   position: absolute;
   top: 0;
-}
-.status-tag {
-  width: ;
-  height: 28px;
-  padding: 0 10px;
-  margin: 0;
-  text-align: center;
-  border-radius: 4px;
-  border: none;
-  font-weight: 500;
 }
 .top-style {
   background: #e8f5eb;

@@ -71,7 +71,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "000003" })
+        fzLogin({ workcode: "150848" })
           // 094203
           // 076533
           // 17600297195
@@ -82,6 +82,8 @@ export default {
           // 147463 高管
           // 142182
           // 105523
+          // 000003   liuyacha
+          // 150848   shiyanxia
 
           // 18310787064
           // 076344

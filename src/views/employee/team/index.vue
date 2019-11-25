@@ -80,13 +80,8 @@
           }}</el-button>
         </el-form>
       </section>
-      <senior-list
-        :list_data="tableData"
-      >
-      </senior-list>
-      <pagination>
-      </pagination>
-    </section>
+      <senior-list :list_data="tableData"> </senior-list>
+      <pagination> </pagination>
     </section>
   </div>
 </template>
@@ -152,7 +147,7 @@ export default {
       Allsubmit_action: false,
       reject_msg: "",
       content: "",
-      reviewData: [],
+      reviewData: []
     };
   },
   components: {
@@ -405,16 +400,6 @@ export default {
 .team-pie {
   position: absolute;
   top: 0;
-}
-.status-tag {
-  width: ;
-  height: 28px;
-  padding: 0 10px;
-  margin: 0;
-  text-align: center;
-  border-radius: 4px;
-  border: none;
-  font-weight: 500;
 }
 .top-style {
   background: #e8f5eb;

@@ -227,7 +227,8 @@ const router = new Router({
         {
           path: PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER(),
           components: {
-            default: () => import("@/views/employee/levelteam/member/index.vue"),
+            default: () =>
+              import("@/views/employee/levelteam/member/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

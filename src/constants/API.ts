@@ -235,7 +235,7 @@ export const highLevelReview = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}/review`, params);
 //获取隔级列表
 export const getLevelTeamGradeList = (params: Object) =>
-  sendGet(`/performance/api/highlevel`, params); 
+  sendGet(`/performance/api/highlevel`, params);
 // 隔级评分的团队成员列表
 export const getLevelTeamList = (id: String, params: Object) =>
   sendGet(`/performance/api/highlevel/${id}`, params);
@@ -245,14 +245,14 @@ export const getLevelTeamReview = (id: String) =>
 //隔级 我的团队列表
 export const highLevelTeamList = (orgID: String) =>
   sendGet(`/performance/api/highlevel/${orgID}/teams`);
-//隔级 评分详情
+//隔级 评分详情  // TODO  隔级评分详情接口未出
 export const getEmployeeLevelTeamDetail = (
   orgID: String,
   uid: String,
   attach_for: string
 ) =>
   sendGet(
-    `/performance/api/${orgID}/${uid}?${qs.stringify({
+    `${test}/performance/api/${orgID}/${uid}?${qs.stringify({
       attach_for
     })}`
   );
