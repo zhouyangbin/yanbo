@@ -12,9 +12,9 @@
             <el-row class="progress-header" style="display: flex; align-items: center;">
               <el-col :span="18">
                 <span class="color_gray">{{team_name}}: </span>
-                <span class="total">共{{total}}人, </span>
-                <span class="overview_text"> {{team_overview_text}}</span>
-                <el-popover v-if="level_team_id" placement="bottom" width="688" trigger="click">
+                <span class="total">共{{total}}人, {{abnormal_status}}</span>
+                <span v-if="abnormal_status == 1"  class="overview_text"> {{team_overview_text}}</span>
+                <el-popover v-if="abnormal_status == 1" placement="bottom" width="688" trigger="click">
                   <p>提交记录</p>
                   <template>
                     <el-table :data="team_reviewData" height="250">
@@ -229,6 +229,7 @@ export default {
       team_reviewData: [],
       reject_team_show: false,//是否显示驳回dialog
       content: '',//驳回理由
+      abnormal_status: 1,
     };
   },
   components: {
@@ -242,7 +243,7 @@ export default {
       return highLevelTeamList(this.department_id)
         .then(res => {
           res.highLevelList.unshift({
-            abnormal_status: 0,
+            abnormal_status: 1,
             is_reject: 0,
             superior_name: "全部下属",
             superior_workcode: "",
@@ -303,6 +304,7 @@ export default {
         this.team_name = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.superior_name).join(",");
         this.is_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");
         this.is_show_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");
+        this.abnormal_status = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.abnormal_status).join(",");
     },
   },
 };

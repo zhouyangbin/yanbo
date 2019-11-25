@@ -140,9 +140,14 @@ export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
     },
     { arrayFormat: "brackets" }
   )}`;
-
+//导出 团队评分明细
 export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
-  `${base}/performance/api/superior/export/${id}?${qs.stringify({
+  `${base}performance/api/superior/export/${id}?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+//导出 隔级评分明细
+export const PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE = (id: string) =>
+  `${base}performance/api/highlevel/${id}/export?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
 

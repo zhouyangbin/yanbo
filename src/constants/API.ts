@@ -441,3 +441,5 @@ export const getLowerPlusList = (params: Object) =>
 // /culture/web/team/interval-evaluations/end
 export const getEndList = (params: Object) =>
   sendGet(`/culture/web/team/interval-evaluations/end`, params);
+
+  

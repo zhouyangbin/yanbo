@@ -14,12 +14,12 @@
           :label="constants.LABEL_DEPARTMENT"
         ></el-table-column>
         <el-table-column
-          prop="type"
+          prop="type_text"
           :label="constants.DURATION_TYPE"
         ></el-table-column>
-        <el-table-column v-if="false"
-          prop="end_time"
-          :label="constants.FINISHED_DATE"
+        <el-table-column
+          prop="type_text"
+          label="状态"
         ></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
@@ -60,7 +60,7 @@ import {
 } from "@/constants/TEXT";
 import { PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL } from "@/constants/URL";
 import { getLevelTeamGradeList } from "@/constants/API";
-import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
+import { PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE } from "@/constants/URL";
 
 export default {
   data() {
@@ -110,7 +110,10 @@ export default {
       });
     },
     exportDetail(row) {
-      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
+      var link = document.createElement('a');
+      link.setAttribute("download", "");
+      link.href = PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE(row.id);
+      link.click();
     }
   },
   created() {
