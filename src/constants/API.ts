@@ -471,10 +471,6 @@ export const getPerformanceDraft = (performance_user_id: String) =>
 // 高管绩效指标设定-获取维度指标
 export const getUniqueTemplate = (params: Object) =>
   sendGet(`/executive-performance/web/target/init`, params);
-<<<<<<< HEAD
-=======
-
->>>>>>> c9c1530bae2aa3abd86e8220ab8ea0f422fa7ba6
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
   sendGet(`/executive-performance/web/target/items`, params);
