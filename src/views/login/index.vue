@@ -25,6 +25,7 @@ import {
   PATH_MY_CULTURE_GRADE,
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_USER_DETAIL,
+  PATH_EMPLOYEE_TEAM,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
   PATH_MSG_MOBILE,
@@ -72,7 +73,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "000003" })
+        fzLogin({ workcode: "094203" }) //13681126412
           // 094203
           // 076533
           // 17600297195
@@ -124,6 +125,9 @@ export default {
             querys.performance_user_id
           );
           break;
+        case "team_list"://我的业绩 团队评分 
+          dst = PATH_EMPLOYEE_TEAM;
+          break;
         case "superior_list"://我的业绩 团队评分 评分管理
           dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
           break;
@@ -134,7 +138,7 @@ export default {
             querys.performance_user_id
           );
           break;
-        case "review":
+        case "review"://团队  个人详情
           dst = PATH_EMPLOYEE_TEAM_MEMEBER(
             querys.performance_id,
             querys.performance_user_id

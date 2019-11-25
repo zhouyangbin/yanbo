@@ -12,7 +12,7 @@
             <el-row class="progress-header" style="display: flex; align-items: center;">
               <el-col :span="18">
                 <span class="color_gray">{{team_name}}: </span>
-                <span class="total">共{{total}}人, {{abnormal_status}}</span>
+                <span class="total">共{{total}}人, </span>
                 <span v-if="abnormal_status == 1"  class="overview_text"> {{team_overview_text}}</span>
                 <el-popover v-if="abnormal_status == 1" placement="bottom" width="688" trigger="click">
                   <p>提交记录</p>
@@ -221,15 +221,14 @@ export default {
         APPEAL,
         ENUM_PERFORMANCE_FINISH
       },
-      level_team_list: [],
-      level_team_id: null,
+      level_team_list: [],//下属团队的打他
+      level_team_id: null,//当前下属id
       team_name: '全部下属',
+      abnormal_status: 0,//是否展示diff差值
       is_reject: 0,//是否可以驳回
-      is_show_reject: 0,
-      team_reviewData: [],
+      team_reviewData: [],//提交理由 data
       reject_team_show: false,//是否显示驳回dialog
       content: '',//驳回理由
-      abnormal_status: 1,
     };
   },
   components: {
@@ -243,10 +242,10 @@ export default {
       return highLevelTeamList(this.department_id)
         .then(res => {
           res.highLevelList.unshift({
-            abnormal_status: 1,
+            abnormal_status: 0,
             is_reject: 0,
             superior_name: "全部下属",
-            superior_workcode: "",
+            superior_workcode: null,
           });
           this.level_team_list = res.highLevelList;
         })
@@ -264,9 +263,11 @@ export default {
       let data = {
         content: this.content
       };
+
       return rejectHighLevelTeam(this.$route.params.id, this.level_team_id, data)
         .then(res => {
-          console.logres
+          this.get_highLevelTeamList();
+          this.$emit("reload");
         })
         .catch(e => {});
     },
@@ -303,7 +304,6 @@ export default {
         this.$emit("get_workcode",newv);
         this.team_name = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.superior_name).join(",");
         this.is_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");
-        this.is_show_reject = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.is_reject).join(",");
         this.abnormal_status = this.level_team_list.filter(item => newv ==  item.superior_workcode).map(item=>item.abnormal_status).join(",");
     },
   },
@@ -358,7 +358,7 @@ export default {
   height: 22px;
   font-size: 14px;
   font-weight: 500;
-  color:rgba(56,208,175,1);
+  /*color:rgba(56,208,175,1);*/
   line-height: 22px;
   margin: 16px 0 0 0;
 }

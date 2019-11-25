@@ -90,10 +90,11 @@
           }}</el-button>
         </el-form>
       </section>
-      <high-level-list
+      <high-level-list ref="high_level_list"
       :list_data="tableData"
       :department_id="department_id"
       @get_workcode="get_workcode"
+      @reload="reload"
       :total="total"
       :team_overview="team_overview"
       >
@@ -203,7 +204,14 @@ export default {
       });
   },
   methods: {
-    get_workcode(workcode){
+    reload() {//从新刷新页面接口
+      this.overReviewList();
+      //this.get_LevelTags();
+      this.filterForm.name = "";
+      this.filterForm.status = "";
+      this.filterForm.tags = "";
+    },
+    get_workcode(workcode){//切换团队
       this.currentPage = 1;
       this.workcode = workcode;
       this.refreshList({
@@ -384,7 +392,6 @@ export default {
       let data = {
         content: input_content
       };
-      console.log(123)
       return highLevelteamAllsure(this.$route.params.id, data)
         .then(res => {
           let postData = {
@@ -392,7 +399,8 @@ export default {
             name: this.filterForm.name,
             stage: this.filterForm.status,
           };
-          this.refreshList(postData); //再次请求接口
+              this.reload(); //刷新页面接口
+              this.$refs.high_level_list.get_highLevelTeamList();//请求子组件 隔级团队
         })
         .catch(e => {});
     },
