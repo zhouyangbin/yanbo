@@ -26,6 +26,7 @@ import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
   PATH_MSG_MOBILE,
   PATH_MY_CULTURE_GRADE_DETAILS,
   PATH_MEMBER_CULTURE_LIST,
@@ -120,12 +121,12 @@ export default {
       switch (querys.path) {
         case "self":
         case "confirm":
-          dst = PATH_EMPLYEE_MY_DETAIL(
+          dst = PATH_EMPLYEE_MY_DETAIL(//我的业绩 我的评分 详情
             querys.performance_id,
             querys.performance_user_id
           );
           break;
-        case "superior_list":
+        case "superior_list"://我的业绩 团队评分 评分管理
           dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
           break;
         case "appeal_hr":
@@ -141,10 +142,15 @@ export default {
             querys.performance_user_id
           );
           break;
-        case "performance_detail":
+        case "performance_detail"://业绩评分 评分管理 评分进度 事业部详情
           dst = PATH_PERFORMANCE_ORG_LIST(
             querys.performance_name_id,
             querys.performance_id
+          );
+          break;
+        case "levelteam_detail": //我的业绩 隔级评分 评分管理 as 隔级审核页面
+          dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(
+            querys.performance_name_id
           );
           break;
       }

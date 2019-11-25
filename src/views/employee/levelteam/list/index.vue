@@ -29,7 +29,10 @@
               constants.DETAILS
             }}</el-button>
             <el-button
+<<<<<<< HEAD
               v-if="false"
+=======
+>>>>>>> 016efbb0e808d30d93a44297785519699a1744a9
               @click="exportDetail(scope.row)"
               type="text"
               size="small"
