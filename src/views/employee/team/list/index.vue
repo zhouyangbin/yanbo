@@ -31,11 +31,12 @@
               constants.DETAILS
             }}</el-button>
             <el-button
+              v-if="scope.row.p_type !== 'executive'"
               @click="exportDetail(scope.row)"
               type="text"
               size="small"
-              >{{ constants.EXPORT_DETAILS }}</el-button
-            >
+              >{{ constants.EXPORT_DETAILS }}</el-button >
+              <!-- 导出明细 -->
           </template>
         </el-table-column>
       </el-table>

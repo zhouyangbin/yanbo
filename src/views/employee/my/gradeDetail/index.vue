@@ -190,12 +190,10 @@
       </el-row>
       <el-row
         class="footer-button"
-        v-if="userInfo.opinion && (userInfo.stage === 1) & self"
-      >
+        v-if="userInfo.opinion && (userInfo.stage === 1) & self">
         <el-button @click="submitForm" class="submit-button">提交</el-button>
         <el-button @click="temporaryMemory" class="tempeorary-memory"
-          >暂存</el-button
-        >
+          >暂存</el-button>
         <el-button @click="checkExamine">
           {{ constants.CHECK_EXAMINE_LOG }}
         </el-button>
@@ -246,6 +244,7 @@ export default {
   },
   data() {
     return {
+      arrs: [0, 1, 2],
       constants: {
         TARGET_WEIGH,
         TARGET_NAME,
@@ -388,13 +387,13 @@ export default {
               this.indexTpl
             )
               .then(res => {
-                localStorage.clearItem(this.userId);
                 this.$router.push(
                   PATH_PERFORMANCE_TARGET_DETAIL(
                     this.$route.params.id,
                     this.$route.params.uid
                   )
                 );
+                localStorage.clearItem(this.userId);
               })
               .catch(() => {});
           })
@@ -676,5 +675,8 @@ export default {
       }
     }
   }
+}
+.examine-detail {
+  width: 650px;
 }
 </style>

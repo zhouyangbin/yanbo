@@ -54,7 +54,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           let postData = {
-            performance_user_id: this.$route.params.id,
+            performance_user_id: this.$route.params.uid,
             type: 1,
             reason: this.form.reason
           };
@@ -63,7 +63,8 @@ export default {
               this.$message.success("审批成功");
               this.close();
             })
-            .catch(() => {});
+            .catch(() => {
+            });
         }
       });
     }

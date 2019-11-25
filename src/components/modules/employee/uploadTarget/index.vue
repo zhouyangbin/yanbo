@@ -35,7 +35,11 @@
   </el-dialog>
 </template>
 <script>
-import { PATH_IMPORT_TARGET, PATH_UPLOAD_TARGET } from "@/constants/URL";
+import {
+  getTargetTemplate,
+  getUniqueTemplate
+} from "@/constants/API";
+import { PATH_UPLOAD_FILE } from "@/constants/URL";
 export default {
   props: {
     isUpload: {
@@ -55,6 +59,27 @@ export default {
     close() {
       this.$emit("close");
     },
+    // 上传指标确认
+    cover() {
+      getUniqueTemplate({
+        performance_id: this.$route.params.id,
+        performance_user_id: this.$route.params.uid
+      });
+      this.close();
+    },
+    /**
+     * 下载模版按钮
+     */
+    downloadTemplate() {
+      getTargetTemplate(this.$route.params.uid)
+        .then(res => {
+          this.$message.success("下载成功");
+        })
+        .catch(() => {});
+    },
+    /**
+     * 上传指标成功
+     */
     uploadSuccess(response, file, fileList) {
       this.$notify({
         title: SUCCESS,

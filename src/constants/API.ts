@@ -463,7 +463,6 @@ export const getPerformanceUserInfo = (params: Object) =>
 // 高管绩效 获取指标草稿
 export const getPerformanceDraft = (performance_user_id: String) =>
   sendGet(`/executive-performance/web/self/${performance_user_id}/get-draft`);
-
 // 高管绩效指标设定添加考核项
 export const getTargetContent = (params: Object) =>
   sendGet(`/executive-performance/web/target/items`, params);
@@ -471,11 +470,10 @@ export const getTargetContent = (params: Object) =>
 // 高管绩效指标设定提交
 export const postSubmitTargetContent = (
   performance_user_id: String,
-  sign: String,
   params: Object
 ) =>
   sendPost(
-    `/executive-performance/web/self/${performance_user_id}/${sign}/set-targets`,
+    `/executive-performance/web/self/${performance_user_id}/set-targets`,
     params
   );
 // 高管绩效指标设定暂存草稿

@@ -7,7 +7,7 @@
     >
       <el-row class="target-detail-title">
         <span class="target-title">{{ targetItem.type }}</span>
-        <span class="target-weight">权重{{ targetItem.weight }}%</span>
+        <span class="target-weight">权重{{ Number(targetItem.weight) }}%</span>
       </el-row>
       <el-form :ref="`form${index}`" :model="targetItem">
         <el-table
@@ -20,7 +20,7 @@
         >
           <el-table-column label="权重" width="180" align="center">
             <template slot-scope="scope">
-              <div>{{ scope.row.weights }}%</div>
+              <div>{{ Number(scope.row.weights)}}%</div>
             </template>
           </el-table-column>
           <el-table-column
@@ -102,8 +102,8 @@ export default {
       this.allTarget.forEach(v => {
         if (v.basicType === type) {
           v.table.forEach(value => {
-            if (value.weights !== "") {
-              subTotal += value.weights;
+            if (Number(value.weights) !== "") {
+              subTotal += Number(value.weights);
             }
           });
         }
