@@ -68,7 +68,36 @@
         >{{ constants.TEAM_GRADE }}</el-menu-item
       >
     </el-submenu>
-
+    <el-submenu
+      :show-timeout="100"
+      :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT"
+    >
+      <template slot="title">
+        <i class="el-icon-star-off"></i>
+        <span>{{ constants.EXECUTIVE_PERFORMANCE }}</span>
+      </template>
+      <el-menu-item :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT">{{
+        constants.GRADE_MANAGE
+      }}</el-menu-item>
+      <el-menu-item
+        :class="{
+          'is-active': [constants.PATH_PERFORMANCE_TPL_SETTINGS].includes(
+            $route.path
+          )
+        }"
+        :index="constants.PATH_PERFORMANCE_TPL_SETTINGS"
+        >{{ constants.TPL_SETTING }}</el-menu-item
+      >
+      <el-menu-item
+        :class="{
+          'is-active': [constants.PATH_PERFORMANCE_LABEL_SETTINGS].includes(
+            $route.path
+          )
+        }"
+        :index="constants.PATH_PERFORMANCE_LABEL_SETTINGS"
+        >{{ constants.LABEL_SETTING }}</el-menu-item
+      >
+    </el-submenu>
     <el-submenu
       :show-timeout="100"
       v-if="canManageCultureGrade"
@@ -190,7 +219,9 @@ import {
   MY_GRADE,
   TEAM_GRADE,
   MY_CULTURE,
-  MY_PERFORMANCE
+  MY_PERFORMANCE,
+  EXECUTIVE_PERFORMANCE,
+  LABEL_SETTING
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_REPORT,
@@ -214,7 +245,10 @@ import {
   PATH_PERFORMANCE_ORG_LIST,
   PATH_MEMBER_CULTURE_LIST,
   PATH_DOWN_MEMBER_CULTURE_LIST,
-  PATH_CULTURE_LEVEL
+  PATH_CULTURE_LEVEL,
+  PATH_PERFORMANCE_GRADE_MANAGEMENT,
+  PATH_PERFORMANCE_TPL_SETTINGS,
+  PATH_PERFORMANCE_LABEL_SETTINGS
 } from "@/constants/URL";
 import resize from "@/directives/resize";
 export default {
@@ -255,7 +289,12 @@ export default {
         PATH_MEMBER_CULTURE_LIST,
         PATH_DOWN_MEMBER_CULTURE_LIST,
         PATH_CULTURE_LEVEL,
-        MY_PERFORMANCE
+        MY_PERFORMANCE,
+        EXECUTIVE_PERFORMANCE,
+        PATH_PERFORMANCE_GRADE_MANAGEMENT,
+        PATH_PERFORMANCE_TPL_SETTINGS,
+        PATH_PERFORMANCE_LABEL_SETTINGS,
+        LABEL_SETTING
       },
       isCollapse: false
     };

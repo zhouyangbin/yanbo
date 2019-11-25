@@ -240,9 +240,9 @@ export const postUserPerformanceDraft = (
 ) => sendPost(`/performance/api/${orgID}/${uid}/draft`, params);
 
 // 我的绩效评分列表
-
 export const getMyPerformanceList = (params: Object) =>
-  sendGet(`/performance/api/self/index`, params);
+  sendGet(`/executive-performance/web/self/index`, params);
+
 // 团队里的详情
 export const getEmployeeDetail = (
   orgID: String,

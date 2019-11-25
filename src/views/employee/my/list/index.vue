@@ -1,10 +1,14 @@
 <template>
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
-    <!-- <br> -->
     <br />
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column label="类型" prop="p_type">
+          <template slot-scope="scope">
+            <div>{{ scope.row.p_type | handleType }}</div>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="name"
           :label="constants.GRADE_NAME"
@@ -18,30 +22,45 @@
           :label="constants.FINISHED_DATE"
         ></el-table-column>
         <el-table-column
-          prop="target_status"
+          prop="target_status_text"
           :label="constants.TARGET_STATUS"
         ></el-table-column>
         <el-table-column
-          prop="stage"
+          prop="stage_text"
           :label="constants.GRADE_STATUS"
         ></el-table-column>
-        <el-table-column prop="address" :label="constants.OPERATIONS">
+        <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
+            <el-button
+              v-if="scope.row.stage == 0"
+              type="text"
+              @click="fillInIndicator(scope.row)"
+              >填写指标</el-button >
+            <template slot-scope="scope" v-else-if="scope.row.stage == 20">
+              <el-button
+                type="text"
+                @click="applyAdjustment(scope.row)"
+                >申请调整指标</el-button>
+              <el-button @click="viewDetail(scope.row)" type="text" >详情</el-button>
+           </template>
+           <el-button v-else @click="viewDetail(scope.row)" type="text">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
       <br />
       <el-row type="flex" justify="end">
-        <pagination
+        <el-pagination
+          v-if="total"
+          background
+          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :currentPage="currentPage"
+          :current-page="page"
+          :page-sizes="[10, 20, 50]"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-        ></pagination>
+        >
+        </el-pagination>
       </el-row>
-      <br />
     </section>
   </div>
 </template>
@@ -49,7 +68,6 @@
 <script>
 import {
   MY_GRADE,
-  DETAILS,
   GRADE_NAME,
   DURATION_TYPE,
   FINISHED_DATE,
@@ -57,13 +75,18 @@ import {
   GRADE_STATUS,
   TARGET_STATUS
 } from "@/constants/TEXT";
-import { PATH_EMPLYEE_MY_DETAIL } from "@/constants/URL";
+import {
+  PATH_EMPLYEE_MY_DETAIL,
+  PATH_PERFORMANCE_TARGET_SET,
+  PATH_PERFORMANCE_TARGET_DETAIL
+} from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
 export default {
   data() {
     return {
-      currentPage: 1,
+      page: 1,
+      perPage: 10,
       total: 0,
       tableData: [],
       nav: [
@@ -73,7 +96,6 @@ export default {
         }
       ],
       constants: {
-        DETAILS,
         GRADE_NAME,
         DURATION_TYPE,
         FINISHED_DATE,
@@ -84,33 +106,81 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+  },
+  filters: {
+    handleType(val) {
+      let type = "";
+      if (val === "normal") {
+        type = "员工绩效";
+      } else if (val === "executive") {
+        type = "组织部绩效";
+      }
+      return type;
+    }
   },
   methods: {
-    goDetail(row) {
+    fillInIndicator(row) {
+      // to do
       this.$router.push(
-        PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+        PATH_PERFORMANCE_TARGET_SET(
+          row.performance_id,
+          row.performance_user_id,
+          1
+        )
       );
     },
+<<<<<<< HEAD
     handleCurrentChange(val) {
       this.currentPage = val;
       this.refreshList({
         page: val
       });
+=======
+    // 申请调整指标
+    applyAdjustment(row){
+
     },
-    refreshList(data) {
-      return getMyPerformanceList(data)
+    viewDetail(row) {
+      // to do
+      if (row.p_type == "executive") {
+        this.$router.push(
+          PATH_PERFORMANCE_TARGET_DETAIL(
+            row.performance_id,
+            row.performance_user_id
+          )
+        );
+      } else if (row.p_type == "normal") {
+        this.$router.push(
+          PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+        );
+      }
+>>>>>>> 63d5506f14f95859dedbc81caa772c22e91904e5
+    },
+    refreshList() {
+      let getData = {
+        page: this.page,
+        perPage: this.perPage
+      };
+      getMyPerformanceList(getData)
         .then(res => {
-          const { total, data } = res;
+          let { total, data } = res;
           this.total = total;
           this.tableData = data;
         })
-        .catch(e => {});
+        .catch(() => {});
+    },
+    handleSizeChange(val) {
+      this.perPage = val;
+      this.refreshList();
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.refreshList();
     }
   },
   created() {
-    this.refreshList({ page: 1 });
+    this.refreshList();
   }
 };
 </script>
