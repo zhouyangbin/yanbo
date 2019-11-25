@@ -37,7 +37,6 @@
 <script>
 import {
   getTargetTemplate,
-  postUploadIndex,
   getUniqueTemplate
 } from "@/constants/API";
 import { PATH_UPLOAD_FILE } from "@/constants/URL";
@@ -69,7 +68,6 @@ export default {
     // 上传指标确认
     cover() {
       getUniqueTemplate({
-        sign: this.$route.params.sign,
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       });

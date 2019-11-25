@@ -82,7 +82,6 @@ export default {
      */
     getUserInfo() {
       let data = {
-        performance_id: "",
         performance_user_id: this.$route.params.id,
         workcode: this.$route.params.workcode
       };

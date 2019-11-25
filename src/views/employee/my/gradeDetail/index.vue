@@ -23,13 +23,11 @@
               :header-cell-style="{
                 backgroundColor: '#F5F6F7',
                 color: '#303133'
-              }"
-            >
+              }">
               <el-table-column
                 :label="constants.TARGET_WEIGH"
                 width="180"
-                align="center"
-              >
+                align="center">
                 <template slot-scope="scope">
                   <div v-if="targetItem.isMoney">
                     {{ Math.ceil(scope.row.weights) }}%
@@ -37,17 +35,14 @@
                   <el-form-item
                     v-if="!targetItem.isMoney"
                     :prop="`table.${scope.$index}.weights`"
-                    :rules="rules.weights"
-                  >
+                    :rules="rules.weights">
                     <el-input
                       v-model.number="scope.row.weights"
                       type="number"
                       size="small"
-                      oninput="if(value > 100)value = 100;if(value < 0)value = 0"
-                    >
+                      oninput="if(value > 100)value = 100;if(value < 0)value = 0">
                       <template slot="append"
-                        >%</template
-                      >
+                        >%</template>
                     </el-input>
                   </el-form-item>
                 </template>
@@ -58,32 +53,27 @@
                 :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
-                prop="target"
-              ></el-table-column>
+                prop="target"></el-table-column>
               <el-table-column
                 v-if="!targetItem.isMoney"
                 :label="constants.TARGET_NAME"
                 min-width="240"
                 align="center"
                 :render-header="changeLabel"
-                prop="target"
-              >
+                prop="target">
                 <template slot-scope="scope">
                   <el-form-item
                     :prop="`table.${scope.$index}.target`"
-                    :rules="rules.target"
-                  >
+                    :rules="rules.target">
                     <div class="flex">
                       <el-input
                         type="textarea"
                         v-model="scope.row.target"
-                        :autosize="{ minRows: 12 }"
-                      ></el-input>
+                        :autosize="{ minRows: 12 }"></el-input>
                       <i
                         class="el-icon-delete delete-target"
                         v-show="targetItem.table.length > 1"
-                        @click="deleteTarget(index, `${scope.$index}`)"
-                      ></i>
+                        @click="deleteTarget(index, `${scope.$index}`)"></i>
                     </div>
                   </el-form-item>
                 </template>
@@ -93,20 +83,17 @@
                 :label="constants.TASK_DESCRIPTION"
                 min-width="300"
                 header-align="center"
-                v-if="targetItem.table[0].content !== undefined"
-              >
+                v-if="targetItem.table[0].content !== undefined">
                 <template slot-scope="scope">
                   <div v-if="targetItem.isMoney">{{ scope.row.content }}</div>
                   <el-form-item
                     v-if="!targetItem.isMoney"
                     :prop="`table.${scope.$index}.content`"
-                    :rules="rules.content"
-                  >
+                    :rules="rules.content">
                     <el-input
                       type="textarea"
                       v-model="scope.row.content"
-                      :autosize="{ minRows: 12 }"
-                    ></el-input>
+                      :autosize="{ minRows: 12 }"></el-input>
                   </el-form-item>
                 </template>
               </el-table-column>
@@ -114,19 +101,16 @@
               <el-table-column
                 :label="constants.YARD_STICK"
                 min-width="300"
-                header-align="center"
-              >
+                header-align="center">
                 <template slot-scope="scope">
                   <ul v-if="targetItem.isMoney">
                     <li
                       class="flex"
                       v-for="(item, index) in scope.row.metrics"
-                      :key="index"
-                    >
+                      :key="index">
                       <el-col class="measure-title">
                         <span v-if="item.is_required" class="is-required"
-                          >*</span
-                        >
+                          >*</span>
                         <span>&nbsp;{{ item.name }}</span>
                       </el-col>
                       <el-col>{{ item.content }}</el-col>
@@ -134,20 +118,17 @@
                   </ul>
                   <el-row
                     v-for="(item, index) in scope.row.metrics"
-                    :key="index"
-                  >
+                    :key="index">
                     <el-form-item
                       v-if="!targetItem.isMoney"
                       :label="item.name"
                       label-width="130px"
                       :prop="`table.${scope.$index}.metrics.${index}.content`"
-                      :rules="item.is_required ? metricsRules.content : {}"
-                    >
+                      :rules="item.is_required ? metricsRules.content : {}">
                       <el-input
                         type="textarea"
                         autosize
-                        v-model="item.content"
-                      ></el-input>
+                        v-model="item.content" ></el-input>
                     </el-form-item>
                   </el-row>
                 </template>
@@ -158,8 +139,7 @@
               class="add-target"
               v-if="!targetItem.isMoney && getTableLen(index) <= 4"
               @click="addTarget(index)"
-              >{{ constants.ADD_TARGET_LINE }}</el-button
-            >
+              >{{ constants.ADD_TARGET_LINE }}</el-button>
           </el-form>
         </el-row>
         <ul class="sub-total">
@@ -193,12 +173,10 @@
       </el-row>
       <el-row
         class="footer-button"
-        v-if="userInfo.opinion && (userInfo.stage === 1) & self"
-      >
+        v-if="userInfo.opinion && (userInfo.stage === 1) & self">
         <el-button @click="submitForm" class="submit-button">提交</el-button>
         <el-button @click="temporaryMemory" class="tempeorary-memory"
-          >暂存</el-button
-        >
+          >暂存</el-button>
         <el-button @click="checkExamine">
           {{ constants.CHECK_EXAMINE_LOG }}
         </el-button>
@@ -234,8 +212,7 @@ import {
   getTargetContent,
   postSaveDraft,
   postSubmitTargetContent,
-  getPerformanceDraft,
-  gettTeamtetails
+  getPerformanceDraft
 } from "@/constants/API";
 import { Divider } from "element-ui";
 
@@ -336,6 +313,7 @@ export default {
       data.forEach(items => {
         items.table.forEach(item => {
           item.targets.forEach(text => {
+            item.target=text.target
             item.metrics.forEach(ite => {
               ite.content = text[ite.key];
             });
@@ -368,9 +346,7 @@ export default {
      */
     getUserInfo() {
       let data = {
-        performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid,
-        workcode: ""
       };
 
       getPerformanceUserInfo(data)
@@ -487,7 +463,6 @@ export default {
             this.changeData(arr);
             this.$set(this.allTarget, finance.sort - 1, arr[0]);
           }
-          console.log(this.allTarget);
         })
         .catch(() => {});
     },
@@ -499,25 +474,23 @@ export default {
       let init = this.allTarget;
       let team = [];
       let work = [];
-      for (var i = 0; i < init.length; i++) {
-        let tableLen = init[i].table;
-        for (var r = 0; r < tableLen.length; r++) {
-          let metrics = tableLen[r].metrics;
+      init.forEach(item=>{
+        item.table.forEach(text=>{
           let n = {};
-          for (var l = 0; l < metrics.length; l++) {
-            n[metrics[l].key] = metrics[l].content;
-          }
-          n.type = init[i].type;
-          n.weight = init[i].weight;
-          n.content = tableLen[i].content;
-          n.target = tableLen[i].target;
-          if (init[i].basicType == "team") {
+          text.metrics.forEach(items=>{
+            n[items.key] = items.content
+          })
+          n.type = item.type;
+          n.weight = item.weight;
+          n.specific_job = text.content;
+          n.indicator_name = text.target;
+          if (item.basicType == "team") {
             team.push(n);
-          } else if (init[i].basicType == "work") {
+          } else if (item.basicType == "work") {
             work.push(n);
           }
-        }
-      }
+        })
+      })
       let post = {
         target: {
           performance_id: this.$route.params.id,
@@ -600,13 +573,13 @@ export default {
               this.handleSubmitData()
             )
               .then(res => {
-                localStorage.clearItem(this.userId);
                 this.$router.push(
                   PATH_PERFORMANCE_TARGET_DETAIL(
                     this.$route.params.id,
                     this.$route.params.uid
                   )
                 );
+                localStorage.clearItem(this.userId);
               })
               .catch(() => {});
           })
@@ -670,10 +643,6 @@ export default {
     this.getUserInfo();
     if (localStorage.getItem(this.userId) == undefined) {
       this.getWrokAndTeamTarget();
-      //  gettTeamtetails(data)
-      //   .then(suss=>{
-      //     console.log(suss)
-      //   })
     } else {
       this.getUserMsg();
     }

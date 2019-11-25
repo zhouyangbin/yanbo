@@ -35,11 +35,15 @@
               v-if="scope.row.stage == 0"
               type="text"
               @click="fillInIndicator(scope.row)"
-              >填写指标</el-button
-            >
-            <el-button v-else @click="viewDetail(scope.row)" type="text"
-              >详情</el-button
-            >
+              >填写指标</el-button >
+            <template slot-scope="scope" v-else-if="scope.row.stage == 20">
+              <el-button
+                type="text"
+                @click="applyAdjustment(scope.row)"
+                >申请调整指标</el-button>
+              <el-button @click="viewDetail(scope.row)" type="text" >详情</el-button>
+           </template>
+           <el-button v-else @click="viewDetail(scope.row)" type="text">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,7 +68,6 @@
 <script>
 import {
   MY_GRADE,
-  DETAILS,
   GRADE_NAME,
   DURATION_TYPE,
   FINISHED_DATE,
@@ -93,7 +96,6 @@ export default {
         }
       ],
       constants: {
-        DETAILS,
         GRADE_NAME,
         DURATION_TYPE,
         FINISHED_DATE,
@@ -127,6 +129,10 @@ export default {
           1
         )
       );
+    },
+    // 申请调整指标
+    applyAdjustment(row){
+
     },
     viewDetail(row) {
       // to do

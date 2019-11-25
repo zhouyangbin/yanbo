@@ -126,8 +126,7 @@ export default {
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
-        workcode: ""
+        performance_user_id: this.$route.params.uid
       };
       getUniqueTemplate(data)
         .then(res => {

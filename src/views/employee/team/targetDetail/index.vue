@@ -29,7 +29,7 @@ import {
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
-import { getPerformanceUserInfo, postTeamtetails } from "@/constants/API";
+import { getPerformanceUserInfo,getUniqueTemplate} from "@/constants/API";
 export default {
   data() {
     return {
@@ -85,7 +85,6 @@ export default {
       let data = {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid,
-        workcode: this.$route.params.workcode
       };
       getPerformanceUserInfo(data)
         .then(res => {
@@ -119,6 +118,20 @@ export default {
         })
         .catch(() => {});
     },
+    // 改变接口传递数据
+    changeData(data) {
+      data.forEach(items => {
+        items.table.forEach(item => {
+          item.targets.forEach(text => {
+            item.target=text.target
+            item.metrics.forEach(ite => {
+              ite.content = text[ite.key];
+            });
+          });
+        });
+      });
+      return data;
+    },
     /**
      * 得到当前下级的指标
      */
@@ -127,44 +140,77 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      postTeamtetails(data)
+      getUniqueTemplate(data)
         .then(res => {
+          /**
+           * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
+           */
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
             let team = res.team;
-            this.$set(this.allTarget, team.sort - 1, {
-              basicType: "team",
-              isMoney: 0,
-              sort: team.sort,
-              type: team.type,
-              weight: team.weight,
-              table: team.template_columns
-            });
+            team.template_columns = {
+              content: team.targets[0].content,
+              weights: team.targets[0].weights,
+              metrics: team.template_columns.metrics,
+              targets: team.targets
+            };
+            let arr = [
+              {
+                basicType: "team",
+                isMoney: 0,
+                sort: team.sort,
+                type: team.name,
+                weight: team.weight,
+                table: [team.template_columns]
+              }
+            ];
+            this.changeData(arr);
+            this.$set(this.allTarget, team.sort - 1, arr[0]);
           }
           if (isWork) {
             let work = res.work;
-            this.$set(this.allTarget, work.sort - 1, {
-              basicType: "work",
-              isMoney: 0,
-              sort: work.sort,
-              type: work.type,
-              weight: work.weight,
-              table: work.template_columns
-            });
+            work.template_columns = {
+              content: work.targets[0].content,
+              weights: work.targets[0].weights,
+              metrics: work.template_columns.metrics,
+              targets: work.targets
+            };
+            let arr = [
+              {
+                basicType: "work",
+                isMoney: 0,
+                sort: work.sort,
+                type: work.name,
+                weight: work.weight,
+                table: [work.template_columns]
+              }
+            ];
+            this.changeData(arr);
+            this.$set(this.allTarget, work.sort - 1, arr[0]);
           }
           if (isFinance) {
             let finance = res.finance;
-            this.$set(this.allTarget, finance.sort - 1, {
-              basicType: "finance",
-              isMoney: 1,
-              sort: finance.sort,
-              type: finance.type,
-              weight: finance.weight,
-              table: finance.template_columns
-            });
+            finance.template_columns = {
+              content: finance.targets[0].content,
+              weights: finance.targets[0].weights,
+              metrics: finance.template_columns.metrics,
+              targets: finance.targets
+            };
+            let arr = [
+              {
+                basicType: "finance",
+                isMoney: 1,
+                sort: finance.sort,
+                type: finance.name,
+                weight: finance.weight,
+                table: [finance.template_columns]
+              }
+            ];
+            this.changeData(arr);
+            this.$set(this.allTarget, finance.sort - 1, arr[0]);
           }
         })
         .catch(() => {});
