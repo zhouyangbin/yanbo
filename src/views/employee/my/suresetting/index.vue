@@ -177,16 +177,12 @@ export default {
         PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
       );
     },
-<<<<<<< HEAD
-    sureAdd() {},
-=======
     // 同意并加签
     sureAdd(){
         this.$router.push(
             PATH_SURE_ADD(this.$route.params.id,this.$route.params.uid)
         )
     },
->>>>>>> feature-wrr-test-1.0
     /**
      * 点击待共识
      */

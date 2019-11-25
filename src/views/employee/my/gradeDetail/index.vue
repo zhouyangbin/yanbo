@@ -23,13 +23,8 @@
               :header-cell-style="{
                 backgroundColor: '#F5F6F7',
                 color: '#303133'
-<<<<<<< HEAD
               }"
             >
-=======
-              }">
-              <!-- 权重 -->
->>>>>>> feature-wrr-test-1.0
               <el-table-column
                 :label="constants.TARGET_WEIGH"
                 width="180"
