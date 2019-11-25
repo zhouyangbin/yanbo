@@ -241,9 +241,9 @@ export const getFinancialtpm = (id: String) =>
       token: localStorage.getItem("talToken")
     }
   )}`;
-// 下载高管绩效  工作目标模板
+// 高管绩效  工作目标模板
 export const getWorktpm = (id: String) =>
-  `${base}executive-performance/web/${id}/target/template?token=${localStorage.getItem(
+  `${base}executive-performance/admin/performances/${id}/templates/work-indicators?token=${localStorage.getItem(
     "talToken"
   )}`;
 // 高管绩效  上传财务指标
@@ -253,7 +253,7 @@ export const postUploadFinancialIndicators = (id: String) =>
   )}`;
 // 高管绩效  上传工作指标
 export const postUploadWorkIndicators = (id: String) =>
-  `${base}executive-performance/web/self/${id}/import-targets?token=${localStorage.getItem(
+  `${base}executive-performance/admin/performances/${id}/import-work-indicators?token=${localStorage.getItem(
     "talToken"
   )}`;
 // 高管绩效 导入名单模板
@@ -263,18 +263,18 @@ export const PATH_PERFORMANCE_TPL_USER = `${base}executive-performance/admin/per
 
 // 高管绩效 导入考核名单
 export const PATH_PERFORMANCE_IMPORT_USER = (id: String) =>
-  `${base}/executive-performance/admin/performances/${id}/users/import?token=${localStorage.getItem(
+  `${base}executive-performance/admin/performances/${id}/users/import?token=${localStorage.getItem(
     "talToken"
   )}`;
 
 // 高管绩效 个人指标模板下载
 export const PATH_UPLOAD_TARGET = (uid: String) =>
-  `${base}/executive-performance/web/${uid}/target/templates?${qs.stringify({
+  `${base}executive-performance/web/${uid}/target/template?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
 
 // 高管绩效 上传工作指标
 export const PATH_IMPORT_TARGET = (uid: String) =>
-  `${base}/executive-performance/web/self/${uid}/import-targets?${qs.stringify({
+  `${base}executive-performance/web/self/${uid}/import-targets?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;

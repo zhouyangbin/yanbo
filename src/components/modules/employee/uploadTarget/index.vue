@@ -28,7 +28,6 @@
           <el-button type="text">选择文件</el-button>
         </el-upload>
       </el-form-item>
-      <el-form-item label="提示信息"></el-form-item>
     </el-form>
     <div class="notice">
       请注意：如页面已有工作指标内容，上传将覆盖所有工作指标内容。
@@ -36,7 +35,6 @@
   </el-dialog>
 </template>
 <script>
-import { getUniqueTemplate } from "@/constants/API";
 import { PATH_IMPORT_TARGET, PATH_UPLOAD_TARGET } from "@/constants/URL";
 export default {
   props: {
@@ -57,21 +55,13 @@ export default {
     close() {
       this.$emit("close");
     },
-    // cover() {
-    //   getUniqueTemplate({
-    //     sign: this.$route.params.sign,
-    //     performance_id: this.$route.params.id,
-    //     performance_user_id: this.$route.params.uid
-    //   });
-    //   this.close();
-    // },
     uploadSuccess(response, file, fileList) {
       this.$notify({
         title: SUCCESS,
         message: UPLOAD_SUCCESS,
         type: "success"
       });
-      // this.$emit("update");
+      this.$emit("update");
     },
     uploadErr(err, file, fileList) {
       const errObj = JSON.parse(err.message);
