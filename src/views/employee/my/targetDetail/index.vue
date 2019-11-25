@@ -26,7 +26,11 @@ import {
   TARGET_RETURN
 } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
+<<<<<<< HEAD
 import { getPerformanceUserInfo, getTeamtetails } from "@/constants/API";
+=======
+import { getPerformanceUserInfo, postTeamtetails } from "@/constants/API";
+>>>>>>> c9c1530bae2aa3abd86e8220ab8ea0f422fa7ba6
 export default {
   data() {
     return {
@@ -123,7 +127,11 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
+<<<<<<< HEAD
       getTeamtetails(data)
+=======
+      postTeamtetails(data)
+>>>>>>> c9c1530bae2aa3abd86e8220ab8ea0f422fa7ba6
         .then(res => {
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;

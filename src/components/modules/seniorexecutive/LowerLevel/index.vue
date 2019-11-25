@@ -190,7 +190,10 @@ export default {
           data.workcode
         )
       );
+<<<<<<< HEAD
       // 查看详情
+=======
+>>>>>>> c9c1530bae2aa3abd86e8220ab8ea0f422fa7ba6
     },
     getMyLowerList() {
       let data = {

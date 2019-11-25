@@ -210,7 +210,11 @@ export const PATH_SURE_ADD = (id = ":id", uid = ":uid") =>
   `/performance/sureaddsetting/${id}/${uid}`;
 // 高管绩效 我的团队上级确认页面
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
+<<<<<<< HEAD
   id = ":id",
+=======
+  id: String = ":id",
+>>>>>>> c9c1530bae2aa3abd86e8220ab8ea0f422fa7ba6
   uid: String = ":uid",
   workcode = ":workcode"
 ) => `/employee/team/target/${id}/${uid}/${workcode}`;

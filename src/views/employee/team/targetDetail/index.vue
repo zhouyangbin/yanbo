@@ -63,8 +63,7 @@ export default {
       },
       allTarget: [],
       isAgreeDialog: false,
-      isRejectDialog: false,
-      isExamineDialog: false
+      isRejectDialog: false
     };
   },
   components: {
@@ -198,12 +197,16 @@ export default {
      * 点击返回下属评分列表，回到下属列表页
      */
     returnGradeList() {
+<<<<<<< HEAD
       this.$router.push(
         PATH_PERFORMANCE_MY_DETAIL(
           this.$route.params.id,
           this.$route.params.uid
         )
       );
+=======
+      this.$router.push(PATH_PERFORMANCE_MY_DETAIL(this.$route.params.gradeID));
+>>>>>>> c9c1530bae2aa3abd86e8220ab8ea0f422fa7ba6
     }
   },
   created() {
