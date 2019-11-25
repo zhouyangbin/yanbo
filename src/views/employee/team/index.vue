@@ -15,12 +15,12 @@
             @click="Allsubmit_step1"
             >整体提交</el-button
           >
-          <el-popover placement="bottom" width="270" trigger="click">
+          <el-popover placement="bottom" width="370" trigger="click">
             <p>提交记录</p>
             <template>
               <el-table :data="reviewData" height="250">
                 <el-table-column
-                  width="100"
+                  width="170"
                   property="created_at"
                   label="日期"
                 ></el-table-column>
@@ -30,7 +30,7 @@
                   label="姓名"
                 ></el-table-column>
                 <el-table-column
-                  width="80"
+                  width="100"
                   property="type_text"
                   label="状态"
                 ></el-table-column>
