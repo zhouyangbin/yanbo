@@ -369,6 +369,26 @@ export const reevaluate = (id: String, params: Object) =>
 export const postFeedback = (params: object) =>
   sendPost(`/admin/api/suggest`, params);
 
+// bp修改评分
+export const postBpModify = (id: String, params: Object) =>
+  sendPost(`/admin/api/bp-modify/${id}`, params);
+
+//批量设置时间
+export const postBatchTimeSettings = (eid: string, params: object) =>
+  sendPost(`/admin/api/evaluation/set-all-time/${eid}`, params);
+
+// 已结束的我的下级评分列表
+export const getMyTeamEndCultureList = (params: Object) =>
+  sendGet(`/culture/web/team/subordinate-evaluations/end`, params);
+
+// 进行中的我的下级评分列表
+export const getMyTeamCultureList = (params: Object) =>
+  sendGet(`/culture/web/team/superior`, params);
+
+//进行中隔级列表
+export const getLowerPlusList = (params: Object) =>
+  sendGet(`/culture/web/team/interval-evaluations`, params);
+
 // 高管绩效 标签列表
 export const getAdminTags = (params: Object) =>
   sendGet(`/executive-performance/admin/tags`, params);

@@ -213,38 +213,38 @@ export default {
   },
   created() {
     // getTagTplDepartments().then(res => {
-      this.optionalIds = res;
-      if (this.infoType != "add" && this.performanceId) {
-        // this.orgTree = this.disabledOrgTree(this.orgTree);
-        getPerformanceDetail(this.performanceId)
-          .then(res => {
-            const {
-              name,
-              department_ids,
-              performance_type,
-              year,
-              period_start_time,
-              period_end_time,
-              tag,
-              templates,
-              allow_appeal
-            } = res;
-            this.ruleForm = {
-              name,
-              department_ids,
-              performance_type,
-              year,
-              period_start_time,
-              period_end_time,
-              templates,
-              tag,
-              allow_appeal
-            };
-          })
-          .catch(e => {});
-      } else {
-        // this.orgTree = this.handleOrgTree(this.orgTree);
-      }
+    this.optionalIds = res;
+    if (this.infoType != "add" && this.performanceId) {
+      // this.orgTree = this.disabledOrgTree(this.orgTree);
+      getPerformanceDetail(this.performanceId)
+        .then(res => {
+          const {
+            name,
+            department_ids,
+            performance_type,
+            year,
+            period_start_time,
+            period_end_time,
+            tag,
+            templates,
+            allow_appeal
+          } = res;
+          this.ruleForm = {
+            name,
+            department_ids,
+            performance_type,
+            year,
+            period_start_time,
+            period_end_time,
+            templates,
+            tag,
+            allow_appeal
+          };
+        })
+        .catch(e => {});
+    } else {
+      // this.orgTree = this.handleOrgTree(this.orgTree);
+    }
     // });
   },
   methods: {
