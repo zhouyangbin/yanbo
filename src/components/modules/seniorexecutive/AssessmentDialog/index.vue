@@ -215,7 +215,7 @@ export default {
     getTagTplDepartments().then(res => {
       this.optionalIds = res;
       if (this.infoType != "add" && this.performanceId) {
-        this.orgTree = this.disabledOrgTree(this.orgTree);
+        // this.orgTree = this.disabledOrgTree(this.orgTree);
         getPerformanceDetail(this.performanceId)
           .then(res => {
             const {
@@ -243,7 +243,7 @@ export default {
           })
           .catch(e => {});
       } else {
-        this.orgTree = this.handleOrgTree(this.orgTree);
+        // this.orgTree = this.handleOrgTree(this.orgTree);
       }
     });
   },

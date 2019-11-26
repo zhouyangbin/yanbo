@@ -94,7 +94,10 @@
               :label="constants.TASK_DESCRIPTION"
               min-width="300"
               header-align="center"
-              v-if="targetItem.targets[0].content !== undefined"
+              v-if="
+                targetItem.targets[0] &&
+                  targetItem.targets[0].content !== undefined
+              "
             >
               <template slot-scope="scope">
                 <div v-if="targetItem.isFinancial">{{ scope.row.content }}</div>
@@ -568,11 +571,13 @@ export default {
   },
   created() {
     this.getUserInfo();
-    if (localStorage.getItem(this.userId) == undefined) {
-      this.getWrokAndTeamTarget();
-    } else {
-      this.getUserMsg();
-    }
+    this.getWrokAndTeamTarget();
+    // to do 判断是显示还是填写指标
+    // if (localStorage.getItem(this.userId) == undefined) {
+    //   this.getWrokAndTeamTarget();
+    // } else {
+    //   this.getUserMsg();
+    // }
   }
 };
 </script>
