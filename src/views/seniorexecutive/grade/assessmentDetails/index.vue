@@ -153,9 +153,16 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">适用范围:</div>
-            <div class="setting-value">
-              {{ performanceDetail.departments_text }}
-            </div>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="performanceDetail.departments_text"
+              placement="top"
+            >
+              <div class="setting-value">
+                {{ performanceDetail.departments_text }}
+              </div>
+            </el-tooltip>
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效类型:</div>
@@ -327,19 +334,19 @@
           </el-form-item>
           <el-form-item
             class="limit-width"
-            prop="distribution_253"
+            prop="tag_rule_id"
             label="规则分布:"
           >
             <el-select
-              v-model="personalForm.distribution_253"
+              v-model="personalForm.tag_rule_id"
               clearable
               placeholder="请选择"
             >
               <el-option
                 v-for="item in tagOptions"
-                :key="item.key"
-                :label="item.name"
-                :value="item.key"
+                :key="item.id"
+                :label="item.display_name"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -515,7 +522,7 @@
           ></el-table-column>
           <el-table-column
             width="100"
-            prop="distribution_253"
+            prop="tag_rule_id"
             label="规则分布"
           ></el-table-column>
           <el-table-column
@@ -623,7 +630,7 @@ import {
   getPerformanceTypes,
   getPerformanceDetail,
   getPerformanceUser,
-  getExecutiveTypes,
+  getCurrentExecutiveTypes,
   getUserDetail,
   getPerformanceNotice,
   deletePerformanceUser,
@@ -723,7 +730,7 @@ export default {
         isolation_name: "",
         president_name: "",
         hrbp_name: "",
-        distribution_253: "",
+        tag_rule_id: "",
         hrd_name: "",
         page: 1,
         perPage: 10
@@ -1004,12 +1011,12 @@ export default {
         this.performanceTypes = res;
       })
       .catch(e => {});
-    getExecutiveTypes()
+    getCurrentExecutiveTypes(this.performanceId)
       .then(res => {
         this.executiveTypes = res;
       })
       .catch(e => {});
-    getAdminTagTypes()
+    getAdminTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })

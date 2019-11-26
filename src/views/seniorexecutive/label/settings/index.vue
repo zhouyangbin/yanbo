@@ -42,13 +42,14 @@
             prop="departments_text"
             :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
             width="250"
-            show-overflow-tooltip
+            :show-overflow-tooltip="true"
           >
           </el-table-column>
           <el-table-column
             prop="rule_text"
             :label="constants.CORRESPONDING_GRADE_AND_PROPORTION"
             min-width="200"
+            :show-overflow-tooltip="true"
           ></el-table-column>
           <el-table-column
             prop="force_distribution"
@@ -99,6 +100,7 @@
       :visible="showDialog"
       :infoType="infoType"
       :orgTree="orgTree"
+      @getList="updateLabel"
     ></label-dialog>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="400px">
       <span>是否确认删除标签？</span>
@@ -188,6 +190,10 @@ export default {
     },
     tplDialogClose() {
       this.showDialog = false;
+    },
+    updateLabel() {
+      this.showDialog = false;
+      this.getAdminTagsList();
     },
     handleSizeChange(val) {
       this.perPage = val;

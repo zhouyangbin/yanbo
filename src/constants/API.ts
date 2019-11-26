@@ -146,8 +146,8 @@ export const getTpl = (id: string) =>
 // 获取规则列表
 export const getRuleList = (params: object) =>
   sendGet(`/performance/admin/rule`, params);
-// 跟新规则
 
+// 更新规则
 export const putRule = (id: String, params: Object) =>
   sendPut(`/performance/admin/rule/${id}`, params);
 // 获取权限组织🌲
@@ -394,10 +394,10 @@ export const getAdminTags = (params: Object) =>
   sendGet(`/executive-performance/admin/tags`, params);
 
 // 高管绩效 标签类型列表
-export const getAdminTagTypes = () =>
-  sendGet(`/executive-performance/admin/tag-types`);
+export const getAdminTagTypes = (id: String) =>
+  sendGet(`/executive-performance/admin/performances/${id}/get-tag-rules`);
 
-// 高管绩效 标签规则列表
+// 高管绩效 标签规则列表 to do 暂时未使用
 export const getAdminTagTypesRules = (type: String) =>
   sendGet(`/executive-performance/admin/tag-types/${type}/rules`);
 
@@ -444,6 +444,12 @@ export const getOrganization = () =>
 // 高管绩效  获取高管类型
 export const getExecutiveTypes = () =>
   sendGet(`/executive-performance/admin/templates/executive-types`);
+
+// 高管绩效 获取当前绩效下模板对应的组织部类别
+export const getCurrentExecutiveTypes = (id: String) =>
+  sendGet(
+    `/executive-performance/admin/performances/${id}/get-templates-executive-types`
+  );
 
 // 高管绩效  获取模板字段
 export const getTplFields = () =>

@@ -194,7 +194,9 @@ export default {
         year: "",
         period_start_time: this.initTime.period_start_time || "",
         period_end_time: this.initTime.period_end_time || "",
-        tag: {},
+        tag: {
+          tag_type: ""
+        },
         templates: [],
         allow_appeal: 1
       },
@@ -278,7 +280,7 @@ export default {
         if (valid) {
           if (
             this.ruleForm.templates.length == 0 ||
-            !this.ruleForm.tag.tag_type
+            this.ruleForm.tag.tag_type === ""
           ) {
             this.$message({
               showClose: true,

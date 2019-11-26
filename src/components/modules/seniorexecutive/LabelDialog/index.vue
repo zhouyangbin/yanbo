@@ -201,14 +201,13 @@ import {
   FORCED_DISTRIBUTION,
   DEFAULT_TABLE253,
   DEFAULT_TABLE271,
-  DEFAULT_TABLE23221,
+  DEFAULT_PERFORMANCE_TABLE23221,
   DEFAULT_TABLE2521
 } from "@/constants/TEXT";
 import {
   postAdminTags,
   putTpl,
   getAdminTagTypes,
-  getAdminTagTypesRules,
   getOrganization,
   getAdminTagDetails,
   putAdminTagChange
@@ -273,7 +272,7 @@ export default {
         FORCED_DISTRIBUTION,
         DEFAULT_TABLE253,
         DEFAULT_TABLE271,
-        DEFAULT_TABLE23221,
+        DEFAULT_PERFORMANCE_TABLE23221,
         DEFAULT_TABLE2521
       },
       defaultProps: {
@@ -284,7 +283,7 @@ export default {
       // 切换的数据暂时先这样写，看后台接口如何定义字段，并且在form表单里校验是否必填
       table253: DEFAULT_TABLE253,
       table271: DEFAULT_TABLE271,
-      table23221: DEFAULT_TABLE23221,
+      table23221: DEFAULT_PERFORMANCE_TABLE23221,
       table2521: DEFAULT_TABLE2521,
       tagName: ""
     };
@@ -402,11 +401,10 @@ export default {
             department_ids: this.tplForm.department_ids,
             rules: rules
           };
-          if (this.infoType == "add") {
+          if (this.infoType === "add") {
             // 新增标签
             return postAdminTags(postData)
               .then(res => {
-                this.close();
                 this.$emit("getList");
               })
               .catch(() => {});
@@ -414,7 +412,6 @@ export default {
             let UpData = postData;
             return putAdminTagChange(this.userId, UpData)
               .then(res => {
-                this.close();
                 this.$emit("getList");
               })
               .catch(() => {});
@@ -471,7 +468,6 @@ export default {
           this.table2521 = this.handleTagRulesDataStructure(res.rules);
         }
         this.tplForm.department_ids = res.department_ids;
-        // TODO 强制分布1的时候不为true
         this.tplForm.force_distribution = res.force_distribution ? true : false;
         this.tagName = res.tag_type;
       });

@@ -86,8 +86,11 @@
       <el-row class="upload-target" v-else> </el-row>
     </el-row>
     <upload-target
-      :is-upload="isUpload"
+      :visible="isUpload"
+      :uploadActionUrl="uploadActionUrl"
+      :downloadUrl="downloadUrl"
       @close="closeUploadDialog"
+      @update="confirmUpload"
     ></upload-target>
   </div>
 </template>
@@ -123,7 +126,9 @@ export default {
         ERROR_MESSAGE_CONTACT_USER,
         SENIOR_UPLOAD_TARGET
       },
-      isUpload: false
+      isUpload: false,
+      uploadActionUrl: "",
+      downloadUrl: ""
     };
   },
   components: {
@@ -158,6 +163,10 @@ export default {
     },
     closeUploadDialog() {
       this.isUpload = false;
+    },
+    confirmUpload() {
+      this.isUpload = false;
+      // to do 上传完了干啥
     }
   }
 };

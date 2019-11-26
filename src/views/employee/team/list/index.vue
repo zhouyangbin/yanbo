@@ -14,6 +14,7 @@
           :label="constants.GRADE_NAME"
         ></el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="department_name"
           :label="constants.LABEL_DEPARTMENT"
         ></el-table-column>

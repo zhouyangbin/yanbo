@@ -41,9 +41,9 @@
           >
             <el-option
               v-for="item in tagOptions"
-              :key="item.key"
-              :label="item.name"
-              :value="item.key"
+              :key="item.id"
+              :label="item.display_name"
+              :value="item.id"
             >
             </el-option>
           </el-select>
@@ -248,6 +248,7 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
+      console.log(data);
       // to do
     },
     getMyLowerList() {
@@ -270,7 +271,7 @@ export default {
     }
   },
   created() {
-    getAdminTagTypes()
+    getAdminTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })

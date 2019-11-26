@@ -2,7 +2,7 @@
   <el-dialog
     class="uploadTargetDialog"
     title="上传工作指标"
-    :visible="isUpload"
+    :visible="visible"
     @close="close"
     :close-on-click-modal="false"
     width="650px"
@@ -10,18 +10,13 @@
     <el-form label-width="150px">
       <el-form-item label="模版下载">
         <el-button type="text"
-          ><a
-            class="down-load"
-            download
-            :href="constants.PATH_UPLOAD_TARGET(this.$route.params.uid)"
-            >下载</a
-          ></el-button
+          ><a class="down-load" download :href="downloadUrl">下载</a></el-button
         >
       </el-form-item>
       <el-form-item label="上传文件">
         <el-upload
           class="upload-demo"
-          :action="constants.PATH_IMPORT_TARGET(this.$route.params.uid)"
+          :action="uploadActionUrl"
           :on-success="uploadSuccess"
           :on-error="uploadErr"
         >
@@ -43,9 +38,17 @@ import {
 } from "@/constants/URL";
 export default {
   props: {
-    isUpload: {
+    visible: {
       type: Boolean,
       default: false
+    },
+    downloadUrl: {
+      type: String,
+      default: ""
+    },
+    uploadActionUrl: {
+      type: String,
+      default: ""
     }
   },
   data() {
