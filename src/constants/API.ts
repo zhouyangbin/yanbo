@@ -508,14 +508,12 @@ export const getTagDepartments = (params: Object) =>
     `/executive-performance/admin/performances/get-tag-by-departments`,
     params
   );
-
 // 高管绩效 获取标签
 export const getTplDepartments = (params: Object) =>
   sendGet(
     `/executive-performance/admin/performances/get-templates-by-departments`,
     params
   );
-
 // 高管绩效 绩效考核详情
 export const getPerformanceDetail = (id: String) =>
   sendGet(`/executive-performance/admin/performances/${id}`);
@@ -612,3 +610,16 @@ export const getTagTplDepartments = () =>
   sendGet(
     `/executive-performance/admin/performances/get-has-tag-and-templates-departments`
   );
+
+// 高管绩效
+export const postImportFromEHR = (id: String, params: Object) =>
+  sendPost(
+    `/executive-performance/admin/performances/${id}/users/import-from-ehr`,
+    params
+  );
+
+// 已结束隔级列表
+// /culture/web/team/interval-evaluations/end
+export const getEndList = (params: Object) =>
+  sendGet(`/culture/web/team/interval-evaluations/end`, params);
+
