@@ -138,6 +138,7 @@ import {
 } from "@/constants/API";
 
 export default {
+  inject:['page_reload'],
   data() {
     return {
       total: 0,
@@ -205,11 +206,12 @@ export default {
   },
   methods: {
     reload() {//从新刷新页面接口
-      this.overReviewList();
-      //this.get_LevelTags();
-      this.filterForm.name = "";
-      this.filterForm.status = "";
-      this.filterForm.tags = "";
+      this.page_reload();
+      // this.overReviewList();
+      // //this.get_LevelTags();
+      // this.filterForm.name = "";
+      // this.filterForm.status = "";
+      // this.filterForm.tags = "";
       // const postData = {
       //     name: this.filterForm.name,
       //     stage: this.filterForm.status,
@@ -238,7 +240,6 @@ export default {
         .catch(e => {
 
         })
-      //this.reviewList();
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -407,7 +408,6 @@ export default {
             stage: this.filterForm.status,
           };
               this.reload(); //刷新页面接口
-              this.$refs.high_level_list.get_highLevelTeamList();//请求子组件 隔级团队
         })
         .catch(e => {});
     },

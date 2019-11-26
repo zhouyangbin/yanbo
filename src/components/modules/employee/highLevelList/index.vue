@@ -263,17 +263,15 @@ export default {
       let data = {
         content: this.content
       };
-
+      this.reject_team_show = false;
       return rejectHighLevelTeam(this.$route.params.id, this.level_team_id, data)
         .then(res => {
           //驳回 成功
-          this.is_reject = 0;
-          this.get_highLevelTeamList();
           this.$emit("reload");
         })
         .catch(e => {});
     },
-    goDetail(row) {
+    goDetail(row) {//跳转详情
       if(row.is_directly == 1){//隔级的直属下级
         this.$router.push(
           PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)//去到团队评分的个人详情页
@@ -283,8 +281,6 @@ export default {
           PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(this.$route.params.id, row.id)//去到团队评分的个人详情页
         );
       }
-      return;
-      
     },
     get_stage_status(status) {
       let status_text = this.constants.ENUM_PERFORMANCE_FINISH.filter(
