@@ -105,7 +105,7 @@
   </div>
 </template>
 <script>
-import { getMyUnderLower, getAdminTagTypes } from "@/constants/API";
+import { getMyUnderLower, getPerformanceTagTypes } from "@/constants/API";
 import {
   PATH_EMPLOYEE_TEAM,
   PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
@@ -205,7 +205,7 @@ export default {
     }
   },
   created() {
-    getAdminTagTypes(this.performanceId)
+    getPerformanceTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })

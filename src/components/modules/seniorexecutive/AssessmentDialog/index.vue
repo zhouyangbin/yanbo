@@ -125,6 +125,7 @@ import {
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
+const debounce = require("lodash.debounce");
 export default {
   components: {
     "common-tree": AsyncComp(
@@ -215,7 +216,7 @@ export default {
     // getTagTplDepartments().then(res => {
     // this.optionalIds = res;
     if (this.infoType != "add" && this.performanceId) {
-      // this.orgTree = this.disabledOrgTree(this.orgTree);
+      this.orgTree = this.disabledOrgTree(this.orgTree);
       getPerformanceDetail(this.performanceId)
         .then(res => {
           const {
@@ -248,7 +249,7 @@ export default {
     // });
   },
   methods: {
-    selectedOrg(data) {
+    selectedOrg: debounce(function(data) {
       if (data.length === 0) {
         this.ruleForm.templates = [];
         this.ruleForm.tag = {
@@ -273,7 +274,7 @@ export default {
           this.ruleForm.templates = res;
         })
         .catch(e => {});
-    },
+    }, 500),
     close() {
       this.$emit("close");
     },

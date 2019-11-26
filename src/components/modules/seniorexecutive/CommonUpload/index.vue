@@ -26,7 +26,7 @@
     </el-form>
     <div class="notice">
       请注意：如页面已有{{ uploadTitle }}内容，上传将覆盖所有{{
-        upload_title
+        uploadTitle
       }}内容。
     </div>
   </el-dialog>
@@ -50,10 +50,6 @@ export default {
     downloadUrl: {
       type: String,
       default: ""
-    },
-    uploadType: {
-      type: String,
-      default: ""
     }
   },
   data() {
@@ -71,7 +67,7 @@ export default {
       });
       this.$emit("update");
     },
-    uploadErr(err, file, fileList) {
+    uploadError(err, file, fileList) {
       const errObj = JSON.parse(err.message);
       this.tableData = errObj.data;
       this.showTable = true;
