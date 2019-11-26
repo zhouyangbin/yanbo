@@ -20,7 +20,7 @@
         >
           <el-table-column label="权重" width="180" align="center">
             <template slot-scope="scope">
-              <div>{{ Number(scope.row.weights)}}%</div>
+              <div>{{ Number(scope.row.weights) }}%</div>
             </template>
           </el-table-column>
           <el-table-column

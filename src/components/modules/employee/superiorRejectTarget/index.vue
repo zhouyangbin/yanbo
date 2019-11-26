@@ -63,8 +63,7 @@ export default {
               this.$message.success("审批成功");
               this.close();
             })
-            .catch(() => {
-            });
+            .catch(() => {});
         }
       });
     }

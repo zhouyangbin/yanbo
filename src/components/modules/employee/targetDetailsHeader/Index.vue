@@ -80,10 +80,10 @@
           class="btn"
           @click="uploadTarget"
           v-if="userInfo.current_user_identity == undefined"
-          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button>
+          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
+        >
       </el-row>
-      <el-row class="upload-target" v-else>
-      </el-row>
+      <el-row class="upload-target" v-else> </el-row>
     </el-row>
     <upload-target
       :is-upload="isUpload"

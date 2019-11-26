@@ -29,7 +29,7 @@ import {
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
-import { getPerformanceUserInfo,getUniqueTemplate} from "@/constants/API";
+import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
 export default {
   data() {
     return {
@@ -84,7 +84,7 @@ export default {
     getUserInfo() {
       let data = {
         performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
+        performance_user_id: this.$route.params.uid
       };
       getPerformanceUserInfo(data)
         .then(res => {
@@ -123,7 +123,7 @@ export default {
       data.forEach(items => {
         items.table.forEach(item => {
           item.targets.forEach(text => {
-            item.target=text.target
+            item.target = text.target;
             item.metrics.forEach(ite => {
               ite.content = text[ite.key];
             });
@@ -145,28 +145,31 @@ export default {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
            */
-          let arrData = [{
-                    "content": "",
-                    "disqualification": "",
-                    "excellence": "",
-                    "good": "",
-                    "id": "",
-                    "outstanding": "",
-                    "performance_id": "",
-                    "performance_user_id":"" ,
-                    "target": "",
-                    "to_be_improved": "",
-                    "type": "",
-                    "weights": ""}]
+          let arrData = [
+            {
+              content: "",
+              disqualification: "",
+              excellence: "",
+              good: "",
+              id: "",
+              outstanding: "",
+              performance_id: "",
+              performance_user_id: "",
+              target: "",
+              to_be_improved: "",
+              type: "",
+              weights: ""
+            }
+          ];
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
           if (isTeam) {
             let team = res.team;
-            if(team.targets[0] == undefined) {
-              team.targets = arrData
-              }
+            if (team.targets[0] == undefined) {
+              team.targets = arrData;
+            }
             team.template_columns = {
               content: team.targets[0].content,
               weights: team.targets[0].weights,
@@ -188,8 +191,8 @@ export default {
           }
           if (isWork) {
             let work = res.work;
-            if(work.targets[0] == undefined) {
-              work.targets = arrData
+            if (work.targets[0] == undefined) {
+              work.targets = arrData;
             }
             work.template_columns = {
               content: work.targets[0].content,
@@ -212,8 +215,8 @@ export default {
           }
           if (isFinance) {
             let finance = res.finance;
-            if(finance.targets[0] == undefined) {
-              finance.targets = arrData
+            if (finance.targets[0] == undefined) {
+              finance.targets = arrData;
             }
             finance.template_columns = {
               content: finance.targets[0].content,

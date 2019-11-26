@@ -35,8 +35,9 @@
               @click="exportDetail(scope.row)"
               type="text"
               size="small"
-              >{{ constants.EXPORT_DETAILS }}</el-button >
-              <!-- 导出明细 -->
+              >{{ constants.EXPORT_DETAILS }}</el-button
+            >
+            <!-- 导出明细 -->
           </template>
         </el-table-column>
       </el-table>

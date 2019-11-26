@@ -14,15 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-<<<<<<< HEAD
-  "//pingfen-executive.chengjiukehu.com/precache-manifest.0fbdc6ae91841fd42f418a70bfe0d2d0.js"
-=======
-<<<<<<< HEAD
-  "/precache-manifest.dae21892e1e5e30316d7a1a0a984210d.js"
-=======
-  "//pingfen-executive.chengjiukehu.com/precache-manifest.33df47cc794caf40ae489a8247269540.js"
->>>>>>> 63d5506f14f95859dedbc81caa772c22e91904e5
->>>>>>> 344d1222c4b96b7c80f235594defe675aefba883
+  "//pingfen-executive.chengjiukehu.com/precache-manifest.b7bcb2f52b3f12e9fb85fb5b9b01d05e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "pingfen-pc"});

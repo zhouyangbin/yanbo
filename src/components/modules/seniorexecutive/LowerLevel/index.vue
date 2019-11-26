@@ -110,9 +110,7 @@ import {
   PATH_EMPLOYEE_TEAM,
   PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
 } from "@/constants/URL";
-import {
-  STAGEOPTIONS
-} from "@/constants/TEXT";
+import { STAGEOPTIONS } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   props: {
