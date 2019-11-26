@@ -62,7 +62,7 @@ export default {
               // 横轴信息全部显示
               // interval: 0,
               // -30度角倾斜显示
-              rotate: -18,
+              rotate: -20,
               textStyle: {
                 color: "#999"
               }
@@ -77,6 +77,10 @@ export default {
             }
           }
         ],
+        grid: {
+          bottom: "15%",
+          containLabel: true
+        },
         yAxis: [
           {
             type: "value",

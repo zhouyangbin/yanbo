@@ -119,7 +119,7 @@ export default {
   &::after {
     content: attr(data-p);
     position: absolute;
-    bottom: -20px;
+    bottom: -23px;
     color: #7ed321;
     left: 50%;
     transform: translateX(-50%);
@@ -131,7 +131,7 @@ export default {
   &::after {
     content: attr(data-p);
     position: absolute;
-    bottom: -20px;
+    bottom: -23px;
     color: #f5d323;
     left: 50%;
     transform: translateX(-50%);
@@ -144,7 +144,7 @@ export default {
   &::after {
     content: attr(data-p);
     position: absolute;
-    bottom: -20px;
+    bottom: -23px;
     color: #e94a2d;
     left: 50%;
     transform: translateX(-50%);

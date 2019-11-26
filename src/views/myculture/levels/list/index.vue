@@ -183,6 +183,7 @@ export default {
       currentPage: 1,
       evaluation_name_id: "",
       id: "",
+      stage: 0,
 
       searchForm: {
         name: "",
@@ -266,19 +267,22 @@ export default {
     },
     fetchList(data) {
       getManagerLvList(data).then(res => {
+        // to do  优化记录 后台新增字段
         const { info, list, overview } = res;
         const {
           evaluation_name_id,
           id,
           name,
           feedback_start_time,
-          end_time
+          end_time,
+          offlinetalk_end_time,
+          stage
         } = info;
-
+        this.stage = stage;
         this.tableData = list.data;
         this.end_time = end_time;
         this.evaluation_name_id = evaluation_name_id;
-        this.startedDate = feedback_start_time;
+        this.startedDate = offlinetalk_end_time;
         this.gradeName = name;
         this.id = id;
         this.total = list.total;
@@ -337,7 +341,8 @@ export default {
   },
   computed: {
     canOps() {
-      return this.end_time > formatTime(new Date());
+      return this.stage == 55;
+      // return this.end_time > formatTime(new Date());
     }
   },
   mounted() {

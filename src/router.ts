@@ -13,6 +13,7 @@ import {
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
+  PATH_PERFORMANCE_TAGS,
   PATH_ACCESS_ROLES,
   PATH_EMPLOYEE_MY,
   PATH_EMPLOYEE_TEAM,
@@ -58,6 +59,9 @@ const router = new Router({
       path: "/",
       redirect: PATH_EMPLOYEE_MY
     },
+    //文化评分
+    //评分报告
+    //评分管理
     {
       path: PATH_GRADE_REPORT,
       component: () => import("@/layout/SidebarLayout/index.vue"),
@@ -76,6 +80,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+        //评分管理详情
         {
           path: PATH_GRADE_PROGRESS(),
           components: {
@@ -83,6 +88,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+        //事业部详情
         {
           path: PATH_GRADE_ORG_LIST(),
           components: {
@@ -90,6 +96,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+        //评分详情
         {
           path: PATH_GRADE_EMP_DETAIL(),
           components: {
@@ -98,6 +105,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+        //修改评分
         {
           path: PATH_GRADE_EMP_DETAIL_CHANGE(),
           components: {
@@ -114,6 +122,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+        //用户管理
         {
           path: PATH_USER_MANAGE,
           components: {
@@ -121,6 +130,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+
         {
           path: PATH_PERFORMANCE_MANAGER,
           components: {
@@ -154,6 +164,14 @@ const router = new Router({
           path: PATH_PERFORMANCE_RULES,
           components: {
             default: () => import("@/views/performance/rules/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TAGS,
+          components: {
+            default: () =>
+              import("@/views/performance/label/settings/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -214,6 +232,7 @@ const router = new Router({
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
+        //员工评分  我的下级
         {
           path: PATH_MEMEBER_CULTURE_GRADE,
           components: {

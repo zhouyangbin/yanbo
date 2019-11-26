@@ -149,7 +149,8 @@ import {
 import {
   PATH_DOWN_MEMEBER_CULTURE_GRADE,
   PATH_DOWN_MEMBER_CULTURE_LIST,
-  PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY
+  PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 
 import {
@@ -185,7 +186,10 @@ export default {
         },
         {
           label: MY_DOWN_MEMBER,
-          href: PATH_DOWN_MEMBER_CULTURE_LIST(this.$route.params.id)
+          href: PATH_DOWN_MEMBER_CULTURE_LIST(
+            this.$route.params.id,
+            this.$route.params.type
+          )
         },
         {
           label: "隔级详情",
@@ -349,6 +353,7 @@ export default {
       this.$router.push(
         PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY(
           this.$route.params.id,
+          this.$route.params.type,
           this.$route.params.uid
         )
       );

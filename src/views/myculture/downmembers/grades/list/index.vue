@@ -113,15 +113,17 @@
         <br />
         <br />
         <el-table
-          header-cell-class-name="text-center"
-          cell-class-name="text-center"
           @selection-change="selectionChange"
           :data="tableData"
           stripe
           style="width: 100%"
         >
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="name" :label="constants.LABEL_NAME">
+          <el-table-column
+            prop="name"
+            width="100"
+            :label="constants.LABEL_NAME"
+          >
             <template slot-scope="scope">
               <el-tooltip v-if="isBigDiff(scope.row)" placement="top">
                 <div slot="content">
@@ -251,7 +253,12 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="_271_level" label="271等级">
+          <el-table-column
+            style="text-algin: left"
+            prop="_271_level"
+            width="100"
+            label="271等级"
+          >
             <template slot-scope="scope">
               {{
                 scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
@@ -320,8 +327,9 @@ import {
   HIGHLV_STATUS
 } from "@/constants/TEXT";
 import {
-  PATH_DOWN_MEMEBER_CULTURE_GRADE,
-  PATH_DOWN_MEMBER_CULTURE_DETAILS
+  PATH_DOWN_MEMBER_CULTURE_LIST,
+  PATH_DOWN_MEMBER_CULTURE_DETAILS,
+  PATH_DOWN_MEMEBER_CULTURE_GRADE
 } from "@/constants/URL";
 import { getDownMembersList, postReject } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
@@ -355,7 +363,8 @@ export default {
       memberForm: {
         superior_name: "",
         employee_name: "",
-        highlevel_status: ""
+        highlevel_status: "",
+        type: 0
       },
       nav: [
         {
@@ -393,6 +402,9 @@ export default {
     "distribute-summary": () =>
       import("@/components/modules/myculture/membersdistribute/index.vue"),
     "case-area": () => import("@/components/common/CaseArea/index.vue")
+  },
+  created() {
+    const type = JSON.parse(localStorage.getItem("type"));
   },
   watch: {
     memberForm: {
@@ -466,7 +478,12 @@ export default {
       this.refreshData({ page: v, ...this.memberForm });
     },
     refreshData(data) {
-      getDownMembersList(this.$route.params.id, data).then(res => {
+      getDownMembersList(this.$route.params.id, {
+        highlevel_status: this.memberForm.highlevel_status,
+        superior_name: this.memberForm.superior_name,
+        employee_name: this.memberForm.employee_name,
+        type: this.$route.params.type
+      }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.total = total;
         this.tableData = data;
@@ -477,7 +494,11 @@ export default {
     },
     goDetail(row) {
       this.$router.push(
-        PATH_DOWN_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
+        PATH_DOWN_MEMBER_CULTURE_DETAILS(
+          this.$route.params.id,
+          this.$route.params.type,
+          row.id
+        )
       );
     },
     postSummary(data) {

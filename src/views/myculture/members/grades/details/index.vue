@@ -186,7 +186,10 @@ export default {
         },
         {
           label: MY_MEMBERS,
-          href: PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+          href: PATH_MEMBER_CULTURE_LIST(
+            this.$route.params.id,
+            this.$route.params.type
+          )
         },
         {
           label: "下级详情",
@@ -324,6 +327,7 @@ export default {
       this.$router.push(
         PATH_MEMBER_CULTURE_DETAILS_HISTORY(
           this.$route.params.id,
+          this.$route.params.type,
           this.$route.params.uid
         )
       );

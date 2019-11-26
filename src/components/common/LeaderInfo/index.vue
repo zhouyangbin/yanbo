@@ -82,7 +82,7 @@ export default {
           .then(res => {
             if (res) {
               this.infoForm.leaderName = res.name;
-              this.infoForm.leaderBU = res.department;
+              this.infoForm.leaderBU = res.department_name || res.department;
               this.infoForm.leaderEmail = res.email;
             } else {
               this.infoForm.leaderName = "";

@@ -111,8 +111,6 @@ import {
   PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
 } from "@/constants/URL";
 import {
-  LABEL_EMPTY,
-  LABEL_SELECT_DIVISION,
   STAGEOPTIONS
 } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -190,6 +188,7 @@ export default {
           data.workcode
         )
       );
+      // 查看详情
     },
     getMyLowerList() {
       let data = {

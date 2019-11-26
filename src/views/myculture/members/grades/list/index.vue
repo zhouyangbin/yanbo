@@ -70,13 +70,7 @@
         </el-alert>
         <br />
         <br />
-        <el-table
-          header-cell-class-name="text-center"
-          cell-class-name="text-center"
-          :data="tableData"
-          stripe
-          style="width: 100%"
-        >
+        <el-table :data="tableData" stripe style="width: 100%">
           <el-table-column
             prop="name"
             :label="constants.NAME"
@@ -196,7 +190,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="self" label="271等级">
+          <el-table-column style="text-algin: left" prop="self" label="271等级">
             <template slot-scope="scope">
               {{
                 scope.row._271_level ? getLevelText(scope.row._271_level) : "无"
@@ -268,11 +262,14 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_MEMEBER_CULTURE_GRADE,
+  PATH_MEMBER_CULTURE_LIST,
   PATH_MEMBER_CULTURE_DETAILS
 } from "@/constants/URL";
 import { getMembersList } from "@/constants/API";
-
 export default {
+  created() {
+    const type = JSON.parse(localStorage.getItem("type"));
+  },
   data() {
     return {
       overview: {
@@ -294,10 +291,10 @@ export default {
       total: 0,
       currentPage: 1,
       tableData: [],
-
       memberForm: {
         employee_name: "",
-        superior_status: ""
+        superior_status: "",
+        type: 0
       },
       nav: [
         {
@@ -349,8 +346,11 @@ export default {
     },
 
     getData(data) {
-      getMembersList(this.$route.params.id, data).then(res => {
-        // console.log(res);
+      getMembersList(this.$route.params.id, {
+        employee_name: this.memberForm.employee_name,
+        superior_status: this.memberForm.superior_status,
+        type: this.$route.params.type
+      }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;
         this.total = total;
@@ -371,11 +371,12 @@ export default {
     },
     currentChange(v) {
       this.currentPage = v;
-      this.getData({ page: v, ...this.memberForm });
+      // this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
+      const type = this.$route.params.type;
       this.$router.push(
-        PATH_MEMBER_CULTURE_DETAILS(this.$route.params.id, row.id)
+        PATH_MEMBER_CULTURE_DETAILS(this.$route.params.id, type, row.id)
       );
     },
     getLevelText(num) {

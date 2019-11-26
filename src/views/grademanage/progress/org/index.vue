@@ -14,7 +14,8 @@
           <el-row type="flex" justify="space-between">
             <span class="dep-name">{{ depInfo.name }}</span>
             <el-button
-              :disabled="realTotal == 0 || step == 5"
+              v-if="isShow"
+              :disabled="realTotal == 0 || step == 6"
               @click="dialogTimes = true"
               size="mini"
               type="primary"
@@ -96,9 +97,24 @@
                     </div>
                   </template>
                 </el-step>
+                <el-step>
+                  <template slot="title">
+                    线下合议{{
+                      (
+                        constants.ENUM_FACE_EVALUATION_STATUS.filter(
+                          v => v.key === String(depInfo.offlinetalk_status)
+                        )[0] || {}
+                      ).value
+                    }}
+                    <div>
+                      {{ gradeInfo.offlinetalk_start_time }} -
+                      {{ gradeInfo.offlinetalk_end_time }}
+                    </div>
+                  </template>
+                </el-step>
                 <el-step title="未开始">
                   <template slot="title">
-                    面谈{{
+                    员工确认{{
                       (
                         constants.ENUM_FACE_EVALUATION_STATUS.filter(
                           v => v.key === String(depInfo.feedback_status)
@@ -238,7 +254,7 @@
               :placeholder="constants.LEADER_PLUS_EVALUATION_STATUS"
             >
               <el-option
-                v-for="v of constants.ENUM_GENERIC_COMPLETE_STATUS"
+                v-for="v of constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS"
                 :key="v.key"
                 :label="v.value"
                 :value="v.key"
@@ -381,14 +397,14 @@
             <template slot-scope="scope">
               {{
                 (
-                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                  constants.ENUM_GENERIC_COMPLETE_STATUS.filter(
                     v => v.key === String(scope.row.superior_status)
                   )[0] || {}
                 ).value
               }}
             </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="highlevel_status"
             :label="constants.LEADER_PLUS_EVALUATION_STATUS"
             width="120"
@@ -396,25 +412,40 @@
             <template slot-scope="scope">
               {{
                 (
-                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
+                  constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
                     v => v.key === String(scope.row.highlevel_status)
                   )[0] || {}
                 ).value
               }}
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
-            prop="feedback_status"
-            :label="constants.FACE_FEEDBACK"
+            prop="highlevel_status"
+            :label="constants.LEADER_PLUS_EVALUATION_STATUS"
+            width="120"
           >
             <template slot-scope="scope">
-              {{
-                (
-                  constants.ENUM_LEADER_EVALUATION_STATUS.filter(
-                    v => v.key === String(scope.row.feedback_status)
-                  )[0] || {}
-                ).value
-              }}
+              <!-- {{ scope.row.highlevel_is_agree }} {{scope.row.highlevel_status}} -->
+              <div
+                class="reject_status"
+                v-if="scope.row.highlevel_is_agree == 1"
+              >
+                <div>{{ constants.REJECT }}</div>
+              </div>
+              <div
+                v-if="
+                  scope.row.highlevel_is_agree == 0 ||
+                    scope.row.highlevel_is_agree == 2
+                "
+              >
+                {{
+                  (
+                    constants.EMUM_CULTURE_GENERIC_COMPLETE_STATUS.filter(
+                      v => v.key === String(scope.row.highlevel_status)
+                    )[0] || {}
+                  ).value
+                }}
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -457,7 +488,8 @@
                     constants.PATH_GRADE_EMP_DETAIL(
                       $route.params.id,
                       $route.params.orgID,
-                      scope.row.id
+                      scope.row.id,
+                      scope.row.status
                     )
                   )
                 "
@@ -491,9 +523,10 @@
       :isManagerGrade="isManagerGrade"
       :timeData="timeData"
       :status="status"
-      @close="closeTimeSettingDia"
+      @close="close"
       v-if="dialogTimes"
       :dialogTimes="dialogTimes"
+      :orgId="orgId"
     ></time-setting>
     <info-dialog
       :currentInfo="currentInfo"
@@ -511,6 +544,7 @@ import {
   ORG_DETAIL,
   FINISHED_DATE,
   ENUM_GENERIC_COMPLETE_STATUS,
+  EMUM_CULTURE_GENERIC_COMPLETE_STATUS,
   SELF_EVALUATION_STATUS,
   LEADER_EVALUATION_STATUS,
   LEADER_PLUS_EVALUATION_STATUS,
@@ -548,7 +582,8 @@ import {
   MODIFY_TIMES,
   CONFIRM,
   CANCEL,
-  LEVEL_ALIAS
+  LEVEL_ALIAS,
+  REJECT
 } from "@/constants/TEXT";
 import {
   PATH_GRADE_EMP_DETAIL,
@@ -561,8 +596,23 @@ import { delUser, getUserList, postReminder } from "@/constants/API";
 import { compact } from "@/utils/obj";
 
 export default {
+  created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    // console.log(this.permissions);
+    if (this.permissions.indexOf(201) > -1) {
+      this.isShow = true;
+    }
+    getUserList(this.$route.params.orgID, { page: 1 }).then(res => {
+      const stage = { stage: res.info.stage };
+      localStorage.setItem("stage", JSON.stringify(stage));
+    });
+  },
   data() {
     return {
+      currentStage: 10,
+      permissions: [],
+      isShow: false,
+
       currentPage: 1,
       // 是否是高管评分
       isManagerGrade: false,
@@ -595,6 +645,8 @@ export default {
         superior_end_time: "",
         highlevel_start_time: "",
         highlevel_end_time: "",
+        offlinetalk_start_time: "",
+        offlinetalk_end_time: "",
         feedback_start_time: "",
         feedback_end_time: "",
         checked_271: 0,
@@ -608,6 +660,7 @@ export default {
         superior_status: 0,
         highlevel_status: 0,
         feedback_status: 0,
+        offlinetalk_status: 0,
         count: "",
         self: "",
         superior: "",
@@ -632,6 +685,7 @@ export default {
       constants: {
         FINISHED_DATE,
         ENUM_GENERIC_COMPLETE_STATUS,
+        EMUM_CULTURE_GENERIC_COMPLETE_STATUS,
         SELF_EVALUATION_STATUS,
         LEADER_EVALUATION_STATUS,
         LEADER_PLUS_EVALUATION_STATUS,
@@ -668,7 +722,8 @@ export default {
         ENUM_LEADER_PLUS_EVALUATION_STATUS,
         MODIFY_TIMES,
         PATH_GRADE_EMP_DETAIL,
-        LEVEL_ALIAS
+        LEVEL_ALIAS,
+        REJECT
       },
       tableData: [],
       nav: [
@@ -684,7 +739,8 @@ export default {
           label: ORG_DETAIL,
           active: true
         }
-      ]
+      ],
+      orgId: 0
     };
   },
   components: {
@@ -738,7 +794,7 @@ export default {
       this.dialogImport = false;
       this.refreshList();
     },
-    closeTimeSettingDia() {
+    close() {
       // 设置修改时间后需要刷新
       this.dialogTimes = false;
       this.refreshList();
@@ -838,6 +894,7 @@ export default {
           this.depInfo.superior_status = res.info.superior_status;
           this.depInfo.highlevel_status = res.info.highlevel_status;
           this.depInfo.feedback_status = res.info.feedback_status;
+          this.depInfo.offlinetalk_status = res.info.offlinetalk_status;
           this.depInfo.count = res.info.stat[0].count;
           this.depInfo.self = res.info.stat[0].self;
           this.depInfo.superior = res.info.stat[0].superior;
@@ -852,6 +909,11 @@ export default {
           this.gradeInfo.superior_end_time = res.info.superior_end_time;
           this.gradeInfo.highlevel_start_time = res.info.highlevel_start_time;
           this.gradeInfo.highlevel_end_time = res.info.highlevel_end_time;
+          this.gradeInfo.offlinetalk_start_time =
+            res.info.offlinetalk_start_time;
+          // this.gradeInfo.offlinetalk_start_time = "2019-10-11 21:00";
+          this.gradeInfo.offlinetalk_end_time = res.info.offlinetalk_end_time;
+          // this.gradeInfo.offlinetalk_end_time = "2019-10-23 23:00";
           this.gradeInfo.feedback_start_time = res.info.feedback_start_time;
           this.gradeInfo.feedback_end_time = res.info.feedback_end_time;
           this.gradeInfo.checked_271 = res.info._271_is_necessary;
@@ -893,6 +955,7 @@ export default {
       return (
         (this.stage == 30 && this.canAdd) ||
         (this.stage == 40 && this.depInfo.superior_status !== 2) ||
+        (this.stage == 55 && this.depInfo.offlinetalk_status !== 2) ||
         (this.stage == 50 && this.depInfo.highlevel_status !== 2) ||
         (this.stage == 60 && this.depInfo.feedback_status !== 2)
       );
@@ -936,14 +999,20 @@ export default {
         }
         return 3;
       }
-      if (stage == 60) {
-        if (this.depInfo.feedback_status === 2) {
+      if (stage == 55) {
+        if (this.depInfo.offlinetalk_status === 2) {
           return 5;
         }
         return 4;
       }
-      if (stage == 70) {
+      if (stage == 60) {
+        if (this.depInfo.feedback_status === 2) {
+          return 6;
+        }
         return 5;
+      }
+      if (stage == 70) {
+        return 6;
       }
       return 0;
     },
@@ -956,6 +1025,8 @@ export default {
         this.gradeInfo.superior_end_time &&
         this.gradeInfo.highlevel_start_time &&
         this.gradeInfo.highlevel_end_time &&
+        this.gradeInfo.offlinetalk_start_time &&
+        this.gradeInfo.offlinetalk_end_time &&
         this.gradeInfo.feedback_start_time &&
         this.gradeInfo.feedback_end_time
       );
@@ -965,6 +1036,7 @@ export default {
         self_status: this.depInfo.self_status,
         superior_status: this.depInfo.superior_status,
         highlevel_status: this.depInfo.highlevel_status,
+        offlinetalk_status: this.depInfo.offlinetalk_status,
         feedback_status: this.depInfo.feedback_status
       };
     },
@@ -976,6 +1048,8 @@ export default {
         superior_end_time: this.gradeInfo.superior_end_time,
         highlevel_start_time: this.gradeInfo.highlevel_start_time,
         highlevel_end_time: this.gradeInfo.highlevel_end_time,
+        offlinetalk_start_time: this.gradeInfo.offlinetalk_start_time,
+        offlinetalk_end_time: this.gradeInfo.offlinetalk_end_time,
         feedback_start_time: this.gradeInfo.feedback_start_time,
         feedback_end_time: this.gradeInfo.feedback_end_time,
         checked_271: this.gradeInfo.checked_271,
@@ -988,6 +1062,25 @@ export default {
 };
 </script>
 <style scoped>
+.reject_status div {
+  border-radius: 20px;
+  border: solid 2px #e94a2d;
+  color: #e94a2d;
+  width: 60px;
+  transform: rotateZ(-12deg);
+}
+.reject_status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  left: 28%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
 .dep-page {
   padding: 20px;
   /* height: calc(100% - 40px); */

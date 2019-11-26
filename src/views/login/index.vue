@@ -35,7 +35,8 @@ import {
   PATH_GRADE_EMP_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_ORG_LIST,
-  PATH_EMPLOYEE_MY
+  PATH_EMPLOYEE_MY,
+  PATH_GRADE_ORG_LIST
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -68,8 +69,15 @@ export default {
           // 076533
           // 17600297195
           // 074036
+          // 077640
+          // TODO
           // 108321
+          // 147463 高管
+          // 142182
+          // 105523
+
           // 18310787064
+          // 076344
           .then(res => {
             this.callback(res, dst, querys);
           })
@@ -83,6 +91,7 @@ export default {
       }
     } else {
       tinfo.init({
+        //!!FIX
         appid: process.env.VUE_APP_APP_ID,
         appname: "评分系统"
       });
@@ -140,22 +149,31 @@ export default {
         case "interview":
           dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
           break;
+        //! fix
         case "superior":
-          dst = PATH_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          dst = PATH_MEMBER_CULTURE_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_type
+          );
           break;
         case "highlevel":
-          dst = PATH_DOWN_MEMBER_CULTURE_LIST(querys.evaluation_name_id);
+          dst = PATH_DOWN_MEMBER_CULTURE_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_type
+          );
           break;
         case "reject":
         case "superior_detail":
           dst = PATH_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
+            querys.evaluation_type,
             querys.user_id
           );
           break;
         case "highlevel_detail":
           dst = PATH_DOWN_MEMBER_CULTURE_DETAILS(
             querys.evaluation_name_id,
+            querys.evaluation_type,
             querys.user_id
           );
           break;
@@ -166,8 +184,23 @@ export default {
             querys.user_id
           );
           break;
+        //  PATH_GRADE_PROGRESS\PATH_GRADE_ORG_LIST
+        case "grade_manage":
+          dst = PATH_GRADE_PROGRESS(querys.evaluation_name_id);
+          break;
+        case "mg_sub_grademanage":
+          dst = PATH_GRADE_ORG_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_id
+          );
+          break;
+        case "feedback":
+          dst = PATH_MEMBER_CULTURE_LIST(
+            querys.evaluation_name_id,
+            querys.evaluation_type
+          );
+          break;
       }
-      // console.log(querys.evaluation_name_id, querys.user_id, dst)
       return dst;
     },
     callback(res, dst, querys) {

@@ -68,6 +68,10 @@ export default {
           formatter: "{c0}/{c1}"
         },
         color: ["#3BDABC", "#72b7f5"],
+        grid: {
+          bottom: "15%",
+          containLabel: true
+        },
         xAxis: [
           {
             type: "category",
