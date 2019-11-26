@@ -15,17 +15,17 @@
             @click="Allsubmit_step1"
             >同意</el-button
           >
-          <el-popover placement="bottom" width="488" trigger="click">
+          <el-popover placement="bottom" width="370" trigger="click">
             <p>提交记录</p>
             <template>
               <el-table :data="reviewData" height="400">
                 <el-table-column
-                  width="150"
+                  width="170"
                   property="created_at"
                   label="日期"
                 ></el-table-column>
                 <el-table-column
-                  width="238"
+                  width="100"
                   property="name"
                   label="姓名"
                 ></el-table-column>
@@ -210,6 +210,13 @@ export default {
       this.filterForm.name = "";
       this.filterForm.status = "";
       this.filterForm.tags = "";
+      // const postData = {
+      //     name: this.filterForm.name,
+      //     stage: this.filterForm.status,
+      //     label_id: this.filterForm.tags,
+      //     page: 1
+      //   };
+      //   this.refreshList(postData);
     },
     get_workcode(workcode){//切换团队
       this.currentPage = 1;

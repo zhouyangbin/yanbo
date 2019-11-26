@@ -12,8 +12,8 @@
             <el-row class="progress-header" style="display: flex; align-items: center;">
               <el-col :span="18">
                 <span class="color_gray">{{team_name}}: </span>
-                <span class="total">共{{total}}人, </span>
-                <span v-if="abnormal_status == 1"  class="overview_text"> {{team_overview_text}}</span>
+                <span class="total">共{{total}}人</span>
+                <span v-if="abnormal_status == 1"  class="overview_text"><span class="total">, </span> {{team_overview_text}}</span>
                 <el-popover v-if="abnormal_status == 1" placement="bottom" width="688" trigger="click">
                   <p>提交记录</p>
                   <template>
@@ -266,6 +266,8 @@ export default {
 
       return rejectHighLevelTeam(this.$route.params.id, this.level_team_id, data)
         .then(res => {
+          //驳回 成功
+          this.is_reject = 0;
           this.get_highLevelTeamList();
           this.$emit("reload");
         })
