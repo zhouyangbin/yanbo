@@ -48,7 +48,14 @@
           <div class="bread-crumb">
             <div class="bread-crumb-name">{{ item.name }}</div>
             <div class="bread-crumb-separator">|</div>
-            <div class="bread-crumb-name">{{ item.departments_text }}</div>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="item.departments_text"
+              placement="top"
+            >
+              <div class="bread-crumb-name">{{ item.departments_text }}</div>
+            </el-tooltip>
             <div class="bread-crumb-separator">|</div>
             <div class="bread-crumb-name">
               {{ item.performance_type | filterType }}
