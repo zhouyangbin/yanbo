@@ -70,6 +70,7 @@
           :readOnly="true"
           v-model="level"
           :old_s="true"
+          :label_id="label_id"
         ></level>
         <br />
       </div>
