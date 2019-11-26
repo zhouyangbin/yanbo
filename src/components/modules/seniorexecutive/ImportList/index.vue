@@ -98,7 +98,7 @@ export default {
         message: UPLOAD_SUCCESS,
         type: "success"
       });
-      this.close();
+      this.$emit("update");
     },
     uploadError(err, file, fileList) {
       const errObj = JSON.parse(err.message);
