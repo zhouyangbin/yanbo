@@ -107,7 +107,7 @@
       ></pagination>
       <br/>
     </section>
-    </section>
+    <!-- </section> -->
   </div>
 </template>
 <script>
@@ -125,8 +125,8 @@ import {
   ENUM_PERFORMANCE_FINISH
 } from "@/constants/TEXT";
 import {
-  PATH_EMPLOYEE_TEAM_MEMEBER,
-  PATH_EMPLOYEE_LEVEL_TEAM
+  PATH_EMPLOYEE_LEVEL_TEAM,
+  PATH_EMPLOYEE_TEAM_MEMEBER
 } from "@/constants/URL";
 import { AsyncComp } from "@/utils/asyncCom";
 import {
@@ -234,7 +234,7 @@ export default {
     get_LevelTags(){//根据隔级获取标签
       return getLevelTags(1)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.ENUM_PERFORMANCE_TAGS = res;
         })
         .catch(e => {
@@ -244,7 +244,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    goDetail(row) {//跳转到详情
+    goDetail(row) {   //跳转到详情
       this.$router.push(
         PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
       );
@@ -252,7 +252,7 @@ export default {
     refreshList(data) {//请求tabel 列表
       return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
-          const { overview,list } = res;
+          const { overview, list } = res;
           this.tableData = list.data || [];
           this.total = list.total;
           this.team_overview = overview;
@@ -263,7 +263,7 @@ export default {
     overReviewList(data) {//请求 分布汇总
       return getLevelTeamReview(this.$route.params.id, data)
         .then(res => {
-          const { overview,performanceInfo } = res;
+          const { overview, performanceInfo } = res;
           this.overview = overview || [];
           this.name = performanceInfo.name || "";
           this.department = performanceInfo.department || "";
@@ -473,16 +473,6 @@ export default {
 .team-pie {
   position: absolute;
   top: 0;
-}
-.status-tag {
-  width: ;
-  height: 28px;
-  padding: 0 10px;
-  margin: 0;
-  text-align: center;
-  border-radius: 4px;
-  border: none;
-  font-weight: 500;
 }
 .top-style {
   background: #e8f5eb;

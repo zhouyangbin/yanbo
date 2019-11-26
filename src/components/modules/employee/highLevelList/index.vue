@@ -140,54 +140,106 @@
                   <span>
                     {{ get_stage_status(scope.row.stage) }}
                   </span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="ops" label="操作">
-                <template slot-scope="scope">
-                  <el-button
-                    v-if="scope.row.operate_status == 1"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >详情</el-button
-                  >
-                  <el-button
-                    v-if="scope.row.operate_status == 2"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >评分</el-button
-                  >
-                  <el-button
-                    v-if="scope.row.operate_status == 3"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >修改评分</el-button
-                  >
-                  <el-button
-                    v-if="scope.row.operate_status == 4"
-                    @click="goDetail(scope.row)"
-                    type="text"
-                    size="small"
-                    >处理申诉</el-button
-                  >
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="1 > 2"
+              prop="hr_name"
+              label="HRBP"
+            ></el-table-column>
+            <el-table-column
+              prop="high_level_name"
+              label="隔级"
+            ></el-table-column>
+            <el-table-column prop="self_score" label="自评分"></el-table-column>
+            <el-table-column
+              prop="superior_score"
+              label="上级评分"
+            ></el-table-column>
+            <el-table-column
+              prop="score_level"
+              label="绩效等级"
+            ></el-table-column>
+            <el-table-column label="标签分布" align="left">
+              <template slot-scope="scope">
+                <el-tag
+                  v-if="
+                    scope.row.score_level == 'A' || scope.row.score_level == 'S'
+                  "
+                  class="status-tag top-style"
+                >
+                  <span class="top-style-text">{{ scope.row.label_name }}</span>
+                </el-tag>
+                <el-tag
+                  v-if="scope.row.score_level == 'B'"
+                  class="status-tag bplus-style"
+                >
+                  <span class="bplus-style-text">{{
+                    scope.row.label_name
+                  }}</span>
+                </el-tag>
+                <el-tag
+                  v-if="
+                    scope.row.score_level == 'C' || scope.row.score_level == 'D'
+                  "
+                  class="status-tag other-style"
+                >
+                  <span class="other-style-text">{{
+                    scope.row.label_name
+                  }}</span>
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="stage_status" label="状态" align="center">
+              <template slot-scope="scope">
+                <span>
+                  {{ get_stage_status(scope.row.stage) }}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="ops" label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  v-if="scope.row.operate_status == 1"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >详情</el-button
+                >
+                <el-button
+                  v-if="scope.row.operate_status == 2"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >评分</el-button
+                >
+                <el-button
+                  v-if="scope.row.operate_status == 3"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >修改评分</el-button
+                >
+                <el-button
+                  v-if="scope.row.operate_status == 4"
+                  @click="goDetail(scope.row)"
+                  type="text"
+                  size="small"
+                  >处理申诉</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </section>
   </div>
 </template>
 <script>
-import {
-  LABEL_NAME,
-  APPEAL,
-  ENUM_PERFORMANCE_FINISH
-} from "@/constants/TEXT";
+import { LABEL_NAME, APPEAL, ENUM_PERFORMANCE_FINISH } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_TEAM_DETAIL_MEMEBER,
   PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
 } from "@/constants/URL";
 import {
@@ -274,11 +326,13 @@ export default {
     goDetail(row) {//跳转详情
       if(row.is_directly == 1){//隔级的直属下级
         this.$router.push(
-          PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)//去到团队评分的个人详情页
+          // PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
+          PATH_TEAM_DETAIL_MEMEBER(this.$route.params.id, row.id)//去到团队评分的个人详情页
         );
       }else{//隔级的团队里的个人详情
+      // console.log(this.$route.params.id,row.performance_id, row.id);
         this.$router.push(
-          PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(this.$route.params.id, row.id)//去到团队评分的个人详情页
+          PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(this.$route.params.id,row.performance_id, row.id)
         );
       }
     },
@@ -324,7 +378,7 @@ export default {
   top: 10px;
 }
 .status-tag {
-  width: ;
+  min-width: 60px;
   height: 28px;
   padding: 0 10px;
   margin: 0;
@@ -345,7 +399,7 @@ export default {
   background: #f1f2f5;
   color: rgba(92, 108, 139, 1);
 }
-.progress-header >>> .el-radio__inner{
+.progress-header >>> .el-radio__inner {
   display: none;
 }
 .progress-header >>> .el-checkbox__inner {

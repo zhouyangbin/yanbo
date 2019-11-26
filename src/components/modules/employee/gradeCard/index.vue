@@ -78,7 +78,7 @@
             </div>
             <div
               v-if="
-                data.target_self_score && data.target_self_score.score != null
+                  data.target_self_score && data.target_self_score.score != null
               "
             >
               <section>
@@ -86,6 +86,20 @@
                 <span
                   >{{
                     data.target_self_score && data.target_self_score.score
+                  }}分</span
+                >
+              </section>
+            </div>
+             <div
+              v-if="
+                  data.target_submit_self_score && data.target_submit_self_score.score != null
+              "
+            >
+              <section>
+                <span class="label">{{ constants.SELF_SCORE }}:</span> &nbsp;
+                <span
+                  >{{
+                    data.target_submit_self_score && data.target_submit_self_score.score
                   }}分</span
                 >
               </section>
@@ -102,6 +116,22 @@
                   {{
                     data.target_superior_score &&
                       data.target_superior_score.score
+                  }}分
+                </span>
+              </section>
+            </div>
+            <div
+              v-if="
+                data.target_submit_superior_score &&
+                  data.target_submit_superior_score.score != null
+              "
+            >
+              <section class="colorful">
+                <span class="label">{{ constants.LEADER_SOCRE }}:</span> &nbsp;
+                <span>
+                  {{
+                    data.target_submit_superior_score &&
+                      data.target_submit_superior_score.score
                   }}分
                 </span>
               </section>

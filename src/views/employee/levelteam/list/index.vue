@@ -9,7 +9,8 @@
           prop="name"
           :label="constants.GRADE_NAME"
         ></el-table-column>
-        <el-table-column v-if="false"
+        <el-table-column
+          v-if="false"
           prop="department"
           :label="constants.LABEL_DEPARTMENT"
         ></el-table-column>
@@ -110,7 +111,7 @@ export default {
       });
     },
     exportDetail(row) {
-      var link = document.createElement('a');
+      var link = document.createElement("a");
       link.setAttribute("download", "");
       link.href = PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE(row.id);
       link.click();

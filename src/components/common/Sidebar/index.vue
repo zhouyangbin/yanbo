@@ -69,7 +69,9 @@
       </el-menu-item>
       <el-menu-item
         :class="{
-          'is-active': [constants.PATH_EMPLOYEE_LEVEL_TEAM].includes($route.path)
+          'is-active': [constants.PATH_EMPLOYEE_LEVEL_TEAM].includes(
+            $route.path
+          )
         }"
         :index="constants.PATH_EMPLOYEE_LEVEL_TEAM"
         >{{ constants.LEVEL_TEAM_GRADE }}

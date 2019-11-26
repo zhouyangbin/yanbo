@@ -235,7 +235,7 @@ export const highLevelReview = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}/review`, params);
 //获取隔级列表
 export const getLevelTeamGradeList = (params: Object) =>
-  sendGet(`/performance/api/highlevel`, params); 
+  sendGet(`/performance/api/highlevel`, params);
 // 隔级评分的团队成员列表
 export const getLevelTeamList = (id: String, params: Object) =>
   sendGet(`/performance/api/highlevel/${id}`, params);
@@ -257,16 +257,22 @@ export const highLevelteamAllsure = (id: String, params: Object) =>
 export const rejectHighLevelTeam = (id: String, code: String, params: Object) =>
   sendPost(`/performance/api/highlevel/${id}/reject/${code}`, params);
 //隔级 评分详情
+// export const getEmployeeLevelTeamDetail = (
+//   orgID: String,
+//   uid: String,
+//   attach_for: string
+// ) =>
+//   sendGet(
+//     `${test}/performance/api/${orgID}/${uid}?${qs.stringify({
+//       attach_for
+//     })}`
+//   );
 export const getEmployeeLevelTeamDetail = (
   orgID: String,
-  uid: String,
-  attach_for: string
+  uid: String
 ) =>
-  sendGet(
-    `/performance/api/${orgID}/${uid}?${qs.stringify({
-      attach_for
-    })}`
-  );
+  sendGet(`/performance/api/highlevel/${orgID}/${uid}`);
+
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>
