@@ -394,7 +394,11 @@ export const getAdminTags = (params: Object) =>
   sendGet(`/executive-performance/admin/tags`, params);
 
 // 高管绩效 标签类型列表
-export const getAdminTagTypes = (id: String) =>
+export const getAdminTagTypes = () =>
+  sendGet(`/executive-performance/admin/tag-types`);
+
+// 高管绩效 根据 获取标签类型列表
+export const getPerformanceTagTypes = (id: String) =>
   sendGet(`/executive-performance/admin/performances/${id}/get-tag-rules`);
 
 // 高管绩效 标签规则列表 to do 暂时未使用

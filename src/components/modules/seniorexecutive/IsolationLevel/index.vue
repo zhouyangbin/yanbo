@@ -160,7 +160,10 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { getMyIsolationUnderLower, getAdminTagTypes } from "@/constants/API";
+import {
+  getMyIsolationUnderLower,
+  getPerformanceTagTypes
+} from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import {
   LABEL_EMPTY,
@@ -271,7 +274,7 @@ export default {
     }
   },
   created() {
-    getAdminTagTypes(this.performanceId)
+    getPerformanceTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })
