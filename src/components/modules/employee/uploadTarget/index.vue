@@ -39,7 +39,7 @@ import {
   getTargetTemplate,
   getUniqueTemplate
 } from "@/constants/API";
-import { PATH_UPLOAD_FILE } from "@/constants/URL";
+import { PATH_UPLOAD_FILE ,PATH_IMPORT_TARGET,PATH_UPLOAD_TARGET} from "@/constants/URL";
 export default {
   props: {
     isUpload: {
