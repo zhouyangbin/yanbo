@@ -182,10 +182,7 @@ export default {
     }
   },
   created() {
-    this.uploadActionUrl = this.constants.PATH_UPLOAD_TARGET(
-      this.performanceId,
-      parseInt(this.userId)
-    );
+    this.uploadActionUrl = this.constants.PATH_UPLOAD_TARGET(this.userId);
     this.downloadUrl = this.constants.PATH_IMPORT_TARGET(
       this.performanceId,
       parseInt(this.userId)
