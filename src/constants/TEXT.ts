@@ -283,6 +283,7 @@ export const ACCESS = "权限";
 export const EMPLOYEE_GRADE = "员工评分";
 export const MY_GRADE = "我的评分";
 export const TEAM_GRADE = "团队评分";
+export const LEVEL_TEAM_GRADE = "隔级评分";
 export const EMPLOYEE_DETAIL = "员工详情";
 export const TPL_NAME = "模板名称";
 export const PERFORMANCE_TYPE = "绩效类型";

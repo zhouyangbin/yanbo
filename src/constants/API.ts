@@ -233,8 +233,42 @@ export const highLevelAllSubmit = (id: String, params: Object) =>
 //上级审查记录
 export const highLevelReview = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}/review`, params);
-// export const getTeamUserDetail = (orgID: String, uid: String) =>
-//   sendGet(`/performance/api/superior/${orgID}/${uid}`);
+//获取隔级列表
+export const getLevelTeamGradeList = (params: Object) =>
+  sendGet(`/performance/api/highlevel`, params);
+// 隔级评分的团队成员列表
+export const getLevelTeamList = (id: String, params: Object) =>
+  sendGet(`/performance/api/highlevel/${id}`, params);
+// 隔级分布汇总接口
+export const getLevelTeamReview = (id: String) =>
+  sendGet(`/performance/api/highlevel/${id}/proportion`);
+//隔级 我的团队列表
+export const highLevelTeamList = (orgID: String) =>
+  sendGet(`/performance/api/highlevel/${orgID}/teams`);
+//根据隔级获取标签
+export const getLevelTags = (id: String) =>
+  sendGet(`/performance/api/label/rules/${id}`);
+export const highLevelTeamReview = (id: String, params: Object) =>
+  sendGet(`/performance/api/highlevel/${id}/review`, params);
+//隔级同意
+export const highLevelteamAllsure = (id: String, params: Object) =>
+  sendPost(`/performance/api/highlevel/${id}/accept`, params);
+//驳回隔级团队
+export const rejectHighLevelTeam = (id: String, code: String, params: Object) =>
+  sendPost(`/performance/api/highlevel/${id}/reject/${code}`, params);
+//隔级 评分详情
+// export const getEmployeeLevelTeamDetail = (
+//   orgID: String,
+//   uid: String,
+//   attach_for: string
+// ) =>
+//   sendGet(
+//     `${test}/performance/api/${orgID}/${uid}?${qs.stringify({
+//       attach_for
+//     })}`
+//   );
+export const getEmployeeLevelTeamDetail = (orgID: String, uid: String) =>
+  sendGet(`/performance/api/highlevel/${orgID}/${uid}`);
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>

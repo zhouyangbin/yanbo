@@ -20,6 +20,10 @@ import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_EMPLOYEE_LEVEL_TEAM,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
+  PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_MSG_MOBILE,
   PATH_MY_CULTURE_GRADE,
@@ -36,7 +40,8 @@ import {
   PATH_DOWN_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
-  PATH_CULTURE_LEVEL_DETAIL_HISTORY
+  PATH_CULTURE_LEVEL_DETAIL_HISTORY,
+  PATH_TEAM_DETAIL_MEMEBER
   // PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
 
@@ -204,6 +209,44 @@ const router = new Router({
           path: PATH_EMPLOYEE_TEAM_MEMEBER(),
           components: {
             default: () => import("@/views/employee/team/member/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_TEAM_DETAIL_MEMEBER(),
+          components: {
+            default: () =>
+              import("@/views/employee/levelteam/teamDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_LEVEL_TEAM,
+          components: {
+            default: () => import("@/views/employee/levelteam/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/levelteam/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/employee/levelteam/gradePage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER(),
+          components: {
+            default: () =>
+              import("@/views/employee/levelteam/member/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
