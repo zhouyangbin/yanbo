@@ -183,7 +183,7 @@ export default {
         PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(
           this.performanceId,
           this.performance_user_id,
-          data.workcode
+          // data.workcode
         )
       );
       // 查看详情
