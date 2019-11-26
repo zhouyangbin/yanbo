@@ -11,7 +11,7 @@
       <el-tab-pane label="从EHR读取" name="first">
         <el-form label-width="80px">
           <el-form-item label="是否高管">
-            <el-switch v-model="name"></el-switch>
+            <el-switch v-model="is_executive"></el-switch>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -60,7 +60,7 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL
 } from "@/constants/TEXT";
-import { postEHR } from "@/constants/API";
+import { postImportFromEHR } from "@/constants/API";
 import { PATH_IMPORT_BY_EXCEL, PATH_EXCEL_TPL } from "@/constants/URL";
 
 export default {
@@ -76,12 +76,16 @@ export default {
     importTplUrl: {
       type: String,
       default: ""
+    },
+    performanceId: {
+      type: String,
+      default: ""
     }
   },
   data() {
     return {
       activeName: "first",
-      name: false
+      is_executive: false
     };
   },
   methods: {
@@ -106,8 +110,14 @@ export default {
       });
     },
     confirmBtn() {
-      // 发送请求，并关闭弹框 to do
-      this.$emit("update");
+      let data = {
+        is_executive: this.is_executive ? 1 : 0
+      };
+      postImportFromEHR(this.performanceId, data)
+        .then(res => {
+          this.$emit("update");
+        })
+        .catch(e => {});
     }
   },
   created() {}

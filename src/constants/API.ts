@@ -618,3 +618,10 @@ export const getTargetView = (params: Object) =>
 // 高管绩效 指标初始化页面获取模板配置字段
 export const getUniqueTemplate = (params: Object) =>
   sendGet(`/executive-performance/web/target/init`, params);
+
+// 高管绩效
+export const postImportFromEHR = (id: String, params: Object) =>
+  sendPost(
+    `/executive-performance/admin/performances/${id}/users/import-from-ehr`,
+    params
+  );

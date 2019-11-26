@@ -597,6 +597,7 @@
       :visible="showImportList"
       :uploadTplUrl="uploadTplUrl"
       :importTplUrl="importTplUrl"
+      :performanceId="performanceId"
       @close="closeImportList"
       @update="confirmImportUser"
     >
@@ -809,7 +810,7 @@ export default {
       this.getUserList();
     },
     confirmImportUser() {
-      this.showModifyUser = false;
+      this.showImportList = false;
       this.getUserList();
     },
     confirmUser() {
