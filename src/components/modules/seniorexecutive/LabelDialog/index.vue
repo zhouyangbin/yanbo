@@ -25,10 +25,6 @@
           ></el-option>
         </el-select>
       </el-form-item>
-<<<<<<< HEAD
-      <!-- to do 需要改动的地方，先以中文显示，方便联调是改动 -->
-=======
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
       <el-form-item label="标签规则" class="label-rules" prop="rules">
         <el-table
           :data="table253"
@@ -171,21 +167,6 @@
           @selectedIds="selectedOrg"
           :department_ids="tplForm.department_ids"
         ></common-tree>
-<<<<<<< HEAD
-        <!-- <el-tree
-          empty-text="努力加载中..."
-          @check-change="treeChange"
-          :props="defaultProps"
-          :default-checked-keys="checkedKeys"
-          node-key="department_id"
-          ref="tree"
-          :filter-node-method="filterNode"
-          show-checkbox
-          :data="orgTree"
-          class="select-tree"
-        ></el-tree> -->
-=======
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
       </el-form-item>
       <el-form-item
         :label="constants.FORCED_DISTRIBUTION"
@@ -248,15 +229,9 @@ export default {
       type: String,
       default: "add"
     },
-<<<<<<< HEAD
-    initData: {
-      type: Object,
-      default: () => ({})
-=======
     userId: {
       type: Number,
       default: 0
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
     },
     orgTree: {
       type: Array,
@@ -429,18 +404,6 @@ export default {
           };
           if (this.infoType == "add") {
             // 新增标签
-<<<<<<< HEAD
-            return postAdminTags(postData).then(res => {
-              this.close();
-              this.$emit("getList");
-            });
-          } else {
-            let UpData = postData;
-            return putAdminTagChange(this.initData.id, UpData).then(res => {
-              this.close();
-              this.$emit("getList");
-            });
-=======
             return postAdminTags(postData)
               .then(res => {
                 this.close();
@@ -455,7 +418,6 @@ export default {
                 this.$emit("getList");
               })
               .catch(() => {});
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
           }
         }
       });
@@ -497,11 +459,7 @@ export default {
       return newArr;
     },
     getTagDetails() {
-<<<<<<< HEAD
-      getAdminTagDetails(this.initData.id).then(res => {
-=======
       getAdminTagDetails(this.userId).then(res => {
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
         this.tplForm.tag_type = res.tag_type;
         if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
           this.table253 = this.handleTagRulesDataStructure(res.rules);
@@ -524,11 +482,7 @@ export default {
   },
   created() {
     this.getAdminTagTypesList();
-<<<<<<< HEAD
-    if (this.infoType != "add" && this.initData.id) {
-=======
     if (this.infoType != "add" && this.userId) {
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
       this.getTagDetails();
     }
   }
@@ -544,19 +498,6 @@ export default {
 .label-dialog >>> .el-form-item {
   margin-bottom: 22px;
 }
-<<<<<<< HEAD
-/* .label-dialog >>> .el-checkbox-group,
-.label-dialog >>> .el-checkbox-group + .el-checkbox {
-  margin-left: -30px !important;
-} */
-.ml-10 {
-  margin-left: 10px;
-}
-.no-margin-bottom {
-  margin-bottom: 0 !important;
-}
-=======
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
 .label-dialog >>> .el-form-item .el-input-group__prepend,
 .label-dialog >>> .el-form-item .el-input-group__append {
   padding: 0 10px !important;
@@ -567,12 +508,6 @@ export default {
   float: left;
   width: 33.33%;
 }
-<<<<<<< HEAD
-/* .label-rules >>> .el-form-item__content {
-  margin-left: 60px !important;
-} */
-=======
->>>>>>> 4c50faa42609d4a4ad5547980b622c7b295b30e8
 .label-dialog .add-padding {
   padding-left: 20px;
 }
