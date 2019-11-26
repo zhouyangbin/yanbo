@@ -84,9 +84,7 @@
       </el-form-item>
       <el-form-item label="标签规则">
         <div class="rule-name" v-if="ruleForm.tag">
-          <span v-for="item in ruleForm.tag" :key="item.id">{{
-            item.tag_type
-          }}</span>
+          <span v-if="ruleForm.tag">{{ ruleForm.tag.tag_type }}</span>
         </div>
       </el-form-item>
       <el-form-item label="是否允许申诉" prop="allow_appeal">
@@ -215,7 +213,7 @@ export default {
   },
   created() {
     // getTagTplDepartments().then(res => {
-    this.optionalIds = res;
+    // this.optionalIds = res;
     if (this.infoType != "add" && this.performanceId) {
       // this.orgTree = this.disabledOrgTree(this.orgTree);
       getPerformanceDetail(this.performanceId)
@@ -252,6 +250,10 @@ export default {
   methods: {
     selectedOrg(data) {
       if (data.length === 0) {
+        this.ruleForm.templates = [];
+        this.ruleForm.tag = {
+          tag_type: ""
+        };
         return false;
       }
       if (this.infoType !== "add") {
