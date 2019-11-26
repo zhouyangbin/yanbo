@@ -400,8 +400,24 @@ export default {
           const isWork = res.work !== undefined;
           const isFinance = res.finance !== undefined;
           this.allTarget = [];
+          let arrData = [{
+                    "content": "",
+                    "disqualification": "",
+                    "excellence": "",
+                    "good": "",
+                    "id": "",
+                    "outstanding": "",
+                    "performance_id": "",
+                    "performance_user_id":"" ,
+                    "target": "",
+                    "to_be_improved": "",
+                    "type": "",
+                    "weights": ""}]
           if (isTeam) {
             let team = res.team;
+            if(team.targets[0] == undefined) {
+              team.targets = arrData
+              }
             team.template_columns = {
               content: team.targets[0].content,
               weights: team.targets[0].weights,
@@ -423,6 +439,9 @@ export default {
           }
           if (isWork) {
             let work = res.work;
+            if(work.targets[0] == undefined) {
+              work.targets = arrData
+              }
             work.template_columns = {
               content: work.targets[0].content,
               weights: work.targets[0].weights,
@@ -444,6 +463,9 @@ export default {
           }
           if (isFinance) {
             let finance = res.finance;
+            if(finance.targets[0] == undefined) {
+              finance.targets = arrData
+              }
             finance.template_columns = {
               content: finance.targets[0].content,
               weights: finance.targets[0].weights,
