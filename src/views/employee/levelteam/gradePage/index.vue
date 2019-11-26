@@ -28,12 +28,7 @@
         :key="i"
       ></card>
       <br />
-      <div
-        v-if="
-            superior_score &&
-            superior_score.evaluation
-        "
-      >
+      <div v-if="superior_score && superior_score.evaluation">
         <comments
           :readOnly="true"
           :comments.sync="superior_score && superior_score.evaluation"
@@ -50,8 +45,8 @@
         <br />
       </div>
       <!-- 隔级阶段不需要判断是否发布成绩 -->
-      <div v-if="leaderAdditionMark.evaluation">  
-      <!-- <div v-if="leaderAdditionMark.evaluation" && published"> -->
+      <div v-if="leaderAdditionMark.evaluation">
+        <!-- <div v-if="leaderAdditionMark.evaluation" && published"> -->
         <addition-mark
           :readOnly="true"
           :prefixTitle="constants.LABEL_SUP"
@@ -129,9 +124,11 @@ import {
   delCancelAppeal
 } from "@/constants/API";
 
-import { PATH_EMPLOYEE_MY, 
-        PATH_EMPLOYEE_LEVEL_TEAM, 
-        PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL } from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_MY,
+  PATH_EMPLOYEE_LEVEL_TEAM,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL
+} from "@/constants/URL";
 
 export default {
   data() {
@@ -147,7 +144,7 @@ export default {
           href: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(this.$route.params.orgID)
         },
         {
-          label: '隔级详情',
+          label: "隔级详情",
           active: true
         }
       ],
@@ -194,8 +191,8 @@ export default {
     "total-mark": () =>
       import("@/components/modules/employee/totalMark/index.vue"),
     level: () => import("@/components/modules/employee/finalLevel/index.vue"),
-    "reject-dialog": () =>
-      import("@/components/modules/employee/appealConfirm/index.vue"),
+    // "reject-dialog": () =>
+    //   import("@/components/modules/employee/appealConfirm/index.vue"),
     comments: () =>
       import("@/components/modules/employee/leaderComments/index.vue")
   },
@@ -273,7 +270,7 @@ export default {
     getInfo() {
       return getEmployeeLevelTeamDetail(
         this.$route.params.performanceId,
-        this.$route.params.id,
+        this.$route.params.id
       )
         .then(res => {
           const {
@@ -298,13 +295,15 @@ export default {
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
-          this.high_level_show = superior_attach_score != null ? superior_attach_score.score : null; //如果有上级评分，就展示评分
+          this.high_level_show =
+            superior_attach_score != null ? superior_attach_score.score : null; //如果有上级评分，就展示评分
           this.leaderAdditionMark = superior_attach_score || {};
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
-          this.self_score = self_submit_score != null ? self_submit_score.score : 0;
+          this.self_score =
+            self_submit_score != null ? self_submit_score.score : 0;
           this.composeData(submit_targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;
@@ -400,9 +399,14 @@ export default {
           this.canEdit = true;
           this.showTotal = true;
           this.targets = targets.map(v => {
-            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
+            v.mark =
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.score) ||
+              0;
             v.desc =
-              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.description) ||
+              "";
             delete v.target_submit_self_score;
             delete v.target_submit_superior_score;
             return v;
@@ -414,9 +418,14 @@ export default {
           this.showTotal = true;
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
+            v.mark =
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.score) ||
+              0;
             v.desc =
-              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.description) ||
+              "";
             return v;
           });
           break;
@@ -426,9 +435,14 @@ export default {
           this.showTotal = true;
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
+            v.mark =
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.score) ||
+              0;
             v.desc =
-              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.description) ||
+              "";
             return v;
           });
           this.canReject = true;
@@ -440,9 +454,14 @@ export default {
           this.showTotal = true;
           // this.targets = targets
           this.targets = targets.map(v => {
-            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
+            v.mark =
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.score) ||
+              0;
             v.desc =
-              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.description) ||
+              "";
             return v;
           });
           this.canReject = false;
@@ -453,9 +472,14 @@ export default {
           this.canEdit = false;
           this.showTotal = true;
           this.targets = targets.map(v => {
-            v.mark = (v.target_submit_self_score && v.target_submit_self_score.score) || 0;
+            v.mark =
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.score) ||
+              0;
             v.desc =
-              (v.target_submit_self_score && v.target_submit_self_score.description) || "";
+              (v.target_submit_self_score &&
+                v.target_submit_self_score.description) ||
+              "";
             return v;
           });
           this.canReject = false;

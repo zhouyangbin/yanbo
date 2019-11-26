@@ -91,8 +91,9 @@ export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
 //隔级列表
 export const PATH_TEAM_DETAIL_MEMEBER = (
-    gradeID: String = ":gradeID",
-    uid: String = ":uid") => `/employee/levelteam/${gradeID}/user/${uid}`;
+  gradeID: String = ":gradeID",
+  uid: String = ":uid"
+) => `/employee/levelteam/${gradeID}/user/${uid}`;
 //团队  个人详情
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
@@ -105,8 +106,8 @@ export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL = (id: String = ":id") =>
 export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL = (
   orgID: String = ":orgID",
   performanceID: String = ":performanceId",
-  id: String = ":id") =>
-  `/employee/levelteam/${orgID}/${performanceID}/${id}`;
+  id: String = ":id"
+) => `/employee/levelteam/${orgID}/${performanceID}/${id}`;
 //团队  个人详情
 export const PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",

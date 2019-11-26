@@ -215,7 +215,8 @@ const router = new Router({
         {
           path: PATH_TEAM_DETAIL_MEMEBER(),
           components: {
-            default: () => import("@/views/employee/levelteam/teamDetail/index.vue"),
+            default: () =>
+              import("@/views/employee/levelteam/teamDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -236,7 +237,8 @@ const router = new Router({
         {
           path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(),
           components: {
-            default: () => import("@/views/employee/levelteam/gradePage/index.vue"),
+            default: () =>
+              import("@/views/employee/levelteam/gradePage/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

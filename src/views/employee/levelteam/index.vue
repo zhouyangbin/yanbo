@@ -36,7 +36,10 @@
                 ></el-table-column>
               </el-table>
             </template>
-            <el-button style="margin-left:10px" slot="reference" @click="hight_level_team_reviewList()"
+            <el-button
+              style="margin-left:10px"
+              slot="reference"
+              @click="hight_level_team_reviewList()"
               >查看审批记录</el-button
             >
           </el-popover>
@@ -90,22 +93,23 @@
           }}</el-button>
         </el-form>
       </section>
-      <high-level-list ref="high_level_list"
-      :list_data="tableData"
-      :department_id="department_id"
-      @get_workcode="get_workcode"
-      @reload="reload"
-      :total="total"
-      :team_overview="team_overview"
+      <high-level-list
+        ref="high_level_list"
+        :list_data="tableData"
+        :department_id="department_id"
+        @get_workcode="get_workcode"
+        @reload="reload"
+        :total="total"
+        :team_overview="team_overview"
       >
       </high-level-list>
-      <br/>
-       <pagination
-      @current-change="handleCurrentChange"
-      :currentPage="currentPage"
-      :total="total"
+      <br />
+      <pagination
+        @current-change="handleCurrentChange"
+        :currentPage="currentPage"
+        :total="total"
       ></pagination>
-      <br/>
+      <br />
     </section>
     <!-- </section> -->
   </div>
@@ -138,7 +142,7 @@ import {
 } from "@/constants/API";
 
 export default {
-  inject:['page_reload'],
+  inject: ["page_reload"],
   data() {
     return {
       total: 0,
@@ -146,7 +150,7 @@ export default {
       filterForm: {
         status: "",
         name: "",
-        tags: "",
+        tags: ""
       },
       overview: [],
       nav: [
@@ -178,10 +182,10 @@ export default {
       reject_msg: "",
       content: "",
       reviewData: [],
-      tab_check:1,
-      department_id:this.$route.params.id,
-      team_overview:[],//团队的评分判断
-      workcode:'',//隔级团队workcode
+      tab_check: 1,
+      department_id: this.$route.params.id,
+      team_overview: [], //团队的评分判断
+      workcode: "" //隔级团队workcode
     };
   },
   components: {
@@ -198,14 +202,15 @@ export default {
     this.overReviewList();
     this.get_LevelTags();
     this.refreshList({
-        page: this.currentPage,
-        name: this.filterForm.name,
-        stage: this.filterForm.status,
-        label_id: this.filterForm.tags,
-      });
+      page: this.currentPage,
+      name: this.filterForm.name,
+      stage: this.filterForm.status,
+      label_id: this.filterForm.tags
+    });
   },
   methods: {
-    reload() {//从新刷新页面接口
+    reload() {
+      //从新刷新页面接口
       this.page_reload();
       // this.overReviewList();
       // //this.get_LevelTags();
@@ -220,7 +225,8 @@ export default {
       //   };
       //   this.refreshList(postData);
     },
-    get_workcode(workcode){//切换团队
+    get_workcode(workcode) {
+      //切换团队
       this.currentPage = 1;
       this.workcode = workcode;
       this.refreshList({
@@ -231,25 +237,26 @@ export default {
         workcode: this.workcode
       });
     },
-    get_LevelTags(){//根据隔级获取标签
+    get_LevelTags() {
+      //根据隔级获取标签
       return getLevelTags(1)
         .then(res => {
           // console.log(res);
           this.ENUM_PERFORMANCE_TAGS = res;
         })
-        .catch(e => {
-
-        })
+        .catch(e => {});
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    goDetail(row) {   //跳转到详情
+    goDetail(row) {
+      //跳转到详情
       this.$router.push(
         PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
       );
     },
-    refreshList(data) {//请求tabel 列表
+    refreshList(data) {
+      //请求tabel 列表
       return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
           const { overview, list } = res;
@@ -260,7 +267,8 @@ export default {
         })
         .catch(e => {});
     },
-    overReviewList(data) {//请求 分布汇总
+    overReviewList(data) {
+      //请求 分布汇总
       return getLevelTeamReview(this.$route.params.id, data)
         .then(res => {
           const { overview, performanceInfo } = res;
@@ -273,23 +281,26 @@ export default {
         })
         .catch(e => {});
     },
-    hight_level_team_reviewList() {//请求。审批记录
+    hight_level_team_reviewList() {
+      //请求。审批记录
       return highLevelTeamReview(this.$route.params.id)
         .then(res => {
           this.reviewData = res;
         })
         .catch(e => {});
     },
-    handleCurrentChange(val) {//切换上下页
+    handleCurrentChange(val) {
+      //切换上下页
       this.currentPage = val;
       this.refreshList({
         page: val,
         name: this.filterForm.name,
         stage: this.filterForm.status,
-        label_id: this.filterForm.tags,
+        label_id: this.filterForm.tags
       });
     },
-    Allsubmit_step_load() {//页面进来调用方法
+    Allsubmit_step_load() {
+      //页面进来调用方法
       const h = this.$createElement;
       this.$confirm(
         "您已评完所有直属下级的评分, 请整体检查分布情况，并提交至隔级审核 ",
@@ -307,7 +318,8 @@ export default {
         })
         .catch(() => {});
     },
-    Allsubmit_step1() {//判断隔级同意到走到哪一步
+    Allsubmit_step1() {
+      //判断隔级同意到走到哪一步
       let overview = this.overview;
       let top_Diff = overview[0].expected - overview[0].count,
         b_plus_diff =
@@ -331,55 +343,71 @@ export default {
                        <div style='width:100px;'>分布结果检查 :</div>\
                        <div style='width:300px;'>\
                           <p style='${
-                                           top_Diff >= 0 ? "display:none" : null
-                                         }'> <span style='color: #EB0C00;'>\
-                                          ${overview[0].name}总人数超出${Math.abs(
-                            top_Diff
-                          )}人</span></p>\
+                            top_Diff >= 0 ? "display:none" : null
+                          }'> <span style='color: #EB0C00;'>\
+                                          ${
+                                            overview[0].name
+                                          }总人数超出${Math.abs(
+          top_Diff
+        )}人</span></p>\
                                          <p style='${
-                                           b_plus_diff >= 0 ? "display:none" : null
+                                           b_plus_diff >= 0
+                                             ? "display:none"
+                                             : null
                                          }'> <span style='color: #EB0C00;'>\
-                                           ${overview[1].child[0].name}总人数超出${Math.abs(
-                            b_plus_diff
-                          )}人</span></p>\
+                                           ${
+                                             overview[1].child[0].name
+                                           }总人数超出${Math.abs(
+          b_plus_diff
+        )}人</span></p>\
                                          <p style='${
                                            b_diff >= 0 ? "display:none" : null
                                          }'> <span style='color: #EB0C00;'>\
-                                          ${overview[1].child[1].name}总人数超出${Math.abs(
-                            b_diff
-                          )}人</span></p>\
+                                          ${
+                                            overview[1].child[1].name
+                                          }总人数超出${Math.abs(
+          b_diff
+        )}人</span></p>\
                                          <p style='${
-                                           b_minus_diff >= 0 ? "display:none" : null
+                                           b_minus_diff >= 0
+                                             ? "display:none"
+                                             : null
                                          }'> <span style='color: #EB0C00;'>\
-                                          ${overview[2].child[0].name}总人数缺少${Math.abs(
-                            b_minus_diff
-                          )}人</span></p>\
+                                          ${
+                                            overview[2].child[0].name
+                                          }总人数缺少${Math.abs(
+          b_minus_diff
+        )}人</span></p>\
                                          <p style='${
                                            cd_diff >= 0 ? "display:none" : null
                                          }'> <span style='color: #EB0C00;'>\
-                                          ${overview[2].child[1].name}总人数缺少${Math.abs(
-                            cd_diff
-                          )}人</span></p>\
+                                          ${
+                                            overview[2].child[1].name
+                                          }总人数缺少${Math.abs(
+          cd_diff
+        )}人</span></p>\
                         </div>\
                         </div>`;
         this.Allsubmit_step2(tip_html);
       }
     },
-    Allsubmit_step2(tip_html) {//隔级同意要输入理由
+    Allsubmit_step2(tip_html) {
+      //隔级同意要输入理由
       this.$prompt(tip_html, "提示", {
         dangerouslyUseHTMLString: true,
         confirmButtonText: "提交",
         inputPlaceholder: "请输入理由",
         cancelButtonText: "暂不提交",
-        inputPattern: /\S/,//判断是否为空
-        inputErrorMessage: '提交理由不能为空'
+        inputPattern: /\S/, //判断是否为空
+        inputErrorMessage: "提交理由不能为空"
       })
         .then(({ value }) => {
           this.Allsubmit_send(value);
-      })
-      .catch(() => {});
+        })
+        .catch(() => {});
     },
-    Allsubmit_step3() {//可以直接 隔级同意
+    Allsubmit_step3() {
+      //可以直接 隔级同意
       this.$prompt(
         "<p>是否同意提交本次隔级评分</p>\
          <p>分布结果检查 : <span style='color: #EB0C00'> 全部符合23221分布比例要求</span></p>",
@@ -395,7 +423,8 @@ export default {
         })
         .catch(() => {});
     },
-    Allsubmit_send(input_content) {//发送隔级同意
+    Allsubmit_send(input_content) {
+      //发送隔级同意
       let that = this;
       let data = {
         content: input_content
@@ -405,12 +434,12 @@ export default {
           let postData = {
             page: this.currentPage,
             name: this.filterForm.name,
-            stage: this.filterForm.status,
+            stage: this.filterForm.status
           };
-              this.reload(); //刷新页面接口
+          this.reload(); //刷新页面接口
         })
         .catch(e => {});
-    },
+    }
   },
   computed: {},
   watch: {
@@ -425,7 +454,7 @@ export default {
         this.refreshList(postData);
         this.currentPage = 1;
       },
-      deep: true,
+      deep: true
     }
   }
 };

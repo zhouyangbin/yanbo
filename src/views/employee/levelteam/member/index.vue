@@ -284,43 +284,43 @@ export default {
         this.$route.params.uid,
         "superior"
       )
-      .then(res => {
-        const {
-          name,
-          targets,
-          workcode,
-          self_attach_score,
-          self_score,
-          superior_attach_score,
-          superior_score,
-          need_attach_score,
-          score_rule,
-          stage,
-          score_level,
-          operate_status,
-          _s
-        } = res;
+        .then(res => {
+          const {
+            name,
+            targets,
+            workcode,
+            self_attach_score,
+            self_score,
+            superior_attach_score,
+            superior_score,
+            need_attach_score,
+            score_rule,
+            stage,
+            score_level,
+            operate_status,
+            _s
+          } = res;
 
-        this.basicInfo = {
-          name,
-          workcode,
-          self_attach_score
-        };
-        this.old_s = _s;
-        this.targets = this.normalizeTargets(targets);
-        this.operate_status = operate_status;
-        this.myAdditionMark = self_attach_score || {};
-        this.leaderAdditionMark = superior_attach_score || {};
-        this.comments = superior_score && superior_score.evaluation;
-        this.level =
-          score_level || (superior_score && superior_score.score_level);
-        this.hasLeaderAdditionMark = need_attach_score == 1;
-        this.rules = score_rule;
-        this.stage = stage;
-        this.score = self_score.score; //自评总分
-        this.label_id = parseInt(superior_score.label_id) || null;
-      })
-      .catch(e => {});
+          this.basicInfo = {
+            name,
+            workcode,
+            self_attach_score
+          };
+          this.old_s = _s;
+          this.targets = this.normalizeTargets(targets);
+          this.operate_status = operate_status;
+          this.myAdditionMark = self_attach_score || {};
+          this.leaderAdditionMark = superior_attach_score || {};
+          this.comments = superior_score && superior_score.evaluation;
+          this.level =
+            score_level || (superior_score && superior_score.score_level);
+          this.hasLeaderAdditionMark = need_attach_score == 1;
+          this.rules = score_rule;
+          this.stage = stage;
+          this.score = self_score.score; //自评总分
+          this.label_id = parseInt(superior_score.label_id) || null;
+        })
+        .catch(e => {});
     },
     beforeSubmitCheck() {
       // 若模版选择了加减分，需要填写加减分理由，必填上限200

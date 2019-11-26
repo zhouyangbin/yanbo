@@ -247,7 +247,7 @@ export const highLevelTeamList = (orgID: String) =>
   sendGet(`/performance/api/highlevel/${orgID}/teams`);
 //根据隔级获取标签
 export const getLevelTags = (id: String) =>
-  sendGet(`/performance/api/label/rules/${id}`); 
+  sendGet(`/performance/api/label/rules/${id}`);
 export const highLevelTeamReview = (id: String, params: Object) =>
   sendGet(`/performance/api/highlevel/${id}/review`, params);
 //隔级同意
@@ -267,12 +267,8 @@ export const rejectHighLevelTeam = (id: String, code: String, params: Object) =>
 //       attach_for
 //     })}`
 //   );
-export const getEmployeeLevelTeamDetail = (
-  orgID: String,
-  uid: String
-) =>
+export const getEmployeeLevelTeamDetail = (orgID: String, uid: String) =>
   sendGet(`/performance/api/highlevel/${orgID}/${uid}`);
-
 
 // 上级评下级绩效
 export const postUserPerformance = (uid: String, params: Object) =>
@@ -447,5 +443,3 @@ export const getLowerPlusList = (params: Object) =>
 // /culture/web/team/interval-evaluations/end
 export const getEndList = (params: Object) =>
   sendGet(`/culture/web/team/interval-evaluations/end`, params);
-
-  

@@ -122,15 +122,16 @@ export default {
       switch (querys.path) {
         case "self":
         case "confirm":
-          dst = PATH_EMPLYEE_MY_DETAIL(//我的业绩 我的评分 详情
+          dst = PATH_EMPLYEE_MY_DETAIL(
+            //我的业绩 我的评分 详情
             querys.performance_id,
             querys.performance_user_id
           );
           break;
-        case "team_list"://我的业绩 团队评分 
+        case "team_list": //我的业绩 团队评分
           dst = PATH_EMPLOYEE_TEAM;
           break;
-        case "superior_list"://我的业绩 团队评分 评分管理
+        case "superior_list": //我的业绩 团队评分 评分管理
           dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
           break;
         case "appeal_hr":
@@ -140,13 +141,13 @@ export default {
             querys.performance_user_id
           );
           break;
-        case "review"://团队  个人详情
+        case "review": //团队  个人详情
           dst = PATH_EMPLOYEE_TEAM_MEMEBER(
             querys.performance_id,
             querys.performance_user_id
           );
           break;
-        case "performance_detail"://业绩评分 评分管理 评分进度 事业部详情
+        case "performance_detail": //业绩评分 评分管理 评分进度 事业部详情
           dst = PATH_PERFORMANCE_ORG_LIST(
             querys.performance_name_id,
             querys.performance_id

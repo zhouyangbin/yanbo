@@ -7,24 +7,24 @@
 <script>
 export default {
   name: "app",
-  provide (){
-     return {
-       page_reload:this.page_reload
-     }
-  },
-  data(){
+  provide() {
     return {
-       isRouterAlive:true
-    }
+      page_reload: this.page_reload
+    };
   },
-  methods:{
-    page_reload (){
-       this.isRouterAlive = false
-       this.$nextTick(function(){
-          this.isRouterAlive = true
-       })
-    }
+  data() {
+    return {
+      isRouterAlive: true
+    };
   },
+  methods: {
+    page_reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(function() {
+        this.isRouterAlive = true;
+      });
+    }
+  }
 };
 </script>
 

@@ -257,35 +257,51 @@ export default {
                         <div style='width:100px;'>分布结果检查 :</div>\
                          <div style='width:300px;'>\
                             <p style='${
-                                             top_Diff >= 0 ? "display:none" : null
-                                           }'> <span style='color: #EB0C00;'>\
-                                            ${overview[0].name}总人数超出${Math.abs(
-                              top_Diff
-                            )}人</span></p>\
+                              top_Diff >= 0 ? "display:none" : null
+                            }'> <span style='color: #EB0C00;'>\
+                                            ${
+                                              overview[0].name
+                                            }总人数超出${Math.abs(
+          top_Diff
+        )}人</span></p>\
                                            <p style='${
-                                             b_plus_diff >= 0 ? "display:none" : null
+                                             b_plus_diff >= 0
+                                               ? "display:none"
+                                               : null
                                            }'> <span style='color: #EB0C00;'>\
-                                             ${overview[1].child[0].name}总人数超出${Math.abs(
-                              b_plus_diff
-                            )}人</span></p>\
+                                             ${
+                                               overview[1].child[0].name
+                                             }总人数超出${Math.abs(
+          b_plus_diff
+        )}人</span></p>\
                                            <p style='${
                                              b_diff >= 0 ? "display:none" : null
                                            }'> <span style='color: #EB0C00;'>\
-                                            ${overview[1].child[1].name}总人数超出${Math.abs(
-                              b_diff
-                            )}人</span></p>\
+                                            ${
+                                              overview[1].child[1].name
+                                            }总人数超出${Math.abs(
+          b_diff
+        )}人</span></p>\
                                            <p style='${
-                                             b_minus_diff >= 0 ? "display:none" : null
+                                             b_minus_diff >= 0
+                                               ? "display:none"
+                                               : null
                                            }'> <span style='color: #EB0C00;'>\
-                                            ${overview[2].child[0].name}总人数缺少${Math.abs(
-                              b_minus_diff
-                            )}人</span></p>\
+                                            ${
+                                              overview[2].child[0].name
+                                            }总人数缺少${Math.abs(
+          b_minus_diff
+        )}人</span></p>\
                                            <p style='${
-                                             cd_diff >= 0 ? "display:none" : null
+                                             cd_diff >= 0
+                                               ? "display:none"
+                                               : null
                                            }'> <span style='color: #EB0C00;'>\
-                                            ${overview[2].child[1].name}总人数缺少${Math.abs(
-                              cd_diff
-                            )}人</span></p>\
+                                            ${
+                                              overview[2].child[1].name
+                                            }总人数缺少${Math.abs(
+          cd_diff
+        )}人</span></p>\
                           </div>\
                       </div>`;
         this.Allsubmit_step2(tip_html);
@@ -297,8 +313,8 @@ export default {
         confirmButtonText: "提交",
         inputPlaceholder: "请输入理由",
         cancelButtonText: "暂不提交",
-        inputPattern: /\S/,//判断是否为空
-        inputErrorMessage: '提交理由不能为空'
+        inputPattern: /\S/, //判断是否为空
+        inputErrorMessage: "提交理由不能为空"
       })
         .then(({ value }) => {
           this.Allsubmit_send(value);
@@ -336,12 +352,12 @@ export default {
           this.refreshList(postData); //再次请求接口
           this.reviewList(); //再次请求接口
           this.$message({
-            message: '提交成功',
-            type: 'success'
+            message: "提交成功",
+            type: "success"
           });
         })
         .catch(e => {});
-    },
+    }
   },
   computed: {},
   watch: {
