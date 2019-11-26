@@ -122,8 +122,8 @@ import {
   getPerformanceTypes,
   getTplDepartments,
   getTagDepartments,
-  getPerformanceDetail,
-  getTagTplDepartments
+  getPerformanceDetail
+  // getTagTplDepartments
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -212,7 +212,7 @@ export default {
     };
   },
   created() {
-    getTagTplDepartments().then(res => {
+    // getTagTplDepartments().then(res => {
       this.optionalIds = res;
       if (this.infoType != "add" && this.performanceId) {
         // this.orgTree = this.disabledOrgTree(this.orgTree);
@@ -245,7 +245,7 @@ export default {
       } else {
         // this.orgTree = this.handleOrgTree(this.orgTree);
       }
-    });
+    // });
   },
   methods: {
     selectedOrg(data) {
