@@ -85,13 +85,16 @@
       </el-row>
       <el-row class="upload-target" v-else> </el-row>
     </el-row>
-    <upload-target
+    <common-upload-dialog
+      v-if="isUpload"
       :visible="isUpload"
+      :uploadTitle="uploadTitle"
       :uploadActionUrl="uploadActionUrl"
       :downloadUrl="downloadUrl"
       @close="closeUploadDialog"
       @update="confirmUpload"
-    ></upload-target>
+    >
+    </common-upload-dialog>
   </div>
 </template>
 <script>
@@ -104,6 +107,8 @@ import {
   ERROR_MESSAGE_CONTACT_USER,
   SENIOR_UPLOAD_TARGET
 } from "@/constants/TEXT";
+import { AsyncComp } from "@/utils/asyncCom";
+import { PATH_UPLOAD_TARGET, PATH_IMPORT_TARGET } from "@/constants/URL";
 export default {
   props: {
     userInfo: {
@@ -124,16 +129,22 @@ export default {
         ASSESS_CYCLE,
         SET_TARGET_DEADLINE,
         ERROR_MESSAGE_CONTACT_USER,
-        SENIOR_UPLOAD_TARGET
+        SENIOR_UPLOAD_TARGET,
+        PATH_UPLOAD_TARGET,
+        PATH_IMPORT_TARGET
       },
       isUpload: false,
       uploadActionUrl: "",
-      downloadUrl: ""
+      downloadUrl: "",
+      uploadTitle: "",
+      performanceId: this.$route.params.id,
+      userId: this.$route.params.uid
     };
   },
   components: {
-    "upload-target": () =>
-      import("@/components/modules/employee/uploadTarget/index")
+    "common-upload-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
+    )
   },
   methods: {
     /**
@@ -160,6 +171,7 @@ export default {
     },
     uploadTarget() {
       this.isUpload = true;
+      this.uploadTitle = "工作目标";
     },
     closeUploadDialog() {
       this.isUpload = false;
@@ -168,6 +180,16 @@ export default {
       this.isUpload = false;
       // to do 上传完了干啥
     }
+  },
+  created() {
+    this.uploadActionUrl = this.constants.PATH_UPLOAD_TARGET(
+      this.performanceId,
+      parseInt(this.userId)
+    );
+    this.downloadUrl = this.constants.PATH_IMPORT_TARGET(
+      this.performanceId,
+      parseInt(this.userId)
+    );
   }
 };
 </script>

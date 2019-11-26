@@ -202,6 +202,10 @@
               }}</span>
             </div>
           </div>
+          <div class="setting-detail">
+            <div class="setting-key">考核年份:</div>
+            <div class="setting-value">{{ performanceDetail.year }}</div>
+          </div>
         </div>
       </div>
       <div class="setting-list-box">
@@ -302,7 +306,7 @@
           <el-form-item class="limit-width" prop="stage" label="状态:">
             <el-select v-model="personalForm.stage" placeholder="请选择">
               <el-option
-                v-for="item in statusOptions"
+                v-for="item in constants.USER_STATUS"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -543,7 +547,7 @@
                 @click="viewIndicators(scope.row)"
                 type="text"
                 size="small"
-                >查看指标</el-button
+                >查看详情</el-button
               >
             </template>
           </el-table-column>
@@ -614,9 +618,8 @@
       :visible="showUpload"
       :uploadTitle="uploadTitle"
       :uploadActionUrl="uploadActionUrl"
-      :uploadType="uploadType"
       :downloadUrl="downloadUrl"
-      @close="upload_close"
+      @close="uploadClose"
       @update="confirmUpload"
     >
     </common-upload-dialog>
@@ -640,16 +643,20 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_USER_LIST,
   PATH_EXPORT_DETAIL,
-  postUploadFinancialIndicators,
-  postUploadWorkIndicators,
-  getFinancialtpm,
-  getWorktpm,
+  PATH_UPLOAD_FINANCIAL_INDICATORS,
+  PATH_UPLOAD_WORK_INDICATORS,
+  PATH_IMPORT_FINANCIAL_INDICATORS,
+  PATH_IMPORT_WORK_INDICATORS,
   PATH_PERFORMANCE_TPL_USER,
   PATH_PERFORMANCE_IMPORT_USER,
   PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 
-import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
+import {
+  LABEL_EMPTY,
+  LABEL_SELECT_DIVISION,
+  USER_STATUS
+} from "@/constants/TEXT";
 export default {
   components: {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
@@ -679,60 +686,6 @@ export default {
         label: "name",
         children: "children"
       },
-      statusOptions: [
-        {
-          label: "指标填写中",
-          value: 0
-        },
-        {
-          label: "指标确认中",
-          value: 10
-        },
-        {
-          label: "指标已确认",
-          value: 20
-        },
-        {
-          label: "评分未开始",
-          value: 30
-        },
-        {
-          label: "自评中",
-          value: 40
-        },
-        {
-          label: "上级评",
-          value: 50
-        },
-        {
-          label: "隔级审核中",
-          value: 60
-        },
-        {
-          label: "总裁审核中",
-          value: 70
-        },
-        {
-          label: "已审核",
-          value: 80
-        },
-        {
-          label: "确认中",
-          value: 90
-        },
-        {
-          label: "申诉中",
-          value: 100
-        },
-        {
-          label: "已确认",
-          value: 110
-        },
-        {
-          label: "已结束",
-          value: 120
-        }
-      ],
       executiveTypes: [],
       tagOptions: [],
       performanceDetail: {},
@@ -781,7 +734,6 @@ export default {
       showUpload: false,
       uploadTitle: "",
       uploadActionUrl: "",
-      uploadType: "",
       downloadUrl: "",
       isLoading: true,
       showImportList: false,
@@ -790,10 +742,11 @@ export default {
       exportUrl: "",
       exportDetailUrl: "",
       constants: {
-        postUploadFinancialIndicators,
-        postUploadWorkIndicators,
-        getFinancialtpm,
-        getWorktpm
+        PATH_UPLOAD_FINANCIAL_INDICATORS,
+        PATH_UPLOAD_WORK_INDICATORS,
+        PATH_IMPORT_FINANCIAL_INDICATORS,
+        PATH_IMPORT_WORK_INDICATORS,
+        USER_STATUS
       }
     };
   },
@@ -1014,21 +967,23 @@ export default {
       this.showUpload = true;
       if (type == "finance") {
         this.uploadTitle = "财务指标";
-        this.uploadActionUrl = this.constants.postUploadFinancialIndicators(
+        this.uploadActionUrl = this.constants.PATH_UPLOAD_FINANCIAL_INDICATORS(
           this.performanceId
         );
-        this.downloadUrl = this.constants.getFinancialtpm(this.performanceId);
-        this.uploadType = type;
+        this.downloadUrl = this.constants.PATH_IMPORT_FINANCIAL_INDICATORS(
+          this.performanceId
+        );
       } else {
         this.uploadTitle = "工作目标";
-        this.uploadActionUrl = this.constants.postUploadWorkIndicators(
+        this.uploadActionUrl = this.constants.PATH_UPLOAD_WORK_INDICATORS(
           this.performanceId
         );
-        this.downloadUrl = this.constants.getWorktpm(this.performanceId);
-        this.uploadType = type;
+        this.downloadUrl = this.constants.PATH_IMPORT_WORK_INDICATORS(
+          this.performanceId
+        );
       }
     },
-    upload_close() {
+    uploadClose() {
       this.showUpload = false;
     }
   },
