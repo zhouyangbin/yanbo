@@ -135,6 +135,15 @@ export default {
         hrd_workcode: "",
         executive_type: ""
       },
+      userParams: {
+        workcode: "",
+        superior_workcode: "",
+        isolation_workcode: "",
+        president_workcode: "",
+        hrbp_workcode: "",
+        hrd_workcode: "",
+        executive_type: ""
+      },
       userRules: {
         workcode: [
           { required: true, message: "请输入姓名或工号", trigger: "blur" }
@@ -166,21 +175,27 @@ export default {
   methods: {
     selectWorkCode(data) {
       this.userForm.workcode = data;
+      this.userParams.workcode = data;
     },
     selectSubCode(data) {
       this.userForm.superior_workcode = data;
+      this.userParams.superior_workcode = data;
     },
     selectIsoCode(data) {
       this.userForm.isolation_workcode = data;
+      this.userParams.isolation_workcode = data;
     },
     selectPreCode(data) {
       this.userForm.president_workcode = data;
+      this.userParams.president_workcode = data;
     },
     selectHrbpCode(data) {
       this.userForm.hrbp_workcode = data;
+      this.userParams.hrbp_workcode = data;
     },
     selectHrdCode(data) {
       this.userForm.hrd_workcode = data;
+      this.userParams.hrd_workcode = data;
     },
     close() {
       this.$emit("close");
@@ -192,7 +207,7 @@ export default {
             putExecutiveEmployeeInfo(
               this.performanceId,
               this.userId,
-              this.userForm
+              this.userParams
             )
               .then(res => {
                 this.$emit("update");
@@ -221,13 +236,22 @@ export default {
       })
       .catch(e => {});
     if (this.userType != "add") {
-      this.userForm = {
+      this.userParams = {
         workcode: this.userInfo.workcode,
         superior_workcode: this.userInfo.superior_workcode,
         isolation_workcode: this.userInfo.isolation_workcode,
         president_workcode: this.userInfo.president_workcode,
         hrbp_workcode: this.userInfo.hrbp_workcode,
         hrd_workcode: this.userInfo.hrd_workcode,
+        executive_type: this.userInfo.executive_type
+      }
+      this.userForm = {
+        workcode: this.userInfo.workcode + "-" + this.userInfo.name,
+        superior_workcode: this.userInfo.superior_workcode + "-" + this.userInfo.superior_name,
+        isolation_workcode: this.userInfo.isolation_workcode + "-" + this.userInfo.isolation_name,
+        president_workcode: this.userInfo.president_workcode + "-" + this.userInfo.president_name,
+        hrbp_workcode: this.userInfo.hrbp_workcode + "-" + this.userInfo.hrbp_name,
+        hrd_workcode: this.userInfo.hrd_workcode + "-" + this.userInfo.hrd_name,
         executive_type: this.userInfo.executive_type
       };
     }
