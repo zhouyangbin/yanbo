@@ -153,7 +153,7 @@ export default {
       reject_msg: "",
       content: "",
       reviewData: [],
-      perPage: 10,
+      perPage: 10
     };
   },
   components: {
@@ -188,7 +188,7 @@ export default {
       );
     },
     refreshList(data) {
-      data['perPage'] = this.perPage;
+      data["perPage"] = this.perPage;
       return getTeamList(this.$route.params.id, data)
         .then(res => {
           const { user, overview, performanceInfo } = res;

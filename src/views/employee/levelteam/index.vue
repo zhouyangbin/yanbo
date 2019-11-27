@@ -187,7 +187,7 @@ export default {
       department_id: this.$route.params.id,
       team_overview: [], //团队的评分判断
       workcode: "", //隔级团队workcode
-      perPage: 10,
+      perPage: 10
     };
   },
   components: {
@@ -247,7 +247,7 @@ export default {
     },
     refreshList(data) {
       //请求tabel 列表
-      data['perPage'] = this.perPage;
+      data["perPage"] = this.perPage;
       return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
           const { overview, list } = res;
@@ -439,7 +439,6 @@ export default {
           name: v.name,
           stage: v.status,
           label_id: v.tags,
-          workcode: this.workcode,
           workcode: this.workcode,
           page: 1
         };
