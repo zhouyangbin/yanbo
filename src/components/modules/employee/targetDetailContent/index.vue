@@ -96,13 +96,12 @@ export default {
     }
   },
   methods: {
-    // 小计
     handleSubTotal(type) {
       let subTotal = 0;
       this.allTarget.forEach(v => {
         if (v.basicType === type) {
           v.table.forEach(value => {
-            if (Number(value.weights) !== "") {
+            if (value.weights !== "") {
               subTotal += Number(value.weights);
             }
           });

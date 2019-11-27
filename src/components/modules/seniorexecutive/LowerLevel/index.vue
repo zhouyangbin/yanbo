@@ -188,7 +188,6 @@ export default {
           this.performance_user_id
         )
       );
-      // 查看详情
     },
     getMyLowerList() {
       let data = {
