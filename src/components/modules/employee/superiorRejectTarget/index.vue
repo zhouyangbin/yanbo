@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { postSuperAffirmTarget } from "@/constants/API";
+import { postSuperConfirmTarget } from "@/constants/API";
 export default {
   props: {
     isRejectDialog: {
@@ -58,7 +58,7 @@ export default {
             type: 1,
             reason: this.form.reason
           };
-          postSuperAffirmTarget(postData)
+          postSuperConfirmTarget(postData)
             .then(res => {
               this.$message.success("审批成功");
               this.close();

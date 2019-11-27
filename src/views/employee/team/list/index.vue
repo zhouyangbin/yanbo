@@ -73,9 +73,9 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
-  PATH_PERFORMANCE_MY_DETAIL
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
-import { getTeamScore } from "@/constants/API";
+import { getExecutiveTeamScore } from "@/constants/API";
 import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 
 export default {
@@ -121,7 +121,7 @@ export default {
       // to do
       if (row.p_type == "executive") {
         this.$router.push(
-          PATH_PERFORMANCE_MY_DETAIL(
+          PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
             row.performance_id,
             row.performance_user_id
           )
@@ -135,7 +135,7 @@ export default {
         page: this.page,
         perPage: this.perPage
       };
-      getTeamScore(data)
+      getExecutiveTeamScore(data)
         .then(res => {
           const { total, data } = res;
           this.tableData = data;

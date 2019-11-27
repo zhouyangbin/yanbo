@@ -134,14 +134,14 @@ import {
   RESET
 } from "@/constants/TEXT";
 import {
-  getAdminTpls,
-  deleteTpls,
-  getPerformanceTypes,
+  getExecutiveAdminTpls,
+  deleteExecutiveTpls,
+  getExecutivePerformanceTypes,
   getExecutiveTypes,
-  getTplFields,
-  getTplMeasures,
-  getOrganization,
-  getIndicatorTypes
+  getExecutiveTplFields,
+  getExecutiveTplMeasures,
+  getExecutiveOrganization,
+  getExecutiveIndicatorTypes
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -219,7 +219,7 @@ export default {
         perPage: this.perPage,
         department_ids: this.department_ids.split(",")
       };
-      getAdminTpls(data)
+      getExecutiveAdminTpls(data)
         .then(res => {
           const { total, data } = res;
           this.tableData = data;
@@ -263,7 +263,7 @@ export default {
       this.showConfirmDialog = false;
     },
     confirmDialog() {
-      deleteTpls(this.performanceId)
+      deleteExecutiveTpls(this.performanceId)
         .then(res => {
           this.showConfirmDialog = false;
           this.getTplList();
@@ -273,7 +273,7 @@ export default {
   },
   created() {
     this.getTplList();
-    getPerformanceTypes()
+    getExecutivePerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
       })
@@ -283,22 +283,22 @@ export default {
         this.executiveTypes = res;
       })
       .catch(e => {});
-    getTplFields()
+    getExecutiveTplFields()
       .then(res => {
         this.tplFields = res;
       })
       .catch(e => {});
-    getTplMeasures()
+    getExecutiveTplMeasures()
       .then(res => {
         this.tplMeasures = res;
       })
       .catch(e => {});
-    getOrganization()
+    getExecutiveOrganization()
       .then(res => {
         this.orgTree = res;
       })
       .catch(e => {});
-    getIndicatorTypes()
+    getExecutiveIndicatorTypes()
       .then(res => {
         this.indicatorTypes = res;
       })

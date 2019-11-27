@@ -160,7 +160,7 @@
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
 import { formatTime } from "@/utils/timeFormat";
-import { postPerformanceSetTime } from "@/constants/API";
+import { postExecutivePerformanceSetTime } from "@/constants/API";
 export default {
   props: {
     visible: {
@@ -388,7 +388,7 @@ export default {
     submit() {
       this.$refs["timeForm"].validate(valid => {
         if (valid) {
-          postPerformanceSetTime(this.performanceId, this.timeForm)
+          postExecutivePerformanceSetTime(this.performanceId, this.timeForm)
             .then(res => {
               this.$emit("update");
             })

@@ -108,7 +108,10 @@ import {
   SENIOR_UPLOAD_TARGET
 } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
-import { PATH_UPLOAD_TARGET, PATH_IMPORT_TARGET } from "@/constants/URL";
+import {
+  PATH_EXECUTIVE_UPLOAD_TARGET,
+  PATH_EXECUTIVE_IMPORT_TARGET
+} from "@/constants/URL";
 export default {
   props: {
     userInfo: {
@@ -130,8 +133,8 @@ export default {
         SET_TARGET_DEADLINE,
         ERROR_MESSAGE_CONTACT_USER,
         SENIOR_UPLOAD_TARGET,
-        PATH_UPLOAD_TARGET,
-        PATH_IMPORT_TARGET
+        PATH_EXECUTIVE_UPLOAD_TARGET,
+        PATH_EXECUTIVE_IMPORT_TARGET
       },
       isUpload: false,
       uploadActionUrl: "",
@@ -182,8 +185,10 @@ export default {
     }
   },
   created() {
-    this.uploadActionUrl = this.constants.PATH_UPLOAD_TARGET(this.userId);
-    this.downloadUrl = this.constants.PATH_IMPORT_TARGET(
+    this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_TARGET(
+      this.userId
+    );
+    this.downloadUrl = this.constants.PATH_EXECUTIVE_IMPORT_TARGET(
       this.performanceId,
       parseInt(this.userId)
     );

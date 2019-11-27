@@ -205,12 +205,10 @@ import {
   DEFAULT_TABLE2521
 } from "@/constants/TEXT";
 import {
-  postAdminTags,
-  putTpl,
-  getAdminTagTypes,
-  getOrganization,
-  getAdminTagDetails,
-  putAdminTagChange
+  postExecutiveAdminTags,
+  getExecutiveAdminTagTypes,
+  getExecutiveAdminTagDetails,
+  putExecutiveAdminTagChange
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -403,14 +401,14 @@ export default {
           };
           if (this.infoType === "add") {
             // 新增标签
-            return postAdminTags(postData)
+            return postExecutiveAdminTags(postData)
               .then(res => {
                 this.$emit("getList");
               })
               .catch(() => {});
           } else {
             let UpData = postData;
-            return putAdminTagChange(this.userId, UpData)
+            return putExecutiveAdminTagChange(this.userId, UpData)
               .then(res => {
                 this.$emit("getList");
               })
@@ -422,7 +420,7 @@ export default {
     // 更新标签传递数据
     updateTemplate() {},
     getAdminTagTypesList() {
-      getAdminTagTypes().then(res => {
+      getExecutiveAdminTagTypes().then(res => {
         this.tagTypesList = res;
       });
     },
@@ -456,7 +454,7 @@ export default {
       return newArr;
     },
     getTagDetails() {
-      getAdminTagDetails(this.userId).then(res => {
+      getExecutiveAdminTagDetails(this.userId).then(res => {
         this.tplForm.tag_type = res.tag_type;
         if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
           this.table253 = this.handleTagRulesDataStructure(res.rules);

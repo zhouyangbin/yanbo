@@ -105,10 +105,13 @@
   </div>
 </template>
 <script>
-import { getMyUnderLower, getPerformanceTagTypes } from "@/constants/API";
+import {
+  getExecutiveMyUnderLower,
+  getExecutivePerformanceTagTypes
+} from "@/constants/API";
 import {
   PATH_EMPLOYEE_TEAM,
-  PATH_PERFORMANCE_TEAM_TARGET_AFFRIM
+  PATH_EXECUTIVE_PERFORMANCE_TEAM_TARGET_AFFRIM
 } from "@/constants/URL";
 import { STAGEOPTIONS } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -180,7 +183,7 @@ export default {
     },
     viewDetail(data) {
       this.$router.push(
-        PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(
+        PATH_EXECUTIVE_PERFORMANCE_TEAM_TARGET_AFFRIM(
           this.performanceId,
           this.performance_user_id,
           data.workcode
@@ -197,7 +200,7 @@ export default {
         stage: this.filterForm.stage,
         score_tag: this.filterForm.score_tag
       };
-      getMyUnderLower(data).then(res => {
+      getExecutiveMyUnderLower(data).then(res => {
         let { data, total } = res;
         this.total = total;
         this.lowerList = data;
@@ -205,7 +208,7 @@ export default {
     }
   },
   created() {
-    getPerformanceTagTypes(this.performanceId)
+    getExecutivePerformanceTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })

@@ -628,27 +628,27 @@
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
 import {
-  putOpenAssessment,
-  getOrganization,
-  getPerformanceTypes,
-  getPerformanceDetail,
-  getPerformanceUser,
+  putExecutiveOpenAssessment,
+  getExecutiveOrganization,
+  getExecutivePerformanceTypes,
+  getExecutivePerformanceDetail,
+  getExecutivePerformanceUser,
   getCurrentExecutiveTypes,
   getUserDetail,
-  getPerformanceNotice,
-  deletePerformanceUser,
-  getPerformanceTagTypes
+  getExecutivePerformanceNotice,
+  deleteExecutivePerformanceUser,
+  getExecutivePerformanceTagTypes
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
-  PATH_PERFORMANCE_USER_LIST,
-  PATH_EXPORT_DETAIL,
-  PATH_UPLOAD_FINANCIAL_INDICATORS,
-  PATH_UPLOAD_WORK_INDICATORS,
-  PATH_IMPORT_FINANCIAL_INDICATORS,
-  PATH_IMPORT_WORK_INDICATORS,
-  PATH_PERFORMANCE_TPL_USER,
-  PATH_PERFORMANCE_IMPORT_USER,
+  PATH_EXECUTIVE_EXPORT_USER_LIST,
+  PATH_EXECUTIVE_EXPORT_DETAIL,
+  PATH_EXECUTIVE_UPLOAD_FINANCIAL_INDICATORS,
+  PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS,
+  PATH_EXECUTIVE_IMPORT_FINANCIAL_INDICATORS,
+  PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
+  PATH_EXECUTIVE_IMPORT_USER_LIST,
+  PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER,
   PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 
@@ -742,10 +742,10 @@ export default {
       exportUrl: "",
       exportDetailUrl: "",
       constants: {
-        PATH_UPLOAD_FINANCIAL_INDICATORS,
-        PATH_UPLOAD_WORK_INDICATORS,
-        PATH_IMPORT_FINANCIAL_INDICATORS,
-        PATH_IMPORT_WORK_INDICATORS,
+        PATH_EXECUTIVE_UPLOAD_FINANCIAL_INDICATORS,
+        PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS,
+        PATH_EXECUTIVE_IMPORT_FINANCIAL_INDICATORS,
+        PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
         USER_STATUS
       }
     };
@@ -832,7 +832,7 @@ export default {
       }
     },
     reminder() {
-      getPerformanceNotice(this.performanceId)
+      getExecutivePerformanceNotice(this.performanceId)
         .then(res => {
           this.$message({
             message: "提醒成功",
@@ -847,8 +847,10 @@ export default {
     },
     importList() {
       this.showImportList = true;
-      this.importTplUrl = PATH_PERFORMANCE_TPL_USER;
-      this.uploadTplUrl = PATH_PERFORMANCE_IMPORT_USER(this.performanceId);
+      this.importTplUrl = PATH_EXECUTIVE_IMPORT_USER_LIST;
+      this.uploadTplUrl = PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER(
+        this.performanceId
+      );
     },
     closeImportList() {
       this.showImportList = false;
@@ -878,7 +880,7 @@ export default {
     },
     confirmDialog(data) {
       if (data === "open") {
-        putOpenAssessment(this.performanceId)
+        putExecutiveOpenAssessment(this.performanceId)
           .then(res => {
             this.showConfirmDialog = false;
             this.getPerformanceDetailData();
@@ -907,7 +909,7 @@ export default {
       let delData = {
         performance_user_ids: this.performance_user_ids
       };
-      deletePerformanceUser(this.performanceId, delData)
+      deleteExecutivePerformanceUser(this.performanceId, delData)
         .then(res => {
           this.performance_user_ids = [];
           this.getUserList();
@@ -946,7 +948,7 @@ export default {
       this.showModifyUser = true;
     },
     getUserList() {
-      getPerformanceUser(this.performanceId, this.personalForm)
+      getExecutivePerformanceUser(this.performanceId, this.personalForm)
         .then(res => {
           let { data, total } = res;
           this.total = total;
@@ -955,7 +957,7 @@ export default {
         .catch(e => {});
     },
     getPerformanceDetailData() {
-      getPerformanceDetail(this.performanceId)
+      getExecutivePerformanceDetail(this.performanceId)
         .then(res => {
           this.currentStage = res.stage;
           this.isLoading = false;
@@ -967,18 +969,18 @@ export default {
       this.showUpload = true;
       if (type == "finance") {
         this.uploadTitle = "财务指标";
-        this.uploadActionUrl = this.constants.PATH_UPLOAD_FINANCIAL_INDICATORS(
+        this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_FINANCIAL_INDICATORS(
           this.performanceId
         );
-        this.downloadUrl = this.constants.PATH_IMPORT_FINANCIAL_INDICATORS(
+        this.downloadUrl = this.constants.PATH_EXECUTIVE_IMPORT_FINANCIAL_INDICATORS(
           this.performanceId
         );
       } else {
         this.uploadTitle = "工作目标";
-        this.uploadActionUrl = this.constants.PATH_UPLOAD_WORK_INDICATORS(
+        this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS(
           this.performanceId
         );
-        this.downloadUrl = this.constants.PATH_IMPORT_WORK_INDICATORS(
+        this.downloadUrl = this.constants.PATH_EXECUTIVE_IMPORT_WORK_INDICATORS(
           this.performanceId
         );
       }
@@ -989,15 +991,15 @@ export default {
   },
   created() {
     this.nowTime = new Date();
-    this.exportUrl = PATH_PERFORMANCE_USER_LIST(this.performanceId);
-    this.exportDetailUrl = PATH_EXPORT_DETAIL(this.performanceId);
+    this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(this.performanceId);
+    this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(this.performanceId);
     this.getPerformanceDetailData();
-    getOrganization()
+    getExecutiveOrganization()
       .then(res => {
         this.orgTree = res;
       })
       .catch(e => {});
-    getPerformanceTypes()
+    getExecutivePerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
       })
@@ -1007,7 +1009,7 @@ export default {
         this.executiveTypes = res;
       })
       .catch(e => {});
-    getPerformanceTagTypes(this.performanceId)
+    getExecutivePerformanceTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })

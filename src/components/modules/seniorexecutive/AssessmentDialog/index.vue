@@ -115,13 +115,12 @@ import {
   END_TIME_NOT_LESS_THAN_START_TIME
 } from "@/constants/TEXT";
 import {
-  postAddPerformanceAssessment,
-  putPerformanceAssessment,
-  getPerformanceTypes,
-  getTplDepartments,
-  getTagDepartments,
-  getPerformanceDetail
-  // getTagTplDepartments
+  postExecutiveAddAssessment,
+  putExecutiveAssessment,
+  getExecutiveTplDepartments,
+  getExecutiveTagDepartments,
+  getExecutivePerformanceDetail
+  // getExecutiveTagTplDepartments
 } from "@/constants/API";
 import { formatTime } from "@/utils/timeFormat";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -213,11 +212,11 @@ export default {
     };
   },
   created() {
-    // getTagTplDepartments().then(res => {
+    // getExecutiveTagTplDepartments().then(res => {
     // this.optionalIds = res;
     if (this.infoType != "add" && this.performanceId) {
       this.orgTree = this.disabledOrgTree(this.orgTree);
-      getPerformanceDetail(this.performanceId)
+      getExecutivePerformanceDetail(this.performanceId)
         .then(res => {
           const {
             name,
@@ -264,12 +263,12 @@ export default {
       let getData = {
         department_ids: data
       };
-      getTagDepartments(getData)
+      getExecutiveTagDepartments(getData)
         .then(res => {
           this.ruleForm.tag = res;
         })
         .catch(e => {});
-      getTplDepartments(getData)
+      getExecutiveTplDepartments(getData)
         .then(res => {
           this.ruleForm.templates = res;
         })
@@ -293,11 +292,11 @@ export default {
             return false;
           }
           if (this.infoType == "add") {
-            return postAddPerformanceAssessment(this.ruleForm).then(res => {
+            return postExecutiveAddAssessment(this.ruleForm).then(res => {
               this.$emit("update", res.id);
             });
           } else {
-            return putPerformanceAssessment(
+            return putExecutiveAssessment(
               this.performanceId,
               this.ruleForm
             ).then(res => {

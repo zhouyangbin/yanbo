@@ -60,7 +60,7 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAIL
 } from "@/constants/TEXT";
-import { postImportFromEHR } from "@/constants/API";
+import { postExecutiveImportFromEHR } from "@/constants/API";
 import { PATH_IMPORT_BY_EXCEL, PATH_EXCEL_TPL } from "@/constants/URL";
 
 export default {
@@ -113,7 +113,7 @@ export default {
       let data = {
         is_executive: this.is_executive ? 1 : 0
       };
-      postImportFromEHR(this.performanceId, data)
+      postExecutiveImportFromEHR(this.performanceId, data)
         .then(res => {
           this.$emit("update");
         })

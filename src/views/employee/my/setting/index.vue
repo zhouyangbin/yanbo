@@ -209,11 +209,11 @@ import {
   PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 import {
-  getPerformanceUserInfo,
-  getUniqueTemplate,
-  getTargetContent,
-  postSaveDraft,
-  postSubmitTargetContent
+  getExecutiveUserInfo,
+  getExecutiveUniqueTemplate,
+  getExecutiveTargetContent,
+  postExecutiveSaveDraft,
+  postExecutiveIndexSetting
 } from "@/constants/API";
 import { Divider } from "element-ui";
 
@@ -325,8 +325,7 @@ export default {
       let data = {
         performance_user_id: this.$route.params.uid
       };
-
-      getPerformanceUserInfo(data)
+      getExecutiveUserInfo(data)
         .then(res => {
           const {
             performance_name,
@@ -368,7 +367,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getUniqueTemplate(data)
+      getExecutiveUniqueTemplate(data)
         .then(res => {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
@@ -512,7 +511,7 @@ export default {
           cancelButtonText: "取消"
         })
           .then(() => {
-            postSubmitTargetContent(
+            postExecutiveIndexSetting(
               this.$route.params.uid,
               this.handleSubmitData()
             )
@@ -533,7 +532,7 @@ export default {
      * 点击暂存按钮，不需要进行验证，只需要把数据发送给后端，成功时提示暂存成功
      */
     temporaryMemory() {
-      postSaveDraft(this.$route.params.uid, this.handleSubmitData())
+      postExecutiveSaveDraft(this.$route.params.uid, this.handleSubmitData())
         .then(res => {
           this.$message({ type: "success", message: "暂存成功" });
         })
@@ -543,7 +542,7 @@ export default {
      * 点击返回按钮，不需要进行验证，成功时回到我的评分列表页
      */
     returnList() {
-      postSaveDraft(this.$route.params.uid, this.handleSubmitData())
+      postExecutiveSaveDraft(this.$route.params.uid, this.handleSubmitData())
         .then(res => {
           this.$router.push("/employee/my");
         })
@@ -557,7 +556,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getTargetContent(data).then(res => {
+      getExecutiveTargetContent(data).then(res => {
         this.allTarget[index].table.push(res[0]);
       });
     },

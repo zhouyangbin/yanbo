@@ -27,7 +27,10 @@ import {
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL
 } from "@/constants/URL";
-import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
+import {
+  getExecutiveUserInfo,
+  getExecutiveUniqueTemplate
+} from "@/constants/API";
 export default {
   data() {
     return {
@@ -85,7 +88,7 @@ export default {
         performance_user_id: this.$route.params.id,
         workcode: this.$route.params.workcode
       };
-      getPerformanceUserInfo(data)
+      getExecutiveUserInfo(data)
         .then(res => {
           const {
             performance_name,
@@ -126,7 +129,7 @@ export default {
         performance_user_id: this.$route.params.id,
         workcode: this.$route.params.workcode
       };
-      getUniqueTemplate(data)
+      getExecutiveUniqueTemplate(data)
         .then(res => {
           const isTeam = res.team !== undefined;
           const isWork = res.work !== undefined;

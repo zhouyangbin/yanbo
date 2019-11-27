@@ -44,7 +44,7 @@
   </el-dialog>
 </template>
 <script>
-import { getExamineLog } from "@/constants/API";
+import { getExecutiveExamineLog } from "@/constants/API";
 export default {
   props: {
     isExamineDialog: {
@@ -73,7 +73,7 @@ export default {
       let data = {
         performance_user_id: this.perforamnce_user_id
       };
-      getExamineLog(data)
+      getExecutiveExamineLog(data)
         .then(res => {
           this.data = res;
           this.lineData = res.records;
