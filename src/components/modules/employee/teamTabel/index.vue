@@ -93,9 +93,7 @@
             <div class="overview_info">
               <template v-if="overview[1].child" class="clo_bg_2">
                 <div class="overview_info_number_head">
-                  <div
-                    class="overview_head2 overview_info_number_head_title"
-                  >
+                  <div class="overview_head2 overview_info_number_head_title">
                     {{
                       overview[1].child[0].name +
                         "(" +
@@ -108,9 +106,7 @@
                   </div>
                 </div>
                 <div class="overview_info_number_info">
-                  <span
-                    class="overview_info_number_info_des clo_bg_2"
-                  >
+                  <span class="overview_info_number_info_des clo_bg_2">
                     <span>
                       {{ overview[1].child[0].count }}人
                       <span
@@ -157,10 +153,7 @@
                     >{{ getUserInfo(overview[1].child[0].users) }}</el-button
                   >
                 </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_2"
-                >
+                <span v-else class="overview_info_number_users clo_bg_2">
                   {{ getUserInfo(overview[1].child[0].users) }}
                 </span>
               </template>
@@ -237,9 +230,7 @@
             <div class="overview_info">
               <template v-if="overview[2].child" class="clo_bg_3">
                 <div class="overview_info_number_head">
-                  <div
-                    class="overview_head2 overview_info_number_head_title"
-                  >
+                  <div class="overview_head2 overview_info_number_head_title">
                     {{
                       overview[2].child[0].name +
                         "(" +
@@ -252,9 +243,7 @@
                   </div>
                 </div>
                 <div class="overview_info_number_info">
-                  <span
-                    class="overview_info_number_info_des clo_bg_2"
-                  >
+                  <span class="overview_info_number_info_des clo_bg_2">
                     <span>
                       {{ overview[2].child[0].count }}人
                       <span
@@ -301,10 +290,7 @@
                     >{{ getUserInfo(overview[2].child[0].users) }}</el-button
                   >
                 </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_2"
-                >
+                <span v-else class="overview_info_number_users clo_bg_2">
                   {{ getUserInfo(overview[2].child[0].users) }}
                 </span>
               </template>
