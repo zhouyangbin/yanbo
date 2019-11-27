@@ -89,12 +89,12 @@
               <template> </template>
             </div>
           </el-col>
-          <el-col :span="9" align="center">
+          <el-col :span="4" align="center">
             <div class="overview_info">
               <template v-if="overview[1].child" class="clo_bg_2">
                 <div class="overview_info_number_head">
                   <div
-                    class="overview_head2 overview_info_number_head_title margin_right_3"
+                    class="overview_head2 overview_info_number_head_title"
                   >
                     {{
                       overview[1].child[0].name +
@@ -106,18 +106,10 @@
                         "人)"
                     }}
                   </div>
-                  <div class="overview_head2 overview_info_number_head_title">
-                    {{
-                      overview[1].child[1].name +
-                        "(" +
-                        overview[1].child[1].threshold +
-                        "%)"
-                    }}
-                  </div>
                 </div>
                 <div class="overview_info_number_info">
                   <span
-                    class="overview_info_number_info_des margin_right_3 clo_bg_2"
+                    class="overview_info_number_info_des clo_bg_2"
                   >
                     <span>
                       {{ overview[1].child[0].count }}人
@@ -146,6 +138,48 @@
                       }}人
                     </span>
                   </span>
+                </div>
+              </template>
+            </div>
+            <div class="display_flex">
+              <template>
+                <el-popover
+                  v-if="overview[1].child[0].users.length"
+                  class="overview_info_number_users"
+                  placement="top-start"
+                  width="200"
+                  trigger="hover"
+                  :content="getUserInfo(overview[1].child[0].users)"
+                >
+                  <el-button
+                    class="overview_info_number_users clo_bg_2"
+                    slot="reference"
+                    >{{ getUserInfo(overview[1].child[0].users) }}</el-button
+                  >
+                </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_2"
+                >
+                  {{ getUserInfo(overview[1].child[0].users) }}
+                </span>
+              </template>
+            </div>
+          </el-col>
+          <el-col :span="5" align="center">
+            <div class="overview_info">
+              <template v-if="overview[1].child" class="clo_bg_2">
+                <div class="overview_info_number_head">
+                  <div class="overview_head2 overview_info_number_head_title">
+                    {{
+                      overview[1].child[1].name +
+                        "(" +
+                        overview[1].child[1].threshold +
+                        "%)"
+                    }}
+                  </div>
+                </div>
+                <div class="overview_info_number_info">
                   <span class="overview_info_number_info_des clo_bg_2">
                     <span>
                       {{ overview[1].child[1].count }}人
@@ -180,28 +214,6 @@
             <div class="display_flex">
               <template>
                 <el-popover
-                  v-if="overview[1].child[0].users.length"
-                  class="overview_info_number_users margin_right_3"
-                  placement="top-start"
-                  width="200"
-                  trigger="hover"
-                  :content="getUserInfo(overview[1].child[0].users)"
-                >
-                  <el-button
-                    class="overview_info_number_users clo_bg_2"
-                    slot="reference"
-                    >{{ getUserInfo(overview[1].child[0].users) }}</el-button
-                  >
-                </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_2  margin_right_3"
-                >
-                  {{ getUserInfo(overview[1].child[0].users) }}
-                </span>
-              </template>
-              <template>
-                <el-popover
                   v-if="overview[1].child[1].users.length"
                   class="overview_info_number_users"
                   placement="top-start"
@@ -221,12 +233,12 @@
               </template>
             </div>
           </el-col>
-          <el-col :span="9" align="center">
+          <el-col :span="4" align="center">
             <div class="overview_info">
               <template v-if="overview[2].child" class="clo_bg_3">
                 <div class="overview_info_number_head">
                   <div
-                    class="overview_head2 overview_info_number_head_title margin_right_3"
+                    class="overview_head2 overview_info_number_head_title"
                   >
                     {{
                       overview[2].child[0].name +
@@ -238,21 +250,10 @@
                         "人)"
                     }}
                   </div>
-                  <div class="overview_head3 overview_info_number_head_title">
-                    {{
-                      overview[2].child[1].name +
-                        "(" +
-                        overview[2].child[1].threshold +
-                        "%" +
-                        ",至少" +
-                        overview[2].child[1].expected +
-                        "人)"
-                    }}
-                  </div>
                 </div>
                 <div class="overview_info_number_info">
                   <span
-                    class="overview_info_number_info_des margin_right_3 clo_bg_2"
+                    class="overview_info_number_info_des clo_bg_2"
                   >
                     <span>
                       {{ overview[2].child[0].count }}人
@@ -281,6 +282,51 @@
                       }}人
                     </span>
                   </span>
+                </div>
+              </template>
+            </div>
+            <div class="display_flex">
+              <template>
+                <el-popover
+                  v-if="overview[2].child[0].users.length"
+                  class="overview_info_number_users"
+                  placement="top-start"
+                  width="200"
+                  trigger="hover"
+                  :content="getUserInfo(overview[2].child[0].users)"
+                >
+                  <el-button
+                    class="overview_info_number_users clo_bg_2"
+                    slot="reference"
+                    >{{ getUserInfo(overview[2].child[0].users) }}</el-button
+                  >
+                </el-popover>
+                <span
+                  v-else
+                  class="overview_info_number_users clo_bg_2"
+                >
+                  {{ getUserInfo(overview[2].child[0].users) }}
+                </span>
+              </template>
+            </div>
+          </el-col>
+          <el-col :span="5" align="center">
+            <div class="overview_info">
+              <template v-if="overview[2].child" class="clo_bg_3">
+                <div class="overview_info_number_head">
+                  <div class="overview_head3 overview_info_number_head_title">
+                    {{
+                      overview[2].child[1].name +
+                        "(" +
+                        overview[2].child[1].threshold +
+                        "%" +
+                        ",至少" +
+                        overview[2].child[1].expected +
+                        "人)"
+                    }}
+                  </div>
+                </div>
+                <div class="overview_info_number_info">
                   <span class="overview_info_number_info_des clo_bg_3">
                     <span>
                       {{ overview[2].child[1].count }}人
@@ -313,28 +359,6 @@
               </template>
             </div>
             <div class="display_flex">
-              <template>
-                <el-popover
-                  v-if="overview[2].child[0].users.length"
-                  class="overview_info_number_users margin_right_3"
-                  placement="top-start"
-                  width="200"
-                  trigger="hover"
-                  :content="getUserInfo(overview[2].child[0].users)"
-                >
-                  <el-button
-                    class="overview_info_number_users clo_bg_2"
-                    slot="reference"
-                    >{{ getUserInfo(overview[2].child[0].users) }}</el-button
-                  >
-                </el-popover>
-                <span
-                  v-else
-                  class="overview_info_number_users clo_bg_2  margin_right_3"
-                >
-                  {{ getUserInfo(overview[2].child[0].users) }}
-                </span>
-              </template>
               <template>
                 <el-popover
                   v-if="overview[2].child[1].users.length"
@@ -413,7 +437,7 @@ export default {
   background-size: 360px 207px;
 }
 .display_flex {
-  display: flex;
+  /*display: flex;*/
 }
 .paading_right_3 {
   padding-right: 3px;
@@ -428,7 +452,7 @@ export default {
   background: rgb(255, 247, 241);
 }
 .clo_bg_3 {
-  background: rgba(246, 247, 249);
+  background: #eff1f5;
 }
 .overview_tip_color {
   color: #eb0c00;
@@ -487,10 +511,11 @@ export default {
   flex-direction: column;
 }
 .overview_info_number_users {
+  display: block;
+  width: 100%;
   height: 80px;
   margin: 0;
   border-top: solid 1px #fff;
-  flex: 1;
   justify-content: center;
   align-items: left;
   word-break: break-all;

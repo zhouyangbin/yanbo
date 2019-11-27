@@ -159,61 +159,6 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column
-              v-if="1 > 2"
-              prop="hr_name"
-              label="HRBP"
-            ></el-table-column>
-            <el-table-column
-              prop="high_level_name"
-              label="隔级"
-            ></el-table-column>
-            <el-table-column prop="self_score" label="自评分"></el-table-column>
-            <el-table-column
-              prop="superior_score"
-              label="上级评分"
-            ></el-table-column>
-            <el-table-column
-              prop="score_level"
-              label="绩效等级"
-            ></el-table-column>
-            <el-table-column label="标签分布" align="left">
-              <template slot-scope="scope">
-                <el-tag
-                  v-if="
-                    scope.row.score_level == 'A' || scope.row.score_level == 'S'
-                  "
-                  class="status-tag top-style"
-                >
-                  <span class="top-style-text">{{ scope.row.label_name }}</span>
-                </el-tag>
-                <el-tag
-                  v-if="scope.row.score_level == 'B'"
-                  class="status-tag bplus-style"
-                >
-                  <span class="bplus-style-text">{{
-                    scope.row.label_name
-                  }}</span>
-                </el-tag>
-                <el-tag
-                  v-if="
-                    scope.row.score_level == 'C' || scope.row.score_level == 'D'
-                  "
-                  class="status-tag other-style"
-                >
-                  <span class="other-style-text">{{
-                    scope.row.label_name
-                  }}</span>
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="stage_status" label="状态" align="center">
-              <template slot-scope="scope">
-                <span>
-                  {{ get_stage_status(scope.row.stage) }}
-                </span>
-              </template>
-            </el-table-column>
             <el-table-column prop="ops" label="操作">
               <template slot-scope="scope">
                 <el-button

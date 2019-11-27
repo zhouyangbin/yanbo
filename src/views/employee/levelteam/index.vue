@@ -449,6 +449,7 @@ export default {
           name: v.name,
           stage: v.status,
           label_id: v.tags,
+          workcode: this.workcode,
           page: 1
         };
         this.refreshList(postData);
