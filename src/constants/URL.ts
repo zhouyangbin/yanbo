@@ -279,9 +279,10 @@ export const PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS = (id: String) =>
   )}`;
 
 // 高管绩效  导入名单模板
-export const PATH_EXECUTIVE_IMPORT_USER_LIST = `${base}executive-performance/admin/performances/templates/users?token=${localStorage.getItem(
-  "talToken"
-)}`;
+export const PATH_EXECUTIVE_IMPORT_USER_LIST = (id: String) =>
+  `${base}executive-performance/admin/performances/${id}/templates/users?token=${localStorage.getItem(
+    "talToken"
+  )}`;
 
 // 高管绩效  导入考核名单
 export const PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER = (id: String) =>

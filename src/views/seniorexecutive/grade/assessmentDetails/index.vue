@@ -847,7 +847,7 @@ export default {
     },
     importList() {
       this.showImportList = true;
-      this.importTplUrl = PATH_EXECUTIVE_IMPORT_USER_LIST;
+      this.importTplUrl = PATH_EXECUTIVE_IMPORT_USER_LIST(this.performanceId);
       this.uploadTplUrl = PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER(
         this.performanceId
       );
@@ -906,6 +906,14 @@ export default {
       );
     },
     delPerformanceUser() {
+      if (this.performance_user_ids.length === 0) {
+        this.$message({
+          showClose: true,
+          message: "请至少选择一个人员",
+          type: "error"
+        });
+        return false;
+      }
       let delData = {
         performance_user_ids: this.performance_user_ids
       };

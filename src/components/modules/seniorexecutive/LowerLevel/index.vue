@@ -186,7 +186,6 @@ export default {
         PATH_EXECUTIVE_TEAM_TARGET_CONFIRM(
           this.performanceId,
           this.performance_user_id
-          // data.workcode
         )
       );
       // 查看详情
