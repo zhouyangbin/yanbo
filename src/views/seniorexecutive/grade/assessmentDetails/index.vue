@@ -20,10 +20,12 @@
           class="time-line"
           :class="performanceDetail.stage === 0 ? '' : 'active'"
           :data="
-            '填写中' +
-              performanceDetail.indicator_fill_in +
-              '/确认中' +
-              performanceDetail.indicator_confirm
+            performanceDetail.stage === 0
+              ? ''
+              : '填写中' +
+                performanceDetail.indicator_fill_in +
+                '/确认中' +
+                performanceDetail.indicator_confirm
           "
         >
           指标设定
@@ -60,7 +62,11 @@
         <div
           class="time-line"
           :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
-          :data="'自评中' + performanceDetail.self_evaluation"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '自评中' + performanceDetail.self_evaluation
+          "
         >
           自评
         </div>
@@ -76,7 +82,11 @@
           :class="
             performanceDetail.superior_begin_time > nowTime ? 'active' : ''
           "
-          :data="'复评中' + performanceDetail.re_evaluation"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '复评中' + performanceDetail.re_evaluation
+          "
         >
           上级评分
         </div>
@@ -92,7 +102,11 @@
           :class="
             performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
           "
-          :data="'隔级审核中' + performanceDetail.isolation_adult"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '隔级审核中' + performanceDetail.isolation_adult
+          "
         >
           隔级审核
         </div>
@@ -112,7 +126,11 @@
               ? 'active'
               : ''
           "
-          :data="'总裁审核中' + performanceDetail.president_audit"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '总裁审核中' + performanceDetail.president_audit
+          "
         >
           总裁审核
         </div>
@@ -125,10 +143,12 @@
           class="time-line"
           :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="
-            '确认中' +
-              performanceDetail.confirm +
-              '/已确认' +
-              performanceDetail.confirmed
+            performanceDetail.stage === 0
+              ? ''
+              : '确认中' +
+                performanceDetail.confirm +
+                '/已确认' +
+                performanceDetail.confirmed
           "
         >
           结果确认
@@ -460,7 +480,16 @@
             prop="sub_department_name"
             label="大部门/分校"
             width="200"
-          ></el-table-column>
+          >
+            <template slot-scope="scope">
+              <div v-if="scope.row.sub_department_name">
+                {{ scope.row.sub_department_name }}
+              </div>
+              <div v-else>
+                — —
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             :show-overflow-tooltip="true"
             prop="email"
@@ -644,7 +673,8 @@ import {
   PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
   PATH_EXECUTIVE_IMPORT_USER_LIST,
   PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER,
-  PATH_PERFORMANCE_TARGET_DETAIL
+  PATH_PERFORMANCE_TARGET_DETAIL,
+  PATH_PERFORMANCE_HIGH_TARGET_DETAIL
 } from "@/constants/URL";
 
 import {
@@ -900,8 +930,9 @@ export default {
       this.getUserList();
     },
     viewIndicators(data) {
+      console.log(this.performanceId, data.id);
       this.$router.push(
-        PATH_PERFORMANCE_TARGET_DETAIL(this.performanceId, data.id)
+        PATH_PERFORMANCE_HIGH_TARGET_DETAIL(this.performanceId, data.id)
       );
     },
     delPerformanceUser() {
@@ -936,10 +967,15 @@ export default {
         workcode,
         email,
         superior_workcode,
+        superior_name,
         isolation_workcode,
+        isolation_name,
         president_workcode,
+        president_name,
         hrbp_workcode,
+        hrbp_name,
         hrd_workcode,
+        hrd_name,
         executive_type
       } = data;
       this.userInfo = {
@@ -947,10 +983,15 @@ export default {
         workcode,
         email,
         superior_workcode,
+        superior_name,
         isolation_workcode,
+        isolation_name,
         president_workcode,
+        president_name,
         hrbp_workcode,
+        hrbp_name,
         hrd_workcode,
+        hrd_name,
         executive_type
       };
       this.userType = "modify";

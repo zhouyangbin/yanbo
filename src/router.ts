@@ -47,7 +47,8 @@ import {
   PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
   PATH_EXECUTIVE_APPLICATION,
   PATH_EXECUTIVE_SUREAPPLICATION,
-  PATH_EXECUTIVE_SURE_ADD
+  PATH_EXECUTIVE_SURE_ADD,
+  PATH_PERFORMANCE_HIGH_TARGET_DETAIL
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -406,6 +407,13 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_HIGH_TARGET_DETAIL(),
+          components: {
+            default: () => import("@/views/seniorexecutive/grade/targetDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
