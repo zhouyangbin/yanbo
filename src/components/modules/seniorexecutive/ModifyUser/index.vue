@@ -244,13 +244,17 @@ export default {
         hrbp_workcode: this.userInfo.hrbp_workcode,
         hrd_workcode: this.userInfo.hrd_workcode,
         executive_type: this.userInfo.executive_type
-      }
+      };
       this.userForm = {
         workcode: this.userInfo.workcode + "-" + this.userInfo.name,
-        superior_workcode: this.userInfo.superior_workcode + "-" + this.userInfo.superior_name,
-        isolation_workcode: this.userInfo.isolation_workcode + "-" + this.userInfo.isolation_name,
-        president_workcode: this.userInfo.president_workcode + "-" + this.userInfo.president_name,
-        hrbp_workcode: this.userInfo.hrbp_workcode + "-" + this.userInfo.hrbp_name,
+        superior_workcode:
+          this.userInfo.superior_workcode + "-" + this.userInfo.superior_name,
+        isolation_workcode:
+          this.userInfo.isolation_workcode + "-" + this.userInfo.isolation_name,
+        president_workcode:
+          this.userInfo.president_workcode + "-" + this.userInfo.president_name,
+        hrbp_workcode:
+          this.userInfo.hrbp_workcode + "-" + this.userInfo.hrbp_name,
         hrd_workcode: this.userInfo.hrd_workcode + "-" + this.userInfo.hrd_name,
         executive_type: this.userInfo.executive_type
       };
