@@ -46,7 +46,14 @@
           >
           <span v-else class="state doing">进行中</span>
           <div class="bread-crumb">
-            <div class="bread-crumb-name">{{ item.name }}</div>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="item.name"
+              placement="top"
+            >
+              <div class="bread-crumb-name">{{ item.name }}</div>
+            </el-tooltip>
             <div class="bread-crumb-separator">|</div>
             <el-tooltip
               class="item"
