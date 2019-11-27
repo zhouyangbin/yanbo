@@ -940,6 +940,16 @@ export default {
         president_workcode,
         hrbp_workcode,
         hrd_workcode,
+        // superior_workcode,
+        // superior_name,
+        // isolation_workcode,
+        // isolation_name,
+        // president_workcode,
+        // president_name,
+        // hrbp_workcode,
+        // hrbp_name,
+        // hrd_workcode,
+        // hrd_name,
         executive_type
       } = data;
       this.userInfo = {
@@ -951,6 +961,16 @@ export default {
         president_workcode,
         hrbp_workcode,
         hrd_workcode,
+        // superior_workcode,
+        // superior_name,
+        // isolation_workcode,
+        // isolation_name,
+        // president_workcode,
+        // president_name,
+        // hrbp_workcode,
+        // hrbp_name,
+        // hrd_workcode,
+        // hrd_name,
         executive_type
       };
       this.userType = "modify";
