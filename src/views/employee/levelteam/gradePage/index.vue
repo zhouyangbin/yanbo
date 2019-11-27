@@ -396,7 +396,7 @@ export default {
           this.showTotal = false;
           break;
         case 20:
-          this.readOnly = false;
+          this.readOnly = true;
           this.canEdit = true;
           this.showTotal = true;
           this.targets = targets.map(v => {
