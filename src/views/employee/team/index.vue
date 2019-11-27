@@ -47,7 +47,7 @@
           <p>上级意见:</p>
         </el-col>
         <el-col :span="22" align="left">
-          <p>{{ reject_msg }}</p>
+          <p style="word-break: break-all;">{{ reject_msg }}</p>
         </el-col>
       </el-row>
     </section>
