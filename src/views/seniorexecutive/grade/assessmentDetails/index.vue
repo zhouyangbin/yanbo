@@ -930,7 +930,6 @@ export default {
       this.getUserList();
     },
     viewIndicators(data) {
-      console.log(this.performanceId, data.id);
       this.$router.push(
         PATH_PERFORMANCE_HIGH_TARGET_DETAIL(this.performanceId, data.id)
       );

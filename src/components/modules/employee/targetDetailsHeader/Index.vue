@@ -79,7 +79,7 @@
           icon="el-icon-upload2"
           class="btn"
           @click="uploadTarget"
-          v-if="userInfo.current_user_identity == undefined"
+          v-if="userInfo.current_user_identity == undefined && !isDisable"
           >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
         >
       </el-row>
@@ -121,6 +121,10 @@ export default {
     self: {
       type: Boolean,
       default: true
+    },
+    isDisable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -185,6 +189,7 @@ export default {
     }
   },
   created() {
+    console.log(this.userInfo);
     this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_TARGET(
       this.userId
     );
