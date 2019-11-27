@@ -229,8 +229,8 @@ export const PATH_SURE_ADD = (id = ":id", uid = ":uid") =>
 export const PATH_PERFORMANCE_TEAM_TARGET_AFFRIM = (
   id: String = ":id",
   uid: String = ":uid",
-  workcode = ":workcode"
-) => `/employee/team/target/${id}/${uid}/${workcode}`;
+  // workcode = ":workcode"
+) => `/employee/team/target/${id}/${uid}`;
 
 // 高管绩效
 export const PATH_ASSESSMENT_DATAILS = (id = ":id") =>

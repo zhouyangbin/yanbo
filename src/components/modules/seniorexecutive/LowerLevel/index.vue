@@ -69,6 +69,14 @@
           :show-overflow-tooltip="true"
           label="大部门/分校"
         >
+          <template slot-scope="scope">
+            <div v-if="scope.row.sub_department_name">
+              {{ scope.row.sub_department_name }}
+            </div>
+            <div v-else>
+              — —
+            </div>
+          </template>
         </el-table-column>
         <el-table-column prop="hrbp_name" label="HRBP"> </el-table-column>
         <el-table-column prop="isolation_name" label="隔级"> </el-table-column>
@@ -183,7 +191,7 @@ export default {
         PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(
           this.performanceId,
           this.performance_user_id,
-          data.workcode
+          // data.workcode
         )
       );
       // 查看详情
