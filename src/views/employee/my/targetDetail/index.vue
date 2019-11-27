@@ -26,7 +26,10 @@ import {
   TARGET_RETURN
 } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
-import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
+import {
+  getExecutiveUserInfo,
+  getExecutiveUniqueTemplate
+} from "@/constants/API";
 export default {
   data() {
     return {
@@ -81,7 +84,7 @@ export default {
       let data = {
         performance_user_id: this.$route.params.uid
       };
-      getPerformanceUserInfo(data)
+      getExecutiveUserInfo(data)
         .then(res => {
           const {
             performance_name,
@@ -123,7 +126,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getUniqueTemplate(data)
+      getExecutiveUniqueTemplate(data)
         .then(res => {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务

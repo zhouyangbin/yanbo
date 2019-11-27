@@ -261,11 +261,14 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
-import { putOpenAssessment, delAssessment } from "@/constants/API";
 import {
-  getOrganization,
-  getPerformanceTypes,
-  getAdminPerformancesList
+  putExecutiveOpenAssessment,
+  deleteExecutiveAssessment
+} from "@/constants/API";
+import {
+  getExecutiveOrganization,
+  getExecutivePerformanceTypes,
+  getExecutiveAdminPerformances
 } from "@/constants/API";
 import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
@@ -367,7 +370,7 @@ export default {
         perPage: this.perPage,
         department_ids: this.department_ids.split(",")
       };
-      getAdminPerformancesList(data)
+      getExecutiveAdminPerformances(data)
         .then(res => {
           const { total, data } = res;
           this.performancesList = data;
@@ -409,14 +412,14 @@ export default {
     },
     confirmDialog(data) {
       if (data === "open") {
-        putOpenAssessment(this.performanceId)
+        putExecutiveOpenAssessment(this.performanceId)
           .then(res => {
             this.showConfirmDialog = false;
             this.getPerformanceList();
           })
           .catch(e => {});
       } else if (data === "delete") {
-        delAssessment(this.performanceId)
+        deleteExecutiveAssessment(this.performanceId)
           .then(res => {
             this.showConfirmDialog = false;
             this.getPerformanceList();
@@ -436,12 +439,12 @@ export default {
   created() {
     this.nowTime = new Date();
     this.getPerformanceList();
-    getOrganization()
+    getExecutiveOrganization()
       .then(res => {
         this.orgTree = res;
       })
       .catch(e => {});
-    getPerformanceTypes()
+    getExecutivePerformanceTypes()
       .then(res => {
         this.performanceTypes = res;
       })

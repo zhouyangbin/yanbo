@@ -26,8 +26,11 @@ import {
   CHECK_EXAMINE_LOG,
   TARGET_RETURN
 } from "@/constants/TEXT";
-import { PATH_EMPLOYEE_MY, PATH_SURE_ADD } from "@/constants/URL";
-import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
+import { PATH_EMPLOYEE_MY, PATH_EXECUTIVE_SURE_ADD } from "@/constants/URL";
+import {
+  getExecutiveUserInfo,
+  getExecutiveUniqueTemplate
+} from "@/constants/API";
 export default {
   data() {
     return {
@@ -86,7 +89,7 @@ export default {
       let data = {
         performance_user_id: this.$route.params.uid
       };
-      getPerformanceUserInfo(data)
+      getExecutiveUserInfo(data)
         .then(res => {
           const {
             performance_name,
@@ -128,7 +131,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getUniqueTemplate(data)
+      getExecutiveUniqueTemplate(data)
         .then(res => {
           const isTeam = res.data.team !== undefined;
           const isWork = res.data.work !== undefined;
@@ -179,7 +182,7 @@ export default {
     // 同意并加签
     sureAdd() {
       this.$router.push(
-        PATH_SURE_ADD(this.$route.params.id, this.$route.params.uid)
+        PATH_EXECUTIVE_SURE_ADD(this.$route.params.id, this.$route.params.uid)
       );
     },
     /**

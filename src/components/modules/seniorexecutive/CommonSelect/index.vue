@@ -21,7 +21,7 @@
   </el-select>
 </template>
 <script>
-import { getSearchEmployees } from "@/constants/API";
+import { Executive } from "@/constants/API";
 export default {
   props: {
     isDisabled: {
@@ -44,7 +44,7 @@ export default {
     searchME(query) {
       if (query !== "") {
         this.loading = true;
-        getSearchEmployees({
+        Executive({
           name_or_workcode: query
         })
           .then(res => {

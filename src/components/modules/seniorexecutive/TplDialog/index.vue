@@ -150,9 +150,9 @@ import {
   SORT
 } from "@/constants/TEXT";
 import {
-  putPerformanceTpls,
-  postPerformanceTpl,
-  getPerformanceTpl
+  putExecutivePerformanceTpls,
+  postExecutivePerformanceTpl,
+  getExecutivePerformanceTpl
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -294,15 +294,16 @@ export default {
             }
           }
           if (this.infoType == "add") {
-            return postPerformanceTpl(this.tplForm).then(res => {
+            return postExecutivePerformanceTpl(this.tplForm).then(res => {
               this.$emit("update");
             });
           } else {
-            return putPerformanceTpls(this.performanceId, this.tplForm).then(
-              res => {
-                this.$emit("update");
-              }
-            );
+            return putExecutivePerformanceTpls(
+              this.performanceId,
+              this.tplForm
+            ).then(res => {
+              this.$emit("update");
+            });
           }
         }
       });
@@ -313,7 +314,7 @@ export default {
   },
   created() {
     if (this.infoType != "add" && this.performanceId) {
-      getPerformanceTpl(this.performanceId).then(res => {
+      getExecutivePerformanceTpl(this.performanceId).then(res => {
         const {
           name,
           department_ids,

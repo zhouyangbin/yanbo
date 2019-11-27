@@ -126,7 +126,11 @@ import {
   RESET,
   FORCED_DISTRIBUTION_VALUE
 } from "@/constants/TEXT";
-import { getAdminTags, getOrganization, deleteLabel } from "@/constants/API";
+import {
+  getExecutiveAdminTags,
+  getExecutiveOrganization,
+  deleteExecutiveLabel
+} from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   components: {
@@ -214,7 +218,7 @@ export default {
         page: this.page,
         perPage: this.perPage
       };
-      getAdminTags(data)
+      getExecutiveAdminTags(data)
         .then(res => {
           const { data, total } = res;
           this.total = total;
@@ -228,7 +232,7 @@ export default {
     },
     deleteMsg() {
       this.dialogVisible = false;
-      deleteLabel(this.deleteId)
+      deleteExecutiveLabel(this.deleteId)
         .then(res => {
           this.getAdminTagsList();
         })
@@ -237,7 +241,7 @@ export default {
   },
   created() {
     this.getAdminTagsList();
-    getOrganization()
+    getExecutiveOrganization()
       .then(res => {
         this.orgTree = res;
       })

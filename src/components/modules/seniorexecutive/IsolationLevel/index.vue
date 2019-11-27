@@ -169,8 +169,8 @@
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
 import {
-  getMyIsolationUnderLower,
-  getPerformanceTagTypes
+  getExecutiveMyIsolationUnderLower,
+  getExecutivePerformanceTagTypes
 } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 import {
@@ -271,7 +271,7 @@ export default {
         score_tag: this.filterForm.score_tag,
         team_leader: this.team_leader
       };
-      getMyIsolationUnderLower(getData)
+      getExecutiveMyIsolationUnderLower(getData)
         .then(res => {
           let { total, data, team } = res;
           this.total = total;
@@ -282,7 +282,7 @@ export default {
     }
   },
   created() {
-    getPerformanceTagTypes(this.performanceId)
+    getExecutivePerformanceTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })

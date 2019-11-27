@@ -130,7 +130,7 @@ import {
   YES,
   NO
 } from "@/constants/TEXT";
-import { getAdminTags } from "@/constants/API";
+import { getExecutiveAdminTags } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
   components: {
@@ -242,7 +242,7 @@ export default {
       this.showDialog = true;
     },
     getAdminTagsList() {
-      getAdminTags()
+      getExecutiveAdminTags()
         .then(res => {
           const { data, total } = res;
           this.total = total;
