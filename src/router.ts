@@ -40,14 +40,14 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_TPL_SETTINGS,
   PATH_PERFORMANCE_LABEL_SETTINGS,
-  PATH_ASSESSMENT_DATAILS,
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS,
   PATH_PERFORMANCE_TARGET_SET,
   PATH_PERFORMANCE_TARGET_DETAIL,
-  PATH_PERFORMANCE_TEAM_TARGET_AFFRIM,
-  PATH_PERFORMANCE_MY_DETAIL,
-  PATH_APPLICATION,
-  PATH_SUREAPPLICATION,
-  PATH_SURE_ADD
+  PATH_EXECUTIVE_TEAM_TARGET_CONFIRM,
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
+  PATH_EXECUTIVE_APPLICATION,
+  PATH_EXECUTIVE_SUREAPPLICATION,
+  PATH_EXECUTIVE_SURE_ADD
 } from "@/constants/URL";
 
 Vue.use(Router);
@@ -350,7 +350,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_ASSESSMENT_DATAILS(),
+          path: PATH_EXECUTIVE_ASSESSMENT_DATAILS(),
           components: {
             default: () =>
               import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
@@ -365,14 +365,14 @@ const router = new Router({
           }
         },
         {
-          path: PATH_APPLICATION(),
+          path: PATH_EXECUTIVE_APPLICATION(),
           components: {
             default: () => import("@/views/employee/my/setting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
         {
-          path: PATH_SUREAPPLICATION(),
+          path: PATH_EXECUTIVE_SUREAPPLICATION(),
           components: {
             default: () => import("@/views/employee/my/suresetting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
@@ -386,7 +386,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_PERFORMANCE_TEAM_TARGET_AFFRIM(),
+          path: PATH_EXECUTIVE_TEAM_TARGET_CONFIRM(),
           components: {
             default: () =>
               import("@/views/employee/team/targetDetail/index.vue"),
@@ -394,7 +394,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_SURE_ADD(),
+          path: PATH_EXECUTIVE_SURE_ADD(),
           components: {
             default: () =>
               import("@/views/employee/my/sureaddsetting/index.vue"),
@@ -402,7 +402,7 @@ const router = new Router({
           }
         },
         {
-          path: PATH_PERFORMANCE_MY_DETAIL(),
+          path: PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(),
           components: {
             default: () =>
               import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),

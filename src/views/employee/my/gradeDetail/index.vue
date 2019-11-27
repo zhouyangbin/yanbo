@@ -227,12 +227,12 @@ import {
   PATH_PERFORMANCE_TARGET_DETAIL
 } from "@/constants/URL";
 import {
-  getPerformanceUserInfo,
-  getUniqueTemplate,
-  getTargetContent,
-  postSaveDraft,
-  postSubmitTargetContent,
-  getPerformanceDraft
+  getExecutiveUserInfo,
+  getExecutiveUniqueTemplate,
+  getExecutiveTargetContent,
+  postExecutiveSaveDraft,
+  postExecutiveIndexSetting,
+  getExecutiveDraft
 } from "@/constants/API";
 export default {
   components: {
@@ -312,7 +312,7 @@ export default {
   },
   methods: {
     temporaryMemory() {
-      postSaveDraft(this.userId, this.indexTpl)
+      postExecutiveSaveDraft(this.userId, this.indexTpl)
         .then(res => {
           localStorage.setItem(this.userId, 1);
           this.$message({ type: "success", message: "暂存成功" });
@@ -382,7 +382,7 @@ export default {
           cancelButtonText: "取消"
         })
           .then(() => {
-            postSubmitTargetContent(
+            postExecutiveIndexSetting(
               this.$route.params.uid,
               this.$route.params.sign,
               this.indexTpl
@@ -402,7 +402,7 @@ export default {
       }
     },
     returnList() {
-      postSaveDraft(this.$route.params.uid, this.indexTpl)
+      postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
         .then(res => {
           localStorage.setItem(this.userId, 1);
           this.$router.push("/employee/my");
@@ -427,7 +427,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getTargetContent(data).then(res => {
+      getExecutiveTargetContent(data).then(res => {
         this.indexTpl[index].targets.push(res);
       });
     },
@@ -455,7 +455,7 @@ export default {
         performance_user_id: this.$route.params.uid,
         workcode: ""
       };
-      getPerformanceUserInfo(data)
+      getExecutiveUserInfo(data)
         .then(res => {
           const {
             performance_name,
@@ -497,7 +497,7 @@ export default {
     },
     getUserMsg() {
       let id = this.$route.params.uid;
-      getPerformanceDraft(id)
+      getExecutiveDraft(id)
         .then(res => {
           for (let i = 0; i < res.length; i++) {
             res[i].isFinancial = Number(res[i].isFinancial);
@@ -511,7 +511,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getUniqueTemplate(data)
+      getExecutiveUniqueTemplate(data)
         .then(res => {
           // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
           const isTeam = res.team !== undefined;

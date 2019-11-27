@@ -25,8 +25,8 @@
   </div>
 </template>
 <script>
-import { postSuperAffirmTarget } from "@/constants/API";
-import { PATH_PERFORMANCE_MY_DETAIL } from "@/constants/URL";
+import { postSuperConfirmTarget } from "@/constants/API";
+import { PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL } from "@/constants/URL";
 export default {
   props: {
     isAgreeDialog: {
@@ -52,13 +52,13 @@ export default {
         type: 2,
         reason: this.reason
       };
-      postSuperAffirmTarget(postData)
+      postSuperConfirmTarget(postData)
         .then(res => {
           this.$message.success("审批成功");
           this.close();
           // 返回下属列表
           this.$router.push(
-            PATH_PERFORMANCE_MY_DETAIL(
+            PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
               this.$route.params.id,
               this.$route.params.uid
             )

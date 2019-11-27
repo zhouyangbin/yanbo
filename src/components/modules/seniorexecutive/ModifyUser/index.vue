@@ -91,10 +91,9 @@
 <script>
 import {} from "@/constants/TEXT";
 import {
-  postAddStaff,
-  putEmployeeInfo,
-  getSearchEmployees,
-  getTplExecutiveTypes
+  postExecutiveAddUser,
+  putExecutiveEmployeeInfo,
+  getExecutiveTplTypes
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -190,13 +189,17 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (this.userType != "add") {
-            putEmployeeInfo(this.performanceId, this.userId, this.userForm)
+            putExecutiveEmployeeInfo(
+              this.performanceId,
+              this.userId,
+              this.userForm
+            )
               .then(res => {
                 this.$emit("update");
               })
               .catch(e => {});
           } else {
-            postAddStaff(this.performanceId, this.userForm)
+            postExecutiveAddUser(this.performanceId, this.userForm)
               .then(res => {
                 this.$emit("update");
               })
@@ -212,7 +215,7 @@ export default {
     this.$refs["userForm"].resetFields();
   },
   created() {
-    getTplExecutiveTypes(this.performanceId)
+    getExecutiveTplTypes(this.performanceId)
       .then(res => {
         this.executiveTypes = res;
       })

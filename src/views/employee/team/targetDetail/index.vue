@@ -27,9 +27,12 @@ import { TEAM_GRADE, GRADE_MANAGE } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
-  PATH_PERFORMANCE_MY_DETAIL
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
-import { getPerformanceUserInfo, getUniqueTemplate } from "@/constants/API";
+import {
+  getExecutiveUserInfo,
+  getExecutiveUniqueTemplate
+} from "@/constants/API";
 export default {
   data() {
     return {
@@ -87,7 +90,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getPerformanceUserInfo(data)
+      getExecutiveUserInfo(data)
         .then(res => {
           const {
             performance_name,
@@ -141,7 +144,7 @@ export default {
         performance_id: this.$route.params.id,
         performance_user_id: this.$route.params.uid
       };
-      getUniqueTemplate(data)
+      getExecutiveUniqueTemplate(data)
         .then(res => {
           /**
            * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
@@ -270,7 +273,7 @@ export default {
      */
     returnGradeList() {
       this.$router.push(
-        PATH_PERFORMANCE_MY_DETAIL(
+        PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
           this.$route.params.id,
           this.$route.params.uid
         )

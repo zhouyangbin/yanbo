@@ -149,7 +149,7 @@
   </div>
 </template>
 <script>
-import { getPerformanceDetailHeader } from "@/constants/API";
+import { getExecutivePerformanceHeader } from "@/constants/API";
 import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
 export default {
   components: {
@@ -194,7 +194,7 @@ export default {
       let data = {
         type: this.type
       };
-      getPerformanceDetailHeader(this.performanceId, data)
+      getExecutivePerformanceHeader(this.performanceId, data)
         .then(res => {
           this.isLoading = false;
           this.performanceDetail = res;
