@@ -216,6 +216,11 @@ export const PATH_PERFORMANCE_TARGET_SET = (
 export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
   `/performance/targetdetails/${id}/${uid}`;
 
+// 组织部绩效考核管理 - 考核详情 - 指标详情
+
+export const PATH_PERFORMANCE_HIGH_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
+  `/performance/assessment/targetdetails/${id}/${uid}`;
+
 // 高管绩效  申请调整指标
 export const PATH_EXECUTIVE_APPLICATION = (id = ":id", uid = ":uid") =>
   `/performance/settingdetails/${id}/${uid}`;
@@ -309,3 +314,4 @@ export const PATH_EXECUTIVE_EXPORT_DETAIL = (id: String) =>
       token: localStorage.getItem("talToken")
     }
   )}`;
+  
