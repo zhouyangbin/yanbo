@@ -231,9 +231,8 @@ export const PATH_EXECUTIVE_SURE_ADD = (id = ":id", uid = ":uid") =>
 // 高管绩效  我的团队上级确认页面
 export const PATH_EXECUTIVE_TEAM_TARGET_CONFIRM = (
   id: String = ":id",
-  uid: String = ":uid",
-  workcode = ":workcode"
-) => `/employee/team/target/${id}/${uid}/${workcode}`;
+  uid: String = ":uid"
+) => `/employee/team/target/${id}/${uid}`;
 
 // 高管绩效  考核详情
 export const PATH_EXECUTIVE_ASSESSMENT_DATAILS = (id = ":id") =>
