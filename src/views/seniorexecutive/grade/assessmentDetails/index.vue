@@ -20,10 +20,12 @@
           class="time-line"
           :class="performanceDetail.stage === 0 ? '' : 'active'"
           :data="
-            '填写中' +
-              performanceDetail.indicator_fill_in +
-              '/确认中' +
-              performanceDetail.indicator_confirm
+            performanceDetail.stage === 0
+              ? ''
+              : '填写中' +
+                performanceDetail.indicator_fill_in +
+                '/确认中' +
+                performanceDetail.indicator_confirm
           "
         >
           指标设定
@@ -60,7 +62,11 @@
         <div
           class="time-line"
           :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
-          :data="'自评中' + performanceDetail.self_evaluation"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '自评中' + performanceDetail.self_evaluation
+          "
         >
           自评
         </div>
@@ -76,7 +82,11 @@
           :class="
             performanceDetail.superior_begin_time > nowTime ? 'active' : ''
           "
-          :data="'复评中' + performanceDetail.re_evaluation"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '复评中' + performanceDetail.re_evaluation
+          "
         >
           上级评分
         </div>
@@ -92,7 +102,11 @@
           :class="
             performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
           "
-          :data="'隔级审核中' + performanceDetail.isolation_adult"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '隔级审核中' + performanceDetail.isolation_adult
+          "
         >
           隔级审核
         </div>
@@ -112,7 +126,11 @@
               ? 'active'
               : ''
           "
-          :data="'总裁审核中' + performanceDetail.president_audit"
+          :data="
+            performanceDetail.stage === 0
+              ? ''
+              : '总裁审核中' + performanceDetail.president_audit
+          "
         >
           总裁审核
         </div>
@@ -125,10 +143,12 @@
           class="time-line"
           :class="performanceDetail.stage === 600 ? 'active' : ''"
           :data="
-            '确认中' +
-              performanceDetail.confirm +
-              '/已确认' +
-              performanceDetail.confirmed
+            performanceDetail.stage === 0
+              ? ''
+              : '确认中' +
+                performanceDetail.confirm +
+                '/已确认' +
+                performanceDetail.confirmed
           "
         >
           结果确认
@@ -392,12 +412,6 @@
           </el-form-item>
         </el-form>
         <div class="table-operate">
-          <!-- <el-button
-            type="primary"
-            icon="el-icon-view"
-            @click="viewDistribution"
-            >查看分布</el-button
-          > -->
           <el-button-group class="btn-group">
             <el-button icon="el-icon-upload2" @click="importList"
               >导入名单</el-button
@@ -609,6 +623,7 @@
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
+      :confirmType="confirmType"
       @update="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
@@ -708,6 +723,7 @@ export default {
       performanceTypes: [],
       orgTree: [],
       tipsText: "",
+      confirmType: "",
       nowTime: "",
       nav: [
         {
@@ -865,10 +881,9 @@ export default {
       this.showImportList = false;
     },
     removeList() {
-      this.delPerformanceUser();
-    },
-    viewDistribution() {
-      // 查看分布 to do
+      this.showConfirmDialog = true;
+      this.tipsText = "是否确认移除？";
+      this.confirmType = "delete";
     },
     modifySettings() {
       this.infoType = "modify";
@@ -885,6 +900,7 @@ export default {
     },
     openAssessment() {
       this.showConfirmDialog = true;
+      this.confirmType = "open";
       this.tipsText = "是否确认启动考核？";
     },
     confirmDialog(data) {
@@ -895,6 +911,9 @@ export default {
             this.getPerformanceDetailData();
           })
           .catch(e => {});
+      } else if (data === "delete") {
+        this.showConfirmDialog = false;
+        this.delPerformanceUser();
       } else {
         this.showConfirmDialog = false;
       }
@@ -935,7 +954,9 @@ export default {
     },
     remove(id) {
       this.performance_user_ids = [id];
-      this.delPerformanceUser();
+      this.showConfirmDialog = true;
+      this.tipsText = "是否确认移除？";
+      this.confirmType = "delete";
     },
     modifyUser(data) {
       this.userId = data.id;
