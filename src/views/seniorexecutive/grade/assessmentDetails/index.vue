@@ -392,12 +392,6 @@
           </el-form-item>
         </el-form>
         <div class="table-operate">
-          <!-- <el-button
-            type="primary"
-            icon="el-icon-view"
-            @click="viewDistribution"
-            >查看分布</el-button
-          > -->
           <el-button-group class="btn-group">
             <el-button icon="el-icon-upload2" @click="importList"
               >导入名单</el-button
@@ -600,6 +594,7 @@
       v-if="showConfirmDialog"
       :visible="showConfirmDialog"
       :tipsText="tipsText"
+      :confirmType="confirmType"
       @update="confirmDialog"
       @close="closeDialog"
     ></confirm-dialog>
@@ -699,6 +694,7 @@ export default {
       performanceTypes: [],
       orgTree: [],
       tipsText: "",
+      confirmType: "",
       nowTime: "",
       nav: [
         {
@@ -856,10 +852,9 @@ export default {
       this.showImportList = false;
     },
     removeList() {
-      this.delPerformanceUser();
-    },
-    viewDistribution() {
-      // 查看分布 to do
+      this.showConfirmDialog = true;
+      this.tipsText = "是否确认移除？";
+      this.confirmType = "delete";
     },
     modifySettings() {
       this.infoType = "modify";
@@ -876,6 +871,7 @@ export default {
     },
     openAssessment() {
       this.showConfirmDialog = true;
+      this.confirmType = "open";
       this.tipsText = "是否确认启动考核？";
     },
     confirmDialog(data) {
@@ -886,6 +882,9 @@ export default {
             this.getPerformanceDetailData();
           })
           .catch(e => {});
+      } else if (data === "delete") {
+        this.showConfirmDialog = false;
+        this.delPerformanceUser();
       } else {
         this.showConfirmDialog = false;
       }
@@ -926,7 +925,9 @@ export default {
     },
     remove(id) {
       this.performance_user_ids = [id];
-      this.delPerformanceUser();
+      this.showConfirmDialog = true;
+      this.tipsText = "是否确认移除？";
+      this.confirmType = "delete";
     },
     modifyUser(data) {
       this.userId = data.id;
