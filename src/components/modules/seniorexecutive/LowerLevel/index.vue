@@ -119,7 +119,7 @@ import {
 } from "@/constants/API";
 import {
   PATH_EMPLOYEE_TEAM,
-  PATH_EXECUTIVE_PERFORMANCE_TEAM_TARGET_AFFRIM
+  PATH_EXECUTIVE_TEAM_TARGET_CONFIRM
 } from "@/constants/URL";
 import { STAGEOPTIONS } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -191,10 +191,9 @@ export default {
     },
     viewDetail(data) {
       this.$router.push(
-        PATH_EXECUTIVE_PERFORMANCE_TEAM_TARGET_AFFRIM(
+        PATH_EXECUTIVE_TEAM_TARGET_CONFIRM(
           this.performanceId,
-          this.performance_user_id,
-          // data.workcode
+          this.performance_user_id
         )
       );
       // 查看详情
