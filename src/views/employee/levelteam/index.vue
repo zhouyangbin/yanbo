@@ -108,6 +108,7 @@
         @current-change="handleCurrentChange"
         :currentPage="currentPage"
         :total="total"
+        :pageSize="perPage"
       ></pagination>
       <br />
     </section>
@@ -185,7 +186,8 @@ export default {
       tab_check: 1,
       department_id: this.$route.params.id,
       team_overview: [], //团队的评分判断
-      workcode: "" //隔级团队workcode
+      workcode: "", //隔级团队workcode
+      perPage: 10,
     };
   },
   components: {
@@ -212,18 +214,6 @@ export default {
     reload() {
       //从新刷新页面接口
       this.page_reload();
-      // this.overReviewList();
-      // //this.get_LevelTags();
-      // this.filterForm.name = "";
-      // this.filterForm.status = "";
-      // this.filterForm.tags = "";
-      // const postData = {
-      //     name: this.filterForm.name,
-      //     stage: this.filterForm.status,
-      //     label_id: this.filterForm.tags,
-      //     page: 1
-      //   };
-      //   this.refreshList(postData);
     },
     get_workcode(workcode) {
       //切换团队
@@ -257,13 +247,13 @@ export default {
     },
     refreshList(data) {
       //请求tabel 列表
+      data['perPage'] = this.perPage;
       return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
           const { overview, list } = res;
           this.tableData = list.data || [];
           this.total = list.total;
           this.team_overview = overview;
-          performanceInfo.submit ? this.Allsubmit_step_load() : null;
         })
         .catch(e => {});
     },
@@ -449,6 +439,7 @@ export default {
           name: v.name,
           stage: v.status,
           label_id: v.tags,
+          workcode: this.workcode,
           workcode: this.workcode,
           page: 1
         };

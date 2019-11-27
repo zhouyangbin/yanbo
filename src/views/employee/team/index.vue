@@ -81,7 +81,12 @@
         </el-form>
       </section>
       <senior-list :list_data="tableData"> </senior-list>
-      <pagination> </pagination>
+      <pagination
+        @current-change="handleCurrentChange"
+        :currentPage="currentPage"
+        :total="total"
+        :pageSize="perPage"
+      ></pagination>
     </section>
   </div>
 </template>
@@ -147,7 +152,8 @@ export default {
       Allsubmit_action: false,
       reject_msg: "",
       content: "",
-      reviewData: []
+      reviewData: [],
+      perPage: 10,
     };
   },
   components: {
@@ -182,6 +188,7 @@ export default {
       );
     },
     refreshList(data) {
+      data['perPage'] = this.perPage;
       return getTeamList(this.$route.params.id, data)
         .then(res => {
           const { user, overview, performanceInfo } = res;
