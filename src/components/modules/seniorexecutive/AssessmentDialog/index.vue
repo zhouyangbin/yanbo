@@ -96,7 +96,13 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">
+        <el-button
+          round
+          size="medium"
+          :disabled="disabledBtn"
+          @click="submit"
+          type="primary"
+        >
           {{ constants.CONFIRM }}
         </el-button>
         <el-button round size="medium" @click="close" class="btn-reset">
@@ -202,6 +208,7 @@ export default {
       performanceTpl: [],
       optionalOrgTree: [],
       optionalIds: [],
+      disabledBtn: false,
       constants: {
         CONFIRM,
         CANCEL,
@@ -291,9 +298,11 @@ export default {
             });
             return false;
           }
+          this.disabledBtn = true;
           if (this.infoType == "add") {
             return postExecutiveAddAssessment(this.ruleForm).then(res => {
               this.$emit("update", res.id);
+              this.disabledBtn = false;
             });
           } else {
             return putExecutiveAssessment(
@@ -301,6 +310,7 @@ export default {
               this.ruleForm
             ).then(res => {
               this.$emit("update");
+              this.disabledBtn = false;
             });
           }
         }

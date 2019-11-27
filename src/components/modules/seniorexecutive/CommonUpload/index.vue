@@ -32,7 +32,7 @@
   </el-dialog>
 </template>
 <script>
-import { UPLOAD_FAIL } from "@/constants/TEXT";
+import { UPLOAD_FAIL, UPLOAD_SUCCESS, SUCCESS, ERROR } from "@/constants/TEXT";
 export default {
   props: {
     visible: {

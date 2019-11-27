@@ -261,11 +261,10 @@
 </template>
 <script>
 import { AsyncComp } from "@/utils/asyncCom";
+import { PATH_EXECUTIVE_ASSESSMENT_DATAILS } from "@/constants/URL";
 import {
   putExecutiveOpenAssessment,
-  deleteExecutiveAssessment
-} from "@/constants/API";
-import {
+  deleteExecutiveAssessment,
   getExecutiveOrganization,
   getExecutivePerformanceTypes,
   getExecutiveAdminPerformances
@@ -345,7 +344,7 @@ export default {
   methods: {
     tplDefine(id) {
       this.showDialog = false;
-      this.$router.replace(`/performance/assessment/details/${id}`);
+      this.$router.push(PATH_EXECUTIVE_ASSESSMENT_DATAILS(id));
     },
     handleChange(value) {
       this.department_ids = value.length > 0 ? value[value.length - 1] : "";
