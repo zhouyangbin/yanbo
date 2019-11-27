@@ -25,7 +25,11 @@ import {
   CHECK_EXAMINE_LOG,
   TARGET_RETURN
 } from "@/constants/TEXT";
-import { PATH_EMPLOYEE_MY,PATH_EXECUTIVE_ASSESSMENT_DATAILS, PATH_PERFORMANCE_GRADE_MANAGEMENT } from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_MY,
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS,
+  PATH_PERFORMANCE_GRADE_MANAGEMENT
+} from "@/constants/URL";
 import {
   getExecutiveUserInfo,
   getExecutiveUniqueTemplate
@@ -43,8 +47,8 @@ export default {
           href: PATH_PERFORMANCE_GRADE_MANAGEMENT
         },
         {
-            label: "考核详情",
-            href: PATH_EXECUTIVE_ASSESSMENT_DATAILS(this.$route.params.id)
+          label: "考核详情",
+          href: PATH_EXECUTIVE_ASSESSMENT_DATAILS(this.$route.params.id)
         },
         {
           label: TARGET_DETAIL,
