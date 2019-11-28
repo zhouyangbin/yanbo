@@ -17,7 +17,7 @@
       class="tpl-form"
     >
       <el-form-item :label="constants.TPL_NAME" prop="name">
-        <el-input style="width:400px" v-model="tplForm.name"></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 5}" style="width:400px;line-height:38px" v-model="tplForm.name" maxlength="100" show-word-limit></el-input>
       </el-form-item>
       <el-form-item
         :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
@@ -271,6 +271,28 @@ export default {
     }
   },
   methods: {
+    require() {
+      if (this.infoType == "add") {
+        return postExecutivePerformanceTpl(this.tplForm).then(res => {
+          this.$emit("update");
+        });
+      } else {
+        return putExecutivePerformanceTpls(
+          this.performanceId,
+          this.tplForm
+        ).then(res => {
+          this.$emit("update");
+        });
+      }
+    },
+    alert(query) {
+      this.$alert(`业绩指标标型三：${query}未填写`, '提示', {
+        // confirmButtonText: '确定',
+        cancelButtonText: '确定',
+        type: 'warning'}).then(e => {}).catch(e => {
+          this.require();
+        })
+    },
     selectedOrg(data) {
       this.tplForm.department_ids = data;
     },
@@ -293,17 +315,37 @@ export default {
               return false;
             }
           }
-          if (this.infoType == "add") {
-            return postExecutivePerformanceTpl(this.tplForm).then(res => {
-              this.$emit("update");
-            });
+          if(indicatorTypes[indicatorTypes.length-1].name) {  //A
+            if(indicatorTypes[indicatorTypes.length-1].weight!= 0) {  // B
+              if(indicatorTypes[indicatorTypes.length-1].sort== 0) { // C
+                this.alert("排序");
+              }
+            } else {
+              if(indicatorTypes[indicatorTypes.length-1].sort != 0) {
+                this.$alert("业绩指标标型三：“权重”未填写！");
+              }
+              else {
+                this.$alert("业绩指标标型三：“权重”和“排序”未填写");
+              }
+            }
           } else {
-            return putExecutivePerformanceTpls(
-              this.performanceId,
-              this.tplForm
-            ).then(res => {
-              this.$emit("update");
-            });
+            if(indicatorTypes[indicatorTypes.length-1].weight != 0) {
+              if(indicatorTypes[indicatorTypes.length-1].sort != 0) {
+                this.$alert("业绩指标标型三：“指标”未填写");
+              } else {
+                this.$alert("业绩指标标型三：“指标”和“排序”未填写");
+              }
+            } else {
+              if(indicatorTypes[indicatorTypes.length-1].sort != 0) {
+                this.$alert("业绩指标标型三：“指标”和“权重”未填写");
+              }
+            }
+          }
+          if(indicatorTypes[indicatorTypes.length-1].name && indicatorTypes[indicatorTypes.length-1].weight != 0 && indicatorTypes[indicatorTypes.length-1].sort != 0) {
+            this.require();
+          }
+          if(!indicatorTypes[indicatorTypes.length-1].name && indicatorTypes[indicatorTypes.length-1].weight == 0 && indicatorTypes[indicatorTypes.length-1].sort == 0) {
+            this.require();
           }
         }
       });
