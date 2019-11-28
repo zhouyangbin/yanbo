@@ -2,23 +2,29 @@
   <div class="my-grade-page">
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
-      <div class="basic-info">
-        <div>
-          <span class="label">{{ constants.BASIC_INFO }}:</span>
-          <span>
-            <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
-            / {{ basicInfo.workcode }} &nbsp;&nbsp;
-            <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
-            / {{ basicInfo.name }} </span
-          >&nbsp;&nbsp;&nbsp;&nbsp;
+        <div  class="basic-info">
+          <el-row>
+            <el-col :span="14">
+              <span class="label">{{ constants.BASIC_INFO }}:</span>
+              <span>
+                <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
+                / {{ basicInfo.workcode }} &nbsp;&nbsp;
+                <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
+                / {{ basicInfo.name }} </span
+              >&nbsp;&nbsp;&nbsp;&nbsp;
+            </el-col>
+            <el-col :span="10" align="right" v-if="needsReview">
+              <el-button @click="passReview" type="primary">{{
+                constants.LABEL_CONFIRM
+              }}</el-button>
+              <el-button @click="showReviewDia = true">返回修改</el-button>
+            </el-col>
+          </el-row>
+          <p class="label" v-if="appeal_reason" 
+          style="width: 100%;word-break: break-all; height: auto; color: #000;">
+            申诉理由：{{appeal_reason}}
+          </p>
         </div>
-        <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">{{
-            constants.LABEL_CONFIRM
-          }}</el-button>
-          <el-button @click="showReviewDia = true">返回修改</el-button>
-        </div>
-      </div>
       <br />
       <card
         class="card"
@@ -178,7 +184,8 @@ export default {
       },
       showReviewDia: false,
       operate_status: true,
-      old_s: "" //是否为老数据
+      old_s: "", //是否为老数据
+      appeal_reason: "",//申述理由
     };
   },
   components: {
@@ -282,6 +289,7 @@ export default {
       )
         .then(res => {
           const {
+            appeal,
             name,
             targets,
             workcode,
@@ -302,6 +310,7 @@ export default {
             workcode,
             self_attach_score
           };
+          this.appeal_reason = appeal == null ?  false : appeal.reason;
           this.old_s = _s;
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
@@ -456,8 +465,6 @@ export default {
 .my-grade-page .basic-info {
   background: white;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
 }
 .my-grade-page .summary-section {
   background: white;
