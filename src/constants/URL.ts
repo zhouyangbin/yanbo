@@ -312,9 +312,13 @@ export const PATH_EXECUTIVE_UPLOAD_TARGET = (id: String) =>
     token: localStorage.getItem("talToken")
   })}`;
 // 高管绩效  导出明细
-export const PATH_EXECUTIVE_EXPORT_DETAIL = (id: String) =>
+export const PATH_EXECUTIVE_EXPORT_DETAIL = (
+  id: String,
+  performance_user_ids: Array<string>
+) =>
   `${base}executive-performance/admin/performances/${id}/users/export-detail?${qs.stringify(
     {
+      "performance_user_ids[]": performance_user_ids,
       token: localStorage.getItem("talToken")
     }
   )}`;
