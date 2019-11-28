@@ -271,6 +271,28 @@ export default {
     }
   },
   methods: {
+    require() {
+      if (this.infoType == "add") {
+        return postExecutivePerformanceTpl(this.tplForm).then(res => {
+          this.$emit("update");
+        });
+      } else {
+        return putExecutivePerformanceTpls(
+          this.performanceId,
+          this.tplForm
+        ).then(res => {
+          this.$emit("update");
+        });
+      }
+    },
+    alert(query) {
+      this.$alert(`业绩指标标型三：${query}未填写`, '提示', {
+        // confirmButtonText: '确定',
+        cancelButtonText: '确定',
+        type: 'warning'}).then(e => {}).catch(e => {
+          this.require();
+        })
+    },
     selectedOrg(data) {
       this.tplForm.department_ids = data;
     },
@@ -282,7 +304,6 @@ export default {
       this.$emit("close");
     },
     submit() {
-      // console.log(this.tplForm.performance_indicator_types);
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
           let indicatorTypes = this.tplForm.performance_indicator_types;
@@ -294,18 +315,37 @@ export default {
               return false;
             }
           }
-          // TODO 判断 三个其中只要有一个存在，其他两项必填
-          if (this.infoType == "add") {
-            return postExecutivePerformanceTpl(this.tplForm).then(res => {
-              this.$emit("update");
-            });
+          if(indicatorTypes[indicatorTypes.length-1].name) {  //A
+            if(indicatorTypes[indicatorTypes.length-1].weight!= 0) {  // B
+              if(indicatorTypes[indicatorTypes.length-1].sort== 0) { // C
+                this.alert("排序");
+              }
+            } else {
+              if(indicatorTypes[indicatorTypes.length-1].sort != 0) {
+                this.$alert("业绩指标标型三：“权重”未填写！");
+              }
+              else {
+                this.$alert("业绩指标标型三：“权重”和“排序”未填写");
+              }
+            }
           } else {
-            return putExecutivePerformanceTpls(
-              this.performanceId,
-              this.tplForm
-            ).then(res => {
-              this.$emit("update");
-            });
+            if(indicatorTypes[indicatorTypes.length-1].weight != 0) {
+              if(indicatorTypes[indicatorTypes.length-1].sort != 0) {
+                this.$alert("业绩指标标型三：“指标”未填写");
+              } else {
+                this.$alert("业绩指标标型三：“指标”和“排序”未填写");
+              }
+            } else {
+              if(indicatorTypes[indicatorTypes.length-1].sort != 0) {
+                this.$alert("业绩指标标型三：“指标”和“权重”未填写");
+              }
+            }
+          }
+          if(indicatorTypes[indicatorTypes.length-1].name && indicatorTypes[indicatorTypes.length-1].weight != 0 && indicatorTypes[indicatorTypes.length-1].sort != 0) {
+            this.require();
+          }
+          if(!indicatorTypes[indicatorTypes.length-1].name && indicatorTypes[indicatorTypes.length-1].weight == 0 && indicatorTypes[indicatorTypes.length-1].sort == 0) {
+            this.require();
           }
         }
       });
