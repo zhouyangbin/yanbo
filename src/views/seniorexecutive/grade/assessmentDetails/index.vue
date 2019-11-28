@@ -9,7 +9,7 @@
           <el-button
             type="primary"
             :disabled="!performanceDetail.can_start"
-            v-if="performanceDetail.stage === 0"
+            v-if="performanceDetail.stage === 0 && showExecutiveScoreManagement"
             @click="openAssessment"
             >开启考核</el-button
           >
@@ -164,7 +164,13 @@
       <div class="setting-list-box">
         <div class="setting-title">
           <div>基本设置</div>
-          <div class="update-settin" @click="modifySettings">修改设置</div>
+          <div
+            v-if="showExecutiveScoreManagement"
+            class="update-settin"
+            @click="modifySettings"
+          >
+            修改设置
+          </div>
         </div>
         <div class="basic-setting">
           <div class="setting-detail">
@@ -231,7 +237,13 @@
       <div class="setting-list-box">
         <div class="setting-title">
           <div>时间设置</div>
-          <div class="update-settin" @click="modifyTimes">修改时间</div>
+          <div
+            v-if="showExecutiveScoreManagement"
+            class="update-settin"
+            @click="modifyTimes"
+          >
+            修改时间
+          </div>
         </div>
         <div class="time-setting">
           <div class="time-setting-box">
@@ -413,34 +425,57 @@
         </el-form>
         <div class="table-operate">
           <el-button-group class="btn-group">
-            <el-button icon="el-icon-upload2" @click="importList"
+            <el-button
+              icon="el-icon-upload2"
+              @click="importList"
+              v-if="showExecutiveScoreUserManagement"
               >导入名单</el-button
             >
-            <el-button icon="el-icon-download"
+            <el-button
+              icon="el-icon-download"
+              v-if="showExecutiveScoreUserManagement"
               ><a class="down-load" download :href="exportUrl">导出名单</a>
             </el-button>
             <el-button
               icon="el-icon-bell"
+              v-if="showExecutiveScoreUserManagement"
               :disabled="currentStage < 100"
               @click="reminder"
               >提醒</el-button
             >
-            <el-button icon="el-icon-plus" @click="addPerson"
+            <el-button
+              v-if="showExecutiveScoreUserManagement"
+              icon="el-icon-plus"
+              @click="addPerson"
               >添加人员</el-button
             >
-            <el-button icon="el-icon-download"
+            <el-button
+              icon="el-icon-download"
+              v-if="showExecutiveScoreUserManagement"
               ><a class="down-load" download :href="exportDetailUrl"
                 >导出明细</a
               >
             </el-button>
             <el-popover placement="bottom" width="120" trigger="hover">
-              <div class="more-btn" @click="showUploadWork('finance')">
+              <div
+                class="more-btn"
+                v-if="showExecutiveScoreManagement"
+                @click="showUploadWork('finance')"
+              >
                 <i class="el-icon-upload2"></i><span>上传财务指标</span>
               </div>
-              <div class="more-btn" @click="showUploadWork('work')">
+              <div
+                class="more-btn"
+                v-if="showExecutiveScoreUserManagement"
+                @click="showUploadWork('work')"
+              >
                 <i class="el-icon-upload2"></i><span>上传工作目标</span>
               </div>
-              <div class="more-btn" @click="removeList">
+              <div
+                class="more-btn"
+                v-if="showExecutiveScoreUserManagement"
+                @click="removeList"
+              >
                 <i class="el-icon-delete"></i><span>移除</span>
               </div>
               <el-button icon="el-icon-more" slot="reference"></el-button>
@@ -560,10 +595,18 @@
           ></el-table-column>
           <el-table-column label="操作" fixed="right" width="180">
             <template slot-scope="scope">
-              <el-button @click="modifyUser(scope.row)" type="text" size="small"
+              <el-button
+                v-if="showExecutiveScoreUserManagement"
+                @click="modifyUser(scope.row)"
+                type="text"
+                size="small"
                 >修改</el-button
               >
-              <el-button @click="remove(scope.row.id)" type="text" size="small"
+              <el-button
+                v-if="showExecutiveScoreUserManagement"
+                @click="remove(scope.row.id)"
+                type="text"
+                size="small"
                 >移除</el-button
               >
               <el-button
@@ -773,10 +816,17 @@ export default {
         PATH_EXECUTIVE_IMPORT_FINANCIAL_INDICATORS,
         PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
         USER_STATUS
-      }
+      },
+      permissions: []
     };
   },
   computed: {
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
+    },
+    showExecutiveScoreUserManagement() {
+      return this.permissions.includes(410);
+    },
     initTime() {
       return {
         start_time: this.performanceDetail.start_time,
@@ -1039,6 +1089,7 @@ export default {
     }
   },
   created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
     this.nowTime = new Date();
     this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(this.performanceId);
     this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(this.performanceId);

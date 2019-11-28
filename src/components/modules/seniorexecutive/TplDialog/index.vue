@@ -17,7 +17,7 @@
       class="tpl-form"
     >
       <el-form-item :label="constants.TPL_NAME" prop="name">
-        <el-input style="width:400px" v-model="tplForm.name"></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 5}" style="width:400px;line-height:38px" v-model="tplForm.name" maxlength="100" show-word-limit></el-input>
       </el-form-item>
       <el-form-item
         :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
@@ -282,6 +282,7 @@ export default {
       this.$emit("close");
     },
     submit() {
+      // console.log(this.tplForm.performance_indicator_types);
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
           let indicatorTypes = this.tplForm.performance_indicator_types;
@@ -293,6 +294,7 @@ export default {
               return false;
             }
           }
+          // TODO 判断 三个其中只要有一个存在，其他两项必填
           if (this.infoType == "add") {
             return postExecutivePerformanceTpl(this.tplForm).then(res => {
               this.$emit("update");

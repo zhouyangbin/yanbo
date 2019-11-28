@@ -4,7 +4,7 @@
     <section class="content-container">
       <section>
         <el-form
-          v-if="showExecutiveSetting"
+          v-if="showExecutiveScoreManagement"
           :inline="true"
           ref="filterForm"
           :model="filterForm"
@@ -210,8 +210,8 @@ export default {
     };
   },
   computed: {
-    showExecutiveSetting() {
-      return this.permissions.includes(420);
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
     }
   },
   methods: {
@@ -284,7 +284,12 @@ export default {
   },
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-    if (!this.showExecutiveSetting) {
+    if (!this.showExecutiveScoreManagement) {
+      this.$message({
+        showClose: true,
+        message: "您没有没有权限查看此页面",
+        type: "error"
+      });
       return false;
     }
     this.getTplList();
