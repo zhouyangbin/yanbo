@@ -69,6 +69,7 @@
       >
     </el-submenu>
     <el-submenu
+      v-if="showExecutiveScoreUserManagement || showExecutiveScoreManagement"
       :show-timeout="100"
       :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT"
     >
@@ -76,10 +77,13 @@
         <i class="el-icon-star-off"></i>
         <span>{{ constants.EXECUTIVE_PERFORMANCE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT">{{
-        constants.GRADE_MANAGE
-      }}</el-menu-item>
       <el-menu-item
+        v-if="showExecutiveScoreUserManagement"
+        :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT"
+        >{{ constants.GRADE_MANAGE }}</el-menu-item
+      >
+      <el-menu-item
+        v-if="showExecutiveScoreManagement"
         :class="{
           'is-active': [constants.PATH_PERFORMANCE_TPL_SETTINGS].includes(
             $route.path
@@ -89,6 +93,7 @@
         >{{ constants.TPL_SETTING }}</el-menu-item
       >
       <el-menu-item
+        v-if="showExecutiveScoreManagement"
         :class="{
           'is-active': [constants.PATH_PERFORMANCE_LABEL_SETTINGS].includes(
             $route.path
@@ -306,12 +311,17 @@ export default {
     show271() {
       return this.permissions.includes(220);
     },
-
     showRole() {
       return this.permissions.includes(101);
     },
     showUser() {
       return this.permissions.includes(102);
+    },
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
+    },
+    showExecutiveScoreUserManagement() {
+      return this.permissions.includes(410);
     },
     // canCreateCultureGrade() {
     //   return this.permissions.includes(201)

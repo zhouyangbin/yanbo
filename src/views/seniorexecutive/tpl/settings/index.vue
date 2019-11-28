@@ -3,7 +3,12 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true" ref="filterForm" :model="filterForm">
+        <el-form
+          v-if="showExecutiveScoreManagement"
+          :inline="true"
+          ref="filterForm"
+          :model="filterForm"
+        >
           <el-form-item class="content-search" prop="dp">
             <el-cascader
               @change="handleChange"
@@ -200,8 +205,14 @@ export default {
           label: TPL_SETTING,
           active: true
         }
-      ]
+      ],
+      permissions: []
     };
+  },
+  computed: {
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
+    }
   },
   methods: {
     tplDefine() {
@@ -272,6 +283,15 @@ export default {
     }
   },
   created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    if (!this.showExecutiveScoreManagement) {
+      this.$message({
+        showClose: true,
+        message: "您没有没有权限查看此页面",
+        type: "error"
+      });
+      return false;
+    }
     this.getTplList();
     getExecutivePerformanceTypes()
       .then(res => {

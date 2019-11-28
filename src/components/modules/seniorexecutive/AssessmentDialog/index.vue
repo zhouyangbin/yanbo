@@ -176,7 +176,8 @@ export default {
     return {
       rules: {
         name: [
-          { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" }
+          { required: true, message: MSG_FILL_GRADE_NAME, trigger: "blur" },
+          { max: 50, message: "考核名称最多不能超过50字", trigger: "blur" }
         ],
         department_ids: [
           {

@@ -23,12 +23,32 @@
             @change="changeStatuses"
             size="medium"
           >
-            <el-radio-button label="">全部</el-radio-button>
-            <el-radio-button label="1">草稿</el-radio-button>
-            <el-radio-button label="2">进行中</el-radio-button>
-            <el-radio-button label="3">已结束</el-radio-button>
+            <el-radio-button v-if="showExecutiveScoreManagement" label=""
+              >全部</el-radio-button
+            >
+            <el-radio-button v-if="showExecutiveScoreManagement" label="1"
+              >草稿</el-radio-button
+            >
+            <el-radio-button
+              v-if="
+                showExecutiveScoreManagement || showExecutiveScoreUserManagement
+              "
+              label="2"
+              >进行中</el-radio-button
+            >
+            <el-radio-button
+              v-if="
+                showExecutiveScoreManagement || showExecutiveScoreUserManagement
+              "
+              label="3"
+              >已结束</el-radio-button
+            >
           </el-radio-group>
-          <el-button class="create-btn" type="primary" @click="createTpl"
+          <el-button
+            v-if="showExecutiveScoreManagement"
+            class="create-btn"
+            type="primary"
+            @click="createTpl"
             >创建组织部绩效考核</el-button
           >
         </div>
@@ -85,13 +105,13 @@
             >
               <i
                 class="delete"
-                v-if="item.stage === 0"
+                v-if="item.stage === 0 && showExecutiveScoreManagement"
                 @click="deleteAssessment(item.id)"
               ></i>
             </el-tooltip>
             <el-button
               :disabled="!item.can_start"
-              v-if="item.stage === 0"
+              v-if="item.stage === 0 && showExecutiveScoreManagement"
               @click="openAssessment(item.id)"
               type="primary"
               >开启考核</el-button
@@ -322,8 +342,17 @@ export default {
         LABEL_SELECT_DIVISION
       },
       status: "",
-      nowTime: ""
+      nowTime: "",
+      permissions: []
     };
+  },
+  computed: {
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
+    },
+    showExecutiveScoreUserManagement() {
+      return this.permissions.includes(410);
+    }
   },
   filters: {
     filterDate(val) {
@@ -443,6 +472,13 @@ export default {
     }
   },
   created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    if (this.showExecutiveScoreUserManagement) {
+      this.status = "2";
+    }
+    if (this.showExecutiveScoreManagement) {
+      this.status = "";
+    }
     this.nowTime = new Date();
     this.getPerformanceList();
     getExecutiveOrganization()

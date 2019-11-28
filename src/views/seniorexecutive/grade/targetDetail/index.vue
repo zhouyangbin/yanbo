@@ -1,7 +1,11 @@
 <template>
   <div class="employee-target-detail">
     <nav-bar :list="nav"></nav-bar>
-    <detail-header :user-info="userInfo" :self="true"></detail-header>
+    <detail-header
+      :user-info="userInfo"
+      :self="true"
+      :isDisable="true"
+    ></detail-header>
     <target-content :all-target="allTarget"></target-content>
     <el-row class="footer-button">
       <el-button @click="checkExamine">
@@ -264,7 +268,9 @@ export default {
      * 返回到我的评分列表页
      */
     returnList() {
-      this.$router.push("/employee/my");
+      this.$router.push(
+        PATH_EXECUTIVE_ASSESSMENT_DATAILS(this.$route.params.id)
+      );
     },
     // 返回下属评分列表
     ratingList() {}
