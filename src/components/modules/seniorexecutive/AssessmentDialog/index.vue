@@ -17,7 +17,7 @@
       class="ruleForm"
     >
       <el-form-item label="考核名称" prop="name">
-        <el-input style="width:400px" v-model="ruleForm.name"></el-input>
+        <el-input type="text" style="width:400px;line-height:38px" v-model="ruleForm.name" maxlength="20" show-word-limit ref="count"></el-input>
       </el-form-item>
       <el-form-item label="适用范围">
         <common-tree

@@ -226,6 +226,7 @@ export default {
       };
       getExecutiveAdminTags(data)
         .then(res => {
+          console.log(res);
           const { data, total } = res;
           this.total = total;
           this.tableData = data;
