@@ -42,12 +42,11 @@
                       property="created_at"
                       label="提交时间"
                     ></el-table-column>
-                    <el-table-column
-                      width="120"
-                      label="是否符合分布"
-                    >
+                    <el-table-column width="120" label="是否符合分布">
                       <template slot-scope="scope">
-                        <span>{{scope.row.is_pass == 1 ? "符合分布" : "不符合分布"}}</span>
+                        <span>{{
+                          scope.row.is_pass == 1 ? "符合分布" : "不符合分布"
+                        }}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -117,8 +116,14 @@
               </template>
             </el-table-column>
             <el-table-column prop="hr_name" label="HRBP"></el-table-column>
-            <el-table-column prop="superior_name" label="上级"></el-table-column>
-            <el-table-column prop="high_level_name" label="隔级"></el-table-column>
+            <el-table-column
+              prop="superior_name"
+              label="上级"
+            ></el-table-column>
+            <el-table-column
+              prop="high_level_name"
+              label="隔级"
+            ></el-table-column>
             <el-table-column prop="self_score" label="自评分"></el-table-column>
             <el-table-column
               prop="superior_score"

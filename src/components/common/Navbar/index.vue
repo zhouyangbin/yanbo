@@ -58,7 +58,6 @@ export default {
 
     feedback() {
       let workcode = localStorage.getItem("workcode");
-      return;
       if (workcode) {
         window.open(
           "https://feedback.100tal.com/product/f4333c1d748c47658e23f5daa22749dd/" +
