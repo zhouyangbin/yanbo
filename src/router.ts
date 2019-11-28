@@ -413,7 +413,8 @@ const router = new Router({
         {
           path: PATH_PERFORMANCE_HIGH_TARGET_DETAIL(),
           components: {
-            default: () => import("@/views/seniorexecutive/grade/targetDetail/index.vue"),
+            default: () =>
+              import("@/views/seniorexecutive/grade/targetDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }

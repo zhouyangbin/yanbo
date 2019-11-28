@@ -70,16 +70,20 @@
     </el-submenu>
     <el-submenu
       :show-timeout="100"
+      v-if="showExecutiveCreate || showExecutiveManage"
       :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT"
     >
       <template slot="title">
         <i class="el-icon-star-off"></i>
         <span>{{ constants.EXECUTIVE_PERFORMANCE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT">{{
-        constants.GRADE_MANAGE
-      }}</el-menu-item>
       <el-menu-item
+        v-if="showExecutiveCreate || showExecutiveManage"
+        :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT"
+        >{{ constants.GRADE_MANAGE }}</el-menu-item
+      >
+      <el-menu-item
+        v-if="showExecutiveSetting"
         :class="{
           'is-active': [constants.PATH_PERFORMANCE_TPL_SETTINGS].includes(
             $route.path
@@ -306,12 +310,20 @@ export default {
     show271() {
       return this.permissions.includes(220);
     },
-
     showRole() {
       return this.permissions.includes(101);
     },
     showUser() {
       return this.permissions.includes(102);
+    },
+    showExecutiveCreate() {
+      return this.permissions.includes(400);
+    },
+    showExecutiveManage() {
+      return this.permissions.includes(410);
+    },
+    showExecutiveSetting() {
+      return this.permissions.includes(420);
     },
     // canCreateCultureGrade() {
     //   return this.permissions.includes(201)

@@ -3,7 +3,12 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true" ref="filterForm" :model="filterForm">
+        <el-form
+          v-if="showExecutiveSetting"
+          :inline="true"
+          ref="filterForm"
+          :model="filterForm"
+        >
           <el-form-item class="content-search" prop="dp">
             <el-cascader
               @change="handleChange"
@@ -200,8 +205,14 @@ export default {
           label: TPL_SETTING,
           active: true
         }
-      ]
+      ],
+      permissions: []
     };
+  },
+  computed: {
+    showExecutiveSetting() {
+      return this.permissions.includes(420);
+    }
   },
   methods: {
     tplDefine() {
@@ -272,6 +283,10 @@ export default {
     }
   },
   created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    if (!this.showExecutiveSetting) {
+      return false;
+    }
     this.getTplList();
     getExecutivePerformanceTypes()
       .then(res => {

@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form :inline="true">
+        <el-form v-if="showExecutiveSetting" :inline="true">
           <el-form-item>
             <el-cascader
               v-model="department_ids"
@@ -175,8 +175,14 @@ export default {
       ],
       department_ids: [],
       dialogVisible: false,
-      deleteId: 0
+      deleteId: 0,
+      permissions: []
     };
+  },
+  computed: {
+    showExecutiveSetting() {
+      return this.permissions.includes(420);
+    }
   },
   methods: {
     handleChange() {
@@ -240,6 +246,10 @@ export default {
     }
   },
   created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    if (!this.showExecutiveSetting) {
+      return false;
+    }
     this.getAdminTagsList();
     getExecutiveOrganization()
       .then(res => {

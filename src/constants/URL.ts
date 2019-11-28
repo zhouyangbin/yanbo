@@ -314,4 +314,3 @@ export const PATH_EXECUTIVE_EXPORT_DETAIL = (id: String) =>
       token: localStorage.getItem("talToken")
     }
   )}`;
-  
