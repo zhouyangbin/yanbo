@@ -3,7 +3,7 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <section>
-        <el-form v-if="showExecutiveSetting" :inline="true">
+        <el-form v-if="showExecutiveScoreManagement" :inline="true">
           <el-form-item>
             <el-cascader
               v-model="department_ids"
@@ -180,8 +180,8 @@ export default {
     };
   },
   computed: {
-    showExecutiveSetting() {
-      return this.permissions.includes(420);
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
     }
   },
   methods: {
@@ -247,7 +247,12 @@ export default {
   },
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-    if (!this.showExecutiveSetting) {
+    if (!this.showExecutiveScoreManagement) {
+      this.$message({
+        showClose: true,
+        message: "您没有没有权限查看此页面",
+        type: "error"
+      });
       return false;
     }
     this.getAdminTagsList();
