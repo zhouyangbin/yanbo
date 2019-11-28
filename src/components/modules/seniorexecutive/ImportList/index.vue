@@ -119,8 +119,7 @@ export default {
         })
         .catch(e => {});
     }
-  },
-  created() {}
+  }
 };
 </script>
 <style scoped>
