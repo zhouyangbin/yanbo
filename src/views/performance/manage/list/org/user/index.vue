@@ -71,7 +71,10 @@
           <el-steps style="width:60%" :active="resultArr.length">
             <el-step v-for="(v, i) of resultArr" :key="i">
               <div slot="icon">{{ v.text }}</div>
-              <div slot="title">{{ v.value }}</div>
+              <div slot="title">
+                {{ v.value }}
+               {{ i == resultArr.length-1 ? label_name : null }}
+             </div>
             </el-step>
           </el-steps>
         </div>
@@ -90,6 +93,7 @@
     <change-mark
       @close="afterChangeGrade"
       v-if="showChangeMarkDia"
+      :label_id="label_id"
       :mark="total"
       :visible.sync="showChangeMarkDia"
     ></change-mark>
@@ -162,7 +166,9 @@ export default {
         LABEL_SELF,
         LABEL_SUP,
         BASIC_INFO
-      }
+      },
+      label_id: '',
+      label_name: "",
     };
   },
   components: {
@@ -293,7 +299,9 @@ export default {
             end_time,
             confirm_end_time,
             can_edit,
-            score_level
+            score_level,
+            label_id,
+            label_name,
           } = res;
           this.basicInfo = {
             leaderName: superior_name
@@ -314,6 +322,8 @@ export default {
           this.leaderAdditionMark = superior_attach_score || {};
           this.appeal = appeal || {};
           this.canEdit = can_edit == 1;
+          this.label_id = label_id;
+          this.label_name = label_name;
         })
         .catch(e => {
           // console.log(e)

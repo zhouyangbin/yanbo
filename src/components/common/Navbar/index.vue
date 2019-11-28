@@ -55,14 +55,13 @@ export default {
     nav(url) {
       this.$router.push(url);
     },
-    feedback() {
-      let workcode = localStorage.getItem("workcode");
-      if (workcode) {
-        window.open(
-          "https://feedback.100tal.com/product/f4333c1d748c47658e23f5daa22749dd/" +
-            workcode
-        );
-      } else {
+
+    feedback(){
+      let workcode =  localStorage.getItem("workcode");
+      return
+      if(workcode){
+        window.open('https://feedback.100tal.com/product/f4333c1d748c47658e23f5daa22749dd/'+workcode)
+      }else{
         this.$message({
           message: "当前不能跳转",
           type: "warning"

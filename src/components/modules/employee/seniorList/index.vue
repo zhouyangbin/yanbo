@@ -160,15 +160,16 @@ export default {
   padding: 20px 10px 10px 10px;
 }
 .appeal-tag {
-  width: 32px;
-  height: 18px;
+  width: 25px;
+  height: 14px;
   text-align: center;
+  line-height: 14px;
   background: rgba(244, 63, 2, 0.2);
   border-radius: 10px 10px 10px 10px;
   color: rgba(244, 63, 2, 1);
   font-size: 12px;
-  position: absolute;
-  top: 10px;
+  position: relative;
+  top: -5px;
 }
 .status-tag {
   min-width: 60px;

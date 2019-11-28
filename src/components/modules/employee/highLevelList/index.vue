@@ -38,18 +38,26 @@
                 <template>
                   <el-table :data="team_reviewData" height="250">
                     <el-table-column
-                      width="150"
+                      width="188"
                       property="created_at"
                       label="提交时间"
                     ></el-table-column>
                     <el-table-column
+<<<<<<< HEAD
                       v-if="false"
                       width="138"
                       property="content"
+=======
+                      width="120"
+>>>>>>> feature-employee-performance-3.0_bug_hotfix
                       label="是否符合分布"
-                    ></el-table-column>
+                    >
+                      <template slot-scope="scope">
+                        <span>{{scope.row.is_pass == 1 ? "符合分布" : "不符合分布"}}</span>
+                      </template>
+                    </el-table-column>
                     <el-table-column
-                      width="300"
+                      width="280"
                       property="content"
                       label="提交理由"
                     ></el-table-column>
@@ -115,10 +123,8 @@
               </template>
             </el-table-column>
             <el-table-column prop="hr_name" label="HRBP"></el-table-column>
-            <el-table-column
-              prop="high_level_name"
-              label="隔级"
-            ></el-table-column>
+            <el-table-column prop="superior_name" label="上级"></el-table-column>
+            <el-table-column prop="high_level_name" label="隔级"></el-table-column>
             <el-table-column prop="self_score" label="自评分"></el-table-column>
             <el-table-column
               prop="superior_score"
