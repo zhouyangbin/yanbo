@@ -57,11 +57,12 @@
         </el-table-column>
         <el-table-column prop="name" label="姓名">
           <template slot-scope="scope">
-            <div v-if="scope.row.stage === 100">
-              {{ scope.row.name
-              }}<img class="stage-img" src="@/assets/img/stage.png" alt="" />
-            </div>
-            <div v-else>{{ scope.row.name }}</div>
+            <el-row type="flex" align="middle" style="height:44px">
+              <span>{{ scope.row.name }}</span>
+              <span class="appeal-tag" v-if="scope.row.stage === 100">
+                申述中
+              </span>
+            </el-row>
           </template>
         </el-table-column>
         <el-table-column
@@ -246,10 +247,18 @@ export default {
   }
   .lower-list {
     margin-bottom: 20px;
-    .stage-img {
-      display: inline-block;
+    .appeal-tag {
       width: 44px;
       height: 18px;
+      text-align: center;
+      line-height: 18px;
+      background: rgba(244, 63, 2, 0.11);
+      border-radius: 10px 10px 10px 0px;
+      color: rgba(244, 63, 2, 1);
+      font-size: 12px;
+      position: relative;
+      top: -13px;
+      right: -5px;
     }
     .grade-operation {
       color: #38d0af;

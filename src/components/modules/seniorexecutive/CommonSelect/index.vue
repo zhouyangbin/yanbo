@@ -14,7 +14,7 @@
     <el-option
       v-for="item in userOptions"
       :key="item.workcode"
-      :label="item.workcode + item.name"
+      :label="item.workcode + '-' + item.name"
       :value="item.workcode"
     >
     </el-option>
