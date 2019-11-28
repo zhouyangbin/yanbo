@@ -40,8 +40,7 @@ export default {
     confirmBtn() {
       this.$emit("update", this.confirmType);
     }
-  },
-  created() {}
+  }
 };
 </script>
 <style scoped>
