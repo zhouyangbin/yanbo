@@ -94,6 +94,10 @@ export default {
           label: LEADER_EVALUATION_STATUS
         },
         {
+          prop: "high_level_status",
+          label: "隔级评状态"
+        },
+        {
           prop: "appeal_status",
           label: APPEAL_STATUS
         }
