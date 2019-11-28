@@ -42,9 +42,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{
-                constants.RESET
-              }}</el-button>
+              <el-button @click="resetForm('ruleForm')">
+                {{ constants.RESET }}
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -350,7 +350,7 @@ export default {
         employee_name: this.memberForm.employee_name,
         superior_status: this.memberForm.superior_status,
         type: this.$route.params.type,
-        page: this.currentPage
+        ...data
       }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;
