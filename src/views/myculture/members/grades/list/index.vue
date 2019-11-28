@@ -349,7 +349,8 @@ export default {
       getMembersList(this.$route.params.id, {
         employee_name: this.memberForm.employee_name,
         superior_status: this.memberForm.superior_status,
-        type: this.$route.params.type
+        type: this.$route.params.type,
+        page: this.currentPage
       }).then(res => {
         const { total, data, overview, evaluation_name, end_time } = res;
         this.tableData = data;
@@ -371,7 +372,7 @@ export default {
     },
     currentChange(v) {
       this.currentPage = v;
-      // this.getData({ page: v, ...this.memberForm });
+      this.getData({ page: v, ...this.memberForm });
     },
     goDetail(row) {
       const type = this.$route.params.type;

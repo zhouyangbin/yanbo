@@ -508,7 +508,8 @@ export default {
         highlevel_status: this.memberForm.highlevel_status,
         superior_name: this.memberForm.superior_name,
         employee_name: this.memberForm.employee_name,
-        type: this.$route.params.type
+        type: this.$route.params.type,
+        page: this.currentPage
       }).then(res => {
         const {
           total,

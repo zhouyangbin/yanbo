@@ -665,7 +665,8 @@ export default {
           Object.keys(res.evaluations).forEach(key => {
             // 高管
             if (key == 2) {
-              this.highNumber = res.users[key].data.length;
+              let arr = Object.keys(res.users[key].data);
+              this.highNumber = arr.length;
               this.isHigh = true;
               this.highType = key;
               this.highSmmary = this.postSummary(res.users[key].overview);
@@ -683,7 +684,8 @@ export default {
             }
             //员工
             if (key == 1) {
-              this.staffNumber = res.users[key].data.length;
+              let arr = Object.keys(res.users[key].data);
+              this.staffNumber = arr.length;
               this.isStaff = true;
               this.staffType = key;
               this.summary = this.postSummary(res.users[key].overview);

@@ -523,7 +523,7 @@ export default {
   top: 0;
 }
 .status-tag {
-  width: ;
+  /* width: ; */
   height: 28px;
   padding: 0 10px;
   margin: 0;
