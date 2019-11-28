@@ -256,7 +256,7 @@ export const PATH_EXECUTIVE_EXPORT_USER_LIST = (
 ) =>
   `${base}executive-performance/admin/performances/${id}/users/export?${qs.stringify(
     {
-      "performance_user_ids[]": performance_user_ids,
+      performance_user_ids: performance_user_ids,
       token: localStorage.getItem("talToken")
     }
   )}`;
@@ -318,7 +318,7 @@ export const PATH_EXECUTIVE_EXPORT_DETAIL = (
 ) =>
   `${base}executive-performance/admin/performances/${id}/users/export-detail?${qs.stringify(
     {
-      "performance_user_ids[]": performance_user_ids,
+      performance_user_ids: performance_user_ids,
       token: localStorage.getItem("talToken")
     }
   )}`;
