@@ -1,3 +1,30 @@
+<a name="1.3.2"></a>
+## [1.3.2](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v1.2.0...v1.3.2) (2019-11-20)
+
+
+### Bug Fixes
+
+* 批量通过、批量驳回控制 ([ecd9d51](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/ecd9d51))
+* 批量驳回、批量通过控制 ([e724380](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/e724380))
+* 线下合议时间判定 ([bd02c4f](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/bd02c4f))
+* 线下合议时间的判定 ([8b76cfb](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/8b76cfb))
+* 评分管理，评分详情，英文不换行 ([e49c79a](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/e49c79a))
+* 评分管理中评分详情英文展示没有换行 ([c5756f3](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/c5756f3))
+* 调整驳回申诉字段样式 ([4b63af5](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/4b63af5))
+* 调整驳回通过样式 ([1e495de](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/1e495de))
+* **hotfix:** 新建绩效报错. 提醒逻辑变量名错误 ([0355f49](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/0355f49))
+* 高管换成组织部成员 ([5739ffe](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/5739ffe))
+
+
+### Features
+
+* 修改批量通过提示文案 ([5dd4b12](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/5dd4b12))
+* 增加下级评提示弹窗 ([0243fda](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/0243fda))
+* 增加下级评提示规则 ([cb14180](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/cb14180))
+* 更改批量通过文案 ([e43e3e7](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/e43e3e7))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v0.2.7...v1.2.0) (2019-11-09)
 

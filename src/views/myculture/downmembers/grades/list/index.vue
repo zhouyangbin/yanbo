@@ -48,9 +48,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="resetForm('ruleForm')">{{
-                constants.RESET
-              }}</el-button>
+              <el-button @click="resetForm('ruleForm')">
+                {{ constants.RESET }}
+              </el-button>
             </el-form-item>
           </el-form>
           <div>
@@ -66,9 +66,9 @@
               ></case-area>
               <br />
               <el-row type="flex" justify="center">
-                <el-button @click="batchReject" type="primary" round>{{
-                  constants.SUBMIT
-                }}</el-button>
+                <el-button @click="batchReject" type="primary" round>
+                  {{ constants.SUBMIT }}
+                </el-button>
               </el-row>
               <el-button
                 style="margin-right:20px"
@@ -508,7 +508,8 @@ export default {
         highlevel_status: this.memberForm.highlevel_status,
         superior_name: this.memberForm.superior_name,
         employee_name: this.memberForm.employee_name,
-        type: this.$route.params.type
+        type: this.$route.params.type,
+        ...data
       }).then(res => {
         const {
           total,
