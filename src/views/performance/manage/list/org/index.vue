@@ -319,11 +319,13 @@
           </el-table-column>
         </el-table>
         <br />
-        <el-row type="flex" justify="end">
+        <el-row type="flex">
           <pagination
-            @current-change="handleCurrentChange"
             :currentPage="currentPage"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
             :total="total"
+            :pageSize="perPage"
           ></pagination>
         </el-row>
         <br />
@@ -501,7 +503,8 @@ export default {
           label: ORG_DETAIL,
           active: true
         }
-      ]
+      ],
+      perPage: 10,
     };
   },
   components: {
@@ -601,6 +604,16 @@ export default {
       };
       this.refreshList(postData);
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      const postData = {
+        ...this.getCurrentPostData(),
+        page: this.currentPage,
+      };
+      this.refreshList(postData);
+    },
     // 导入
     closeImportDia() {
       this.dialogImport = false;
@@ -678,6 +691,7 @@ export default {
     },
     // 拉取列表数据
     refreshList(data) {
+      data['perPage'] = this.perPage;
       return getPerormanceDepartmentDetails(this.$route.params.orgID, data)
         .then(res => {
           const { data, total, performance_info } = res;

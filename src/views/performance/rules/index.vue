@@ -34,11 +34,13 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
+      <el-row type="flex">
         <pagination
-          @current-change="handleCurrentChange"
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="perPage"
         ></pagination>
       </el-row>
       <br />
@@ -85,7 +87,8 @@ export default {
         LABEL_OPERATIONS,
         LABEL_MODIFY,
         LABEL_EMPTY
-      }
+      },
+      perPage: 10,
     };
   },
   methods: {
@@ -102,7 +105,18 @@ export default {
       };
       this.refreshList(data);
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      const data = {
+        page: this.currentPage,
+        department_id: this.dp
+      };
+      this.refreshList(data);
+    },
     refreshList(data) {
+      data['perPage'] = this.perPage;
       return getRuleList(data).then(res => {
         const { total, data } = res;
         // this.currentPage = 1;

@@ -34,11 +34,13 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
+      <el-row type="flex">
         <pagination
-          @current-change="handleCurrentChange"
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="perPage"
         ></pagination>
       </el-row>
       <br />
@@ -80,7 +82,8 @@ export default {
         OPERATIONS,
         GRADE_STATUS,
         TARGET_STATUS
-      }
+      },
+      perPage: 10,
     };
   },
   components: {
@@ -99,7 +102,16 @@ export default {
         page: val
       });
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      this.refreshList({
+        page: this.currentPage
+      });
+    },
     refreshList(data) {
+      data['perPage'] = this.perPage;
       return getMyPerformanceList(data)
         .then(res => {
           const { total, data } = res;
