@@ -225,6 +225,7 @@ export default {
     },
     callback(res, dst, querys) {
       localStorage.setItem("talEmail", res.admin.email);
+      localStorage.setItem("workcode", res.admin.workcode);
       localStorage.setItem("talToken", res.token);
       localStorage.setItem(
         "permissions",

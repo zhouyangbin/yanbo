@@ -184,8 +184,8 @@ export const postClonePerformanceGrade = (id: String, params: Object) =>
 export const getPerformanceList = (params: Object) =>
   sendGet(`/performance/admin/performances`, params);
 // 绩效评分部门列表
-export const getPerformanceDepartmentsList = (id: String, page: String) =>
-  sendGet(`/performance/admin/${id}/departments?page=${page}`);
+export const getPerformanceDepartmentsList = (id: String, params: Object) =>
+  sendGet(`/performance/admin/${id}/departments`, params);
 // 绩效评分事业部详情
 export const getPerormanceDepartmentDetails = (id: String, params: Object) =>
   sendGet(`/performance/admin/${id}/users`, params);

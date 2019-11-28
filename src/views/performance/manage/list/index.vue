@@ -34,11 +34,13 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
+      <el-row type="flex">
         <pagination
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="perPage"
         ></pagination>
       </el-row>
     </section>
@@ -117,7 +119,8 @@ export default {
       ],
       gradeName: "",
       finishedDate: "",
-      listData: []
+      listData: [],
+      perPage: 10
     };
   },
   components: {
@@ -139,10 +142,23 @@ export default {
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.getList(val);
+      const data = {
+        page: this.currentPage
+      };
+      this.getList(data);
     },
-    getList(page) {
-      return getPerformanceDepartmentsList(this.$route.params.id, page)
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      const data = {
+        page: this.currentPage
+      };
+      this.getList(data);
+    },
+    getList(data) {
+      data["perPage"] = this.perPage;
+      return getPerformanceDepartmentsList(this.$route.params.id, data)
         .then(res => {
           const { total, data, performance_info } = res;
           this.total = total;
@@ -153,7 +169,10 @@ export default {
     }
   },
   created() {
-    this.getList(1);
+    const data = {
+      page: this.currentPage
+    };
+    this.getList(data);
   }
 };
 </script>

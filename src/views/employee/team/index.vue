@@ -82,8 +82,9 @@
       </section>
       <senior-list :list_data="tableData"> </senior-list>
       <pagination
-        @current-change="handleCurrentChange"
         :currentPage="currentPage"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
         :total="total"
         :pageSize="perPage"
       ></pagination>
@@ -219,7 +220,16 @@ export default {
         stage: this.filterForm.status
       });
     },
-
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      this.refreshList({
+        page: this.currentPage,
+        name: this.filterForm.name,
+        stage: this.filterForm.status
+      });
+    },
     Allsubmit_step_load() {
       //页面进来调用方法
       const h = this.$createElement;

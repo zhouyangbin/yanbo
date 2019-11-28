@@ -105,6 +105,7 @@
       </high-level-list>
       <br />
       <pagination
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :currentPage="currentPage"
         :total="total"
@@ -223,8 +224,7 @@ export default {
         page: this.currentPage,
         name: this.filterForm.name,
         stage: this.filterForm.status,
-        label_id: this.filterForm.tags,
-        workcode: this.workcode
+        label_id: this.filterForm.tags
       });
     },
     get_LevelTags() {
@@ -247,7 +247,9 @@ export default {
     },
     refreshList(data) {
       //请求tabel 列表
+
       data["perPage"] = this.perPage;
+      data["workcode"] = this.workcode;
       return getLevelTeamList(this.$route.params.id, data)
         .then(res => {
           const { overview, list } = res;
@@ -284,6 +286,17 @@ export default {
       this.currentPage = val;
       this.refreshList({
         page: val,
+        name: this.filterForm.name,
+        stage: this.filterForm.status,
+        label_id: this.filterForm.tags
+      });
+    },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      this.refreshList({
+        page: this.currentPage,
         name: this.filterForm.name,
         stage: this.filterForm.status,
         label_id: this.filterForm.tags

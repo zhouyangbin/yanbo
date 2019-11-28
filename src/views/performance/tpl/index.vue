@@ -65,8 +65,10 @@
       <br />
       <pagination
         :currentPage="currentPage"
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :total="total"
+        :pageSize="perPage"
       ></pagination>
     </section>
     <tpl-dialog
@@ -130,7 +132,8 @@ export default {
         PERFORMANCE_TYPE,
         APPLIED_DEPARTMENTS,
         LABEL_EMPTY
-      }
+      },
+      perPage: 10
     };
   },
   components: {
@@ -189,7 +192,18 @@ export default {
         page: val
       });
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      this.refreshList({
+        department_id: this.tplForm.dp || "",
+        name: this.tplForm.name,
+        page: this.currentPage
+      });
+    },
     refreshList(data) {
+      data["perPage"] = this.perPage;
       return getTplList(data)
         .then(res => {
           const { total, data } = res;

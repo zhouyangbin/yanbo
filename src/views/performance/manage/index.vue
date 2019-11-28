@@ -85,11 +85,13 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
+      <el-row type="flex">
         <pagination
-          @current-change="handleCurrentChange"
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="perPage"
         ></pagination>
       </el-row>
     </section>
@@ -180,7 +182,8 @@ export default {
       initForm: {},
       initData: {},
       dpArr: [],
-      permissions: []
+      permissions: [],
+      perPage: 10
     };
   },
   components: {
@@ -199,7 +202,19 @@ export default {
         type_id: this.filterForm.type
       });
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      const data = {
+        page: this.currentPage,
+        department_id: this.selectedDep,
+        type_id: this.filterForm.type
+      };
+      this.refreshList(data);
+    },
     refreshList(data) {
+      data["perPage"] = this.perPage;
       return getPerformanceList(data).then(res => {
         const { total, data } = res;
         this.total = total;

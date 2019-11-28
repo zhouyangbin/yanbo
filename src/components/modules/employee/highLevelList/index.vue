@@ -38,12 +38,18 @@
                 <template>
                   <el-table :data="team_reviewData" height="250">
                     <el-table-column
-                      width="200"
+                      width="150"
                       property="created_at"
                       label="提交时间"
                     ></el-table-column>
                     <el-table-column
-                      width="388"
+                      v-if="false"
+                      width="138"
+                      property="content"
+                      label="是否符合分布"
+                    ></el-table-column>
+                    <el-table-column
+                      width="300"
                       property="content"
                       label="提交理由"
                     ></el-table-column>
