@@ -57,17 +57,19 @@ export default {
     },
 
     feedback() {
-      let workcode = localStorage.getItem("workcode");
+      let workcode = localStorage.getItem("workcode");//workcode
+      let is_culture = location.pathname.indexOf('culture');//是否是文化
+      let query = is_culture == -1 ? '?&clientInfo=performance' : "?&clientInfo=culture";
       if (workcode) {
         window.open(
-          "https://feedback.100tal.com/product/f4333c1d748c47658e23f5daa22749dd/" +
-            workcode
+          "https://feedback.100tal.com/product/2b48f9082ae641cb910508953c98445d/" +
+            workcode+query
         );
       } else {
-        this.$message({
-          message: "当前不能跳转",
-          type: "warning"
-        });
+        window.open(
+          "https://feedback.100tal.com/product/2b48f9082ae641cb910508953c98445d/" +
+            "null"+query
+        );
       }
     },
     onSubmitFeedback(content) {
