@@ -906,6 +906,10 @@ export default {
       for (let i = 0; i < data.length; i++) {
         this.performance_user_ids.push(data[i].id);
       }
+      this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
+        this.performanceId,
+        this.performance_user_ids
+      );
     },
     reminder() {
       getExecutivePerformanceNotice(this.performanceId)
@@ -1091,7 +1095,10 @@ export default {
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
     this.nowTime = new Date();
-    this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(this.performanceId);
+    this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
+      this.performanceId,
+      this.performance_user_ids
+    );
     this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(this.performanceId);
     this.getPerformanceDetailData();
     getExecutiveOrganization()

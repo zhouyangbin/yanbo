@@ -250,9 +250,13 @@ export const PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL = (
 ) => `/performance/my/${performanceId}/${uid}`;
 
 // 高管绩效  导出名单
-export const PATH_EXECUTIVE_EXPORT_USER_LIST = (id: String = ":id") =>
+export const PATH_EXECUTIVE_EXPORT_USER_LIST = (
+  id: String = ":id",
+  performance_user_ids: Array<string>
+) =>
   `${base}executive-performance/admin/performances/${id}/users/export?${qs.stringify(
     {
+      "performance_user_ids[]": performance_user_ids,
       token: localStorage.getItem("talToken")
     }
   )}`;
