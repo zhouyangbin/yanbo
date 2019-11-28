@@ -25,24 +25,26 @@
         </el-select>
       </el-form-item>
       <el-form-item v-if="gradeForm.mark != 'B'" label="标签/">
-        <el-tag 
-            :class=" gradeForm.mark == 'A' || gradeForm.mark == 'S'
-                ? 'status-tag top-style'
-                : 'status-tag other-style'
-            "
-            v-if="levalLabelRules.length"
-            >{{ getlevalLabelRules(levalLabelRules) }}</el-tag
-          >
+        <el-tag
+          :class="
+            gradeForm.mark == 'A' || gradeForm.mark == 'S'
+              ? 'status-tag top-style'
+              : 'status-tag other-style'
+          "
+          v-if="levalLabelRules.length"
+          >{{ getlevalLabelRules(levalLabelRules) }}</el-tag
+        >
       </el-form-item>
       <el-form-item v-if="gradeForm.mark == 'B'" label="标签/">
-        <el-radio style="display: block; margin-top: 5px"
+        <el-radio
+          style="display: block; margin-top: 5px"
           v-for="item of levalLabelRules"
           :key="item.id"
           :label="item.id"
           v-model="gradeForm.label_id"
         >
-        {{ item.name }}
-      </el-radio>
+          {{ item.name }}
+        </el-radio>
       </el-form-item>
       <el-form-item label="原因" prop="reason">
         <el-input
@@ -76,7 +78,7 @@ export default {
     label_id: {
       type: null,
       default: ""
-    },
+    }
   },
   data() {
     return {
@@ -149,8 +151,8 @@ export default {
   },
   computed: {
     gradeForm_mark() {
-　　　　return this.gradeForm.mark
-　　}
+      return this.gradeForm.mark;
+    }
   },
   watch: {
     gradeForm_mark(newValue, oldValue) {

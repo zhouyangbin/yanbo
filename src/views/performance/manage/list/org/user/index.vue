@@ -73,8 +73,8 @@
               <div slot="icon">{{ v.text }}</div>
               <div slot="title">
                 {{ v.value }}
-               {{ i == resultArr.length-1 ? label_name : null }}
-             </div>
+                {{ i == resultArr.length - 1 ? label_name : null }}
+              </div>
             </el-step>
           </el-steps>
         </div>
@@ -167,8 +167,8 @@ export default {
         LABEL_SUP,
         BASIC_INFO
       },
-      label_id: '',
-      label_name: "",
+      label_id: "",
+      label_name: ""
     };
   },
   components: {
@@ -301,7 +301,7 @@ export default {
             can_edit,
             score_level,
             label_id,
-            label_name,
+            label_name
           } = res;
           this.basicInfo = {
             leaderName: superior_name

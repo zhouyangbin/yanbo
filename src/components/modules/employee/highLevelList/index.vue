@@ -43,13 +43,7 @@
                       label="提交时间"
                     ></el-table-column>
                     <el-table-column
-<<<<<<< HEAD
-                      v-if="false"
-                      width="138"
-                      property="content"
-=======
                       width="120"
->>>>>>> feature-employee-performance-3.0_bug_hotfix
                       label="是否符合分布"
                     >
                       <template slot-scope="scope">
