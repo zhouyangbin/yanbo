@@ -60,7 +60,7 @@
       </el-form-item>
       <el-form-item label="组织部成员类别:" prop="executive_type">
         <el-select
-          v-model="userForm.executive_type"
+          v-model="userParams.executive_type"
           clearable
           placeholder="请选择"
         >

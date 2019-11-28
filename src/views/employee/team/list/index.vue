@@ -10,6 +10,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="name"
           :label="constants.GRADE_NAME"
         ></el-table-column>

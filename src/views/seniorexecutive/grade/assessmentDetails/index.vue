@@ -910,6 +910,10 @@ export default {
         this.performanceId,
         this.performance_user_ids
       );
+      this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(
+        this.performanceId,
+        this.performance_user_ids
+      );
     },
     reminder() {
       getExecutivePerformanceNotice(this.performanceId)
@@ -1099,7 +1103,10 @@ export default {
       this.performanceId,
       this.performance_user_ids
     );
-    this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(this.performanceId);
+    this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(
+      this.performanceId,
+      this.performance_user_ids
+    );
     this.getPerformanceDetailData();
     getExecutiveOrganization()
       .then(res => {
