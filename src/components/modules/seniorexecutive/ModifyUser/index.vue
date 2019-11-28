@@ -60,7 +60,7 @@
       </el-form-item>
       <el-form-item label="组织部成员类别:" prop="executive_type">
         <el-select
-          v-model="userParams.executive_type"
+          v-model="userForm.executive_type"
           clearable
           placeholder="请选择"
         >
@@ -201,6 +201,7 @@ export default {
       this.$emit("close");
     },
     submit(formName) {
+      this.userParams.executive_type = this.userForm.executive_type;
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (this.userType != "add") {
@@ -246,16 +247,15 @@ export default {
         executive_type: this.userInfo.executive_type
       };
       this.userForm = {
-        workcode: this.userInfo.workcode + "-" + this.userInfo.name,
+        workcode: this.userInfo.workcode + this.userInfo.name,
         superior_workcode:
-          this.userInfo.superior_workcode + "-" + this.userInfo.superior_name,
+          this.userInfo.superior_workcode + this.userInfo.superior_name,
         isolation_workcode:
-          this.userInfo.isolation_workcode + "-" + this.userInfo.isolation_name,
+          this.userInfo.isolation_workcode + this.userInfo.isolation_name,
         president_workcode:
-          this.userInfo.president_workcode + "-" + this.userInfo.president_name,
-        hrbp_workcode:
-          this.userInfo.hrbp_workcode + "-" + this.userInfo.hrbp_name,
-        hrd_workcode: this.userInfo.hrd_workcode + "-" + this.userInfo.hrd_name,
+          this.userInfo.president_workcode + this.userInfo.president_name,
+        hrbp_workcode: this.userInfo.hrbp_workcode + this.userInfo.hrbp_name,
+        hrd_workcode: this.userInfo.hrd_workcode + this.userInfo.hrd_name,
         executive_type: this.userInfo.executive_type
       };
     }
