@@ -29,17 +29,19 @@
         ></el-table-column>
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
             <el-button
-              v-if="scope.row.p_type !== 'executive'"
+              @click="viewDetail(scope.row)"
+              type="text"
+              size="small"
+              >{{ constants.DETAILS }}</el-button
+            >
+            <el-button
+              v-if="scope.row.p_type === 'normal'"
               @click="exportDetail(scope.row)"
               type="text"
               size="small"
               >{{ constants.EXPORT_DETAILS }}</el-button
             >
-            <!-- 导出明细 -->
           </template>
         </el-table-column>
       </el-table>
@@ -118,9 +120,8 @@ export default {
     }
   },
   methods: {
-    goDetail(row) {
-      // to do
-      if (row.p_type == "executive") {
+    viewDetail(row) {
+      if (row.p_type === "executive") {
         this.$router.push(
           PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
             row.performance_id,
