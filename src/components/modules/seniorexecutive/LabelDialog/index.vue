@@ -450,11 +450,16 @@ export default {
           };
           if (this.infoType === "add") {
             // 新增标签
-            return postExecutiveAdminTags(postData)
+            if(isSubmit) {
+              return postExecutiveAdminTags(postData)
               .then(res => {
                 this.$emit("getList");
               })
               .catch(() => {});
+            }
+            else {
+              this.$alert("标签名称不能为空！");
+            }
           } else {
             let UpData = postData;
             if (isSubmit) {
