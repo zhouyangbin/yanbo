@@ -285,7 +285,7 @@ export default {
         })
         .catch(e => {});
     },
-    goReview(row){
+    goReview(row) {
       this.$router.push(PATH_PERFORMANCE_TREE_PROGRESS(row.id));
     },
     getDepartments() {
