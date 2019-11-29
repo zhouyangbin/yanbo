@@ -63,8 +63,12 @@
           <br />
         </div>
         <div v-if="total" class="inner-container">
-          <span class="label">评分结果:</span>
-          <span>{{ total }}</span>
+          <span class="label">评分结果 : </span>
+          <span class="label" style="padding-left: 0;">{{ total }}</span>
+        </div>
+        <div v-if="total" class="inner-container">
+          <span class="label">标签 : </span>
+          <span class="label" style="padding-left: 0;">{{ label_name }}</span>
         </div>
         <div class="inner-container">
           <span class="label"></span>
@@ -73,7 +77,6 @@
               <div slot="icon">{{ v.text }}</div>
               <div slot="title">
                 {{ v.value }}
-                {{ i == resultArr.length - 1 ? label_name : null }}
               </div>
             </el-step>
           </el-steps>

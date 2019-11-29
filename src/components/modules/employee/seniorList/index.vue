@@ -12,10 +12,10 @@
             <el-table-column prop="workcode" label="工号"></el-table-column>
             <el-table-column prop="name" :label="constants.LABEL_NAME">
               <template slot-scope="scope">
-                <el-row type="flex" align="middle">
+                <el-row type="flex" align="middle" style="height:44px">
                   <span>{{ scope.row.name }}</span>
                   <span class="appeal-tag" v-if="scope.row.has_appeal">
-                    {{ constants.APPEAL }}
+                    申述中
                   </span>
                 </el-row>
               </template>
@@ -160,16 +160,17 @@ export default {
   padding: 20px 10px 10px 10px;
 }
 .appeal-tag {
-  width: 25px;
-  height: 14px;
-  text-align: center;
-  line-height: 14px;
-  background: rgba(244, 63, 2, 0.2);
-  border-radius: 10px 10px 10px 10px;
-  color: rgba(244, 63, 2, 1);
-  font-size: 12px;
-  position: relative;
-  top: -5px;
+  width: 44px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    background:rgba(244,63,2,0.11);
+    border-radius: 10px 10px 10px 0px;
+    color: rgba(244, 63, 2, 1);
+    font-size: 12px;
+    position: relative;
+    top: -13px;
+    right: -5px;
 }
 .status-tag {
   min-width: 60px;

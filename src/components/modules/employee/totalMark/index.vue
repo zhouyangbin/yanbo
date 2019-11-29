@@ -22,8 +22,8 @@ export default {
       default: ""
     },
     high_level_show: {
-      type: [String, Number],
-      default: 1
+      type: Boolean,
+      default: null
     }
   },
   computed: {

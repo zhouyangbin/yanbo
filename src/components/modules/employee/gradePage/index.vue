@@ -75,7 +75,7 @@
         <br />
       </div>
       <div>
-        <level v-if="level && published" :old_s="old_s" v-model="level"></level>
+        <level v-if="level && published" :old_s="old_s" v-model="level" :label_id="label_id"></level>
         <br />
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
@@ -162,10 +162,10 @@ export default {
         LEADER_NAME,
         BASIC_INFO
       },
-      high_level_show: 0,
       self_score: 0,
       is_state: false,
-      old_s: false
+      old_s: false,
+      label_id:null,
     };
   },
   components: {
@@ -269,7 +269,9 @@ export default {
             publish_status,
             self_score,
             is_state,
-            _s
+            _s,
+            label_id,
+            label_show,
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -277,7 +279,8 @@ export default {
           };
           const published = publish_status == 1;
           this.is_state = is_state;
-          this.old_s = _s;
+          this.old_s = _s == 1 && label_show == 1 ? true : false;
+          this.label_id = label_id;
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
