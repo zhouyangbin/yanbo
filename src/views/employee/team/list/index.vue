@@ -36,11 +36,13 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
+      <el-row type="flex">
         <pagination
-          @current-change="handleCurrentChange"
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="perPage"
         ></pagination>
       </el-row>
     </section>
@@ -82,7 +84,8 @@ export default {
         GRADE_NAME,
         EXPORT_DETAILS,
         LABEL_DEPARTMENT
-      }
+      },
+      perPage: 10
     };
   },
   components: {
@@ -94,6 +97,7 @@ export default {
       this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.id));
     },
     getList(data) {
+      data["perPage"] = this.perPage;
       return getTeamGradeList(data)
         .then(res => {
           // console.log(res)
@@ -107,6 +111,14 @@ export default {
       this.currentPage = val;
       this.getList({
         page: val
+      });
+    },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      this.getList({
+        page: this.currentPage
       });
     },
     exportDetail(row) {
