@@ -89,13 +89,13 @@
                 >
               </el-popover>
             </div>
-            <el-button
+            <!-- <el-button
               v-if="teamDetail.name"
               @click="rejectTeam(teamDetail.workcode)"
               class="reject-btn"
               type="warning"
               >驳回{{ teamDetail.name }}</el-button
-            >
+            > -->
           </div>
           <el-table :data="lowerList" class="lower-list" style="width: 100%">
             <el-table-column prop="workcode" label="工号" width="100">
@@ -219,20 +219,17 @@ export default {
   },
   methods: {
     changeTeam() {
-      // to do
       this.getMyLowerList();
-      if (this.team_leader === "") {
-        return false;
-      }
-      for (let i = 0; i < this.teamList.length; i++) {
-        if (this.team_leader === this.teamList[i].workcode) {
-          this.teamDetail = this.teamList[i];
-        }
-      }
+      // if (this.team_leader === "") {
+      //   return false;
+      // }
+      // for (let i = 0; i < this.teamList.length; i++) {
+      //   if (this.team_leader === this.teamList[i].workcode) {
+      //     this.teamDetail = this.teamList[i];
+      //   }
+      // }
     },
-    rejectTeam(workcode) {
-      // to do
-    },
+    rejectTeam(workcode) {},
     selectWorkCode(data) {
       this.filterForm.name = data;
       this.getMyLowerList();
