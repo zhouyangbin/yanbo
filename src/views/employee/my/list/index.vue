@@ -32,20 +32,12 @@
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.stage == 0"
+              v-if="scope.row.stage == 0 && scope.row.p_type === 'executive'"
               type="text"
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
             >
-            <template slot-scope="scope" v-else-if="scope.row.stage == 20">
-              <el-button type="text" @click="applyAdjustment(scope.row)"
-                >申请调整指标</el-button
-              >
-              <el-button @click="viewDetail(scope.row)" type="text"
-                >详情</el-button
-              >
-            </template>
-            <el-button v-else @click="viewDetail(scope.row)" type="text"
+            <el-button @click="viewDetail(scope.row)" type="text"
               >详情</el-button
             >
           </template>
@@ -125,7 +117,6 @@ export default {
   },
   methods: {
     fillInIndicator(row) {
-      // to do
       this.$router.push(
         PATH_PERFORMANCE_TARGET_SET(
           row.performance_id,
@@ -134,18 +125,15 @@ export default {
         )
       );
     },
-    // 申请调整指标
-    applyAdjustment(row) {},
     viewDetail(row) {
-      // to do
-      if (row.p_type == "executive") {
+      if (row.p_type === "executive") {
         this.$router.push(
           PATH_PERFORMANCE_TARGET_DETAIL(
             row.performance_id,
             row.performance_user_id
           )
         );
-      } else if (row.p_type == "normal") {
+      } else {
         this.$router.push(
           PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
         );
