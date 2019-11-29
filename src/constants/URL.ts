@@ -64,6 +64,9 @@ export const PATH_ACCESS_ROLES = "/access/roles";
 //评分管理-详情
 export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}`;
+//评分管理-树状-详情
+export const PATH_PERFORMANCE_TREE_PROGRESS = (id = ":id") =>
+  `${PATH_PERFORMANCE_MANAGER}/tree/${id}`;
 //评分管理-详情-事业部详情
 export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;

@@ -76,6 +76,7 @@
         v-if="!inReviewStage"
         :score="this.score"
         :total="total"
+        :high_level_show="true"
       ></total-mark>
       <br />
       <level

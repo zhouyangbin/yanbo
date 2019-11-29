@@ -10,6 +10,7 @@ import {
   PATH_GRADE_EMP_DETAIL,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_TREE_PROGRESS,
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
@@ -137,6 +138,13 @@ const router = new Router({
           path: PATH_PERFORMANCE_PROGRESS(),
           components: {
             default: () => import("@/views/performance/manage/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TREE_PROGRESS(),
+          components: {
+            default: () => import("@/views/performance/manage/tree/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

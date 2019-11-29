@@ -81,6 +81,13 @@
               size="small"
               >{{ constants.COPY_GRADE }}</el-button
             >
+            <el-button
+              v-if="!canCreatePerformanceGrade"
+              @click="goReview(scope.row)"
+              type="text"
+              size="small"
+              >查看分布</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -131,6 +138,7 @@ import {
 import { getOrgTree, getPerformanceList } from "@/constants/API";
 import {
   PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_TREE_PROGRESS,
   PATH_EXPORT_PERFORMANCE_GRADE
 } from "@/constants/URL";
 import Drawer from "vue-simple-drawer";
@@ -277,7 +285,9 @@ export default {
         })
         .catch(e => {});
     },
-
+    goReview(row){
+      this.$router.push(PATH_PERFORMANCE_TREE_PROGRESS(row.id));
+    },
     getDepartments() {
       return getOrgTree()
         .then(res => {
