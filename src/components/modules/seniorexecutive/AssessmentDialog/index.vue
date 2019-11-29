@@ -83,14 +83,14 @@
         </div>
       </el-form-item>
       <el-form-item label="绩效模板">
-        <div v-for="item in ruleForm.templates" :key="item.id" class="rule-name tpl-name">
-          <el-tooltip
-              effect="dark"
-              :content="item.name"
-              placement="top"
-            >
-              <div class="bread-crumb-name">{{ item.name }}</div>
-            </el-tooltip>
+        <div
+          v-for="item in ruleForm.templates"
+          :key="item.id"
+          class="rule-name tpl-name"
+        >
+          <el-tooltip effect="dark" :content="item.name" placement="top">
+            <div class="bread-crumb-name">{{ item.name }}</div>
+          </el-tooltip>
           <!-- <span v-for="item in ruleForm.templates" :key="item.id">{{
             item.name
           }}</span> -->
@@ -375,7 +375,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-.bread-crumb-name{
+.bread-crumb-name {
   float: left;
   max-width: 300px;
   height: 32px;

@@ -326,7 +326,9 @@ export default {
             }
           }
           if (indicatorTypes[indicatorTypes.length - 1].name) {
-            if(indicatorTypes[indicatorTypes.length - 1].name == "团队维度指标") {
+            if (
+              indicatorTypes[indicatorTypes.length - 1].name == "团队维度指标"
+            ) {
               if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
                 if (indicatorTypes[indicatorTypes.length - 1].sort == 0) {
                   this.alert("排序");
@@ -338,19 +340,17 @@ export default {
                   this.require();
                 }
               }
-            }
-            else {
-              if(indicatorTypes[indicatorTypes.length - 1].weight != 0) {
-                if(indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+            } else {
+              if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
+                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
                   this.require();
                 } else {
                   this.alert("排序");
                 }
               } else {
-                if(indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
                   this.alert("权重");
-                }
-                else {
+                } else {
                   this.alert("权重、排序");
                 }
               }
