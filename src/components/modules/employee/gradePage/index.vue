@@ -75,7 +75,12 @@
         <br />
       </div>
       <div>
-        <level v-if="level && published" :old_s="old_s" v-model="level" :label_id="label_id"></level>
+        <level
+          v-if="level && published"
+          :old_s="old_s"
+          v-model="level"
+          :label_id="label_id"
+        ></level>
         <br />
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
@@ -165,7 +170,7 @@ export default {
       self_score: 0,
       is_state: false,
       old_s: false,
-      label_id:null,
+      label_id: null
     };
   },
   components: {
@@ -271,7 +276,7 @@ export default {
             is_state,
             _s,
             label_id,
-            label_show,
+            label_show
           } = res;
           this.basicInfo = {
             superior_workcode,

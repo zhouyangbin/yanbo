@@ -161,16 +161,16 @@ export default {
 }
 .appeal-tag {
   width: 44px;
-    height: 18px;
-    text-align: center;
-    line-height: 18px;
-    background:rgba(244,63,2,0.11);
-    border-radius: 10px 10px 10px 0px;
-    color: rgba(244, 63, 2, 1);
-    font-size: 12px;
-    position: relative;
-    top: -13px;
-    right: -5px;
+  height: 18px;
+  text-align: center;
+  line-height: 18px;
+  background: rgba(244, 63, 2, 0.11);
+  border-radius: 10px 10px 10px 0px;
+  color: rgba(244, 63, 2, 1);
+  font-size: 12px;
+  position: relative;
+  top: -13px;
+  right: -5px;
 }
 .status-tag {
   min-width: 60px;
