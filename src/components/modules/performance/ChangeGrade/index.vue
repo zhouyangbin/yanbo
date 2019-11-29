@@ -20,11 +20,10 @@
             :label="v"
             :value="v"
             :key="v"
-            @change="mark_change"
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item v-if="gradeForm.mark != 'B'" label="标签/">
+      <el-form-item v-if="gradeForm.mark != 'B'" label="标签/" prop="label_id">
         <el-tag
           :class="
             gradeForm.mark == 'A' || gradeForm.mark == 'S'
@@ -35,7 +34,7 @@
           >{{ getlevalLabelRules(levalLabelRules) }}</el-tag
         >
       </el-form-item>
-      <el-form-item v-if="gradeForm.mark == 'B'" label="标签/">
+      <el-form-item v-if="gradeForm.mark == 'B'" label="标签/" prop="label_id">
         <el-radio
           style="display: block; margin-top: 5px"
           v-for="item of levalLabelRules"
@@ -89,6 +88,7 @@ export default {
       },
       gradeFormRules: {
         mark: [{ required: true, message: "请选择分数", trigger: "change" }],
+        label_id: [{ required: true, message: "请选择标签", trigger: "change" }],
         reason: [{ required: true, message: "请填写修改原因", trigger: "blur" }]
       },
       marks: ["A", "B", "C", "D", "S"],
@@ -142,12 +142,10 @@ export default {
         })
         .catch(e => {});
     },
-    getlevalLabelRules(data) {
+    getlevalLabelRules(data) {//结果不为B
+      this.gradeForm.label_id = data[0].id;
       return data[0].name;
     },
-    mark_change() {
-      this.getTagsRules();
-    }
   },
   computed: {
     gradeForm_mark() {
@@ -155,7 +153,10 @@ export default {
     }
   },
   watch: {
-    gradeForm_mark(newValue, oldValue) {
+    gradeForm_mark(newValue, oldValue) {//结果是B
+      if(this.gradeForm.mark  == 'B'){
+        this.gradeForm.label_id = "";
+      }
       this.getTagsRules();
     }
   }

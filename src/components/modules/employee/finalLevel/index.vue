@@ -119,7 +119,7 @@ export default {
         .catch(e => {});
     },
     getlevalLabelRules(data) {
-      this.$emit("update", data[0].id.toString());
+      this.$emit("update_label_id", data[0].id.toString());
       return data[0].name;
     }
   },
