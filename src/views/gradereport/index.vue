@@ -44,7 +44,7 @@
           <el-col :span="12">
             <!-- 某部门文化评分进度 pie -->
             <h1>
-              <span>{{ currentDepartment }}22</span
+              <span>{{ currentDepartment }}</span
               >{{ constants.LABEL_REPORT_PROGRESS }}
             </h1>
             <el-row>
