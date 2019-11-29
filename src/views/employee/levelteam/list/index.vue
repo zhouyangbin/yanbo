@@ -18,7 +18,7 @@
           prop="type_text"
           :label="constants.DURATION_TYPE"
         ></el-table-column>
-        <el-table-column prop="type_text" label="状态"></el-table-column>
+        <el-table-column v-if="false" prop="type_text" label="状态"></el-table-column>
         <el-table-column prop="address" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button @click="goDetail(scope.row)" type="text" size="small">{{
