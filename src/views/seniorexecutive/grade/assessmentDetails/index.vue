@@ -206,12 +206,22 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效模板:</div>
-            <div class="setting-value performance-tpl">
-              <span
+            <div v-for="item in performanceDetail.templates" :key="item.id" class="setting-value performance-tpl">
+              <el-tooltip
+              class="item"
+              effect="dark"
+              :content="item.name"
+              placement="top"
+            >
+              <div class="setting-value">
+                {{ item.name }}
+              </div>
+            </el-tooltip>
+              <!-- <span
                 v-for="item in performanceDetail.templates"
                 :key="item.id"
                 >{{ item.name }}</span
-              >
+              > -->
             </div>
           </div>
           <div class="setting-detail">

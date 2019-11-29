@@ -83,10 +83,17 @@
         </div>
       </el-form-item>
       <el-form-item label="绩效模板">
-        <div class="rule-name tpl-name">
-          <span v-for="item in ruleForm.templates" :key="item.id">{{
+        <div v-for="item in ruleForm.templates" :key="item.id" class="rule-name tpl-name">
+          <el-tooltip
+              effect="dark"
+              :content="item.name"
+              placement="top"
+            >
+              <div class="bread-crumb-name">{{ item.name }}</div>
+            </el-tooltip>
+          <!-- <span v-for="item in ruleForm.templates" :key="item.id">{{
             item.name
-          }}</span>
+          }}</span> -->
         </div>
       </el-form-item>
       <el-form-item label="标签规则">
@@ -357,6 +364,15 @@ export default {
 };
 </script>
 <style scoped>
+.bread-crumb-name{
+  float: left;
+  max-width: 300px;
+  height: 32px;
+  line-height: 42px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .tpl-dialog >>> .el-dialog__header {
   border-bottom: 1px solid #e4e7ed;
 }
