@@ -43,6 +43,7 @@
           >
           </el-table-column>
           <el-table-column
+            :show-overflow-tooltip="true"
             prop="name"
             :label="constants.TPL_NAME"
           ></el-table-column>

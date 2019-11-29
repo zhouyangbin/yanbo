@@ -39,6 +39,8 @@
               <el-input
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -71,6 +73,8 @@
               <el-input
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -104,6 +108,8 @@
                 :class="scope.row.isChildren ? 'add-padding' : ''"
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -142,6 +148,8 @@
                 :class="scope.row.isChildren ? 'add-padding' : ''"
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>

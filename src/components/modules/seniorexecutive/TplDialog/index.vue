@@ -19,7 +19,7 @@
       <el-form-item :label="constants.TPL_NAME" prop="name">
         <el-input
           type="textarea"
-          :autosize="{ minRows: 5 }"
+          :autosize="{ minRows: 2 }"
           style="width:400px;line-height:38px"
           v-model="tplForm.name"
           maxlength="100"
@@ -326,35 +326,51 @@ export default {
             }
           }
           if (indicatorTypes[indicatorTypes.length - 1].name) {
-            //A
-            if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
-              // B
-              if (indicatorTypes[indicatorTypes.length - 1].sort == 0) {
-                // C
-                this.alert("排序");
-              }
-            } else {
-              if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                this.$alert("业绩指标标型三：“权重”未填写！");
+            if(indicatorTypes[indicatorTypes.length - 1].name == "团队维度指标") {
+              if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
+                if (indicatorTypes[indicatorTypes.length - 1].sort == 0) {
+                  this.alert("排序");
+                }
               } else {
-                this.$alert("业绩指标标型三：“权重”和“排序”未填写");
+                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                  this.$alert("业绩指标标型三：“权重”未填写！");
+                } else {
+                  this.require();
+                }
+              }
+            }
+            else {
+              if(indicatorTypes[indicatorTypes.length - 1].weight != 0) {
+                if(indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                  this.require();
+                } else {
+                  this.alert("排序");
+                }
+              } else {
+                if(indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                  this.alert("权重");
+                }
+                else {
+                  this.alert("权重、排序");
+                }
               }
             }
           } else {
             if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
               if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                this.$alert("业绩指标标型三：“指标”未填写");
+                this.alert("指标");
               } else {
-                this.$alert("业绩指标标型三：“指标”和“排序”未填写");
+                this.alert("指标、排序");
               }
             } else {
               if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                this.$alert("业绩指标标型三：“指标”和“权重”未填写");
+                this.alert("指标、权重");
               }
             }
           }
           if (
             indicatorTypes[indicatorTypes.length - 1].name &&
+            indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
             indicatorTypes[indicatorTypes.length - 1].weight != 0 &&
             indicatorTypes[indicatorTypes.length - 1].sort != 0
           ) {
@@ -362,6 +378,7 @@ export default {
           }
           if (
             !indicatorTypes[indicatorTypes.length - 1].name &&
+            indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
             indicatorTypes[indicatorTypes.length - 1].weight == 0 &&
             indicatorTypes[indicatorTypes.length - 1].sort == 0
           ) {
