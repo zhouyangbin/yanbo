@@ -72,12 +72,12 @@
         <br />
         <br />
       </div>
-      <div>
+      <div style="white-space:normal;word-wrap:break-word;word-break:break-all">
         <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
         <span class="content" :inner-html.prop="advantage | linebreak"></span>
       </div>
       <br />
-      <div>
+      <div style="white-space:normal;word-wrap:break-word;word-break:break-all">
         <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
         <span class="content" :inner-html.prop="promotion | linebreak"></span>
       </div>

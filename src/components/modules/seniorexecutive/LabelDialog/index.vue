@@ -8,7 +8,9 @@
   >
     <div slot="title" class="title">
       {{
-        infoType === "add" ? constants.ADD_NEW_LABEL : constants.UPDATE_LABEL
+        infoType === "add"
+          ? constants.ADD_NEW_LABEL
+          : constants.EXECTIVE_UPDATE_LABEL
       }}
     </div>
     <el-form :rules="rules" ref="tplForm" :model="tplForm" class="tpl-form">
@@ -105,6 +107,11 @@
               ></el-input>
             </template>
           </el-table-column>
+          <el-table-column label="是否展示给员工" align="center" width="80">
+            <template slot-scope="scope">
+              <el-checkbox v-model="scope.row.is_show"></el-checkbox>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="people_percent"
             label="人数占比"
@@ -190,7 +197,7 @@
 <script>
 import {
   ADD_NEW_LABEL,
-  UPDATE_LABEL,
+  EXECTIVE_UPDATE_LABEL,
   CONFIRM,
   CANCEL,
   LABEL_TYPE,
@@ -259,7 +266,7 @@ export default {
       },
       constants: {
         ADD_NEW_LABEL,
-        UPDATE_LABEL,
+        EXECTIVE_UPDATE_LABEL,
         CONFIRM,
         CANCEL,
         LABEL_TYPE,

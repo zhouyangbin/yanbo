@@ -1,6 +1,7 @@
 <template>
   <div class="CaseArea-page">
     <el-input
+      style="white-space:normal;word-wrap:break-word;word-break:break-all"
       :maxlength="maxlength"
       :readonly="readOnly"
       type="textarea"
@@ -29,11 +30,11 @@ export default {
     },
     rows: {
       type: Number,
-      default: 4
+      default: 8
     },
     maxlength: {
       type: Number,
-      default: 1000
+      default: 2000
     }
   },
   methods: {

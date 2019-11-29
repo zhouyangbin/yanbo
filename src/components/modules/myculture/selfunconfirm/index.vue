@@ -3,12 +3,12 @@
     <div class="title">{{ name }}</div>
     <hr />
     <br />
-    <div>
+    <div style="white-space:normal;word-wrap:break-word;word-break:break-all">
       <span class="sub-title">{{ constants.ADVANTAGE }}: &nbsp;</span>
       <span :inner-html.prop="advantage | linebreak" class="content"></span>
     </div>
     <br />
-    <div>
+    <div style="white-space:normal;word-wrap:break-word;word-break:break-all">
       <span class="sub-title">{{ constants.PROMOTION }}: &nbsp;</span>
       <span :inner-html.prop="promotion | linebreak" class="content"></span>
     </div>

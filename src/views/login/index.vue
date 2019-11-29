@@ -48,7 +48,14 @@ export default {
     const querys = qs.parse(window.location.search, {
       ignoreQueryPrefix: true
     });
-    if (querys.from_mobile) {
+    // if (querys.from_mobile) {//参数判断
+    //   //判断手机跳转
+    //   this.$router.push({ path: PATH_MSG_MOBILE });
+    //   return;
+    // }
+    if (this.$device.mobile) {
+      //navigator.userAgent终端判断
+      //判断手机跳转
       this.$router.push({ path: PATH_MSG_MOBILE });
       return;
     }
@@ -64,7 +71,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "094203" })
+        fzLogin({ workcode: "074036" })
           // 094203
           // 076533
           // 17600297195

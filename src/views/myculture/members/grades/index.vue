@@ -32,7 +32,7 @@
         </div>
         <div v-if="isHigh && gradeListType == 'pending'" class="container">
           <div class="container-role">
-            <span>高管</span>
+            <span>组织部成员</span>
             &nbsp; &nbsp;
             <span style="font-size: 14px;margin-left: 90px;color: #494949"
               >评分名称：{{ high_evaluation_name }}</span
@@ -59,11 +59,11 @@
                 <div class="container-list-message-left-space"></div>
               </div>
               <div class="container-list-message-left"></div>
-              <el-button type="primary" @click="highDetail()"
+              <!-- <el-button type="primary" @click="highDetail()"
                 >查看详情</el-button
-              >
+              > -->
             </div>
-            <el-table style="width: 100%" :data="tableData">
+            <el-table stripe style="width: 100%" :data="tableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
               <el-table-column min-width="110" label="自评分数/上级分数">
@@ -261,6 +261,13 @@
                 </template>
               </el-table-column> -->
             </el-table>
+            <div class="container-list-message">
+              <div class="container-list-message-left"></div>
+              <el-button type="primary" @click="highDetail()"
+                >查看更多(共{{ highNumber }}人)</el-button
+              >
+              <div class="container-list-message-left"></div>
+            </div>
           </div>
         </div>
         <div v-if="isStaff && gradeListType == 'pending'" class="container">
@@ -292,11 +299,8 @@
                 <div class="container-list-message-left-space"></div>
               </div>
               <div class="container-list-message-left"></div>
-              <el-button type="primary" @click="staffDetail()"
-                >查看详情</el-button
-              >
             </div>
-            <el-table :data="stafftableData">
+            <el-table stripe style="width: 100%" :data="stafftableData">
               <el-table-column prop="name" label="姓名" width="70">
               </el-table-column>
               <el-table-column min-width="110" label="自评分数/上级分数">
@@ -472,6 +476,13 @@
                 </template>
               </el-table-column> -->
             </el-table>
+            <div class="container-list-message">
+              <div class="container-list-message-left"></div>
+              <el-button type="primary" @click="staffDetail()"
+                >查看更多(共{{ staffNumber }}人)</el-button
+              >
+              <div class="container-list-message-left"></div>
+            </div>
           </div>
         </div>
         <finished v-if="gradeListType == 'end'"></finished>
@@ -484,6 +495,9 @@
           ></pagination>
         </el-row>
         <br />
+        <div @click="tips" class="rule">
+          <img src="@/assets/img/box.png" alt="" />
+        </div>
       </section>
     </section>
   </div>
@@ -519,6 +533,8 @@ import {
 export default {
   data() {
     return {
+      highNumber: 0,
+      staffNumber: 0,
       highType: "",
       staffType: "",
       evaluation_id: 0, //  评分id
@@ -594,6 +610,15 @@ export default {
       import("@/components/modules/myculture/finished/lower/index.vue")
   },
   methods: {
+    tips() {
+      this.$alert(
+        "<p>1-总：打分前，对团队中的271排名做到心中有数：前面的20%，后面的10%；</br>2-分：打分时，对团队中每个成员的具体得分负责：看标准，核案例，确定得分；</br>3-总：打分后，根据步骤1和步骤2，微调/确定最终271，确保前20%和后10%的精准。</p>",
+        "“上级评”打分方法推荐：",
+        {
+          dangerouslyUseHTMLString: true
+        }
+      );
+    },
     getLevelText(num) {
       return LEVEL_ALIAS[num];
     },
@@ -640,6 +665,8 @@ export default {
           Object.keys(res.evaluations).forEach(key => {
             // 高管
             if (key == 2) {
+              let arr = Object.keys(res.users[key].data);
+              this.highNumber = arr.length;
               this.isHigh = true;
               this.highType = key;
               this.highSmmary = this.postSummary(res.users[key].overview);
@@ -657,6 +684,8 @@ export default {
             }
             //员工
             if (key == 1) {
+              let arr = Object.keys(res.users[key].data);
+              this.staffNumber = arr.length;
               this.isStaff = true;
               this.staffType = key;
               this.summary = this.postSummary(res.users[key].overview);
@@ -845,5 +874,19 @@ export default {
   color: #adadad;
   text-align: center;
   margin-top: 20px;
+}
+.rule {
+  z-index: 1;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+}
+.rule img {
+  height: 120px;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.rule img:hover {
+  cursor: pointer;
 }
 </style>

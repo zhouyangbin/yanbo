@@ -159,7 +159,11 @@ export default {
               this.close();
             })
             .catch(e => {
-              this.eHRError = e.data.data;
+              if (e.data.data) {
+                this.eHRError = e.data.data;
+              } else {
+                this.eHRError = [];
+              }
               this.showTableEHR = true;
             });
         } else {

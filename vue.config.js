@@ -1,7 +1,7 @@
 const path = require("path");
 const projectRoot = path.resolve(__dirname);
 
-const baseURL = process.env.VUE_APP_CDN || "/";
+const baseURL = process.env.CDN || "/";
 
 module.exports = {
   publicPath: baseURL,

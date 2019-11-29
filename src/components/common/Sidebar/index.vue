@@ -57,9 +57,9 @@
         <i class="el-icon-aim"></i>
         <span>{{ constants.MY_PERFORMANCE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">
-        {{ constants.MY_GRADE }}
-      </el-menu-item>
+      <el-menu-item :index="constants.PATH_EMPLOYEE_MY">{{
+        constants.MY_GRADE
+      }}</el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [constants.PATH_EMPLOYEE_TEAM].includes($route.path)
@@ -112,9 +112,9 @@
         <i class="el-icon-edit-outline"></i>
         <span>{{ constants.CULTURE_GRADE }}</span>
       </template>
-      <el-menu-item :index="constants.PATH_GRADE_REPORT">
-        {{ constants.GRADE_REPORT }}
-      </el-menu-item>
+      <el-menu-item :index="constants.PATH_GRADE_REPORT">{{
+        constants.GRADE_REPORT
+      }}</el-menu-item>
       <el-menu-item
         :class="{
           'is-active': [
@@ -174,13 +174,14 @@
         :index="constants.PATH_PERFORMANCE_RULES"
         >{{ constants.RULES_SETTING }}</el-menu-item
       >
-      <!--el-menu-item
-        v-if="canSetRules"
+      <el-menu-item
+        v-if="canSetTags"
         :class="{
           'is-active': [constants.PATH_PERFORMANCE_TAGS].includes($route.path)
         }"
         :index="constants.PATH_PERFORMANCE_TAGS"
-        >标签设置</el-menu-item-->
+        >标签设置</el-menu-item
+      >
     </el-submenu>
     <el-submenu
       :show-timeout="100"
@@ -337,6 +338,9 @@ export default {
     },
     canSetRules() {
       return this.permissions.includes(304);
+    },
+    canSetTags() {
+      return this.permissions.includes(305);
     }
   },
   directives: {

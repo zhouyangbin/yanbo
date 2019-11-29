@@ -49,9 +49,8 @@
       <div class="mark-flag-container">
         <div class="mark-section">
           <div class="mark-label">
-            为{{ employee_name }}的{{
-              scores[selectGradeItem].question_name
-            }}项目评分
+            为{{ employee_name }}的{{ scores[selectGradeItem].question_name }}
+            项目评分
           </div>
           <br />
           <grade-slider
@@ -125,6 +124,7 @@ import {
 export default {
   data() {
     return {
+      currentStatus: 0,
       isManager: false,
       basicInfo: {
         name: "",
@@ -209,12 +209,14 @@ export default {
           name,
           workcode,
           _271_level,
-          _271_is_necessary
+          _271_is_necessary,
+          status
         } = res;
         this.isManager = evaluation_type == 2;
         this.advantage = advantage;
         this.promotion = promotion;
         this.employee_name = name;
+        this.currentStatus = status;
         this.basicInfo = {
           name: name,
           workcode: workcode
@@ -232,8 +234,8 @@ export default {
     },
     submit() {
       let postData = this.composePostData();
-      //不是高管，是BP  可以修改
-      if (!this.isManager) {
+      //不是高管，是BP并且在线下合议状态  可以修改
+      if (!this.isManager && this.currentStatus == 45) {
         postData.reason = this.reason;
         postBpModify(this.$route.params.uid, postData).then(res => {
           this.$message({
@@ -242,9 +244,7 @@ export default {
           });
           this.$router.go(-1);
         });
-      }
-      //是高管
-      else {
+      } else {
         const valid = this.validate();
         if (!valid) {
           return;

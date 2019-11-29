@@ -27,6 +27,7 @@
               </section>
             </div>
             <div
+              style="word-break: break-word;"
               v-if="
                 data.target_self_score &&
                   data.target_self_score.description != null

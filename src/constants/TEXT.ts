@@ -5,6 +5,8 @@ export const ERROR = "错误";
 export const SUCCESS = "成功";
 export const ATTENTION = "提示";
 export const FILE_SIZE_ERROR: string = "文件超出大小！";
+export const YES = "是";
+export const NO = "否";
 export const UPDATE_PASSWORD_ERR: string = "修改密码错误！";
 export const CONST_ADD_SUCCESS: string = "提交成功!";
 export const CONST_DELETE_SUCCESS: string = "删除成功!";
@@ -60,7 +62,7 @@ export const LABEL_SELF = "自评";
 export const LABEL_SUP = "上级评";
 
 // LOGIN
-
+export const PLUS_LEVEL_SUP = "隔级评";
 export const LABEL_LOGOUT_MSG = "确定退出登录?";
 
 // 用户管理
@@ -155,6 +157,10 @@ export const EMAIL_VALIATE_MSG = "请填写邮箱地址";
 export const SELF_TIME_REQUIRE_MSG = "请填写自评";
 export const LEADER_TIME_REQUIRE_MSG = "请填写上级评";
 export const UP_LEADER_TIME_REQUIRE_MSG = "请填写隔级上级评";
+
+export const OFFLINETALK_TIME_REQUIRE_MSG = "请填写线下合议";
+export const FACE_TIME_REQUIRE_MSG = "请填写员工确认";
+export const PLUS_UP_LEVEL_REQUIRE_MSG = "请填写隔级工号";
 export const NUMBER_REQUIRE_MSG = "请填写工号";
 export const EMAIL_FORMAT_MSG = "请输入正确的邮箱地址";
 export const LEADER_NUMBER_REQUIRE_MSG = "请填写上级工号";
@@ -172,6 +178,17 @@ export const UPLOAD_FAIL = "上传失败";
 export const TPL_SETTING = "模板设置";
 export const TPL = "模板";
 export const RULES_SETTING = "规则设置";
+export const LABEL_SETTING = "标签设置";
+export const ADD_NEW_LABEL = "新增标签";
+export const UPDATE_LABEL = "更新标签";
+export const SERIAL_NUMBER = "序号";
+export const TAG_NAME = "标签名称";
+export const TAG_TYPE = "标签类型";
+
+export const BUSINESS_UNIT_AND_FUNCTIONAL_UNIT = "业务单元/职能单元";
+export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";
+export const FORCED_DISTRIBUTION_OR_NOT = "是否强制分布";
+
 export const ACCESS_SETTING = "权限管理";
 export const ROLE_SETTING = "角色管理";
 export const ROLE = "角色";
@@ -231,7 +248,20 @@ export const ENUM_GENERIC_COMPLETE_STATUS = [
     value: "已完成"
   }
 ];
-
+export const EMUM_CULTURE_GENERIC_COMPLETE_STATUS = [
+  {
+    key: "0",
+    value: "未完成"
+  },
+  {
+    key: "1",
+    value: "驳回中"
+  },
+  {
+    key: "2",
+    value: "已完成"
+  }
+];
 export const ENUM_LEADER_EVALUATION_STATUS = [
   {
     key: "0",
@@ -451,6 +481,10 @@ export const ENUM_PERFORMANCE_FINISH = [
     value: "目标未导入"
   },
   {
+    key: 5,
+    value: "上级审核目标"
+  },
+  {
     key: 10,
     value: "目标已导入"
   },
@@ -461,6 +495,10 @@ export const ENUM_PERFORMANCE_FINISH = [
   {
     key: 30,
     value: "上级评中"
+  },
+  {
+    key: 35,
+    value: "隔级评中"
   },
   {
     key: 50,
@@ -656,7 +694,6 @@ export const CHANGE_RECORDS = "修改日志";
 export const FINISH_DATE = "完成期限";
 export const EXECUTIVE_PERFORMANCE = "组织部绩效";
 export const ADD_NEW_TPL = "新增模板";
-export const BUSINESS_UNIT_AND_FUNCTIONAL_UNIT = "业务单元/职能单元";
 export const ORGANIZATION_DEPARTMENT_MEMBER_TYPE = "组织部成员类型";
 export const INDICATOR_TYPE_AND_PROPORTION = "指标类型及占比";
 export const ID_DET_TPL_CONFIRM = "是否确认删除模板？";
@@ -666,10 +703,7 @@ export const EXECUTIVE_TYPE_TEXT = "组织部类型";
 export const TEMPLATE_FIELD = "模板字段";
 export const IS_THE_MEASUREMENT_REQUIRED = "衡量标准是否必填";
 export const SORT = "排序";
-export const TAG_NAME = "标签名称";
-export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";
-export const FORCED_DISTRIBUTION_OR_NOT = "是否强制分布";
-export const UPDATE_LABEL = "修改标签";
+export const EXECTIVE_UPDATE_LABEL = "修改标签";
 export const LABEL_TYPE = "标签类型";
 export const FORCED_DISTRIBUTION = "强制分布";
 export const EXECUTIVE_LABEL_TYPE = ["253", "271", "23221", "2521"];
@@ -831,9 +865,6 @@ export const STAGEOPTIONS = [
     value: "已结束"
   }
 ];
-export const YES = "是";
-export const NO = "否";
-export const PLUS_LEVEL_SUP = "隔级评";
 export const OFFLINE_STATUS = "线下合议状态";
 export const FACE_EVALUATION_STATUS = "员工确认状态";
 export const FACE_FEEDBACK = "员工确认反馈";
@@ -844,27 +875,6 @@ export const OFFLINETALK_TIME_VALIDATE_MSG =
   "线下合议时间必须大于隔级上级评价时间";
 export const FACE_TIME_VALIDATE_MSG = "员工确认时间必须大于线下合议时间";
 export const FACE_TIME_OVER_GRADE_MSG = "员工确认时间不能晚于评测截止时间";
-export const OFFLINETALK_TIME_REQUIRE_MSG = "请填写线下合议";
-export const FACE_TIME_REQUIRE_MSG = "请填写员工确认";
-export const PLUS_UP_LEVEL_REQUIRE_MSG = "请填写隔级工号";
-export const LABEL_SETTING = "标签设置";
-export const ADD_NEW_LABEL = "新增标签";
-export const SERIAL_NUMBER = "序号";
-export const TAG_TYPE = "标签类型";
-export const EMUM_CULTURE_GENERIC_COMPLETE_STATUS = [
-  {
-    key: "0",
-    value: "未完成"
-  },
-  {
-    key: "1",
-    value: "进行中"
-  },
-  {
-    key: "2",
-    value: "已完成"
-  }
-];
 export const IMPRESSIONS = "心得体会（仅B事业部涉及）";
 export const BREAK_STATUS = [
   "",

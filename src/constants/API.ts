@@ -147,6 +147,19 @@ export const getTpl = (id: string) =>
 export const getRuleList = (params: object) =>
   sendGet(`/performance/admin/rule`, params);
 
+// 获取标签列表
+export const getAdminTags = (params: object) =>
+  sendGet(`/performance/admin/label`, params);
+// 添加标签
+export const postAdminTags = (params: object) =>
+  sendPost(`/performance/admin/label`, params);
+// 更新标签
+export const putAdminTagChange = (id: string, params: object) =>
+  sendPut(`/performance/admin/label/${id}`, params);
+
+export const postAdminTagsRules = (id: string, level: string) =>
+  sendGet(`/performance/api/label/rules/${id}/${level}`);
+
 // 更新规则
 export const putRule = (id: String, params: Object) =>
   sendPut(`/performance/admin/rule/${id}`, params);
@@ -212,7 +225,12 @@ export const getTeamGradeList = (params: Object) =>
 // 某个评分的团队成员列表
 export const getTeamList = (id: String, params: Object) =>
   sendGet(`/performance/api/superior/${id}`, params);
-
+//团队评分的上级整体提交
+export const highLevelAllSubmit = (id: String, params: Object) =>
+  sendPost(`/performance/api/superior/${id}/submit`, params);
+//上级审查记录
+export const highLevelReview = (id: String, params: Object) =>
+  sendGet(`/performance/api/superior/${id}/review`, params);
 // export const getTeamUserDetail = (orgID: String, uid: String) =>
 //   sendGet(`/performance/api/superior/${orgID}/${uid}`);
 

@@ -30,10 +30,11 @@ export default {
     };
   },
   components: {
-    grade: () => import("@/components/modules/employee/gradePage/index.vue"),
+    grade: () => import("@/components/modules/employee/gradePage/index.vue"), //自评页面
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "set-targets": () =>
-      import("@/components/modules/employee/setTargets/index.vue")
+      import(//设置目标
+      "@/components/modules/employee/setTargets/index.vue")
   },
   beforeRouteLeave(to, from, next) {
     if (this.currentComponent == "set-targets") {

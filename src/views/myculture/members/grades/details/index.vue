@@ -26,6 +26,10 @@
         </div>
         <br />
       </div>
+      <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
+        <appeal-reason :data="item"></appeal-reason>
+      </div>
+      <br />
       <div>
         <h3>{{ constants.ADVANTAGE }}:</h3>
         <case-area :readOnly="readOnly" v-model="advantage"></case-area>
@@ -109,10 +113,6 @@
         v-model="scores[selectGradeItem].superior_case"
       ></case-area>
       <br />
-      <div v-for="(item, index) in appealReason" :key="`${index}${item.time}`">
-        <appeal-reason :data="item"></appeal-reason>
-      </div>
-      <br />
       <div class="total-scores">
         总分:
         <span class="score">{{ totalSuperiorScore }}</span>
@@ -174,6 +174,7 @@ export default {
   mixins: [recommendMx],
   data() {
     return {
+      isZero: false,
       employee_name: "",
       rejectReason: "",
       appealReason: [],
@@ -377,25 +378,54 @@ export default {
       if (!valid) {
         return;
       }
-      this.$confirm("是否确定提交, 是否继续?", "提示", {
-        confirmButtonText: CONFIRM,
-        cancelButtonText: CANCEL,
-        type: "warning"
-      })
-        .then(() => {
-          postMemberGrade(this.$route.params.uid, this.composePostData())
-            .then(res => {
-              this.$message({
-                message: CONST_ADD_SUCCESS,
-                type: "success"
-              });
-              this.$router.replace(
-                PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
-              );
-            })
-            .catch(e => {});
+      for (let key = 1; key <= 4; key++) {
+        if (this.composePostData()[key].score == 0) {
+          this.isZero = true;
+        }
+      }
+      if (this.isZero) {
+        this.$confirm("当前有0分项，是否提交?", "提示", {
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
+          type: "warning"
         })
-        .catch(() => {});
+          .then(() => {
+            postMemberGrade(this.$route.params.uid, this.composePostData())
+              .then(res => {
+                this.$message({
+                  message: CONST_ADD_SUCCESS,
+                  type: "success"
+                });
+                this.$router.replace(
+                  PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+                );
+              })
+              .catch(e => {});
+          })
+          .catch(() => {
+            this.isZero = false;
+          });
+      } else {
+        this.$confirm("是否确定提交, 是否继续?", "提示", {
+          confirmButtonText: CONFIRM,
+          cancelButtonText: CANCEL,
+          type: "warning"
+        })
+          .then(() => {
+            postMemberGrade(this.$route.params.uid, this.composePostData())
+              .then(res => {
+                this.$message({
+                  message: CONST_ADD_SUCCESS,
+                  type: "success"
+                });
+                this.$router.replace(
+                  PATH_MEMBER_CULTURE_LIST(this.$route.params.id)
+                );
+              })
+              .catch(e => {});
+          })
+          .catch(() => {});
+      }
     },
     levelChange(l) {
       if (this.canRecommended && l == "top") {
