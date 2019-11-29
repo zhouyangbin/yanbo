@@ -88,7 +88,9 @@ export default {
       },
       gradeFormRules: {
         mark: [{ required: true, message: "请选择分数", trigger: "change" }],
-        label_id: [{ required: true, message: "请选择标签", trigger: "change" }],
+        label_id: [
+          { required: true, message: "请选择标签", trigger: "change" }
+        ],
         reason: [{ required: true, message: "请填写修改原因", trigger: "blur" }]
       },
       marks: ["A", "B", "C", "D", "S"],
@@ -142,10 +144,11 @@ export default {
         })
         .catch(e => {});
     },
-    getlevalLabelRules(data) {//结果不为B
+    getlevalLabelRules(data) {
+      //结果不为B
       this.gradeForm.label_id = data[0].id;
       return data[0].name;
-    },
+    }
   },
   computed: {
     gradeForm_mark() {
@@ -153,8 +156,9 @@ export default {
     }
   },
   watch: {
-    gradeForm_mark(newValue, oldValue) {//结果是B
-      if(this.gradeForm.mark  == 'B'){
+    gradeForm_mark(newValue, oldValue) {
+      //结果是B
+      if (this.gradeForm.mark == "B") {
         this.gradeForm.label_id = "";
       }
       this.getTagsRules();
