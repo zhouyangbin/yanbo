@@ -4,10 +4,7 @@
     <img class="stage-img" :src="stageImg(userInfo.stage)" alt="" />
     <el-row class="flex">
       <el-row class="grow">
-        <el-row
-          class="superior-idea flex"
-          v-if="userInfo.opinion && (userInfo.stage === 1) & self"
-        >
+        <el-row class="superior-idea flex" v-if="userInfo.opinion">
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
@@ -21,7 +18,7 @@
             alt=""
           />
           <div class="img avatar-name" v-else>
-            {{ userInfo.name.substr(userInfo.name.length - 1, 1) }}
+            {{ userInfo.name | filterName }}
           </div>
           <el-col>
             <el-row class="user-name">
@@ -74,18 +71,13 @@
           </el-col>
         </el-row>
       </el-row>
-      <el-row class="upload-target" v-if="userInfo.stage == 0">
-        <el-button
-          icon="el-icon-upload2"
-          class="btn"
-          @click="uploadTarget"
-          v-if="userInfo.current_user_identity == undefined && !isDisable"
-          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
-        >
+      <el-row class="upload-target" v-if="userInfo.stage === 0">
+        <el-button icon="el-icon-upload2" class="btn" @click="uploadTarget">{{
+          constants.SENIOR_UPLOAD_TARGET
+        }}</el-button>
       </el-row>
-      <el-row class="upload-target" v-else> </el-row>
     </el-row>
-    <common-upload-dialog
+    <common-upload
       v-if="isUpload"
       :visible="isUpload"
       :uploadTitle="uploadTitle"
@@ -94,7 +86,7 @@
       @close="closeUploadDialog"
       @update="confirmUpload"
     >
-    </common-upload-dialog>
+    </common-upload>
   </div>
 </template>
 <script>
@@ -117,14 +109,6 @@ export default {
     userInfo: {
       type: Object,
       default: () => ({})
-    },
-    self: {
-      type: Boolean,
-      default: true
-    },
-    isDisable: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -148,8 +132,14 @@ export default {
       userId: this.$route.params.uid
     };
   },
+  filters: {
+    filterName(val) {
+      let name = val.substr(val.length - 2, 2);
+      return name;
+    }
+  },
   components: {
-    "common-upload-dialog": AsyncComp(
+    "common-upload": AsyncComp(
       import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
     )
   },
@@ -185,7 +175,7 @@ export default {
     },
     confirmUpload() {
       this.isUpload = false;
-      // to do 上传完了干啥
+      this.$emit("update");
     }
   },
   created() {

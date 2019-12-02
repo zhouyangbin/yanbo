@@ -1,7 +1,7 @@
 <template>
   <div class="employee-target-detail">
     <nav-bar :list="nav"></nav-bar>
-    <detail-header :user-info="userInfo" :self="true"></detail-header>
+    <index-header :user-info="userInfo" :self="true"></index-header>
     <target-content :all-target="allTarget"></target-content>
     <el-row class="footer-button">
       <el-button @click="checkExamine">
@@ -70,7 +70,7 @@ export default {
   },
   components: {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
-    "detail-header": AsyncComp(
+    "index-header": AsyncComp(
       import("@/components/modules/seniorexecutive/indexHeader/index")
     ),
     "target-content": AsyncComp(

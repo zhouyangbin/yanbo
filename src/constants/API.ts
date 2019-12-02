@@ -527,7 +527,8 @@ export const getExecutiveTargetContent = (params: Object) =>
 // 高管绩效  指标设定提交
 export const postExecutiveIndexSetting = (uid: String, params: Object) =>
   sendPost(`/executive-performance/web/self/${uid}/set-targets`, params);
-// 高管绩效  指标设定暂存草稿
+
+// 高管绩效  指标暂存草稿
 export const postExecutiveSaveDraft = (uid: String, params: Object) =>
   sendPost(`/executive-performance/web/self/${uid}/set-draft`, params);
 
