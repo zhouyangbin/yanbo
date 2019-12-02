@@ -41,8 +41,8 @@ import {
   PATH_PERFORMANCE_TPL_SETTINGS,
   PATH_PERFORMANCE_LABEL_SETTINGS,
   PATH_EXECUTIVE_ASSESSMENT_DATAILS,
-  PATH_PERFORMANCE_TARGET_SET,
-  PATH_PERFORMANCE_TARGET_DETAIL,
+  PATH_PERFORMANCE_FILL_IN_INDEX,
+  PATH_PERFORMANCE_INDEX_DETAIL,
   PATH_EXECUTIVE_TEAM_TARGET_CONFIRM,
   PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
   PATH_EXECUTIVE_APPLICATION,
@@ -360,9 +360,10 @@ const router = new Router({
           }
         },
         {
-          path: PATH_PERFORMANCE_TARGET_SET(),
+          path: PATH_PERFORMANCE_FILL_IN_INDEX(),
           components: {
-            default: () => import("@/views/employee/my/gradeDetail/index.vue"),
+            default: () =>
+              import("@/views/seniorexecutive/index/fillinIndex/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -381,9 +382,10 @@ const router = new Router({
           }
         },
         {
-          path: PATH_PERFORMANCE_TARGET_DETAIL(),
+          path: PATH_PERFORMANCE_INDEX_DETAIL(),
           components: {
-            default: () => import("@/views/employee/my/targetDetail/index.vue"),
+            default: () =>
+              import("@/views/seniorexecutive/index/indexDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

@@ -1,13 +1,10 @@
 <template>
-  <div class="target-detail-header">
-    <el-row class="title">{{ userInfo.performance_name }}</el-row>
-    <img class="status" :src="stageImg(userInfo.stage)" alt="" />
+  <div class="index-header">
+    <div class="header-title">{{ userInfo.performance_name }}</div>
+    <img class="stage-img" :src="stageImg(userInfo.stage)" alt="" />
     <el-row class="flex">
       <el-row class="grow">
-        <el-row
-          class="superior-idea flex"
-          v-if="userInfo.opinion && (userInfo.stage === 1) & self"
-        >
+        <el-row class="superior-idea flex" v-if="userInfo.opinion">
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
@@ -21,7 +18,7 @@
             alt=""
           />
           <div class="img avatar-name" v-else>
-            {{ userInfo.name.substr(userInfo.name.length - 1, 1) }}
+            {{ userInfo.name | filterName }}
           </div>
           <el-col>
             <el-row class="user-name">
@@ -68,24 +65,19 @@
                 <el-row>{{ userInfo.indicator_setting_end_time }}</el-row>
               </el-col>
             </el-row>
-            <el-row class="linkman">{{
+            <el-row class="tip-info">{{
               constants.ERROR_MESSAGE_CONTACT_USER
             }}</el-row>
           </el-col>
         </el-row>
       </el-row>
-      <el-row class="upload-target" v-if="userInfo.stage == 0">
-        <el-button
-          icon="el-icon-upload2"
-          class="btn"
-          @click="uploadTarget"
-          v-if="userInfo.current_user_identity == undefined && !isDisable"
-          >{{ constants.SENIOR_UPLOAD_TARGET }}</el-button
-        >
+      <el-row class="upload-target" v-if="userInfo.stage === 0">
+        <el-button icon="el-icon-upload2" class="btn" @click="uploadTarget">{{
+          constants.SENIOR_UPLOAD_TARGET
+        }}</el-button>
       </el-row>
-      <el-row class="upload-target" v-else> </el-row>
     </el-row>
-    <common-upload-dialog
+    <common-upload
       v-if="isUpload"
       :visible="isUpload"
       :uploadTitle="uploadTitle"
@@ -94,7 +86,7 @@
       @close="closeUploadDialog"
       @update="confirmUpload"
     >
-    </common-upload-dialog>
+    </common-upload>
   </div>
 </template>
 <script>
@@ -117,14 +109,6 @@ export default {
     userInfo: {
       type: Object,
       default: () => ({})
-    },
-    self: {
-      type: Boolean,
-      default: true
-    },
-    isDisable: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -148,8 +132,14 @@ export default {
       userId: this.$route.params.uid
     };
   },
+  filters: {
+    filterName(val) {
+      let name = val.substr(val.length - 2, 2);
+      return name;
+    }
+  },
   components: {
-    "common-upload-dialog": AsyncComp(
+    "common-upload": AsyncComp(
       import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
     )
   },
@@ -185,11 +175,10 @@ export default {
     },
     confirmUpload() {
       this.isUpload = false;
-      // to do 上传完了干啥
+      this.$emit("update");
     }
   },
   created() {
-    console.log(this.userInfo);
     this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_TARGET(
       this.userId
     );
@@ -200,82 +189,91 @@ export default {
   }
 };
 </script>
-<style scoped>
-.target-detail-header {
-  background-color: #ffffff;
+<style lang="scss" scoped>
+.index-header {
+  position: relative;
   padding: 0 30px 20px 30px;
   margin-bottom: 20px;
-  position: relative;
+  background-color: #ffffff;
+  .header-title {
+    padding: 24px 0;
+    text-align: center;
+    color: #303133;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .stage-img {
+    position: absolute;
+    right: 60px;
+    top: 10px;
+    width: 130px;
+  }
 }
-.target-detail-header .superior-idea {
+</style>
+<style scoped>
+.index-header .superior-idea {
   color: #eb0c00;
   margin-bottom: 20px;
 }
-.target-detail-header .title {
-  text-align: center;
-  color: #303133;
-  font-size: 22px;
-  font-weight: 500;
-  padding: 23px 0;
+.index-header .text-over {
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.target-detail-header .flex {
+.index-header .flex {
   display: flex;
 }
-.target-detail-header .grow {
+.index-header .grow {
   flex-grow: 1;
 }
-.target-detail-header .user-info .img {
+.index-header .user-info .img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   margin-right: 15px;
 }
-.target-detail-header .user-info .avatar-name {
+.index-header .user-info .avatar-name {
   line-height: 60px;
   text-align: center;
   background-color: rgb(2, 137, 255);
   color: #ffffff;
   font-weight: bold;
 }
-.target-detail-header .user-info .user-name {
+.index-header .user-info .user-name {
   font-size: 16px;
   color: #303133;
   font-weight: 500;
 }
-.target-detail-header .user-info .other-info-title {
+.index-header .user-info .other-info-title {
   color: #909399;
   margin-top: 10px;
   margin-bottom: 5px;
 }
-.target-detail-header .user-info .super {
+.index-header .user-info .super {
   flex-grow: 1;
 }
-.target-detail-header .user-info .department {
+.index-header .user-info .department {
   flex-grow: 2;
+  overflow: hidden;
 }
-.target-detail-header .user-info .cycle {
+.index-header .user-info .cycle {
   flex-grow: 1;
 }
-.target-detail-header .user-info .deadline {
+.index-header .user-info .deadline {
   width: 480px;
 }
-.target-detail-header .upload-target {
+.index-header .upload-target {
   width: 120px;
   position: relative;
   margin-left: 150px;
 }
-.target-detail-header .upload-target .btn {
+.index-header .upload-target .btn {
   position: absolute;
   right: 0;
   bottom: 26px;
 }
-.target-detail-header .status {
-  width: 130px;
-  position: absolute;
-  right: 60px;
-  top: 10px;
-}
-.target-detail-header .user-info .linkman {
+.index-header .user-info .tip-info {
   margin-top: 8px;
   color: #ff8519;
 }

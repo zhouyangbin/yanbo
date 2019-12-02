@@ -39,6 +39,8 @@
               <el-input
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -71,6 +73,8 @@
               <el-input
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -104,6 +108,8 @@
                 :class="scope.row.isChildren ? 'add-padding' : ''"
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -142,6 +148,8 @@
                 :class="scope.row.isChildren ? 'add-padding' : ''"
                 v-model="scope.row.display_name"
                 placeholder="请输入标签名称"
+                maxlength="20"
+                show-word-limit
               ></el-input>
             </template>
           </el-table-column>
@@ -383,22 +391,56 @@ export default {
       });
       return rules;
     },
+    isRule(table_rule) {
+      let rule = true;
+      Object.keys(table_rule).forEach(key => {
+        if (!table_rule[key].display_name) {
+          rule = false;
+        } else {
+          rule = true;
+        }
+      });
+      return rule;
+    },
     submit() {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
           let rules = [];
+          let isSubmit = true;
           if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
+            isSubmit = this.isRule(this.table253);
             // 253传递的标签规则参数
             rules = this.handleTagRules(this.table253);
           } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[1]) {
+            isSubmit = this.isRule(this.table271);
             // 271传递的标签规则参数
             rules = this.handleTagRules(this.table271);
           } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[2]) {
             // 23221传递的标签规则参数
             rules = this.handle23221TagRules();
+            isSubmit = this.isRule(rules);
+            Object.keys(rules).forEach(key => {
+              if (rules[key].children) {
+                Object.keys(rules[key].children).forEach(childKey => {
+                  if (!rules[key].children[childKey].display_name) {
+                    isSubmit = false;
+                  }
+                });
+              }
+            });
           } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[3]) {
             // 2521传递的标签规则参数
             rules = this.handle2521TagRules();
+            isSubmit = this.isRule(rules);
+            Object.keys(rules).forEach(key => {
+              if (rules[key].children) {
+                Object.keys(rules[key].children).forEach(childKey => {
+                  if (!rules[key].children[childKey].display_name) {
+                    isSubmit = false;
+                  }
+                });
+              }
+            });
           }
           let postData = {
             tag_type: this.tplForm.tag_type,
@@ -408,18 +450,26 @@ export default {
           };
           if (this.infoType === "add") {
             // 新增标签
-            return postExecutiveAdminTags(postData)
-              .then(res => {
-                this.$emit("getList");
-              })
-              .catch(() => {});
+            if (isSubmit) {
+              return postExecutiveAdminTags(postData)
+                .then(res => {
+                  this.$emit("getList");
+                })
+                .catch(() => {});
+            } else {
+              this.$alert("标签名称不能为空！");
+            }
           } else {
             let UpData = postData;
-            return putExecutiveAdminTagChange(this.userId, UpData)
-              .then(res => {
-                this.$emit("getList");
-              })
-              .catch(() => {});
+            if (isSubmit) {
+              return putExecutiveAdminTagChange(this.userId, UpData)
+                .then(res => {
+                  this.$emit("getList");
+                })
+                .catch(() => {});
+            } else {
+              this.$alert("标签名称不能为空！");
+            }
           }
         }
       });

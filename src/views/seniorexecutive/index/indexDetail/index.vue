@@ -1,7 +1,7 @@
 <template>
   <div class="employee-target-detail">
     <nav-bar :list="nav"></nav-bar>
-    <detail-header :user-info="userInfo" :self="true"></detail-header>
+    <index-header :user-info="userInfo" :self="true"></index-header>
     <target-content :all-target="allTarget"></target-content>
     <el-row class="footer-button">
       <el-button @click="checkExamine">
@@ -30,6 +30,7 @@ import {
   getExecutiveUserInfo,
   getExecutiveUniqueTemplate
 } from "@/constants/API";
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
   data() {
     return {
@@ -68,13 +69,16 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index"),
-    "target-content": () =>
-      import("@/components/modules/employee/targetDetailContent/index"),
-    "examine-detail": () =>
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
+    "index-header": AsyncComp(
+      import("@/components/modules/seniorexecutive/indexHeader/index")
+    ),
+    "target-content": AsyncComp(
+      import("@/components/modules/employee/targetDetailContent/index")
+    ),
+    "examine-detail": AsyncComp(
       import("@/components/modules/employee/checkExamineDetail/index")
+    )
   },
   methods: {
     /**

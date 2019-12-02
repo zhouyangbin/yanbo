@@ -99,6 +99,7 @@ export default {
         type: "success"
       });
       this.$emit("update");
+      this.close();
     },
     uploadError(err, file, fileList) {
       const errObj = JSON.parse(err.message);

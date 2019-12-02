@@ -1,11 +1,11 @@
 <template>
   <div class="index-detail">
     <nav-bar :list="nav"></nav-bar>
-    <detail-header
+    <index-header
       :user-info="userInfo"
       @update="updatePage"
       :self="true"
-    ></detail-header>
+    ></index-header>
     <section class="target-detail-box">
       <el-row
         class="target-detail"
@@ -162,15 +162,15 @@
       </el-row>
       <ul class="sub-total">
         <!-- 财务维度小计 -->
-        <li>
+        <li v-if="isFinance">
           {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
             this.handleSubTotal("finance")
           }}%
         </li>
-        <li>
+        <li v-if="isWork">
           工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%
         </li>
-        <li>
+        <li v-if="isTeam">
           团队维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("team") }}%
         </li>
         <li class="performance-total">
@@ -224,7 +224,7 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
-  PATH_PERFORMANCE_TARGET_DETAIL
+  PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 import {
   getExecutiveUserInfo,
@@ -237,8 +237,8 @@ import {
 export default {
   components: {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
-    "detail-header": AsyncComp(
-      import("@/components/modules/employee/targetDetailsHeader/Index")
+    "index-header": AsyncComp(
+      import("@/components/modules/seniorexecutive/indexHeader/index")
     ),
     "examine-detail": AsyncComp(
       import("@/components/modules/employee/checkExamineDetail/index")
@@ -301,7 +301,10 @@ export default {
         content: [
           { required: true, message: "请输入衡量标准", trigger: "blur" }
         ]
-      }
+      },
+      isTeam: false,
+      isWork: false,
+      isFinance: false
     };
   },
   filters: {
@@ -314,10 +317,10 @@ export default {
     temporaryMemory() {
       postExecutiveSaveDraft(this.userId, this.indexTpl)
         .then(res => {
-          localStorage.setItem(this.userId, 1);
+          // to do 暂存之后干什么
           this.$message({ type: "success", message: "暂存成功" });
         })
-        .catch(() => {});
+        .catch(e => {});
     },
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
@@ -365,10 +368,10 @@ export default {
       // 验证每个维度填写的权重之和是否等于该维度模版中的总权重
       for (let i = 0; i < this.indexTpl.length; i++) {
         if (
-          this.indexTpl[i].weight !== this.handleSubTotal(this.indexTpl[i].type)
+          this.indexTpl[i].weight != this.handleSubTotal(this.indexTpl[i].type)
         ) {
           this.$message.error(
-            `${this.indexTpl[i].type}权重之和不等于${
+            `${this.indexTpl[i].name}权重之和不等于${
               this.indexTpl[i].weight
             }%, 请检查`
           );
@@ -382,32 +385,29 @@ export default {
           cancelButtonText: "取消"
         })
           .then(() => {
-            postExecutiveIndexSetting(
-              this.$route.params.uid,
-              this.$route.params.sign,
-              this.indexTpl
-            )
+            postExecutiveIndexSetting(this.$route.params.uid, this.indexTpl)
               .then(res => {
                 localStorage.clearItem(this.userId);
                 this.$router.push(
-                  PATH_PERFORMANCE_TARGET_DETAIL(
+                  PATH_PERFORMANCE_INDEX_DETAIL(
                     this.$route.params.id,
                     this.$route.params.uid
                   )
                 );
               })
-              .catch(() => {});
+              .catch(e => {});
           })
-          .catch(() => {});
+          .catch(e => {});
       }
     },
     returnList() {
       postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
         .then(res => {
-          localStorage.setItem(this.userId, 1);
-          this.$router.push("/employee/my");
+          // to do 返回，返回哪里？？？
+          this.$router.go(-1);
+          // this.$router.push("/employee/my");
         })
-        .catch(() => {});
+        .catch(e => {});
     },
     handleSubTotal(type) {
       let subTotal = 0;
@@ -423,13 +423,7 @@ export default {
       return subTotal;
     },
     addTarget(index) {
-      let data = {
-        performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid
-      };
-      getExecutiveTargetContent(data).then(res => {
-        this.indexTpl[index].targets.push(res);
-      });
+      this.indexTpl[index].targets.push(this.indexTpl[index].template_columns);
     },
     getTableLen(index) {
       return this.indexTpl[index].targets.length;
@@ -447,47 +441,51 @@ export default {
       this.indexTpl[index].targets.splice(rowIndex, 1);
     },
     updatePage() {
-      // to do 上传完工作指标，后续内容
+      this.getWrokAndTeamTarget();
     },
     getUserInfo() {
       let data = {
-        performance_id: this.$route.params.id,
-        performance_user_id: this.$route.params.uid,
-        workcode: ""
+        performance_user_id: this.$route.params.uid
       };
       getExecutiveUserInfo(data)
         .then(res => {
           const {
+            avatar,
+            cycle,
+            department_name,
+            executive_type,
+            indicator_setting_end_time,
+            isolation_name,
+            isolation_workcode,
+            name,
+            opinion,
             performance_name,
             stage,
-            opinion,
-            avatar,
-            name,
-            workcode,
+            stage_text,
             superior_name,
             superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time
+            workcode
           } = res;
           this.userInfo = {
+            avatar,
+            cycle,
+            department_name,
+            executive_type,
+            indicator_setting_end_time,
+            isolation_name,
+            isolation_workcode,
+            name,
+            opinion,
             performance_name,
             stage,
-            opinion,
-            avatar,
-            name,
-            workcode,
+            stage_text,
             superior_name,
             superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time,
+            workcode,
             perforamnce_user_id: this.$route.params.uid
           };
         })
-        .catch(() => {});
+        .catch(e => {});
     },
     closeExamine() {
       this.isExamineDialog = false;
@@ -504,7 +502,7 @@ export default {
           }
           this.indexTpl = res;
         })
-        .catch(() => {});
+        .catch(e => {});
     },
     getWrokAndTeamTarget() {
       let data = {
@@ -514,11 +512,11 @@ export default {
       getExecutiveUniqueTemplate(data)
         .then(res => {
           // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
-          const isTeam = res.team !== undefined;
-          const isWork = res.work !== undefined;
-          const isFinance = res.finance !== undefined;
+          this.isTeam = res.team !== undefined;
+          this.isWork = res.work !== undefined;
+          this.isFinance = res.finance !== undefined;
           this.indexTpl = [];
-          if (isTeam) {
+          if (this.isTeam) {
             let team = res.team;
             this.$set(this.indexTpl, team.sort - 1, {
               key: team.key,
@@ -530,7 +528,7 @@ export default {
               template_columns: team.template_columns
             });
           }
-          if (isWork) {
+          if (this.isWork) {
             let work = res.work;
             this.$set(this.indexTpl, work.sort - 1, {
               key: work.key,
@@ -543,7 +541,7 @@ export default {
               template_columns: work.template_columns
             });
           }
-          if (isFinance) {
+          if (this.isFinance) {
             let finance = res.finance;
             this.$set(this.indexTpl, finance.sort - 1, {
               key: finance.key,
@@ -558,12 +556,17 @@ export default {
           }
           this.handleIndexData(this.indexTpl);
         })
-        .catch(() => {});
+        .catch(e => {});
     },
     handleIndexData(indexTpl) {
       for (let i = 0; i < indexTpl.length; i++) {
-        for (let j = 0; j < indexTpl[i].targets.length; j++) {
-          indexTpl[i].targets[j].metrics = indexTpl[i].template_columns.metrics;
+        if (indexTpl[i].targets.length === 0) {
+          indexTpl[i].targets[0].metrics = indexTpl[i].template_columns.metrics;
+        } else {
+          for (let j = 0; j < indexTpl[i].targets.length; j++) {
+            indexTpl[i].targets[j].metrics =
+              indexTpl[i].template_columns.metrics;
+          }
         }
       }
       this.indexTpl = indexTpl;

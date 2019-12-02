@@ -65,6 +65,8 @@ export default {
       dst = this.getPerformancePath(querys);
     } else if (querys.project == "culture") {
       dst = this.getCulturePath(querys);
+    } else if (querys.project == "executive") {
+      dst = this.getExecutivePath(querys);
     } else {
       dst = PATH_MY_CULTURE_GRADE;
     }
@@ -147,6 +149,9 @@ export default {
           break;
       }
       return dst;
+    },
+    getExecutivePath(querys) {
+      // 高管绩效 to do
     },
     getCulturePath(querys) {
       let dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);

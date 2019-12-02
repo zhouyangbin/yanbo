@@ -73,8 +73,8 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_EMPLYEE_MY_DETAIL,
-  PATH_PERFORMANCE_TARGET_SET,
-  PATH_PERFORMANCE_TARGET_DETAIL
+  PATH_PERFORMANCE_FILL_IN_INDEX,
+  PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 import { getMyPerformanceList } from "@/constants/API";
 
@@ -118,7 +118,7 @@ export default {
   methods: {
     fillInIndicator(row) {
       this.$router.push(
-        PATH_PERFORMANCE_TARGET_SET(
+        PATH_PERFORMANCE_FILL_IN_INDEX(
           row.performance_id,
           row.performance_user_id,
           1
@@ -128,7 +128,7 @@ export default {
     viewDetail(row) {
       if (row.p_type === "executive") {
         this.$router.push(
-          PATH_PERFORMANCE_TARGET_DETAIL(
+          PATH_PERFORMANCE_INDEX_DETAIL(
             row.performance_id,
             row.performance_user_id
           )

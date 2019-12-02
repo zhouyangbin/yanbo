@@ -205,19 +205,16 @@ export const PATH_PERFORMANCE_GRADE_MANAGEMENT = "/performance/scoremangement";
 export const PATH_PERFORMANCE_TPL_SETTINGS = "/performance/tplsettings";
 // 标签设置
 export const PATH_PERFORMANCE_LABEL_SETTINGS = "/performance/labelsettings";
-// 我的业绩中高管评分高管填写指标页面
-export const PATH_PERFORMANCE_TARGET_SET = (
-  id = ":id",
-  uid = ":uid",
-  sign = ":sign"
-) => `/performance/targetsettings/${id}/${uid}/${sign}`;
 
-// 我的业绩中高管评分高管填写指标页面(只读)
-export const PATH_PERFORMANCE_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
-  `/performance/targetdetails/${id}/${uid}`;
+// 高管绩效  填写指标
+export const PATH_PERFORMANCE_FILL_IN_INDEX = (id = ":id", uid = ":uid") =>
+  `/performance/fillin/index/${id}/${uid}`;
 
-// 组织部绩效考核管理 - 考核详情 - 指标详情
+// 高管绩效  查看指标
+export const PATH_PERFORMANCE_INDEX_DETAIL = (id = ":id", uid = ":uid") =>
+  `/performance/index/details/${id}/${uid}`;
 
+// 高管绩效 - 考核详情 - 指标详情
 export const PATH_PERFORMANCE_HIGH_TARGET_DETAIL = (id = ":id", uid = ":uid") =>
   `/performance/assessment/targetdetails/${id}/${uid}`;
 
