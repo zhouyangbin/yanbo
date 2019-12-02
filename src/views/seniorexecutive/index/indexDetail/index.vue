@@ -30,6 +30,7 @@ import {
   getExecutiveUserInfo,
   getExecutiveUniqueTemplate
 } from "@/constants/API";
+import { AsyncComp } from "@/utils/asyncCom";
 export default {
   data() {
     return {
@@ -68,13 +69,16 @@ export default {
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index"),
-    "target-content": () =>
-      import("@/components/modules/employee/targetDetailContent/index"),
-    "examine-detail": () =>
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
+    "detail-header": AsyncComp(
+      import("@/components/modules/seniorexecutive/indexHeader/index")
+    ),
+    "target-content": AsyncComp(
+      import("@/components/modules/employee/targetDetailContent/index")
+    ),
+    "examine-detail": AsyncComp(
       import("@/components/modules/employee/checkExamineDetail/index")
+    )
   },
   methods: {
     /**

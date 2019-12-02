@@ -206,7 +206,7 @@ import {
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
-  PATH_PERFORMANCE_TARGET_DETAIL
+  PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 import {
   getExecutiveUserInfo,
@@ -278,7 +278,7 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index"),
+      import("@/components/modules/seniorexecutive/indexHeader/index"),
     "examine-detail": () =>
       import("@/components/modules/employee/checkExamineDetail/index")
   },
@@ -517,7 +517,7 @@ export default {
             )
               .then(res => {
                 this.$router.push(
-                  PATH_PERFORMANCE_TARGET_DETAIL(
+                  PATH_PERFORMANCE_INDEX_DETAIL(
                     this.$route.params.id,
                     this.$route.params.uid
                   )

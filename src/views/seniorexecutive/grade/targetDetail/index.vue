@@ -82,7 +82,7 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index"),
+      import("@/components/modules/seniorexecutive/indexHeader/index"),
     "target-content": () =>
       import("@/components/modules/employee/targetDetailContent/index"),
     "examine-detail": () =>

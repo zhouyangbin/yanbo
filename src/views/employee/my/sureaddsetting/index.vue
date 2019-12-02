@@ -71,7 +71,7 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index"),
     "detail-header": () =>
-      import("@/components/modules/employee/targetDetailsHeader/Index"),
+      import("@/components/modules/seniorexecutive/indexHeader/index"),
     "target-content": () =>
       import("@/components/modules/employee/targetDetailContent/index"),
     "agree-dialog": () =>

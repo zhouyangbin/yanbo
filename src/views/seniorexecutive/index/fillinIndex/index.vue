@@ -236,7 +236,7 @@ import {
 } from "@/constants/API";
 export default {
   components: {
-    "nav-bar": AsyncComp(import("@/components/common/Navbar/index")),
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
     "index-header": AsyncComp(
       import("@/components/modules/seniorexecutive/indexHeader/index")
     ),

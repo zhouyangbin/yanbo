@@ -189,7 +189,6 @@ export default {
     }
   },
   created() {
-    console.log(this.userInfo);
     this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_TARGET(
       this.userId
     );
@@ -200,7 +199,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .target-detail-header {
   background-color: #ffffff;
   padding: 0 30px 20px 30px;
@@ -217,6 +216,11 @@ export default {
   font-size: 22px;
   font-weight: 500;
   padding: 23px 0;
+}
+.target-detail-header .text-over {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .target-detail-header .flex {
   display: flex;
