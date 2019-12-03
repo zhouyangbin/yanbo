@@ -2,7 +2,7 @@
   <div class="assessment-detail">
     <nav-bar :list="nav"></nav-bar>
     <br />
-    <section class="content-container bg-white" v-loading="isLoading">
+    <section class="content-container bg-white">
       <div class="content-title">
         <div>{{ performanceDetail.name }}</div>
         <div class="create-btn">
@@ -221,11 +221,6 @@
                   {{ item.name }}
                 </div>
               </el-tooltip>
-              <!-- <span
-                v-for="item in performanceDetail.templates"
-                :key="item.id"
-                >{{ item.name }}</span
-              > -->
             </div>
           </div>
           <div class="setting-detail">
@@ -769,7 +764,25 @@ export default {
       },
       executiveTypes: [],
       tagOptions: [],
-      performanceDetail: {},
+      performanceDetail: {
+        name: "",
+        stage: 0,
+        indicator_fill_in: 0,
+        indicator_confirm: 0,
+        indicator_setting_end_time: null,
+        self_evaluation_begin_time: null,
+        self_evaluation: null,
+        superior_begin_time: null,
+        re_evaluation: 0,
+        isolation_begin_time: null,
+        isolation_adult: 0,
+        president_audit_begin_time: null,
+        president_audit: 0,
+        result_comfirm_end_time: null,
+        confirm: 0,
+        confirmed: 0,
+        result_confirm_end_time: null
+      },
       performanceId: this.$route.params.id,
       total: 0,
       selectedNumber: 0,
@@ -817,7 +830,6 @@ export default {
       uploadTitle: "",
       uploadActionUrl: "",
       downloadUrl: "",
-      isLoading: true,
       showImportList: false,
       uploadTplUrl: "",
       importTplUrl: "",
@@ -1080,7 +1092,6 @@ export default {
       getExecutivePerformanceDetail(this.performanceId)
         .then(res => {
           this.currentStage = res.stage;
-          this.isLoading = false;
           this.performanceDetail = res;
         })
         .catch(e => {});
