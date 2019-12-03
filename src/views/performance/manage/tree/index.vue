@@ -1,14 +1,18 @@
 <template>
-  <div
-    :class="className"
-    :id="id"
-    :style="{ height: height, width: width }"
-    ref="myEchart"
-  ></div>
+    <div style="width: 100%;height: 100%">
+    <nav-bar :list="nav"></nav-bar>
+    <div :class="className" :id="id" :style="{ height: height, width: width }" ref="myEchart">
+      
+    </div>
+  </div>
 </template>
 <script>
+  import {
+  GRADE_MANAGE,
+} from "@/constants/TEXT";
 import echarts from "echarts";
 import { getNewOrgTree } from "@/constants/API";
+import { PATH_PERFORMANCE_MANAGER } from "@/constants/URL";
 export default {
   props: {
     className: {
@@ -25,14 +29,23 @@ export default {
     },
     height: {
       type: String,
-      default: "100%"
+      default: "90%"
     }
   },
   data() {
     return {
       chart: null,
-      data: []
+      data: [],
+      nav: [
+        {
+          label: GRADE_MANAGE,
+          href: PATH_PERFORMANCE_MANAGER
+        }
+      ],
     };
+  },
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
   },
   mounted() {
     this.getNewOrgTree(this.$route.params.id);
@@ -49,7 +62,15 @@ export default {
       return getNewOrgTree(id)
         .then(res => {
           this.data = res;
-          res.length ? this.initChart() : "";
+          if(res.length){
+            this.initChart()
+          }else{
+            this.$message({
+            message: '当前评分没有数据',
+            type: 'warning',
+            duration: "2000"
+          });
+          }
         })
         .catch(e => {});
     },
@@ -63,8 +84,6 @@ export default {
       this.chart.hideLoading();
       let data = {
         name: "好未来",
-        //symbolSize: [40, 40],
-        //symbol:'',
         itemStyle: {
           borderType: "solid",
           borderColor: "#D7A013",
@@ -77,15 +96,6 @@ export default {
           align: "center",
           fontSize: 16,
           color: "#54dbbb"
-          // formatter : function(params) {
-          //   var tar = params;
-          //   var txtarry = tar.name.split('');
-          //   var rs = "";
-          //   for ( var i = 0; i < txtarry.length; i++) {
-          //     rs += txtarry[i] + "\n";
-          //   }
-          //   return rs;
-          // }
         },
         children: that.data
       };
