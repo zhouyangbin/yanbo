@@ -1,15 +1,16 @@
 <template>
-    <div style="width: 100%;height: 100%">
+  <div style="width: 100%;height: 100%">
     <nav-bar :list="nav"></nav-bar>
-    <div :class="className" :id="id" :style="{ height: height, width: width }" ref="myEchart">
-      
-    </div>
+    <div
+      :class="className"
+      :id="id"
+      :style="{ height: height, width: width }"
+      ref="myEchart"
+    ></div>
   </div>
 </template>
 <script>
-  import {
-  GRADE_MANAGE,
-} from "@/constants/TEXT";
+import { GRADE_MANAGE } from "@/constants/TEXT";
 import echarts from "echarts";
 import { getNewOrgTree } from "@/constants/API";
 import { PATH_PERFORMANCE_MANAGER } from "@/constants/URL";
@@ -41,11 +42,11 @@ export default {
           label: GRADE_MANAGE,
           href: PATH_PERFORMANCE_MANAGER
         }
-      ],
+      ]
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
   },
   mounted() {
     this.getNewOrgTree(this.$route.params.id);
@@ -62,14 +63,14 @@ export default {
       return getNewOrgTree(id)
         .then(res => {
           this.data = res;
-          if(res.length){
-            this.initChart()
-          }else{
+          if (res.length) {
+            this.initChart();
+          } else {
             this.$message({
-            message: '当前评分没有数据',
-            type: 'warning',
-            duration: "2000"
-          });
+              message: "当前评分没有数据",
+              type: "warning",
+              duration: "2000"
+            });
           }
         })
         .catch(e => {});

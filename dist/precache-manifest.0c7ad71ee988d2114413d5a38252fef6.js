@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "12198326bc431e3433d6",
+    "revision": "60739cad540a94723530",
     "url": "/css/app.3bba3352.css"
   },
   {
-    "revision": "12198326bc431e3433d6",
-    "url": "/js/app.3ddbd235.js"
+    "revision": "60739cad540a94723530",
+    "url": "/js/app.5364bf7b.js"
   },
   {
     "revision": "4d6d505ff1a4f25fd8ba",
@@ -440,8 +440,8 @@ self.__precacheManifest = [
     "url": "/js/chunk-5878d71e.8c2d017d.js"
   },
   {
-    "revision": "a591f7e8cac90f0706fc",
-    "url": "/js/chunk-59961438.79060873.js"
+    "revision": "ece5b61ebec1f74b1a24",
+    "url": "/js/chunk-59961438.19d5b549.js"
   },
   {
     "revision": "188daa86b68356d17850",
@@ -522,6 +522,14 @@ self.__precacheManifest = [
   {
     "revision": "8dd4474515ed6e44acd3",
     "url": "/js/chunk-6d5a6f09.be105fcf.js"
+  },
+  {
+    "revision": "45ede1ac8c39cb2ee2ac",
+    "url": "/css/chunk-6d61544a.d35089b3.css"
+  },
+  {
+    "revision": "45ede1ac8c39cb2ee2ac",
+    "url": "/js/chunk-6d61544a.1d88a9bf.js"
   },
   {
     "revision": "52934b03a9adfd399f31",
@@ -676,14 +684,6 @@ self.__precacheManifest = [
     "url": "/js/chunk-a5937be4.d3b9aafd.js"
   },
   {
-    "revision": "f34c5b9089567946f1b3",
-    "url": "/css/chunk-a7ff4a36.c59aab0d.css"
-  },
-  {
-    "revision": "f34c5b9089567946f1b3",
-    "url": "/js/chunk-a7ff4a36.2a5bc365.js"
-  },
-  {
     "revision": "9bc48bab471755edad25",
     "url": "/css/chunk-a90384ca.9997957e.css"
   },
@@ -832,12 +832,12 @@ self.__precacheManifest = [
     "url": "/img/login_bg.38f5f995.jpg"
   },
   {
-    "revision": "732389ded34cb9c52dd88271f1345af9",
-    "url": "/fonts/element-icons.732389de.ttf"
-  },
-  {
     "revision": "535877f50039c0cb49a6196a5b7517cd",
     "url": "/fonts/element-icons.535877f5.woff"
+  },
+  {
+    "revision": "732389ded34cb9c52dd88271f1345af9",
+    "url": "/fonts/element-icons.732389de.ttf"
   },
   {
     "revision": "a0a8eb92f3e617ad538d270fd022adb9",
@@ -848,7 +848,7 @@ self.__precacheManifest = [
     "url": "/img/plane.44368384.png"
   },
   {
-    "revision": "b6d4926187daf527c07634ff38033bd5",
+    "revision": "b82e11476a2efa5f704b2897777e9a5a",
     "url": "/index.html"
   },
   {

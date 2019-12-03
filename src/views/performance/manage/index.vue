@@ -81,10 +81,7 @@
               size="small"
               >{{ constants.COPY_GRADE }}</el-button
             >
-            <el-button
-              @click="goReview(scope.row)"
-              type="text"
-              size="small"
+            <el-button @click="goReview(scope.row)" type="text" size="small"
               >查看分布</el-button
             >
           </template>
