@@ -20,7 +20,7 @@
           </el-select>
           <span v-else class="level">
             {{ value }}
-            <el-popover placement="top" width="360">
+            <el-popover v-if="tip_A_show" placement="top" width="360">
               <div class="tip_A"></div>
               <el-button
                 slot="reference"
@@ -90,6 +90,10 @@ export default {
     old_s: {
       type: null,
       default: ""
+    },
+    tip_A_show: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

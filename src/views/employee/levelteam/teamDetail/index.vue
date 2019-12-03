@@ -67,6 +67,7 @@
         v-if="!inReviewStage"
         :score="this.score"
         :total="total"
+        :high_level_show="high_level_show"
       ></total-mark>
       <br />
       <level
@@ -193,7 +194,8 @@ export default {
       },
       showReviewDia: false,
       operate_status: true,
-      old_s: "" //是否为老数据
+      old_s: "", //是否为老数据
+      high_level_show: false,
     };
   },
   components: {
@@ -318,6 +320,7 @@ export default {
             self_attach_score
           };
           this.old_s = _s;
+          this.high_level_show =true;
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};

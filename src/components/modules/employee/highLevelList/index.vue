@@ -42,6 +42,11 @@
                       property="created_at"
                       label="提交时间"
                     ></el-table-column>
+                    <el-table-column
+                      width="50"
+                      property="type_text"
+                      label="操作"
+                    ></el-table-column>
                     <el-table-column width="120" label="是否符合分布">
                       <template slot-scope="scope">
                         <span>{{
@@ -52,7 +57,7 @@
                     <el-table-column
                       width="280"
                       property="content"
-                      label="提交理由"
+                      label="理由"
                     ></el-table-column>
                     <el-table-column
                       width="100"
@@ -66,7 +71,7 @@
                   size="medium"
                   slot="reference"
                   @click="team_submit_overview()"
-                  >查看提交理由</el-button
+                  >查看审批记录</el-button
                 >
               </el-popover>
             </el-col>
@@ -78,6 +83,7 @@
                 @click="reject_team_show = true"
                 >{{ reject_team_title }}
               </el-button>
+              <span class="overview_text">已驳回</span>
             </el-col>
           </el-row>
           <el-dialog

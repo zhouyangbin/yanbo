@@ -80,6 +80,7 @@
           :old_s="old_s"
           v-model="level"
           :label_id="label_id"
+          :tip_A_show="false"
         ></level>
         <br />
       </div>

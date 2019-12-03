@@ -28,7 +28,14 @@
         :key="i"
       ></card>
       <br />
-      <div v-if="superior_score && superior_score.evaluation">
+      <!--<div v-if="superior_score && superior_score.evaluation">
+        <comments
+          :readOnly="true"
+          :comments.sync="superior_score && superior_score.evaluation"
+        ></comments>
+        <br />
+      </div>-->
+      <div v-if="disabled">
         <comments
           :readOnly="true"
           :comments.sync="superior_score && superior_score.evaluation"
@@ -45,7 +52,17 @@
         <br />
       </div>
       <!-- 隔级阶段不需要判断是否发布成绩 -->
-      <div v-if="leaderAdditionMark.evaluation">
+      <!--<div v-if="leaderAdditionMark.evaluation">
+         <div v-if="leaderAdditionMark.evaluation" && published">
+        <addition-mark
+          :readOnly="true"
+          :prefixTitle="constants.LABEL_SUP"
+          :desc.sync="leaderAdditionMark.evaluation"
+          :mark.sync="leaderAdditionMark.score"
+        ></addition-mark>
+        <br />
+      </div> -->
+      <div v-if="disabled">
         <!-- <div v-if="leaderAdditionMark.evaluation" && published"> -->
         <addition-mark
           :readOnly="true"
@@ -55,7 +72,7 @@
         ></addition-mark>
         <br />
       </div>
-      <div v-if="showTotal && !canEdit">
+      <div v-if="disabled">
         <total-mark
           :total="total"
           :score="self_score"
@@ -66,7 +83,7 @@
       <div>
         <!-- v-if="level" && published" -->
         <level
-          v-if="level"
+          v-if="disabled"
           :readOnly="true"
           v-model="level"
           :old_s="true"
@@ -181,7 +198,8 @@ export default {
         BASIC_INFO
       },
       high_level_show: 0,
-      self_score: 0
+      self_score: 0,
+      disabled:false,
     };
   },
   components: {
@@ -286,7 +304,8 @@ export default {
             score_level,
             score,
             publish_status,
-            self_submit_score
+            self_submit_score,
+            disabled
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -296,6 +315,7 @@ export default {
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
+          this.disabled = disabled;
           this.high_level_show =
             superior_attach_score != null ? superior_attach_score.score : null; //如果有上级评分，就展示评分
           this.leaderAdditionMark = superior_attach_score || {};

@@ -82,7 +82,7 @@
               >{{ constants.COPY_GRADE }}</el-button
             >
             <el-button
-              v-if="!canCreatePerformanceGrade"
+              v-if="canCreatePerformanceGrade"
               @click="goReview(scope.row)"
               type="text"
               size="small"
