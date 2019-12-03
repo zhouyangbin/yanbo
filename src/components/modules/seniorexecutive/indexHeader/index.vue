@@ -180,9 +180,9 @@ export default {
     closeUploadDialog() {
       this.isUpload = false;
     },
-    confirmUpload() {
+    confirmUpload(data) {
       this.isUpload = false;
-      this.$emit("update");
+      this.$emit("update", data);
     }
   },
   created() {
