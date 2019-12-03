@@ -199,7 +199,7 @@ export default {
       },
       high_level_show: 0,
       self_score: 0,
-      disabled:false,
+      disabled: false
     };
   },
   components: {
