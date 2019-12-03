@@ -276,6 +276,7 @@ export default {
             is_reject: 0,
             submit_yes:0,
             reject_yes:0,
+            superior_team:1,
             superior_name: "全部下属",
             superior_workcode: null
           });
