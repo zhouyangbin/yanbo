@@ -1,11 +1,7 @@
 <template>
   <div class="index-detail">
     <nav-bar :list="nav"></nav-bar>
-    <index-header
-      :user-info="userInfo"
-      @update="updatePage"
-      :isShowUpload="false"
-    ></index-header>
+    <index-header :user-info="userInfo" :isShowUpload="false"></index-header>
     <section class="target-detail-box">
       <el-row
         class="target-detail"
@@ -126,8 +122,11 @@ import {
   CHECK_EXAMINE_LOG
 } from "@/constants/TEXT";
 import {
+  PATH_EMPLOYEE_MY,
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
-  PATH_EXECUTIVE_ASSESSMENT_DATAILS
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS,
+  PATH_EMPLOYEE_TEAM,
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
 import {
   getExecutiveUserInfo,
@@ -151,20 +150,7 @@ export default {
         FINANCE_DIMENSIONALITY_SUBTOTAL,
         CHECK_EXAMINE_LOG
       },
-      nav: [
-        {
-          label: "组织部绩效考核列表",
-          href: PATH_PERFORMANCE_GRADE_MANAGEMENT
-        },
-        {
-          label: "考核详情",
-          href: PATH_EXECUTIVE_ASSESSMENT_DATAILS(this.$route.params.id)
-        },
-        {
-          label: "指标详情",
-          active: true
-        }
-      ],
+      nav: [],
       userId: this.$route.params.uid,
       userInfo: {
         performance_name: "",
@@ -214,9 +200,6 @@ export default {
         h("span", { style: { color: "red" } }, 5),
         h("span", "项）")
       ]);
-    },
-    updatePage() {
-      // to do
     },
     getUserInfo() {
       let data = {
@@ -331,6 +314,51 @@ export default {
     }
   },
   created() {
+    if (this.$route.params.type === "my") {
+      this.nav = [
+        {
+          label: "我的评分",
+          href: PATH_EMPLOYEE_MY
+        },
+        {
+          label: "指标详情",
+          active: true
+        }
+      ];
+    } else if (this.$route.params.type === "team") {
+      this.nav = [
+        {
+          label: "团队评分",
+          href: PATH_EMPLOYEE_TEAM
+        },
+        {
+          label: "评分详情",
+          href: PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
+            this.$route.params.id,
+            this.$route.params.uid
+          )
+        },
+        {
+          label: "指标详情",
+          active: true
+        }
+      ];
+    } else {
+      this.nav = [
+        {
+          label: "组织部绩效考核列表",
+          href: PATH_PERFORMANCE_GRADE_MANAGEMENT
+        },
+        {
+          label: "考核详情",
+          href: PATH_EXECUTIVE_ASSESSMENT_DATAILS(this.$route.params.id)
+        },
+        {
+          label: "指标详情",
+          active: true
+        }
+      ];
+    }
     this.getUserInfo();
     this.getWrokAndTeamTarget();
   }

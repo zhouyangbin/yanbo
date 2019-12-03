@@ -211,8 +211,11 @@ export const PATH_PERFORMANCE_FILL_IN_INDEX = (id = ":id", uid = ":uid") =>
   `/performance/fillin/index/${id}/${uid}`;
 
 // 高管绩效  查看指标
-export const PATH_PERFORMANCE_INDEX_DETAIL = (id = ":id", uid = ":uid") =>
-  `/performance/index/details/${id}/${uid}`;
+export const PATH_PERFORMANCE_INDEX_DETAIL = (
+  id = ":id",
+  uid = ":uid",
+  type = ":type"
+) => `/performance/${type}/index/details/${id}/${uid}`;
 
 // 高管绩效 - 考核详情 - 指标详情
 export const PATH_PERFORMANCE_HIGH_TARGET_DETAIL = (id = ":id", uid = ":uid") =>

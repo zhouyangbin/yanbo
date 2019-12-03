@@ -32,12 +32,15 @@
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.stage == 0 && scope.row.p_type === 'executive'"
+              v-if="
+                (scope.row.stage == 0 || scope.row.stage == 20) &&
+                  scope.row.p_type === 'executive'
+              "
               type="text"
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
             >
-            <el-button @click="viewDetail(scope.row)" type="text"
+            <el-button v-else @click="viewDetail(scope.row)" type="text"
               >详情</el-button
             >
           </template>
@@ -130,7 +133,8 @@ export default {
         this.$router.push(
           PATH_PERFORMANCE_INDEX_DETAIL(
             row.performance_id,
-            row.performance_user_id
+            row.performance_user_id,
+            "my"
           )
         );
       } else {

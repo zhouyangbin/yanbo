@@ -71,7 +71,10 @@
           </el-col>
         </el-row>
       </el-row>
-      <el-row class="upload-target" v-if="userInfo.stage === 0 && isShowUpload">
+      <el-row
+        class="upload-target"
+        v-if="(userInfo.stage === 0 || userInfo.stage === 20) && isShowUpload"
+      >
         <el-button icon="el-icon-upload2" class="btn" @click="uploadTarget">{{
           constants.SENIOR_UPLOAD_TARGET
         }}</el-button>
