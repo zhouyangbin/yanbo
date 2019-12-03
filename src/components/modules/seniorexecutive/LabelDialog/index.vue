@@ -391,56 +391,23 @@ export default {
       });
       return rules;
     },
-    isRule(table_rule) {
-      let rule = true;
-      Object.keys(table_rule).forEach(key => {
-        if (!table_rule[key].display_name) {
-          rule = false;
-        } else {
-          rule = true;
-        }
-      });
-      return rule;
-    },
     submit() {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
           let rules = [];
           let isSubmit = true;
           if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[0]) {
-            isSubmit = this.isRule(this.table253);
             // 253传递的标签规则参数
             rules = this.handleTagRules(this.table253);
           } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[1]) {
-            isSubmit = this.isRule(this.table271);
             // 271传递的标签规则参数
             rules = this.handleTagRules(this.table271);
           } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[2]) {
             // 23221传递的标签规则参数
             rules = this.handle23221TagRules();
-            isSubmit = this.isRule(rules);
-            Object.keys(rules).forEach(key => {
-              if (rules[key].children) {
-                Object.keys(rules[key].children).forEach(childKey => {
-                  if (!rules[key].children[childKey].display_name) {
-                    isSubmit = false;
-                  }
-                });
-              }
-            });
           } else if (this.tplForm.tag_type == EXECUTIVE_LABEL_TYPE[3]) {
             // 2521传递的标签规则参数
             rules = this.handle2521TagRules();
-            isSubmit = this.isRule(rules);
-            Object.keys(rules).forEach(key => {
-              if (rules[key].children) {
-                Object.keys(rules[key].children).forEach(childKey => {
-                  if (!rules[key].children[childKey].display_name) {
-                    isSubmit = false;
-                  }
-                });
-              }
-            });
           }
           let postData = {
             tag_type: this.tplForm.tag_type,
@@ -448,6 +415,19 @@ export default {
             department_ids: this.tplForm.department_ids,
             rules: rules
           };
+          Object.keys(postData.rules).forEach(key => {
+            if(postData.rules[key].display_name == "") {
+              isSubmit = false;
+            }
+            if(postData.rules[key].children) {
+              Object.keys(postData.rules[key].children).forEach(i => {
+                // console.log(postData.rules[key].children[i].display_name);
+                if(postData.rules[key].children[i].display_name == "") {
+                  isSubmit = false;
+                }
+              })
+            }
+          });
           if (this.infoType === "add") {
             // 新增标签
             if (isSubmit) {
