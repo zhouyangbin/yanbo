@@ -257,6 +257,7 @@ export default {
       team_name: "全部下属",
       submit_yes: 0, //是否展示diff差值
       is_reject: 0, //是否可以驳回
+      reject_yes: 0,
       team_reviewData: [], //提交理由 data
       reject_team_show: false, //是否显示驳回dialog
       content: "" //驳回理由
@@ -281,7 +282,9 @@ export default {
             superior_workcode: null
           });
           res.highLevelList.map((item,index)=>{
-            item.superior_team == 0 ? (item.superior_name+=item.superior_name+"团队") : null;
+            if(item.superior_team == 0){
+              item.superior_name = item.superior_name+"团队"
+            } 
           })
           this.level_team_list = res.highLevelList;
         })
