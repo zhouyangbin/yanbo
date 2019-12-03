@@ -1,42 +1,45 @@
 <template>
-<div :class="className" :id="id" :style="{height:height,width:width}" ref="myEchart">
-</div>
+  <div
+    :class="className"
+    :id="id"
+    :style="{ height: height, width: width }"
+    ref="myEchart"
+  ></div>
 </template>
 <script>
-import echarts from 'echarts'
+import echarts from "echarts";
 import { getNewOrgTree } from "@/constants/API";
 export default {
   props: {
     className: {
       type: String,
-      default: 'yourClassName'
+      default: "yourClassName"
     },
     id: {
       type: String,
-      default: 'yourID'
+      default: "yourID"
     },
     width: {
       type: String,
-      default: '100%'
+      default: "100%"
     },
     height: {
       type: String,
-      default: '100%'
+      default: "100%"
     }
   },
   data() {
     return {
       chart: null,
-      data:[],
-    }
+      data: []
+    };
   },
   mounted() {
-    
-    this.getNewOrgTree(this.$route.params.id)
+    this.getNewOrgTree(this.$route.params.id);
   },
   beforeDestroy() {
     if (!this.chart) {
-      return
+      return;
     }
     this.chart.dispose();
     this.chart = null;
@@ -58,22 +61,22 @@ export default {
       let option = null;
       this.chart.showLoading();
       this.chart.hideLoading();
-      let data={
-        "name": "好未来",
+      let data = {
+        name: "好未来",
         //symbolSize: [40, 40],
         //symbol:'',
         itemStyle: {
-                borderType : 'solid',
-                borderColor: '#D7A013',
-                borderWidth: "0",
+          borderType: "solid",
+          borderColor: "#D7A013",
+          borderWidth: "0"
         },
         label: {
-          position: 'top',
+          position: "top",
           rotate: 0,
-          verticalAlign: 'middle',
-          align: 'center',
-          fontSize:16,
-          color: "#54dbbb",
+          verticalAlign: "middle",
+          align: "center",
+          fontSize: 16,
+          color: "#54dbbb"
           // formatter : function(params) {
           //   var tar = params;
           //   var txtarry = tar.name.split('');
@@ -84,38 +87,37 @@ export default {
           //   return rs;
           // }
         },
-        "children": that.data
-      }
-      echarts.util.each(data.children, function (item, index) {
+        children: that.data
+      };
+      echarts.util.each(data.children, function(item, index) {
         //index % 2 === 0 && (item.collapsed = true);
         that.setItemStyle(item);
       });
       this.chart.setOption({
         tooltip: {
-          trigger: 'item',
-          triggerOn: 'mousemove',
-          backgroundColor:"none",
-          formatter: function (params) {
+          trigger: "item",
+          triggerOn: "mousemove",
+          backgroundColor: "none",
+          formatter: function(params) {
             //console.log(params)//
-            return that.set_tooltip_html(params)
-             
+            return that.set_tooltip_html(params);
           }
         },
         series: [
           {
-            type: 'tree',
+            type: "tree",
             data: [data],
-            top: '10%',//距离上
-            left: '10%',//距离左
-            bottom: '10%',//距离下
-            right: '10%',//距离右
-            orient: 'vertical',  // vertical horizontal
-            rootLocation: {x: 'center',y: '100'}, // 根节点位置  {x: 100, y: 'center'}
+            top: "10%", //距离上
+            left: "10%", //距离左
+            bottom: "10%", //距离下
+            right: "10%", //距离右
+            orient: "vertical", // vertical horizontal
+            rootLocation: { x: "center", y: "100" }, // 根节点位置  {x: 100, y: 'center'}
             nodePadding: 50,
             layerPadding: 120,
             hoverable: false,
             roam: true,
-            expandAndCollapse: false,//是否接待你折叠
+            expandAndCollapse: false, //是否接待你折叠
             animationDuration: 550,
             animationDurationUpdate: 750
           }
@@ -125,56 +127,67 @@ export default {
         this.chart.setOption(option, true);
       }
     },
-    set_tooltip_html(item){
-      let background = item.data.is_super_status && item.data.is_high_level_status  ?  "rgba(7, 171, 48, 1)" : "#f45900"; //隔级整体提交 上级整体提交
-      let is_super = item.data.is_super//是否是上级
-      let is_super_status = item.data.is_super_status ? "是" : "否" ; //上级整体提交 1是 0否
+    set_tooltip_html(item) {
+      let background =
+        item.data.is_super_status && item.data.is_high_level_status
+          ? "rgba(7, 171, 48, 1)"
+          : "#f45900"; //隔级整体提交 上级整体提交
+      let is_super = item.data.is_super; //是否是上级
+      let is_super_status = item.data.is_super_status ? "是" : "否"; //上级整体提交 1是 0否
 
-      let is_high_level = item.data.is_high_level//是否是隔级
-      let is_high_level_status = item.data.is_high_level_status ? "是" : "否" ; //隔级整体提交状态 1 提交 0否
-      var htmlStr =`<div style="background:${background};border:10px;color:#fff;border-radius:4px;padding:4px;">`;
-                htmlStr += `${item.name} <br/>`;
-                is_super ? htmlStr += `上级整体提交: ${is_super_status} <br/>` : null;
-                is_high_level ? htmlStr += `隔级审核: ${is_high_level_status} <br/>` : null;
-                htmlStr += `</div>`
-            return htmlStr;
+      let is_high_level = item.data.is_high_level; //是否是隔级
+      let is_high_level_status = item.data.is_high_level_status ? "是" : "否"; //隔级整体提交状态 1 提交 0否
+      var htmlStr = `<div style="background:${background};border:10px;color:#fff;border-radius:4px;padding:4px;">`;
+      htmlStr += `${item.name} <br/>`;
+      is_super ? (htmlStr += `上级整体提交: ${is_super_status} <br/>`) : null;
+      is_high_level
+        ? (htmlStr += `隔级审核: ${is_high_level_status} <br/>`)
+        : null;
+      htmlStr += `</div>`;
+      return htmlStr;
     },
-    setItemStyle(item){
-      let background = item.is_super_status  && item.is_high_level_status  ?  "rgba(7, 171, 48, 1)" : "#f45900"; //隔级整体提交 上级整体提交
-      let font_color = item.is_super_status  && item.is_high_level_status  ?  "rgba(7, 171, 48, 1)" : "#f45900"; //隔级整体提交 上级整体提交
-      item.symbolSize= [10, 10];
-      item.nodePadding= 50;
-      item.symbol= 'circle';
-      item.itemStyle= {
-                borderType : 'solid',
-                borderColor: '#D7A013',
-                borderWidth: "0",
-                color: background,
-                //margin:"40px"
-       }
-       item.label= {
+    setItemStyle(item) {
+      let background =
+        item.is_super_status && item.is_high_level_status
+          ? "rgba(7, 171, 48, 1)"
+          : "#f45900"; //隔级整体提交 上级整体提交
+      let font_color =
+        item.is_super_status && item.is_high_level_status
+          ? "rgba(7, 171, 48, 1)"
+          : "#f45900"; //隔级整体提交 上级整体提交
+      item.symbolSize = [10, 10];
+      item.nodePadding = 50;
+      item.symbol = "circle";
+      item.itemStyle = {
+        borderType: "solid",
+        borderColor: "#D7A013",
+        borderWidth: "0",
+        color: background
+        //margin:"40px"
+      };
+      item.label = {
         color: font_color,
-        fontSize:12,
-        position: 'bottom',
+        fontSize: 12,
+        position: "bottom",
         rotate: 0,
-        verticalAlign: 'top',
-        align: 'center',
-        formatter : function(params) {
+        verticalAlign: "top",
+        align: "center",
+        formatter: function(params) {
           var tar = params;
-          var txtarry = tar.name.split('');
+          var txtarry = tar.name.split("");
           var rs = "";
-          for ( var i = 0; i < txtarry.length; i++) {
-              rs += txtarry[i] + "\n";
+          for (var i = 0; i < txtarry.length; i++) {
+            rs += txtarry[i] + "\n";
           }
           return rs;
         }
-       }
-       if(item.children.length){
-        item.children.map((item)=>{
-          this.setItemStyle(item)
-        })
-       }
+      };
+      if (item.children.length) {
+        item.children.map(item => {
+          this.setItemStyle(item);
+        });
+      }
     }
   }
-}
+};
 </script>

@@ -138,8 +138,8 @@ export const delTpl = (id: string) =>
 // 组织架构树
 export const getOrgTree = () => sendGet(`/performance/admin/organization`);
 // 新组织架构树
-export const getNewOrgTree = (id: string) => 
-sendGet(`/performance/api/highlevel/${id}/tree`);
+export const getNewOrgTree = (id: string) =>
+  sendGet(`/performance/api/highlevel/${id}/tree`);
 // 新增模板
 export const postTpl = (params: object) =>
   sendPost(`/performance/admin/templates`, params);
