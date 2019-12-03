@@ -262,7 +262,6 @@ export default {
       if (
         top_Diff >= 0 &&
         b_plus_diff >= 0 &&
-        b_diff >= 0 &&
         b_minus_diff >= 0 &&
         cd_diff >= 0
       ) {
@@ -291,14 +290,7 @@ export default {
                                              }总人数超出${Math.abs(
           b_plus_diff
         )}人</span></p>\
-                                           <p style='${
-                                             b_diff >= 0 ? "display:none" : null
-                                           }'> <span style='color: #EB0C00;'>\
-                                            ${
-                                              overview[1].child[1].name
-                                            }总人数超出${Math.abs(
-          b_diff
-        )}人</span></p>\
+                                           
                                            <p style='${
                                              b_minus_diff >= 0
                                                ? "display:none"
