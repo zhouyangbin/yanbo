@@ -114,7 +114,6 @@ export default {
             nodePadding: 50,
             layerPadding: 120,
             hoverable: false,
-            expandAndCollapse: true,
             roam: true,
             expandAndCollapse: false,//是否接待你折叠
             animationDuration: 550,
