@@ -151,14 +151,15 @@ export default {
         item.is_super_status && item.is_high_level_status
           ? "rgba(7, 171, 48, 1)"
           : "#d3d3d3"; //隔级整体提交 上级整体提交
-      let font_color ="";
-      
-      if(item.is_abnormal){//是否异常
+      let font_color = "";
+
+      if (item.is_abnormal) {
+        //是否异常
         font_color = "#eb0c00";
-      }else{
-        if(!item.no_in_score){
+      } else {
+        if (!item.no_in_score) {
           font_color = "#000";
-        }else{
+        } else {
           font_color = "#f45900";
         }
       }
