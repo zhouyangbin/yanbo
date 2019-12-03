@@ -490,7 +490,6 @@ export default {
     getUserDraft() {
       getExecutiveDraft(this.userId)
         .then(res => {
-          debugger;
           this.indexDraftTpl = res;
           this.getWrokAndTeamTarget();
         })
