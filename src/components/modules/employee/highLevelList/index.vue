@@ -14,10 +14,7 @@
             :label="item.superior_workcode"
           >
             {{ item.superior_name }}
-            <span
-              v-if="item.submit_yes || item.reject_yes"
-              class="Badge_logo"
-            ></span>
+            <span v-if="item.abnormal_status" class="Badge_logo"></span>
           </el-radio>
         </el-col>
         <el-col :span="20" style="min-height: 400px">
