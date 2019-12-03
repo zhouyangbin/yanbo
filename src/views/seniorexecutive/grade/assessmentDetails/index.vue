@@ -1002,7 +1002,7 @@ export default {
     },
     viewIndicators(data) {
       this.$router.push(
-        PATH_PERFORMANCE_INDEX_DETAIL(this.performanceId, data.id)
+        PATH_PERFORMANCE_INDEX_DETAIL(this.performanceId, data.id, "employee")
       );
     },
     delPerformanceUser() {

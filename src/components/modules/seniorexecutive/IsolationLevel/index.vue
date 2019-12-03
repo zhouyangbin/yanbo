@@ -169,7 +169,10 @@ import {
   getExecutiveMyIsolationUnderLower,
   getExecutivePerformanceTagTypes
 } from "@/constants/API";
-import { PATH_EMPLOYEE_TEAM } from "@/constants/URL";
+import {
+  PATH_EMPLOYEE_TEAM,
+  PATH_PERFORMANCE_INDEX_DETAIL
+} from "@/constants/URL";
 import {
   LABEL_EMPTY,
   LABEL_SELECT_DIVISION,
@@ -253,8 +256,13 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      console.log(data);
-      // to do
+      this.$router.push(
+        PATH_PERFORMANCE_INDEX_DETAIL(
+          this.performanceId,
+          data.performance_user_id,
+          "team"
+        )
+      );
     },
     getMyLowerList() {
       let getData = {

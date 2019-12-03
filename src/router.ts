@@ -205,8 +205,7 @@ const router = new Router({
         {
           path: PATH_EMPLYEE_MY_DETAIL(),
           components: {
-            default: () =>
-              import("@/views/employee/my/detail/index.vue"),
+            default: () => import("@/views/employee/my/detail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

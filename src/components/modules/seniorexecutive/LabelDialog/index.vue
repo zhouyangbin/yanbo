@@ -416,15 +416,15 @@ export default {
             rules: rules
           };
           Object.keys(postData.rules).forEach(key => {
-            if(postData.rules[key].display_name == "") {
+            if (postData.rules[key].display_name == "") {
               isSubmit = false;
             }
-            if(postData.rules[key].children) {
+            if (postData.rules[key].children) {
               Object.keys(postData.rules[key].children).forEach(i => {
-                if(postData.rules[key].children[i].display_name == "") {
+                if (postData.rules[key].children[i].display_name == "") {
                   isSubmit = false;
                 }
-              })
+              });
             }
           });
           if (this.infoType === "add") {
