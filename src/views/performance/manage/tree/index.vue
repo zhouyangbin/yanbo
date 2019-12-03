@@ -131,7 +131,7 @@ export default {
       let background =
         item.data.is_super_status && item.data.is_high_level_status
           ? "rgba(7, 171, 48, 1)"
-          : "#f45900"; //隔级整体提交 上级整体提交
+          : "#d3d3d3"; //隔级整体提交 上级整体提交
       let is_super = item.data.is_super; //是否是上级
       let is_super_status = item.data.is_super_status ? "是" : "否"; //上级整体提交 1是 0否
 
@@ -150,11 +150,23 @@ export default {
       let background =
         item.is_super_status && item.is_high_level_status
           ? "rgba(7, 171, 48, 1)"
-          : "#f45900"; //隔级整体提交 上级整体提交
-      let font_color =
-        item.is_super_status && item.is_high_level_status
-          ? "rgba(7, 171, 48, 1)"
-          : "#f45900"; //隔级整体提交 上级整体提交
+          : "#d3d3d3"; //隔级整体提交 上级整体提交
+      let font_color ="";
+      
+      if(item.is_abnormal){//是否异常
+        font_color = "#eb0c00";
+      }else{
+        if(!item.no_in_score){
+          font_color = "#000";
+        }else{
+          font_color = "#f45900";
+        }
+      }
+
+      // let font_color =
+      //   item.is_super_status && item.is_high_level_status
+      //     ? "rgba(7, 171, 48, 1)"
+      //     : "#f45900"; //隔级整体提交 上级整体提交
       item.symbolSize = [10, 10];
       item.nodePadding = 50;
       item.symbol = "circle";

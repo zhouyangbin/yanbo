@@ -54,8 +54,8 @@
                     ></el-table-column>
                     <el-table-column width="120" label="是否符合分布">
                       <template slot-scope="scope">
-                        <span>{{
-                          scope.row.is_pass == 1 ? "符合分布" : "不符合分布"
+                        <span v-if="scope.row.type == 1" >{{
+                          scope.row.is_pass == 1  ? "符合分布" : "不符合分布"
                         }}</span>
                       </template>
                     </el-table-column>
