@@ -370,7 +370,7 @@ export default {
           }
           if (
             indicatorTypes[indicatorTypes.length - 1].name &&
-            indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
+            // indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
             indicatorTypes[indicatorTypes.length - 1].weight != 0 &&
             indicatorTypes[indicatorTypes.length - 1].sort != 0
           ) {
