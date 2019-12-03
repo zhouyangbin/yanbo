@@ -694,7 +694,7 @@
       @update="confirmImportUser"
     >
     </import-list>
-    <common-upload-dialog
+    <common-upload
       v-if="showUpload"
       :visible="showUpload"
       :uploadTitle="uploadTitle"
@@ -703,7 +703,7 @@
       @close="uploadClose"
       @update="confirmUpload"
     >
-    </common-upload-dialog>
+    </common-upload>
   </div>
 </template>
 <script>
@@ -730,7 +730,7 @@ import {
   PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
   PATH_EXECUTIVE_IMPORT_USER_LIST,
   PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER,
-  PATH_PERFORMANCE_HIGH_TARGET_DETAIL
+  PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 
 import {
@@ -753,7 +753,7 @@ export default {
     "modify-user": AsyncComp(
       import("@/components/modules/seniorexecutive/ModifyUser/index.vue")
     ),
-    "common-upload-dialog": AsyncComp(
+    "common-upload": AsyncComp(
       import("@/components/modules/seniorexecutive/CommonUpload/index.vue")
     ),
     "import-list": AsyncComp(
@@ -1002,7 +1002,7 @@ export default {
     },
     viewIndicators(data) {
       this.$router.push(
-        PATH_PERFORMANCE_HIGH_TARGET_DETAIL(this.performanceId, data.id)
+        PATH_PERFORMANCE_INDEX_DETAIL(this.performanceId, data.id)
       );
     },
     delPerformanceUser() {

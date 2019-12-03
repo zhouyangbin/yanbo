@@ -45,9 +45,6 @@ import {
   PATH_PERFORMANCE_INDEX_DETAIL,
   PATH_EXECUTIVE_TEAM_TARGET_CONFIRM,
   PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
-  PATH_EXECUTIVE_APPLICATION,
-  PATH_EXECUTIVE_SUREAPPLICATION,
-  PATH_EXECUTIVE_SURE_ADD,
   PATH_PERFORMANCE_HIGH_TARGET_DETAIL
   // PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
@@ -208,7 +205,8 @@ const router = new Router({
         {
           path: PATH_EMPLYEE_MY_DETAIL(),
           components: {
-            default: () => import("@/views/employee/my/index.vue"),
+            default: () =>
+              import("@/views/employee/my/detail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -368,20 +366,6 @@ const router = new Router({
           }
         },
         {
-          path: PATH_EXECUTIVE_APPLICATION(),
-          components: {
-            default: () => import("@/views/employee/my/setting/index.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        },
-        {
-          path: PATH_EXECUTIVE_SUREAPPLICATION(),
-          components: {
-            default: () => import("@/views/employee/my/suresetting/index.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        },
-        {
           path: PATH_PERFORMANCE_INDEX_DETAIL(),
           components: {
             default: () =>
@@ -394,14 +378,6 @@ const router = new Router({
           components: {
             default: () =>
               import("@/views/employee/team/targetDetail/index.vue"),
-            sidebar: () => import("@/components/common/Sidebar/index.vue")
-          }
-        },
-        {
-          path: PATH_EXECUTIVE_SURE_ADD(),
-          components: {
-            default: () =>
-              import("@/views/employee/my/sureaddsetting/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
