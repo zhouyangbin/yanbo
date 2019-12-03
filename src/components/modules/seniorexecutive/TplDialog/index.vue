@@ -326,8 +326,12 @@ export default {
               return false;
             }
           }
-          for(let i = 0; i < indicatorTypes.length-1; i++) {
-            if(indicatorTypes[i].name == "" || indicatorTypes[i].weight == 0 || indicatorTypes[i].sort == 0) {
+          for (let i = 0; i < indicatorTypes.length - 1; i++) {
+            if (
+              indicatorTypes[i].name == "" ||
+              indicatorTypes[i].weight == 0 ||
+              indicatorTypes[i].sort == 0
+            ) {
               this.$alert("必填项不能为空！");
               isSubmit = false;
               return;
@@ -335,7 +339,7 @@ export default {
               isSubmit = true;
             }
           }
-          if(!isSubmit) {
+          if (!isSubmit) {
             return false;
           } else {
             if (indicatorTypes[indicatorTypes.length - 1].name) {
@@ -391,7 +395,8 @@ export default {
             }
             if (
               !indicatorTypes[indicatorTypes.length - 1].name &&
-              indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
+              indicatorTypes[indicatorTypes.length - 1].name !=
+                "团队维度指标" &&
               indicatorTypes[indicatorTypes.length - 1].weight == 0 &&
               indicatorTypes[indicatorTypes.length - 1].sort == 0
             ) {
