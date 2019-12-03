@@ -276,11 +276,12 @@ export default {
             is_reject: 0,
             submit_yes:0,
             reject_yes:0,
+            superior_team:1,
             superior_name: "全部下属",
             superior_workcode: null
           });
           res.highLevelList.map((item,index)=>{
-            item.superior_team == 0 ? item.superior_name+=item.superior_name+"团队" : null;
+            item.superior_team == 0 ? (item.superior_name+=item.superior_name+"团队") : null;
           })
           this.level_team_list = res.highLevelList;
         })
@@ -354,7 +355,6 @@ export default {
   watch: {
     level_team_id(newv, oldv) {
       //下属或者团队的data的监听
-      console.log(newv, oldv)
       this.$emit("get_workcode", newv);
       this.team_name = this.level_team_list
         .filter(item => newv == item.superior_workcode)
