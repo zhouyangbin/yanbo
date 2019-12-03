@@ -253,7 +253,7 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      console.log(data);
+      // console.log(data);
       // to do
     },
     getMyLowerList() {
