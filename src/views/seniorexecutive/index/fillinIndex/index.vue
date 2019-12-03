@@ -34,11 +34,11 @@
               align="center"
             >
               <template slot-scope="scope">
-                <div v-if="targetItem.isFinancial">
+                <div v-if="targetItem.isFinancial === 'true'">
                   {{ scope.row.weights }}%
                 </div>
                 <el-form-item
-                  v-if="!targetItem.isFinancial"
+                  v-else
                   :prop="`targets.${scope.$index}.weights`"
                   :rules="rules.weights"
                 >
@@ -56,14 +56,14 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial"
+              v-if="targetItem.isFinancial === 'true'"
               :label="constants.TARGET_NAME"
               min-width="240"
               align="center"
               prop="target"
             ></el-table-column>
             <el-table-column
-              v-if="!targetItem.isFinancial"
+              v-if="targetItem.isFinancial === 'false'"
               :label="constants.TARGET_NAME"
               min-width="240"
               align="center"
@@ -94,15 +94,13 @@
               :label="constants.TASK_DESCRIPTION"
               min-width="300"
               header-align="center"
-              v-if="
-                targetItem.targets[0] &&
-                  targetItem.targets[0].content !== undefined
-              "
             >
               <template slot-scope="scope">
-                <div v-if="targetItem.isFinancial">{{ scope.row.content }}</div>
+                <div v-if="targetItem.isFinancial === 'true'">
+                  {{ scope.row.content }}
+                </div>
                 <el-form-item
-                  v-if="!targetItem.isFinancial"
+                  v-else
                   :prop="`targets.${scope.$index}.content`"
                   :rules="rules.content"
                 >
@@ -120,7 +118,7 @@
               header-align="center"
             >
               <template slot-scope="scope">
-                <ul v-if="targetItem.isFinancial">
+                <ul v-if="targetItem.isFinancial === 'true'">
                   <li
                     class="flex"
                     v-for="(item, index) in scope.row.metrics"
@@ -135,17 +133,26 @@
                 </ul>
                 <el-row v-for="(item, index) in scope.row.metrics" :key="index">
                   <el-form-item
-                    v-if="!targetItem.isFinancial"
+                    v-if="targetItem.isFinancial === 'false'"
                     :label="item.name"
                     label-width="130px"
-                    :prop="`targets.${scope.$index}.metrics.${index}.content`"
-                    :rules="item.is_required ? metricsRules.content : {}"
+                    :prop="`targets.${scope.$index}.${item.key}`"
+                    :rules="
+                      item.is_required
+                        ? [
+                            {
+                              required: true,
+                              message: '必填字段不能为空',
+                              trigger: 'blur'
+                            }
+                          ]
+                        : []
+                    "
                   >
-                    <!-- {{scope.row[item.key]}  -->
                     <el-input
                       type="textarea"
                       autosize
-                      v-model="item.content"
+                      v-model="scope.row[item.key]"
                     ></el-input>
                   </el-form-item>
                 </el-row>
@@ -187,8 +194,7 @@
         <el-button @click="temporaryMemory" class="tempeorary-memory"
           >暂存</el-button
         >
-        <!-- to do stage为多少时有审批记录 -->
-        <el-button v-if="userInfo.opinion" @click="checkExamine">
+        <el-button @click="checkExamine">
           {{ constants.CHECK_EXAMINE_LOG }}
         </el-button>
         <el-button @click="returnList">返回</el-button>
@@ -292,7 +298,7 @@ export default {
       },
       metricsRules: {
         content: [
-          { required: true, message: "请输入衡量标准", trigger: "blur" }
+          { required: true, message: "必填字段不能为空", trigger: "blur" }
         ]
       },
       isTeam: false,
@@ -308,13 +314,12 @@ export default {
   },
   methods: {
     temporaryMemory() {
-      console.log(this.indexTpl);
-      // postExecutiveSaveDraft(this.userId, this.indexTpl)
-      //   .then(res => {
-      //     this.$message({ type: "success", message: "暂存成功" });
-      //     this.getUserDraft();
-      //   })
-      //   .catch(e => {});
+      postExecutiveSaveDraft(this.userId, this.indexTpl)
+        .then(res => {
+          this.$message({ type: "success", message: "暂存成功" });
+          this.getUserDraft();
+        })
+        .catch(e => {});
     },
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
@@ -354,7 +359,7 @@ export default {
           }
           line = parseInt(location[1]);
           this.$message.error(
-            `${this.indexTpl[i].type}第${line + 1}行${content}不能为空`
+            `${this.indexTpl[i].name}第${line + 1}行${content}不能为空`
           );
           return false;
         }
@@ -483,8 +488,7 @@ export default {
       this.isExamineDialog = true;
     },
     getUserDraft() {
-      let id = this.$route.params.uid;
-      getExecutiveDraft(id)
+      getExecutiveDraft(this.userId)
         .then(res => {
           this.indexDraftTpl = res;
           this.getWrokAndTeamTarget();
@@ -507,7 +511,7 @@ export default {
             let team = res.team;
             this.$set(this.indexTpl, team.sort - 1, {
               key: team.key,
-              isFinancial: false,
+              isFinancial: "false",
               sort: team.sort,
               name: team.name,
               weight: team.weight,
@@ -519,7 +523,7 @@ export default {
             let work = res.work;
             this.$set(this.indexTpl, work.sort - 1, {
               key: work.key,
-              isFinancial: false,
+              isFinancial: "false",
               sort: work.sort,
               type: work.key,
               name: work.name,
@@ -532,7 +536,7 @@ export default {
             let finance = res.finance;
             this.$set(this.indexTpl, finance.sort - 1, {
               key: finance.key,
-              isFinancial: true,
+              isFinancial: "true",
               sort: finance.sort,
               type: finance.key,
               name: finance.name,
@@ -563,7 +567,6 @@ export default {
         }
         this.indexTpl = indexTpl;
       }
-      console.log(indexTpl);
     }
   },
   created() {
