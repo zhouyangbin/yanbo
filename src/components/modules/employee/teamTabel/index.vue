@@ -176,16 +176,16 @@
                   <span class="overview_info_number_info_des clo_bg_2">
                     <span>
                       {{ overview[1].child[1].count }}人
-                      <span
+                      <!--sspan
                         v-if="
                           overview[1].child[1].expected -
                             overview[1].child[1].count <
                             0
                         "
                         class="arrow_up"
-                      ></span>
+                      ></span-->
                     </span>
-                    <span
+                    <!--span
                       v-if="
                         overview[1].child[1].expected -
                           overview[1].child[1].count <
@@ -199,7 +199,7 @@
                             overview[1].child[1].count
                         )
                       }}人
-                    </span>
+                    </span-->
                   </span>
                 </div>
               </template>
