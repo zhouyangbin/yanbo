@@ -28,7 +28,6 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <!-- to do 需要改动的地方，先以中文显示，方便联调是改动 -->
       <el-form-item label="标签规则" class="label-rules" prop="rules">
         <el-table :data="table23221" border style="width: 100%">
           <el-table-column label="标签名称" align="center">

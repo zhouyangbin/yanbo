@@ -317,6 +317,7 @@ export default {
       this.$refs["tplForm"].validate(valid => {
         if (valid) {
           let indicatorTypes = this.tplForm.performance_indicator_types;
+          let isSubmit = true;
           for (let i = 0; i < indicatorTypes.length; i++) {
             if (
               indicatorTypes[i].name === "" &&
@@ -325,64 +326,77 @@ export default {
               return false;
             }
           }
-          if (indicatorTypes[indicatorTypes.length - 1].name) {
-            if (
-              indicatorTypes[indicatorTypes.length - 1].name == "团队维度指标"
-            ) {
-              if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
-                if (indicatorTypes[indicatorTypes.length - 1].sort == 0) {
-                  this.alert("排序");
-                }
-              } else {
-                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                  this.$alert("业绩指标标型三：“权重”未填写！");
-                } else {
-                  this.require();
-                }
-              }
+          for(let i = 0; i < indicatorTypes.length-1; i++) {
+            if(indicatorTypes[i].name == "" || indicatorTypes[i].weight == 0 || indicatorTypes[i].sort == 0) {
+              this.$alert("必填项不能为空！");
+              isSubmit = false;
+              return;
             } else {
-              if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
-                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                  this.require();
-                } else {
-                  this.alert("排序");
-                }
-              } else {
-                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                  this.alert("权重");
-                } else {
-                  this.alert("权重、排序");
-                }
-              }
+              isSubmit = true;
             }
+          }
+          if(!isSubmit) {
+            return false;
           } else {
-            if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
-              if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                this.alert("指标");
+            if (indicatorTypes[indicatorTypes.length - 1].name) {
+              if (
+                indicatorTypes[indicatorTypes.length - 1].name == "团队维度指标"
+              ) {
+                if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
+                  if (indicatorTypes[indicatorTypes.length - 1].sort == 0) {
+                    this.alert("排序");
+                  }
+                } else {
+                  if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                    this.$alert("业绩指标标型三：“权重”未填写！");
+                  } else {
+                    this.require();
+                  }
+                }
               } else {
-                this.alert("指标、排序");
+                if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
+                  if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                    this.require();
+                  } else {
+                    this.alert("排序");
+                  }
+                } else {
+                  if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                    this.alert("权重");
+                  } else {
+                    this.alert("权重、排序");
+                  }
+                }
               }
             } else {
-              if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
-                this.alert("指标、权重");
+              if (indicatorTypes[indicatorTypes.length - 1].weight != 0) {
+                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                  this.alert("指标");
+                } else {
+                  this.alert("指标、排序");
+                }
+              } else {
+                if (indicatorTypes[indicatorTypes.length - 1].sort != 0) {
+                  this.alert("指标、权重");
+                }
               }
             }
-          }
-          if (
-            indicatorTypes[indicatorTypes.length - 1].name &&
-            // indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
-            indicatorTypes[indicatorTypes.length - 1].weight != 0 &&
-            indicatorTypes[indicatorTypes.length - 1].sort != 0
-          ) {
-            this.require();
-          }
-          if (
-            !indicatorTypes[indicatorTypes.length - 1].name &&
-            indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
-            indicatorTypes[indicatorTypes.length - 1].weight == 0 &&
-            indicatorTypes[indicatorTypes.length - 1].sort == 0
-          ) {
-            this.require();
+            if (
+              indicatorTypes[indicatorTypes.length - 1].name &&
+              // indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
+              indicatorTypes[indicatorTypes.length - 1].weight != 0 &&
+              indicatorTypes[indicatorTypes.length - 1].sort != 0
+            ) {
+              this.require();
+            }
+            if (
+              !indicatorTypes[indicatorTypes.length - 1].name &&
+              indicatorTypes[indicatorTypes.length - 1].name != "团队维度指标" &&
+              indicatorTypes[indicatorTypes.length - 1].weight == 0 &&
+              indicatorTypes[indicatorTypes.length - 1].sort == 0
+            ) {
+              this.require();
+            }
           }
         }
       });

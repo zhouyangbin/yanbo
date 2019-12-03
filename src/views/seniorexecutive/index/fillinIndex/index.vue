@@ -130,7 +130,7 @@
                       <span v-if="item.is_required" class="is-required">*</span>
                       <span>&nbsp;{{ item.name }}</span>
                     </el-col>
-                    <el-col>{{ item.content }}</el-col>
+                    <el-col>{{ scope.row[item.key] }}</el-col>
                   </li>
                 </ul>
                 <el-row v-for="(item, index) in scope.row.metrics" :key="index">
@@ -141,6 +141,7 @@
                     :prop="`targets.${scope.$index}.metrics.${index}.content`"
                     :rules="item.is_required ? metricsRules.content : {}"
                   >
+                    <!-- {{scope.row[item.key]}  -->
                     <el-input
                       type="textarea"
                       autosize
@@ -274,6 +275,7 @@ export default {
       },
       isExamineDialog: false,
       indexTpl: [],
+      indexDraftTpl: [],
       handelIndexDetail: [],
       rules: {
         weights: [{ required: true, message: "权重不能为空", trigger: "blur" }],
@@ -306,12 +308,13 @@ export default {
   },
   methods: {
     temporaryMemory() {
-      postExecutiveSaveDraft(this.userId, this.indexTpl)
-        .then(res => {
-          // to do 暂存之后干什么
-          this.$message({ type: "success", message: "暂存成功" });
-        })
-        .catch(e => {});
+      console.log(this.indexTpl);
+      // postExecutiveSaveDraft(this.userId, this.indexTpl)
+      //   .then(res => {
+      //     this.$message({ type: "success", message: "暂存成功" });
+      //     this.getUserDraft();
+      //   })
+      //   .catch(e => {});
     },
     submitForm() {
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
@@ -382,7 +385,8 @@ export default {
                 this.$router.push(
                   PATH_PERFORMANCE_INDEX_DETAIL(
                     this.$route.params.id,
-                    this.$route.params.uid
+                    this.$route.params.uid,
+                    "my"
                   )
                 );
               })
@@ -394,9 +398,7 @@ export default {
     returnList() {
       postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
         .then(res => {
-          // to do 返回，返回哪里？？？
           this.$router.go(-1);
-          // this.$router.push("/employee/my");
         })
         .catch(e => {});
     },
@@ -480,14 +482,12 @@ export default {
     checkExamine() {
       this.isExamineDialog = true;
     },
-    getUserMsg() {
+    getUserDraft() {
       let id = this.$route.params.uid;
       getExecutiveDraft(id)
         .then(res => {
-          for (let i = 0; i < res.length; i++) {
-            res[i].isFinancial = Number(res[i].isFinancial);
-          }
-          this.indexTpl = res;
+          this.indexDraftTpl = res;
+          this.getWrokAndTeamTarget();
         })
         .catch(e => {});
     },
@@ -546,28 +546,29 @@ export default {
         .catch(e => {});
     },
     handleIndexData(indexTpl) {
-      for (let i = 0; i < indexTpl.length; i++) {
-        if (indexTpl[i].targets.length === 0) {
-          indexTpl[i].targets[0].metrics = indexTpl[i].template_columns.metrics;
-        } else {
-          for (let j = 0; j < indexTpl[i].targets.length; j++) {
-            indexTpl[i].targets[j].metrics =
+      let indexDraftTpl = this.indexDraftTpl;
+      if (this.indexDraftTpl !== null) {
+        this.indexTpl = this.indexDraftTpl;
+      } else {
+        for (let i = 0; i < indexTpl.length; i++) {
+          if (indexTpl[i].targets.length === 0) {
+            indexTpl[i].targets[0].metrics =
               indexTpl[i].template_columns.metrics;
+          } else {
+            for (let j = 0; j < indexTpl[i].targets.length; j++) {
+              indexTpl[i].targets[j].metrics =
+                indexTpl[i].template_columns.metrics;
+            }
           }
         }
+        this.indexTpl = indexTpl;
       }
-      this.indexTpl = indexTpl;
+      console.log(indexTpl);
     }
   },
   created() {
     this.getUserInfo();
-    this.getWrokAndTeamTarget();
-    // to do 判断是显示还是填写指标
-    // if (localStorage.getItem(this.userId) == undefined) {
-    //   this.getWrokAndTeamTarget();
-    // } else {
-    //   this.getUserMsg();
-    // }
+    this.getUserDraft();
   }
 };
 </script>

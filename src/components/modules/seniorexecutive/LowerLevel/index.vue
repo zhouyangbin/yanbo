@@ -120,7 +120,7 @@ import {
 } from "@/constants/API";
 import {
   PATH_EMPLOYEE_TEAM,
-  PATH_EXECUTIVE_TEAM_TARGET_CONFIRM
+  PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 import { STAGEOPTIONS } from "@/constants/TEXT";
 import { AsyncComp } from "@/utils/asyncCom";
@@ -192,9 +192,10 @@ export default {
     },
     viewDetail(data) {
       this.$router.push(
-        PATH_EXECUTIVE_TEAM_TARGET_CONFIRM(
+        PATH_PERFORMANCE_INDEX_DETAIL(
           this.performanceId,
-          this.performance_user_id
+          data.performance_user_id,
+          "team"
         )
       );
     },
