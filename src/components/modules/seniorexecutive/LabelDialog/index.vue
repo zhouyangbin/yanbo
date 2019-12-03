@@ -421,7 +421,6 @@ export default {
             }
             if(postData.rules[key].children) {
               Object.keys(postData.rules[key].children).forEach(i => {
-                // console.log(postData.rules[key].children[i].display_name);
                 if(postData.rules[key].children[i].display_name == "") {
                   isSubmit = false;
                 }

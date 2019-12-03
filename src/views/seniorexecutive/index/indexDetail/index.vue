@@ -1,57 +1,174 @@
 <template>
-  <div class="employee-target-detail">
+  <div class="index-detail">
     <nav-bar :list="nav"></nav-bar>
-    <index-header :user-info="userInfo" :self="true"></index-header>
-    <target-content :all-target="allTarget"></target-content>
+    <index-header
+      :user-info="userInfo"
+      @update="updatePage"
+      :isShowUpload="false"
+    ></index-header>
+    <section class="target-detail-box">
+      <el-row
+        class="target-detail"
+        v-for="(targetItem, index) in indexTpl"
+        :key="index"
+      >
+        <el-row class="target-detail-title">
+          <span class="target-title">{{ targetItem.name }}</span>
+          <span class="target-weight"
+            >{{ constants.TARGET_WEIGH
+            }}{{ targetItem.weight | filterWeight }}</span
+          >
+        </el-row>
+        <el-form :ref="`form${index}`" :model="targetItem">
+          <el-table
+            :data="targetItem.targets"
+            border
+            :header-cell-style="{
+              backgroundColor: '#F5F6F7',
+              color: '#303133'
+            }"
+          >
+            <el-table-column
+              :label="constants.TARGET_WEIGH"
+              width="180"
+              align="center"
+              prop="weights"
+            >
+              <template slot-scope="scope">
+                <div>{{ Number(scope.row.weights) }}%</div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="targetItem.isFinancial"
+              :label="constants.TARGET_NAME"
+              min-width="240"
+              align="center"
+              prop="target"
+            ></el-table-column>
+            <el-table-column
+              v-if="!targetItem.isFinancial"
+              :label="constants.TARGET_NAME"
+              min-width="240"
+              align="center"
+              :render-header="changeLabel"
+              prop="target"
+            >
+            </el-table-column>
+            <el-table-column
+              :label="constants.TASK_DESCRIPTION"
+              min-width="300"
+              header-align="center"
+              prop="content"
+            >
+            </el-table-column>
+            <el-table-column
+              :label="constants.YARD_STICK"
+              min-width="300"
+              header-align="center"
+            >
+              <template slot-scope="scope">
+                <ul>
+                  <li
+                    class="flex"
+                    v-for="(item, index) in scope.row.metrics"
+                    :key="index"
+                  >
+                    <el-col class="measure-title">
+                      <span v-if="item.is_required" class="is-required">*</span>
+                      <span>&nbsp;{{ item.name }}</span>
+                    </el-col>
+                    <el-col>{{ scope.row[item.key] }}</el-col>
+                  </li>
+                </ul>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form>
+      </el-row>
+      <ul class="sub-total">
+        <!-- 财务维度小计 -->
+        <li v-if="isFinance">
+          {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
+            this.handleSubTotal("finance")
+          }}%
+        </li>
+        <li v-if="isWork">
+          工作维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("work") }}%
+        </li>
+        <li v-if="isTeam">
+          团队维度小计&nbsp;&nbsp;&nbsp;{{ this.handleSubTotal("team") }}%
+        </li>
+        <li class="performance-total">
+          业绩维度合计&nbsp;&nbsp;&nbsp;{{
+            this.handleSubTotal("finance") +
+              this.handleSubTotal("work") +
+              this.handleSubTotal("team")
+          }}%
+        </li>
+      </ul>
+    </section>
     <el-row class="footer-button">
-      <el-button @click="checkExamine">
-        <!-- 查看审批记录 -->
-        {{ constants.CHECK_EXAMINE_LOG }}
-      </el-button>
-      <!-- 返回 -->
-      <el-button @click="returnList">{{ constants.TARGET_RETURN }}</el-button>
+      <el-button @click="returnList">返回</el-button>
     </el-row>
-    <examine-detail
-      :is-examine-dialog="isExamineDialog"
-      :perforamnce_user_id="userInfo.perforamnce_user_id"
-      @close="closeExamine"
-    ></examine-detail>
   </div>
 </template>
 <script>
+import { AsyncComp } from "@/utils/asyncCom";
 import {
   MY_GRADE,
+  TARGET_WEIGH,
+  TARGET_NAME,
   TARGET_DETAIL,
-  CHECK_EXAMINE_LOG,
-  TARGET_RETURN
+  TASK_DESCRIPTION,
+  YARD_STICK,
+  ADD_TARGET_LINE,
+  FINANCE_DIMENSIONALITY_SUBTOTAL,
+  CHECK_EXAMINE_LOG
 } from "@/constants/TEXT";
-import { PATH_EMPLOYEE_MY } from "@/constants/URL";
+import {
+  PATH_PERFORMANCE_GRADE_MANAGEMENT,
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS
+} from "@/constants/URL";
 import {
   getExecutiveUserInfo,
   getExecutiveUniqueTemplate
 } from "@/constants/API";
-import { AsyncComp } from "@/utils/asyncCom";
 export default {
+  components: {
+    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
+    "index-header": AsyncComp(
+      import("@/components/modules/seniorexecutive/indexHeader/index")
+    )
+  },
   data() {
     return {
       constants: {
-        CHECK_EXAMINE_LOG,
-        TARGET_RETURN
+        TARGET_WEIGH,
+        TARGET_NAME,
+        TASK_DESCRIPTION,
+        YARD_STICK,
+        ADD_TARGET_LINE,
+        FINANCE_DIMENSIONALITY_SUBTOTAL,
+        CHECK_EXAMINE_LOG
       },
       nav: [
         {
-          label: MY_GRADE,
-          href: PATH_EMPLOYEE_MY
+          label: "组织部绩效考核列表",
+          href: PATH_PERFORMANCE_GRADE_MANAGEMENT
         },
         {
-          label: TARGET_DETAIL,
+          label: "考核详情",
+          href: PATH_EXECUTIVE_ASSESSMENT_DATAILS(this.$route.params.id)
+        },
+        {
+          label: "指标详情",
           active: true
         }
       ],
+      userId: this.$route.params.uid,
       userInfo: {
         performance_name: "",
         stage: 0,
-        current_user_identity: "",
         opinion: "",
         avatar: "",
         name: "",
@@ -64,26 +181,43 @@ export default {
         indicator_setting_end_time: "",
         perforamnce_user_id: this.$route.params.uid
       },
-      allTarget: [],
-      isExamineDialog: false
+      indexTpl: [],
+      isTeam: false,
+      isWork: false,
+      isFinance: false
     };
   },
-  components: {
-    "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
-    "index-header": AsyncComp(
-      import("@/components/modules/seniorexecutive/indexHeader/index")
-    ),
-    "target-content": AsyncComp(
-      import("@/components/modules/employee/targetDetailContent/index")
-    ),
-    "examine-detail": AsyncComp(
-      import("@/components/modules/employee/checkExamineDetail/index")
-    )
+  filters: {
+    filterWeight(val) {
+      return val + "%";
+    },
+    filterObject(val) {}
   },
   methods: {
-    /**
-     * 得到当前用户信息，用于展示在页面头部
-     */
+    returnList() {
+      this.$router.go(-1);
+    },
+    handleSubTotal(type) {
+      let subTotal = 0;
+      for (let i = 0; i < this.indexTpl.length; i++) {
+        if (type === this.indexTpl[i].key) {
+          subTotal = Number(this.indexTpl[i].weight);
+        }
+      }
+      return subTotal;
+    },
+    changeLabel(h, { column }) {
+      return h("div", [
+        h("span", column.label),
+        h("br"),
+        h("span", "（最多可填写"),
+        h("span", { style: { color: "red" } }, 5),
+        h("span", "项）")
+      ]);
+    },
+    updatePage() {
+      // to do
+    },
     getUserInfo() {
       let data = {
         performance_user_id: this.$route.params.uid
@@ -91,40 +225,43 @@ export default {
       getExecutiveUserInfo(data)
         .then(res => {
           const {
+            avatar,
+            cycle,
+            department_name,
+            executive_type,
+            indicator_setting_end_time,
+            isolation_name,
+            isolation_workcode,
+            name,
+            opinion,
             performance_name,
             stage,
-            opinion,
-            avatar,
-            name,
-            workcode,
+            stage_text,
             superior_name,
             superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time
+            workcode
           } = res;
           this.userInfo = {
+            avatar,
+            cycle,
+            department_name,
+            executive_type,
+            indicator_setting_end_time,
+            isolation_name,
+            isolation_workcode,
+            name,
+            opinion,
             performance_name,
             stage,
-            opinion,
-            avatar,
-            name,
-            workcode,
+            stage_text,
             superior_name,
             superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time,
+            workcode,
             perforamnce_user_id: this.$route.params.uid
           };
         })
-        .catch(() => {});
+        .catch(e => {});
     },
-    /**
-     * 得到模版设置中配置的信息，以及用户暂存的信息
-     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
@@ -132,138 +269,66 @@ export default {
       };
       getExecutiveUniqueTemplate(data)
         .then(res => {
-          /**
-           * 根据后端返回的字段判断显示哪个维度， isMoney为是否为财务指标  0:非财务  1:财务
-           */
-          let arrData = [
-            {
-              content: "",
-              disqualification: "",
-              excellence: "",
-              good: "",
-              id: "",
-              outstanding: "",
-              performance_id: "",
-              performance_user_id: "",
-              target: "",
-              to_be_improved: "",
-              type: "",
-              weights: ""
-            }
-          ];
-          const isTeam = res.team !== undefined;
-          const isWork = res.work !== undefined;
-          const isFinance = res.finance !== undefined;
-          this.allTarget = [];
-          if (isTeam) {
+          // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
+          this.isTeam = res.team !== undefined;
+          this.isWork = res.work !== undefined;
+          this.isFinance = res.finance !== undefined;
+          this.indexTpl = [];
+          if (this.isTeam) {
             let team = res.team;
-            if (team.targets[0] == undefined) {
-              team.targets = arrData;
-            }
-            team.template_columns = {
-              content: team.targets[0].content,
-              weights: team.targets[0].weights,
-              metrics: team.template_columns.metrics,
-              targets: team.targets
-            };
-            let arr = [
-              {
-                basicType: "team",
-                isMoney: 0,
-                sort: team.sort,
-                type: team.name,
-                weight: team.weight,
-                table: [team.template_columns]
-              }
-            ];
-            this.changeData(arr);
-            this.$set(this.allTarget, team.sort - 1, arr[0]);
-          }
-          if (isWork) {
-            let work = res.work;
-            if (work.targets[0] == undefined) {
-              work.targets = arrData;
-            }
-            work.template_columns = {
-              content: work.targets[0].content,
-              weights: work.targets[0].weights,
-              metrics: work.template_columns.metrics,
-              targets: work.targets
-            };
-            let arr = [
-              {
-                basicType: "work",
-                isMoney: 0,
-                sort: work.sort,
-                type: work.name,
-                weight: work.weight,
-                table: [work.template_columns]
-              }
-            ];
-            this.changeData(arr);
-            this.$set(this.allTarget, work.sort - 1, arr[0]);
-          }
-          if (isFinance) {
-            let finance = res.finance;
-            if (finance.targets[0] == undefined) {
-              finance.targets = arrData;
-            }
-            finance.template_columns = {
-              content: finance.targets[0].content,
-              weights: finance.targets[0].weights,
-              metrics: finance.template_columns.metrics,
-              targets: finance.targets
-            };
-            let arr = [
-              {
-                basicType: "finance",
-                isMoney: 1,
-                sort: finance.sort,
-                type: finance.name,
-                weight: finance.weight,
-                table: [finance.template_columns]
-              }
-            ];
-            this.changeData(arr);
-            this.$set(this.allTarget, finance.sort - 1, arr[0]);
-          }
-        })
-        .catch(() => {});
-    },
-    // 改变接口传递数据
-    changeData(data) {
-      data.forEach(items => {
-        items.table.forEach(item => {
-          item.targets.forEach(text => {
-            item.target = text.target;
-            item.metrics.forEach(ite => {
-              ite.content = text[ite.key];
+            this.$set(this.indexTpl, team.sort - 1, {
+              key: team.key,
+              isFinancial: false,
+              sort: team.sort,
+              name: team.name,
+              weight: team.weight,
+              targets: team.targets || [],
+              template_columns: team.template_columns
             });
-          });
-        });
-      });
-      return data;
+          }
+          if (this.isWork) {
+            let work = res.work;
+            this.$set(this.indexTpl, work.sort - 1, {
+              key: work.key,
+              isFinancial: false,
+              sort: work.sort,
+              type: work.key,
+              name: work.name,
+              weight: work.weight,
+              targets: work.targets || [],
+              template_columns: work.template_columns
+            });
+          }
+          if (this.isFinance) {
+            let finance = res.finance;
+            this.$set(this.indexTpl, finance.sort - 1, {
+              key: finance.key,
+              isFinancial: true,
+              sort: finance.sort,
+              type: finance.key,
+              name: finance.name,
+              weight: finance.weight,
+              targets: finance.targets || [],
+              template_columns: finance.template_columns
+            });
+          }
+          this.handleIndexData(this.indexTpl);
+        })
+        .catch(e => {});
     },
-    /**
-     * 查看审批记录
-     */
-    checkExamine() {
-      this.isExamineDialog = true;
-    },
-    /**
-     * 关闭审批记录弹窗
-     */
-    closeExamine() {
-      this.isExamineDialog = false;
-    },
-    /**
-     * 返回到我的评分列表页
-     */
-    returnList() {
-      this.$router.push("/employee/my");
-    },
-    // 返回下属评分列表
-    ratingList() {}
+    handleIndexData(indexTpl) {
+      for (let i = 0; i < indexTpl.length; i++) {
+        if (indexTpl[i].targets.length === 0) {
+          indexTpl[i].targets[0].metrics = indexTpl[i].template_columns.metrics;
+        } else {
+          for (let j = 0; j < indexTpl[i].targets.length; j++) {
+            indexTpl[i].targets[j].metrics =
+              indexTpl[i].template_columns.metrics;
+          }
+        }
+      }
+      this.indexTpl = indexTpl;
+    }
   },
   created() {
     this.getUserInfo();
@@ -272,8 +337,91 @@ export default {
 };
 </script>
 <style scoped>
-.employee-target-detail .footer-button {
-  text-align: center;
-  margin: 20px 0;
+.index-detail .target-detail >>> .el-table th div {
+  line-height: 20px;
+}
+.index-detail .target-detail .el-form-item {
+  margin-bottom: 16px;
+}
+.index-detail .target-detail >>> .el-form-item__content {
+  line-height: normal;
+}
+.index-detail .target-detail .measure-standard >>> .el-form-item {
+  margin-bottom: 16px;
+}
+</style>
+<style lang="scss" scoped>
+.index-detail {
+  .target-detail-box {
+    background-color: #ffffff;
+    margin: 8px 30px;
+    padding: 20px;
+    border-radius: 3px;
+    .target-detail {
+      margin-bottom: 8px;
+      border-radius: 3px;
+      background-color: #fff;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .target-detail-title {
+        margin-bottom: 10px;
+        .target-title {
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .target-weight {
+          margin-left: 10px;
+          color: #909399;
+        }
+      }
+      .flex {
+        display: flex;
+      }
+      .measure-title {
+        width: 180px;
+        text-align: right;
+        flex-shrink: 1;
+        .is-required {
+          color: #f56c6c;
+        }
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+      .add-target {
+        width: 100%;
+        margin-top: 10px;
+        border: 1px dashed #dcdfe6;
+      }
+      .delete-target {
+        font-size: 18px;
+        cursor: pointer;
+        margin: auto 0;
+        margin-left: 6px;
+        &:hover {
+          color: #55dbbb;
+        }
+      }
+    }
+    .sub-total {
+      background-color: #ffffff;
+      margin: 0 30px;
+      padding: 5px 0;
+      border-radius: 3px;
+      list-style: none;
+      li {
+        padding: 5px 20px;
+      }
+      .performance-total {
+        font-weight: bold;
+      }
+    }
+  }
+  .footer-button {
+    text-align: center;
+    margin: 20px 0;
+  }
 }
 </style>

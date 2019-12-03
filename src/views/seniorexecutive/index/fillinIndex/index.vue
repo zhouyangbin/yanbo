@@ -4,7 +4,7 @@
     <index-header
       :user-info="userInfo"
       @update="updatePage"
-      :self="true"
+      :isShowUpload="true"
     ></index-header>
     <section class="target-detail-box">
       <el-row
@@ -186,17 +186,8 @@
         <el-button @click="temporaryMemory" class="tempeorary-memory"
           >暂存</el-button
         >
-        <el-button @click="returnList">返回</el-button>
-      </el-row>
-      <el-row
-        class="footer-button"
-        v-if="userInfo.opinion && (userInfo.stage === 1) & self"
-      >
-        <el-button @click="submitForm" class="submit-button">提交</el-button>
-        <el-button @click="temporaryMemory" class="tempeorary-memory"
-          >暂存</el-button
-        >
-        <el-button @click="checkExamine">
+        <!-- to do stage为多少时有审批记录 -->
+        <el-button v-if="userInfo.opinion" @click="checkExamine">
           {{ constants.CHECK_EXAMINE_LOG }}
         </el-button>
         <el-button @click="returnList">返回</el-button>
@@ -411,15 +402,11 @@ export default {
     },
     handleSubTotal(type) {
       let subTotal = 0;
-      this.indexTpl.forEach(v => {
-        if (v.type === type) {
-          v.targets.forEach(value => {
-            if (value.weights !== "") {
-              subTotal += Number(value.weights);
-            }
-          });
+      for (let i = 0; i < this.indexTpl.length; i++) {
+        if (type === this.indexTpl[i].key) {
+          subTotal = Number(this.indexTpl[i].weight);
         }
-      });
+      }
       return subTotal;
     },
     addTarget(index) {
@@ -666,19 +653,19 @@ export default {
         font-weight: bold;
       }
     }
-    .footer-button {
-      text-align: center;
-      margin: 20px 0;
-      .submit-button {
-        background-color: #38d0af;
-        color: #ffffff;
-        border: 1px solid #38d0af;
-      }
-      .tempeorary-memory {
-        background-color: #66a8ff;
-        color: #ffffff;
-        border: 1px solid #66a8ff;
-      }
+  }
+  .footer-button {
+    text-align: center;
+    margin: 20px 0;
+    .submit-button {
+      background-color: #38d0af;
+      color: #ffffff;
+      border: 1px solid #38d0af;
+    }
+    .tempeorary-memory {
+      background-color: #66a8ff;
+      color: #ffffff;
+      border: 1px solid #66a8ff;
     }
   }
 }
