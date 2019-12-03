@@ -221,7 +221,7 @@ export default {
       return this.rules && this.rules.length > 0;
     },
     canEdit() {
-      return this.stage == 30;// 0 待导入目标，5 审核目标，10 已导入目标，20 开始自评，30 开始上级评，40 待确认，50 申诉中，60 已确认
+      return this.stage == 30; // 0 待导入目标，5 审核目标，10 已导入目标，20 开始自评，30 开始上级评，40 待确认，50 申诉中，60 已确认
     },
     needsReview() {
       return this.stage == 5;

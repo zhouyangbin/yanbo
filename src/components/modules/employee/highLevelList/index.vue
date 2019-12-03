@@ -14,7 +14,10 @@
             :label="item.superior_workcode"
           >
             {{ item.superior_name }}
-            <span v-if="item.submit_yes || item.reject_yes" class="Badge_logo"></span>
+            <span
+              v-if="item.submit_yes || item.reject_yes"
+              class="Badge_logo"
+            ></span>
           </el-radio>
         </el-col>
         <el-col :span="20" style="min-height: 400px">
@@ -25,11 +28,13 @@
             <el-col :span="18">
               <span class="color_gray">{{ team_name }}: </span>
               <span class="total">共{{ total }}人</span>
-              <span v-if="submit_yes==1 || reject_yes==1 " class="overview_text"
+              <span
+                v-if="submit_yes == 1 || reject_yes == 1"
+                class="overview_text"
                 ><span class="total">, </span> {{ team_overview_text }}</span
               >
               <el-popover
-                v-if="submit_yes==1 || reject_yes==1 "
+                v-if="submit_yes == 1 || reject_yes == 1"
                 placement="bottom"
                 width="688"
                 trigger="click"
@@ -275,17 +280,17 @@ export default {
           res.highLevelList.unshift({
             abnormal_status: 0,
             is_reject: 0,
-            submit_yes:0,
-            reject_yes:0,
-            superior_team:1,
+            submit_yes: 0,
+            reject_yes: 0,
+            superior_team: 1,
             superior_name: "全部下属",
             superior_workcode: null
           });
-          res.highLevelList.map((item,index)=>{
-            if(item.superior_team == 0){
-              item.superior_name = item.superior_name+"团队"
-            } 
-          })
+          res.highLevelList.map((item, index) => {
+            if (item.superior_team == 0) {
+              item.superior_name = item.superior_name + "团队";
+            }
+          });
           this.level_team_list = res.highLevelList;
         })
         .catch(e => {});
