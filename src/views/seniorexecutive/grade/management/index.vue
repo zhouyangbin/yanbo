@@ -55,7 +55,6 @@
       </el-row>
       <div
         class="grade-management-list"
-        v-loading="isLoading"
         v-for="item in performancesList"
         :key="item.id"
       >
@@ -325,7 +324,6 @@ export default {
       confirmType: "open",
       id: 0,
       performancesList: [],
-      isLoading: true,
       orgTree: [],
       nav: [
         {
@@ -409,7 +407,6 @@ export default {
         .then(res => {
           const { total, data } = res;
           this.performancesList = data;
-          this.isLoading = false;
           this.total = total;
         })
         .catch(e => {});

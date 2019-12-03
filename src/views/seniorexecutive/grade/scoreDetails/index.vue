@@ -174,7 +174,25 @@ export default {
       type: "superior",
       performanceId: this.$route.params.performanceId,
       performance_user_id: this.$route.params.uid,
-      performanceDetail: {},
+      performanceDetail: {
+        name: "",
+        stage: 0,
+        indicator_fill_in: 0,
+        indicator_confirm: 0,
+        indicator_setting_end_time: null,
+        self_evaluation_begin_time: null,
+        self_evaluation: null,
+        superior_begin_time: null,
+        re_evaluation: 0,
+        isolation_begin_time: null,
+        isolation_adult: 0,
+        president_audit_begin_time: null,
+        president_audit: 0,
+        result_comfirm_end_time: null,
+        confirm: 0,
+        confirmed: 0,
+        result_confirm_end_time: null
+      },
       nowTime: "",
       isLoading: true
     };
