@@ -13,8 +13,8 @@
             v-model="level_team_id"
             :label="item.superior_workcode"
           >
-            {{ item.superior_name }}{{ index > 1 ? "团队" : null }}
-            <span v-if="item.abnormal_status" class="Badge_logo"></span>
+            {{ item.superior_name }}
+            <span v-if="item.submit_yes || item.reject_yes" class="Badge_logo"></span>
           </el-radio>
         </el-col>
         <el-col :span="20" style="min-height: 400px">
@@ -25,11 +25,11 @@
             <el-col :span="18">
               <span class="color_gray">{{ team_name }}: </span>
               <span class="total">共{{ total }}人</span>
-              <span v-if="abnormal_status == 1" class="overview_text"
+              <span v-if="submit_yes==1 || reject_yes==1 " class="overview_text"
                 ><span class="total">, </span> {{ team_overview_text }}</span
               >
               <el-popover
-                v-if="abnormal_status == 1"
+                v-if="submit_yes==1 || reject_yes==1 "
                 placement="bottom"
                 width="688"
                 trigger="click"
@@ -83,7 +83,7 @@
                 @click="reject_team_show = true"
                 >{{ reject_team_title }}
               </el-button>
-              <span class="overview_text">已驳回</span>
+              <span v-if="reject_yes == 1" class="overview_text">已驳回</span>
             </el-col>
           </el-row>
           <el-dialog
@@ -255,7 +255,7 @@ export default {
       level_team_list: [], //下属团队的打他
       level_team_id: null, //当前下属id
       team_name: "全部下属",
-      abnormal_status: 0, //是否展示diff差值
+      submit_yes: 0, //是否展示diff差值
       is_reject: 0, //是否可以驳回
       team_reviewData: [], //提交理由 data
       reject_team_show: false, //是否显示驳回dialog
@@ -274,9 +274,14 @@ export default {
           res.highLevelList.unshift({
             abnormal_status: 0,
             is_reject: 0,
+            submit_yes:0,
+            reject_yes:0,
             superior_name: "全部下属",
             superior_workcode: null
           });
+          res.highLevelList.map((item,index)=>{
+            item.superior_team == 0 ? item.superior_name+=item.superior_name+"团队" : null;
+          })
           this.level_team_list = res.highLevelList;
         })
         .catch(e => {});
@@ -343,12 +348,13 @@ export default {
     },
     reject_team_title() {
       //获取驳回隔级团队的title
-      return "驳回" + this.team_name + "团队";
+      return "驳回" + this.team_name;
     }
   },
   watch: {
     level_team_id(newv, oldv) {
       //下属或者团队的data的监听
+      console.log(newv, oldv)
       this.$emit("get_workcode", newv);
       this.team_name = this.level_team_list
         .filter(item => newv == item.superior_workcode)
@@ -358,9 +364,13 @@ export default {
         .filter(item => newv == item.superior_workcode)
         .map(item => item.is_reject)
         .join(",");
-      this.abnormal_status = this.level_team_list
+      this.reject_yes = this.level_team_list
         .filter(item => newv == item.superior_workcode)
-        .map(item => item.abnormal_status)
+        .map(item => item.reject_yes)
+        .join(",");
+      this.submit_yes = this.level_team_list
+        .filter(item => newv == item.superior_workcode)
+        .map(item => item.submit_yes)
         .join(",");
     }
   }
