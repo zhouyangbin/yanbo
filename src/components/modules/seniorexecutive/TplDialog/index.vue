@@ -329,9 +329,11 @@ export default {
           let isSubmit = true;
           let weight = 0;
           let sort = [];
+          let newSort = [];
           for (let i = 0; i < indicatorTypes.length; i++) {
             weight = weight + parseInt(indicatorTypes[i].weight);
             sort.push(indicatorTypes[i].sort);
+            newSort = sort.sort();
             if (
               indicatorTypes[i].name === "" &&
               indicatorTypes[i].key !== "team"
@@ -339,16 +341,16 @@ export default {
               return false;
             }
           }
-          for (var i = 0; i < sort.length; i++) {
-            if (sort[i] == sort[i + 1] != 0) {
-              this.$alert("排序不能相同!");
-              return false;
-            }
-          }
           // 权重之和是否不为100
           if(weight != 100) {
             this.$alert("所填写的指标类型的权重配比之和必须等于100%！");
             return false;
+          }
+          for (var i = 0; i < newSort.length; i++) {
+            if (newSort[i] == newSort[i + 1] != 0) {
+              this.$alert("排序不能相同!");
+              return false;
+            }
           }
           for (let i = 0; i < indicatorTypes.length - 1; i++) {
             if (
