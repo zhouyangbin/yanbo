@@ -35,7 +35,7 @@
             >
               <template slot-scope="scope">
                 <div v-if="targetItem.isFinancial === 'true'">
-                  {{ scope.row.weights }}%
+                  {{ scope.row.weights | filterWeight }}
                 </div>
                 <el-form-item
                   v-else
@@ -316,7 +316,9 @@ export default {
   },
   filters: {
     filterWeight(val) {
-      return val + "%";
+      if (val) {
+        return val + "%";
+      }
     },
     filterObject(val) {}
   },
