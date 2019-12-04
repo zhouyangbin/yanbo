@@ -15,8 +15,7 @@
         <el-row class="target-detail-title">
           <span class="target-title">{{ targetItem.name }}</span>
           <span class="target-weight"
-            >{{ constants.TARGET_WEIGH
-            }}{{ targetItem.weight | filterWeight }}</span
+            >权重{{ targetItem.weight | filterWeight }}</span
           >
         </el-row>
         <el-form :ref="`form${index}`" :model="targetItem">
@@ -29,7 +28,8 @@
             }"
           >
             <el-table-column
-              :label="constants.TARGET_WEIGH"
+              v-if="targetItem.template_columns.weight"
+              label="权重"
               width="180"
               align="center"
             >
@@ -49,22 +49,21 @@
                     oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                   >
                     <template slot="append"
-                      >%</template
-                    >
+                      >%</template>
                   </el-input>
                 </el-form-item>
               </template>
             </el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial === 'true'"
-              :label="constants.TARGET_NAME"
+              v-if="targetItem.isFinancial === 'true' && targetItem.template_columns.indicator_name"
+              label="指标名称"
               min-width="240"
               align="center"
               prop="target"
             ></el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial === 'false'"
-              :label="constants.TARGET_NAME"
+              v-if="targetItem.isFinancial === 'false' && targetItem.template_columns.indicator_name"
+              label="指标名称"
               min-width="240"
               align="center"
               :render-header="changeLabel"
@@ -91,7 +90,8 @@
               </template>
             </el-table-column>
             <el-table-column
-              :label="constants.TASK_DESCRIPTION"
+              v-if="targetItem.template_columns.specific_job"
+              label="具体工作/任务描述"
               min-width="300"
               header-align="center"
             >
@@ -113,7 +113,8 @@
               </template>
             </el-table-column>
             <el-table-column
-              :label="constants.YARD_STICK"
+              v-if="targetItem.template_columns.metrics"
+              label="衡量标准"
               min-width="300"
               header-align="center"
             >
@@ -314,6 +315,8 @@ export default {
   },
   methods: {
     temporaryMemory() {
+      console.log(this.indexTpl)
+      return false
       postExecutiveSaveDraft(this.userId, this.indexTpl)
         .then(res => {
           this.$message({ type: "success", message: "暂存成功" });
@@ -322,6 +325,8 @@ export default {
         .catch(e => {});
     },
     submitForm() {
+      console.log(this.indexTpl)
+      return false
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
       // refs 取到每个表单的ref
       // total 验证通过的表单数量
@@ -435,6 +440,7 @@ export default {
       this.indexTpl[index].targets.splice(rowIndex, 1);
     },
     updatePage(data) {
+      this.indexDraftTpl = null;
       this.handleIndexData(data);
     },
     getUserInfo() {
@@ -487,6 +493,9 @@ export default {
     checkExamine() {
       this.isExamineDialog = true;
     },
+    /**
+     * 获取草稿信息
+     */
     getUserDraft() {
       getExecutiveDraft(this.userId)
         .then(res => {
@@ -495,6 +504,9 @@ export default {
         })
         .catch(e => {});
     },
+    /**
+     * 获取 init 接口信息
+     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
@@ -506,6 +518,9 @@ export default {
         })
         .catch(e => {});
     },
+    /**
+     * 处理草稿和 init 接口数据
+     */
     handleIndexData(indexTpl) {
       // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
       this.isTeam = indexTpl.team !== undefined;
@@ -552,25 +567,30 @@ export default {
       }
       this.handleData(this.indexTpl);
     },
+    /**
+     * 数据拼接
+     */
     handleData(indexTpl) {
+      // 判断草稿有没有数据，如果有，如果没有
+      console.log(indexTpl);
       if (this.indexDraftTpl !== null) {
-        this.indexTpl = this.indexDraftTpl;
-      } else {
-        for (let i = 0; i < indexTpl.length; i++) {
-          if (indexTpl[i].targets.length === 0) {
-            let data = {
-              metrics: indexTpl[i].template_columns.metrics
-            };
-            indexTpl[i].targets.push(data);
-          } else {
-            for (let j = 0; j < indexTpl[i].targets.length; j++) {
-              indexTpl[i].targets[j].metrics =
-                indexTpl[i].template_columns.metrics;
-            }
+        indexTpl = this.indexDraftTpl;
+      }
+      for (let i = 0; i < indexTpl.length; i++) {
+        if (indexTpl[i].targets.length === 0) {
+          let data = {
+            metrics: indexTpl[i].template_columns.metrics
+          };
+          indexTpl[i].targets.push(data);
+        } else {
+          for (let j = 0; j < indexTpl[i].targets.length; j++) {
+            indexTpl[i].targets[j].metrics =
+              indexTpl[i].template_columns.metrics;
           }
         }
-        this.indexTpl = indexTpl;
       }
+      this.indexTpl = indexTpl;
+      console.log(this.indexTpl);
     }
   },
   created() {
