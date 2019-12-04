@@ -407,10 +407,7 @@ export default {
           cancelButtonText: "取消"
         })
           .then(() => {
-            postExecutiveIndexSetting(
-              this.$route.params.uid,
-              JSON.stringify(data)
-            )
+            postExecutiveIndexSetting(this.$route.params.uid, data)
               .then(res => {
                 localStorage.clearItem(this.userId);
                 this.$router.push(
