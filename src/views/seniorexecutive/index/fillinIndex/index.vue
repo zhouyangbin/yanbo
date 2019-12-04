@@ -49,20 +49,27 @@
                     oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                   >
                     <template slot="append"
-                      >%</template>
+                      >%</template
+                    >
                   </el-input>
                 </el-form-item>
               </template>
             </el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial === 'true' && targetItem.template_columns.indicator_name"
+              v-if="
+                targetItem.isFinancial === 'true' &&
+                  targetItem.template_columns.indicator_name
+              "
               label="指标名称"
               min-width="240"
               align="center"
               prop="target"
             ></el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial === 'false' && targetItem.template_columns.indicator_name"
+              v-if="
+                targetItem.isFinancial === 'false' &&
+                  targetItem.template_columns.indicator_name
+              "
               label="指标名称"
               min-width="240"
               align="center"
@@ -122,24 +129,29 @@
                 <ul v-if="targetItem.isFinancial === 'true'">
                   <li
                     class="flex"
-                    v-for="(item, index) in scope.row.metrics"
+                    v-for="(item, index) in targetItem.template_columns.metrics"
                     :key="index"
                   >
                     <el-col class="measure-title">
-                      <span v-if="item.is_required" class="is-required">*</span>
+                      <span v-if="Number(item.is_required)" class="is-required"
+                        >*</span
+                      >
                       <span>&nbsp;{{ item.name }}</span>
                     </el-col>
                     <el-col>{{ scope.row[item.key] }}</el-col>
                   </li>
                 </ul>
-                <el-row v-for="(item, index) in scope.row.metrics" :key="index">
+                <el-row
+                  v-for="(item, index) in targetItem.template_columns.metrics"
+                  :key="index"
+                >
                   <el-form-item
                     v-if="targetItem.isFinancial === 'false'"
                     :label="item.name"
                     label-width="130px"
                     :prop="`targets.${scope.$index}.${item.key}`"
                     :rules="
-                      item.is_required
+                      Number(item.is_required)
                         ? [
                             {
                               required: true,
@@ -315,8 +327,6 @@ export default {
   },
   methods: {
     temporaryMemory() {
-      console.log(this.indexTpl)
-      return false
       postExecutiveSaveDraft(this.userId, this.indexTpl)
         .then(res => {
           this.$message({ type: "success", message: "暂存成功" });
@@ -325,8 +335,6 @@ export default {
         .catch(e => {});
     },
     submitForm() {
-      console.log(this.indexTpl)
-      return false
       // 用于表单验证，由于是循环的内容，所以需要对每个表单都进行验证，所有表单全部通过才会发送请求
       // refs 取到每个表单的ref
       // total 验证通过的表单数量
@@ -384,12 +392,20 @@ export default {
       }
       // 表单及权重验证通过进行二次弹窗，点击确定才会发送请求
       if (total === refs.length) {
+        let data = {
+          performance_id: this.$route.params.id,
+          performance_user_id: this.$route.params.uid
+        };
+        for (let m = 0; m < this.indexTpl.length; m++) {
+          delete this.indexTpl[m].isFinancial;
+          data[this.indexTpl[m].key] = this.indexTpl[m];
+        }
         this.$confirm("是否确认提交指标?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消"
         })
           .then(() => {
-            postExecutiveIndexSetting(this.$route.params.uid, this.indexTpl)
+            postExecutiveIndexSetting(this.$route.params.uid, data)
               .then(res => {
                 localStorage.clearItem(this.userId);
                 this.$router.push(
@@ -570,25 +586,18 @@ export default {
      */
     handleData(indexTpl) {
       // 判断草稿有没有数据，如果有，如果没有
-      // console.log(indexTpl);
       if (this.indexDraftTpl !== null) {
         indexTpl = this.indexDraftTpl;
       }
       for (let i = 0; i < indexTpl.length; i++) {
         if (indexTpl[i].targets.length === 0) {
           let data = {
-            metrics: indexTpl[i].template_columns.metrics
+            outstanding: ""
           };
           indexTpl[i].targets.push(data);
-        } else {
-          for (let j = 0; j < indexTpl[i].targets.length; j++) {
-            indexTpl[i].targets[j].metrics =
-              indexTpl[i].template_columns.metrics;
-          }
         }
       }
       this.indexTpl = indexTpl;
-      // console.log(this.indexTpl);
     }
   },
   created() {
