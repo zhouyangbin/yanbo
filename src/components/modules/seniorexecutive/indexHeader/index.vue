@@ -203,6 +203,7 @@ export default {
   margin-bottom: 20px;
   background-color: #ffffff;
   .header-title {
+    height: 30px;
     padding: 24px 0;
     text-align: center;
     color: #303133;
