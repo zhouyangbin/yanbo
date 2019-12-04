@@ -194,7 +194,7 @@ export default {
   },
   filters: {
     filterWeight(val) {
-      if (val) {
+      if (val === 0 || val) {
         return val + "%";
       }
     },
@@ -293,63 +293,58 @@ export default {
       };
       getExecutiveUniqueTemplate(data)
         .then(res => {
-          // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
-          this.isTeam = res.team !== undefined;
-          this.isWork = res.work !== undefined;
-          this.isFinance = res.finance !== undefined;
-          this.indexTpl = [];
-          if (this.isTeam) {
-            let team = res.team;
-            this.$set(this.indexTpl, team.sort - 1, {
-              key: team.key,
-              isFinancial: "false",
-              sort: team.sort,
-              name: team.name,
-              weight: team.weight,
-              targets: team.targets || [],
-              template_columns: team.template_columns
-            });
-          }
-          if (this.isWork) {
-            let work = res.work;
-            this.$set(this.indexTpl, work.sort - 1, {
-              key: work.key,
-              isFinancial: "false",
-              sort: work.sort,
-              name: work.name,
-              weight: work.weight,
-              targets: work.targets || [],
-              template_columns: work.template_columns
-            });
-          }
-          if (this.isFinance) {
-            let finance = res.finance;
-            this.$set(this.indexTpl, finance.sort - 1, {
-              key: finance.key,
-              isFinancial: "true",
-              sort: finance.sort,
-              name: finance.name,
-              weight: finance.weight,
-              targets: finance.targets || [],
-              template_columns: finance.template_columns
-            });
-          }
-          this.handleIndexData(this.indexTpl);
+          this.handleIndexData(res);
         })
         .catch(e => {});
     },
     handleIndexData(indexTpl) {
-      for (let i = 0; i < indexTpl.length; i++) {
-        if (indexTpl[i].targets.length === 0) {
-          indexTpl[i].targets[0].metrics = indexTpl[i].template_columns.metrics;
-        } else {
-          for (let j = 0; j < indexTpl[i].targets.length; j++) {
-            indexTpl[i].targets[j].metrics =
-              indexTpl[i].template_columns.metrics;
-          }
+      // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
+      this.isTeam = indexTpl.team !== undefined;
+      this.isWork = indexTpl.work !== undefined;
+      this.isFinance = indexTpl.finance !== undefined;
+      this.indexTpl = [];
+      let newIndexTpl = [];
+      if (this.isTeam) {
+        let team = indexTpl.team;
+        this.$set(newIndexTpl, team.sort - 1, {
+          key: team.key,
+          isFinancial: "false",
+          sort: team.sort,
+          name: team.name,
+          weight: team.weight,
+          targets: team.targets || [],
+          template_columns: team.template_columns
+        });
+      }
+      if (this.isWork) {
+        let work = indexTpl.work;
+        this.$set(newIndexTpl, work.sort - 1, {
+          key: work.key,
+          isFinancial: "false",
+          sort: work.sort,
+          name: work.name,
+          weight: work.weight,
+          targets: work.targets || [],
+          template_columns: work.template_columns
+        });
+      }
+      if (this.isFinance) {
+        let finance = indexTpl.finance;
+        this.$set(newIndexTpl, finance.sort - 1, {
+          key: finance.key,
+          isFinancial: "true",
+          sort: finance.sort,
+          name: finance.name,
+          weight: finance.weight,
+          targets: finance.targets || [],
+          template_columns: finance.template_columns
+        });
+      }
+      for (let i = 0; i < newIndexTpl.length; i++) {
+        if (newIndexTpl[i]) {
+          this.indexTpl.push(newIndexTpl[i]);
         }
       }
-      this.indexTpl = indexTpl;
     }
   },
   created() {

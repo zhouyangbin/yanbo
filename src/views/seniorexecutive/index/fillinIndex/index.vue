@@ -407,7 +407,10 @@ export default {
           cancelButtonText: "取消"
         })
           .then(() => {
-            postExecutiveIndexSetting(this.$route.params.uid, data)
+            postExecutiveIndexSetting(
+              this.$route.params.uid,
+              JSON.stringify(data)
+            )
               .then(res => {
                 localStorage.clearItem(this.userId);
                 this.$router.push(
@@ -549,9 +552,10 @@ export default {
       this.isWork = indexTpl.work !== undefined;
       this.isFinance = indexTpl.finance !== undefined;
       this.indexTpl = [];
+      let newIndexTpl = [];
       if (this.isTeam) {
         let team = indexTpl.team;
-        this.$set(this.indexTpl, team.sort - 1, {
+        this.$set(newIndexTpl, team.sort - 1, {
           key: team.key,
           isFinancial: "false",
           sort: team.sort,
@@ -563,7 +567,7 @@ export default {
       }
       if (this.isWork) {
         let work = indexTpl.work;
-        this.$set(this.indexTpl, work.sort - 1, {
+        this.$set(newIndexTpl, work.sort - 1, {
           key: work.key,
           isFinancial: "false",
           sort: work.sort,
@@ -575,7 +579,7 @@ export default {
       }
       if (this.isFinance) {
         let finance = indexTpl.finance;
-        this.$set(this.indexTpl, finance.sort - 1, {
+        this.$set(newIndexTpl, finance.sort - 1, {
           key: finance.key,
           isFinancial: "true",
           sort: finance.sort,
@@ -584,6 +588,11 @@ export default {
           targets: finance.targets || [],
           template_columns: finance.template_columns
         });
+      }
+      for (let i = 0; i < newIndexTpl.length; i++) {
+        if (newIndexTpl[i]) {
+          this.indexTpl.push(newIndexTpl[i]);
+        }
       }
       this.handleData(this.indexTpl);
     },
@@ -596,7 +605,7 @@ export default {
         indexTpl = this.indexDraftTpl;
       }
       for (let i = 0; i < indexTpl.length; i++) {
-        if (indexTpl[i].targets.length === 0) {
+        if (indexTpl[i].targets.length === 0 && indexTpl[i].metrics) {
           let data = {
             outstanding: ""
           };
