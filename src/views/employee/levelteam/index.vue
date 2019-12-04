@@ -78,7 +78,7 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="tags">
+          <el-form-item prop="tags" v-if="false">
             <el-select v-model="filterForm.tags" placeholder="请选择标签">
               <el-option
                 v-for="v of ENUM_PERFORMANCE_TAGS"
