@@ -314,7 +314,8 @@ export default {
       },
       isTeam: false,
       isWork: false,
-      isFinance: false
+      isFinance: false,
+      isGetInitData: true
     };
   },
   filters: {
@@ -330,6 +331,7 @@ export default {
       postExecutiveSaveDraft(this.userId, this.indexTpl)
         .then(res => {
           this.$message({ type: "success", message: "暂存成功" });
+          this.isGetInitData = false;
           this.getUserDraft();
         })
         .catch(e => {});
@@ -516,7 +518,11 @@ export default {
       getExecutiveDraft(this.userId)
         .then(res => {
           this.indexDraftTpl = res;
-          this.getWrokAndTeamTarget();
+          if (this.isGetInitData) {
+            this.getWrokAndTeamTarget();
+          } else {
+            this.handleData(res);
+          }
         })
         .catch(e => {});
     },

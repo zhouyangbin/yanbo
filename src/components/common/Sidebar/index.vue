@@ -74,7 +74,7 @@
       :index="constants.PATH_PERFORMANCE_GRADE_MANAGEMENT"
     >
       <template slot="title">
-        <i class="el-icon-star-off"></i>
+        <i class="el-icon-tickets"></i>
         <span>{{ constants.EXECUTIVE_PERFORMANCE }}</span>
       </template>
       <el-menu-item
