@@ -18,6 +18,7 @@
         <el-select
           v-model="tplForm.tag_type"
           :placeholder="constants.PLEASE_SELECT_LABEL_TYPE"
+          :disabled="isDisable"
         >
           <el-option
             v-for="v of tagTypesList"
@@ -233,6 +234,10 @@ export default {
     )
   },
   props: {
+    isDisable: {
+      type: Boolean,
+      default: false
+    },
     visible: {
       type: Boolean,
       default: false

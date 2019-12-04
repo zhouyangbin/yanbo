@@ -97,6 +97,7 @@
       v-if="showDialog"
       :userId="userId"
       @close="tplDialogClose"
+      :isDisable="isDisable"
       :visible="showDialog"
       :infoType="infoType"
       :orgTree="orgTree"
@@ -141,6 +142,7 @@ export default {
   },
   data() {
     return {
+      isDisable: false,
       filterProps: {
         value: "id",
         label: "name",
@@ -197,6 +199,7 @@ export default {
     createTpl() {
       this.infoType = "add";
       this.showDialog = true;
+      this.isDisable = false;
     },
     tplDialogClose() {
       this.showDialog = false;
@@ -217,6 +220,7 @@ export default {
       this.infoType = "modify";
       this.userId = row.id;
       this.showDialog = true;
+      this.isDisable = true;
     },
     getAdminTagsList() {
       let data = {
