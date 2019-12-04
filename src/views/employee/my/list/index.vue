@@ -123,8 +123,7 @@ export default {
       this.$router.push(
         PATH_PERFORMANCE_FILL_IN_INDEX(
           row.performance_id,
-          row.performance_user_id,
-          1
+          row.performance_user_id
         )
       );
     },

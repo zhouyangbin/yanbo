@@ -113,6 +113,9 @@
       </ul>
     </section>
     <el-row class="footer-button">
+      <el-button v-if="currentType === 'my' && showApplay" @click="changeIndex"
+        >申请指标调整</el-button
+      >
       <el-button @click="returnList">返回</el-button>
     </el-row>
   </div>
@@ -135,7 +138,8 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_EXECUTIVE_ASSESSMENT_DATAILS,
   PATH_EMPLOYEE_TEAM,
-  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
+  PATH_PERFORMANCE_FILL_IN_INDEX
 } from "@/constants/URL";
 import {
   getExecutiveUserInfo,
@@ -182,7 +186,10 @@ export default {
       indexTpl: [],
       isTeam: false,
       isWork: false,
-      isFinance: false
+      isFinance: false,
+      currentType: this.$route.params.type,
+      nowTime: "",
+      showApplay: false
     };
   },
   filters: {
@@ -194,6 +201,14 @@ export default {
     filterObject(val) {}
   },
   methods: {
+    changeIndex() {
+      this.$router.push(
+        PATH_PERFORMANCE_FILL_IN_INDEX(
+          this.$route.params.id,
+          this.$route.params.uid
+        )
+      );
+    },
     returnList() {
       this.$router.go(-1);
     },
@@ -256,6 +271,15 @@ export default {
             workcode,
             perforamnce_user_id: this.$route.params.uid
           };
+          this.nowTime = new Date();
+          let indicatorTime = new Date(
+            this.userInfo.indicator_setting_end_time
+          );
+          if (this.nowTime.getTime() < indicatorTime.getTime()) {
+            this.showApplay = true;
+          } else {
+            this.showApplay = false;
+          }
         })
         .catch(e => {});
     },
@@ -326,7 +350,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.type === "my") {
+    if (this.currentType === "my") {
       this.nav = [
         {
           label: "我的评分",
@@ -337,7 +361,7 @@ export default {
           active: true
         }
       ];
-    } else if (this.$route.params.type === "team") {
+    } else if (this.currentType === "team") {
       this.nav = [
         {
           label: "团队评分",
