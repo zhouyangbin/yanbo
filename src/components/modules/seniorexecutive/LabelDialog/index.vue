@@ -519,6 +519,11 @@ export default {
     this.getAdminTagTypesList();
     if (this.infoType != "add" && this.userId) {
       this.getTagDetails();
+    } else {
+      this.table253 = DEFAULT_TABLE253;
+      this.table271 = DEFAULT_TABLE271;
+      this.table23221 = DEFAULT_PERFORMANCE_TABLE23221;
+      this.table2521 = DEFAULT_TABLE2521;
     }
   }
 };
