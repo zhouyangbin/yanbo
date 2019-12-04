@@ -25,24 +25,31 @@
             }"
           >
             <el-table-column
+              v-if="targetItem.template_columns.weight"
               :label="constants.TARGET_WEIGH"
               width="180"
               align="center"
               prop="weights"
             >
               <template slot-scope="scope">
-                <div>{{ Number(scope.row.weights) }}%</div>
+                <div>{{ Number(scope.row.weights) | filterWeight }}</div>
               </template>
             </el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial"
+              v-if="
+                targetItem.isFinancial === 'true' &&
+                  targetItem.template_columns.indicator_name
+              "
               :label="constants.TARGET_NAME"
               min-width="240"
               align="center"
               prop="target"
             ></el-table-column>
             <el-table-column
-              v-if="!targetItem.isFinancial"
+              v-if="
+                targetItem.isFinancial === 'false' &&
+                  targetItem.template_columns.indicator_name
+              "
               :label="constants.TARGET_NAME"
               min-width="240"
               align="center"
@@ -51,6 +58,7 @@
             >
             </el-table-column>
             <el-table-column
+              v-if="targetItem.template_columns.specific_job"
               :label="constants.TASK_DESCRIPTION"
               min-width="300"
               header-align="center"
@@ -58,6 +66,7 @@
             >
             </el-table-column>
             <el-table-column
+              v-if="targetItem.template_columns.metrics"
               :label="constants.YARD_STICK"
               min-width="300"
               header-align="center"
@@ -104,6 +113,9 @@
       </ul>
     </section>
     <el-row class="footer-button">
+      <el-button v-if="currentType === 'my' && showApplay" @click="changeIndex"
+        >申请指标调整</el-button
+      >
       <el-button @click="returnList">返回</el-button>
     </el-row>
   </div>
@@ -126,7 +138,8 @@ import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_EXECUTIVE_ASSESSMENT_DATAILS,
   PATH_EMPLOYEE_TEAM,
-  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
+  PATH_PERFORMANCE_FILL_IN_INDEX
 } from "@/constants/URL";
 import {
   getExecutiveUserInfo,
@@ -153,40 +166,56 @@ export default {
       nav: [],
       userId: this.$route.params.uid,
       userInfo: {
-        performance_name: "",
-        stage: 0,
-        opinion: "",
         avatar: "",
+        cycle: "",
+        department_name: "",
+        executive_type: "",
+        indicator_setting_end_time: "",
+        isolation_name: "",
+        isolation_workcode: "",
         name: "",
-        workcode: "",
+        opinion: "",
+        performance_name: "",
+        stage: "",
+        stage_text: "",
         superior_name: "",
         superior_workcode: "",
-        executive_type: "",
-        department_name: "",
-        cycle: "",
-        indicator_setting_end_time: "",
+        workcode: "",
         perforamnce_user_id: this.$route.params.uid
       },
       indexTpl: [],
       isTeam: false,
       isWork: false,
-      isFinance: false
+      isFinance: false,
+      currentType: this.$route.params.type,
+      nowTime: "",
+      showApplay: false
     };
   },
   filters: {
     filterWeight(val) {
-      return val + "%";
+      if (val) {
+        return val + "%";
+      }
     },
     filterObject(val) {}
   },
   methods: {
+    changeIndex() {
+      this.$router.push(
+        PATH_PERFORMANCE_FILL_IN_INDEX(
+          this.$route.params.id,
+          this.$route.params.uid
+        )
+      );
+    },
     returnList() {
       this.$router.go(-1);
     },
-    handleSubTotal(type) {
+    handleSubTotal(key) {
       let subTotal = 0;
       for (let i = 0; i < this.indexTpl.length; i++) {
-        if (type === this.indexTpl[i].key) {
+        if (key === this.indexTpl[i].key) {
           subTotal = Number(this.indexTpl[i].weight);
         }
       }
@@ -242,6 +271,15 @@ export default {
             workcode,
             perforamnce_user_id: this.$route.params.uid
           };
+          this.nowTime = new Date();
+          let indicatorTime = new Date(
+            this.userInfo.indicator_setting_end_time
+          );
+          if (this.nowTime.getTime() < indicatorTime.getTime()) {
+            this.showApplay = true;
+          } else {
+            this.showApplay = false;
+          }
         })
         .catch(e => {});
     },
@@ -261,7 +299,7 @@ export default {
             let team = res.team;
             this.$set(this.indexTpl, team.sort - 1, {
               key: team.key,
-              isFinancial: false,
+              isFinancial: "false",
               sort: team.sort,
               name: team.name,
               weight: team.weight,
@@ -273,9 +311,8 @@ export default {
             let work = res.work;
             this.$set(this.indexTpl, work.sort - 1, {
               key: work.key,
-              isFinancial: false,
+              isFinancial: "false",
               sort: work.sort,
-              type: work.key,
               name: work.name,
               weight: work.weight,
               targets: work.targets || [],
@@ -286,9 +323,8 @@ export default {
             let finance = res.finance;
             this.$set(this.indexTpl, finance.sort - 1, {
               key: finance.key,
-              isFinancial: true,
+              isFinancial: "true",
               sort: finance.sort,
-              type: finance.key,
               name: finance.name,
               weight: finance.weight,
               targets: finance.targets || [],
@@ -314,7 +350,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.type === "my") {
+    if (this.currentType === "my") {
       this.nav = [
         {
           label: "我的评分",
@@ -325,7 +361,7 @@ export default {
           active: true
         }
       ];
-    } else if (this.$route.params.type === "team") {
+    } else if (this.currentType === "team") {
       this.nav = [
         {
           label: "团队评分",

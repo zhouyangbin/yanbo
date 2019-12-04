@@ -15,8 +15,7 @@
         <el-row class="target-detail-title">
           <span class="target-title">{{ targetItem.name }}</span>
           <span class="target-weight"
-            >{{ constants.TARGET_WEIGH
-            }}{{ targetItem.weight | filterWeight }}</span
+            >权重{{ targetItem.weight | filterWeight }}</span
           >
         </el-row>
         <el-form :ref="`form${index}`" :model="targetItem">
@@ -29,13 +28,14 @@
             }"
           >
             <el-table-column
-              :label="constants.TARGET_WEIGH"
+              v-if="targetItem.template_columns.weight"
+              label="权重"
               width="180"
               align="center"
             >
               <template slot-scope="scope">
                 <div v-if="targetItem.isFinancial === 'true'">
-                  {{ scope.row.weights }}%
+                  {{ scope.row.weights | filterWeight }}
                 </div>
                 <el-form-item
                   v-else
@@ -56,15 +56,21 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial === 'true'"
-              :label="constants.TARGET_NAME"
+              v-if="
+                targetItem.isFinancial === 'true' &&
+                  targetItem.template_columns.indicator_name
+              "
+              label="指标名称"
               min-width="240"
               align="center"
               prop="target"
             ></el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial === 'false'"
-              :label="constants.TARGET_NAME"
+              v-if="
+                targetItem.isFinancial === 'false' &&
+                  targetItem.template_columns.indicator_name
+              "
+              label="指标名称"
               min-width="240"
               align="center"
               :render-header="changeLabel"
@@ -91,7 +97,8 @@
               </template>
             </el-table-column>
             <el-table-column
-              :label="constants.TASK_DESCRIPTION"
+              v-if="targetItem.template_columns.specific_job"
+              label="具体工作/任务描述"
               min-width="300"
               header-align="center"
             >
@@ -113,7 +120,8 @@
               </template>
             </el-table-column>
             <el-table-column
-              :label="constants.YARD_STICK"
+              v-if="targetItem.template_columns.metrics"
+              label="衡量标准"
               min-width="300"
               header-align="center"
             >
@@ -121,24 +129,29 @@
                 <ul v-if="targetItem.isFinancial === 'true'">
                   <li
                     class="flex"
-                    v-for="(item, index) in scope.row.metrics"
+                    v-for="(item, index) in targetItem.template_columns.metrics"
                     :key="index"
                   >
                     <el-col class="measure-title">
-                      <span v-if="item.is_required" class="is-required">*</span>
+                      <span v-if="Number(item.is_required)" class="is-required"
+                        >*</span
+                      >
                       <span>&nbsp;{{ item.name }}</span>
                     </el-col>
                     <el-col>{{ scope.row[item.key] }}</el-col>
                   </li>
                 </ul>
-                <el-row v-for="(item, index) in scope.row.metrics" :key="index">
+                <el-row
+                  v-for="(item, index) in targetItem.template_columns.metrics"
+                  :key="index"
+                >
                   <el-form-item
                     v-if="targetItem.isFinancial === 'false'"
                     :label="item.name"
                     label-width="130px"
                     :prop="`targets.${scope.$index}.${item.key}`"
                     :rules="
-                      item.is_required
+                      Number(item.is_required)
                         ? [
                             {
                               required: true,
@@ -265,18 +278,21 @@ export default {
       ],
       userId: this.$route.params.uid,
       userInfo: {
-        performance_name: "",
-        stage: 0,
-        opinion: "",
         avatar: "",
+        cycle: "",
+        department_name: "",
+        executive_type: "",
+        indicator_setting_end_time: "",
+        isolation_name: "",
+        isolation_workcode: "",
         name: "",
-        workcode: "",
+        opinion: "",
+        performance_name: "",
+        stage: "",
+        stage_text: "",
         superior_name: "",
         superior_workcode: "",
-        executive_type: "",
-        department_name: "",
-        cycle: "",
-        indicator_setting_end_time: "",
+        workcode: "",
         perforamnce_user_id: this.$route.params.uid
       },
       isExamineDialog: false,
@@ -296,11 +312,6 @@ export default {
           }
         ]
       },
-      metricsRules: {
-        content: [
-          { required: true, message: "必填字段不能为空", trigger: "blur" }
-        ]
-      },
       isTeam: false,
       isWork: false,
       isFinance: false
@@ -308,7 +319,9 @@ export default {
   },
   filters: {
     filterWeight(val) {
-      return val + "%";
+      if (val) {
+        return val + "%";
+      }
     },
     filterObject(val) {}
   },
@@ -367,7 +380,7 @@ export default {
       // 验证每个维度填写的权重之和是否等于该维度模版中的总权重
       for (let i = 0; i < this.indexTpl.length; i++) {
         if (
-          this.indexTpl[i].weight != this.handleSubTotal(this.indexTpl[i].type)
+          this.indexTpl[i].weight != this.handleSubTotal(this.indexTpl[i].key)
         ) {
           this.$message.error(
             `${this.indexTpl[i].name}权重之和不等于${
@@ -379,12 +392,20 @@ export default {
       }
       // 表单及权重验证通过进行二次弹窗，点击确定才会发送请求
       if (total === refs.length) {
+        let data = {
+          performance_id: this.$route.params.id,
+          performance_user_id: this.$route.params.uid
+        };
+        for (let m = 0; m < this.indexTpl.length; m++) {
+          delete this.indexTpl[m].isFinancial;
+          data[this.indexTpl[m].key] = this.indexTpl[m];
+        }
         this.$confirm("是否确认提交指标?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消"
         })
           .then(() => {
-            postExecutiveIndexSetting(this.$route.params.uid, this.indexTpl)
+            postExecutiveIndexSetting(this.$route.params.uid, data)
               .then(res => {
                 localStorage.clearItem(this.userId);
                 this.$router.push(
@@ -407,10 +428,10 @@ export default {
         })
         .catch(e => {});
     },
-    handleSubTotal(type) {
+    handleSubTotal(key) {
       let subTotal = 0;
       for (let i = 0; i < this.indexTpl.length; i++) {
-        if (type === this.indexTpl[i].key) {
+        if (key === this.indexTpl[i].key) {
           subTotal = Number(this.indexTpl[i].weight);
         }
       }
@@ -435,6 +456,7 @@ export default {
       this.indexTpl[index].targets.splice(rowIndex, 1);
     },
     updatePage(data) {
+      this.indexDraftTpl = null;
       this.handleIndexData(data);
     },
     getUserInfo() {
@@ -487,6 +509,9 @@ export default {
     checkExamine() {
       this.isExamineDialog = true;
     },
+    /**
+     * 获取草稿信息
+     */
     getUserDraft() {
       getExecutiveDraft(this.userId)
         .then(res => {
@@ -495,6 +520,9 @@ export default {
         })
         .catch(e => {});
     },
+    /**
+     * 获取 init 接口信息
+     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
@@ -506,6 +534,9 @@ export default {
         })
         .catch(e => {});
     },
+    /**
+     * 处理草稿和 init 接口数据
+     */
     handleIndexData(indexTpl) {
       // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
       this.isTeam = indexTpl.team !== undefined;
@@ -530,7 +561,6 @@ export default {
           key: work.key,
           isFinancial: "false",
           sort: work.sort,
-          type: work.key,
           name: work.name,
           weight: work.weight,
           targets: work.targets || [],
@@ -543,7 +573,6 @@ export default {
           key: finance.key,
           isFinancial: "true",
           sort: finance.sort,
-          type: finance.key,
           name: finance.name,
           weight: finance.weight,
           targets: finance.targets || [],
@@ -552,25 +581,23 @@ export default {
       }
       this.handleData(this.indexTpl);
     },
+    /**
+     * 数据拼接
+     */
     handleData(indexTpl) {
+      // 判断草稿有没有数据，如果有，如果没有
       if (this.indexDraftTpl !== null) {
-        this.indexTpl = this.indexDraftTpl;
-      } else {
-        for (let i = 0; i < indexTpl.length; i++) {
-          if (indexTpl[i].targets.length === 0) {
-            let data = {
-              metrics: indexTpl[i].template_columns.metrics
-            };
-            indexTpl[i].targets.push(data);
-          } else {
-            for (let j = 0; j < indexTpl[i].targets.length; j++) {
-              indexTpl[i].targets[j].metrics =
-                indexTpl[i].template_columns.metrics;
-            }
-          }
-        }
-        this.indexTpl = indexTpl;
+        indexTpl = this.indexDraftTpl;
       }
+      for (let i = 0; i < indexTpl.length; i++) {
+        if (indexTpl[i].targets.length === 0) {
+          let data = {
+            outstanding: ""
+          };
+          indexTpl[i].targets.push(data);
+        }
+      }
+      this.indexTpl = indexTpl;
     }
   },
   created() {

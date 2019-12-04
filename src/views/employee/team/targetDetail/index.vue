@@ -47,7 +47,6 @@ export default {
             this.$route.params.id,
             this.$route.params.uid
           )
-          // href: PATH_EMPLOYY_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
         },
         {
           label: "指标详情",
@@ -55,17 +54,21 @@ export default {
         }
       ],
       userInfo: {
-        performance_name: "",
-        stage: 0,
-        opinion: "",
         avatar: "",
+        cycle: "",
+        department_name: "",
+        executive_type: "",
+        indicator_setting_end_time: "",
+        isolation_name: "",
+        isolation_workcode: "",
         name: "",
+        opinion: "",
+        performance_name: "",
+        stage: "",
+        stage_text: "",
         superior_name: "",
         superior_workcode: "",
-        executive_type: "",
-        department_name: "",
-        cycle: "",
-        indicator_setting_end_time: "",
+        workcode: "",
         perforamnce_user_id: this.$route.params.uid
       },
       allTarget: [],
@@ -96,30 +99,38 @@ export default {
       getExecutiveUserInfo(data)
         .then(res => {
           const {
+            avatar,
+            cycle,
+            department_name,
+            executive_type,
+            indicator_setting_end_time,
+            isolation_name,
+            isolation_workcode,
+            name,
+            opinion,
             performance_name,
             stage,
-            opinion,
-            avatar,
-            name,
+            stage_text,
             superior_name,
             superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time
+            workcode
           } = res;
           this.userInfo = {
+            avatar,
+            cycle,
+            department_name,
+            executive_type,
+            indicator_setting_end_time,
+            isolation_name,
+            isolation_workcode,
+            name,
+            opinion,
             performance_name,
             stage,
-            opinion,
-            avatar,
-            name,
+            stage_text,
             superior_name,
             superior_workcode,
-            executive_type,
-            department_name,
-            cycle,
-            indicator_setting_end_time,
+            workcode,
             perforamnce_user_id: this.$route.params.uid
           };
         })
