@@ -38,7 +38,9 @@
               >填写指标</el-button
             >
             <el-button
-              v-else-if="scope.row.stage == 20 &&scope.row.p_type === 'executive'"
+              v-else-if="
+                scope.row.stage == 20 && scope.row.p_type === 'executive'
+              "
               type="text"
               @click="fillInIndicator(scope.row)"
               >申请指标调整</el-button

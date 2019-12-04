@@ -275,7 +275,10 @@ export default {
           let indicatorTime = new Date(
             this.userInfo.indicator_setting_end_time
           );
-          if (this.nowTime.getTime() < indicatorTime.getTime() && this.userInfo.stage === 20) {
+          if (
+            this.nowTime.getTime() < indicatorTime.getTime() &&
+            this.userInfo.stage === 20
+          ) {
             this.showApplay = true;
           } else {
             this.showApplay = false;

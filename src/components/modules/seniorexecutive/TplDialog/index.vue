@@ -309,12 +309,12 @@ export default {
     louseFouce(item) {
       item.sort = item.sort || 0;
       item.weight = item.weight || 0;
-      let reg = /^[0-9]+[0-9]*$/
-      if(!reg.test(item.weight)) {
+      let reg = /^[0-9]+[0-9]*$/;
+      if (!reg.test(item.weight)) {
         this.$alert("权重配比必须为正整数！");
         item.weight = 0;
       }
-      if(!reg.test(item.sort)) {
+      if (!reg.test(item.sort)) {
         this.$alert("排序必须为正整数！");
         item.sort = 0;
       }
@@ -340,13 +340,13 @@ export default {
             }
           }
           for (var i = 0; i < sort.length; i++) {
-            if (sort[i] == sort[i + 1] != 0) {
+            if ((sort[i] == sort[i + 1]) != 0) {
               this.$alert("排序不能相同!");
               return false;
             }
           }
           // 权重之和是否不为100
-          if(weight != 100) {
+          if (weight != 100) {
             this.$alert("所填写的指标类型的权重配比之和必须等于100%！");
             return false;
           }
