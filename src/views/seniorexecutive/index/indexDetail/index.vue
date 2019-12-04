@@ -32,7 +32,7 @@
               prop="weights"
             >
               <template slot-scope="scope">
-                <div>{{ Number(scope.row.weights) }}%</div>
+                <div>{{ Number(scope.row.weights) | filterWeight }}</div>
               </template>
             </el-table-column>
             <el-table-column
@@ -184,7 +184,9 @@ export default {
   },
   filters: {
     filterWeight(val) {
-      return val + "%";
+      if (val) {
+        return val + "%";
+      }
     },
     filterObject(val) {}
   },
