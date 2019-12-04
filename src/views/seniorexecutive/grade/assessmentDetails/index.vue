@@ -38,9 +38,7 @@
         <div
           class="time-line-circle"
           :class="
-            performanceDetail.self_evaluation_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.self_evaluation_begin_time | filterCompareDate
           "
         >
           <div class="circle-list"></div>
@@ -53,15 +51,15 @@
         <div
           class="time-line-sign"
           :class="
-            performanceDetail.self_evaluation_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.self_evaluation_begin_time | filterCompareDate
           "
           :data="performanceDetail.self_evaluation_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
+          :class="
+            performanceDetail.self_evaluation_begin_time | filterCompareDate
+          "
           :data="
             performanceDetail.stage === 0
               ? ''
@@ -72,16 +70,12 @@
         </div>
         <div
           class="time-line-sign"
-          :class="
-            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.superior_begin_time | filterCompareDate"
           :data="performanceDetail.superior_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="
-            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.superior_begin_time | filterCompareDate"
           :data="
             performanceDetail.stage === 0
               ? ''
@@ -92,16 +86,12 @@
         </div>
         <div
           class="time-line-sign"
-          :class="
-            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.isolation_begin_time | filterCompareDate"
           :data="performanceDetail.isolation_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="
-            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.isolation_begin_time | filterCompareDate"
           :data="
             performanceDetail.stage === 0
               ? ''
@@ -113,18 +103,14 @@
         <div
           class="time-line-sign"
           :class="
-            performanceDetail.president_audit_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.president_audit_begin_time | filterCompareDate
           "
           :data="performanceDetail.president_audit_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
           :class="
-            performanceDetail.president_audit_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.president_audit_begin_time | filterCompareDate
           "
           :data="
             performanceDetail.stage === 0
@@ -136,12 +122,12 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 600 ? 'active' : ''"
+          :class="performanceDetail.stage >= 530 ? 'active' : ''"
           :data="performanceDetail.result_comfirm_end_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="performanceDetail.stage === 600 ? 'active' : ''"
+          :class="performanceDetail.stage >= 530 ? 'active' : ''"
           :data="
             performanceDetail.stage === 0
               ? ''
@@ -155,7 +141,7 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 600 ? 'active' : ''"
+          :class="performanceDetail.stage >= 530 ? 'active' : ''"
           :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
@@ -794,7 +780,6 @@ export default {
       orgTree: [],
       tipsText: "",
       confirmType: "",
-      nowTime: "",
       nav: [
         {
           label: "组织部绩效考核列表",
@@ -891,6 +876,19 @@ export default {
         type = "月度";
       }
       return type;
+    },
+    filterCompareDate(val) {
+      if (val) {
+        let time = new Date(val);
+        let nowTime = new Date();
+        if (time.getTime() < nowTime.getTime()) {
+          return "active";
+        } else {
+          return "";
+        }
+      } else {
+        return "";
+      }
     }
   },
   methods: {
@@ -1122,7 +1120,6 @@ export default {
   },
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-    this.nowTime = new Date();
     this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
       this.performanceId,
       this.performance_user_ids
