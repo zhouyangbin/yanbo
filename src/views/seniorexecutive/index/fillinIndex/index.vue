@@ -309,11 +309,6 @@ export default {
           }
         ]
       },
-      metricsRules: {
-        content: [
-          { required: true, message: "必填字段不能为空", trigger: "blur" }
-        ]
-      },
       isTeam: false,
       isWork: false,
       isFinance: false

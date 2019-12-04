@@ -25,6 +25,7 @@
             }"
           >
             <el-table-column
+              v-if="targetItem.template_columns.weight"
               :label="constants.TARGET_WEIGH"
               width="180"
               align="center"
@@ -35,14 +36,20 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-if="targetItem.isFinancial"
+              v-if="
+                targetItem.isFinancial === 'true' &&
+                  targetItem.template_columns.indicator_name
+              "
               :label="constants.TARGET_NAME"
               min-width="240"
               align="center"
               prop="target"
             ></el-table-column>
             <el-table-column
-              v-if="!targetItem.isFinancial"
+              v-if="
+                targetItem.isFinancial === 'false' &&
+                  targetItem.template_columns.indicator_name
+              "
               :label="constants.TARGET_NAME"
               min-width="240"
               align="center"
@@ -51,6 +58,7 @@
             >
             </el-table-column>
             <el-table-column
+              v-if="targetItem.template_columns.specific_job"
               :label="constants.TASK_DESCRIPTION"
               min-width="300"
               header-align="center"
@@ -58,6 +66,7 @@
             >
             </el-table-column>
             <el-table-column
+              v-if="targetItem.template_columns.metrics"
               :label="constants.YARD_STICK"
               min-width="300"
               header-align="center"
@@ -183,10 +192,10 @@ export default {
     returnList() {
       this.$router.go(-1);
     },
-    handleSubTotal(type) {
+    handleSubTotal(key) {
       let subTotal = 0;
       for (let i = 0; i < this.indexTpl.length; i++) {
-        if (type === this.indexTpl[i].key) {
+        if (key === this.indexTpl[i].key) {
           subTotal = Number(this.indexTpl[i].weight);
         }
       }
@@ -261,7 +270,7 @@ export default {
             let team = res.team;
             this.$set(this.indexTpl, team.sort - 1, {
               key: team.key,
-              isFinancial: false,
+              isFinancial: "false",
               sort: team.sort,
               name: team.name,
               weight: team.weight,
@@ -273,9 +282,8 @@ export default {
             let work = res.work;
             this.$set(this.indexTpl, work.sort - 1, {
               key: work.key,
-              isFinancial: false,
+              isFinancial: "false",
               sort: work.sort,
-              type: work.key,
               name: work.name,
               weight: work.weight,
               targets: work.targets || [],
@@ -286,9 +294,8 @@ export default {
             let finance = res.finance;
             this.$set(this.indexTpl, finance.sort - 1, {
               key: finance.key,
-              isFinancial: true,
+              isFinancial: "true",
               sort: finance.sort,
-              type: finance.key,
               name: finance.name,
               weight: finance.weight,
               targets: finance.targets || [],
