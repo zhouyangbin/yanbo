@@ -27,9 +27,7 @@
         <div
           class="time-line-circle"
           :class="
-            performanceDetail.self_evaluation_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.self_evaluation_begin_time | filterCompareDate
           "
         >
           <div class="circle-list"></div>
@@ -42,47 +40,39 @@
         <div
           class="time-line-sign"
           :class="
-            performanceDetail.self_evaluation_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.self_evaluation_begin_time | filterCompareDate
           "
           :data="performanceDetail.self_evaluation_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="performanceDetail.self_evaluation > nowTime ? 'active' : ''"
+          :class="
+            performanceDetail.self_evaluation_begin_time | filterCompareDate
+          "
           :data="'自评中' + performanceDetail.self_evaluation"
         >
           自评
         </div>
         <div
           class="time-line-sign"
-          :class="
-            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.superior_begin_time | filterCompareDate"
           :data="performanceDetail.superior_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="
-            performanceDetail.superior_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.superior_begin_time | filterCompareDate"
           :data="'复评中' + performanceDetail.re_evaluation"
         >
           上级评分
         </div>
         <div
           class="time-line-sign"
-          :class="
-            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.isolation_begin_time | filterCompareDate"
           :data="performanceDetail.isolation_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="
-            performanceDetail.isolation_begin_time > nowTime ? 'active' : ''
-          "
+          :class="performanceDetail.isolation_begin_time | filterCompareDate"
           :data="'隔级审核中' + performanceDetail.isolation_adult"
         >
           隔级审核
@@ -90,18 +80,14 @@
         <div
           class="time-line-sign"
           :class="
-            performanceDetail.president_audit_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.president_audit_begin_time | filterCompareDate
           "
           :data="performanceDetail.president_audit_begin_time | filterDate"
         ></div>
         <div
           class="time-line"
           :class="
-            performanceDetail.president_audit_begin_time > nowTime
-              ? 'active'
-              : ''
+            performanceDetail.president_audit_begin_time | filterCompareDate
           "
           :data="'总裁审核中' + performanceDetail.president_audit"
         >
@@ -109,12 +95,12 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 600 ? 'active' : ''"
+          :class="performanceDetail.stage >= 530 ? 'active' : ''"
           :data="performanceDetail.result_comfirm_end_time | filterDate"
         ></div>
         <div
           class="time-line"
-          :class="performanceDetail.stage === 600 ? 'active' : ''"
+          :class="performanceDetail.stage >= 530 ? 'active' : ''"
           :data="
             '确认中' +
               performanceDetail.confirm +
@@ -126,7 +112,7 @@
         </div>
         <div
           class="time-line-sign"
-          :class="performanceDetail.stage === 600 ? 'active' : ''"
+          :class="performanceDetail.stage >= 530 ? 'active' : ''"
           :data="performanceDetail.result_confirm_end_time | filterDate"
         ></div>
       </div>
@@ -193,7 +179,6 @@ export default {
         confirmed: 0,
         result_confirm_end_time: null
       },
-      nowTime: "",
       isLoading: true
     };
   },
@@ -205,6 +190,17 @@ export default {
         newVal = newVal[0];
       }
       return newVal;
+    },
+    filterCompareDate(val) {
+      if (val) {
+        let time = new Date(val);
+        let nowTime = new Date();
+        if (time.getTime() < nowTime.getTime()) {
+          return "active";
+        } else {
+          return "";
+        }
+      }
     }
   },
   methods: {
@@ -224,7 +220,6 @@ export default {
     }
   },
   created() {
-    this.nowTime = new Date();
     this.getPerformanceDetail();
   }
 };

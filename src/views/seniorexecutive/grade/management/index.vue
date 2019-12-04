@@ -184,7 +184,7 @@
           ></div>
           <div
             class="time-line-circle"
-            :class="item.self_evaluation_begin_time > nowTime ? 'active' : ''"
+            :class="item.self_evaluation_begin_time | filterCompareDate"
           >
             <div class="circle-list"></div>
             <div class="circle-list"></div>
@@ -195,58 +195,58 @@
           </div>
           <div
             class="time-line-sign"
-            :class="item.self_evaluation_begin_time > nowTime ? 'active' : ''"
+            :class="item.self_evaluation_begin_time | filterCompareDate"
             :data="item.self_evaluation_begin_time | filterDate"
           ></div>
           <div
             class="time-line"
-            :class="item.self_evaluation_begin_time > nowTime ? 'active' : ''"
+            :class="item.self_evaluation_begin_time | filterCompareDate"
           >
             自评
           </div>
           <div
             class="time-line-sign"
-            :class="item.superior_begin_time > nowTime ? 'active' : ''"
+            :class="item.superior_begin_time | filterCompareDate"
             :data="item.superior_begin_time | filterDate"
           ></div>
           <div
             class="time-line"
-            :class="item.superior_begin_time > nowTime ? 'active' : ''"
+            :class="item.superior_begin_time | filterCompareDate"
           >
             上级评分
           </div>
           <div
             class="time-line-sign"
-            :class="item.isolation_begin_time > nowTime ? 'active' : ''"
+            :class="item.isolation_begin_time | filterCompareDate"
             :data="item.isolation_begin_time | filterDate"
           ></div>
           <div
             class="time-line"
-            :class="item.isolation_begin_time > nowTime ? 'active' : ''"
+            :class="item.isolation_begin_time | filterCompareDate"
           >
             隔级审核
           </div>
           <div
             class="time-line-sign"
-            :class="item.president_audit_begin_time > nowTime ? 'active' : ''"
+            :class="item.president_audit_begin_time | filterCompareDate"
           ></div>
           <div
             class="time-line"
-            :class="item.president_audit_begin_time > nowTime ? 'active' : ''"
+            :class="item.president_audit_begin_time | filterCompareDate"
           >
             总裁审核
           </div>
           <div
             class="time-line-sign"
-            :class="item.stage === 600 ? 'active' : ''"
+            :class="item.stage >= 530 ? 'active' : ''"
             :data="item.result_confirm_end_time | filterDate"
           ></div>
-          <div class="time-line" :class="item.stage === 600 ? 'active' : ''">
+          <div class="time-line" :class="item.stage >= 530 ? 'active' : ''">
             结果确认
           </div>
           <div
             class="time-line-sign"
-            :class="item.stage === 600 ? 'active' : ''"
+            :class="item.stage >= 530 ? 'active' : ''"
             :data="item.president_audit_begin_time | filterDate"
           ></div>
         </div>
@@ -340,7 +340,6 @@ export default {
         LABEL_SELECT_DIVISION
       },
       status: "",
-      nowTime: "",
       permissions: []
     };
   },
@@ -373,6 +372,17 @@ export default {
         type = "月度";
       }
       return type;
+    },
+    filterCompareDate(val) {
+      if (val) {
+        let time = new Date(val);
+        let nowTime = new Date();
+        if (time.getTime() < nowTime.getTime()) {
+          return "active";
+        } else {
+          return "";
+        }
+      }
     }
   },
   methods: {
@@ -476,7 +486,6 @@ export default {
     if (this.showExecutiveScoreManagement) {
       this.status = "";
     }
-    this.nowTime = new Date();
     this.getPerformanceList();
     getExecutiveOrganization()
       .then(res => {
