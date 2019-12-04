@@ -32,13 +32,16 @@
         <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
             <el-button
-              v-if="
-                (scope.row.stage == 0 || scope.row.stage == 20) &&
-                  scope.row.p_type === 'executive'
-              "
+              v-if="scope.row.stage == 0 && scope.row.p_type === 'executive'"
               type="text"
               @click="fillInIndicator(scope.row)"
               >填写指标</el-button
+            >
+            <el-button
+              v-else-if="scope.row.stage == 20 &&scope.row.p_type === 'executive'"
+              type="text"
+              @click="fillInIndicator(scope.row)"
+              >申请指标调整</el-button
             >
             <el-button v-else @click="viewDetail(scope.row)" type="text"
               >详情</el-button
