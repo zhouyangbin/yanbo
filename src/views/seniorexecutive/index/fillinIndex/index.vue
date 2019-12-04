@@ -372,7 +372,7 @@ export default {
       // 验证每个维度填写的权重之和是否等于该维度模版中的总权重
       for (let i = 0; i < this.indexTpl.length; i++) {
         if (
-          this.indexTpl[i].weight != this.handleSubTotal(this.indexTpl[i].type)
+          this.indexTpl[i].weight != this.handleSubTotal(this.indexTpl[i].key)
         ) {
           this.$message.error(
             `${this.indexTpl[i].name}权重之和不等于${
@@ -412,10 +412,10 @@ export default {
         })
         .catch(e => {});
     },
-    handleSubTotal(type) {
+    handleSubTotal(key) {
       let subTotal = 0;
       for (let i = 0; i < this.indexTpl.length; i++) {
-        if (type === this.indexTpl[i].key) {
+        if (key === this.indexTpl[i].key) {
           subTotal = Number(this.indexTpl[i].weight);
         }
       }
@@ -545,7 +545,6 @@ export default {
           key: work.key,
           isFinancial: "false",
           sort: work.sort,
-          type: work.key,
           name: work.name,
           weight: work.weight,
           targets: work.targets || [],
@@ -558,7 +557,6 @@ export default {
           key: finance.key,
           isFinancial: "true",
           sort: finance.sort,
-          type: finance.key,
           name: finance.name,
           weight: finance.weight,
           targets: finance.targets || [],
@@ -572,7 +570,7 @@ export default {
      */
     handleData(indexTpl) {
       // 判断草稿有没有数据，如果有，如果没有
-      console.log(indexTpl);
+      // console.log(indexTpl);
       if (this.indexDraftTpl !== null) {
         indexTpl = this.indexDraftTpl;
       }
@@ -590,7 +588,7 @@ export default {
         }
       }
       this.indexTpl = indexTpl;
-      console.log(this.indexTpl);
+      // console.log(this.indexTpl);
     }
   },
   created() {
