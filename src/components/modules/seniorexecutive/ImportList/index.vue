@@ -10,7 +10,7 @@
     <el-tabs type="card" v-model="activeName">
       <el-tab-pane label="从EHR读取" name="first">
         <el-form label-width="80px">
-          <el-form-item label="是否高管">
+          <el-form-item label="是否组织部成员">
             <el-switch v-model="is_executive"></el-switch>
           </el-form-item>
         </el-form>

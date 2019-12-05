@@ -287,7 +287,7 @@ export default {
         PLEASE_SELECT_MULTIPLE,
         PLEASE_SELECT_LABEL_TYPE,
         EXECUTIVE_LABEL_TYPE,
-        FORCED_DISTRIBUTION,
+        FORCED_DISTRIBUTION
         // DEFAULT_TABLE253,
         // DEFAULT_TABLE271,
         // DEFAULT_PERFORMANCE_TABLE23221,
@@ -520,11 +520,13 @@ export default {
     if (this.infoType != "add" && this.userId) {
       this.getTagDetails();
     } else {
-      const arr = DEFAULT_TABLE253.map((i)=>(Object.assign({},{...i})));
-      this.table253 = arr ;
-      this.table271 = DEFAULT_TABLE271.map((i)=>(Object.assign({},{...i})));
-      this.table23221 = DEFAULT_PERFORMANCE_TABLE23221.map((i)=>(Object.assign({},{...i})));
-      this.table2521 = DEFAULT_TABLE2521.map((i)=>(Object.assign({},{...i})));
+      const arr = DEFAULT_TABLE253.map(i => Object.assign({}, { ...i }));
+      this.table253 = arr;
+      this.table271 = DEFAULT_TABLE271.map(i => Object.assign({}, { ...i }));
+      this.table23221 = DEFAULT_PERFORMANCE_TABLE23221.map(i =>
+        Object.assign({}, { ...i })
+      );
+      this.table2521 = DEFAULT_TABLE2521.map(i => Object.assign({}, { ...i }));
     }
   }
 };

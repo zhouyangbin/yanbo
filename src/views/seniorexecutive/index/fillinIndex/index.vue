@@ -6,7 +6,7 @@
       @update="updatePage"
       :isShowUpload="true"
     ></index-header>
-    <section class="target-detail-box">
+    <section class="target-detail-box" v-loading="loading">
       <el-row
         class="target-detail"
         v-for="(targetItem, index) in indexTpl"
@@ -315,7 +315,8 @@ export default {
       isTeam: false,
       isWork: false,
       isFinance: false,
-      isGetInitData: true
+      isGetInitData: true,
+      loading: true
     };
   },
   filters: {
@@ -612,6 +613,7 @@ export default {
           indexTpl[i].targets.push(data);
         }
       }
+      this.loading = false;
       this.indexTpl = indexTpl;
     }
   },

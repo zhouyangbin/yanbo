@@ -13,7 +13,7 @@
             type="textarea"
             v-model="form.reason"
             :rows="4"
-            placeholder="请录入审批意见"
+            placeholder="请输入理由"
           ></el-input>
         </el-form-item>
       </el-form>
@@ -39,7 +39,7 @@ export default {
         reason: ""
       },
       rules: {
-        reason: [{ required: true, message: "请录入审批意见", blur: "blur" }]
+        reason: [{ required: true, message: "请输入理由", blur: "blur" }]
       }
     };
   },
@@ -60,7 +60,7 @@ export default {
           };
           postSuperConfirmTarget(postData)
             .then(res => {
-              this.$message.success("审批成功");
+              this.$message.success("提交成功");
               this.close();
             })
             .catch(() => {});
