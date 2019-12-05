@@ -440,7 +440,7 @@ export default {
                   )
                 );
               })
-              .catch(e={})
+              .catch((e = {}));
           })
           .catch(e => {});
       }
