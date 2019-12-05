@@ -128,7 +128,7 @@
                   data.target_submit_superior_score.score != null
               "
             >
-              <section class="colorful">
+              <section class="colorful" v-if="high_level_disabled">
                 <span class="label">{{ constants.LEADER_SOCRE }}:</span> &nbsp;
                 <span>
                   {{
@@ -223,6 +223,10 @@ export default {
     maxlength: {
       type: Number,
       default: 1000
+    },
+    high_level_disabled: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

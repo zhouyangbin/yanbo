@@ -26,6 +26,7 @@
         :data="v"
         :index="i"
         :key="i"
+        :high_level_disabled="!disabled"
       ></card>
       <br />
       <!--<div v-if="superior_score && superior_score.evaluation">
@@ -35,14 +36,14 @@
         ></comments>
         <br />
       </div>-->
-      <div v-if="disabled">
+      <div v-if="!disabled">
         <comments
           :readOnly="true"
           :comments.sync="superior_score && superior_score.evaluation"
         ></comments>
         <br />
       </div>
-      <div v-if="showMyAdditional">
+      <div v-if="!disabled">
         <addition-mark
           :prefixTitle="constants.LABEL_SELF"
           :readOnly="readOnly"
@@ -62,7 +63,7 @@
         ></addition-mark>
         <br />
       </div> -->
-      <div v-if="disabled">
+      <div v-if="!disabled">
         <!-- <div v-if="leaderAdditionMark.evaluation" && published"> -->
         <addition-mark
           :readOnly="true"
@@ -72,7 +73,7 @@
         ></addition-mark>
         <br />
       </div>
-      <div v-if="disabled">
+      <div v-if="!disabled">
         <total-mark
           :total="total"
           :score="self_score"
@@ -83,7 +84,7 @@
       <div>
         <!-- v-if="level" && published" -->
         <level
-          v-if="disabled"
+          v-if="!disabled"
           :readOnly="true"
           v-model="level"
           :old_s="true"

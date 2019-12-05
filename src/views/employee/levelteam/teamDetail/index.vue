@@ -227,7 +227,7 @@ export default {
       return this.rules && this.rules.length > 0;
     },
     canEdit() {
-      return false; //this.stage == 10000;
+      return this.stage == 30;
     },
     needsReview() {
       return this.stage == 5;
