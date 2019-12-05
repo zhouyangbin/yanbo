@@ -68,12 +68,12 @@
                 @click="updateTpl(scope.row)"
                 >{{ constants.LABEL_MODIFY }}</el-button
               >
-              <el-button
+              <!-- <el-button
                 size="small"
                 type="text"
                 @click="handleDelete(scope.row)"
                 >删除</el-button
-              >
+              > -->
             </template>
           </el-table-column>
         </el-table>
@@ -236,10 +236,10 @@ export default {
         })
         .catch(() => {});
     },
-    handleDelete(row) {
-      this.dialogVisible = true;
-      this.deleteId = row.id;
-    },
+    // handleDelete(row) {
+    //   this.dialogVisible = true;
+    //   this.deleteId = row.id;
+    // },
     deleteMsg() {
       this.dialogVisible = false;
       deleteExecutiveLabel(this.deleteId)
