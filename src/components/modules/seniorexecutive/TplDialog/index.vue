@@ -469,7 +469,7 @@ export default {
       Object.keys(this.indicatorTypes).forEach(key => {
         this.indicatorTypes[key].weight = 0;
         this.indicatorTypes[key].sort = 0;
-      })
+      });
     }
   }
 };
