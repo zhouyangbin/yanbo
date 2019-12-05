@@ -222,7 +222,6 @@
   </div>
 </template>
 <script>
-import { Notification } from "element-ui";
 import { AsyncComp } from "@/utils/asyncCom";
 import {
   MY_GRADE,
@@ -441,16 +440,7 @@ export default {
                   )
                 );
               })
-              .catch(error => {
-                Notification({
-                  type: "error",
-                  title: HTTP_STATUS_TITLE_ERROR,
-                  message:
-                    error.response.data.data.join("\r\n") ||
-                    HTTP_STATUS_TITLE_ERROR,
-                  duration: 3000
-                });
-              });
+              .catch(e={})
           })
           .catch(e => {});
       }
