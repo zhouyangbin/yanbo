@@ -413,7 +413,6 @@ export default {
               JSON.stringify(data)
             )
               .then(res => {
-                localStorage.clearItem(this.userId);
                 this.$router.push(
                   PATH_PERFORMANCE_INDEX_DETAIL(
                     this.$route.params.id,

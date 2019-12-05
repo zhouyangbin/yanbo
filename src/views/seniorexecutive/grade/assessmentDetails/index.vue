@@ -464,7 +464,7 @@
                 v-if="showExecutiveScoreUserManagement"
                 @click="showUploadWork('work')"
               >
-                <i class="el-icon-upload2"></i><span>上传工作目标</span>
+                <i class="el-icon-upload2"></i><span>上传工作指标</span>
               </div>
               <div
                 class="more-btn"
@@ -1109,7 +1109,7 @@ export default {
           this.performanceId
         );
       } else {
-        this.uploadTitle = "工作目标";
+        this.uploadTitle = "工作指标";
         this.uploadActionUrl = this.constants.PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS(
           this.performanceId
         );
