@@ -34,7 +34,7 @@
               align="center"
             >
               <template slot-scope="scope">
-                <div v-if="targetItem.isFinancial === 'true'">
+                <div v-if="targetItem.key === 'finance'">
                   {{ scope.row.weights | filterWeight }}
                 </div>
                 <el-form-item
@@ -45,8 +45,8 @@
                   <el-input
                     v-enter-number
                     v-model.number="scope.row.weights"
-                    type="number"
                     size="small"
+                    type="number"
                     oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                   >
                     <template slot="append"
@@ -58,7 +58,7 @@
             </el-table-column>
             <el-table-column
               v-if="
-                targetItem.isFinancial === 'true' &&
+                targetItem.key === 'finance' &&
                   targetItem.template_columns.indicator_name
               "
               label="指标名称"
@@ -68,7 +68,7 @@
             ></el-table-column>
             <el-table-column
               v-if="
-                targetItem.isFinancial === 'false' &&
+                targetItem.key !== 'finance' &&
                   targetItem.template_columns.indicator_name
               "
               label="指标名称"
@@ -104,7 +104,7 @@
               header-align="center"
             >
               <template slot-scope="scope">
-                <div v-if="targetItem.isFinancial === 'true'">
+                <div v-if="targetItem.key === 'finance'">
                   {{ scope.row.content }}
                 </div>
                 <el-form-item
@@ -127,7 +127,7 @@
               header-align="center"
             >
               <template slot-scope="scope">
-                <ul v-if="targetItem.isFinancial === 'true'">
+                <ul v-if="targetItem.key === 'finance'">
                   <li
                     class="flex"
                     v-for="(item, index) in targetItem.template_columns.metrics"
@@ -147,7 +147,7 @@
                   :key="index"
                 >
                   <el-form-item
-                    v-if="targetItem.isFinancial === 'false'"
+                    v-if="targetItem.key !== 'finance'"
                     :label="item.name"
                     label-width="130px"
                     :prop="`targets.${scope.$index}.${item.key}`"
@@ -176,7 +176,7 @@
           <el-button
             icon="el-icon-plus"
             class="add-target"
-            v-if="targetItem.isFinancial === 'false' && getTableLen(index) <= 4"
+            v-if="targetItem.key !== 'finance' && getTableLen(index) <= 4"
             @click="addTarget(index)"
             >{{ constants.ADD_TARGET_LINE }}</el-button
           >
@@ -423,18 +423,15 @@ export default {
           performance_user_id: this.$route.params.uid
         };
         for (let m = 0; m < this.indexTpl.length; m++) {
-          delete this.indexTpl[m].isFinancial;
           data[this.indexTpl[m].key] = this.indexTpl[m];
         }
+        console.log(data);
         this.$confirm("是否确认提交指标?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消"
         })
           .then(() => {
-            postExecutiveIndexSetting(
-              this.$route.params.uid,
-              JSON.stringify(data)
-            )
+            postExecutiveIndexSetting(this.$route.params.uid, data)
               .then(res => {
                 this.$router.push(
                   PATH_PERFORMANCE_INDEX_DETAIL(
@@ -466,7 +463,13 @@ export default {
       return subTotal;
     },
     addTarget(index) {
-      this.indexTpl[index].targets.push(this.indexTpl[index].template_columns);
+      let data = this.indexTpl[index].template_columns;
+      for (let key in data) {
+        if (typeof data[key] == "string") {
+          data[key] = "";
+        }
+      }
+      this.indexTpl[index].targets.push(data);
     },
     getTableLen(index) {
       return this.indexTpl[index].targets.length;
@@ -580,7 +583,6 @@ export default {
         let team = indexTpl.team;
         this.$set(newIndexTpl, team.sort - 1, {
           key: team.key,
-          isFinancial: "false",
           sort: team.sort,
           name: team.name,
           weight: team.weight,
@@ -592,7 +594,6 @@ export default {
         let work = indexTpl.work;
         this.$set(newIndexTpl, work.sort - 1, {
           key: work.key,
-          isFinancial: "false",
           sort: work.sort,
           name: work.name,
           weight: work.weight,
@@ -604,7 +605,6 @@ export default {
         let finance = indexTpl.finance;
         this.$set(newIndexTpl, finance.sort - 1, {
           key: finance.key,
-          isFinancial: "true",
           sort: finance.sort,
           name: finance.name,
           weight: finance.weight,

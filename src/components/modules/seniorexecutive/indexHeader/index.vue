@@ -175,7 +175,7 @@ export default {
     },
     uploadTarget() {
       this.isUpload = true;
-      this.uploadTitle = "工作指标";
+      this.uploadTitle = "指标";
     },
     closeUploadDialog() {
       this.isUpload = false;
