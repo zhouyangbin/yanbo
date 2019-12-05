@@ -6,7 +6,7 @@
       @update="updatePage"
       :isShowUpload="true"
     ></index-header>
-    <section class="target-detail-box" v-loading="loading">
+    <section class="target-detail-box">
       <el-row
         class="target-detail"
         v-for="(targetItem, index) in indexTpl"
@@ -222,6 +222,7 @@
   </div>
 </template>
 <script>
+import { Notification } from "element-ui";
 import { AsyncComp } from "@/utils/asyncCom";
 import {
   MY_GRADE,
@@ -232,7 +233,8 @@ import {
   YARD_STICK,
   ADD_TARGET_LINE,
   FINANCE_DIMENSIONALITY_SUBTOTAL,
-  CHECK_EXAMINE_LOG
+  CHECK_EXAMINE_LOG,
+  HTTP_STATUS_TITLE_ERROR
 } from "@/constants/TEXT";
 import {
   PATH_EMPLOYEE_MY,
@@ -316,8 +318,7 @@ export default {
       isTeam: false,
       isWork: false,
       isFinance: false,
-      isGetInitData: true,
-      loading: true
+      isGetInitData: true
     };
   },
   filters: {
@@ -440,7 +441,16 @@ export default {
                   )
                 );
               })
-              .catch(error => {});
+              .catch(error => {
+                Notification({
+                  type: "error",
+                  title: HTTP_STATUS_TITLE_ERROR,
+                  message:
+                    error.response.data.data.join("\r\n") ||
+                    HTTP_STATUS_TITLE_ERROR,
+                  duration: 3000
+                });
+              });
           })
           .catch(e => {});
       }
@@ -474,7 +484,7 @@ export default {
         performance_user_id: data.performance_user_id || this.$route.params.uid,
         target: "",
         to_be_improved: "",
-        type: data.type || "",
+        type: data.type || this.indexTpl[index].key,
         weights: ""
       };
       this.indexTpl[index].targets.push(newTarget);
@@ -643,7 +653,6 @@ export default {
           indexTpl[i].targets.push(data);
         }
       }
-      this.loading = false;
       this.indexTpl = indexTpl;
     }
   },
