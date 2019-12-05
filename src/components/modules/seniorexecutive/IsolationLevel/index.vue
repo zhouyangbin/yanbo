@@ -167,7 +167,7 @@
 import { AsyncComp } from "@/utils/asyncCom";
 import {
   getExecutiveMyIsolationUnderLower,
-  getExecutivePerformanceTagTypes
+  getExecutivePerformanceWebTagTypes
 } from "@/constants/API";
 import {
   PATH_EMPLOYEE_TEAM,
@@ -284,7 +284,7 @@ export default {
     }
   },
   created() {
-    getExecutivePerformanceTagTypes(this.performanceId)
+    getExecutivePerformanceWebTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;
       })
