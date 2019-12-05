@@ -37,7 +37,7 @@
             </el-table-column>
             <el-table-column
               v-if="
-                targetItem.isFinancial === 'true' &&
+                targetItem.key === 'finance' &&
                   targetItem.template_columns.indicator_name
               "
               :label="constants.TARGET_NAME"
@@ -47,7 +47,7 @@
             ></el-table-column>
             <el-table-column
               v-if="
-                targetItem.isFinancial === 'false' &&
+                targetItem.key !== 'finance' &&
                   targetItem.template_columns.indicator_name
               "
               :label="constants.TARGET_NAME"
@@ -347,7 +347,6 @@ export default {
         let team = indexTpl.team;
         this.$set(newIndexTpl, team.sort - 1, {
           key: team.key,
-          isFinancial: "false",
           sort: team.sort,
           name: team.name,
           weight: team.weight,
@@ -359,7 +358,6 @@ export default {
         let work = indexTpl.work;
         this.$set(newIndexTpl, work.sort - 1, {
           key: work.key,
-          isFinancial: "false",
           sort: work.sort,
           name: work.name,
           weight: work.weight,
@@ -371,7 +369,6 @@ export default {
         let finance = indexTpl.finance;
         this.$set(newIndexTpl, finance.sort - 1, {
           key: finance.key,
-          isFinancial: "true",
           sort: finance.sort,
           name: finance.name,
           weight: finance.weight,
