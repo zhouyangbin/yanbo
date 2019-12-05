@@ -534,7 +534,7 @@ export default {
       getPublishMsg(postData).then(res => {
         // 发布提示
         const msg = `尚有${res.undone_count ||
-          0}人未完成，将发布全部结果，确认此操作?`;
+          0}人未完成业绩评分，本次评分只有一次发布机会，是否全部发布结果？`;
         this.$confirm(msg, ATTENTION, {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,

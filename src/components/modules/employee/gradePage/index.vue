@@ -95,7 +95,10 @@
       <el-row v-if="is_state" type="flex" justify="center">
         <div>
           到期将默认确认结果, 如有问题可
-          <el-button @click="visible = true" type="text">
+          <el-button @click="visible = true" type="primary">
+            确认
+          </el-button>
+          <el-button @click="visible = true" type="warning">
             {{ constants.APPEAL }}
           </el-button>
         </div>

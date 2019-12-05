@@ -11,9 +11,8 @@
       :model="rejectForm"
       :rules="rejectFormRules"
       ref="rejectForm"
-      label-width="100px"
     >
-      <el-form-item label="理由" prop="reason">
+      <el-form-item prop="reason">
         <el-input
           type="textarea"
           :maxlength="1000"
