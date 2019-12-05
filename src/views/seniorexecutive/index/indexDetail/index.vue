@@ -75,11 +75,13 @@
                 <ul>
                   <li
                     class="flex"
-                    v-for="(item, index) in scope.row.metrics"
+                    v-for="(item, index) in targetItem.template_columns.metrics"
                     :key="index"
                   >
                     <el-col class="measure-title">
-                      <span v-if="item.is_required" class="is-required">*</span>
+                      <span v-if="Number(item.is_required)" class="is-required"
+                        >*</span
+                      >
                       <span>&nbsp;{{ item.name }}</span>
                     </el-col>
                     <el-col>{{ scope.row[item.key] }}</el-col>
