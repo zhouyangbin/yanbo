@@ -5,7 +5,7 @@
       :visible="visible"
       :close-on-click-modal="false"
       @close="close"
-      width="700px"
+      width="650px"
     >
       <el-form>
         <el-form-item>
@@ -13,7 +13,7 @@
             type="textarea"
             v-model="reason"
             :rows="4"
-            placeholder="请录入审批意见"
+            placeholder="同意"
           ></el-input>
         </el-form-item>
       </el-form>
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      reason: "同意"
+      reason: ""
     };
   },
   methods: {
@@ -47,11 +47,11 @@ export default {
       let postData = {
         performance_user_id: this.$route.params.uid,
         type: 2,
-        reason: this.reason
+        reason: this.reason ? this.reason : "同意"
       };
       postSuperConfirmTarget(postData)
         .then(res => {
-          this.$message.success("审批成功");
+          this.$message.success("提交成功");
           this.close();
           this.$router.push(
             PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
