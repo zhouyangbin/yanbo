@@ -113,11 +113,21 @@
       </ul>
     </section>
     <el-row class="footer-button">
-      <el-button v-if="currentType === 'my' && showApplay" @click="changeIndex"
-        >申请指标调整</el-button
-      >
+      <el-button v-if="showApplay" @click="changeIndex">申请指标调整</el-button>
+      <el-button v-if="showAgree" @click="rejectTarget">待共识</el-button>
+      <el-button v-if="showAgree" @click="agreeTarget">同意</el-button>
       <el-button @click="returnList">返回</el-button>
     </el-row>
+    <reject-dialog
+      v-if="isRejectDialog"
+      :visible="isRejectDialog"
+      @close="closeRejectDialog"
+    ></reject-dialog>
+    <agree-dialog
+      v-if="isAgreeDialog"
+      :visible="isAgreeDialog"
+      @close="closeAgreeDialog"
+    ></agree-dialog>
   </div>
 </template>
 <script>
@@ -150,6 +160,12 @@ export default {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
     "index-header": AsyncComp(
       import("@/components/modules/seniorexecutive/indexHeader/index")
+    ),
+    "reject-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/rejectDialog/index")
+    ),
+    "agree-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/agreeDialog/index")
     )
   },
   data() {
@@ -189,7 +205,10 @@ export default {
       isFinance: false,
       currentType: this.$route.params.type,
       nowTime: "",
-      showApplay: false
+      showApplay: false,
+      showAgree: false,
+      isRejectDialog: false,
+      isAgreeDialog: false
     };
   },
   filters: {
@@ -201,6 +220,18 @@ export default {
     filterObject(val) {}
   },
   methods: {
+    rejectTarget() {
+      this.isRejectDialog = true;
+    },
+    closeRejectDialog() {
+      this.isRejectDialog = false;
+    },
+    agreeTarget() {
+      this.isAgreeDialog = true;
+    },
+    closeAgreeDialog() {
+      this.isAgreeDialog = false;
+    },
     changeIndex() {
       this.$router.push(
         PATH_PERFORMANCE_FILL_IN_INDEX(
@@ -277,11 +308,17 @@ export default {
           );
           if (
             this.nowTime.getTime() < indicatorTime.getTime() &&
-            this.userInfo.stage === 20
+            this.userInfo.stage === 20 &&
+            this.currentType === "my"
           ) {
             this.showApplay = true;
           } else {
             this.showApplay = false;
+          }
+          if (this.userInfo.stage === 10 && this.currentType === "subteam") {
+            this.showAgree = true;
+          } else {
+            this.showAgree = false;
           }
         })
         .catch(e => {});
@@ -359,7 +396,7 @@ export default {
           active: true
         }
       ];
-    } else if (this.currentType === "team") {
+    } else if (this.currentType === "team" || this.currentType === "subteam") {
       this.nav = [
         {
           label: "团队评分",

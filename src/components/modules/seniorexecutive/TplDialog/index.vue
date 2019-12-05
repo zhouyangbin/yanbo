@@ -353,7 +353,7 @@ export default {
             return false;
           }
           for (let i = 0; i < newSort.length; i++) {
-            if (newSort[i] == newSort[i + 1] != 0) {
+            if ((newSort[i] == newSort[i + 1]) != 0) {
               this.$alert("排序不能相同!");
               return false;
             }

@@ -423,6 +423,10 @@ export const getExecutiveAdminTagTypes = () =>
 export const getExecutivePerformanceTagTypes = (id: String) =>
   sendGet(`/executive-performance/admin/performances/${id}/get-tag-rules`);
 
+// 高管绩效  根据绩效id获取标签类型列表
+export const getExecutivePerformanceWebTagTypes = (id: String) =>
+  sendGet(`/executive-performance/web/performances/${id}/get-tag-rules`);
+
 // 高管绩效  标签规则列表 253，272，2521，23221，现在是前端在常量里自己写的一份
 export const getExecutiveAdminTagTypesRules = (type: String) =>
   sendGet(`/executive-performance/admin/tag-types/${type}/rules`);
@@ -589,8 +593,8 @@ export const putExecutiveEmployeeInfo = (
   );
 
 // 高管绩效  提醒
-export const getExecutivePerformanceNotice = (id: String) =>
-  sendGet(`/executive-performance/admin/performances/${id}/notice`);
+export const postExecutivePerformanceNotice = (params: Object) =>
+  sendPost(`/executive-performance/admin/message`, params);
 
 // 高管绩效  删除人员
 export const deleteExecutivePerformanceUser = (

@@ -697,7 +697,7 @@ import {
   getExecutivePerformanceUser,
   getCurrentExecutiveTypes,
   getUserDetail,
-  getExecutivePerformanceNotice,
+  postExecutivePerformanceNotice,
   deleteExecutivePerformanceUser,
   getExecutivePerformanceTagTypes
 } from "@/constants/API";
@@ -939,7 +939,11 @@ export default {
       );
     },
     reminder() {
-      getExecutivePerformanceNotice(this.performanceId)
+      let data = {
+        performance_id: this.performanceId,
+        performance_user_ids: this.performance_user_ids
+      };
+      postExecutivePerformanceNotice(data)
         .then(res => {
           this.$message({
             message: "提醒成功",
