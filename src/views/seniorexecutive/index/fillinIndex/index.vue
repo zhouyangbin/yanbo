@@ -425,7 +425,6 @@ export default {
         for (let m = 0; m < this.indexTpl.length; m++) {
           data[this.indexTpl[m].key] = this.indexTpl[m];
         }
-        console.log(data);
         this.$confirm("是否确认提交指标?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消"
@@ -441,7 +440,7 @@ export default {
                   )
                 );
               })
-              .catch(e => {});
+              .catch(error => {});
           })
           .catch(e => {});
       }
@@ -463,13 +462,22 @@ export default {
       return subTotal;
     },
     addTarget(index) {
-      let data = this.indexTpl[index].template_columns;
-      for (let key in data) {
-        if (typeof data[key] == "string") {
-          data[key] = "";
-        }
-      }
-      this.indexTpl[index].targets.push(data);
+      let data = this.indexTpl[index].targets[0] || {};
+      let newTarget = {
+        id: data.id || 0,
+        content: "",
+        disqualification: "",
+        excellence: "",
+        good: "",
+        outstanding: "",
+        performance_id: data.performance_id || this.$route.params.id,
+        performance_user_id: data.performance_user_id || this.$route.params.uid,
+        target: "",
+        to_be_improved: "",
+        type: data.type || "",
+        weights: ""
+      };
+      this.indexTpl[index].targets.push(newTarget);
     },
     getTableLen(index) {
       return this.indexTpl[index].targets.length;
