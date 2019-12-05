@@ -91,6 +91,7 @@
           >
         </el-checkbox-group>
       </el-form-item>
+      <!-- // !fix  -->
       <el-form-item
         :class="item.key === 'team' ? '' : 'is-required'"
         v-for="item in tplForm.performance_indicator_types"
@@ -464,6 +465,11 @@ export default {
           performance_indicator_types
         };
       });
+    } else {
+      Object.keys(this.indicatorTypes).forEach(key => {
+        this.indicatorTypes[key].weight = 0;
+        this.indicatorTypes[key].sort = 0;
+      })
     }
   }
 };
