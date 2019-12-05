@@ -313,7 +313,7 @@ export default {
             });
             return false;
           }
-          this.disabledBtn = true;
+          // this.disabledBtn = true;
           if (this.infoType == "add") {
             return postExecutiveAddAssessment(this.ruleForm).then(res => {
               this.$emit("update", res.id);
