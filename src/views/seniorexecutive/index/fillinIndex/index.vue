@@ -649,6 +649,18 @@ export default {
     };
     getExecutiveApprovalRecords(data)
       .then(res => {
+        res.records.forEach(v => {
+          if (v.sign === "green") {
+            v["icon"] = "el-icon-check";
+            v["color"] = "rgb(41, 197, 80)";
+          } else if (v.sign === "red") {
+            v["icon"] = "my-icon";
+            v["color"] = "";
+          } else if (v.sign === "blue") {
+            v["icon"] = "my-affriming";
+            v["color"] = "";
+          }
+        });
         this.approvalData = res.records || [];
         this.showApprovalBtn = this.approvalData.length ? true : false;
       })

@@ -7,9 +7,8 @@
     width="700px"
     @close="close"
   >
-    <span style="color:red" v-if="data != []">还没有审核记录</span>
     <el-timeline class="line">
-      <el-row v-for="(item, index) in lineData" :key="index">
+      <el-row v-for="(item, index) in approvalData" :key="index">
         <el-col :span="4">{{ item.stage }}</el-col>
         <el-col :span="20">
           <el-timeline-item :color="item.color" :icon="item.icon">
@@ -34,7 +33,7 @@
                   }}</el-tag>
                 </el-row>
                 <el-row v-if="item.reason">意见：{{ item.reason }}</el-row>
-                <el-row class="time">{{ item.create_at }}</el-row>
+                <el-row class="time">{{ item.created_at }}</el-row>
               </el-col>
             </el-row>
           </el-timeline-item>
@@ -66,32 +65,6 @@ export default {
     close() {
       this.$emit("close");
     },
-    getExamineDetail() {
-      let data = {
-        performance_user_id: this.perforamnce_user_id
-      };
-      // getExecutiveApprovalRecords(data)
-      //   .then(res => {
-      //     this.data = res;
-      //     this.lineData = res.records;
-      //     res.records.forEach(v => {
-      //       if (v.sign === "green") {
-      //         v["icon"] = "el-icon-check";
-      //         v["color"] = "rgb(41, 197, 80)";
-      //       } else if (v.sign === "red") {
-      //         v["icon"] = "my-icon";
-      //         v["color"] = "";
-      //       } else if (v.sign === "blue") {
-      //         v["icon"] = "my-affriming";
-      //         v["color"] = "";
-      //       }
-      //     });
-      //   })
-      //   .catch(() => {});
-    },
-    /**
-     * 区分状态显示
-     */
     showStatus(status) {
       let state = "";
       switch (status) {
@@ -113,9 +86,6 @@ export default {
       }
       return state;
     },
-    /**
-     * 根据不同的状态加载不同的标签类型
-     */
     showType(status) {
       let type = "";
       switch (status) {
@@ -137,10 +107,6 @@ export default {
       }
       return type;
     }
-  },
-  mounted() {
-    console.log(this.approvalData);
-    // this.getExamineDetail();
   }
 };
 </script>
