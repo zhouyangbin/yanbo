@@ -9,7 +9,7 @@ module.exports = {
   devServer: {
     // proxy: "http://api.gamesife.com"
     //proxy: "https://pingfen-performance-api.chengjiukehu.com"
-    proxy: "https://pingfen-api.chengjiukehu.com"
+    proxy: "https://pingfen-performance-api.chengjiukehu.com"
   },
   chainWebpack: config => {
     config.resolve.alias.set("@assets", path.join(projectRoot, "src/assets"));

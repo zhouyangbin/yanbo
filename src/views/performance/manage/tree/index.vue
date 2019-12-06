@@ -31,7 +31,8 @@ export default {
     height: {
       type: String,
       default: "90%"
-    }
+    },
+    
   },
   data() {
     return {
@@ -42,7 +43,8 @@ export default {
           label: GRADE_MANAGE,
           href: PATH_PERFORMANCE_MANAGER
         }
-      ]
+      ],
+      workcode_arr:[],
     };
   },
   components: {

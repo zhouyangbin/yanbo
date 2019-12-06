@@ -95,11 +95,14 @@
       <el-row v-if="is_state" type="flex" justify="center">
         <div>
           到期将默认确认结果, 如有问题可
-          <el-button @click="visible = true" type="primary">
+          <el-button @click="user_confirm = true" type="primary">
             确认
           </el-button>
           <el-button @click="visible = true" type="warning">
             {{ constants.APPEAL }}
+          </el-button>
+          <el-button @click="user_confirm = true" type="warning">
+            取消申诉
           </el-button>
         </div>
       </el-row>
@@ -108,6 +111,22 @@
           {{ constants.CANCEL_APPEAL }}
         </el-button>
       </el-row>
+      <el-dialog
+        title="提示"
+        :visible.sync="user_confirm"
+        class="dialog"
+        width="30%"
+      >
+        <p class="text-center"> 是否确认成绩 </p>
+        <span class="text-center" slot="footer">
+          <el-button @click="user_confirm=false">
+            取消
+          </el-button>
+          <el-button type="primary">
+            确认
+          </el-button>
+        </span>
+      </el-dialog>
       <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
     </section>
   </div>
@@ -174,7 +193,8 @@ export default {
       self_score: 0,
       is_state: false,
       old_s: false,
-      label_id: null
+      label_id: null,
+      user_confirm:false,
     };
   },
   components: {
@@ -517,5 +537,8 @@ export default {
 .my-grade-page .inner-container {
   display: flex;
   color: grey;
+}
+.dialog >>> .el-dialog__footer {
+  text-align: center;
 }
 </style>

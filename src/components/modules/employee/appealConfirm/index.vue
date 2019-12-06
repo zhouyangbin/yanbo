@@ -17,6 +17,8 @@
           type="textarea"
           :maxlength="1000"
           v-model="rejectForm.reason"
+          placeholder="请填写申诉理由"
+          row="5"
         ></el-input>
       </el-form-item>
     </el-form>
