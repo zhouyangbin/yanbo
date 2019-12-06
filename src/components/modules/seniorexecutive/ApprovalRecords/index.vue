@@ -44,16 +44,16 @@
   </el-dialog>
 </template>
 <script>
-import { getExecutiveExamineLog } from "@/constants/API";
+import { getExecutiveApprovalRecords } from "@/constants/API";
 export default {
   props: {
     isExamineDialog: {
       type: Boolean,
       default: false
     },
-    perforamnce_user_id: {
-      tyoe: String,
-      default: ""
+    approvalData: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -66,31 +66,28 @@ export default {
     close() {
       this.$emit("close");
     },
-    /**
-     * 得到审批记录的数据
-     */
     getExamineDetail() {
       let data = {
         performance_user_id: this.perforamnce_user_id
       };
-      getExecutiveExamineLog(data)
-        .then(res => {
-          this.data = res;
-          this.lineData = res.records;
-          res.records.forEach(v => {
-            if (v.sign === "green") {
-              v["icon"] = "el-icon-check";
-              v["color"] = "rgb(41, 197, 80)";
-            } else if (v.sign === "red") {
-              v["icon"] = "my-icon";
-              v["color"] = "";
-            } else if (v.sign === "blue") {
-              v["icon"] = "my-affriming";
-              v["color"] = "";
-            }
-          });
-        })
-        .catch(() => {});
+      // getExecutiveApprovalRecords(data)
+      //   .then(res => {
+      //     this.data = res;
+      //     this.lineData = res.records;
+      //     res.records.forEach(v => {
+      //       if (v.sign === "green") {
+      //         v["icon"] = "el-icon-check";
+      //         v["color"] = "rgb(41, 197, 80)";
+      //       } else if (v.sign === "red") {
+      //         v["icon"] = "my-icon";
+      //         v["color"] = "";
+      //       } else if (v.sign === "blue") {
+      //         v["icon"] = "my-affriming";
+      //         v["color"] = "";
+      //       }
+      //     });
+      //   })
+      //   .catch(() => {});
     },
     /**
      * 区分状态显示
@@ -142,7 +139,8 @@ export default {
     }
   },
   mounted() {
-    this.getExamineDetail();
+    console.log(this.approvalData);
+    // this.getExamineDetail();
   }
 };
 </script>

@@ -203,22 +203,21 @@
           }}%
         </li>
       </ul>
-      <el-row class="footer-button">
+      <div class="footer-button">
         <el-button @click="submitForm" class="submit-button">提交</el-button>
         <el-button @click="temporaryMemory" class="tempeorary-memory"
           >暂存</el-button
         >
-        <el-button @click="checkExamine">
+        <el-button v-if="showApprovalBtn" @click="checkExamine">
           {{ constants.CHECK_EXAMINE_LOG }}
         </el-button>
-        <el-button @click="returnList">返回</el-button>
-      </el-row>
+      </div>
     </section>
-    <examine-detail
+    <approval-records
       :is-examine-dialog="isExamineDialog"
-      :perforamnce_user_id="userInfo.perforamnce_user_id"
+      :approvalData="approvalData"
       @close="closeExamine"
-    ></examine-detail>
+    ></approval-records>
   </div>
 </template>
 <script>
@@ -245,16 +244,17 @@ import {
   getExecutiveTargetContent,
   postExecutiveSaveDraft,
   postExecutiveIndexSetting,
-  getExecutiveDraft
+  getExecutiveDraft,
+  getExecutiveApprovalRecords
 } from "@/constants/API";
 export default {
   components: {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
     "index-header": AsyncComp(
-      import("@/components/modules/seniorexecutive/indexHeader/index")
+      import("@/components/modules/seniorexecutive/IndexHeader/index")
     ),
-    "examine-detail": AsyncComp(
-      import("@/components/modules/employee/checkExamineDetail/index")
+    "approval-records": AsyncComp(
+      import("@/components/modules/seniorexecutive/ApprovalRecords/index")
     )
   },
   data() {
@@ -317,7 +317,9 @@ export default {
       isTeam: false,
       isWork: false,
       isFinance: false,
-      isGetInitData: true
+      isGetInitData: true,
+      approvalData: [],
+      showApprovalBtn: false
     };
   },
   filters: {
@@ -444,13 +446,6 @@ export default {
           })
           .catch(e => {});
       }
-    },
-    returnList() {
-      postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
-        .then(res => {
-          this.$router.go(-1);
-        })
-        .catch(e => {});
     },
     handleSubTotal(key) {
       let subTotal = 0;
@@ -649,6 +644,20 @@ export default {
   created() {
     this.getUserInfo();
     this.getUserDraft();
+    let data = {
+      performance_user_id: this.$route.params.uid
+    };
+    getExecutiveApprovalRecords(data)
+      .then(res => {
+        this.approvalData = res.records || [];
+        this.showApprovalBtn = this.approvalData.length ? true : false;
+      })
+      .catch(e => {});
+  },
+  beforeDestroy() {
+    postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
+      .then(res => {})
+      .catch(e => {});
   }
 };
 </script>

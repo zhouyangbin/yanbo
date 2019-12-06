@@ -84,11 +84,11 @@ export default {
   components: {
     "nav-bar": () => import("@/components/common/Navbar/index.vue"),
     "detail-header": () =>
-      import("@/components/modules/seniorexecutive/indexHeader/index"),
+      import("@/components/modules/seniorexecutive/IndexHeader/index"),
     "target-content": () =>
       import("@/components/modules/employee/targetDetailContent/index"),
     "examine-detail": () =>
-      import("@/components/modules/employee/checkExamineDetail/index")
+      import("@/components/modules/seniorexecutive/ApprovalRecords/index")
   },
   methods: {
     /**
