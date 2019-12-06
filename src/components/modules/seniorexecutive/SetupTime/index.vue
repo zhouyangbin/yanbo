@@ -2,44 +2,51 @@
   <el-dialog
     :close-on-click-modal="false"
     @close="close"
-    width="650px"
+    width="770px"
     :visible="visible"
     class="setup-time"
   >
     <div slot="title" class="title">修改时间</div>
     <el-form
       label-width="140px"
-      :rules="timeFormRules"
-      ref="timeForm"
-      :model="timeForm"
-      class="time-form"
+      :rules="timesRules"
+      ref="timesForm"
+      :model="timesForm"
+      class="times-form"
     >
-      <el-form-item label="整体考核起止时间" prop="end_time">
-        <div>
-          <el-date-picker
-            :disabled="startDisable"
-            :clearable="false"
-            :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm"
-            popper-class="date-picker-container"
-            format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.start_time"
-            type="datetime"
-            placeholder="请选择"
-          ></el-date-picker>
-          <span>&nbsp; 至 &nbsp;</span>
-          <el-date-picker
-            :disabled="endDisable"
-            :clearable="false"
-            :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm"
-            popper-class="date-picker-container"
-            format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.end_time"
-            type="datetime"
-            placeholder="请选择"
-          ></el-date-picker>
-        </div>
+      <el-form-item label="整体考核起止时间" required>
+        <el-row type="flex">
+          <el-col :span="10">
+            <el-form-item prop="start_time">
+              <el-date-picker
+                :disabled="startDisable"
+                :clearable="false"
+                :picker-options="pickerOptions"
+                value-format="yyyy-MM-dd HH:mm"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.start_time"
+                type="datetime"
+                placeholder="请选择整体考核开始时间"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item prop="end_time">
+              <el-date-picker
+                :disabled="endDisable"
+                :clearable="false"
+                :picker-options="pickerOptions"
+                value-format="yyyy-MM-dd HH:mm"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.end_time"
+                type="datetime"
+                placeholder="请选择整体考核结束时间"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form-item>
       <el-form-item label="指标设定截止时间" prop="indicator_setting_end_time">
         <el-date-picker
@@ -49,9 +56,9 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.indicator_setting_end_time"
+          v-model="timesForm.indicator_setting_end_time"
           type="datetime"
-          placeholder="请选择"
+          placeholder="请选择指标设定截止时间"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="自评开始时间" prop="self_evaluation_begin_time">
@@ -62,9 +69,9 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.self_evaluation_begin_time"
+          v-model="timesForm.self_evaluation_begin_time"
           type="datetime"
-          placeholder="请选择"
+          placeholder="请选择自评开始时间"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="上级评分开始时间" prop="superior_begin_time">
@@ -75,9 +82,9 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.superior_begin_time"
+          v-model="timesForm.superior_begin_time"
           type="datetime"
-          placeholder="请选择"
+          placeholder="请选择上级评分开始时间"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="隔级审核开始时间" prop="isolation_begin_time">
@@ -88,9 +95,9 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.isolation_begin_time"
+          v-model="timesForm.isolation_begin_time"
           type="datetime"
-          placeholder="请选择"
+          placeholder="请选择隔级审核开始时间"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="总裁审核开始时间" prop="president_audit_begin_time">
@@ -101,9 +108,9 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.president_audit_begin_time"
+          v-model="timesForm.president_audit_begin_time"
           type="datetime"
-          placeholder="请选择"
+          placeholder="请选择总裁审核开始时间"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="结果确认截止时间" prop="result_confirm_end_time">
@@ -114,37 +121,44 @@
           value-format="yyyy-MM-dd HH:mm"
           popper-class="date-picker-container"
           format="yyyy-MM-dd HH:mm"
-          v-model="timeForm.result_confirm_end_time"
+          v-model="timesForm.result_confirm_end_time"
           type="datetime"
-          placeholder="请选择"
+          placeholder="请选择指结果确认截止时间"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item v-if="initTime.allow_appeal" label="可申诉时间段">
-        <div>
-          <el-date-picker
-            :disabled="appealBeginDisable"
-            :clearable="false"
-            :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm"
-            popper-class="date-picker-container"
-            format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.appeal_begin_time"
-            type="datetime"
-            placeholder="请选择"
-          ></el-date-picker>
-          <span>&nbsp; 至 &nbsp;</span>
-          <el-date-picker
-            :disabled="appealEndDisable"
-            :clearable="false"
-            :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm"
-            popper-class="date-picker-container"
-            format="yyyy-MM-dd HH:mm"
-            v-model="timeForm.appeal_end_time"
-            type="datetime"
-            placeholder="请选择"
-          ></el-date-picker>
-        </div>
+      <el-form-item v-if="timesForm.allow_appeal" label="可申诉时间段" required>
+        <el-row type="flex">
+          <el-col :span="10">
+            <el-form-item prop="appeal_begin_time">
+              <el-date-picker
+                :disabled="appealBeginDisable"
+                :clearable="false"
+                :picker-options="pickerOptions"
+                value-format="yyyy-MM-dd HH:mm"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.appeal_begin_time"
+                type="datetime"
+                placeholder="请选择可申诉开始时间"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item prop="appeal_end_time">
+              <el-date-picker
+                :disabled="appealEndDisable"
+                :clearable="false"
+                :picker-options="pickerOptions"
+                value-format="yyyy-MM-dd HH:mm"
+                popper-class="date-picker-container"
+                format="yyyy-MM-dd HH:mm"
+                v-model="timesForm.appeal_end_time"
+                type="datetime"
+                placeholder="请选择可申诉结束时间"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -179,26 +193,26 @@ export default {
   data() {
     const endTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
-        callback(new Error("考核结束时间不能小于开始时间"));
+        callback(new Error("整体考核结束时间不能小于开始时间"));
       } else {
         callback();
       }
     };
     const indicatorTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("指标设定截止时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.end_time <= value
       ) {
         callback(new Error("指标设定截止时间不能大于考核结束时间"));
       } else {
@@ -207,15 +221,15 @@ export default {
     };
     const selfTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("自评开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.end_time <= value
       ) {
         callback(new Error("自评开始时间不能大于考核结束时间"));
       } else {
@@ -224,15 +238,15 @@ export default {
     };
     const superiorTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("上级评开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.end_time <= value
       ) {
         callback(new Error("上级评开始时间不能大于考核结束时间"));
       } else {
@@ -241,15 +255,15 @@ export default {
     };
     const isolationTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("隔级审核开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.end_time <= value
       ) {
         callback(new Error("隔级审核开始时间不能大于考核结束时间"));
       } else {
@@ -258,15 +272,15 @@ export default {
     };
     const presidentTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("总裁审核开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.end_time <= value
       ) {
         callback(new Error("总裁审核开始时间不能大于考核结束时间"));
       } else {
@@ -275,15 +289,15 @@ export default {
     };
     const resultTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("结果确认截止时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.end_time <= value
       ) {
         callback(new Error("结果确认截止时间不能大于考核结束时间"));
       } else {
@@ -292,44 +306,44 @@ export default {
     };
     const appealBeginTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("申诉开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.result_confirm_end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.result_confirm_end_time < value
       ) {
-        callback(new Error("申诉开始时间不能大于考核结束时间"));
+        callback(new Error("申诉开始时间不能大于结果确认截止时间"));
       } else {
         callback();
       }
     };
     const appealEndTimeValidator = (rule, value, callback) => {
       if (
-        this.timeForm.start_time &&
+        this.timesForm.start_time &&
         value &&
-        value <= this.timeForm.start_time
+        value <= this.timesForm.start_time
       ) {
         callback(new Error("申诉结束时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timesForm.result_confirm_end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timesForm.result_confirm_end_time < value
       ) {
-        callback(new Error("申诉结束时间不能大于考核结束时间"));
+        callback(new Error("申诉结束时间不能大于结果确认截止时间"));
       } else if (
-        this.timeForm.appeal_begin_time &&
+        this.timesForm.appeal_begin_time &&
         value &&
-        value <= this.timeForm.appeal_begin_time
+        value <= this.timesForm.appeal_begin_time
       ) {
         callback(new Error("申诉结束时间不能小于开始时间"));
       } else if (
-        this.timeForm.result_confirm_end_time &&
+        this.timesForm.result_confirm_end_time &&
         value &&
-        this.timeForm.result_confirm_end_time < value
+        this.timesForm.result_confirm_end_time < value
       ) {
         callback(new Error("申诉结束时间需小于等于结果确认截止时间"));
       } else {
@@ -337,34 +351,84 @@ export default {
       }
     };
     return {
-      timeFormRules: {
-        end_time: [{ validator: endTimeValidator, trigger: "change" }],
+      timesRules: {
+        start_time: [
+          {
+            required: true,
+            message: "请选择整体考核开始时间",
+            trigger: "change"
+          }
+        ],
+        end_time: [
+          {
+            required: true,
+            message: "请选择整体考核结束时间",
+            trigger: "change"
+          },
+          { validator: endTimeValidator, trigger: "change" }
+        ],
         indicator_setting_end_time: [
+          {
+            required: true,
+            message: "请选择指标设定截止时间",
+            trigger: "change"
+          },
           { validator: indicatorTimeValidator, trigger: "change" }
         ],
         self_evaluation_begin_time: [
+          { required: true, message: "请选择自评开始时间", trigger: "change" },
           { validator: selfTimeValidator, trigger: "change" }
         ],
         superior_begin_time: [
+          {
+            required: true,
+            message: "请选择上级评分开始时间",
+            trigger: "change"
+          },
           { validator: superiorTimeValidator, trigger: "change" }
         ],
         isolation_begin_time: [
+          {
+            required: true,
+            message: "请选择隔级审核开始时间",
+            trigger: "change"
+          },
           { validator: isolationTimeValidator, trigger: "change" }
         ],
         president_audit_begin_time: [
+          {
+            required: true,
+            message: "请选择总裁审核开始时间",
+            trigger: "change"
+          },
           { validator: presidentTimeValidator, trigger: "change" }
         ],
         result_confirm_end_time: [
+          {
+            required: true,
+            message: "请选择指结果确认截止时间",
+            trigger: "change"
+          },
           { validator: resultTimeValidator, trigger: "change" }
         ],
         appeal_begin_time: [
+          {
+            required: true,
+            message: "请选择可申诉开始时间",
+            trigger: "change"
+          },
           { validator: appealBeginTimeValidator, trigger: "change" }
         ],
         appeal_end_time: [
+          {
+            required: true,
+            message: "请选择可申诉结束时间",
+            trigger: "change"
+          },
           { validator: appealEndTimeValidator, trigger: "change" }
         ]
       },
-      timeForm: {
+      timesForm: {
         start_time: this.initTime.start_time || "",
         end_time: this.initTime.end_time || "",
         indicator_setting_end_time:
@@ -377,7 +441,8 @@ export default {
           this.initTime.president_audit_begin_time || "",
         result_confirm_end_time: this.initTime.result_confirm_end_time || "",
         appeal_begin_time: this.initTime.appeal_begin_time || "",
-        appeal_end_time: this.initTime.appeal_end_time || ""
+        appeal_end_time: this.initTime.appeal_end_time || "",
+        allow_appeal: this.initTime.allow_appeal || 0
       }
     };
   },
@@ -386,9 +451,9 @@ export default {
       this.$emit("close");
     },
     submit() {
-      this.$refs["timeForm"].validate(valid => {
+      this.$refs["timesForm"].validate(valid => {
         if (valid) {
-          postExecutivePerformanceSetTime(this.performanceId, this.timeForm)
+          postExecutivePerformanceSetTime(this.performanceId, this.timesForm)
             .then(res => {
               this.$emit("update");
             })
@@ -398,7 +463,7 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$refs["timeForm"].resetFields();
+    this.$refs["timesForm"].resetFields();
   },
   computed: {
     pickerOptions() {

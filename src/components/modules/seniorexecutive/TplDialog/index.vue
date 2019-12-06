@@ -91,7 +91,6 @@
           >
         </el-checkbox-group>
       </el-form-item>
-      <!-- // !fix  -->
       <el-form-item
         :class="item.key === 'team' ? '' : 'is-required'"
         v-for="item in tplForm.performance_indicator_types"
