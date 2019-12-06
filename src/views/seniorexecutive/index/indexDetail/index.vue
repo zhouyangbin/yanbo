@@ -116,8 +116,15 @@
     </section>
     <div class="footer-button">
       <el-button v-if="showApplay" @click="changeIndex">申请指标调整</el-button>
-      <el-button class="tempeorary-memory" v-if="showAgree" @click="rejectTarget">待共识</el-button>
-      <el-button class="submit-button" v-if="showAgree" @click="agreeTarget">同意</el-button>
+      <el-button
+        class="tempeorary-memory"
+        v-if="showAgree"
+        @click="rejectTarget"
+        >待共识</el-button
+      >
+      <el-button class="submit-button" v-if="showAgree" @click="agreeTarget"
+        >同意</el-button
+      >
       <el-button v-if="showApprovalBtn" @click="checkExamine">{{
         constants.CHECK_EXAMINE_LOG
       }}</el-button>
