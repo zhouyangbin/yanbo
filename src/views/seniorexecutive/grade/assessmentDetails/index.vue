@@ -851,7 +851,8 @@ export default {
           .president_audit_begin_time,
         result_confirm_end_time: this.performanceDetail.result_confirm_end_time,
         appeal_begin_time: this.performanceDetail.appeal_begin_time,
-        appeal_end_time: this.performanceDetail.appeal_end_time
+        appeal_end_time: this.performanceDetail.appeal_end_time,
+        allow_appeal: this.performanceDetail.allow_appeal
       };
     }
   },
