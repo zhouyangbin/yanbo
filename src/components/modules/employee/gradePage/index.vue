@@ -217,14 +217,23 @@ export default {
       );
     },
     total() {
+      let total = parseFloat(
+        this.targets
+          .map(v => v.weights * (v.mark || 0))
+          .reduce((pre, next) => pre + next, 0) +
+          (this.leaderAdditionMark.score || 0)
+      ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)
-        : parseFloat(
-            this.targets
-              .map(v => v.weights * (v.mark || 0))
-              .reduce((pre, next) => pre + next, 0) +
-              (parseFloat(this.myAdditionMark.score) || 0)
-          ).toFixed(2);
+        : (Math.round(total * 100) / 100).toFixed(2);
+      // return this.superior_score && this.superior_score.score != null
+      //   ? parseFloat(this.superior_score.score)
+      //   : parseFloat(
+      //       this.targets
+      //         .map(v => v.weights * (v.mark || 0))
+      //         .reduce((pre, next) => pre + next, 0) +
+      //         (parseFloat(this.myAdditionMark.score) || 0)
+      //     ).toFixed(2);
     },
     score() {
       return (parseFloat(this.myAdditionMark.score) || 0).toFixed(2);

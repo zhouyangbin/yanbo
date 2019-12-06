@@ -200,7 +200,8 @@ export default {
       },
       high_level_show: 0,
       self_score: 0,
-      disabled: false
+      disabled: false,
+      new_total: ""
     };
   },
   components: {
@@ -224,14 +225,24 @@ export default {
       );
     },
     total() {
+      let total = parseFloat(
+        this.targets
+          .map(v => v.weights * (v.mark || 0))
+          .reduce((pre, next) => pre + next, 0) +
+          (this.leaderAdditionMark.score || 0)
+      ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)
-        : parseFloat(
-            this.targets
-              .map(v => v.weights * (v.mark || 0))
-              .reduce((pre, next) => pre + next, 0) +
-              (parseFloat(this.myAdditionMark.score) || 0)
-          ).toFixed(2);
+        : (Math.round(total * 100) / 100).toFixed(2);
+
+      // return this.superior_score && this.superior_score.score != null
+      //   ? parseFloat(this.superior_score.score)
+      //   : parseFloat(
+      //       this.targets
+      //         .map(v => v.weights * (v.mark || 0))
+      //         .reduce((pre, next) => pre + next, 0) +
+      //         (parseFloat(this.myAdditionMark.score) || 0)
+      //     ).toFixed(2);
     },
     score() {
       return (parseFloat(this.myAdditionMark.score) || 0).toFixed(2);
@@ -316,6 +327,7 @@ export default {
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
+          this.new_total = superior_score == null ? "" : superior_score.score;
           this.disabled = disabled;
           this.high_level_show =
             superior_attach_score != null ? superior_attach_score.score : null; //如果有上级评分，就展示评分
