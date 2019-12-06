@@ -299,10 +299,10 @@ export default {
       },
       tagTypesList: [],
       // 切换的数据暂时先这样写，看后台接口如何定义字段，并且在form表单里校验是否必填
-      // table253: [],
-      // table271: DEFAULT_TABLE271,
-      // table23221: DEFAULT_PERFORMANCE_TABLE23221,
-      // table2521: DEFAULT_TABLE2521,
+      table253: [],
+      table271: [],
+      table23221: [],
+      table2521: [],
       tagName: ""
     };
   },
