@@ -182,7 +182,8 @@ export default {
       },
       showReviewDia: false,
       operate_status: true,
-      old_s: "" //是否为老数据
+      old_s: "", //是否为老数据
+      new_total: ""
     };
   },
   components: {
@@ -202,12 +203,19 @@ export default {
   computed: {
     total() {
       // sum(目标分数*权重) + 上级加减分
-      return parseFloat(
+      // return parseFloat(
+      //   this.targets
+      //     .map(v => v.weights * (v.mark || 0))
+      //     .reduce((pre, next) => pre + next, 0) +
+      //     (parseFloat(this.leaderAdditionMark.score) || 0)
+      // ).toFixed(2);
+      let total = parseFloat(
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (parseFloat(this.leaderAdditionMark.score) || 0)
-      ).toFixed(2);
+          (this.leaderAdditionMark.score || 0)
+      ).toFixed(8);
+      return (Math.round(total * 100) / 100).toFixed(2);
     },
 
     shouldMapping() {
@@ -311,6 +319,7 @@ export default {
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
+          this.new_total = superior_score == null ? "" : superior_score.score;
           this.comments = superior_score && superior_score.evaluation;
           this.level =
             score_level || (superior_score && superior_score.score_level);
