@@ -106,7 +106,7 @@
           placeholder="请选择"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="结果确认开始时间" prop="result_confirm_end_time">
+      <el-form-item label="结果确认截止时间" prop="result_confirm_end_time">
         <el-date-picker
           :disabled="resultDisable"
           :clearable="false"
@@ -119,7 +119,7 @@
           placeholder="请选择"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="可申诉时间段">
+      <el-form-item v-if="initTime.allow_appeal" label="可申诉时间段">
         <div>
           <el-date-picker
             :disabled="appealBeginDisable"
