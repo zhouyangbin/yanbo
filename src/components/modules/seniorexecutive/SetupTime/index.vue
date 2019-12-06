@@ -119,7 +119,7 @@
           placeholder="请选择"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item v-if="initTime.allow_appeal" label="可申诉时间段">
+      <el-form-item v-if="timeForm.allow_appeal" label="可申诉时间段">
         <div>
           <el-date-picker
             :disabled="appealBeginDisable"
@@ -298,11 +298,11 @@ export default {
       ) {
         callback(new Error("申诉开始时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timeForm.result_confirm_end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timeForm.result_confirm_end_time < value
       ) {
-        callback(new Error("申诉开始时间不能大于考核结束时间"));
+        callback(new Error("申诉开始时间不能大于结果确认截止时间"));
       } else {
         callback();
       }
@@ -315,11 +315,11 @@ export default {
       ) {
         callback(new Error("申诉结束时间不能小于考核开始时间"));
       } else if (
-        this.timeForm.end_time &&
+        this.timeForm.result_confirm_end_time &&
         value &&
-        this.timeForm.end_time <= value
+        this.timeForm.result_confirm_end_time < value
       ) {
-        callback(new Error("申诉结束时间不能大于考核结束时间"));
+        callback(new Error("申诉结束时间不能大于结果确认截止时间"));
       } else if (
         this.timeForm.appeal_begin_time &&
         value &&
@@ -377,7 +377,8 @@ export default {
           this.initTime.president_audit_begin_time || "",
         result_confirm_end_time: this.initTime.result_confirm_end_time || "",
         appeal_begin_time: this.initTime.appeal_begin_time || "",
-        appeal_end_time: this.initTime.appeal_end_time || ""
+        appeal_end_time: this.initTime.appeal_end_time || "",
+        allow_appeal: this.initTime.allow_appeal || 0
       }
     };
   },
