@@ -809,10 +809,6 @@ export const ADD_TARGET_LINE = "添加考核项";
 export const FINANCE_DIMENSIONALITY_SUBTOTAL = "财务维度小计";
 export const STAGEOPTIONS = [
   {
-    key: 0,
-    value: "待导入目标"
-  },
-  {
     key: 1,
     value: "指标填写中"
   },

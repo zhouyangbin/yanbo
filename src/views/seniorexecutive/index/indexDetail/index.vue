@@ -116,8 +116,8 @@
     </section>
     <div class="footer-button">
       <el-button v-if="showApplay" @click="changeIndex">申请指标调整</el-button>
-      <el-button v-if="showAgree" @click="rejectTarget">待共识</el-button>
-      <el-button v-if="showAgree" @click="agreeTarget">同意</el-button>
+      <el-button class="tempeorary-memory" v-if="showAgree" @click="rejectTarget">待共识</el-button>
+      <el-button class="submit-button" v-if="showAgree" @click="agreeTarget">同意</el-button>
       <el-button v-if="showApprovalBtn" @click="checkExamine">{{
         constants.CHECK_EXAMINE_LOG
       }}</el-button>
@@ -126,6 +126,7 @@
       v-if="isRejectDialog"
       :visible="isRejectDialog"
       @close="closeRejectDialog"
+      @update="jumpPage"
     ></reject-dialog>
     <agree-dialog
       v-if="isAgreeDialog"
@@ -236,6 +237,9 @@ export default {
     filterObject(val) {}
   },
   methods: {
+    jumpPage() {
+      this.$router.push(PATH_EMPLOYEE_TEAM);
+    },
     checkExamine() {
       this.isExamineDialog = true;
     },
@@ -558,6 +562,16 @@ export default {
   .footer-button {
     text-align: center;
     margin: 20px 0;
+    .submit-button {
+      background-color: #38d0af;
+      color: #ffffff;
+      border: 1px solid #38d0af;
+    }
+    .tempeorary-memory {
+      background-color: #66a8ff;
+      color: #ffffff;
+      border: 1px solid #66a8ff;
+    }
   }
 }
 </style>
