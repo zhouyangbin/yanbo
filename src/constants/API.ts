@@ -541,7 +541,7 @@ export const postSuperConfirmTarget = (params: Object) =>
   sendPost(`/executive-performance/web/target/confirm`, params);
 
 // 高管绩效  审批记录
-export const getExecutiveExamineLog = (params: Object) =>
+export const getExecutiveApprovalRecords = (params: Object) =>
   sendGet(`/executive-performance/web/approve/record`, params);
 
 // 高管绩效  获取绩效考核列表

@@ -8,7 +8,7 @@
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
-          <el-col>{{ userInfo.opinion }}</el-col>
+          <el-col class="idea-detail">{{ userInfo.opinion }}</el-col>
         </el-row>
         <el-row class="user-info flex">
           <img
@@ -209,6 +209,8 @@ export default {
     color: #303133;
     font-size: 22px;
     font-weight: 500;
+    word-wrap: break-word;
+    word-break: break-all;
   }
   .stage-img {
     position: absolute;
@@ -222,6 +224,10 @@ export default {
 .index-header .superior-idea {
   color: #eb0c00;
   margin-bottom: 20px;
+}
+.idea-detail {
+  word-wrap: break-word;
+  word-break: break-all;
 }
 .index-header .text-over {
   line-height: 20px;

@@ -289,7 +289,7 @@
               </div>
             </div>
           </div>
-          <div class="time-setting-box">
+          <div v-if="initTime.allow_appeal" class="time-setting-box">
             <div class="setting-key">可申诉时间段:</div>
             <div class="setting-value">
               {{ initTime.appeal_begin_time | filterDate }}至{{

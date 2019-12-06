@@ -58,7 +58,7 @@ export default {
           postSuperConfirmTarget(postData)
             .then(res => {
               this.$message.success("提交成功");
-              this.close();
+              this.$emit("update");
             })
             .catch(() => {});
         }
