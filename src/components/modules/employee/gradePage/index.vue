@@ -93,8 +93,7 @@
         </el-button>
       </el-row>
       <el-row v-if="is_state" type="flex" justify="center">
-        <div>
-          到期将默认确认结果, 如有问题可
+          <p>到期将默认确认结果, 如有问题可</p>
           <el-button @click="user_confirm = true" type="primary">
             确认
           </el-button>
@@ -104,11 +103,8 @@
           <el-button @click="user_confirm = true" type="warning">
             取消申诉
           </el-button>
-        </div>
-      </el-row>
-      <el-row v-if="cancelReject && published" type="flex" justify="center">
-        <el-button @click="cancel" type="primary" round size="medium">
-          {{ constants.CANCEL_APPEAL }}
+          <el-button  @click="cancel" type="warning">
+          取消申诉
         </el-button>
       </el-row>
       <el-dialog
