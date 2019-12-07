@@ -177,6 +177,13 @@ export default {
             performance_user_id
           );
           break;
+        case "self_view":
+          dst = PATH_PERFORMANCE_INDEX_DETAIL(
+            performance_id,
+            performance_user_id,
+            "my"
+          );
+          break;
         case "performance_detail":
           dst = PATH_PERFORMANCE_INDEX_DETAIL(
             performance_id,
