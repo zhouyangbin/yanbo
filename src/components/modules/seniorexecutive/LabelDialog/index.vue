@@ -224,7 +224,8 @@ import {
   postExecutiveAdminTags,
   getExecutiveAdminTagTypes,
   getExecutiveAdminTagDetails,
-  putExecutiveAdminTagChange
+  putExecutiveAdminTagChange,
+  getExecutiveAdminTagsDepartments
 } from "@/constants/API";
 import { AsyncComp } from "@/utils/asyncCom";
 export default {
@@ -303,7 +304,8 @@ export default {
       table271: [],
       table23221: [],
       table2521: [],
-      tagName: ""
+      tagName: "",
+      optionalIds: []
     };
   },
   computed: {
@@ -510,6 +512,21 @@ export default {
         this.tplForm.force_distribution = res.force_distribution ? true : false;
         this.tagName = res.tag_type;
       });
+    },
+    handleOrgTree(arr) {
+      for (var i in arr) {
+        if ("object" === typeof arr[i]) {
+          if (0 <= this.optionalIds.indexOf(arr[i].department_id)) {
+            arr[i].disabled = false;
+          } else {
+            arr[i].disabled = true;
+          }
+          if (undefined !== arr[i].children) {
+            this.handleOrgTree(arr[i].children);
+          }
+        }
+      }
+      return arr;
     }
   },
   beforeDestroy() {
@@ -517,6 +534,12 @@ export default {
   },
   created() {
     this.getAdminTagTypesList();
+    getExecutiveAdminTagsDepartments()
+      .then(res => {
+        this.optionalIds = res;
+        this.orgTree = this.handleOrgTree(this.orgTree);
+      })
+      .catch(e => {});
     if (this.infoType != "add" && this.userId) {
       this.getTagDetails();
     } else {

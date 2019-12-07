@@ -40,6 +40,12 @@ export default {
       workcode: this.code || ""
     };
   },
+  watch: {
+    code: {
+      handler: function(val, oldVal) {},
+      immediate: true
+    }
+  },
   methods: {
     searchME(query) {
       if (query !== "") {
