@@ -6,7 +6,7 @@
       <el-row class="grow">
         <el-row
           class="superior-idea flex"
-          v-if="userInfo.opinion && userInfo.stage === 0"
+          v-if="isShowUpload && userInfo.opinion && userInfo.stage === 0"
         >
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col

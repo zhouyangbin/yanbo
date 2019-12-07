@@ -679,6 +679,10 @@ export const getExecutiveTagTplDepartments = () =>
     `/executive-performance/admin/performances/get-has-tag-and-templates-departments`
   );
 
+// 高管绩效  获取已配置标签的部门
+export const getExecutiveAdminTagsDepartments = () =>
+  sendGet(`/executive-performance/admin/tags/departments`);
+
 // 高管绩效  从EHR读取名单
 export const postExecutiveImportFromEHR = (id: String, params: Object) =>
   sendPost(
