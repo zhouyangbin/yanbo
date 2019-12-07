@@ -14,7 +14,7 @@
         :index="v.label"
         >{{ v.label }}</el-menu-item
       >
-      <div @click="feedbackVisible = true" class="btn-feedback-container">
+      <div @click="feedback()" class="btn-feedback-container">
         <el-button class="btn-feedback">
           <img width="19" src="@/assets/img/feedback.png" alt />
           <span>问题反馈</span>
@@ -54,6 +54,26 @@ export default {
   methods: {
     nav(url) {
       this.$router.push(url);
+    },
+
+    feedback() {
+      let workcode = localStorage.getItem("workcode"); //workcode
+      let is_culture = location.pathname.indexOf("culture"); //是否是文化
+      let query =
+        is_culture == -1 ? "?&clientInfo=performance" : "?&clientInfo=culture";
+      if (workcode) {
+        window.open(
+          "https://feedback.100tal.com/product/2b48f9082ae641cb910508953c98445d/" +
+            workcode +
+            query
+        );
+      } else {
+        window.open(
+          "https://feedback.100tal.com/product/2b48f9082ae641cb910508953c98445d/" +
+            "null" +
+            query
+        );
+      }
     },
     onSubmitFeedback(content) {
       postFeedback({

@@ -20,6 +20,10 @@ import {
   PATH_EMPLYEE_MY_DETAIL,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYEE_TEAM_MEMEBER,
+  PATH_EMPLOYEE_LEVEL_TEAM,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
+  PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER,
   PATH_PERFORMANCE_USER_DETAIL,
   PATH_MSG_MOBILE,
   PATH_MY_CULTURE_GRADE,
@@ -37,6 +41,7 @@ import {
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
   PATH_CULTURE_LEVEL_DETAIL_HISTORY,
+  PATH_TEAM_DETAIL_MEMEBER,
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
   PATH_PERFORMANCE_TPL_SETTINGS,
   PATH_PERFORMANCE_LABEL_SETTINGS,
@@ -45,7 +50,8 @@ import {
   PATH_PERFORMANCE_INDEX_DETAIL,
   PATH_EXECUTIVE_TEAM_TARGET_CONFIRM,
   PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
-  PATH_PERFORMANCE_HIGH_TARGET_DETAIL
+  PATH_PERFORMANCE_HIGH_TARGET_DETAIL,
+  PATH_PERFORMANCE_TREE_PROGRESS
   // PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
 
@@ -145,6 +151,13 @@ const router = new Router({
           }
         },
         {
+          path: PATH_PERFORMANCE_TREE_PROGRESS(),
+          components: {
+            default: () => import("@/views/performance/manage/tree/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
           path: PATH_PERFORMANCE_ORG_LIST(),
           components: {
             default: () =>
@@ -213,6 +226,44 @@ const router = new Router({
           path: PATH_EMPLOYEE_TEAM_MEMEBER(),
           components: {
             default: () => import("@/views/employee/team/member/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_TEAM_DETAIL_MEMEBER(),
+          components: {
+            default: () =>
+              import("@/views/employee/levelteam/teamDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_LEVEL_TEAM,
+          components: {
+            default: () => import("@/views/employee/levelteam/list/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(),
+          components: {
+            default: () => import("@/views/employee/levelteam/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/employee/levelteam/gradePage/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER(),
+          components: {
+            default: () =>
+              import("@/views/employee/levelteam/member/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },

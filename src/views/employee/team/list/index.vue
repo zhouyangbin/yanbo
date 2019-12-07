@@ -153,6 +153,7 @@ export default {
       this.page = val;
       this.getList();
     },
+
     exportDetail(row) {
       // to do
       window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");

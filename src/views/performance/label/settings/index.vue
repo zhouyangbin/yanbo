@@ -9,39 +9,6 @@
           ref="conditionForm"
           style="margin-bottom:20px"
         >
-          <!--el-form-item :label="constants.BU" label-width="80px">
-            <el-select
-              v-model="evaluation_id"
-              :placeholder="constants.LABEL_SELECT_DIVISION"
-              @change="changeDepartment"
-            >
-              <el-option
-                v-for="item in departments"
-                :key="item.value"
-                :label="item.label"
-                :value="item"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item  label="事业部" label-width="120px">
-            <el-select
-              v-model="evaluation_id"
-              :placeholder="constants.LABEL_SELECT_DIVISION"
-              @change="changeDepartment"
-            >
-              <el-option
-                v-for="item in departments"
-                :key="item.value"
-                :label="item.label"
-                :value="item"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button round @click="resetForm('conditionForm')">{{
-              constants.RESET
-            }}</el-button>
-          </el-form-item-->
           <el-form-item>
             <el-button
               type="primary"
@@ -97,9 +64,10 @@
         <br />
         <pagination
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :total="total"
-          :pageSize="15"
+          :pageSize="perPage"
         ></pagination>
       </section>
     </section>
@@ -174,7 +142,8 @@ export default {
           label: LABEL_SETTING,
           active: true
         }
-      ]
+      ],
+      perPage: 10
     };
   },
   computed: {
@@ -241,6 +210,15 @@ export default {
       };
       this.getAdminTagsList(data);
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      const data = {
+        page: this.currentPage
+      };
+      this.getAdminTagsList(data);
+    },
     updateTpl(row) {
       // 修改
       this.infoType = "modify";
@@ -248,9 +226,10 @@ export default {
       this.showDialog = true;
     },
     getAdminTagsList(data) {
+      data["perPage"] = this.perPage;
       return getAdminTags(data).then(res => {
         const { data, total } = res;
-        this.total = 30;
+        this.total = total;
         this.tableData = data;
       });
     }

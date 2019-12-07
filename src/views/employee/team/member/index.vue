@@ -3,21 +3,30 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <div>
-          <span class="label">{{ constants.BASIC_INFO }}:</span>
-          <span>
-            <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
-            / {{ basicInfo.workcode }} &nbsp;&nbsp;
-            <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
-            / {{ basicInfo.name }} </span
-          >&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-        <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">{{
-            constants.LABEL_CONFIRM
-          }}</el-button>
-          <el-button @click="showReviewDia = true">返回修改</el-button>
-        </div>
+        <el-row>
+          <el-col :span="14">
+            <span class="label">{{ constants.BASIC_INFO }}:</span>
+            <span>
+              <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
+              / {{ basicInfo.workcode }} &nbsp;&nbsp;
+              <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
+              / {{ basicInfo.name }} </span
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+          </el-col>
+          <el-col :span="10" align="right" v-if="needsReview">
+            <el-button @click="passReview" type="primary">{{
+              constants.LABEL_CONFIRM
+            }}</el-button>
+            <el-button @click="showReviewDia = true">返回修改</el-button>
+          </el-col>
+        </el-row>
+        <p
+          class="label"
+          v-if="appeal_reason"
+          style="width: 100%;word-break: break-all; height: auto; color: #000;"
+        >
+          申诉理由：{{ appeal_reason }}
+        </p>
       </div>
       <br />
       <card
@@ -67,6 +76,7 @@
         v-if="!inReviewStage"
         :score="this.score"
         :total="total"
+        :high_level_show="true"
       ></total-mark>
       <br />
       <level
@@ -178,7 +188,9 @@ export default {
       },
       showReviewDia: false,
       operate_status: true,
-      old_s: "" //是否为老数据
+      old_s: "", //是否为老数据
+      appeal_reason: "", //申述理由
+      new_total: ""
     };
   },
   components: {
@@ -198,19 +210,24 @@ export default {
   computed: {
     total() {
       // sum(目标分数*权重) + 上级加减分
-      return parseFloat(
+      // return parseFloat(
+      //   this.targets.map(v => v.weights * (v.mark || 0)).reduce((pre, next) => pre + next, 0) +
+      //     (parseFloat(this.leaderAdditionMark.score) || 0)
+      // ).toFixed(2);
+      let total = parseFloat(
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (parseFloat(this.leaderAdditionMark.score) || 0)
-      ).toFixed(2);
+          (this.leaderAdditionMark.score || 0)
+      ).toFixed(8);
+      return (Math.round(total * 100) / 100).toFixed(2);
     },
 
     shouldMapping() {
       return this.rules && this.rules.length > 0;
     },
     canEdit() {
-      return this.stage == 30 || this.stage == 40;
+      return this.stage == 30; // 0 待导入目标，5 审核目标，10 已导入目标，20 开始自评，30 开始上级评，40 待确认，50 申诉中，60 已确认
     },
     needsReview() {
       return this.stage == 5;
@@ -282,6 +299,7 @@ export default {
       )
         .then(res => {
           const {
+            appeal,
             name,
             targets,
             workcode,
@@ -302,11 +320,13 @@ export default {
             workcode,
             self_attach_score
           };
+          this.appeal_reason = appeal == null ? false : appeal.reason;
           this.old_s = _s;
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
+          this.new_total = superior_score == null ? "" : superior_score.score;
           this.comments = superior_score && superior_score.evaluation;
           this.level =
             score_level || (superior_score && superior_score.score_level);
@@ -456,8 +476,6 @@ export default {
 .my-grade-page .basic-info {
   background: white;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
 }
 .my-grade-page .summary-section {
   background: white;

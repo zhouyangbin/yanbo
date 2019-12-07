@@ -81,15 +81,24 @@
               size="small"
               >{{ constants.COPY_GRADE }}</el-button
             >
+            <el-button
+              v-if="false"
+              @click="goReview(scope.row)"
+              type="text"
+              size="small"
+              >查看分布</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex" justify="end">
+      <el-row type="flex">
         <pagination
-          @current-change="handleCurrentChange"
           :currentPage="currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
           :total="total"
+          :pageSize="perPage"
         ></pagination>
       </el-row>
     </section>
@@ -129,6 +138,7 @@ import {
 import { getOrgTree, getPerformanceList } from "@/constants/API";
 import {
   PATH_PERFORMANCE_PROGRESS,
+  PATH_PERFORMANCE_TREE_PROGRESS,
   PATH_EXPORT_PERFORMANCE_GRADE
 } from "@/constants/URL";
 import Drawer from "vue-simple-drawer";
@@ -180,7 +190,8 @@ export default {
       initForm: {},
       initData: {},
       dpArr: [],
-      permissions: []
+      permissions: [],
+      perPage: 10
     };
   },
   components: {
@@ -199,7 +210,19 @@ export default {
         type_id: this.filterForm.type
       });
     },
+    handleSizeChange(val) {
+      //切换条数
+      this.perPage = val;
+      this.currentPage = 1;
+      const data = {
+        page: this.currentPage,
+        department_id: this.selectedDep,
+        type_id: this.filterForm.type
+      };
+      this.refreshList(data);
+    },
     refreshList(data) {
+      data["perPage"] = this.perPage;
       return getPerformanceList(data).then(res => {
         const { total, data } = res;
         this.total = total;
@@ -261,7 +284,9 @@ export default {
         })
         .catch(e => {});
     },
-
+    goReview(row) {
+      this.$router.push(PATH_PERFORMANCE_TREE_PROGRESS(row.id));
+    },
     getDepartments() {
       return getOrgTree()
         .then(res => {

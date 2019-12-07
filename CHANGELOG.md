@@ -1,3 +1,32 @@
+<a name="1.3.3"></a>
+## [1.3.3](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v1.3.2...v1.3.3) (2019-12-02)
+
+
+### Bug Fixes
+
+* **hotfix:** 分页问题 ([2bd5d4f](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/2bd5d4f))
+* 下级、隔级列表查看更多，展示总人数 ([03697c0](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/03697c0))
+* 修复某某事业部评分进度标题写死 ([c5d25c2](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/c5d25c2))
+* 直属下级评分后页面跳转到隔级评分管理页面 ([6deed31](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/6deed31))
+* 隔级详情自评阶段不可编辑 ([0e0010c](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/0e0010c))
+
+
+### Features
+
+* b标签展示修复 ([6362237](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/6362237))
+* 拉取 ([39e15cc](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/39e15cc))
+* 更换条状pc背景图 ([8a26cd3](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/8a26cd3))
+* 更换跳转pc端背景图 ([dc8cce9](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/dc8cce9))
+* 更换跳转PC端背景提示图 ([5360288](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/5360288))
+* 更换钉钉端打开系统但需要在pc端处理时的背景提示图 ([cb77e81](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/cb77e81))
+* 更改自评案例字数2000 ([704ec1c](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/704ec1c))
+* 更改跳转pc背景图 ([10a6c5f](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/10a6c5f))
+* 更改需求：下级、隔级入口列表，查看更多，展示评分的下级/隔级中，高管/员工的总人数 ([c597d5a](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/c597d5a))
+* 更改需求：下级/隔级增加查看更多，可查看下级/隔级中高管/员工的总人数 ([08ac0f7](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/08ac0f7))
+* 自评案例字数更改为2000 ([ae97847](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/commits/ae97847))
+
+
+
 <a name="1.3.2"></a>
 ## [1.3.2](https://git.100tal.com/jituan_xinxi_fe/FE-PC-TDC/compare/v1.2.0...v1.3.2) (2019-11-20)
 

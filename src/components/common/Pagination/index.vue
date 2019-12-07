@@ -1,6 +1,6 @@
 <template>
-  <span v-if="total > pageSize" class="paging-style">
-    <el-pagination
+  <span class="paging-style">
+    <!-- <el-pagination
       :page-size="pageSize"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
@@ -8,7 +8,17 @@
       prev-text
       layout="prev, pager, next"
       :total="total"
-    ></el-pagination>
+    ></el-pagination> -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
   </span>
 </template>
 <script>
@@ -30,6 +40,9 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.$emit("current-change", val);
+    },
+    handleSizeChange(val) {
+      this.$emit("size-change", val);
     }
   }
 };

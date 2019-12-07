@@ -64,6 +64,9 @@ export const PATH_ACCESS_ROLES = "/access/roles";
 //评分管理-详情
 export const PATH_PERFORMANCE_PROGRESS = (id = ":id") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}`;
+//评分管理-树状-详情
+export const PATH_PERFORMANCE_TREE_PROGRESS = (id = ":id") =>
+  `${PATH_PERFORMANCE_MANAGER}/tree/${id}`;
 //评分管理-详情-事业部详情
 export const PATH_PERFORMANCE_ORG_LIST = (id = ":id", orgID = ":orgID") =>
   `${PATH_PERFORMANCE_MANAGER}/${id}/org/${orgID}`;
@@ -80,6 +83,7 @@ export const PATH_PERFORMANCE_USER_DETAIL = (
 // 员工评分
 export const PATH_EMPLOYEE_MY = "/employee/my";
 export const PATH_EMPLOYEE_TEAM = "/employee/team";
+export const PATH_EMPLOYEE_LEVEL_TEAM = "/employee/levelteam";
 //我的评分-详细评分
 export const PATH_EMPLYEE_MY_DETAIL = (
   orgID: String = ":orgID",
@@ -88,11 +92,30 @@ export const PATH_EMPLYEE_MY_DETAIL = (
 //团队详情
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
+//隔级列表
+export const PATH_TEAM_DETAIL_MEMEBER = (
+  gradeID: String = ":gradeID",
+  uid: String = ":uid"
+) => `/employee/levelteam/${gradeID}/user/${uid}`;
 //团队  个人详情
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
   gradeID: String = ":gradeID",
   uid: String = ":uid"
 ) => `/employee/team/${gradeID}/user/${uid}`;
+//隔级详情
+export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL = (id: String = ":id") =>
+  `/employee/levelteam/${id}`;
+//隔级团队个人详情
+export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL = (
+  orgID: String = ":orgID",
+  performanceID: String = ":performanceId",
+  id: String = ":id"
+) => `/employee/levelteam/${orgID}/${performanceID}/${id}`;
+//团队  个人详情
+export const PATH_EMPLOYEE_LEVEL_TEAM_MEMEBER = (
+  gradeID: String = ":gradeID",
+  uid: String = ":uid"
+) => `/employee/levelteam/${gradeID}/user/${uid}`;
 
 export const PATH_PERFORMANCE_EXCEL_TARGET_TPL = (
   id: String,
@@ -126,9 +149,14 @@ export const PATH_EXPORT_PERFORMANCE_MEMBERS = (id: String, uids: String[]) =>
     },
     { arrayFormat: "brackets" }
   )}`;
-
+//导出 团队评分明细
 export const PATH_EXPORT_TEAM_PERFORMANCE = (id: string) =>
-  `${base}/performance/api/superior/export/${id}?${qs.stringify({
+  `${base}performance/api/superior/export/${id}?${qs.stringify({
+    token: localStorage.getItem("talToken")
+  })}`;
+//导出 隔级评分明细
+export const PATH_EXPORT_HIGHT_LEVEL_PERFORMANCE = (id: string) =>
+  `${base}performance/api/highlevel/${id}/export?${qs.stringify({
     token: localStorage.getItem("talToken")
   })}`;
 
