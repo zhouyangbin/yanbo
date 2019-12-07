@@ -245,7 +245,7 @@ export default {
   },
   methods: {
     jumpPage() {
-      this.$router.push(PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL);
+      this.$router.push(PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(this.$route.params.id,this.$route.params.uid));
     },
     checkExamine() {
       this.isExamineDialog = true;
