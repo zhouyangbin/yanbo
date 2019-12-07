@@ -219,14 +219,6 @@ export default {
   methods: {
     changeTeam() {
       this.getMyLowerList();
-      // if (this.team_leader === "") {
-      //   return false;
-      // }
-      // for (let i = 0; i < this.teamList.length; i++) {
-      //   if (this.team_leader === this.teamList[i].workcode) {
-      //     this.teamDetail = this.teamList[i];
-      //   }
-      // }
     },
     rejectTeam(workcode) {},
     selectWorkCode(data) {
