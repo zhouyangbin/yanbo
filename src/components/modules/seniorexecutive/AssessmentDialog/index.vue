@@ -89,11 +89,8 @@
           class="rule-name tpl-name"
         >
           <el-tooltip effect="dark" :content="item.name" placement="top">
-            <div class="bread-crumb-name">{{ item.name }}</div>
+            <span>{{ item.name }}</span>
           </el-tooltip>
-          <!-- <span v-for="item in ruleForm.templates" :key="item.id">{{
-            item.name
-          }}</span> -->
         </div>
       </el-form-item>
       <el-form-item label="标签规则">
@@ -375,16 +372,6 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-.bread-crumb-name {
-  float: left;
-  max-width: 300px;
-  height: 32px;
-  line-height: 42px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .tpl-dialog {
   .rule-name {
     color: #52ddab;
