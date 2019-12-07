@@ -245,7 +245,7 @@ export default {
   },
   methods: {
     jumpPage() {
-      this.$router.push(PATH_EMPLOYEE_TEAM);
+      this.$router.push(PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL);
     },
     checkExamine() {
       this.isExamineDialog = true;

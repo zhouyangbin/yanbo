@@ -319,7 +319,8 @@ export default {
       isFinance: false,
       isGetInitData: true,
       approvalData: [],
-      showApprovalBtn: false
+      showApprovalBtn: false,
+      isSubmit: false
     };
   },
   filters: {
@@ -434,6 +435,7 @@ export default {
           .then(() => {
             postExecutiveIndexSetting(this.$route.params.uid, data)
               .then(res => {
+                this.isSubmit = true;
                 this.$router.push(
                   PATH_PERFORMANCE_INDEX_DETAIL(
                     this.$route.params.id,
@@ -667,9 +669,11 @@ export default {
       .catch(e => {});
   },
   beforeDestroy() {
-    postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
-      .then(res => {})
-      .catch(e => {});
+    if (!this.isSubmit) {
+      postExecutiveSaveDraft(this.$route.params.uid, this.indexTpl)
+        .then(res => {})
+        .catch(e => {});
+    }
   }
 };
 </script>

@@ -333,10 +333,10 @@
           <el-form-item class="limit-width" prop="stage" label="状态:">
             <el-select v-model="personalForm.stage" placeholder="请选择">
               <el-option
-                v-for="item in constants.USER_STATUS"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="(value, name) in stageOptions"
+                :key="value"
+                :label="value"
+                :value="name"
               >
               </el-option>
             </el-select>
@@ -699,7 +699,8 @@ import {
   getUserDetail,
   postExecutivePerformanceNotice,
   deleteExecutivePerformanceUser,
-  getExecutivePerformanceTagTypes
+  getExecutivePerformanceTagTypes,
+  getExecutiveStageList
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
@@ -714,11 +715,7 @@ import {
   PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 
-import {
-  LABEL_EMPTY,
-  LABEL_SELECT_DIVISION,
-  USER_STATUS
-} from "@/constants/TEXT";
+import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
@@ -824,10 +821,10 @@ export default {
         PATH_EXECUTIVE_UPLOAD_FINANCIAL_INDICATORS,
         PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS,
         PATH_EXECUTIVE_IMPORT_FINANCIAL_INDICATORS,
-        PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
-        USER_STATUS
+        PATH_EXECUTIVE_IMPORT_WORK_INDICATORS
       },
-      permissions: []
+      permissions: [],
+      stageOptions: {}
     };
   },
   computed: {
@@ -1134,6 +1131,11 @@ export default {
       this.performance_user_ids
     );
     this.getPerformanceDetailData();
+    getExecutiveStageList(this.performanceId)
+      .then(res => {
+        this.stageOptions = res;
+      })
+      .catch(e => {});
     getExecutiveOrganization()
       .then(res => {
         this.orgTree = res;
