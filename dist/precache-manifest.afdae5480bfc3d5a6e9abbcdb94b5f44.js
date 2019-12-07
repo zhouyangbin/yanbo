@@ -540,8 +540,8 @@ self.__precacheManifest = [
     "url": "/js/chunk-5257d914.6d8fa212.js"
   },
   {
-    "revision": "33aba24f4af7ffc1fb14",
-    "url": "/js/app.caae6479.js"
+    "revision": "ce26d2bcca36a601d21c",
+    "url": "/js/app.cdb81b8d.js"
   },
   {
     "revision": "52f26004651688352da9",
@@ -754,14 +754,6 @@ self.__precacheManifest = [
   {
     "revision": "c9c29f0742c14ea7d659",
     "url": "/js/chunk-780a51e2.ad2d4b3d.js"
-  },
-  {
-    "revision": "992f25b30f39aafd4e67",
-    "url": "/css/chunk-7a26a477.3afb906f.css"
-  },
-  {
-    "revision": "992f25b30f39aafd4e67",
-    "url": "/js/chunk-7a26a477.221fc6eb.js"
   },
   {
     "revision": "0eb3ea94c131291cd063",
@@ -1004,6 +996,14 @@ self.__precacheManifest = [
     "url": "/js/chunk-f3e86500.7f19b503.js"
   },
   {
+    "revision": "49038dd3c76aad8a6cd7",
+    "url": "/css/chunk-f7121f32.217356cb.css"
+  },
+  {
+    "revision": "49038dd3c76aad8a6cd7",
+    "url": "/js/chunk-f7121f32.a2c6d1f4.js"
+  },
+  {
     "revision": "fc03a86ac85051c55372",
     "url": "/css/chunk-f96d7b92.89b3abbc.css"
   },
@@ -1044,6 +1044,10 @@ self.__precacheManifest = [
     "url": "/img/level_A.788eeccd.jpg"
   },
   {
+    "revision": "38f5f9956177376df287b6c60849e283",
+    "url": "/img/login_bg.38f5f995.jpg"
+  },
+  {
     "revision": "535877f50039c0cb49a6196a5b7517cd",
     "url": "/fonts/element-icons.535877f5.woff"
   },
@@ -1060,10 +1064,6 @@ self.__precacheManifest = [
     "url": "/img/box.a0a8eb92.png"
   },
   {
-    "revision": "38f5f9956177376df287b6c60849e283",
-    "url": "/img/login_bg.38f5f995.jpg"
-  },
-  {
     "revision": "4436838472b26da4dc4cbe35dde33d6f",
     "url": "/img/plane.44368384.png"
   },
@@ -1072,11 +1072,11 @@ self.__precacheManifest = [
     "url": "/img/target_writing.7ec299b7.png"
   },
   {
-    "revision": "5a621204d48a024fa59a4fb93885bce6",
+    "revision": "20e5270ffaa0deb8c9d0f8ad1885627a",
     "url": "/index.html"
   },
   {
-    "revision": "33aba24f4af7ffc1fb14",
+    "revision": "ce26d2bcca36a601d21c",
     "url": "/css/app.ffc85409.css"
   }
 ];
