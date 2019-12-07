@@ -429,8 +429,9 @@
             <el-button
               icon="el-icon-download"
               v-if="showExecutiveScoreUserManagement"
-              ><a class="down-load" download :href="exportUrl">导出名单</a>
-            </el-button>
+              @click="exportUserList"
+              >导出名单</el-button
+            >
             <el-button
               icon="el-icon-bell"
               v-if="showExecutiveScoreUserManagement"
@@ -447,10 +448,9 @@
             <el-button
               icon="el-icon-download"
               v-if="showExecutiveScoreUserManagement"
-              ><a class="down-load" download :href="exportDetailUrl"
-                >导出明细</a
-              >
-            </el-button>
+              @click="exportDetail"
+              >导出明细</el-button
+            >
             <el-popover placement="bottom" width="120" trigger="hover">
               <div
                 class="more-btn"
@@ -815,8 +815,6 @@ export default {
       showImportList: false,
       uploadTplUrl: "",
       importTplUrl: "",
-      exportUrl: "",
-      exportDetailUrl: "",
       constants: {
         PATH_EXECUTIVE_UPLOAD_FINANCIAL_INDICATORS,
         PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS,
@@ -927,14 +925,6 @@ export default {
       for (let i = 0; i < data.length; i++) {
         this.performance_user_ids.push(data[i].id);
       }
-      this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
-        this.performanceId,
-        this.performance_user_ids
-      );
-      this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(
-        this.performanceId,
-        this.performance_user_ids
-      );
     },
     reminder() {
       let data = {
@@ -1118,18 +1108,30 @@ export default {
     },
     uploadClose() {
       this.showUpload = false;
+    },
+    exportDetail() {
+      window.open(
+        PATH_EXECUTIVE_EXPORT_DETAIL(
+          this.performanceId,
+          this.performance_user_ids
+        ),
+        "_blank",
+        "noopener"
+      );
+    },
+    exportUserList() {
+      window.open(
+        PATH_EXECUTIVE_EXPORT_USER_LIST(
+          this.performanceId,
+          this.performance_user_ids
+        ),
+        "_blank",
+        "noopener"
+      );
     }
   },
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-    this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
-      this.performanceId,
-      this.performance_user_ids
-    );
-    this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(
-      this.performanceId,
-      this.performance_user_ids
-    );
     this.getPerformanceDetailData();
     getExecutiveStageList(this.performanceId)
       .then(res => {
@@ -1382,20 +1384,6 @@ export default {
       display: flex;
       .btn-group {
         margin: 0 10px;
-        .el-button {
-          &:hover {
-            .down-load {
-              color: #52ddab;
-            }
-          }
-        }
-        .down-load {
-          color: #606266;
-          text-decoration: none;
-          &:hover {
-            color: #52ddab;
-          }
-        }
       }
     }
     .table-number {
