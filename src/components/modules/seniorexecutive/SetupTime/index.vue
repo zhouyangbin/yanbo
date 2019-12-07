@@ -462,7 +462,9 @@ export default {
             .then(res => {
               this.$emit("update");
             })
-            .catch(e => {});
+            .catch(e => {
+              this.timesForm.allow_appeal = this.initTime.allow_appeal;
+            });
         }
       });
     }
