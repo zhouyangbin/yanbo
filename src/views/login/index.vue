@@ -38,7 +38,10 @@ import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_ORG_LIST,
   PATH_EMPLOYEE_MY,
-  PATH_GRADE_ORG_LIST
+  PATH_GRADE_ORG_LIST,
+  PATH_PERFORMANCE_FILL_IN_INDEX,
+  PATH_PERFORMANCE_INDEX_DETAIL,
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -164,7 +167,38 @@ export default {
       return dst;
     },
     getExecutivePath(querys) {
-      // 高管绩效 to do
+      let performance_id = querys.performance_id;
+      let performance_user_id = querys.performance_user_id;
+      let dst = "";
+      switch (querys.url) {
+        case "self":
+          dst = PATH_PERFORMANCE_FILL_IN_INDEX(
+            performance_id,
+            performance_user_id
+          );
+          break;
+        case "performance_detail":
+          dst = PATH_PERFORMANCE_INDEX_DETAIL(
+            performance_id,
+            performance_user_id,
+            "employee"
+          );
+          break;
+        case "team_list":
+          dst = PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
+            performance_id,
+            performance_user_id
+          );
+          break;
+        case "target_adjusted":
+          dst = PATH_PERFORMANCE_INDEX_DETAIL(
+            performance_id,
+            performance_user_id,
+            "subteam"
+          );
+          break;
+      }
+      return dst;
     },
     getCulturePath(querys) {
       let dst = PATH_MY_CULTURE_GRADE_DETAILS(querys.evaluation_name_id);
