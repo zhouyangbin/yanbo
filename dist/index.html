@@ -1,0 +1,283 @@
+<!DOCTYPE html><html lang=zh-Hans><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"><title>人才评分</title><!--[if IE]><link rel="icon" href="/favicon.ico" /><![endif]--><script src=//api.service.100tal.com/jssdk/tinfo.js></script><script src=https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js></script><script>if (DingTalkPC && DingTalkPC.ua && DingTalkPC.ua.isInDingTalk) {
+        DingTalkPC.biz.util.openLink({
+          url: window.location.href, //要打开链接的地址
+          onSuccess: function(result) {
+            /**/
+          },
+          onFail: function() {}
+        });
+      }</script><style>html {
+        font-size: 16px;
+      }
+
+      #app {
+        height: 100%;
+      }
+
+      .hidden {
+        display: none;
+      }
+      /* @import url(https://fonts.googleapis.com/css?family=Open+Sans:300); */
+      body {
+        padding: 0;
+        margin: 0;
+
+        overflow: hidden;
+      }
+      .loading-container {
+        /* z-index: 99; */
+      }
+
+      .loading-text {
+        position: absolute;
+        /* font-family: "Open Sans"; */
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        left: 50%;
+        top: 58%;
+        margin-left: -20px;
+        z-index: 9999;
+      }
+
+      .body {
+        z-index: 9999;
+        position: absolute;
+        top: 50%;
+        margin-left: -50px;
+        left: 50%;
+        animation: speeder 0.4s linear infinite;
+      }
+      .body > span {
+        height: 5px;
+        width: 35px;
+        background: #000;
+        position: absolute;
+        top: -19px;
+        left: 60px;
+        border-radius: 2px 10px 1px 0;
+      }
+
+      .base span {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 6px solid transparent;
+        border-right: 100px solid #000;
+        border-bottom: 6px solid transparent;
+      }
+      .base span:before {
+        content: '';
+        height: 22px;
+        width: 22px;
+        border-radius: 50%;
+        background: #000;
+        position: absolute;
+        right: -110px;
+        top: -16px;
+      }
+      .base span:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 0 solid transparent;
+        border-right: 55px solid #000;
+        border-bottom: 16px solid transparent;
+        top: -16px;
+        right: -98px;
+      }
+
+      .face {
+        position: absolute;
+        height: 12px;
+        width: 20px;
+        background: #000;
+        border-radius: 20px 20px 0 0;
+        transform: rotate(-40deg);
+        right: -125px;
+        top: -15px;
+      }
+      .face:after {
+        content: '';
+        height: 12px;
+        width: 12px;
+        background: #000;
+        right: 4px;
+        top: 7px;
+        position: absolute;
+        transform: rotate(40deg);
+        transform-origin: 50% 50%;
+        border-radius: 0 0 0 2px;
+      }
+
+      .body > span > span:nth-child(1),
+      .body > span > span:nth-child(2),
+      .body > span > span:nth-child(3),
+      .body > span > span:nth-child(4) {
+        width: 30px;
+        height: 1px;
+        background: #000;
+        position: absolute;
+        animation: fazer1 0.2s linear infinite;
+      }
+
+      .body > span > span:nth-child(2) {
+        top: 3px;
+        animation: fazer2 0.4s linear infinite;
+      }
+
+      .body > span > span:nth-child(3) {
+        top: 1px;
+        animation: fazer3 0.4s linear infinite;
+        animation-delay: -1s;
+      }
+
+      .body > span > span:nth-child(4) {
+        top: 4px;
+        animation: fazer4 1s linear infinite;
+        animation-delay: -1s;
+      }
+
+      @keyframes fazer1 {
+        0% {
+          left: 0;
+        }
+        100% {
+          left: -80px;
+          opacity: 0;
+        }
+      }
+      @keyframes fazer2 {
+        0% {
+          left: 0;
+        }
+        100% {
+          left: -100px;
+          opacity: 0;
+        }
+      }
+      @keyframes fazer3 {
+        0% {
+          left: 0;
+        }
+        100% {
+          left: -50px;
+          opacity: 0;
+        }
+      }
+      @keyframes fazer4 {
+        0% {
+          left: 0;
+        }
+        100% {
+          left: -150px;
+          opacity: 0;
+        }
+      }
+      @keyframes speeder {
+        0% {
+          transform: translate(2px, 1px) rotate(0deg);
+        }
+        10% {
+          transform: translate(-1px, -3px) rotate(-1deg);
+        }
+        20% {
+          transform: translate(-2px, 0px) rotate(1deg);
+        }
+        30% {
+          transform: translate(1px, 2px) rotate(0deg);
+        }
+        40% {
+          transform: translate(1px, -1px) rotate(1deg);
+        }
+        50% {
+          transform: translate(-1px, 3px) rotate(-1deg);
+        }
+        60% {
+          transform: translate(-1px, 1px) rotate(0deg);
+        }
+        70% {
+          transform: translate(3px, 1px) rotate(-1deg);
+        }
+        80% {
+          transform: translate(-2px, -1px) rotate(1deg);
+        }
+        90% {
+          transform: translate(2px, 1px) rotate(0deg);
+        }
+        100% {
+          transform: translate(1px, -2px) rotate(-1deg);
+        }
+      }
+      .longfazers {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(237, 242, 245);
+        z-index: 9999;
+        opacity: 0.3;
+      }
+      .longfazers span {
+        position: absolute;
+        height: 2px;
+        width: 20%;
+        background: #000;
+      }
+      .longfazers span:nth-child(1) {
+        top: 20%;
+        animation: lf 0.6s linear infinite;
+        animation-delay: -5s;
+      }
+      .longfazers span:nth-child(2) {
+        top: 40%;
+        animation: lf2 0.8s linear infinite;
+        animation-delay: -1s;
+      }
+      .longfazers span:nth-child(3) {
+        top: 60%;
+        animation: lf3 0.6s linear infinite;
+      }
+      .longfazers span:nth-child(4) {
+        top: 80%;
+        animation: lf4 0.5s linear infinite;
+        animation-delay: -3s;
+      }
+
+      @keyframes lf {
+        0% {
+          left: 200%;
+        }
+        100% {
+          left: -200%;
+          opacity: 0;
+        }
+      }
+      @keyframes lf2 {
+        0% {
+          left: 200%;
+        }
+        100% {
+          left: -200%;
+          opacity: 0;
+        }
+      }
+      @keyframes lf3 {
+        0% {
+          left: 200%;
+        }
+        100% {
+          left: -100%;
+          opacity: 0;
+        }
+      }
+      @keyframes lf4 {
+        0% {
+          left: 200%;
+        }
+        100% {
+          left: -100%;
+          opacity: 0;
+        }
+      }</style><link href=/css/chunk-0111ed3f.7e4da948.css rel=prefetch><link href=/css/chunk-0149a167.88c989ee.css rel=prefetch><link href=/css/chunk-055951e9.b05c41a7.css rel=prefetch><link href=/css/chunk-094a8b44.b07c1fa5.css rel=prefetch><link href=/css/chunk-0f0d513a.67430de6.css rel=prefetch><link href=/css/chunk-10bf323c.a64542cc.css rel=prefetch><link href=/css/chunk-11b90e34.7ab2658b.css rel=prefetch><link href=/css/chunk-124d699c.2d4f3f19.css rel=prefetch><link href=/css/chunk-13655f07.16034d30.css rel=prefetch><link href=/css/chunk-143b8686.56adc479.css rel=prefetch><link href=/css/chunk-150633bc.53e52c54.css rel=prefetch><link href=/css/chunk-1521470b.a26ecdd7.css rel=prefetch><link href=/css/chunk-1e342c75.eac9b8ce.css rel=prefetch><link href=/css/chunk-1e500200.fdeb143e.css rel=prefetch><link href=/css/chunk-1e5f6dfa.f8882a8d.css rel=prefetch><link href=/css/chunk-1fb0e51e.a7552c44.css rel=prefetch><link href=/css/chunk-1ff9eaa0.e982941a.css rel=prefetch><link href=/css/chunk-20181b45.a37a4735.css rel=prefetch><link href=/css/chunk-21bb98c6.89313a0b.css rel=prefetch><link href=/css/chunk-22bec2fd.7a946955.css rel=prefetch><link href=/css/chunk-239d67d4.f7f80784.css rel=prefetch><link href=/css/chunk-241717bb.efa9933c.css rel=prefetch><link href=/css/chunk-25721bc4.082855fc.css rel=prefetch><link href=/css/chunk-28936906.11dfc5b2.css rel=prefetch><link href=/css/chunk-2b4f9686.b6daa3bb.css rel=prefetch><link href=/css/chunk-2bba306f.5b06fc86.css rel=prefetch><link href=/css/chunk-2c510616.9050a06e.css rel=prefetch><link href=/css/chunk-2fd94f9c.0926a651.css rel=prefetch><link href=/css/chunk-33f283d3.a05a32a4.css rel=prefetch><link href=/css/chunk-354eff24.43c1adcb.css rel=prefetch><link href=/css/chunk-38427ed5.8995f251.css rel=prefetch><link href=/css/chunk-38a3521f.392b3dec.css rel=prefetch><link href=/css/chunk-38adb43a.1d33f1a3.css rel=prefetch><link href=/css/chunk-38c8ca2a.12a2fc85.css rel=prefetch><link href=/css/chunk-38d039c4.e274cea8.css rel=prefetch><link href=/css/chunk-3a3ed602.ba33b854.css rel=prefetch><link href=/css/chunk-3b916096.a5ace359.css rel=prefetch><link href=/css/chunk-3cb2b669.52a90f8c.css rel=prefetch><link href=/css/chunk-3e05d243.6e4a1276.css rel=prefetch><link href=/css/chunk-403d339e.a26ecdd7.css rel=prefetch><link href=/css/chunk-41d12d5a.36e73fdb.css rel=prefetch><link href=/css/chunk-42d18c5c.e5545bc0.css rel=prefetch><link href=/css/chunk-430bf0ee.47564a7b.css rel=prefetch><link href=/css/chunk-43c64c17.9a169a98.css rel=prefetch><link href=/css/chunk-453fc73f.30a717a4.css rel=prefetch><link href=/css/chunk-45a92e4a.a23f16e5.css rel=prefetch><link href=/css/chunk-46d0cb05.87c264bf.css rel=prefetch><link href=/css/chunk-4793aa11.e4c08a16.css rel=prefetch><link href=/css/chunk-49e636e8.559c537f.css rel=prefetch><link href=/css/chunk-4c6548f6.fa8a1618.css rel=prefetch><link href=/css/chunk-4de5a1a6.2ca46fd9.css rel=prefetch><link href=/css/chunk-4e12264d.f65a14c5.css rel=prefetch><link href=/css/chunk-4f7c9932.d86872cb.css rel=prefetch><link href=/css/chunk-51b546f8.5f676a03.css rel=prefetch><link href=/css/chunk-523d44cc.a1e54390.css rel=prefetch><link href=/css/chunk-5257d914.dc3952f4.css rel=prefetch><link href=/css/chunk-54356eb6.c3f39c2f.css rel=prefetch><link href=/css/chunk-57cf0e20.1dee1e01.css rel=prefetch><link href=/css/chunk-58594ddd.04624a71.css rel=prefetch><link href=/css/chunk-5878d71e.2f9c7e96.css rel=prefetch><link href=/css/chunk-59877df9.ddfcfa20.css rel=prefetch><link href=/css/chunk-5a0a7a51.d2de58ea.css rel=prefetch><link href=/css/chunk-5b72c038.d1d321d7.css rel=prefetch><link href=/css/chunk-5bc6d1df.df7cded6.css rel=prefetch><link href=/css/chunk-5c490880.a3db60a5.css rel=prefetch><link href=/css/chunk-5ec8adf0.adedbcac.css rel=prefetch><link href=/css/chunk-5f60c426.d9ecba26.css rel=prefetch><link href=/css/chunk-5f69625f.665690aa.css rel=prefetch><link href=/css/chunk-60206ff8.a37f2d34.css rel=prefetch><link href=/css/chunk-626c0d8b.7edeb13d.css rel=prefetch><link href=/css/chunk-635b4516.0e70f979.css rel=prefetch><link href=/css/chunk-6662f66a.5d19aeb5.css rel=prefetch><link href=/css/chunk-6849b4f0.a26ecdd7.css rel=prefetch><link href=/css/chunk-69827229.13396b83.css rel=prefetch><link href=/css/chunk-6d5a6f09.9cc8330b.css rel=prefetch><link href=/css/chunk-6e7d43c3.91ae6c5d.css rel=prefetch><link href=/css/chunk-6f993239.4af5fe8e.css rel=prefetch><link href=/css/chunk-70d6bcf0.78a3cedd.css rel=prefetch><link href=/css/chunk-70f5e25d.b613e3d4.css rel=prefetch><link href=/css/chunk-7145f177.e9a34fde.css rel=prefetch><link href=/css/chunk-71fd178f.3d5cf140.css rel=prefetch><link href=/css/chunk-751e6863.4e9f54e7.css rel=prefetch><link href=/css/chunk-780a51e2.1b4658f4.css rel=prefetch><link href=/css/chunk-7a26a477.3afb906f.css rel=prefetch><link href=/css/chunk-7a437e1e.e62c174d.css rel=prefetch><link href=/css/chunk-7abed47e.377b57ed.css rel=prefetch><link href=/css/chunk-7cfc3f56.74e9bbd9.css rel=prefetch><link href=/css/chunk-7dab5545.efe79396.css rel=prefetch><link href=/css/chunk-7e1ea7f0.13844215.css rel=prefetch><link href=/css/chunk-7e659f22.f043fd4c.css rel=prefetch><link href=/css/chunk-7ee3803a.4af5fe8e.css rel=prefetch><link href=/css/chunk-7ee9162a.c1f68a4c.css rel=prefetch><link href=/css/chunk-85db8aa4.5717c04b.css rel=prefetch><link href=/css/chunk-8a8926ca.56a7c6e1.css rel=prefetch><link href=/css/chunk-911f889e.6b82fab5.css rel=prefetch><link href=/css/chunk-944cd112.42e13337.css rel=prefetch><link href=/css/chunk-94839ab2.00bd7fd8.css rel=prefetch><link href=/css/chunk-99af4336.a93ad04d.css rel=prefetch><link href=/css/chunk-9c3badf6.d4b7d642.css rel=prefetch><link href=/css/chunk-a4f2afee.93d20583.css rel=prefetch><link href=/css/chunk-a5937be4.9c0e40d2.css rel=prefetch><link href=/css/chunk-a90384ca.9997957e.css rel=prefetch><link href=/css/chunk-a99992be.cf4718b3.css rel=prefetch><link href=/css/chunk-aadc79ec.d7584f7b.css rel=prefetch><link href=/css/chunk-ac2fa90c.776af59f.css rel=prefetch><link href=/css/chunk-b3ffa632.273ffed6.css rel=prefetch><link href=/css/chunk-b4941ecc.3db3bc31.css rel=prefetch><link href=/css/chunk-bfd6ac4a.6ae2aa28.css rel=prefetch><link href=/css/chunk-db6afdf0.ec70e0b5.css rel=prefetch><link href=/css/chunk-e4915324.7edeb13d.css rel=prefetch><link href=/css/chunk-e4ff92d8.5b854290.css rel=prefetch><link href=/css/chunk-ea104140.9f1b1aa2.css rel=prefetch><link href=/css/chunk-f3e86500.3d31d50a.css rel=prefetch><link href=/css/chunk-f96d7b92.89b3abbc.css rel=prefetch><link href=/css/chunk-f9ce9314.2f9d3c36.css rel=prefetch><link href=/css/chunk-ff470992.e4944e14.css rel=prefetch><link href=/js/chunk-0111ed3f.dfa6936c.js rel=prefetch><link href=/js/chunk-0149a167.630fdf78.js rel=prefetch><link href=/js/chunk-04b37159.2ae4d3fc.js rel=prefetch><link href=/js/chunk-055951e9.554d6e2b.js rel=prefetch><link href=/js/chunk-094a8b44.302cd16f.js rel=prefetch><link href=/js/chunk-0f0d513a.2ab0b33f.js rel=prefetch><link href=/js/chunk-10bf323c.91b88425.js rel=prefetch><link href=/js/chunk-11b90e34.cb853f08.js rel=prefetch><link href=/js/chunk-124d699c.6c87be54.js rel=prefetch><link href=/js/chunk-13655f07.8e34da99.js rel=prefetch><link href=/js/chunk-143b8686.53d8bcc4.js rel=prefetch><link href=/js/chunk-150633bc.36e72865.js rel=prefetch><link href=/js/chunk-1521470b.5c07d475.js rel=prefetch><link href=/js/chunk-1e342c75.cbfe02d7.js rel=prefetch><link href=/js/chunk-1e500200.360b0576.js rel=prefetch><link href=/js/chunk-1e5f6dfa.93aa7100.js rel=prefetch><link href=/js/chunk-1fb0e51e.54956a91.js rel=prefetch><link href=/js/chunk-1ff9eaa0.3b6c3c63.js rel=prefetch><link href=/js/chunk-20181b45.e01e12bb.js rel=prefetch><link href=/js/chunk-21bb98c6.8ec89a91.js rel=prefetch><link href=/js/chunk-22bec2fd.c78f8e50.js rel=prefetch><link href=/js/chunk-239d67d4.9c704ef4.js rel=prefetch><link href=/js/chunk-241717bb.fe87bb82.js rel=prefetch><link href=/js/chunk-25721bc4.e936186c.js rel=prefetch><link href=/js/chunk-28936906.5a568fe6.js rel=prefetch><link href=/js/chunk-2b4f9686.1460a58a.js rel=prefetch><link href=/js/chunk-2bba306f.5174fdb3.js rel=prefetch><link href=/js/chunk-2c510616.aca36784.js rel=prefetch><link href=/js/chunk-2d0aba7b.4651e4a3.js rel=prefetch><link href=/js/chunk-2d0afa2c.4f07325e.js rel=prefetch><link href=/js/chunk-2d0b5d7b.2db51164.js rel=prefetch><link href=/js/chunk-2d0c02ed.cfe21127.js rel=prefetch><link href=/js/chunk-2d0c1d3d.c729fd51.js rel=prefetch><link href=/js/chunk-2d0dd770.aa6ff8ad.js rel=prefetch><link href=/js/chunk-2d0ddc50.1c623e25.js rel=prefetch><link href=/js/chunk-2d207e88.ea02f6ef.js rel=prefetch><link href=/js/chunk-2d20f30d.24541a57.js rel=prefetch><link href=/js/chunk-2d2100e7.9a065840.js rel=prefetch><link href=/js/chunk-2d2109d0.572cd23b.js rel=prefetch><link href=/js/chunk-2d21647e.e6b5aaf2.js rel=prefetch><link href=/js/chunk-2d221856.575023af.js rel=prefetch><link href=/js/chunk-2d22a10c.f15e4cfa.js rel=prefetch><link href=/js/chunk-2d22c8b2.499a7546.js rel=prefetch><link href=/js/chunk-2fd94f9c.13bf402f.js rel=prefetch><link href=/js/chunk-33f283d3.128c86b9.js rel=prefetch><link href=/js/chunk-354eff24.0d3ad5dd.js rel=prefetch><link href=/js/chunk-38427ed5.14fcfc76.js rel=prefetch><link href=/js/chunk-38a3521f.bcb18660.js rel=prefetch><link href=/js/chunk-38adb43a.78e8874d.js rel=prefetch><link href=/js/chunk-38c8ca2a.4aaffcca.js rel=prefetch><link href=/js/chunk-38d039c4.a674ecce.js rel=prefetch><link href=/js/chunk-3a3ed602.d8853829.js rel=prefetch><link href=/js/chunk-3af97f83.d95377f0.js rel=prefetch><link href=/js/chunk-3b916096.0252906e.js rel=prefetch><link href=/js/chunk-3cb2b669.fa0cb99b.js rel=prefetch><link href=/js/chunk-3e05d243.efeddbb2.js rel=prefetch><link href=/js/chunk-3fa1245d.ef321359.js rel=prefetch><link href=/js/chunk-403d339e.0f9ed5d3.js rel=prefetch><link href=/js/chunk-41d12d5a.b105b4e6.js rel=prefetch><link href=/js/chunk-42d18c5c.a98ad628.js rel=prefetch><link href=/js/chunk-430bf0ee.2f828cf1.js rel=prefetch><link href=/js/chunk-43c64c17.2f5364e9.js rel=prefetch><link href=/js/chunk-453fc73f.b90ee8c6.js rel=prefetch><link href=/js/chunk-45a92e4a.1c129624.js rel=prefetch><link href=/js/chunk-46d0cb05.23e2aaaf.js rel=prefetch><link href=/js/chunk-4793aa11.3c20d16e.js rel=prefetch><link href=/js/chunk-49e636e8.71348908.js rel=prefetch><link href=/js/chunk-4c6548f6.200119de.js rel=prefetch><link href=/js/chunk-4cd59b3a.5a6b68b5.js rel=prefetch><link href=/js/chunk-4de5a1a6.156ecc49.js rel=prefetch><link href=/js/chunk-4e12264d.ad502948.js rel=prefetch><link href=/js/chunk-4f7c9932.42e77b39.js rel=prefetch><link href=/js/chunk-502749a0.e448ea01.js rel=prefetch><link href=/js/chunk-51b546f8.74305057.js rel=prefetch><link href=/js/chunk-523d44cc.cdcd1bec.js rel=prefetch><link href=/js/chunk-5257d914.6d8fa212.js rel=prefetch><link href=/js/chunk-54356eb6.304ebbb8.js rel=prefetch><link href=/js/chunk-57cf0e20.acd25946.js rel=prefetch><link href=/js/chunk-58594ddd.77ea8919.js rel=prefetch><link href=/js/chunk-5878d71e.cba56edc.js rel=prefetch><link href=/js/chunk-59877df9.024b10a8.js rel=prefetch><link href=/js/chunk-5a0a7a51.b1bfeceb.js rel=prefetch><link href=/js/chunk-5b72c038.c44bd1d5.js rel=prefetch><link href=/js/chunk-5bc6d1df.6411e567.js rel=prefetch><link href=/js/chunk-5c490880.25ed2112.js rel=prefetch><link href=/js/chunk-5ec8adf0.6875b7a0.js rel=prefetch><link href=/js/chunk-5f60c426.fcbf856d.js rel=prefetch><link href=/js/chunk-5f69625f.69998094.js rel=prefetch><link href=/js/chunk-60206ff8.c0e9a9c4.js rel=prefetch><link href=/js/chunk-626c0d8b.cd16b00d.js rel=prefetch><link href=/js/chunk-635b4516.17e3b417.js rel=prefetch><link href=/js/chunk-6662f66a.590413f8.js rel=prefetch><link href=/js/chunk-6849b4f0.fdc206e5.js rel=prefetch><link href=/js/chunk-69827229.e0ecb592.js rel=prefetch><link href=/js/chunk-6d5a6f09.1db7d914.js rel=prefetch><link href=/js/chunk-6e7d43c3.9aeb5640.js rel=prefetch><link href=/js/chunk-6f993239.a42eb252.js rel=prefetch><link href=/js/chunk-70d6bcf0.c0856448.js rel=prefetch><link href=/js/chunk-70f5e25d.bff965a5.js rel=prefetch><link href=/js/chunk-7145f177.6c71c457.js rel=prefetch><link href=/js/chunk-71fd178f.ddeea5d7.js rel=prefetch><link href=/js/chunk-751e6863.09f0a4f2.js rel=prefetch><link href=/js/chunk-780a51e2.ad2d4b3d.js rel=prefetch><link href=/js/chunk-7a26a477.221fc6eb.js rel=prefetch><link href=/js/chunk-7a437e1e.e80b1e94.js rel=prefetch><link href=/js/chunk-7abed47e.18b0b3a0.js rel=prefetch><link href=/js/chunk-7cfc3f56.7488dd3d.js rel=prefetch><link href=/js/chunk-7dab5545.4adef27e.js rel=prefetch><link href=/js/chunk-7e1ea7f0.909943b1.js rel=prefetch><link href=/js/chunk-7e659f22.3c33d73b.js rel=prefetch><link href=/js/chunk-7ee3803a.4eec76d5.js rel=prefetch><link href=/js/chunk-7ee9162a.3dbcba82.js rel=prefetch><link href=/js/chunk-85db8aa4.c13b0c14.js rel=prefetch><link href=/js/chunk-8a8926ca.2b3c00d2.js rel=prefetch><link href=/js/chunk-911f889e.6ca675b7.js rel=prefetch><link href=/js/chunk-944cd112.63ce30fc.js rel=prefetch><link href=/js/chunk-94839ab2.08930dd9.js rel=prefetch><link href=/js/chunk-99af4336.adfa6482.js rel=prefetch><link href=/js/chunk-9c3badf6.eb113332.js rel=prefetch><link href=/js/chunk-a4f2afee.869945e7.js rel=prefetch><link href=/js/chunk-a5937be4.9067ef8e.js rel=prefetch><link href=/js/chunk-a90384ca.41de2003.js rel=prefetch><link href=/js/chunk-a99992be.2ec04aed.js rel=prefetch><link href=/js/chunk-aadc79ec.671eba40.js rel=prefetch><link href=/js/chunk-ac2fa90c.bbe7505a.js rel=prefetch><link href=/js/chunk-b3ffa632.9e07aa9e.js rel=prefetch><link href=/js/chunk-b4941ecc.3df253d8.js rel=prefetch><link href=/js/chunk-bfd6ac4a.aabf6d69.js rel=prefetch><link href=/js/chunk-c05348ae.f10e7bad.js rel=prefetch><link href=/js/chunk-c32493a8.7a4a1592.js rel=prefetch><link href=/js/chunk-c8de56e6.9034d142.js rel=prefetch><link href=/js/chunk-db6afdf0.fa1faa64.js rel=prefetch><link href=/js/chunk-e4915324.6716fde3.js rel=prefetch><link href=/js/chunk-e4ff92d8.27aac289.js rel=prefetch><link href=/js/chunk-ea104140.8fc8b61d.js rel=prefetch><link href=/js/chunk-f3e86500.7f19b503.js rel=prefetch><link href=/js/chunk-f96d7b92.74585397.js rel=prefetch><link href=/js/chunk-f9ce9314.221a23a5.js rel=prefetch><link href=/js/chunk-ff470992.5998e700.js rel=prefetch><link href=/css/app.ffc85409.css rel=preload as=style><link href=/js/app.37502394.js rel=preload as=script><link href=/js/chunk-vendors.f2a6437f.js rel=preload as=script><link href=/css/app.ffc85409.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=/img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/img/icons/favicon-16x16.png><link rel=manifest href=/manifest.json><meta name=theme-color content=#4DBA87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content=pingfen-pc><link rel=apple-touch-icon href=/img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=/img/icons/safari-pinned-tab.svg color=#4DBA87><meta name=msapplication-TileImage content=/img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#000000></head><body><noscript><strong>请开启javascript!</strong></noscript><div class=loading-container><div class=body><span><span></span> <span></span> <span></span> <span></span></span><div class=base><span></span><div class=face></div></div></div><div class=longfazers><span></span> <span></span> <span></span> <span></span></div><div class=loading-text>Loading</div></div><div id=app></div><script src=/js/chunk-vendors.f2a6437f.js></script><script src=/js/app.37502394.js></script></body><script>var loaderEl = document.querySelector('.loading-container');
+    loaderEl.className = 'hidden loading-container';</script></html>
