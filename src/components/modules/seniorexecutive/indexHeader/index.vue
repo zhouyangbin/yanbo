@@ -4,7 +4,7 @@
     <img class="stage-img" :src="stageImg(userInfo.stage)" alt="" />
     <el-row class="flex">
       <el-row class="grow">
-        <el-row class="superior-idea flex" v-if="userInfo.opinion">
+        <el-row class="superior-idea flex" v-if="userInfo.opinion && userInfo.stage === 0">
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
