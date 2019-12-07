@@ -333,10 +333,10 @@
           <el-form-item class="limit-width" prop="stage" label="状态:">
             <el-select v-model="personalForm.stage" placeholder="请选择">
               <el-option
-                v-for="item in constants.USER_STATUS"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="(value, name) in stageOptions"
+                :key="value"
+                :label="value"
+                :value="name"
               >
               </el-option>
             </el-select>
@@ -429,8 +429,9 @@
             <el-button
               icon="el-icon-download"
               v-if="showExecutiveScoreUserManagement"
-              ><a class="down-load" download :href="exportUrl">导出名单</a>
-            </el-button>
+              @click="exportUserList"
+              >导出名单</el-button
+            >
             <el-button
               icon="el-icon-bell"
               v-if="showExecutiveScoreUserManagement"
@@ -447,10 +448,9 @@
             <el-button
               icon="el-icon-download"
               v-if="showExecutiveScoreUserManagement"
-              ><a class="down-load" download :href="exportDetailUrl"
-                >导出明细</a
-              >
-            </el-button>
+              @click="exportDetail"
+              >导出明细</el-button
+            >
             <el-popover placement="bottom" width="120" trigger="hover">
               <div
                 class="more-btn"
@@ -699,7 +699,8 @@ import {
   getUserDetail,
   postExecutivePerformanceNotice,
   deleteExecutivePerformanceUser,
-  getExecutivePerformanceTagTypes
+  getExecutivePerformanceTagTypes,
+  getExecutiveStageList
 } from "@/constants/API";
 import {
   PATH_PERFORMANCE_GRADE_MANAGEMENT,
@@ -714,11 +715,7 @@ import {
   PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
 
-import {
-  LABEL_EMPTY,
-  LABEL_SELECT_DIVISION,
-  USER_STATUS
-} from "@/constants/TEXT";
+import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
     "nav-bar": AsyncComp(import("@/components/common/Navbar/index.vue")),
@@ -818,16 +815,14 @@ export default {
       showImportList: false,
       uploadTplUrl: "",
       importTplUrl: "",
-      exportUrl: "",
-      exportDetailUrl: "",
       constants: {
         PATH_EXECUTIVE_UPLOAD_FINANCIAL_INDICATORS,
         PATH_EXECUTIVE_UPLOAD_WORK_INDICATORS,
         PATH_EXECUTIVE_IMPORT_FINANCIAL_INDICATORS,
-        PATH_EXECUTIVE_IMPORT_WORK_INDICATORS,
-        USER_STATUS
+        PATH_EXECUTIVE_IMPORT_WORK_INDICATORS
       },
-      permissions: []
+      permissions: [],
+      stageOptions: {}
     };
   },
   computed: {
@@ -930,14 +925,6 @@ export default {
       for (let i = 0; i < data.length; i++) {
         this.performance_user_ids.push(data[i].id);
       }
-      this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
-        this.performanceId,
-        this.performance_user_ids
-      );
-      this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(
-        this.performanceId,
-        this.performance_user_ids
-      );
     },
     reminder() {
       let data = {
@@ -1121,19 +1108,36 @@ export default {
     },
     uploadClose() {
       this.showUpload = false;
+    },
+    exportDetail() {
+      window.open(
+        PATH_EXECUTIVE_EXPORT_DETAIL(
+          this.performanceId,
+          this.performance_user_ids
+        ),
+        "_blank",
+        "noopener"
+      );
+    },
+    exportUserList() {
+      window.open(
+        PATH_EXECUTIVE_EXPORT_USER_LIST(
+          this.performanceId,
+          this.performance_user_ids
+        ),
+        "_blank",
+        "noopener"
+      );
     }
   },
   created() {
     this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
-    this.exportUrl = PATH_EXECUTIVE_EXPORT_USER_LIST(
-      this.performanceId,
-      this.performance_user_ids
-    );
-    this.exportDetailUrl = PATH_EXECUTIVE_EXPORT_DETAIL(
-      this.performanceId,
-      this.performance_user_ids
-    );
     this.getPerformanceDetailData();
+    getExecutiveStageList(this.performanceId)
+      .then(res => {
+        this.stageOptions = res;
+      })
+      .catch(e => {});
     getExecutiveOrganization()
       .then(res => {
         this.orgTree = res;
@@ -1380,20 +1384,6 @@ export default {
       display: flex;
       .btn-group {
         margin: 0 10px;
-        .el-button {
-          &:hover {
-            .down-load {
-              color: #52ddab;
-            }
-          }
-        }
-        .down-load {
-          color: #606266;
-          text-decoration: none;
-          &:hover {
-            color: #52ddab;
-          }
-        }
       }
     }
     .table-number {

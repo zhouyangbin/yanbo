@@ -25,10 +25,10 @@
             placeholder="请选择状态"
           >
             <el-option
-              v-for="item in constants.STAGEOPTIONS"
-              :key="item.key"
-              :label="item.value"
-              :value="item.key"
+              v-for="(value, name) in stageOptions"
+              :key="value"
+              :label="value"
+              :value="name"
             >
             </el-option>
           </el-select>
@@ -167,17 +167,14 @@
 import { AsyncComp } from "@/utils/asyncCom";
 import {
   getExecutiveMyIsolationUnderLower,
-  getExecutivePerformanceWebTagTypes
+  getExecutivePerformanceWebTagTypes,
+  getExecutiveStageList
 } from "@/constants/API";
 import {
   PATH_EMPLOYEE_TEAM,
   PATH_PERFORMANCE_INDEX_DETAIL
 } from "@/constants/URL";
-import {
-  LABEL_EMPTY,
-  LABEL_SELECT_DIVISION,
-  STAGEOPTIONS
-} from "@/constants/TEXT";
+import { LABEL_EMPTY, LABEL_SELECT_DIVISION } from "@/constants/TEXT";
 export default {
   components: {
     "common-select": AsyncComp(
@@ -192,9 +189,7 @@ export default {
   },
   data() {
     return {
-      constants: {
-        STAGEOPTIONS
-      },
+      constants: {},
       nav: [
         {
           label: "团队评分",
@@ -217,7 +212,8 @@ export default {
       lowerList: [],
       teamList: [],
       team_leader: "",
-      teamDetail: {}
+      teamDetail: {},
+      stageOptions: {}
     };
   },
   methods: {
@@ -284,6 +280,11 @@ export default {
     }
   },
   created() {
+    getExecutiveStageList(this.performanceId)
+      .then(res => {
+        this.stageOptions = res;
+      })
+      .catch(e => {});
     getExecutivePerformanceWebTagTypes(this.performanceId)
       .then(res => {
         this.tagOptions = res;

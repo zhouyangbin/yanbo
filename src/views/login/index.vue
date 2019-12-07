@@ -170,7 +170,7 @@ export default {
       let performance_id = querys.performance_id;
       let performance_user_id = querys.performance_user_id;
       let dst = "";
-      switch (querys.url) {
+      switch (querys.path) {
         case "self":
           dst = PATH_PERFORMANCE_FILL_IN_INDEX(
             performance_id,

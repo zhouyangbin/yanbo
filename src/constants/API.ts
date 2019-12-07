@@ -685,3 +685,9 @@ export const postExecutiveImportFromEHR = (id: String, params: Object) =>
     `/executive-performance/admin/performances/${id}/users/import-from-ehr`,
     params
   );
+
+// 高管绩效  获取绩效用户阶段列表
+export const getExecutiveStageList = (id: String) =>
+  sendGet(
+    `/executive-performance/admin/performances/${id}/get-performance-stage-list`
+  );
