@@ -154,7 +154,11 @@ export default {
       this.getList();
     },
     exportDetail(row) {
-      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
+      window.open(
+        PATH_EXPORT_TEAM_PERFORMANCE(row.performance_id),
+        "_blank",
+        "noopener"
+      );
     }
   },
   created() {
