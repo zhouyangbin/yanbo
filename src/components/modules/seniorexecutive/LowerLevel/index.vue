@@ -49,7 +49,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button @click="resetForm('filterForm')">清空</el-button>
+          <el-button @click="resetForm()">清空</el-button>
         </el-form-item>
       </el-form>
       <el-table class="lower-list" :data="lowerList" style="width: 100%">
@@ -186,8 +186,12 @@ export default {
     changeScoreTag() {
       this.getMyLowerList();
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.filterForm = {
+        name: "",
+        stage: "",
+        score_tag: ""
+      };
       this.getMyLowerList();
     },
     viewDetail(data) {
@@ -205,9 +209,9 @@ export default {
         performance_id: parseInt(this.performanceId),
         page: this.page,
         perPage: this.perPage,
-        name: this.filterForm.name,
-        stage: this.filterForm.stage,
-        score_tag: this.filterForm.score_tag
+        name: this.filterForm.name || "",
+        stage: this.filterForm.stage || "",
+        score_tag: this.filterForm.score_tag || ""
       };
       getExecutiveMyUnderLower(data).then(res => {
         let { data, total } = res;

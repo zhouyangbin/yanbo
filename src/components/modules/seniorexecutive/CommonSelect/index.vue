@@ -42,7 +42,9 @@ export default {
   },
   watch: {
     code: {
-      handler: function(val, oldVal) {},
+      handler: function(val, oldVal) {
+        this.workcode = val || "";
+      },
       immediate: true
     }
   },
