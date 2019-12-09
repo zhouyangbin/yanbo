@@ -302,9 +302,19 @@ export default {
       indexDraftTpl: null,
       handelIndexDetail: [],
       rules: {
-        weights: [{ required: true, message: "权重不能为空", trigger: "blur" }],
+        weights: [
+          {
+            required: true,
+            message: "权重不能为空",
+            trigger: "blur"
+          }
+        ],
         target: [
-          { required: true, message: "指标名称不能为空", trigget: "blur" }
+          {
+            required: true,
+            message: "指标名称不能为空",
+            trigger: "blur"
+          }
         ],
         content: [
           {
