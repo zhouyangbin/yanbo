@@ -517,9 +517,9 @@ export default {
       for (var i in arr) {
         if ("object" === typeof arr[i]) {
           if (0 <= this.optionalIds.indexOf(arr[i].department_id)) {
-            arr[i].disabled = false;
-          } else {
             arr[i].disabled = true;
+          } else {
+            arr[i].disabled = false;
           }
           if (undefined !== arr[i].children) {
             this.handleOrgTree(arr[i].children);
@@ -536,6 +536,7 @@ export default {
     this.getAdminTagTypesList();
     getExecutiveAdminTagsDepartments()
       .then(res => {
+        console.log(res);
         this.optionalIds = res;
         this.orgTree = this.handleOrgTree(this.orgTree);
       })
