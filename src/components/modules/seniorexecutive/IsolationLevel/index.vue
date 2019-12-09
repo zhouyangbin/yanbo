@@ -49,7 +49,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button @click="resetForm('filterForm')">清空</el-button>
+          <el-button @click="resetForm()">清空</el-button>
         </el-form-item>
       </el-form>
       <el-row type="flex" :gutter="20" align="top">
@@ -231,8 +231,12 @@ export default {
     changeScoreTag() {
       this.getMyLowerList();
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.filterForm = {
+        name: "",
+        stage: "",
+        score_tag: ""
+      };
       this.getMyLowerList();
     },
     handleCurrentChange(val) {
@@ -256,9 +260,9 @@ export default {
       let getData = {
         performance_id: parseInt(this.performanceId),
         page: this.page,
-        name: this.filterForm.name,
-        stage: this.filterForm.stage,
-        score_tag: this.filterForm.score_tag,
+        name: this.filterForm.name || "",
+        stage: this.filterForm.stage || "",
+        score_tag: this.filterForm.score_tag || "",
         team_leader: this.team_leader
       };
       getExecutiveMyIsolationUnderLower(getData)
