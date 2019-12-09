@@ -218,7 +218,7 @@ export default {
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (this.leaderAdditionMark.score || 0)
+          (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(8);
       return (Math.round(total * 100) / 100).toFixed(2);
     },
