@@ -190,6 +190,12 @@ export default {
       default: () => ({})
     }
   },
+  watch: {
+    initTime: {
+      handler: function(val, oldVal) {},
+      deep: true
+    }
+  },
   data() {
     const endTimeValidator = (rule, value, callback) => {
       if (
@@ -453,11 +459,11 @@ export default {
     submit() {
       this.$refs["timesForm"].validate(valid => {
         if (valid) {
-          delete this.timesForm.allow_appeal;
-          if (this.timesForm.allow_appeal) {
+          if (!this.timesForm.allow_appeal) {
             delete this.timesForm.appeal_begin_time;
             delete this.timesForm.appeal_end_time;
           }
+          delete this.timesForm.allow_appeal;
           postExecutivePerformanceSetTime(this.performanceId, this.timesForm)
             .then(res => {
               this.$emit("update");
