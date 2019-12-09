@@ -644,7 +644,7 @@ export default {
       }
       for (let i = 0; i < indexTpl.length; i++) {
         if (
-          !indexTpl[i].targets &&
+          (!indexTpl[i].targets || indexTpl[i].targets.length === 0) &&
           indexTpl[i].template_columns.metrics &&
           indexTpl[i].key !== "finance"
         ) {
