@@ -54,13 +54,11 @@
             </el-step>
           </el-steps>
         </div>
-        <div v-if="appeal.reason">
-          <br />
-          <div class="inner-container">
-            <span class="label">申诉理由:</span>
-            <span :inner-html.prop="appeal.reason | linebreak"></span>
+        <div v-if="appeal_length">
+          <div style=" width: 100%; word-break: break-all;display: flex;" v-for="(item,index) in appeal" :key="index">
+              <span class="label" style=" line-height: 20px;padding-right: 0;">第{{index+1}}次申诉理由：</span>
+              <span  style=" line-height: 20px; padding-left: 0; ">{{item.reason}} </span><br/>             
           </div>
-          <br />
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">评分结果 : </span>
@@ -84,13 +82,14 @@
       </div>
       <br />
       <br />
-      <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="changeMarks" class="btn-reset">
+      <el-row type="flex" justify="center">
+        <el-button v-if="appeal_length && stage != 60" @click="changeMarks" class="btn-reset">
           {{ constants.LABEL_MODIFY }}
         </el-button>
-        <el-button round size="medium" @click="submit" type="primary"
-          >确认结果</el-button
-        >
+        <el-button  v-if="appeal_length && stage != 60" @click="submit" type="primary">
+          {{appeal_length == 1 ? "维持原成绩" : null}}
+          {{appeal_length == 2 ? "确认成绩" : null}}
+        </el-button>
       </el-row>
     </section>
     <change-mark
@@ -171,7 +170,9 @@ export default {
         BASIC_INFO
       },
       label_id: "",
-      label_name: ""
+      label_name: "",
+      appeal_length:0,
+      stage:0,
     };
   },
   components: {
@@ -193,25 +194,31 @@ export default {
       this.getInfo();
     },
     submit() {
+      let submit_text= "<p style='height:100px;line-height: 100px;text-align:center'>";
+      if(this.appeal_length ==1){
+        submit_text+="提交后将由员工再次确认成绩,是否继续?</p>";
+      }
+      if(this.appeal_length ==2){
+        submit_text+="请确认无误再提交，一经提交无法修改, 是否继续?</p>";
+      }
       this.$confirm(
-        "请确认无误再提交，一经提交无法修改, 是否继续?",
+        submit_text,
         ATTENTION,
         {
           confirmButtonText: CONFIRM,
           cancelButtonText: CANCEL,
-          type: "warning"
+          dangerouslyUseHTMLString: true
         }
       )
         .then(() => {
           const postData = {
-            action: 1
+            action: this.appeal_length,//申诉数组长度为1  action = 1 确认提交。 申诉数组长度为2 action = 2 维持原成绩
           };
           changePerformanceGrade(
             this.$route.params.orgID,
             this.$route.params.uid,
             postData
-          )
-            .then(res => {
+          ).then(res => {
               this.getInfo();
             })
             .catch(e => {});
@@ -304,7 +311,8 @@ export default {
             can_edit,
             score_level,
             label_id,
-            label_name
+            label_name,
+            stage
           } = res;
           this.basicInfo = {
             leaderName: superior_name
@@ -323,10 +331,12 @@ export default {
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-          this.appeal = appeal || {};
+          this.appeal = appeal || [];
+          this.appeal_length = appeal.length;
           this.canEdit = can_edit == 1;
           this.label_id = label_id;
           this.label_name = label_name;
+          this.stage = stage;
         })
         .catch(e => {
           // console.log(e)
@@ -359,8 +369,8 @@ export default {
 .user-detail-page .label {
   margin-right: 20px;
   color: #778294;
-  width: 100px;
-  min-width: 100px;
+  width: 116px;
+  min-width: 116px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;

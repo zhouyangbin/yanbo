@@ -28,6 +28,7 @@ import {
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
   PATH_MSG_MOBILE,
   PATH_MY_CULTURE_GRADE_DETAILS,
   PATH_MEMBER_CULTURE_LIST,
@@ -73,7 +74,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "146382" }) //13681126412
+        fzLogin({ workcode: "151217" }) //13681126412
           // 094203
           // 076533
           // 17600297195
@@ -156,6 +157,12 @@ export default {
         case "levelteam_detail": //我的业绩 隔级评分 评分管理 as 隔级审核页面
           dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(
             querys.performance_name_id
+          );
+        case "levelteam_other_team_detail": //我的业绩 隔级评分 评分管理 团队下属详情页面
+          dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(
+            querys.performance_name_id,
+            querys.performance_id,
+            querys.performance_user_id
           );
           break;
       }

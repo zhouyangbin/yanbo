@@ -120,7 +120,7 @@ export default {
             score_level: mark,
             reason,
             label_id,
-            action: 2
+            action: 3
           };
           changePerformanceGrade(
             this.$route.params.orgID,

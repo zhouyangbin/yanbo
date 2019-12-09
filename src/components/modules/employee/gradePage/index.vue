@@ -75,14 +75,37 @@
         <br />
       </div>
       <div>
-        <level
+        <!--level
           v-if="level && published"
           :old_s="old_s"
           v-model="level"
           :label_id="label_id"
           :tip_A_show="false"
-        ></level>
+        ></level-->
         <br />
+        <el-row v-if="level && published" type="flex" justify="end"  class="level-section">
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-col :span="6">
+                <span style="line-height: 40px;">结果/</span>
+              </el-col>
+              <el-col :span="18">
+                <span class="level">
+                  {{level}}
+                </span>
+              </el-col>
+            </el-row>
+            <br />
+            <el-row>
+                <el-col :span="6">标签/</el-col>
+                <el-tag :class="
+              level == 'A' || level == 'S'
+                ? 'status-tag top-style'
+                : 'status-tag other-style'
+            ">{{label_name}}</el-tag>
+            </el-row>
+          </el-col>
+        </el-row>
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
         <el-button round size="medium" @click="saveDraft" class="btn-reset">
@@ -92,38 +115,56 @@
           {{ constants.SUBMIT }}
         </el-button>
       </el-row>
-      <el-row v-if="is_state" type="flex" justify="center">
-          <p>到期将默认确认结果, 如有问题可</p>
-          <el-button @click="user_confirm = true" type="primary">
+      <p v-if="is_confirm || is_appeal || is_cancel_appeal" style="color: #eb0c00;">请注意：到期将默认确认结果, 如有问题可点击申诉</p>
+      <p v-if="is_confirm || is_appeal || is_cancel_appeal" style=" width: 100%; word-break: break-all; color: #ff8519;">
+            <span v-for="(item,index) in appeal" :key="index">
+              申诉理由：{{item.reason}} <br/>             
+            </span>
+      </p>
+      <el-row type="flex" justify="center">
+          <el-button v-if="is_confirm" @click="confirm_box_show = true" type="primary">
             确认
           </el-button>
-          <el-button @click="visible = true" type="warning">
-            {{ constants.APPEAL }}
+          <el-button v-if="is_appeal" @click="appeal_box_show = true" type="warning">
+            申诉
           </el-button>
-          <el-button @click="user_confirm = true" type="warning">
+          <el-button v-if="is_cancel_appeal" @click="cancel_appeal_box_show = true" type="warning">
             取消申诉
           </el-button>
-          <el-button  @click="cancel" type="warning">
-          取消申诉
-        </el-button>
       </el-row>
       <el-dialog
         title="提示"
-        :visible.sync="user_confirm"
+        :visible.sync="confirm_box_show"
         class="dialog"
         width="30%"
       >
         <p class="text-center"> 是否确认成绩 </p>
         <span class="text-center" slot="footer">
-          <el-button @click="user_confirm=false">
+          <el-button @click="confirm_box_show=false">
             取消
           </el-button>
-          <el-button type="primary">
+          <el-button type="primary" @click="confirm_submit">
             确认
           </el-button>
         </span>
       </el-dialog>
-      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
+      <reject-dialog @close="getInfo" :visible.sync="appeal_box_show"></reject-dialog>
+      <el-dialog
+        title="提示"
+        :visible.sync="cancel_appeal_box_show"
+        class="dialog"
+        width="30%"
+      >
+        <p class="text-center"> 取消申诉将默认认为自动确认当前成绩，是否继续？ </p>
+        <span class="text-center" slot="footer">
+          <el-button @click="cancel_appeal_box_show=false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="cancel_appeal_submit">
+            确认
+          </el-button>
+        </span>
+      </el-dialog>
     </section>
   </div>
 </template>
@@ -147,6 +188,7 @@ import {
   getEmployeeDetail,
   postUserPerformanceDraft,
   postSelfPerformance,
+  ConfirmSelf,
   delCancelAppeal
 } from "@/constants/API";
 
@@ -191,6 +233,14 @@ export default {
       old_s: false,
       label_id: null,
       user_confirm:false,
+      is_appeal:false, //是否申诉
+      appeal_box_show:false,
+      appeal:[],
+      is_cancel_appeal:false, //是否取消申诉
+      cancel_appeal_box_show:false,
+      is_confirm:false, //是否确认
+      confirm_box_show: false,
+      label_name:"",//标签名称
     };
   },
   components: {
@@ -199,7 +249,7 @@ export default {
       import("@/components/modules/employee/additionalMark/index.vue"),
     "total-mark": () =>
       import("@/components/modules/employee/totalMark/index.vue"),
-    level: () => import("@/components/modules/employee/finalLevel/index.vue"),
+    //level: () => import("@/components/modules/employee/finalLevel/index.vue"),
     "reject-dialog": () =>
       import("@/components/modules/employee/appealConfirm/index.vue"),
     comments: () =>
@@ -302,9 +352,14 @@ export default {
             score,
             publish_status,
             self_score,
+            appeal,
+            is_appeal, //是否申诉
+            is_cancel_appeal, //是否取消申诉
+            is_confirm, //是否确认
             is_state,
             _s,
             label_id,
+            label_name,
             label_show
           } = res;
           this.basicInfo = {
@@ -312,9 +367,14 @@ export default {
             superior_name
           };
           const published = publish_status == 1;
+          this.is_appeal = is_appeal; //是否申诉
+          this.appeal = appeal;
+          this.is_cancel_appeal = is_cancel_appeal; //是否取消申诉
+          this.is_confirm = is_confirm; //是否确认
           this.is_state = is_state;
           this.old_s = _s == 1 && label_show == 1 ? true : false;
           this.label_id = label_id;
+          this.label_name = label_name;
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
@@ -480,7 +540,22 @@ export default {
           this.cancelReject = false;
       }
     },
-    cancel() {
+    confirm_submit() {
+      //绩效确认
+      return ConfirmSelf({
+        performance_user_id: this.$route.params.id
+      })
+        .then(res => {
+          this.$message({
+            type: "success",
+            message: "确认成功!"
+          });
+          this.getInfo();
+        })
+        .catch(e => {});
+    },
+    cancel_appeal_submit() {
+      //取消申诉
       return delCancelAppeal({
         performance_user_id: this.$route.params.id
       })
@@ -545,5 +620,35 @@ export default {
 }
 .dialog >>> .el-dialog__footer {
   text-align: center;
+}
+.level-section {
+  font-size: 18px;
+  color: #6c7a92;
+}
+.level-section .level {
+  font-size: 26px;
+  color: orange;
+}
+.top-style {
+  background: #e8f5eb;
+  color: rgba(0, 177, 45, 1) !important;
+}
+.bplus-style {
+  background: #fff0e3;
+  color: rgba(255, 104, 0, 1);
+}
+.other-style {
+  background: #f1f2f5;
+  color: rgba(92, 108, 139, 1);
+}
+.status-tag {
+  min-width: 60px;
+  height: 28px;
+  padding: 0 10px;
+  margin: 0;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
 }
 </style>
