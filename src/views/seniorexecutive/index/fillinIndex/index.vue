@@ -643,7 +643,11 @@ export default {
         indexTpl = this.indexDraftTpl;
       }
       for (let i = 0; i < indexTpl.length; i++) {
-        if (indexTpl[i].targets.length === 0 && indexTpl[i].metrics) {
+        if (
+          !indexTpl[i].targets &&
+          indexTpl[i].template_columns.metrics &&
+          indexTpl[i].key !== "finance"
+        ) {
           let data = {
             outstanding: ""
           };
