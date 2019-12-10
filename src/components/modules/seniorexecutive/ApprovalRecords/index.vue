@@ -32,7 +32,7 @@
                     showStatus(item.target_status)
                   }}</el-tag>
                 </el-row>
-                <el-tooltip placement="bottom">
+                <el-tooltip placement="left">
                   <div slot="content">{{ item.reason }}</div>
                   <el-row class="reason" v-if="item.reason"
                     >意见：{{ item.reason }}</el-row
