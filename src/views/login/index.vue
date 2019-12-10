@@ -206,9 +206,7 @@ export default {
           );
           break;
         case "assessment":
-          dst = PATH_EXECUTIVE_ASSESSMENT_DATAILS(
-            performance_id
-          );
+          dst = PATH_EXECUTIVE_ASSESSMENT_DATAILS(performance_id);
           break;
       }
       return dst;
