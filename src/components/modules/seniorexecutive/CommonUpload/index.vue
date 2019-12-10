@@ -19,6 +19,7 @@
           :action="uploadActionUrl"
           :on-success="uploadSuccess"
           :on-error="uploadError"
+          :before-upload="uploadBefore"
         >
           <el-button type="text">选择文件</el-button>
         </el-upload>
@@ -75,6 +76,15 @@ export default {
         title: ERROR,
         message: `${file.name}${UPLOAD_FAIL}: ${errObj.message}`
       });
+    },
+    uploadBefore(file) {
+      if (file.size === 0) {
+        this.$notify.error({
+          title: ERROR,
+          message: `上传文件不能为空`
+        });
+        return false;
+      }
     }
   }
 };
