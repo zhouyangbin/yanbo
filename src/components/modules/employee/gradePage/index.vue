@@ -116,7 +116,7 @@
         </el-button>
       </el-row>
       <p v-if="is_confirm || is_appeal || is_cancel_appeal" style="color: #eb0c00;">请注意：到期将默认确认结果, 如有问题可点击申诉</p>
-      <p v-if="is_confirm || is_appeal || is_cancel_appeal" style=" width: 100%; word-break: break-all; color: #ff8519;">
+      <p style=" width: 100%; word-break: break-all; color: #ff8519;">
             <span v-for="(item,index) in appeal" :key="index">
               申诉理由：{{item.reason}} <br/>             
             </span>
@@ -267,7 +267,7 @@ export default {
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (this.leaderAdditionMark.score || 0)
+          (parseFloat(this.myAdditionMark.score) || 0)
       ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)

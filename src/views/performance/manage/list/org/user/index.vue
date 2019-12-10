@@ -44,37 +44,50 @@
         <comments :readOnly="true" :comments.sync="comments"></comments>
         <br />
       </div>
-      <div v-if="progressArr.length > 1" class="summary-section">
+      <div v-if="processor.length > 1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
-          <el-steps style="width:60%" :active="progressArr.length">
-            <el-step v-for="(v, i) of progressArr" :key="i">
-              <div slot="icon">{{ v.text }}</div>
-              <div slot="title">{{ v.value }}</div>
+          <el-steps :style="{width:(processor.length * 12)+'%'}" :active="processor.length">
+            <el-step v-for="(v, i) of processor" :key="i">
+              <div slot="icon">{{ v.name }}</div>
+              <div slot="title">{{ v.time }}</div>
             </el-step>
           </el-steps>
         </div>
         <div v-if="appeal_length">
-          <div style=" width: 100%; word-break: break-all;display: flex;" v-for="(item,index) in appeal" :key="index">
+          <div style=" width: 100%; word-break: break-all;display: flex;" v-for="(item,index) in apple_reasons" :key="index">
               <span class="label" style=" line-height: 20px;padding-right: 0;">第{{index+1}}次申诉理由：</span>
-              <span  style=" line-height: 20px; padding-left: 0; ">{{item.reason}} </span><br/>             
+              <span  style=" line-height: 20px; padding-left: 0; ">{{item}} </span><br/>             
           </div>
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">评分结果 : </span>
-          <span class="label" style="padding-left: 0;">{{ total }}</span>
+          <span  style=" line-height: 20px; padding-left: 0; color: #000;">{{ total }}</span>
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">标签 : </span>
-          <span class="label" style="padding-left: 0;">{{ label_name }}</span>
+          <span  style=" line-height: 20px; padding-left: 0; color: #000;">{{ label_name }}</span>
         </div>
         <div class="inner-container">
           <span class="label"></span>
-          <el-steps style="width:60%" :active="resultArr.length">
-            <el-step v-for="(v, i) of resultArr" :key="i">
-              <div slot="icon">{{ v.text }}</div>
-              <div slot="title">
-                {{ v.value }}
+          <el-steps style="width:60%" :active="Object.keys(scores).length">
+            <el-step v-for="(value, key, index) in scores" :key="index">
+              <div slot="icon">{{ value.name }}</div>
+              <div slot="title" v-if=" key == 'self' ">
+                {{ value.score }}分
+              </div>
+              <div slot="title" v-if=" key == 'superior' ">
+                <span>总分: {{ value.total_score }}分 </span>
+                <span>等级: {{ value.score_level }} </span>
+                <span>标签: {{ value.label_name }} </span>
+              </div>
+              <div slot="title" v-if=" key == 'bp_first' ">
+                <span>等级: {{ value.score_level }} </span>
+                <span>标签: {{ value.label_name }} </span>
+              </div>
+              <div slot="title" v-if=" key == 'bp_last' ">
+                <span>等级: {{ value.score_level }} </span>
+                <span>标签: {{ value.label_name }} </span>
               </div>
             </el-step>
           </el-steps>
@@ -136,7 +149,7 @@ export default {
       myAdditionMark: {},
       leaderAdditionMark: {},
       comments: "",
-      appeal: {},
+      apple_reasons: [],
       nav: [
         {
           label: GRADE_MANAGE,
@@ -159,7 +172,9 @@ export default {
         }
       ],
       resultArr: [],
+      scores:{},
       progressArr: [],
+      processor:[],
       canEdit: false,
       showChangeMarkDia: false,
       constants: {
@@ -300,42 +315,45 @@ export default {
             self_attach_score,
             superior_attach_score,
             superior_score,
-            appeal,
+            apple_reasons,
             self_score,
             target_time,
             self_time,
             superior_time,
-            appeal_time,
             end_time,
             confirm_end_time,
             can_edit,
             score_level,
             label_id,
             label_name,
+            processor,
+            scores,
             stage
           } = res;
           this.basicInfo = {
             leaderName: superior_name
           };
 
-          this.total = score_level;
+          this.total = scores.superior.score_level;
           this.comments = superior_score && superior_score.evaluation;
-          this.composeResultArr(self_score, superior_score, appeal);
-          this.composeProgressArr(
-            target_time,
-            self_time,
-            superior_time,
-            appeal_time,
-            confirm_end_time
-          );
+          this.processor = processor;
+          this.scores =scores;
+          // this.composeResultArr(self_score, superior_score, appeal);
+          // this.composeProgressArr(
+          //   target_time,
+          //   self_time,
+          //   superior_time,
+          //   appeal_time,
+          //   confirm_end_time
+          // );
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-          this.appeal = appeal || [];
-          this.appeal_length = appeal.length;
+          this.apple_reasons = apple_reasons || [];
+          this.appeal_length = apple_reasons.length;
           this.canEdit = can_edit == 1;
-          this.label_id = label_id;
-          this.label_name = label_name;
+          this.label_id = scores.superior.label_id;
+          this.label_name = scores.superior.label_name;
           this.stage = stage;
         })
         .catch(e => {
