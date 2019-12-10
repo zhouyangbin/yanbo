@@ -29,7 +29,7 @@
               :label="constants.TARGET_WEIGH"
               width="180"
               header-align="center"
-              align="left"
+              align="center"
               prop="weights"
             >
               <template slot-scope="scope">
