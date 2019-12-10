@@ -41,7 +41,8 @@ import {
   PATH_GRADE_ORG_LIST,
   PATH_PERFORMANCE_FILL_IN_INDEX,
   PATH_PERFORMANCE_INDEX_DETAIL,
-  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -202,6 +203,11 @@ export default {
             performance_id,
             performance_user_id,
             "subteam"
+          );
+          break;
+        case "assessment":
+          dst = PATH_EXECUTIVE_ASSESSMENT_DATAILS(
+            performance_id
           );
           break;
       }
