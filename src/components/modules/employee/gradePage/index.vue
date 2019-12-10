@@ -198,7 +198,7 @@ export default {
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (parseFloat(this.leaderAdditionMark.score) || 0)
+          (parseFloat(this.myAdditionMark.score) || 0)
       ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
         ? parseFloat(this.superior_score.score)
