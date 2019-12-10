@@ -34,7 +34,9 @@
                 </el-row>
                 <el-tooltip placement="bottom">
                   <div slot="content">{{ item.reason }}</div>
-                  <el-row class="reason" v-if="item.reason">意见：{{ item.reason }}</el-row>
+                  <el-row class="reason" v-if="item.reason"
+                    >意见：{{ item.reason }}</el-row
+                  >
                 </el-tooltip>
                 <!-- <el-row v-if="item.reason">{{ item.reason }}</el-row> -->
                 <el-row class="time">{{ item.created_at }}</el-row>
@@ -157,13 +159,12 @@ export default {
   margin-top: 5px;
 }
 .reason {
-word-wrap: break-word;
-word-break: break-all;
-overflow : hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
-
 </style>

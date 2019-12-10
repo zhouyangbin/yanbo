@@ -195,7 +195,6 @@ export default {
       this.getMyLowerList();
     },
     viewDetail(data) {
-      // to do stage 为 10 待共识    同意
       this.$router.push(
         PATH_PERFORMANCE_INDEX_DETAIL(
           this.performanceId,

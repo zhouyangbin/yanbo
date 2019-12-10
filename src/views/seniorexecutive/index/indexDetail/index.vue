@@ -123,7 +123,7 @@
         class="tempeorary-memory"
         v-if="showAgree"
         @click="rejectTarget"
-        >待共识</el-button
+        >退回</el-button
       >
       <el-button class="submit-button" v-if="showAgree" @click="agreeTarget"
         >同意</el-button
