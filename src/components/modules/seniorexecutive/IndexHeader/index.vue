@@ -11,7 +11,13 @@
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
-          <el-col class="idea-detail">{{ userInfo.opinion }}</el-col>
+          <el-tooltip placement="top">
+            <div slot="content">{{ userInfo.opinion }}</div>
+            <el-col class="idea-detail">
+              {{ userInfo.opinion }}
+            </el-col>
+          </el-tooltip>
+          <!-- <el-col class="idea-detail">{{ userInfo.opinion }}</el-col> -->
         </el-row>
         <el-row class="user-info flex">
           <img
@@ -231,6 +237,11 @@ export default {
 .idea-detail {
   word-wrap: break-word;
   word-break: break-all;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .index-header .text-over {
   line-height: 20px;
