@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title="待共识"
+      title="退回"
       :visible="visible"
       @close="close"
       :close-on-click-modal="false"

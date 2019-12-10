@@ -6,9 +6,7 @@
       <target-content :all-target="allTarget"></target-content>
       <el-row class="footer-button">
         <el-button class="agree-button" @click="agreeTarget">同意</el-button>
-        <el-button class="wait-consensus" @click="rejectTarget"
-          >待共识</el-button
-        >
+        <el-button class="wait-consensus" @click="rejectTarget">退回</el-button>
         <el-button @click="returnGradeList">返回下属评分列表</el-button>
       </el-row>
     </div>
