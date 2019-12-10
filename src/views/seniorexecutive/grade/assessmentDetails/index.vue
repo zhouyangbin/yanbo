@@ -899,14 +899,17 @@ export default {
     confirmUpload() {
       this.showUpload = false;
       this.getUserList();
+      this.getPerformanceDetailData();
     },
     confirmImportUser() {
       this.showImportList = false;
       this.getUserList();
+      this.getPerformanceDetailData();
     },
     confirmUser() {
       this.showModifyUser = false;
       this.getUserList();
+      this.getPerformanceDetailData();
     },
     tplDefine() {
       this.showDialog = false;
