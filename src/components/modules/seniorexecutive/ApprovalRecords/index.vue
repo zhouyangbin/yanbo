@@ -72,7 +72,7 @@ export default {
           state = "已提交";
           break;
         case 2:
-          state = "已驳回";
+          state = "已退回";
           break;
         case 3:
           state = "确认中";
