@@ -32,7 +32,7 @@
                     showStatus(item.target_status)
                   }}</el-tag>
                 </el-row>
-                <el-row v-if="item.reason">意见：{{ item.reason }}</el-row>
+                <el-row v-if="item.reason">{{ item.reason }}</el-row>
                 <el-row class="time">{{ item.created_at }}</el-row>
               </el-col>
             </el-row>

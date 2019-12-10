@@ -28,7 +28,8 @@
               v-if="targetItem.template_columns.weight"
               :label="constants.TARGET_WEIGH"
               width="180"
-              align="center"
+              header-align="center"
+              align="left"
               prop="weights"
             >
               <template slot-scope="scope">
@@ -42,7 +43,8 @@
               "
               :label="constants.TARGET_NAME"
               min-width="240"
-              align="center"
+              header-align="center"
+              align="left"
               prop="target"
             ></el-table-column>
             <el-table-column
@@ -52,7 +54,8 @@
               "
               :label="constants.TARGET_NAME"
               min-width="240"
-              align="center"
+              header-align="center"
+              align="left"
               :render-header="changeLabel"
               prop="target"
             >
@@ -61,7 +64,7 @@
               v-if="targetItem.template_columns.specific_job"
               :label="constants.TASK_DESCRIPTION"
               min-width="300"
-              header-align="center"
+              header-align="left"
               prop="content"
             >
             </el-table-column>
@@ -532,7 +535,7 @@ export default {
       }
       .measure-title {
         width: 180px;
-        text-align: right;
+        text-align: left;
         flex-shrink: 1;
         .is-required {
           color: #f56c6c;
