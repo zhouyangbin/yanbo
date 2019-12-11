@@ -442,7 +442,7 @@ export default {
           isLegal = false;
         }
       }
-      if(!isLegal) {
+      if (!isLegal) {
         this.$alert("所选隔级中存在未在当前阶段的员工！");
         this.$refs.tableData.clearSelection();
         this.selectedArr = [];
