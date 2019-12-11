@@ -11,7 +11,7 @@
           <el-col style="width: 80px;"
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
-          <el-tooltip placement="top">
+          <el-tooltip placement="left">
             <div slot="content">{{ userInfo.opinion }}</div>
             <el-col class="idea-detail">
               {{ userInfo.opinion }}
