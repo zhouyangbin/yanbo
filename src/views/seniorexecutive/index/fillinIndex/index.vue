@@ -485,6 +485,9 @@ export default {
       this.indexTpl[index].targets.push(newTarget);
     },
     getTableLen(index) {
+      if (!this.indexTpl[index].targets) {
+        this.indexTpl[index].targets = [];
+      }
       return this.indexTpl[index].targets.length;
     },
     changeLabel(h, { column }) {
