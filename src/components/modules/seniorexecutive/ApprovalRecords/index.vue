@@ -33,7 +33,12 @@
                   }}</el-tag>
                 </el-row>
                 <el-tooltip placement="left">
-                  <div slot="content" style="text-align: left;word-wrap: break-word;word-break: break-all;">{{ item.reason }}</div>
+                  <div
+                    slot="content"
+                    style="text-align: left;word-wrap: break-word;word-break: break-all;"
+                  >
+                    {{ item.reason }}
+                  </div>
                   <el-row class="reason" v-if="item.reason"
                     >意见：{{ item.reason }}</el-row
                   >

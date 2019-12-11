@@ -83,14 +83,10 @@
         </div>
       </el-form-item>
       <el-form-item label="绩效模板">
-        <div
-          v-for="item in ruleForm.templates"
-          :key="item.id"
-          class="rule-name tpl-name"
-        >
-          <el-tooltip effect="dark" :content="item.name" placement="top">
-            <span>{{ item.name }}</span>
-          </el-tooltip>
+        <div class="rule-name tpl-name">
+          <span v-for="item in ruleForm.templates" :key="item.id">{{
+            item.name
+          }}</span>
         </div>
       </el-form-item>
       <el-form-item label="标签规则">
