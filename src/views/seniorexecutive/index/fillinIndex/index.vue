@@ -49,9 +49,7 @@
                     type="number"
                     oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                   >
-                    <template slot="append"
-                      >%</template
-                    >
+                    <template slot="append">%</template>
                   </el-input>
                 </el-form-item>
               </template>

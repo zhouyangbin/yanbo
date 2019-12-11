@@ -12,7 +12,7 @@
             >{{ constants.SUPERIOR_OPINION }}：</el-col
           >
           <el-tooltip placement="left">
-            <div slot="content">{{ userInfo.opinion }}</div>
+            <div slot="content" style="text-align: left;word-wrap: break-word;word-break: break-all;">{{ userInfo.opinion }}</div>
             <el-col class="idea-detail">
               {{ userInfo.opinion }}
             </el-col>
