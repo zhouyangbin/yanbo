@@ -930,18 +930,9 @@ export default {
       }
     },
     reminder() {
-      let data = {
-        performance_id: this.performanceId,
-        performance_user_ids: this.performance_user_ids
-      };
-      postExecutivePerformanceNotice(data)
-        .then(res => {
-          this.$message({
-            message: "提醒成功",
-            type: "success"
-          });
-        })
-        .catch(e => {});
+      this.showConfirmDialog = true;
+      this.confirmType = "reminder";
+      this.tipsText = "是否确认提醒";
     },
     addPerson() {
       this.userType = "add";
@@ -991,6 +982,20 @@ export default {
       } else if (data === "delete") {
         this.showConfirmDialog = false;
         this.delPerformanceUser();
+      } else if (data === "reminder") {
+        let data = {
+          performance_id: this.performanceId,
+          performance_user_ids: this.performance_user_ids
+        };
+        postExecutivePerformanceNotice(data)
+          .then(res => {
+            this.showConfirmDialog = false;
+            this.$message({
+              message: "提醒成功",
+              type: "success"
+            });
+          })
+          .catch(e => {});
       } else {
         this.showConfirmDialog = false;
       }

@@ -650,7 +650,7 @@ export default {
           indexTpl[i].key !== "finance"
         ) {
           let data = {
-            outstanding: ""
+            weights: ""
           };
           indexTpl[i].targets.push(data);
         }
