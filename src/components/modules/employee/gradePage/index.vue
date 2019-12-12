@@ -570,7 +570,8 @@ export default {
           this.cancelReject = false;
       }
     },
-    confirm_submit() { //绩效确认
+    confirm_submit() {
+      //绩效确认
       return ConfirmSelf({
         performance_user_id: this.$route.params.id
       })
@@ -584,7 +585,8 @@ export default {
         })
         .catch(e => {});
     },
-    cancel_appeal_submit() { //取消申诉
+    cancel_appeal_submit() {
+      //取消申诉
       return delCancelAppeal({
         performance_user_id: this.$route.params.id
       })
