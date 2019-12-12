@@ -248,9 +248,9 @@ export default {
     filterObject(val) {}
   },
   methods: {
-    tableClass({row,column,rowIndex,columnIndex}) {
-    if(columnIndex === 2 || columnIndex === 3) {
-        return 'table-th';
+    tableClass({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 2 || columnIndex === 3) {
+        return "table-th";
       }
     },
     jumpPage() {
@@ -598,7 +598,7 @@ export default {
 }
 </style>
 <style>
-.table-th .cell{
+.table-th .cell {
   white-space: pre-line;
 }
 </style>
