@@ -573,9 +573,6 @@ export default {
         })
         .catch(e => {});
     },
-    /**
-     * 获取 init 接口信息
-     */
     getWrokAndTeamTarget() {
       let data = {
         performance_id: this.$route.params.id,
@@ -587,9 +584,6 @@ export default {
         })
         .catch(e => {});
     },
-    /**
-     * 处理草稿和 init 接口数据
-     */
     handleIndexData(indexTpl) {
       // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
       this.isTeam = indexTpl.team !== undefined;
@@ -598,37 +592,13 @@ export default {
       this.indexTpl = [];
       let newIndexTpl = [];
       if (this.isTeam) {
-        let team = indexTpl.team;
-        this.$set(newIndexTpl, team.sort - 1, {
-          key: team.key,
-          sort: team.sort,
-          name: team.name,
-          weight: team.weight,
-          targets: team.targets || [],
-          template_columns: team.template_columns
-        });
+        newIndexTpl[indexTpl.team.sort - 1] = indexTpl.team;
       }
       if (this.isWork) {
-        let work = indexTpl.work;
-        this.$set(newIndexTpl, work.sort - 1, {
-          key: work.key,
-          sort: work.sort,
-          name: work.name,
-          weight: work.weight,
-          targets: work.targets || [],
-          template_columns: work.template_columns
-        });
+        newIndexTpl[indexTpl.work.sort - 1] = indexTpl.work;
       }
       if (this.isFinance) {
-        let finance = indexTpl.finance;
-        this.$set(newIndexTpl, finance.sort - 1, {
-          key: finance.key,
-          sort: finance.sort,
-          name: finance.name,
-          weight: finance.weight,
-          targets: finance.targets || [],
-          template_columns: finance.template_columns
-        });
+        newIndexTpl[indexTpl.finance.sort - 1] = indexTpl.finance;
       }
       for (let i = 0; i < newIndexTpl.length; i++) {
         if (newIndexTpl[i]) {

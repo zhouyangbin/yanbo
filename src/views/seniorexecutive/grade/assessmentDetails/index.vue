@@ -955,11 +955,17 @@ export default {
       this.showModifyUser = true;
     },
     importList() {
-      this.showImportList = true;
-      this.importTplUrl = PATH_EXECUTIVE_IMPORT_USER_LIST(this.performanceId);
-      this.uploadTplUrl = PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER(
-        this.performanceId
-      );
+      if (this.total) {
+        this.showConfirmDialog = true;
+        this.tipsText = "是否确认全部重新覆盖导入？";
+        this.confirmType = "importUser";
+      } else {
+        this.showImportList = true;
+        this.importTplUrl = PATH_EXECUTIVE_IMPORT_USER_LIST(this.performanceId);
+        this.uploadTplUrl = PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER(
+          this.performanceId
+        );
+      }
     },
     closeImportList() {
       this.showImportList = false;
@@ -1012,6 +1018,13 @@ export default {
             });
           })
           .catch(e => {});
+      } else if (data === "importUser") {
+        this.showConfirmDialog = false;
+        this.showImportList = true;
+        this.importTplUrl = PATH_EXECUTIVE_IMPORT_USER_LIST(this.performanceId);
+        this.uploadTplUrl = PATH_EXECUTIVE_PERFORMANCE_IMPORT_USER(
+          this.performanceId
+        );
       } else {
         this.showConfirmDialog = false;
       }

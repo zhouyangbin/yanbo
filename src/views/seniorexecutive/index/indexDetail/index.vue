@@ -97,7 +97,6 @@
         </el-form>
       </el-row>
       <ul class="sub-total">
-        <!-- 财务维度小计 -->
         <li v-if="isFinance">
           {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
             this.handleSubTotal("finance")
@@ -244,8 +243,7 @@ export default {
       if (val === 0 || val) {
         return val + "%";
       }
-    },
-    filterObject(val) {}
+    }
   },
   methods: {
     tableClass({ row, column, rowIndex, columnIndex }) {
@@ -374,13 +372,11 @@ export default {
       };
       getExecutiveUniqueTemplate(data)
         .then(res => {
-          // console.log(res.finance.targets[0].content);
           this.handleIndexData(res);
         })
         .catch(e => {});
     },
     handleIndexData(indexTpl) {
-      // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
       this.isTeam = indexTpl.team !== undefined;
       this.isWork = indexTpl.work !== undefined;
       this.isFinance = indexTpl.finance !== undefined;
