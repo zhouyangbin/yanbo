@@ -249,7 +249,7 @@ export default {
   },
   methods: {
     tableClass({row,column,rowIndex,columnIndex}) {
-    if(columnIndex === 2 || columnIndex === 3) {
+    if(columnIndex === 1 || columnIndex === 2 || columnIndex === 3) {
         return 'table-th';
       }
     },
