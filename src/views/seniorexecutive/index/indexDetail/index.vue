@@ -21,13 +21,13 @@
             border
             :header-cell-style="{
               backgroundColor: '#F5F6F7',
-              color: '#303133'
+              color: '#303133',
             }"
           >
             <el-table-column
               v-if="targetItem.template_columns.weight"
               :label="constants.TARGET_WEIGH"
-              width="180"
+              width="100"
               header-align="center"
               align="center"
               prop="weights"
@@ -368,6 +368,7 @@ export default {
       };
       getExecutiveUniqueTemplate(data)
         .then(res => {
+          // console.log(res.finance.targets[0].content);
           this.handleIndexData(res);
         })
         .catch(e => {});

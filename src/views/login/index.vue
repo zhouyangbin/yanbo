@@ -62,7 +62,7 @@ export default {
     if (this.$device.mobile) {
       //navigator.userAgent终端判断
       //判断手机跳转
-      this.$router.push({ path: PATH_MSG_MOBILE });
+      this.$router.replace({ path: PATH_MSG_MOBILE });
       return;
     }
     let dst;
@@ -79,7 +79,7 @@ export default {
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "074036" }) //13681126412
+        fzLogin({ workcode: "150848" }) //13681126412
           // 094203
           // 076533
           // 17600297195

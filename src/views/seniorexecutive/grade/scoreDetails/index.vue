@@ -118,10 +118,10 @@
       </div>
     </section>
     <section class="content-container">
-      <el-radio-group class="group-list" @change="changeType" v-model="type">
-        <el-radio-button label="superior">我的直属下级</el-radio-button>
-        <el-radio-button label="isolation">我的隔级下属</el-radio-button>
-      </el-radio-group>
+      <!-- <el-radio-group class="group-list" @change="changeType" v-model="type"> -->
+        <!-- <el-radio-button label="superior">我的直属下级</!-->
+        <!-- <el-radio-button label="isolation">我的隔级下属</el-radio-button> -->
+      <!-- </el-radio-group> -->
       <lower-level
         :performanceId="performanceId"
         :performance_user_id="performance_user_id"
