@@ -15,7 +15,7 @@
                 <el-row type="flex" align="middle" style="height:44px">
                   <span>{{ scope.row.name }}</span>
                   <span class="appeal-tag" v-if="scope.row.has_appeal">
-                    申述中
+                    申诉中
                   </span>
                 </el-row>
               </template>
