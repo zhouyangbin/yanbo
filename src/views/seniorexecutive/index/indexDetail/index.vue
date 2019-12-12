@@ -590,14 +590,4 @@ export default {
     }
   }
 }
-el-table cell {
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    line-height: 23px;
-    padding-left: 10px;
-    padding-right: 10px;
-    white-space: pre-line;
-}
 </style>
