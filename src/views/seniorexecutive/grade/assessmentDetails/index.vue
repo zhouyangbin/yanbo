@@ -192,22 +192,16 @@
           </div>
           <div class="setting-detail">
             <div class="setting-key">绩效模板:</div>
-            <div
-              v-for="item in performanceDetail.templates"
-              :key="item.id"
-              class="setting-value performance-tpl"
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="performanceDetail.templates_text"
+              placement="top"
             >
-              <el-tooltip
-                class="item"
-                effect="dark"
-                :content="item.name"
-                placement="top"
-              >
-                <div class="setting-value">
-                  {{ item.name }}
-                </div>
-              </el-tooltip>
-            </div>
+              <div class="setting-value">
+                {{ performanceDetail.templates_text }}
+              </div>
+            </el-tooltip>
           </div>
           <div class="setting-detail">
             <div class="setting-key">是否允许申诉:</div>
@@ -764,7 +758,8 @@ export default {
         result_comfirm_end_time: null,
         confirm: 0,
         confirmed: 0,
-        result_confirm_end_time: null
+        result_confirm_end_time: null,
+        templates_text: ""
       },
       performanceId: this.$route.params.id,
       total: 0,
@@ -822,7 +817,8 @@ export default {
         PATH_EXECUTIVE_IMPORT_WORK_INDICATORS
       },
       permissions: [],
-      stageOptions: {}
+      stageOptions: {},
+      performanceTpls: ""
     };
   },
   computed: {
@@ -1321,23 +1317,6 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-        }
-        .performance-tpl {
-          span {
-            margin-right: 8px;
-            position: relative;
-            &::after {
-              content: "、";
-              position: absolute;
-              right: -14px;
-              bottom: 0;
-            }
-            &:last-child {
-              &::after {
-                content: "";
-              }
-            }
-          }
         }
       }
     }
