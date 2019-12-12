@@ -120,7 +120,7 @@
         <div class="list-middle">
           <div class="list-middle-left">
             <div class="list-middle-items">
-              <div>考核周期</div>
+              <div>考核年份</div>
               <div class="list-middle-item">
                 {{ item.year }}
               </div>
