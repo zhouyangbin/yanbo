@@ -25,7 +25,7 @@
           v-for="(item, index) in appeal"
           :key="index"
         >
-          第{{ index + 1 }}次申诉理由：{{ item.reason }}
+          申诉理由：{{ item.reason }}
         </p>
       </div>
       <br />

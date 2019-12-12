@@ -13,6 +13,13 @@
           / {{ basicInfo.superior_name }} </span
         >&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
+        <p
+          style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
+          v-for="(item, index) in appeal"
+          :key="index"
+        >
+          申诉理由：{{ item.reason }}
+        </p>
       </div>
       <br />
       <card
@@ -77,7 +84,7 @@
         <total-mark
           :total="total"
           :score="self_score"
-          :high_level_show="high_level_show"
+          :high_level_show="!!high_level_show"
         ></total-mark>
         <br />
       </div>
@@ -201,7 +208,8 @@ export default {
       high_level_show: 0,
       self_score: 0,
       disabled: false,
-      new_total: ""
+      new_total: "",
+      appeal: []
     };
   },
   components: {
@@ -232,7 +240,7 @@ export default {
           (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
-        ? parseFloat(this.superior_score.score)
+        ? parseFloat(this.superior_score.score).toFixed(2)
         : (Math.round(total * 100) / 100).toFixed(2);
 
       // return this.superior_score && this.superior_score.score != null
@@ -317,7 +325,8 @@ export default {
             score,
             publish_status,
             self_submit_score,
-            disabled
+            disabled,
+            appeal
           } = res;
           this.basicInfo = {
             superior_workcode,
@@ -325,12 +334,13 @@ export default {
           };
           const published = publish_status == 1;
           this.published = published;
+          this.appeal = appeal || [];
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.new_total = superior_score == null ? "" : superior_score.score;
           this.disabled = disabled;
           this.high_level_show =
-            superior_attach_score != null ? superior_attach_score.score : null; //如果有上级评分，就展示评分
+            superior_score != null ? superior_score.score : false; //如果有上级评分，就展示评分
           this.leaderAdditionMark = superior_attach_score || {};
           this.level =
             score_level || (superior_score && superior_score.score_level);
