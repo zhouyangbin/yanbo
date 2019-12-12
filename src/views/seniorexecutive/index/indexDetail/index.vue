@@ -23,6 +23,7 @@
               backgroundColor: '#F5F6F7',
               color: '#303133',
             }"
+            :cell-class-name="tableClass"
           >
             <el-table-column
               v-if="targetItem.template_columns.weight"
@@ -247,6 +248,11 @@ export default {
     filterObject(val) {}
   },
   methods: {
+    tableClass({row,column,rowIndex,columnIndex}) {
+    if(columnIndex === 2 || columnIndex === 3) {
+        return 'table-th';
+      }
+    },
     jumpPage() {
       this.$router.push(
         PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
@@ -589,5 +595,10 @@ export default {
       border: 1px solid #66a8ff;
     }
   }
+}
+</style>
+<style>
+.table-th .cell{
+  white-space: pre-line;
 }
 </style>
