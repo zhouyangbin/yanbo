@@ -30,7 +30,7 @@
             <el-table-column
               v-if="targetItem.template_columns.weight"
               label="权重"
-              width="180"
+              width="100"
               align="center"
             >
               <template slot-scope="scope">

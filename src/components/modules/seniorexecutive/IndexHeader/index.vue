@@ -60,7 +60,7 @@
                     class="item"
                     effect="dark"
                     :content="userInfo.department_name"
-                    placement="top"
+                    placement="left"
                   >
                     <div class="text-over">{{ userInfo.department_name }}</div>
                   </el-tooltip>
