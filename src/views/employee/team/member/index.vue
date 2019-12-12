@@ -20,10 +20,10 @@
             <el-button @click="showReviewDia = true">返回修改</el-button>
           </el-col>
         </el-row>
-        <p style=" width: 100%; word-break: break-all; color: #ff8519;">
-          <span v-for="(item, index) in appeal" :key="index">
-            申诉理由：{{ item.reason }} <br />
-          </span>
+        <p style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
+            v-for="(item, index) in appeal"
+            :key="index"
+          >第{{ index + 1 }}次申诉理由：{{ item.reason }}
         </p>
       </div>
       <br />

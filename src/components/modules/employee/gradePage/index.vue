@@ -570,12 +570,12 @@ export default {
           this.cancelReject = false;
       }
     },
-    confirm_submit() {
-      //绩效确认
+    confirm_submit() { //绩效确认
       return ConfirmSelf({
         performance_user_id: this.$route.params.id
       })
         .then(res => {
+          this.confirm_box_show = false;
           this.$message({
             type: "success",
             message: "确认成功!"
@@ -584,12 +584,12 @@ export default {
         })
         .catch(e => {});
     },
-    cancel_appeal_submit() {
-      //取消申诉
+    cancel_appeal_submit() { //取消申诉
       return delCancelAppeal({
         performance_user_id: this.$route.params.id
       })
         .then(res => {
+          this.cancel_appeal_box_show = false;
           this.$message({
             type: "success",
             message: "取消成功!"

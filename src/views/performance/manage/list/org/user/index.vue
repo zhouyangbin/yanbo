@@ -108,15 +108,18 @@
       </div>
       <br />
       <br />
-      <el-row
-        type="flex"
-        justify="center"
-        v-if="appeal_length && stage != 60 && isEdit"
-      >
-        <el-button @click="changeMarks" class="btn-reset">
+      <el-row type="flex" justify="center" 
+        v-if="appeal_length && stage != 60 && isEdit">
+        <el-button
+          @click="changeMarks"
+          class="btn-reset"
+        >
           修改
         </el-button>
-        <el-button @click="submit" type="primary">
+        <el-button
+          @click="submit"
+          type="primary"
+        >
           {{ appeal_length == 1 ? "维持原成绩" : null }}
           {{ appeal_length == 2 ? "确认成绩" : null }}
         </el-button>
@@ -205,7 +208,7 @@ export default {
       label_name: "",
       appeal_length: 0,
       stage: 0,
-      isEdit: 0
+      isEdit: 0,
     };
   },
   components: {
