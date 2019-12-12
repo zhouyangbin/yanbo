@@ -108,16 +108,15 @@
       </div>
       <br />
       <br />
-      <el-row type="flex" justify="center">
+      <el-row type="flex" justify="center" 
+        v-if="appeal_length && stage != 60 && isEdit">
         <el-button
-          v-if="appeal_length && stage != 60"
           @click="changeMarks"
           class="btn-reset"
         >
-          {{ constants.LABEL_MODIFY }}
+          修改
         </el-button>
         <el-button
-          v-if="appeal_length && stage != 60"
           @click="submit"
           type="primary"
         >
@@ -208,7 +207,8 @@ export default {
       label_id: "",
       label_name: "",
       appeal_length: 0,
-      stage: 0
+      stage: 0,
+      isEdit: 0,
     };
   },
   components: {
@@ -347,7 +347,8 @@ export default {
             label_name,
             processor,
             scores,
-            stage
+            stage,
+            isEdit
           } = res;
           this.basicInfo = {
             leaderName: superior_name
@@ -374,6 +375,7 @@ export default {
           this.label_id = scores.superior.label_id;
           this.label_name = scores.superior.label_name;
           this.stage = stage;
+          this.isEdit = isEdit;
         })
         .catch(e => {
           // console.log(e)

@@ -20,13 +20,11 @@
             <el-button @click="showReviewDia = true">返回修改</el-button>
           </el-col>
         </el-row>
-        <p
-          class="label"
-          v-if="appeal_reason"
-          style="width: 100%;word-break: break-all; height: auto; color: #000;"
-        >
-          申诉理由：{{ appeal_reason }}
-        </p>
+        <p style=" width: 100%; word-break: break-all; color: #ff8519;">
+        <span v-for="(item, index) in appeal" :key="index">
+          申诉理由：{{ item.reason }} <br />
+        </span>
+      </p>
       </div>
       <br />
       <card
@@ -189,7 +187,7 @@ export default {
       showReviewDia: false,
       operate_status: true,
       old_s: "", //是否为老数据
-      appeal_reason: "", //申述理由
+      appeal: [],
       new_total: ""
     };
   },
@@ -321,7 +319,7 @@ export default {
             workcode,
             self_attach_score
           };
-          this.appeal_reason = appeal == null ? false : appeal.reason;
+          this.appeal = appeal || [];
           this.old_s = _s;
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
