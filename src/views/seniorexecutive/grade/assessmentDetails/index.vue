@@ -417,18 +417,22 @@
             <el-button
               icon="el-icon-upload2"
               @click="importList"
-              v-if="showExecutiveScoreUserManagement"
+              v-if="showExecutiveScoreManagement"
               >导入名单</el-button
             >
             <el-button
               icon="el-icon-download"
-              v-if="showExecutiveScoreUserManagement"
+              v-if="
+                showExecutiveScoreUserManagement || showExecutiveScoreManagement
+              "
               @click="exportUserList"
               >导出名单</el-button
             >
             <el-button
               icon="el-icon-bell"
-              v-if="showExecutiveScoreUserManagement"
+              v-if="
+                showExecutiveScoreUserManagement || showExecutiveScoreManagement
+              "
               :disabled="currentStage < 100"
               @click="reminder"
               >提醒</el-button
@@ -441,7 +445,11 @@
             >
             <el-button
               icon="el-icon-download"
-              v-if="showExecutiveScoreUserManagement"
+              v-if="
+                showExecutiveScoreUserManagement ||
+                  showExecutiveScoreManagement ||
+                  showExecutiveExport
+              "
               @click="exportDetail"
               >导出明细</el-button
             >
@@ -462,7 +470,10 @@
               </div>
               <div
                 class="more-btn"
-                v-if="showExecutiveScoreUserManagement"
+                v-if="
+                  showExecutiveScoreUserManagement ||
+                    showExecutiveScoreManagement
+                "
                 @click="removeList"
               >
                 <i class="el-icon-delete"></i><span>移除</span>
@@ -585,14 +596,20 @@
           <el-table-column label="操作" fixed="right" width="180">
             <template slot-scope="scope">
               <el-button
-                v-if="showExecutiveScoreUserManagement"
+                v-if="
+                  showExecutiveScoreUserManagement ||
+                    showExecutiveScoreManagement
+                "
                 @click="modifyUser(scope.row)"
                 type="text"
                 size="small"
                 >修改</el-button
               >
               <el-button
-                v-if="showExecutiveScoreUserManagement"
+                v-if="
+                  showExecutiveScoreUserManagement ||
+                    showExecutiveScoreManagement
+                "
                 @click="remove(scope.row.id)"
                 type="text"
                 size="small"
@@ -827,6 +844,9 @@ export default {
     },
     showExecutiveScoreUserManagement() {
       return this.permissions.includes(410);
+    },
+    showExecutiveExport() {
+      return this.permissions.includes(430);
     },
     initTime() {
       return {

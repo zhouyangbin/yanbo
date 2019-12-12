@@ -85,8 +85,8 @@ http.interceptors.response.use(
     // loadingInstance.close();
     // 登录失败|禁用|token失效等相关问题返回401，此处做跳转登录页动作
     error.response.data.message = error.response.data.message.replace(
-      /\n/g,
-      ""
+      /\\n/g,
+      " "
     );
     if (error.response.status === 401) {
       Notification({
