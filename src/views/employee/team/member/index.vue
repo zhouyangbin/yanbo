@@ -21,10 +21,10 @@
           </el-col>
         </el-row>
         <p style=" width: 100%; word-break: break-all; color: #ff8519;">
-        <span v-for="(item, index) in appeal" :key="index">
-          申诉理由：{{ item.reason }} <br />
-        </span>
-      </p>
+          <span v-for="(item, index) in appeal" :key="index">
+            申诉理由：{{ item.reason }} <br />
+          </span>
+        </p>
       </div>
       <br />
       <card
