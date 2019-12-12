@@ -18,7 +18,7 @@
             color: '#303133'
           }"
         >
-          <el-table-column label="权重" width="180" align="center">
+          <el-table-column label="权重" width="100" align="center">
             <template slot-scope="scope">
               <div>{{ Number(scope.row.weights) }}%</div>
             </template>
