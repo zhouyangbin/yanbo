@@ -21,7 +21,7 @@
             border
             :header-cell-style="{
               backgroundColor: '#F5F6F7',
-              color: '#303133',
+              color: '#303133'
             }"
           >
             <el-table-column
