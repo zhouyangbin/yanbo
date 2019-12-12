@@ -396,8 +396,8 @@ self.__precacheManifest = [
     "url": "/js/chunk-3cb2b669.fa0cb99b.js"
   },
   {
-    "revision": "8b34d498deb3d2efdfe3",
-    "url": "/js/chunk-3fa1245d.f6575faa.js"
+    "revision": "2da54f83b2e7f0b7fa0d",
+    "url": "/js/chunk-3fa1245d.839a7ecc.js"
   },
   {
     "revision": "1ea54765218fa6b6b73d",
@@ -540,8 +540,8 @@ self.__precacheManifest = [
     "url": "/css/chunk-568964f6.8b15d0ae.css"
   },
   {
-    "revision": "25c7272bd074e50238ce",
-    "url": "/js/app.08f4afde.js"
+    "revision": "918540538c09bd5be872",
+    "url": "/js/app.19b47998.js"
   },
   {
     "revision": "69142903059b7ebda8dc",
@@ -1048,12 +1048,12 @@ self.__precacheManifest = [
     "url": "/img/login_bg.38f5f995.jpg"
   },
   {
-    "revision": "535877f50039c0cb49a6196a5b7517cd",
-    "url": "/fonts/element-icons.535877f5.woff"
-  },
-  {
     "revision": "732389ded34cb9c52dd88271f1345af9",
     "url": "/fonts/element-icons.732389de.ttf"
+  },
+  {
+    "revision": "535877f50039c0cb49a6196a5b7517cd",
+    "url": "/fonts/element-icons.535877f5.woff"
   },
   {
     "revision": "5a00a23fe23a5aebcf74dbabae2b0b1d",
@@ -1072,11 +1072,11 @@ self.__precacheManifest = [
     "url": "/img/target_writing.7ec299b7.png"
   },
   {
-    "revision": "7fe3cbea0408b0bcb06537be5ebeaa2d",
+    "revision": "f7a312c3fa69843484e7e5d235d5da5d",
     "url": "/index.html"
   },
   {
-    "revision": "25c7272bd074e50238ce",
+    "revision": "918540538c09bd5be872",
     "url": "/css/app.ffc85409.css"
   }
 ];
