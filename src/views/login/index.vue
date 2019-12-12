@@ -135,14 +135,14 @@ export default {
         case "superior_list": //我的业绩 团队评分 评分管理
           dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
           break;
-        case "appeal_hr":
+        case "appeal_hr": //评分管理-详情-事业部详情-员工详情
           dst = PATH_PERFORMANCE_USER_DETAIL(
             querys.performance_name_id,
             querys.performance_id,
             querys.performance_user_id
           );
           break;
-        case "review": //团队  个人详情
+        case "review": //我的业绩 团队评分 评分管理 评分详情
           dst = PATH_EMPLOYEE_TEAM_MEMEBER(
             querys.performance_id,
             querys.performance_user_id

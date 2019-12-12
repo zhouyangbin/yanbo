@@ -300,7 +300,7 @@ export default {
           (parseFloat(this.myAdditionMark.score) || 0)
       ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
-        ? parseFloat(this.superior_score.score)
+        ? parseFloat(this.superior_score.score).toFixed(2)
         : (Math.round(total * 100) / 100).toFixed(2);
       // return this.superior_score && this.superior_score.score != null
       //   ? parseFloat(this.superior_score.score)
