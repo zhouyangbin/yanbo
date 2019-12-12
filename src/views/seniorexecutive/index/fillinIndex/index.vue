@@ -590,40 +590,15 @@ export default {
       this.isWork = indexTpl.work !== undefined;
       this.isFinance = indexTpl.finance !== undefined;
       this.indexTpl = [];
-      console.log(this.indexDraftTpl);
       let newIndexTpl = [];
       if (this.isTeam) {
-        let team = indexTpl.team;
-        this.$set(newIndexTpl, team.sort - 1, {
-          key: team.key,
-          sort: team.sort,
-          name: team.name,
-          weight: team.weight,
-          targets: team.targets || [],
-          template_columns: team.template_columns
-        });
+        newIndexTpl[indexTpl.team.sort - 1] = indexTpl.team;
       }
       if (this.isWork) {
-        let work = indexTpl.work;
-        this.$set(newIndexTpl, work.sort - 1, {
-          key: work.key,
-          sort: work.sort,
-          name: work.name,
-          weight: work.weight,
-          targets: work.targets || [],
-          template_columns: work.template_columns
-        });
+        newIndexTpl[indexTpl.work.sort - 1] = indexTpl.work;
       }
       if (this.isFinance) {
-        let finance = indexTpl.finance;
-        this.$set(newIndexTpl, finance.sort - 1, {
-          key: finance.key,
-          sort: finance.sort,
-          name: finance.name,
-          weight: finance.weight,
-          targets: finance.targets || [],
-          template_columns: finance.template_columns
-        });
+        newIndexTpl[indexTpl.finance.sort - 1] = indexTpl.finance;
       }
       for (let i = 0; i < newIndexTpl.length; i++) {
         if (newIndexTpl[i]) {

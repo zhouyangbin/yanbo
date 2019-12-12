@@ -21,7 +21,7 @@
             border
             :header-cell-style="{
               backgroundColor: '#F5F6F7',
-              color: '#303133',
+              color: '#303133'
             }"
             :cell-class-name="tableClass"
           >
@@ -246,9 +246,9 @@ export default {
     }
   },
   methods: {
-    tableClass({row,column,rowIndex,columnIndex}) {
-    if(columnIndex === 1 || columnIndex === 2 || columnIndex === 3) {
-        return 'table-th';
+    tableClass({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 1 || columnIndex === 2 || columnIndex === 3) {
+        return "table-th";
       }
     },
     jumpPage() {
@@ -372,7 +372,6 @@ export default {
       };
       getExecutiveUniqueTemplate(data)
         .then(res => {
-          // console.log(res.finance.targets[0].content);
           this.handleIndexData(res);
         })
         .catch(e => {});
@@ -595,7 +594,7 @@ export default {
 }
 </style>
 <style>
-.table-th .cell{
+.table-th .cell {
   white-space: pre-line;
 }
 </style>
