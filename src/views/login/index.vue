@@ -158,6 +158,7 @@ export default {
           dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(
             querys.performance_name_id
           );
+          break;
         case "levelteam_other_team_detail": //我的业绩 隔级评分 评分管理 团队下属详情页面
           dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(
             querys.performance_name_id,

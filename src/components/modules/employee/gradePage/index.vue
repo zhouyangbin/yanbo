@@ -83,7 +83,12 @@
           :tip_A_show="false"
         ></level-->
         <br />
-        <el-row v-if="level && published" type="flex" justify="end"  class="level-section">
+        <el-row
+          v-if="level && published"
+          type="flex"
+          justify="end"
+          class="level-section"
+        >
           <el-col :span="4">
             <el-row justify="center">
               <el-col :span="6">
@@ -91,18 +96,21 @@
               </el-col>
               <el-col :span="18">
                 <span class="level">
-                  {{level}}
+                  {{ level }}
                 </span>
               </el-col>
             </el-row>
             <br />
             <el-row>
-                <el-col :span="6">标签/</el-col>
-                <el-tag :class="
-              level == 'A' || level == 'S'
-                ? 'status-tag top-style'
-                : 'status-tag other-style'
-            ">{{label_name}}</el-tag>
+              <el-col :span="6">标签/</el-col>
+              <el-tag
+                :class="
+                  level == 'A' || level == 'S'
+                    ? 'status-tag top-style'
+                    : 'status-tag other-style'
+                "
+                >{{ label_name }}</el-tag
+              >
             </el-row>
           </el-col>
         </el-row>
@@ -115,22 +123,39 @@
           {{ constants.SUBMIT }}
         </el-button>
       </el-row>
-      <p v-if="is_confirm || is_appeal || is_cancel_appeal" style="color: #eb0c00;">请注意：到期将默认确认结果, 如有问题可点击申诉</p>
+      <p
+        v-if="is_confirm || is_appeal || is_cancel_appeal"
+        style="color: #eb0c00;"
+      >
+        请注意：到期将默认确认结果, 如有问题可点击申诉
+      </p>
       <p style=" width: 100%; word-break: break-all; color: #ff8519;">
-            <span v-for="(item,index) in appeal" :key="index">
-              申诉理由：{{item.reason}} <br/>             
-            </span>
+        <span v-for="(item, index) in appeal" :key="index">
+          申诉理由：{{ item.reason }} <br />
+        </span>
       </p>
       <el-row type="flex" justify="center">
-          <el-button v-if="is_confirm" @click="confirm_box_show = true" type="primary">
-            确认
-          </el-button>
-          <el-button v-if="is_appeal" @click="appeal_box_show = true" type="warning">
-            申诉
-          </el-button>
-          <el-button v-if="is_cancel_appeal" @click="cancel_appeal_box_show = true" type="warning">
-            取消申诉
-          </el-button>
+        <el-button
+          v-if="is_confirm"
+          @click="confirm_box_show = true"
+          type="primary"
+        >
+          确认
+        </el-button>
+        <el-button
+          v-if="is_appeal"
+          @click="appeal_box_show = true"
+          type="warning"
+        >
+          申诉
+        </el-button>
+        <el-button
+          v-if="is_cancel_appeal"
+          @click="cancel_appeal_box_show = true"
+          type="warning"
+        >
+          取消申诉
+        </el-button>
       </el-row>
       <el-dialog
         title="提示"
@@ -138,9 +163,9 @@
         class="dialog"
         width="30%"
       >
-        <p class="text-center"> 是否确认成绩 </p>
+        <p class="text-center">是否确认成绩</p>
         <span class="text-center" slot="footer">
-          <el-button @click="confirm_box_show=false">
+          <el-button @click="confirm_box_show = false">
             取消
           </el-button>
           <el-button type="primary" @click="confirm_submit">
@@ -148,16 +173,21 @@
           </el-button>
         </span>
       </el-dialog>
-      <reject-dialog @close="getInfo" :visible.sync="appeal_box_show"></reject-dialog>
+      <reject-dialog
+        @close="getInfo"
+        :visible.sync="appeal_box_show"
+      ></reject-dialog>
       <el-dialog
         title="提示"
         :visible.sync="cancel_appeal_box_show"
         class="dialog"
         width="30%"
       >
-        <p class="text-center"> 取消申诉将默认认为自动确认当前成绩，是否继续？ </p>
+        <p class="text-center">
+          取消申诉将默认认为自动确认当前成绩，是否继续？
+        </p>
         <span class="text-center" slot="footer">
-          <el-button @click="cancel_appeal_box_show=false">
+          <el-button @click="cancel_appeal_box_show = false">
             取消
           </el-button>
           <el-button type="primary" @click="cancel_appeal_submit">
@@ -232,15 +262,15 @@ export default {
       is_state: false,
       old_s: false,
       label_id: null,
-      user_confirm:false,
-      is_appeal:false, //是否申诉
-      appeal_box_show:false,
-      appeal:[],
-      is_cancel_appeal:false, //是否取消申诉
-      cancel_appeal_box_show:false,
-      is_confirm:false, //是否确认
+      user_confirm: false,
+      is_appeal: false, //是否申诉
+      appeal_box_show: false,
+      appeal: [],
+      is_cancel_appeal: false, //是否取消申诉
+      cancel_appeal_box_show: false,
+      is_confirm: false, //是否确认
       confirm_box_show: false,
-      label_name:"",//标签名称
+      label_name: "" //标签名称
     };
   },
   components: {

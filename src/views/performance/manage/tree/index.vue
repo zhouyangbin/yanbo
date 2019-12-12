@@ -31,8 +31,7 @@ export default {
     height: {
       type: String,
       default: "90%"
-    },
-    
+    }
   },
   data() {
     return {
@@ -44,7 +43,7 @@ export default {
           href: PATH_PERFORMANCE_MANAGER
         }
       ],
-      workcode_arr:[],
+      workcode_arr: []
     };
   },
   components: {

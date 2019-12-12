@@ -47,7 +47,10 @@
       <div v-if="processor.length > 1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
-          <el-steps :style="{width:(processor.length * 12)+'%'}" :active="processor.length">
+          <el-steps
+            :style="{ width: processor.length * 12 + '%' }"
+            :active="processor.length"
+          >
             <el-step v-for="(v, i) of processor" :key="i">
               <div slot="icon">{{ v.name }}</div>
               <div slot="title">{{ v.time }}</div>
@@ -55,37 +58,47 @@
           </el-steps>
         </div>
         <div v-if="appeal_length">
-          <div style=" width: 100%; word-break: break-all;display: flex;" v-for="(item,index) in apple_reasons" :key="index">
-              <span class="label" style=" line-height: 20px;padding-right: 0;">第{{index+1}}次申诉理由：</span>
-              <span  style=" line-height: 20px; padding-left: 0; ">{{item}} </span><br/>             
+          <div
+            style=" width: 100%; word-break: break-all;display: flex;"
+            v-for="(item, index) in apple_reasons"
+            :key="index"
+          >
+            <span class="label" style=" line-height: 20px;padding-right: 0;"
+              >第{{ index + 1 }}次申诉理由：</span
+            >
+            <span style=" line-height: 20px; padding-left: 0; "
+              >{{ item }} </span
+            ><br />
           </div>
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">评分结果 : </span>
-          <span  style=" line-height: 20px; padding-left: 0; color: #000;">{{ total }}</span>
+          <span style=" line-height: 20px; padding-left: 0; color: #000;">{{
+            total
+          }}</span>
         </div>
         <div v-if="total" class="inner-container">
           <span class="label">标签 : </span>
-          <span  style=" line-height: 20px; padding-left: 0; color: #000;">{{ label_name }}</span>
+          <span style=" line-height: 20px; padding-left: 0; color: #000;">{{
+            label_name
+          }}</span>
         </div>
         <div class="inner-container">
           <span class="label"></span>
           <el-steps style="width:60%" :active="Object.keys(scores).length">
             <el-step v-for="(value, key, index) in scores" :key="index">
               <div slot="icon">{{ value.name }}</div>
-              <div slot="title" v-if=" key == 'self' ">
-                {{ value.score }}分
-              </div>
-              <div slot="title" v-if=" key == 'superior' ">
+              <div slot="title" v-if="key == 'self'">{{ value.score }}分</div>
+              <div slot="title" v-if="key == 'superior'">
                 <span>总分: {{ value.total_score }}分 </span>
                 <span>等级: {{ value.score_level }} </span>
                 <span>标签: {{ value.label_name }} </span>
               </div>
-              <div slot="title" v-if=" key == 'bp_first' ">
+              <div slot="title" v-if="key == 'bp_first'">
                 <span>等级: {{ value.score_level }} </span>
                 <span>标签: {{ value.label_name }} </span>
               </div>
-              <div slot="title" v-if=" key == 'bp_last' ">
+              <div slot="title" v-if="key == 'bp_last'">
                 <span>等级: {{ value.score_level }} </span>
                 <span>标签: {{ value.label_name }} </span>
               </div>
@@ -96,12 +109,20 @@
       <br />
       <br />
       <el-row type="flex" justify="center">
-        <el-button v-if="appeal_length && stage != 60" @click="changeMarks" class="btn-reset">
+        <el-button
+          v-if="appeal_length && stage != 60"
+          @click="changeMarks"
+          class="btn-reset"
+        >
           {{ constants.LABEL_MODIFY }}
         </el-button>
-        <el-button  v-if="appeal_length && stage != 60" @click="submit" type="primary">
-          {{appeal_length == 1 ? "维持原成绩" : null}}
-          {{appeal_length == 2 ? "确认成绩" : null}}
+        <el-button
+          v-if="appeal_length && stage != 60"
+          @click="submit"
+          type="primary"
+        >
+          {{ appeal_length == 1 ? "维持原成绩" : null }}
+          {{ appeal_length == 2 ? "确认成绩" : null }}
         </el-button>
       </el-row>
     </section>
@@ -172,9 +193,9 @@ export default {
         }
       ],
       resultArr: [],
-      scores:{},
+      scores: {},
       progressArr: [],
-      processor:[],
+      processor: [],
       canEdit: false,
       showChangeMarkDia: false,
       constants: {
@@ -186,8 +207,8 @@ export default {
       },
       label_id: "",
       label_name: "",
-      appeal_length:0,
-      stage:0,
+      appeal_length: 0,
+      stage: 0
     };
   },
   components: {
@@ -209,31 +230,29 @@ export default {
       this.getInfo();
     },
     submit() {
-      let submit_text= "<p style='height:100px;line-height: 100px;text-align:center'>";
-      if(this.appeal_length ==1){
-        submit_text+="提交后将由员工再次确认成绩,是否继续?</p>";
+      let submit_text =
+        "<p style='height:100px;line-height: 100px;text-align:center'>";
+      if (this.appeal_length == 1) {
+        submit_text += "提交后将由员工再次确认成绩,是否继续?</p>";
       }
-      if(this.appeal_length ==2){
-        submit_text+="请确认无误再提交，一经提交无法修改, 是否继续?</p>";
+      if (this.appeal_length == 2) {
+        submit_text += "请确认无误再提交，一经提交无法修改, 是否继续?</p>";
       }
-      this.$confirm(
-        submit_text,
-        ATTENTION,
-        {
-          confirmButtonText: CONFIRM,
-          cancelButtonText: CANCEL,
-          dangerouslyUseHTMLString: true
-        }
-      )
+      this.$confirm(submit_text, ATTENTION, {
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
+        dangerouslyUseHTMLString: true
+      })
         .then(() => {
           const postData = {
-            action: this.appeal_length,//申诉数组长度为1  action = 1 确认提交。 申诉数组长度为2 action = 2 维持原成绩
+            action: this.appeal_length //申诉数组长度为1  action = 1 确认提交。 申诉数组长度为2 action = 2 维持原成绩
           };
           changePerformanceGrade(
             this.$route.params.orgID,
             this.$route.params.uid,
             postData
-          ).then(res => {
+          )
+            .then(res => {
               this.getInfo();
             })
             .catch(e => {});
@@ -337,7 +356,7 @@ export default {
           this.total = scores.superior.score_level;
           this.comments = superior_score && superior_score.evaluation;
           this.processor = processor;
-          this.scores =scores;
+          this.scores = scores;
           // this.composeResultArr(self_score, superior_score, appeal);
           // this.composeProgressArr(
           //   target_time,

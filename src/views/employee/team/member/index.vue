@@ -220,7 +220,7 @@ export default {
           .reduce((pre, next) => pre + next, 0) +
           (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(8);
-      console.log(total)
+      console.log(total);
       return (Math.round(total * 100) / 100).toFixed(2);
     },
 

@@ -7,11 +7,7 @@
     :close-on-click-modal="false"
     width="30%"
   >
-    <el-form
-      :model="rejectForm"
-      :rules="rejectFormRules"
-      ref="rejectForm"
-    >
+    <el-form :model="rejectForm" :rules="rejectFormRules" ref="rejectForm">
       <el-form-item prop="reason">
         <el-input
           type="textarea"
