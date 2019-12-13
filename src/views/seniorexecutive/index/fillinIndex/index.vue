@@ -183,7 +183,6 @@
         </el-form>
       </el-row>
       <ul class="sub-total">
-        <!-- 财务维度小计 -->
         <li v-if="isFinance">
           {{ constants.FINANCE_DIMENSIONALITY_SUBTOTAL }}&nbsp;&nbsp;&nbsp;{{
             this.handleSubTotal("finance")
@@ -300,7 +299,6 @@ export default {
       isExamineDialog: false,
       indexTpl: [],
       indexDraftTpl: null,
-      handelIndexDetail: [],
       rules: {
         weights: [
           {
@@ -585,7 +583,6 @@ export default {
         .catch(e => {});
     },
     handleIndexData(indexTpl) {
-      // 根据后端返回的字段判断显示哪个维度， isFinancial为是否为财务指标  0:非财务  1:财务
       this.isTeam = indexTpl.team !== undefined;
       this.isWork = indexTpl.work !== undefined;
       this.isFinance = indexTpl.finance !== undefined;
@@ -611,20 +608,16 @@ export default {
      * 数据拼接
      */
     handleData(indexTpl) {
-      // 判断草稿有没有数据，如果有，如果没有
-      if (this.indexDraftTpl !== null) {
-        indexTpl = this.indexDraftTpl;
-      }
       for (let i = 0; i < indexTpl.length; i++) {
-        if (
-          (!indexTpl[i].targets || indexTpl[i].targets.length === 0) &&
-          indexTpl[i].template_columns.metrics &&
-          indexTpl[i].key !== "finance"
-        ) {
-          let data = {
-            weights: ""
-          };
-          indexTpl[i].targets.push(data);
+        if (this.indexDraftTpl !== null) {
+          if (indexTpl[i].name !== "finance") {
+            if (
+              this.indexDraftTpl[i].targets &&
+              this.indexDraftTpl[i].targets.length !== 0
+            ) {
+              indexTpl[i].targets = this.indexDraftTpl[i].targets;
+            }
+          }
         }
       }
       this.indexTpl = indexTpl;
