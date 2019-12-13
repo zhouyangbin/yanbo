@@ -42,13 +42,7 @@
                   :prop="`targets.${scope.$index}.weights`"
                   :rules="rules.weights"
                 >
-                  <el-input
-                    v-model.number="scope.row.weights"
-                    size="small"
-                    type="number"
-                    keyup="value=value.replace(/[^\d]/g,'')"
-                    oninput="if(value > 100)value = 100;if(value < 0)value = 0"
-                  >
+                  <el-input v-model="scope.row.weights" size="small">
                     <template slot="append"
                       >%</template
                     >
@@ -257,6 +251,18 @@ export default {
     )
   },
   data() {
+    let checkNumber = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("权重不能为空"));
+      }
+      if (!Number(value)) {
+        callback(new Error("请输入数字值"));
+      } else if (Number(value) < 0 || Number(value) > 100) {
+        callback(new Error("权重范围0~100"));
+      } else {
+        callback();
+      }
+    };
     return {
       constants: {
         TARGET_WEIGH,
@@ -303,7 +309,7 @@ export default {
         weights: [
           {
             required: true,
-            message: "权重不能为空",
+            validator: checkNumber,
             trigger: "blur"
           }
         ],
