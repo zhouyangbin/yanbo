@@ -163,7 +163,12 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary"
+        <el-button
+          :loading="isLoading"
+          round
+          size="medium"
+          @click="submit"
+          type="primary"
           >确定</el-button
         >
         <el-button round size="medium" @click="close">取消</el-button>
@@ -449,7 +454,8 @@ export default {
         appeal_begin_time: this.initTime.appeal_begin_time || "",
         appeal_end_time: this.initTime.appeal_end_time || "",
         allow_appeal: this.initTime.allow_appeal || 0
-      }
+      },
+      isLoading: false
     };
   },
   methods: {
@@ -464,11 +470,14 @@ export default {
             delete this.timesForm.appeal_end_time;
           }
           delete this.timesForm.allow_appeal;
+          this.isLoading = true;
           postExecutivePerformanceSetTime(this.performanceId, this.timesForm)
             .then(res => {
+              this.isLoading = false;
               this.$emit("update");
             })
             .catch(e => {
+              this.isLoading = false;
               this.timesForm.allow_appeal = this.initTime.allow_appeal;
             });
         }

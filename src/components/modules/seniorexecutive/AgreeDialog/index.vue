@@ -19,7 +19,12 @@
       </el-form>
       <div slot="footer">
         <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="submitAgreeContent">确定</el-button>
+        <el-button
+          :loading="isLoading"
+          type="primary"
+          @click="submitAgreeContent"
+          >确定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -36,7 +41,8 @@ export default {
   },
   data() {
     return {
-      reason: ""
+      reason: "",
+      isLoading: false
     };
   },
   methods: {
@@ -49,9 +55,11 @@ export default {
         type: 2,
         reason: this.reason ? this.reason : "同意"
       };
+      this.isLoading = true;
       postSuperConfirmTarget(postData)
         .then(res => {
           this.$message.success("提交成功");
+          this.isLoading = false;
           this.close();
           this.$router.push(
             PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
@@ -60,7 +68,9 @@ export default {
             )
           );
         })
-        .catch(e => {});
+        .catch(e => {
+          this.isLoading = false;
+        });
     }
   }
 };

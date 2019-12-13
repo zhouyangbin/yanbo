@@ -129,7 +129,13 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">
+        <el-button
+          round
+          size="medium"
+          :loading="isLoading"
+          @click="submit"
+          type="primary"
+        >
           {{ constants.CONFIRM }}
         </el-button>
         <el-button round size="medium" @click="close" class="btn-reset">
@@ -204,6 +210,7 @@ export default {
   data() {
     return {
       showMeasurementRequired: false,
+      isLoading: false,
       defaultProps: {
         label: "department_name",
         children: "children"
@@ -279,22 +286,29 @@ export default {
   },
   methods: {
     require() {
+      this.isLoading = true;
       if (this.infoType == "add") {
-        return postExecutivePerformanceTpl(this.tplForm).then(res => {
-          this.$emit("update");
-        });
+        return postExecutivePerformanceTpl(this.tplForm)
+          .then(res => {
+            this.isLoading = false;
+            this.$emit("update");
+          })
+          .catch(e => {
+            this.isLoading = false;
+          });
       } else {
-        return putExecutivePerformanceTpls(
-          this.performanceId,
-          this.tplForm
-        ).then(res => {
-          this.$emit("update");
-        });
+        return putExecutivePerformanceTpls(this.performanceId, this.tplForm)
+          .then(res => {
+            this.isLoading = false;
+            this.$emit("update");
+          })
+          .catch(e => {
+            this.isLoading = false;
+          });
       }
     },
     alert(query) {
       this.$alert(`业绩指标标型三：${query}未填写`, "提示", {
-        // confirmButtonText: '确定',
         cancelButtonText: "确定",
         type: "warning"
       })

@@ -259,6 +259,8 @@ export default {
         callback(new Error("请输入数字值"));
       } else if (Number(value) < 0 || Number(value) > 100) {
         callback(new Error("权重范围0~100"));
+      } else if (!Number.isInteger(Number(value))) {
+        callback(new Error("权重必须为正整数"));
       } else {
         callback();
       }

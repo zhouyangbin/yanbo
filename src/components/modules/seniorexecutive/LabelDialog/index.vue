@@ -193,7 +193,13 @@
     </el-form>
     <div slot="footer">
       <el-row type="flex" justify="center">
-        <el-button round size="medium" @click="submit" type="primary">
+        <el-button
+          :loading="isLoading"
+          round
+          size="medium"
+          @click="submit"
+          type="primary"
+        >
           {{ constants.CONFIRM }}
         </el-button>
         <el-button round size="medium" @click="close" class="btn-reset">
@@ -305,7 +311,8 @@ export default {
       table23221: [],
       table2521: [],
       tagName: "",
-      optionalIds: []
+      optionalIds: [],
+      isLoading: false
     };
   },
   computed: {
@@ -435,24 +442,31 @@ export default {
             }
           });
           if (this.infoType === "add") {
-            // 新增标签
             if (isSubmit) {
+              this.isLoading = true;
               return postExecutiveAdminTags(postData)
                 .then(res => {
+                  this.isLoading = false;
                   this.$emit("getList");
                 })
-                .catch(() => {});
+                .catch(e => {
+                  this.isLoading = false;
+                });
             } else {
               this.$alert("标签名称不能为空！");
             }
           } else {
             let UpData = postData;
             if (isSubmit) {
+              this.isLoading = true;
               return putExecutiveAdminTagChange(this.userId, UpData)
                 .then(res => {
+                  this.isLoading = false;
                   this.$emit("getList");
                 })
-                .catch(() => {});
+                .catch(e => {
+                  this.isLoading = false;
+                });
             } else {
               this.$alert("标签名称不能为空！");
             }
@@ -536,7 +550,6 @@ export default {
     this.getAdminTagTypesList();
     getExecutiveAdminTagsDepartments()
       .then(res => {
-        console.log(res);
         this.optionalIds = res;
         this.orgTree = this.handleOrgTree(this.orgTree);
       })

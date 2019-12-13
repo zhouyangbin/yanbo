@@ -19,7 +19,12 @@
       </el-form>
       <div slot="footer">
         <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="submitRejectReason">确定</el-button>
+        <el-button
+          :loading="isLoading"
+          type="primary"
+          @click="submitRejectReason"
+          >确定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -40,7 +45,8 @@ export default {
       },
       rules: {
         reason: [{ required: true, message: "请输入理由", blur: "blur" }]
-      }
+      },
+      isLoading: false
     };
   },
   methods: {
@@ -55,12 +61,16 @@ export default {
             type: 1,
             reason: this.form.reason
           };
+          this.isLoading = true;
           postSuperConfirmTarget(postData)
             .then(res => {
+              this.isLoading = false;
               this.$message.success("提交成功");
               this.$emit("update");
             })
-            .catch(() => {});
+            .catch(e => {
+              this.isLoading = false;
+            });
         }
       });
     }

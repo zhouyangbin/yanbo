@@ -108,6 +108,7 @@
           size="medium"
           :disabled="disabledBtn"
           @click="submit"
+          :loading="isLoading"
           type="primary"
         >
           {{ constants.CONFIRM }}
@@ -217,6 +218,7 @@ export default {
       optionalOrgTree: [],
       optionalIds: [],
       disabledBtn: false,
+      isLoading: false,
       constants: {
         CONFIRM,
         CANCEL,
@@ -306,20 +308,27 @@ export default {
             });
             return false;
           }
-          // this.disabledBtn = true;
+          this.isLoading = true;
           if (this.infoType == "add") {
-            return postExecutiveAddAssessment(this.ruleForm).then(res => {
-              this.$emit("update", res.id);
-              this.disabledBtn = false;
-            });
+            return postExecutiveAddAssessment(this.ruleForm)
+              .then(res => {
+                this.$emit("update", res.id);
+                this.disabledBtn = false;
+                this.isLoading = false;
+              })
+              .catch(e => {
+                this.isLoading = false;
+              });
           } else {
-            return putExecutiveAssessment(
-              this.performanceId,
-              this.ruleForm
-            ).then(res => {
-              this.$emit("update");
-              this.disabledBtn = false;
-            });
+            return putExecutiveAssessment(this.performanceId, this.ruleForm)
+              .then(res => {
+                this.$emit("update");
+                this.disabledBtn = false;
+                this.isLoading = false;
+              })
+              .catch(e => {
+                this.isLoading = false;
+              });
           }
         }
       });
