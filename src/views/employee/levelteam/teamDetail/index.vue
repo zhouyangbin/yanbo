@@ -3,21 +3,30 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <div>
-          <span class="label">{{ constants.BASIC_INFO }}:</span>
-          <span>
-            <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
-            / {{ basicInfo.workcode }} &nbsp;&nbsp;
-            <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
-            / {{ basicInfo.name }} </span
-          >&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-        <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">{{
-            constants.LABEL_CONFIRM
-          }}</el-button>
-          <el-button @click="showReviewDia = true">返回修改</el-button>
-        </div>
+        <el-row>
+          <div style=" width: 80%;">
+            <span class="label">{{ constants.BASIC_INFO }}:</span>
+            <span>
+              <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
+              / {{ basicInfo.workcode }} &nbsp;&nbsp;
+              <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
+              / {{ basicInfo.name }} </span
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div v-if="needsReview" style=" width: 20%;">
+            <el-button @click="passReview" type="primary">{{
+              constants.LABEL_CONFIRM
+            }}</el-button>
+            <el-button @click="showReviewDia = true">返回修改</el-button>
+          </div>
+        </el-row>
+        <p
+          style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
+          v-for="(item, index) in appeal"
+          :key="index"
+        >
+          申诉理由：{{ item.reason }}
+        </p>
       </div>
       <br />
       <card
@@ -196,7 +205,8 @@ export default {
       operate_status: true,
       old_s: "", //是否为老数据
       high_level_show: false,
-      new_total: ""
+      new_total: "",
+      appeal: []
     };
   },
   components: {
@@ -320,6 +330,7 @@ export default {
             stage,
             score_level,
             operate_status,
+            appeal,
             _s
           } = res;
 
@@ -343,6 +354,7 @@ export default {
           this.stage = stage;
           this.score = self_score.score; //自评总分
           this.label_id = parseInt(superior_score.label_id) || null;
+          this.appeal = appeal;
         })
         .catch(e => {});
     },
@@ -486,8 +498,8 @@ export default {
 .my-grade-page .basic-info {
   background: white;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
+  /*display: flex;*/
+  /*justify-content: space-between;*/
 }
 .my-grade-page .summary-section {
   background: white;

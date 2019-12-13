@@ -71,13 +71,13 @@
             ><br />
           </div>
         </div>
-        <div v-if="total" class="inner-container">
+        <div v-if="score_level" class="inner-container">
           <span class="label">评分结果 : </span>
           <span style=" line-height: 20px; padding-left: 0; color: #000;">{{
-            total
+            score_level
           }}</span>
         </div>
-        <div v-if="total" class="inner-container">
+        <div v-if="label_name" class="inner-container">
           <span class="label">标签 : </span>
           <span style=" line-height: 20px; padding-left: 0; color: #000;">{{
             label_name
@@ -126,7 +126,7 @@
       @close="afterChangeGrade"
       v-if="showChangeMarkDia"
       :label_id="label_id"
-      :mark="total"
+      :mark="score_level"
       :visible.sync="showChangeMarkDia"
     ></change-mark>
   </div>
@@ -161,7 +161,6 @@ export default {
   data() {
     return {
       basicInfo: {},
-      total: "",
       targets: [],
       myAdditionMark: {},
       leaderAdditionMark: {},
@@ -201,11 +200,12 @@ export default {
         LABEL_SUP,
         BASIC_INFO
       },
-      label_id: "",
-      label_name: "",
-      appeal_length: 0,
-      stage: 0,
-      isEdit: 0
+      appeal_length: 0, //申诉数组长度 来判断是第几次
+      stage: 0, //评分进度
+      isEdit: 0, //是否修改
+      score_level: "", //评分结果
+      label_id: "", //标签id
+      label_name: "" //标签
     };
   },
   components: {
@@ -256,68 +256,6 @@ export default {
         })
         .catch(() => {});
     },
-    composeResultArr(self_score, superior_score, appeal) {
-      this.resultArr = [];
-      if (self_score && self_score.score != null) {
-        this.resultArr.push({
-          text: LABEL_SELF,
-          value: self_score.score
-        });
-      }
-      if (superior_score && superior_score.score_level) {
-        this.resultArr.push({
-          text: LABEL_SUP,
-          value: superior_score.score_level
-        });
-      }
-      if (appeal && appeal.hr_score_level) {
-        this.resultArr.push({
-          text: appeal.action == 1 ? "BP确认" : "BP修改",
-          value: appeal.hr_score_level
-        });
-      }
-    },
-    composeProgressArr(
-      target_time,
-      self_time,
-      superior_time,
-      appeal_time,
-      confirm_end_time
-    ) {
-      this.progressArr = [];
-      if (target_time) {
-        this.progressArr.push({
-          text: "目标导入",
-          value: target_time
-        });
-      }
-
-      if (self_time) {
-        this.progressArr.push({
-          text: LABEL_SELF,
-          value: self_time
-        });
-      }
-
-      if (superior_time) {
-        this.progressArr.push({
-          text: LABEL_SUP,
-          value: superior_time
-        });
-      }
-      if (appeal_time) {
-        this.progressArr.push({
-          text: APPEAL,
-          value: appeal_time
-        });
-      }
-      if (confirm_end_time) {
-        this.progressArr.push({
-          text: "结束",
-          value: confirm_end_time
-        });
-      }
-    },
     getInfo() {
       return getPerformanceUserDetail(
         this.$route.params.orgID,
@@ -351,26 +289,18 @@ export default {
             leaderName: superior_name
           };
 
-          this.total = scores.superior.score_level;
           this.comments = superior_score && superior_score.evaluation;
           this.processor = processor;
           this.scores = scores;
-          // this.composeResultArr(self_score, superior_score, appeal);
-          // this.composeProgressArr(
-          //   target_time,
-          //   self_time,
-          //   superior_time,
-          //   appeal_time,
-          //   confirm_end_time
-          // );
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.apple_reasons = apple_reasons || [];
           this.appeal_length = apple_reasons.length;
           this.canEdit = can_edit == 1;
-          this.label_id = scores.superior.label_id;
-          this.label_name = scores.superior.label_name;
+          this.score_level = score_level;
+          this.label_id = label_id;
+          this.label_name = label_name;
           this.stage = stage;
           this.isEdit = isEdit;
         })
