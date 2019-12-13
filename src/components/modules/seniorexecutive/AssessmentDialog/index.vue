@@ -195,7 +195,7 @@ export default {
           }
         ],
         year: [
-          { required: true, message: "考核周期不能为空", trigger: "blur" }
+          { required: true, message: "考核年份不能为空", trigger: "blur" }
         ],
         period_end_time: [{ validator: endTimeValidator, trigger: "change" }]
       },
