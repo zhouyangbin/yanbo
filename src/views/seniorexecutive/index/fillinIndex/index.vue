@@ -596,7 +596,7 @@ export default {
     handleData(indexTpl) {
       for (let i = 0; i < indexTpl.length; i++) {
         if (this.indexDraftTpl !== null) {
-          if (indexTpl[i].name !== "finance") {
+          if (indexTpl[i].key !== "finance") {
             if (
               this.indexDraftTpl[i].targets &&
               this.indexDraftTpl[i].targets.length !== 0
