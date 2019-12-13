@@ -44,9 +44,9 @@
                 >
                   <el-input
                     v-model.number="scope.row.weights"
-                    οnkeyup="scope.row.weights=scope.row.weights.replace(/[^\d]/g,'') "
                     size="small"
                     type="number"
+                    οnkeyup="value=value.replace(/[^\d]/g,'')"
                     oninput="if(value > 100)value = 100;if(value < 0)value = 0"
                   >
                     <template slot="append"
