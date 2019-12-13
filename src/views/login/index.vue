@@ -38,7 +38,11 @@ import {
   PATH_EMPLOYEE_TEAM_MEMEBER,
   PATH_PERFORMANCE_ORG_LIST,
   PATH_EMPLOYEE_MY,
-  PATH_GRADE_ORG_LIST
+  PATH_GRADE_ORG_LIST,
+  PATH_PERFORMANCE_FILL_IN_INDEX,
+  PATH_PERFORMANCE_INDEX_DETAIL,
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS
 } from "@/constants/URL";
 import { qrLogin, fzLogin } from "@/constants/API";
 import qs from "qs";
@@ -58,7 +62,7 @@ export default {
     if (this.$device.mobile) {
       //navigator.userAgent终端判断
       //判断手机跳转
-      this.$router.push({ path: PATH_MSG_MOBILE });
+      this.$router.replace({ path: PATH_MSG_MOBILE });
       return;
     }
     let dst;
@@ -67,13 +71,15 @@ export default {
       dst = this.getPerformancePath(querys);
     } else if (querys.project == "culture") {
       dst = this.getCulturePath(querys);
+    } else if (querys.project == "executive") {
+      dst = this.getExecutivePath(querys);
     } else {
       dst = PATH_MY_CULTURE_GRADE;
     }
     if (querys.token) {
       // 仿真
       if (process.env.NODE_ENV == "development") {
-        fzLogin({ workcode: "084810" }) //13681126412
+        fzLogin({ workcode: "150848" }) //13681126412
           // 094203
           // 076533
           // 17600297195
@@ -157,6 +163,50 @@ export default {
           dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(
             querys.performance_name_id
           );
+          break;
+      }
+      return dst;
+    },
+    getExecutivePath(querys) {
+      let performance_id = querys.performance_id;
+      let performance_user_id = querys.performance_user_id;
+      let dst = "";
+      switch (querys.path) {
+        case "self":
+          dst = PATH_PERFORMANCE_FILL_IN_INDEX(
+            performance_id,
+            performance_user_id
+          );
+          break;
+        case "self_view":
+          dst = PATH_PERFORMANCE_INDEX_DETAIL(
+            performance_id,
+            performance_user_id,
+            "my"
+          );
+          break;
+        case "performance_detail":
+          dst = PATH_PERFORMANCE_INDEX_DETAIL(
+            performance_id,
+            performance_user_id,
+            "employee"
+          );
+          break;
+        case "team_list":
+          dst = PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
+            performance_id,
+            performance_user_id
+          );
+          break;
+        case "target_adjusted":
+          dst = PATH_PERFORMANCE_INDEX_DETAIL(
+            performance_id,
+            performance_user_id,
+            "subteam"
+          );
+          break;
+        case "assessment":
+          dst = PATH_EXECUTIVE_ASSESSMENT_DATAILS(performance_id);
           break;
       }
       return dst;

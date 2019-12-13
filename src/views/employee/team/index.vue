@@ -430,7 +430,7 @@ export default {
   position: absolute;
   top: 0;
 }
-<<<<<<< head .status-tag {
+.status-tag {
   /* width: ; */
   height: 28px;
   padding: 0 10px;
@@ -440,7 +440,7 @@ export default {
   border: none;
   font-weight: 500;
 }
-=======>>>>>>>897d9c9182ce7de87e4d1691d24cf9d083f87106 .top-style {
+.top-style {
   background: #e8f5eb;
   color: rgba(0, 177, 45, 1) !important;
 }
