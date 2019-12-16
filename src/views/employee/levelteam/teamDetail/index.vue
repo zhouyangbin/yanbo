@@ -172,7 +172,7 @@ export default {
         },
         {
           label: GRADE_MANAGE,
-          href: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+          href: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(this.$route.params.orgID)
         },
         {
           label: GRADE_DETAIL,
@@ -322,6 +322,7 @@ export default {
             targets,
             workcode,
             self_attach_score,
+            label_id,
             self_score,
             superior_attach_score,
             superior_score,
@@ -345,15 +346,16 @@ export default {
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-
           this.comments = superior_score && superior_score.evaluation;
+          // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_score.score; //自评总分
-          this.label_id = parseInt(superior_score.label_id) || null;
+          // label_id 有值就是展示最终的，否则就是展示superior_score的
+          this.label_id = label_id || parseInt(superior_score.label_id) || null;
           this.appeal = appeal;
         })
         .catch(e => {});

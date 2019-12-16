@@ -321,6 +321,7 @@ export default {
             superior_attach_score,
             superior_score,
             superior_name,
+            label_id,
             score_level,
             score,
             publish_status,
@@ -356,7 +357,7 @@ export default {
             this.readOnly = true;
             this.canEdit = true;
           }
-          this.label_id = parseInt(superior_score.label_id) || null;
+          this.label_id = label_id || parseInt(superior_score.label_id) || null;
         })
         .catch(e => {});
     },
