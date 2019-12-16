@@ -311,6 +311,7 @@ export default {
             need_attach_score,
             score_rule,
             stage,
+            label_id,
             score_level,
             operate_status,
             _s
@@ -329,13 +330,15 @@ export default {
           this.leaderAdditionMark = superior_attach_score || {};
           this.new_total = superior_score == null ? "" : superior_score.score;
           this.comments = superior_score && superior_score.evaluation;
+          // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_score.score; //自评总分
-          this.label_id = parseInt(superior_score.label_id) || null;
+          // label_id 有值就是展示最终的，否则就是展示superior_score的
+          this.label_id = label_id || parseInt(superior_score.label_id) || null;
         })
         .catch(e => {});
     },

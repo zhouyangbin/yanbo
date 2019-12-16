@@ -396,14 +396,14 @@ export default {
           this.is_state = is_state;
           this.old_s = _s == 1 && label_show == 1 ? true : false;
           this.label_id = label_id;
-          // label_name 有值就是展示最终的，否则就是展示修改的
+          // label_name 有值就是展示最终的，否则就是展示superior_score的
           this.label_name =
             label_name || (superior_score && superior_score.label_name);
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-          // score_level 有值就是展示最终的，否则就是展示修改的
+          // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
