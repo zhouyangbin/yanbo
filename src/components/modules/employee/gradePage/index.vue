@@ -93,7 +93,7 @@
               </el-col>
             </el-row>
             <br />
-            <el-row v-if="label_name">
+            <el-row v-if="label_show">
               <el-col :span="6">标签/</el-col>
               <el-tag
                 :class="
@@ -115,40 +115,43 @@
           {{ constants.SUBMIT }}
         </el-button>
       </el-row>
-      <p
-        v-if="is_confirm || is_appeal || is_cancel_appeal"
-        style="color: #eb0c00;"
-      >
-        请注意：到期将默认确认结果, 如有问题可点击申诉
-      </p>
-      <p style=" width: 100%; word-break: break-all; color: #ff8519;">
-        <span v-for="(item, index) in appeal" :key="index">
-          申诉理由：{{ item.reason }} <br />
-        </span>
-      </p>
-      <el-row type="flex" justify="center">
-        <el-button
-          v-if="is_confirm"
-          @click="confirm_box_show = true"
-          type="primary"
+      <!-- 假如上级没有评分 不能操作 -->
+      <div v-if="!!superior_evaluation">
+        <p
+          v-if="is_confirm || is_appeal || is_cancel_appeal"
+          style="color: #eb0c00;"
         >
-          确认
-        </el-button>
-        <el-button
-          v-if="is_appeal"
-          @click="appeal_box_show = true"
-          type="warning"
-        >
-          申诉
-        </el-button>
-        <el-button
-          v-if="is_cancel_appeal"
-          @click="cancel_appeal_box_show = true"
-          type="warning"
-        >
-          取消申诉
-        </el-button>
-      </el-row>
+          请注意：到期将默认确认结果, 如有问题可点击申诉
+        </p>
+        <p style=" width: 100%; word-break: break-all; color: #ff8519;">
+          <span v-for="(item, index) in appeal" :key="index">
+            申诉理由：{{ item.reason }} <br />
+          </span>
+        </p>
+        <el-row type="flex" justify="center">
+          <el-button
+            v-if="is_confirm"
+            @click="confirm_box_show = true"
+            type="primary"
+          >
+            确认
+          </el-button>
+          <el-button
+            v-if="is_appeal"
+            @click="appeal_box_show = true"
+            type="warning"
+          >
+            申诉
+          </el-button>
+          <el-button
+            v-if="is_cancel_appeal"
+            @click="cancel_appeal_box_show = true"
+            type="warning"
+          >
+            取消申诉
+          </el-button>
+        </el-row>
+      </div>
       <el-dialog
         title="提示"
         :visible.sync="confirm_box_show"
@@ -263,7 +266,8 @@ export default {
       is_confirm: false, //是否确认
       confirm_box_show: false,
       label_name: "", //标签名称
-      superior_evaluation: false //上级是否评分
+      superior_evaluation: false, //上级是否评分
+      label_show: 0 //是否展示标签
     };
   },
   components: {
@@ -395,6 +399,7 @@ export default {
           this.is_cancel_appeal = is_cancel_appeal; //是否取消申诉
           this.is_confirm = is_confirm; //是否确认
           this.is_state = is_state;
+          this.label_show = label_show;
           this.old_s = _s == 1 && label_show == 1 ? true : false;
           this.label_id = label_id;
           // label_name 有值就是展示最终的，否则就是展示superior_score的
