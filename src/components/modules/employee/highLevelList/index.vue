@@ -326,7 +326,7 @@ export default {
         //隔级的直属下级
         this.$router.push(
           // PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
-          PATH_TEAM_DETAIL_MEMEBER(this.$route.params.id, row.id) //去到团队评分的个人详情页
+          PATH_TEAM_DETAIL_MEMEBER(row.performance_id, row.id) //去到团队评分的个人详情页
         );
       } else {
         //隔级的团队里的个人详情

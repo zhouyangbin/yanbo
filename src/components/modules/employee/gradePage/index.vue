@@ -70,7 +70,7 @@
         <total-mark
           :total="total"
           :score="self_score"
-          :high_level_show="published"
+          :high_level_show="published && !!superior_evaluation"
         ></total-mark>
         <br />
       </div>
@@ -262,7 +262,8 @@ export default {
       cancel_appeal_box_show: false,
       is_confirm: false, //是否确认
       confirm_box_show: false,
-      label_name: "" //标签名称
+      label_name: "", //标签名称
+      superior_evaluation: false //上级是否评分
     };
   },
   components: {
@@ -403,6 +404,11 @@ export default {
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
+          // superior_score 有值 superior_score.score有值 是展示最终的，superior_evaluation 就是上级评分过的
+          this.superior_evaluation =
+            superior_score != null && superior_score.score != null
+              ? true
+              : false;
           // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
