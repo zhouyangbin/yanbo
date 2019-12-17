@@ -22,7 +22,7 @@
       <el-button @click="$emit('update:visible', false)">
         {{ constants.CANCEL }}
       </el-button>
-      <el-button type="primary" @click="submit">
+      <el-button type="primary" @click="submit" :disabled="isDisabled">
         {{ constants.CONFIRM }}
       </el-button>
     </span>
@@ -50,7 +50,8 @@ export default {
       constants: {
         CANCEL,
         CONFIRM
-      }
+      },
+      isDisabled: false
     };
   },
   methods: {
@@ -59,6 +60,9 @@ export default {
       this.$emit("close");
     },
     submit() {
+      if (this.rejectForm.reason) {
+        this.isDisabled = true;
+      }
       this.$refs["rejectForm"].validate(valid => {
         if (valid) {
           const { reason } = this.rejectForm;
@@ -66,11 +70,15 @@ export default {
             performance_user_id: this.$route.params.id,
             reason
           };
+
           postAppealPerformance(postData)
             .then(res => {
+              this.isDisabled = false;
               this.close();
             })
-            .catch(e => {});
+            .catch(e => {
+              this.isDisabled = false;
+            });
         } else {
           return false;
         }
