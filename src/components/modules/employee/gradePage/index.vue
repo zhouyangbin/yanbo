@@ -399,7 +399,7 @@ export default {
           this.is_cancel_appeal = is_cancel_appeal; //是否取消申诉
           this.is_confirm = is_confirm; //是否确认
           this.is_state = is_state;
-          this.label_show = label_show;
+          this.label_show = label_show; //标签是否展示
           this.old_s = _s == 1 && label_show == 1 ? true : false;
           this.label_id = label_id;
           // label_name 有值就是展示最终的，否则就是展示superior_score的
