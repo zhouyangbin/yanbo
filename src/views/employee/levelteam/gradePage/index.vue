@@ -91,7 +91,7 @@
       <div>
         <!-- v-if="level" && published" -->
         <level
-          v-if="!disabled"
+          v-if="!disabled && level"
           :readOnly="true"
           v-model="level"
           :old_s="true"
