@@ -12,7 +12,7 @@
           <span class="greycolor">{{ constants.LEADER_NAME }}</span>
           / {{ basicInfo.superior_name }} </span
         >&nbsp;&nbsp;&nbsp;&nbsp;
-        <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
+        <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR12</span>
         <p
           style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
           v-for="(item, index) in appeal"
@@ -326,6 +326,7 @@ export default {
             score,
             publish_status,
             self_submit_score,
+            self_score,
             disabled,
             appeal
           } = res;
@@ -347,8 +348,7 @@ export default {
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
           this.showComments = stage >= 40;
-          this.self_score =
-            self_submit_score != null ? self_submit_score.score : 0;
+          this.self_score = self_score != null ? self_score.score : 0;
           this.composeData(submit_targets, stage);
           if (stage == 60 && !score) {
             this.showTotal = false;

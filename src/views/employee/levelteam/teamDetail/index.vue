@@ -206,7 +206,8 @@ export default {
       old_s: "", //是否为老数据
       high_level_show: false,
       new_total: "",
-      appeal: []
+      appeal: [],
+      publish_status: 0 //是否发布
     };
   },
   components: {
@@ -332,6 +333,7 @@ export default {
             score_level,
             operate_status,
             appeal,
+            publish_status,
             _s
           } = res;
 
@@ -347,6 +349,7 @@ export default {
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.comments = superior_score && superior_score.evaluation;
+          this.publish_status = publish_status;
           // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
@@ -476,7 +479,7 @@ export default {
   watch: {
     targets: {
       handler: function() {
-        if (this.shouldMapping && this.stage < 50) {
+        if (this.shouldMapping && this.stage < 50 && !this.publish_status) {
           this.level = this.findLevel();
         }
       },
@@ -484,7 +487,7 @@ export default {
     },
     leaderAdditionMark: {
       handler: function() {
-        if (this.shouldMapping && this.stage < 50) {
+        if (this.shouldMapping && this.stage < 50 && !this.publish_status) {
           this.level = this.findLevel();
         }
       },
