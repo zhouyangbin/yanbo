@@ -179,7 +179,7 @@
         width="30%"
       >
         <p class="text-center">
-          取消申诉将默认认为自动确认当前成绩，是否继续？
+          取消申诉将默认为自动确认当前成绩，是否继续？
         </p>
         <span class="text-center" slot="footer">
           <el-button @click="cancel_appeal_box_show = false">
