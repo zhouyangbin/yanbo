@@ -21,11 +21,11 @@
           </el-col>
         </el-row>
         <p
-          class="label"
-          v-if="appeal_reason"
-          style="width: 100%;word-break: break-all; height: auto; color: #000;"
+          style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
+          v-for="(item, index) in appeal"
+          :key="index"
         >
-          申诉理由：{{ appeal_reason }}
+          申诉理由：{{ item.reason }}
         </p>
       </div>
       <br />
@@ -74,7 +74,7 @@
       <br />
       <total-mark
         v-if="!inReviewStage"
-        :score="this.score"
+        :score="score"
         :total="total"
         :high_level_show="true"
       ></total-mark>
@@ -189,8 +189,9 @@ export default {
       showReviewDia: false,
       operate_status: true,
       old_s: "", //是否为老数据
-      appeal_reason: "", //申述理由
-      new_total: ""
+      appeal: [],
+      new_total: "",
+      publish_status: 0 //是否发布
     };
   },
   components: {
@@ -220,6 +221,7 @@ export default {
           .reduce((pre, next) => pre + next, 0) +
           (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(8);
+      // console.log(total);
       return (Math.round(total * 100) / 100).toFixed(2);
     },
 
@@ -310,8 +312,10 @@ export default {
             need_attach_score,
             score_rule,
             stage,
+            label_id,
             score_level,
             operate_status,
+            publish_status,
             _s
           } = res;
 
@@ -320,21 +324,24 @@ export default {
             workcode,
             self_attach_score
           };
-          this.appeal_reason = appeal == null ? false : appeal.reason;
+          this.appeal = appeal || [];
           this.old_s = _s;
           this.targets = this.normalizeTargets(targets);
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
           this.new_total = superior_score == null ? "" : superior_score.score;
+          this.publish_status = publish_status;
           this.comments = superior_score && superior_score.evaluation;
+          // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_score.score; //自评总分
-          this.label_id = parseInt(superior_score.label_id) || null;
+          // label_id 有值就是展示最终的，否则就是展示superior_score的
+          this.label_id = label_id || parseInt(superior_score.label_id) || null;
         })
         .catch(e => {});
     },
@@ -452,7 +459,7 @@ export default {
   watch: {
     targets: {
       handler: function() {
-        if (this.shouldMapping && this.stage < 50) {
+        if (this.shouldMapping && this.stage < 50 && !this.publish_status) {
           this.level = this.findLevel();
         }
       },
@@ -460,7 +467,7 @@ export default {
     },
     leaderAdditionMark: {
       handler: function() {
-        if (this.shouldMapping && this.stage < 50) {
+        if (this.shouldMapping && this.stage < 50 && !this.publish_status) {
           this.level = this.findLevel();
         }
       },

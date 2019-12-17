@@ -70,19 +70,42 @@
         <total-mark
           :total="total"
           :score="self_score"
-          :high_level_show="published"
+          :high_level_show="published && !!superior_evaluation"
         ></total-mark>
         <br />
       </div>
       <div>
-        <level
+        <el-row
           v-if="level && published"
-          :old_s="old_s"
-          v-model="level"
-          :label_id="label_id"
-          :tip_A_show="false"
-        ></level>
-        <br />
+          type="flex"
+          justify="end"
+          class="level-section"
+        >
+          <el-col :span="4">
+            <el-row justify="center">
+              <el-col :span="6">
+                <span style="line-height: 40px;">结果/</span>
+              </el-col>
+              <el-col :span="18">
+                <span class="level">
+                  {{ level }}
+                </span>
+              </el-col>
+            </el-row>
+            <br />
+            <el-row v-if="label_show">
+              <el-col :span="6">标签/</el-col>
+              <el-tag
+                :class="
+                  level == 'A' || level == 'S'
+                    ? 'status-tag top-style'
+                    : 'status-tag other-style'
+                "
+                >{{ label_name }}</el-tag
+              >
+            </el-row>
+          </el-col>
+        </el-row>
       </div>
       <el-row v-if="canEdit" type="flex" justify="center">
         <el-button round size="medium" @click="saveDraft" class="btn-reset">
@@ -92,20 +115,81 @@
           {{ constants.SUBMIT }}
         </el-button>
       </el-row>
-      <el-row v-if="is_state" type="flex" justify="center">
-        <div>
-          到期将默认确认结果, 如有问题可
-          <el-button @click="visible = true" type="text">
-            {{ constants.APPEAL }}
+      <!-- 假如上级没有评分 不能操作 -->
+      <div v-if="!!superior_evaluation">
+        <p
+          v-if="is_confirm || is_appeal || is_cancel_appeal"
+          style="color: #eb0c00;"
+        >
+          请注意：到期将默认确认结果, 如有问题可点击申诉
+        </p>
+        <p style=" width: 100%; word-break: break-all; color: #ff8519;">
+          <span v-for="(item, index) in appeal" :key="index">
+            申诉理由：{{ item.reason }} <br />
+          </span>
+        </p>
+        <el-row type="flex" justify="center">
+          <el-button
+            v-if="is_confirm"
+            @click="confirm_box_show = true"
+            type="primary"
+          >
+            确认
           </el-button>
-        </div>
-      </el-row>
-      <el-row v-if="cancelReject && published" type="flex" justify="center">
-        <el-button @click="cancel" type="primary" round size="medium">
-          {{ constants.CANCEL_APPEAL }}
-        </el-button>
-      </el-row>
-      <reject-dialog @close="getInfo" :visible.sync="visible"></reject-dialog>
+          <el-button
+            v-if="is_appeal"
+            @click="appeal_box_show = true"
+            type="warning"
+          >
+            申诉
+          </el-button>
+          <el-button
+            v-if="is_cancel_appeal"
+            @click="cancel_appeal_box_show = true"
+            type="warning"
+          >
+            取消申诉
+          </el-button>
+        </el-row>
+      </div>
+      <el-dialog
+        title="提示"
+        :visible.sync="confirm_box_show"
+        class="dialog"
+        width="30%"
+      >
+        <p class="text-center">是否确认成绩</p>
+        <span class="text-center" slot="footer">
+          <el-button @click="confirm_box_show = false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="confirm_submit">
+            确认
+          </el-button>
+        </span>
+      </el-dialog>
+      <reject-dialog
+        @close="getInfo"
+        :visible.sync="appeal_box_show"
+      ></reject-dialog>
+      <el-dialog
+        title="提示"
+        :visible.sync="cancel_appeal_box_show"
+        class="dialog"
+        width="30%"
+      >
+        <p class="text-center">
+          取消申诉将默认为自动确认当前成绩，是否继续？
+        </p>
+        <span class="text-center" slot="footer">
+          <el-button @click="cancel_appeal_box_show = false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="cancel_appeal_submit">
+            确认
+          </el-button>
+        </span>
+      </el-dialog>
     </section>
   </div>
 </template>
@@ -129,6 +213,7 @@ import {
   getEmployeeDetail,
   postUserPerformanceDraft,
   postSelfPerformance,
+  ConfirmSelf,
   delCancelAppeal
 } from "@/constants/API";
 
@@ -171,7 +256,18 @@ export default {
       self_score: 0,
       is_state: false,
       old_s: false,
-      label_id: null
+      label_id: null,
+      user_confirm: false,
+      is_appeal: false, //是否申诉
+      appeal_box_show: false,
+      appeal: [],
+      is_cancel_appeal: false, //是否取消申诉
+      cancel_appeal_box_show: false,
+      is_confirm: false, //是否确认
+      confirm_box_show: false,
+      label_name: "", //标签名称
+      superior_evaluation: false, //上级是否评分
+      label_show: 0 //是否展示标签
     };
   },
   components: {
@@ -180,7 +276,7 @@ export default {
       import("@/components/modules/employee/additionalMark/index.vue"),
     "total-mark": () =>
       import("@/components/modules/employee/totalMark/index.vue"),
-    level: () => import("@/components/modules/employee/finalLevel/index.vue"),
+    //level: () => import("@/components/modules/employee/finalLevel/index.vue"),
     "reject-dialog": () =>
       import("@/components/modules/employee/appealConfirm/index.vue"),
     comments: () =>
@@ -198,10 +294,10 @@ export default {
         this.targets
           .map(v => v.weights * (v.mark || 0))
           .reduce((pre, next) => pre + next, 0) +
-          (parseFloat(this.leaderAdditionMark.score) || 0)
+          (parseFloat(this.myAdditionMark.score) || 0)
       ).toFixed(8);
       return this.superior_score && this.superior_score.score != null
-        ? parseFloat(this.superior_score.score)
+        ? parseFloat(this.superior_score.score).toFixed(2)
         : (Math.round(total * 100) / 100).toFixed(2);
       // return this.superior_score && this.superior_score.score != null
       //   ? parseFloat(this.superior_score.score)
@@ -283,9 +379,14 @@ export default {
             score,
             publish_status,
             self_score,
+            appeal,
+            is_appeal, //是否申诉
+            is_cancel_appeal, //是否取消申诉
+            is_confirm, //是否确认
             is_state,
             _s,
             label_id,
+            label_name,
             label_show
           } = res;
           this.basicInfo = {
@@ -293,13 +394,27 @@ export default {
             superior_name
           };
           const published = publish_status == 1;
+          this.is_appeal = is_appeal; //是否申诉
+          this.appeal = appeal;
+          this.is_cancel_appeal = is_cancel_appeal; //是否取消申诉
+          this.is_confirm = is_confirm; //是否确认
           this.is_state = is_state;
+          this.label_show = label_show; //标签是否展示
           this.old_s = _s == 1 && label_show == 1 ? true : false;
           this.label_id = label_id;
+          // label_name 有值就是展示最终的，否则就是展示superior_score的
+          this.label_name =
+            label_name || (superior_score && superior_score.label_name);
           this.published = published;
           this.need_attach_score = need_attach_score;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
+          // superior_score 有值 superior_score.score有值 是展示最终的，superior_evaluation 就是上级评分过的
+          this.superior_evaluation =
+            superior_score != null && superior_score.score != null
+              ? true
+              : false;
+          // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.superior_score = superior_score;
@@ -461,11 +576,28 @@ export default {
           this.cancelReject = false;
       }
     },
-    cancel() {
+    confirm_submit() {
+      //绩效确认
+      return ConfirmSelf({
+        performance_user_id: this.$route.params.id
+      })
+        .then(res => {
+          this.confirm_box_show = false;
+          this.$message({
+            type: "success",
+            message: "确认成功!"
+          });
+          this.getInfo();
+        })
+        .catch(e => {});
+    },
+    cancel_appeal_submit() {
+      //取消申诉
       return delCancelAppeal({
         performance_user_id: this.$route.params.id
       })
         .then(res => {
+          this.cancel_appeal_box_show = false;
           this.$message({
             type: "success",
             message: "取消成功!"
@@ -523,5 +655,38 @@ export default {
 .my-grade-page .inner-container {
   display: flex;
   color: grey;
+}
+.dialog >>> .el-dialog__footer {
+  text-align: center;
+}
+.level-section {
+  font-size: 18px;
+  color: #6c7a92;
+}
+.level-section .level {
+  font-size: 26px;
+  color: orange;
+}
+.top-style {
+  background: #e8f5eb;
+  color: rgba(0, 177, 45, 1) !important;
+}
+.bplus-style {
+  background: #fff0e3;
+  color: rgba(255, 104, 0, 1);
+}
+.other-style {
+  background: #f1f2f5;
+  color: rgba(92, 108, 139, 1);
+}
+.status-tag {
+  min-width: 60px;
+  height: 28px;
+  padding: 0 10px;
+  margin: 0;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
 }
 </style>

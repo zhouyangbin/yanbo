@@ -313,10 +313,12 @@ export const getSelfTargetsDraft = (uid: string) =>
 
 export const postSelfPerformance = (uid: String, params: Object) =>
   sendPost(`/performance/api/self/${uid}`, params);
+// 绩效确认
+export const ConfirmSelf = (params: Object) =>
+  sendPost(`/performance/api/confirm`, params);
 // 绩效申诉
 export const postAppealPerformance = (params: Object) =>
   sendPost(`/performance/api/appeal`, params);
-
 // 绩效取消申诉
 export const delCancelAppeal = (params: Object) =>
   sendDelete(`/performance/api/appeal`, params);

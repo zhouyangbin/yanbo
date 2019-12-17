@@ -7,17 +7,14 @@
     :close-on-click-modal="false"
     width="30%"
   >
-    <el-form
-      :model="rejectForm"
-      :rules="rejectFormRules"
-      ref="rejectForm"
-      label-width="100px"
-    >
-      <el-form-item label="理由" prop="reason">
+    <el-form :model="rejectForm" :rules="rejectFormRules" ref="rejectForm">
+      <el-form-item prop="reason">
         <el-input
           type="textarea"
           :maxlength="1000"
           v-model="rejectForm.reason"
+          placeholder="请填写申诉理由"
+          row="5"
         ></el-input>
       </el-form-item>
     </el-form>
@@ -25,7 +22,7 @@
       <el-button @click="$emit('update:visible', false)">
         {{ constants.CANCEL }}
       </el-button>
-      <el-button type="primary" @click="submit">
+      <el-button type="primary" @click="submit" :disabled="isDisabled">
         {{ constants.CONFIRM }}
       </el-button>
     </span>
@@ -53,7 +50,8 @@ export default {
       constants: {
         CANCEL,
         CONFIRM
-      }
+      },
+      isDisabled: false
     };
   },
   methods: {
@@ -62,6 +60,9 @@ export default {
       this.$emit("close");
     },
     submit() {
+      if (this.rejectForm.reason) {
+        this.isDisabled = true;
+      }
       this.$refs["rejectForm"].validate(valid => {
         if (valid) {
           const { reason } = this.rejectForm;
@@ -69,11 +70,15 @@ export default {
             performance_user_id: this.$route.params.id,
             reason
           };
+
           postAppealPerformance(postData)
             .then(res => {
+              this.isDisabled = false;
               this.close();
             })
-            .catch(e => {});
+            .catch(e => {
+              this.isDisabled = false;
+            });
         } else {
           return false;
         }

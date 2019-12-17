@@ -323,10 +323,14 @@ export default {
     goDetail(row) {
       //跳转详情
       if (row.is_directly == 1) {
-        //隔级的直属下级
+        //去到直属下级的个人详情页
         this.$router.push(
           // PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
-          PATH_TEAM_DETAIL_MEMEBER(this.$route.params.id, row.id) //去到团队评分的个人详情页
+          PATH_TEAM_DETAIL_MEMEBER(
+            this.$route.params.id,
+            row.performance_id,
+            row.id
+          )
         );
       } else {
         //隔级的团队里的个人详情

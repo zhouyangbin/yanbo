@@ -3,21 +3,30 @@
     <nav-bar :list="nav"></nav-bar>
     <section class="content-container">
       <div class="basic-info">
-        <div>
-          <span class="label">{{ constants.BASIC_INFO }}:</span>
-          <span>
-            <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
-            / {{ basicInfo.workcode }} &nbsp;&nbsp;
-            <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
-            / {{ basicInfo.name }} </span
-          >&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-        <div v-if="needsReview">
-          <el-button @click="passReview" type="primary">{{
-            constants.LABEL_CONFIRM
-          }}</el-button>
-          <el-button @click="showReviewDia = true">返回修改</el-button>
-        </div>
+        <el-row>
+          <div style=" width: 80%;">
+            <span class="label">{{ constants.BASIC_INFO }}:</span>
+            <span>
+              <span class="greycolor">{{ constants.EMPLOYEE_WORKCODE }}</span>
+              / {{ basicInfo.workcode }} &nbsp;&nbsp;
+              <span class="greycolor">{{ constants.EMPYEE_NAME }}</span>
+              / {{ basicInfo.name }} </span
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          <div v-if="needsReview" style=" width: 20%;">
+            <el-button @click="passReview" type="primary">{{
+              constants.LABEL_CONFIRM
+            }}</el-button>
+            <el-button @click="showReviewDia = true">返回修改</el-button>
+          </div>
+        </el-row>
+        <p
+          style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
+          v-for="(item, index) in appeal"
+          :key="index"
+        >
+          申诉理由：{{ item.reason }}
+        </p>
       </div>
       <br />
       <card
@@ -163,7 +172,7 @@ export default {
         },
         {
           label: GRADE_MANAGE,
-          href: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(this.$route.params.gradeID)
+          href: PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(this.$route.params.orgID)
         },
         {
           label: GRADE_DETAIL,
@@ -196,7 +205,9 @@ export default {
       operate_status: true,
       old_s: "", //是否为老数据
       high_level_show: false,
-      new_total: ""
+      new_total: "",
+      appeal: [],
+      publish_status: 0 //是否发布
     };
   },
   components: {
@@ -312,6 +323,7 @@ export default {
             targets,
             workcode,
             self_attach_score,
+            label_id,
             self_score,
             superior_attach_score,
             superior_score,
@@ -320,6 +332,8 @@ export default {
             stage,
             score_level,
             operate_status,
+            appeal,
+            publish_status,
             _s
           } = res;
 
@@ -334,15 +348,18 @@ export default {
           this.operate_status = operate_status;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-
           this.comments = superior_score && superior_score.evaluation;
+          this.publish_status = publish_status;
+          // score_level 有值就是展示最终的，否则就是展示superior_score的
           this.level =
             score_level || (superior_score && superior_score.score_level);
           this.hasLeaderAdditionMark = need_attach_score == 1;
           this.rules = score_rule;
           this.stage = stage;
           this.score = self_score.score; //自评总分
-          this.label_id = parseInt(superior_score.label_id) || null;
+          // label_id 有值就是展示最终的，否则就是展示superior_score的
+          this.label_id = label_id || parseInt(superior_score.label_id) || null;
+          this.appeal = appeal;
         })
         .catch(e => {});
     },
@@ -462,7 +479,7 @@ export default {
   watch: {
     targets: {
       handler: function() {
-        if (this.shouldMapping && this.stage < 50) {
+        if (this.shouldMapping && this.stage < 50 && !this.publish_status) {
           this.level = this.findLevel();
         }
       },
@@ -470,7 +487,7 @@ export default {
     },
     leaderAdditionMark: {
       handler: function() {
-        if (this.shouldMapping && this.stage < 50) {
+        if (this.shouldMapping && this.stage < 50 && !this.publish_status) {
           this.level = this.findLevel();
         }
       },
@@ -486,8 +503,8 @@ export default {
 .my-grade-page .basic-info {
   background: white;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
+  /*display: flex;*/
+  /*justify-content: space-between;*/
 }
 .my-grade-page .summary-section {
   background: white;

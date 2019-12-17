@@ -44,39 +44,63 @@
         <comments :readOnly="true" :comments.sync="comments"></comments>
         <br />
       </div>
-      <div v-if="progressArr.length > 1" class="summary-section">
+      <div v-if="processor.length > 1" class="summary-section">
         <div class="inner-container">
           <span class="label">进度:</span>
-          <el-steps style="width:60%" :active="progressArr.length">
-            <el-step v-for="(v, i) of progressArr" :key="i">
-              <div slot="icon">{{ v.text }}</div>
-              <div slot="title">{{ v.value }}</div>
+          <el-steps
+            :style="{ width: processor.length * 12 + '%' }"
+            :active="processor.length"
+          >
+            <el-step v-for="(v, i) of processor" :key="i">
+              <div slot="icon">{{ v.name }}</div>
+              <div slot="title">{{ v.time }}</div>
             </el-step>
           </el-steps>
         </div>
-        <div v-if="appeal.reason">
-          <br />
-          <div class="inner-container">
-            <span class="label">申诉理由:</span>
-            <span :inner-html.prop="appeal.reason | linebreak"></span>
+        <div v-if="appeal_length">
+          <div
+            style=" width: 100%; word-break: break-all;display: flex;"
+            v-for="(item, index) in apple_reasons"
+            :key="index"
+          >
+            <span class="label" style=" line-height: 20px;padding-right: 0;"
+              >第{{ index + 1 }}次申诉理由：</span
+            >
+            <span style=" line-height: 20px; padding-left: 0; "
+              >{{ item }} </span
+            ><br />
           </div>
-          <br />
         </div>
-        <div v-if="total" class="inner-container">
+        <div v-if="score_level" class="inner-container">
           <span class="label">评分结果 : </span>
-          <span class="label" style="padding-left: 0;">{{ total }}</span>
+          <span style=" line-height: 20px; padding-left: 0; color: #000;">{{
+            score_level
+          }}</span>
         </div>
-        <div v-if="total" class="inner-container">
+        <div v-if="label_name" class="inner-container">
           <span class="label">标签 : </span>
-          <span class="label" style="padding-left: 0;">{{ label_name }}</span>
+          <span style=" line-height: 20px; padding-left: 0; color: #000;">{{
+            label_name
+          }}</span>
         </div>
         <div class="inner-container">
           <span class="label"></span>
-          <el-steps style="width:60%" :active="resultArr.length">
-            <el-step v-for="(v, i) of resultArr" :key="i">
-              <div slot="icon">{{ v.text }}</div>
-              <div slot="title">
-                {{ v.value }}
+          <el-steps style="width:60%" :active="Object.keys(scores).length">
+            <el-step v-for="(value, key, index) in scores" :key="index">
+              <div slot="icon">{{ value.name }}</div>
+              <div slot="title" v-if="key == 'self'">{{ value.score }}分</div>
+              <div slot="title" v-if="key == 'superior'">
+                <span>总分: {{ value.total_score }}分 </span>
+                <span>等级: {{ value.score_level }} </span>
+                <span>标签: {{ value.label_name }} </span>
+              </div>
+              <div slot="title" v-if="key == 'bp_first'">
+                <span>等级: {{ value.score_level }} </span>
+                <span>标签: {{ value.label_name }} </span>
+              </div>
+              <div slot="title" v-if="key == 'bp_last'">
+                <span>等级: {{ value.score_level }} </span>
+                <span>标签: {{ value.label_name }} </span>
               </div>
             </el-step>
           </el-steps>
@@ -84,20 +108,25 @@
       </div>
       <br />
       <br />
-      <el-row v-if="canEdit" type="flex" justify="center">
-        <el-button round size="medium" @click="changeMarks" class="btn-reset">
-          {{ constants.LABEL_MODIFY }}
+      <el-row
+        type="flex"
+        justify="center"
+        v-if="appeal_length && stage != 60 && isEdit"
+      >
+        <el-button @click="changeMarks" class="btn-reset">
+          修改
         </el-button>
-        <el-button round size="medium" @click="submit" type="primary"
-          >确认结果</el-button
-        >
+        <el-button @click="submit" type="primary">
+          {{ appeal_length == 1 ? "维持原成绩" : null }}
+          {{ appeal_length == 2 ? "确认成绩" : null }}
+        </el-button>
       </el-row>
     </section>
     <change-mark
       @close="afterChangeGrade"
       v-if="showChangeMarkDia"
       :label_id="label_id"
-      :mark="total"
+      :mark="score_level"
       :visible.sync="showChangeMarkDia"
     ></change-mark>
   </div>
@@ -132,12 +161,11 @@ export default {
   data() {
     return {
       basicInfo: {},
-      total: "",
       targets: [],
       myAdditionMark: {},
       leaderAdditionMark: {},
       comments: "",
-      appeal: {},
+      apple_reasons: [],
       nav: [
         {
           label: GRADE_MANAGE,
@@ -160,7 +188,9 @@ export default {
         }
       ],
       resultArr: [],
+      scores: {},
       progressArr: [],
+      processor: [],
       canEdit: false,
       showChangeMarkDia: false,
       constants: {
@@ -170,8 +200,12 @@ export default {
         LABEL_SUP,
         BASIC_INFO
       },
-      label_id: "",
-      label_name: ""
+      appeal_length: 0, //申诉数组长度 来判断是第几次
+      stage: 0, //评分进度
+      isEdit: 0, //是否修改
+      score_level: "", //评分结果
+      label_id: "", //标签id
+      label_name: "" //标签
     };
   },
   components: {
@@ -193,18 +227,22 @@ export default {
       this.getInfo();
     },
     submit() {
-      this.$confirm(
-        "请确认无误再提交，一经提交无法修改, 是否继续?",
-        ATTENTION,
-        {
-          confirmButtonText: CONFIRM,
-          cancelButtonText: CANCEL,
-          type: "warning"
-        }
-      )
+      let submit_text =
+        "<p style='height:100px;line-height: 100px;text-align:center'>";
+      if (this.appeal_length == 1) {
+        submit_text += "提交后将由员工再次确认成绩,是否继续?</p>";
+      }
+      if (this.appeal_length == 2) {
+        submit_text += "请确认无误再提交，一经提交无法修改, 是否继续?</p>";
+      }
+      this.$confirm(submit_text, ATTENTION, {
+        confirmButtonText: CONFIRM,
+        cancelButtonText: CANCEL,
+        dangerouslyUseHTMLString: true
+      })
         .then(() => {
           const postData = {
-            action: 1
+            action: this.appeal_length //申诉数组长度为1  action = 1 确认提交。 申诉数组长度为2 action = 2 维持原成绩
           };
           changePerformanceGrade(
             this.$route.params.orgID,
@@ -217,68 +255,6 @@ export default {
             .catch(e => {});
         })
         .catch(() => {});
-    },
-    composeResultArr(self_score, superior_score, appeal) {
-      this.resultArr = [];
-      if (self_score && self_score.score != null) {
-        this.resultArr.push({
-          text: LABEL_SELF,
-          value: self_score.score
-        });
-      }
-      if (superior_score && superior_score.score_level) {
-        this.resultArr.push({
-          text: LABEL_SUP,
-          value: superior_score.score_level
-        });
-      }
-      if (appeal && appeal.hr_score_level) {
-        this.resultArr.push({
-          text: appeal.action == 1 ? "BP确认" : "BP修改",
-          value: appeal.hr_score_level
-        });
-      }
-    },
-    composeProgressArr(
-      target_time,
-      self_time,
-      superior_time,
-      appeal_time,
-      confirm_end_time
-    ) {
-      this.progressArr = [];
-      if (target_time) {
-        this.progressArr.push({
-          text: "目标导入",
-          value: target_time
-        });
-      }
-
-      if (self_time) {
-        this.progressArr.push({
-          text: LABEL_SELF,
-          value: self_time
-        });
-      }
-
-      if (superior_time) {
-        this.progressArr.push({
-          text: LABEL_SUP,
-          value: superior_time
-        });
-      }
-      if (appeal_time) {
-        this.progressArr.push({
-          text: APPEAL,
-          value: appeal_time
-        });
-      }
-      if (confirm_end_time) {
-        this.progressArr.push({
-          text: "结束",
-          value: confirm_end_time
-        });
-      }
     },
     getInfo() {
       return getPerformanceUserDetail(
@@ -293,40 +269,40 @@ export default {
             self_attach_score,
             superior_attach_score,
             superior_score,
-            appeal,
+            apple_reasons,
             self_score,
             target_time,
             self_time,
             superior_time,
-            appeal_time,
             end_time,
             confirm_end_time,
             can_edit,
             score_level,
             label_id,
-            label_name
+            label_name,
+            processor,
+            scores,
+            stage,
+            isEdit
           } = res;
           this.basicInfo = {
             leaderName: superior_name
           };
 
-          this.total = score_level;
           this.comments = superior_score && superior_score.evaluation;
-          this.composeResultArr(self_score, superior_score, appeal);
-          this.composeProgressArr(
-            target_time,
-            self_time,
-            superior_time,
-            appeal_time,
-            confirm_end_time
-          );
+          this.processor = processor;
+          this.scores = scores;
           this.targets = targets;
           this.myAdditionMark = self_attach_score || {};
           this.leaderAdditionMark = superior_attach_score || {};
-          this.appeal = appeal || {};
+          this.apple_reasons = apple_reasons || [];
+          this.appeal_length = apple_reasons.length;
           this.canEdit = can_edit == 1;
+          this.score_level = score_level;
           this.label_id = label_id;
           this.label_name = label_name;
+          this.stage = stage;
+          this.isEdit = isEdit;
         })
         .catch(e => {
           // console.log(e)
@@ -359,8 +335,8 @@ export default {
 .user-detail-page .label {
   margin-right: 20px;
   color: #778294;
-  width: 100px;
-  min-width: 100px;
+  width: 116px;
+  min-width: 116px;
   height: 26px;
   box-sizing: border-box;
   line-height: 26px;

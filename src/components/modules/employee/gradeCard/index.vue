@@ -16,14 +16,20 @@
             <div v-if="data.description">
               <section>
                 <span class="label">具体工作/任务描述:</span> &nbsp;
-                <span :inner-html.prop="data.description | linebreak"></span>
+                <span
+                  style="word-break: break-all;"
+                  :inner-html.prop="data.description | linebreak"
+                ></span>
               </section>
               <!-- <br> -->
             </div>
             <div v-if="data.metrics">
               <section>
                 <span class="label">衡量标准:</span> &nbsp;
-                <span :inner-html.prop="data.metrics | linebreak"></span>
+                <span
+                  style="word-break: break-all;"
+                  :inner-html.prop="data.metrics | linebreak"
+                ></span>
               </section>
             </div>
             <div
@@ -309,7 +315,7 @@ export default {
   font-weight: 600;
 }
 .delight {
-  width: 100%;
+  width: 60%;
   font-size: 14px;
   line-height: 30px;
 

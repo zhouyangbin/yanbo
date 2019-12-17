@@ -28,6 +28,7 @@ import {
   PATH_EMPLOYEE_TEAM,
   PATH_EMPLOYY_TEAM_GRADE_DETAIL,
   PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL,
+  PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL,
   PATH_MSG_MOBILE,
   PATH_MY_CULTURE_GRADE_DETAILS,
   PATH_MEMBER_CULTURE_LIST,
@@ -140,14 +141,14 @@ export default {
         case "superior_list": //我的业绩 团队评分 评分管理
           dst = PATH_EMPLOYY_TEAM_GRADE_DETAIL(querys.performance_id);
           break;
-        case "appeal_hr":
+        case "appeal_hr": //评分管理-详情-事业部详情-员工详情
           dst = PATH_PERFORMANCE_USER_DETAIL(
             querys.performance_name_id,
             querys.performance_id,
             querys.performance_user_id
           );
           break;
-        case "review": //团队  个人详情
+        case "review": //我的业绩 团队评分 评分管理 评分详情
           dst = PATH_EMPLOYEE_TEAM_MEMEBER(
             querys.performance_id,
             querys.performance_user_id
@@ -162,6 +163,13 @@ export default {
         case "levelteam_detail": //我的业绩 隔级评分 评分管理 as 隔级审核页面
           dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL(
             querys.performance_name_id
+          );
+          break;
+        case "levelteam_other_team_detail": //我的业绩 隔级评分 评分管理 团队下属详情页面
+          dst = PATH_EMPLOYY_LEVEL_TEAM_GRADE_ORG_DETAIL(
+            querys.performance_name_id,
+            querys.performance_id,
+            querys.performance_user_id
           );
           break;
       }

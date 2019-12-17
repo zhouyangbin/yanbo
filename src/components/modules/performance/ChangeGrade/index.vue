@@ -93,7 +93,7 @@ export default {
         ],
         reason: [{ required: true, message: "请填写修改原因", trigger: "blur" }]
       },
-      marks: ["A", "B", "C", "D", "S"],
+      marks: ["S", "A", "B", "C", "D"],
       levalLabelRules: [],
       constants: {
         CANCEL,
@@ -120,7 +120,7 @@ export default {
             score_level: mark,
             reason,
             label_id,
-            action: 2
+            action: 3
           };
           changePerformanceGrade(
             this.$route.params.orgID,
