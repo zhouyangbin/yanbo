@@ -12,7 +12,7 @@
           <span class="greycolor">{{ constants.LEADER_NAME }}</span>
           / {{ basicInfo.superior_name }} </span
         >&nbsp;&nbsp;&nbsp;&nbsp;
-        <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR12</span>
+        <span class="tip">注: 若上级姓名工号与实际不符, 请联系HR</span>
         <p
           style=" width: 100%; word-break: break-all; line-height: 20px;padding-left: 10px; color: #ff8519;"
           v-for="(item, index) in appeal"
