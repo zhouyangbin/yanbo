@@ -133,6 +133,7 @@ import {
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
+  getEmployeeDetailSee,
   postUserPerformance,
   postUserPerformanceDraft,
   postTargetReview
@@ -221,7 +222,6 @@ export default {
           .reduce((pre, next) => pre + next, 0) +
           (parseFloat(this.leaderAdditionMark.score) || 0)
       ).toFixed(8);
-      console.log(total);
       return (Math.round(total * 100) / 100).toFixed(2);
     },
 
@@ -294,7 +294,10 @@ export default {
         .catch(e => {});
     },
     getDetailInfo() {
-      return getEmployeeDetail(
+      let detail_feature = this.$route.params.attach;
+      let detail_feature_API =
+        detail_feature == "slef" ? getEmployeeDetailSee : getEmployeeDetail;
+      return detail_feature_API(
         this.$route.params.gradeID,
         this.$route.params.uid,
         "superior"

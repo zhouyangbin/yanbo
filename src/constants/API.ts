@@ -287,7 +287,7 @@ export const postUserPerformanceDraft = (
 
 export const getMyPerformanceList = (params: Object) =>
   sendGet(`/performance/api/self/index`, params);
-// 团队里的详情
+// 可编辑员工详情
 export const getEmployeeDetail = (
   orgID: String,
   uid: String,
@@ -298,6 +298,10 @@ export const getEmployeeDetail = (
       attach_for
     })}`
   );
+
+// 不可编辑员工详情
+export const getEmployeeDetailSee = (orgID: String, uid: String) =>
+  sendGet(`/performance/api/${orgID}/${uid}`);
 
 // 个人设置目标
 export const postSetSelfTargets = (uid: string, params: object) =>

@@ -211,6 +211,7 @@ import {
 } from "@/constants/TEXT";
 import {
   getEmployeeDetail,
+  getEmployeeDetailSee,
   postUserPerformanceDraft,
   postSelfPerformance,
   ConfirmSelf,
@@ -360,7 +361,10 @@ export default {
       return parseFloat(this.total) > 5;
     },
     getInfo() {
-      return getEmployeeDetail(
+      let detail_feature = this.$route.params.attach;
+      let detail_feature_API =
+        detail_feature == "slef" ? getEmployeeDetailSee : getEmployeeDetail;
+      return detail_feature_API(
         this.$route.params.orgID,
         this.$route.params.id,
         "self"

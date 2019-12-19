@@ -84,20 +84,22 @@ export const PATH_PERFORMANCE_USER_DETAIL = (
 export const PATH_EMPLOYEE_MY = "/employee/my";
 export const PATH_EMPLOYEE_TEAM = "/employee/team";
 export const PATH_EMPLOYEE_LEVEL_TEAM = "/employee/levelteam";
-//我的评分-详细评分
+//我的评分-个人详情
 export const PATH_EMPLYEE_MY_DETAIL = (
+  attach: String = ":attach",
   orgID: String = ":orgID",
   id: String = ":id"
-) => `/employee/my/${orgID}/${id}`;
+) => `/employee/my/${attach}/${orgID}/${id}`;
 //团队详情
 export const PATH_EMPLOYY_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/team/${id}`;
 
 //团队  个人详情
 export const PATH_EMPLOYEE_TEAM_MEMEBER = (
+  attach: String = ":attach",
   gradeID: String = ":gradeID",
   uid: String = ":uid"
-) => `/employee/team/${gradeID}/user/${uid}`;
+) => `/employee/team/${attach}/${gradeID}/user/${uid}`;
 //隔级详情
 export const PATH_EMPLOYY_LEVEL_TEAM_GRADE_DETAIL = (id: String = ":id") =>
   `/employee/levelteam/${id}`;
