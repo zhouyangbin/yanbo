@@ -282,6 +282,10 @@ export const postUserPerformanceDraft = (
 ) => sendPost(`/performance/api/${orgID}/${uid}/draft`, params);
 
 // 我的绩效评分列表
+
+export const getSelfPerformanceList = (params: Object) =>
+  sendGet(`/performance/api/self/index`, params);
+// 可编辑员工详情
 export const getMyPerformanceList = (params: Object) =>
   sendGet(`/executive-performance/web/self/index`, params);
 
@@ -296,6 +300,10 @@ export const getEmployeeDetail = (
       attach_for
     })}`
   );
+
+// 不可编辑员工详情
+export const getEmployeeDetailSee = (orgID: String, uid: String) =>
+  sendGet(`/performance/api/${orgID}/${uid}`);
 
 // 个人设置目标
 export const postSetSelfTargets = (uid: string, params: object) =>

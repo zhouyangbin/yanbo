@@ -11,7 +11,7 @@
 <script>
 import { MY_GRADE } from "@/constants/TEXT";
 import { PATH_EMPLOYEE_MY } from "@/constants/URL";
-import { getEmployeeDetail } from "@/constants/API";
+import { getEmployeeDetail, getEmployeeDetailSee } from "@/constants/API";
 
 export default {
   data() {
@@ -46,16 +46,33 @@ export default {
   methods: {
     getStatus() {
       this.currentComponent = "";
-      getEmployeeDetail(this.$route.params.orgID, this.$route.params.id, "self")
-        .then(res => {
-          const { performance_status } = res;
-          if (performance_status >= 30) {
-            this.currentComponent = "grade";
-          } else {
-            this.currentComponent = "set-targets";
-          }
-        })
-        .catch(e => {});
+      let detail_feature = this.$route.params.attach;
+      let detail_feature_API =
+        detail_feature == "slef" ? getEmployeeDetailSee : getEmployeeDetail;
+      detail_feature_API(
+        this.$route.params.orgID,
+        this.$route.params.id,
+        "self"
+      ).then(res => {
+        const { performance_status } = res;
+
+        if (performance_status >= 30) {
+          this.currentComponent = "grade";
+        } else {
+          this.currentComponent = "set-targets";
+        }
+      });
+
+      // getEmployeeDetail(this.$route.params.orgID, this.$route.params.id, "self")
+      //   .then(res => {
+      //     const { performance_status } = res;
+      //     if (performance_status >= 30) {
+      //       this.currentComponent = "grade";
+      //     } else {
+      //       this.currentComponent = "set-targets";
+      //     }
+      //   })
+      //   .catch(e => {});
     }
   },
   created() {

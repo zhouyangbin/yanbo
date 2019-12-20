@@ -134,9 +134,28 @@ export default {
           )
         );
       } else {
-        this.$router.push(
-          PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
-        );
+        if (row.can_edit_target == 1) {
+          // 可编辑
+          this.$router.push(
+            PATH_EMPLYEE_MY_DETAIL(
+              "attach",
+              row.performance_id,
+              row.performance_user_id
+            )
+          );
+        } else {
+          this.$router.push(
+            //不可编辑
+            PATH_EMPLYEE_MY_DETAIL(
+              "slef",
+              row.performance_id,
+              row.performance_user_id
+            )
+          );
+        }
+        // this.$router.push(
+        //   PATH_EMPLYEE_MY_DETAIL(row.performance_id, row.performance_user_id)
+        // );
       }
     },
     refreshList() {

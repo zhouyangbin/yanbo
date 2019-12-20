@@ -139,9 +139,17 @@ export default {
   created() {},
   methods: {
     goDetail(row) {
-      this.$router.push(
-        PATH_EMPLOYEE_TEAM_MEMEBER(this.$route.params.id, row.id)
-      );
+      if (row.stage == 30) {
+        //可编辑
+        this.$router.push(
+          PATH_EMPLOYEE_TEAM_MEMEBER("attach", this.$route.params.id, row.id)
+        );
+      } else {
+        this.$router.push(
+          //不可编辑
+          PATH_EMPLOYEE_TEAM_MEMEBER("slef", this.$route.params.id, row.id)
+        );
+      }
     },
     get_stage_status(status) {
       let status_text = this.constants.ENUM_PERFORMANCE_FINISH.filter(
