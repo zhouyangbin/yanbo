@@ -131,6 +131,7 @@ export default {
         case "confirm":
           dst = PATH_EMPLYEE_MY_DETAIL(
             //我的业绩 我的评分 详情
+            "slef",
             querys.performance_id,
             querys.performance_user_id
           );
