@@ -436,17 +436,18 @@ export default {
       this.$refs[formName].resetFields();
     },
     selectionChange(s) {
-      // console.log(formatTime(new Date()))
-      // this.selectedArr = s;
-
+      let isLegal = true;
       for (let i = 0; i < s.length; i++) {
         if (s[i].stage != 50) {
-          this.$alert("所选隔级中存在未在当前阶段的员工！");
-          this.$refs.tableData.clearSelection();
-          this.selectedArr = [];
-        } else {
-          this.selectedArr.push(s[i]);
+          isLegal = false;
         }
+      }
+      if (!isLegal) {
+        this.$alert("所选隔级中存在未在当前阶段的员工！");
+        this.$refs.tableData.clearSelection();
+        this.selectedArr = [];
+      } else {
+        this.selectedArr = s;
       }
     },
     batchPass() {

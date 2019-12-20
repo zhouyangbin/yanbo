@@ -116,8 +116,6 @@ export const RECORD_STATUS = "名单状态";
 export const SELF_EVALUATION_STATUS = "自评状态";
 export const LEADER_EVALUATION_STATUS = "上级评状态";
 export const LEADER_PLUS_EVALUATION_STATUS = "隔级上级评状态";
-export const OFFLINE_STATUS = "线下合议状态";
-export const FACE_EVALUATION_STATUS = "员工确认状态";
 export const DEPARTMENT = "部门";
 export const RESULT_CONFIRM = "结果确认";
 export const SELECTION_TIPS = (total: number, selection: number) =>
@@ -138,16 +136,12 @@ export const WORK_LEVEL = "职级";
 export const EMAIL = "邮箱";
 export const UP_LEVEL = "上级";
 export const PLUS_UP_LEVEL = "隔级";
-export const FACE_FEEDBACK = "员工确认反馈";
 export const SET_TIMES = "设置时间";
 export const MODIFY_TIMES = "修改时间";
-export const BATCH_SET_TIMES = "批量设置时间";
 export const IMPORT_RECORDS = "导入名单";
 export const SELF_EVALUATION_TIME = "自评时间";
 export const LEADER_EVALUATION_TIME = "上级评时间";
 export const LEADER_PLUS_EVALUATION_TIME = "隔级上级评时间";
-export const OFFLINETALK_EVALUATION_TIME = "线下合议时间";
-export const FACE_EVALUATION_TIME = "员工确认时间";
 export const REQUIRE_271 = "271等级必填";
 export const EHR_IMPORT = "EHR获取";
 export const EXCEL_IMPORT = "EXCEL导入";
@@ -159,14 +153,11 @@ export const SELF_START_TIME_VALIDATE_MSG = "自评开始时间必须大于当�
 export const START_END_VALIDATE_MSG = "结束时间必须大于开始时间";
 export const LEADER_TIME_VALIDATE_MSG = "上级评价时间必须大于自评时间";
 export const UP_LEADER_TIME_VALIDATE_MSG = "隔级上级评价时间必须大于上级评时间";
-export const OFFLINETALK_TIME_VALIDATE_MSG =
-  "线下合议时间必须大于隔级上级评价时间";
-export const FACE_TIME_VALIDATE_MSG = "员工确认时间必须大于线下合议时间";
-export const FACE_TIME_OVER_GRADE_MSG = "员工确认时间不能晚于评测截止时间";
 export const EMAIL_VALIATE_MSG = "请填写邮箱地址";
 export const SELF_TIME_REQUIRE_MSG = "请填写自评";
 export const LEADER_TIME_REQUIRE_MSG = "请填写上级评";
 export const UP_LEADER_TIME_REQUIRE_MSG = "请填写隔级上级评";
+
 export const OFFLINETALK_TIME_REQUIRE_MSG = "请填写线下合议";
 export const FACE_TIME_REQUIRE_MSG = "请填写员工确认";
 export const PLUS_UP_LEVEL_REQUIRE_MSG = "请填写隔级工号";
@@ -193,83 +184,6 @@ export const UPDATE_LABEL = "更新标签";
 export const SERIAL_NUMBER = "序号";
 export const TAG_NAME = "标签名称";
 export const TAG_TYPE = "标签类型";
-
-export const DEFAULT_TABLE23221 = [
-  {
-    id: "1",
-    name: "Top",
-    is_show: false,
-    level: "S/A",
-    range: -1,
-    threshold: 20,
-    range_des: "<=20%",
-    computation_rule_name: "四舍五入取整数"
-  },
-  {
-    id: "2",
-    name: "Middle(50%)",
-    is_show: false,
-    level: "B",
-    range: 0,
-    threshold: 50,
-    range_des: "50%",
-    computation_rule_name: ""
-  },
-  {
-    parent_id: "2",
-    name: "B+(自定义)",
-    is_show: false,
-    level: "--",
-    range: -1,
-    threshold: 30,
-    range_des: "<=30%",
-    computation_rule_name: "四舍五入取整数",
-    isChildren: true
-  },
-  {
-    parent_id: "2",
-    name: "B(自定义)",
-    is_show: false,
-    level: "--",
-    range: 0,
-    threshold: 20,
-    range_des: "20%",
-    computation_rule_name: "",
-    isChildren: true
-  },
-  {
-    id: "3",
-    name: "Bottom",
-    is_show: false,
-    level: "--",
-    range: 1,
-    threshold: 30,
-    range_des: ">=30%",
-    computation_rule_name: "四舍五入取整数"
-  },
-  {
-    parent_id: "3",
-    name: "B-(自定义)",
-    is_show: false,
-    level: "--",
-    range: 1,
-    threshold: 20,
-    range_des: "20%",
-    computation_rule_name: "四舍不五入取整数",
-    isChildren: true
-  },
-  {
-    parent_id: "3",
-    name: "C/D(自定义)",
-    is_show: false,
-    level: "C/D",
-    range: 1,
-    threshold: 10,
-    range_des: ">=10%",
-    computation_rule_name: "四舍五入取整数",
-    isChildren: true
-  }
-];
 
 export const BUSINESS_UNIT_AND_FUNCTIONAL_UNIT = "业务单元/职能单元";
 export const CORRESPONDING_GRADE_AND_PROPORTION = "对应等级及占比";
@@ -298,6 +212,8 @@ export const APPEAL = "申诉";
 export const CANCEL_APPEAL = "取消申诉";
 export const GRADE_STATUS = "评分状态";
 export const TARGET_STATUS = "目标状态";
+export const PLEASE_SELECT_PERFORMANCE_TYPE = "请选择绩效类型";
+export const PLEASE_SELECT_LABEL_TYPE = "请选择标签类型";
 
 export const ENUM_RECORD_STATUS = [
   {
@@ -312,7 +228,7 @@ export const ENUM_RECORD_STATUS = [
 export const ENUM_SELF_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未完成"
+    value: "未开始"
   },
   {
     key: "1",
@@ -347,11 +263,10 @@ export const EMUM_CULTURE_GENERIC_COMPLETE_STATUS = [
     value: "已完成"
   }
 ];
-
 export const ENUM_LEADER_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未完成"
+    value: "未开始"
   },
   {
     key: "1",
@@ -377,7 +292,7 @@ export const ENUM_LEADER_PLUS_EVALUATION_STATUS = [
     value: "已完成"
   }
 ];
-export const ENUM_FACE_EVALUATION_STATUS = [
+export const ENUM_OFFLINE_STATUS = [
   {
     key: "0",
     value: "未完成"
@@ -391,10 +306,10 @@ export const ENUM_FACE_EVALUATION_STATUS = [
     value: "已完成"
   }
 ];
-export const ENUM_OFFLINE_STATUS = [
+export const ENUM_FACE_EVALUATION_STATUS = [
   {
     key: "0",
-    value: "未完成"
+    value: "未开始"
   },
   {
     key: "1",
@@ -756,7 +671,6 @@ export const LEVELMAP = {
   bottom: 1
 };
 
-export const IMPRESSIONS = "心得体会（仅B事业部涉及）";
 export const DOWN_MEMBER_REJECT_REASON = "隔级驳回理由";
 export const LEVEL_TAG = "等级标签";
 export const ADVANTAGE = "优势";
@@ -773,7 +687,138 @@ export const MY_PERFORMANCE = "我的业绩";
 export const CHANGE_REASON = "修改理由";
 export const REJECT_REASON = "驳回理由";
 export const TOTAL_SCORES = "总分";
+export const ADD_TARGET = "添加目标";
+export const UPLOAD_TARGET = "上传目标";
+export const PERFORMANCE_TARGET = "绩效目标";
+export const TARGET_WEIGH = "权重";
+export const CHANGE_RECORDS = "修改日志";
+export const FINISH_DATE = "完成期限";
+export const EXECUTIVE_PERFORMANCE = "组织部绩效";
+export const ADD_NEW_TPL = "新增模板";
+export const ORGANIZATION_DEPARTMENT_MEMBER_TYPE = "组织部成员类型";
+export const INDICATOR_TYPE_AND_PROPORTION = "指标类型及占比";
+export const ID_DET_TPL_CONFIRM = "是否确认删除模板？";
+export const UPDATE_TPL = "修改模板";
+export const PLEASE_SELECT_MULTIPLE = "请选择，可多选";
+export const EXECUTIVE_TYPE_TEXT = "组织部类型";
+export const TEMPLATE_FIELD = "模板字段";
+export const IS_THE_MEASUREMENT_REQUIRED = "衡量标准是否必填";
+export const SORT = "排序";
+export const EXECTIVE_UPDATE_LABEL = "修改标签";
+export const LABEL_TYPE = "标签类型";
+export const FORCED_DISTRIBUTION = "强制分布";
+export const EXECUTIVE_LABEL_TYPE = ["253", "271", "23221", "2521"];
+export const FORCED_DISTRIBUTION_VALUE = [
+  {
+    key: 0,
+    value: "否"
+  },
+  {
+    key: 1,
+    value: "是"
+  }
+];
+export const DEFAULT_TABLE253 = [
+  {
+    id: "",
+    display_name: "Top",
+    people_percent: 20,
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    id: "",
+    display_name: "Middle",
+    people_percent: 50,
+    computation_rule_name: ""
+  },
+  {
+    id: "",
+    display_name: "Bottom",
+    people_percent: 30,
+    computation_rule_name: "不四舍五入取整数"
+  }
+];
+export const DEFAULT_TABLE271 = [
+  {
+    id: "",
+    display_name: "Top",
+    people_percent: 20,
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    id: "",
+    display_name: "Middle",
+    people_percent: 70,
+    computation_rule_name: ""
+  },
+  {
+    id: "",
+    display_name: "Bottom",
+    people_percent: 10,
+    computation_rule_name: "不四舍五入取整数"
+  }
+];
+export const DEFAULT_TABLE2521 = [
+  {
+    id: "",
+    display_name: "Top",
+    people_percent: 20,
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    id: "",
+    display_name: "Middle",
+    people_percent: 50,
+    computation_rule_name: ""
+  },
+  {
+    id: "",
+    display_name: "Bottom",
+    people_percent: 30,
+    computation_rule_name: "不四舍五入取整数"
+  },
+  {
+    display_name: "(自定义)",
+    people_percent: 20,
+    computation_rule_name: "",
+    isChildren: true
+  },
+  {
+    id: "",
+    display_name: "(自定义)",
+    people_percent: 10,
+    computation_rule_name: "不四舍五入取整数",
+    isChildren: true
+  }
+];
 
+// 指标设定
+export const SUPERIOR_OPINION = "上级意见";
+export const IMMEDIATE_SUPERIOR = "直接上级";
+export const ASSESS_CYCLE = "考核周期";
+export const SET_TARGET_DEADLINE = "指标设定截止时间";
+export const ERROR_MESSAGE_CONTACT_USER =
+  "如直接上级的姓名或工号有误，请联系HRBP。";
+export const SENIOR_UPLOAD_TARGET = "上传指标";
+export const TARGET_DETAIL = "指标详情";
+export const CHECK_EXAMINE_LOG = "查看审批记录";
+export const TARGET_RETURN = "返回";
+export const TARGET_NAME = "指标名称";
+export const TASK_DESCRIPTION = "具体工作/任务描述";
+export const YARD_STICK = "衡量标准";
+export const ADD_TARGET_LINE = "添加考核项";
+export const FINANCE_DIMENSIONALITY_SUBTOTAL = "财务维度小计";
+export const OFFLINE_STATUS = "线下合议状态";
+export const FACE_EVALUATION_STATUS = "员工确认状态";
+export const FACE_FEEDBACK = "员工确认反馈";
+export const BATCH_SET_TIMES = "批量设置时间";
+export const OFFLINETALK_EVALUATION_TIME = "线下合议时间";
+export const FACE_EVALUATION_TIME = "员工确认时间";
+export const OFFLINETALK_TIME_VALIDATE_MSG =
+  "线下合议时间必须大于隔级上级评价时间";
+export const FACE_TIME_VALIDATE_MSG = "员工确认时间必须大于线下合议时间";
+export const FACE_TIME_OVER_GRADE_MSG = "员工确认时间不能晚于评测截止时间";
+export const IMPRESSIONS = "心得体会（仅B事业部涉及）";
 export const BREAK_STATUS = [
   "",
   "未自评",
@@ -782,13 +827,128 @@ export const BREAK_STATUS = [
   "申诉上级未修改",
   "员工确认阶段未确认"
 ];
-export const ADD_TARGET = "添加目标";
-export const UPLOAD_TARGET = "上传目标";
-export const PERFORMANCE_TARGET = "绩效目标";
-export const TARGET_WEIGH = "权重";
-export const CHANGE_RECORDS = "修改日志";
-export const FINISH_DATE = "完成期限";
+export const DEFAULT_PERFORMANCE_TABLE23221 = [
+  {
+    id: "",
+    display_name: "Top",
+    people_percent: 20,
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    id: "",
+    display_name: "Middle(50%)",
+    people_percent: 50,
+    computation_rule_name: ""
+  },
+  {
+    id: "",
+    display_name: "(自定义)",
+    people_percent: 30,
+    computation_rule_name: "",
+    isChildren: true
+  },
+  {
+    id: "",
+    display_name: "(自定义)",
+    people_percent: 20,
+    computation_rule_name: "",
+    isChildren: true
+  },
+  {
+    id: "",
+    display_name: "Bottom",
+    people_percent: 30,
+    computation_rule_name: "不四舍五入取整数"
+  },
+  {
+    id: "",
+    display_name: "(自定义)",
+    people_percent: 20,
+    computation_rule_name: "",
+    isChildren: true
+  },
+  {
+    id: "",
+    display_name: "(自定义)",
+    people_percent: 10,
+    computation_rule_name: "不四舍五入取整数",
+    isChildren: true
+  }
+];
 
-export const SELF_AVG = "自评平均分";
-export const SUP_AVG = "上级平均分";
-export const _271_LEVEL = "271等级";
+export const DEFAULT_TABLE23221 = [
+  {
+    id: "1",
+    name: "Top",
+    is_show: false,
+    level: "S/A",
+    range: -1,
+    threshold: 20,
+    range_des: "<=20%",
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    id: "2",
+    name: "Middle(50%)",
+    is_show: false,
+    level: "B",
+    range: 0,
+    threshold: 50,
+    range_des: "50%",
+    computation_rule_name: ""
+  },
+  {
+    parent_id: "2",
+    name: "B+(自定义)",
+    is_show: false,
+    level: "--",
+    range: -1,
+    threshold: 30,
+    range_des: "<=30%",
+    computation_rule_name: "四舍五入取整数",
+    isChildren: true
+  },
+  {
+    parent_id: "2",
+    name: "B(自定义)",
+    is_show: false,
+    level: "--",
+    range: 0,
+    threshold: 20,
+    range_des: "20%",
+    computation_rule_name: "",
+    isChildren: true
+  },
+  {
+    id: "3",
+    name: "Bottom",
+    is_show: false,
+    level: "--",
+    range: 1,
+    threshold: 30,
+    range_des: ">=30%",
+    computation_rule_name: "四舍五入取整数"
+  },
+  {
+    parent_id: "3",
+    name: "B-(自定义)",
+    is_show: false,
+    level: "--",
+    range: 1,
+    threshold: 20,
+    range_des: "20%",
+    computation_rule_name: "四舍不五入取整数",
+    isChildren: true
+  },
+  {
+    parent_id: "3",
+    name: "C/D(自定义)",
+    is_show: false,
+    level: "C/D",
+    range: 1,
+    threshold: 10,
+    range_des: ">=10%",
+    computation_rule_name: "四舍五入取整数",
+    isChildren: true
+  }
+];

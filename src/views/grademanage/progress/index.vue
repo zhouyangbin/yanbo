@@ -320,7 +320,6 @@ export default {
       permissions: [],
       isShow: false,
       isDisable: false,
-
       currentPage: 1,
       total: 0,
       constants: {

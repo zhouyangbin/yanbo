@@ -2,15 +2,21 @@
   <div class="my-grade-list">
     <nav-bar :list="nav"></nav-bar>
     <br />
-    <!-- <br> -->
     <section class="content-container">
       <el-table :data="tableData" stripe style="width: 100%">
+        <el-table-column label="类型" prop="p_type">
+          <template slot-scope="scope">
+            <div>{{ scope.row.p_type | handleType }}</div>
+          </template>
+        </el-table-column>
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="name"
           :label="constants.GRADE_NAME"
         ></el-table-column>
         <el-table-column
-          prop="department"
+          :show-overflow-tooltip="true"
+          prop="department_name"
           :label="constants.LABEL_DEPARTMENT"
         ></el-table-column>
         <el-table-column
@@ -21,12 +27,16 @@
           prop="end_time"
           :label="constants.FINISHED_DATE"
         ></el-table-column>
-        <el-table-column prop="address" :label="constants.OPERATIONS">
+        <el-table-column prop="stage" :label="constants.OPERATIONS">
           <template slot-scope="scope">
-            <el-button @click="goDetail(scope.row)" type="text" size="small">{{
-              constants.DETAILS
-            }}</el-button>
             <el-button
+              @click="viewDetail(scope.row)"
+              type="text"
+              size="small"
+              >{{ constants.DETAILS }}</el-button
+            >
+            <el-button
+              v-if="scope.row.p_type === 'normal'"
               @click="exportDetail(scope.row)"
               type="text"
               size="small"
@@ -36,14 +46,18 @@
         </el-table-column>
       </el-table>
       <br />
-      <el-row type="flex">
-        <pagination
-          :currentPage="currentPage"
+      <el-row type="flex" justify="end">
+        <el-pagination
+          v-if="total"
+          background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[10, 20, 50]"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-          :pageSize="perPage"
-        ></pagination>
+        >
+        </el-pagination>
       </el-row>
     </section>
   </div>
@@ -60,15 +74,19 @@ import {
   EXPORT_DETAILS,
   LABEL_DEPARTMENT
 } from "@/constants/TEXT";
-import { PATH_EMPLOYY_TEAM_GRADE_DETAIL } from "@/constants/URL";
-import { getTeamGradeList } from "@/constants/API";
+import {
+  PATH_EMPLOYY_TEAM_GRADE_DETAIL,
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL
+} from "@/constants/URL";
+import { getExecutiveTeamScore } from "@/constants/API";
 import { PATH_EXPORT_TEAM_PERFORMANCE } from "@/constants/URL";
 
 export default {
   data() {
     return {
+      page: 1,
+      perPage: 10,
       total: 0,
-      currentPage: 1,
       tableData: [],
       nav: [
         {
@@ -84,49 +102,67 @@ export default {
         GRADE_NAME,
         EXPORT_DETAILS,
         LABEL_DEPARTMENT
-      },
-      perPage: 10
+      }
     };
   },
   components: {
-    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
-    pagination: () => import("@/components/common/Pagination/index.vue")
+    "nav-bar": () => import("@/components/common/Navbar/index.vue")
+  },
+  filters: {
+    handleType(val) {
+      let type = "";
+      if (val === "normal") {
+        type = "员工绩效";
+      } else if (val === "executive") {
+        type = "组织部绩效";
+      }
+      return type;
+    }
   },
   methods: {
-    goDetail(row) {
-      this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.id));
+    viewDetail(row) {
+      if (row.p_type === "executive") {
+        this.$router.push(
+          PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(
+            row.performance_id,
+            row.performance_user_id
+          )
+        );
+      } else {
+        this.$router.push(PATH_EMPLOYY_TEAM_GRADE_DETAIL(row.performance_id));
+      }
     },
-    getList(data) {
-      data["perPage"] = this.perPage;
-      return getTeamGradeList(data)
+    getList() {
+      let data = {
+        page: this.page,
+        perPage: this.perPage
+      };
+      getExecutiveTeamScore(data)
         .then(res => {
-          // console.log(res)
           const { total, data } = res;
           this.tableData = data;
           this.total = total;
         })
         .catch(e => {});
     },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getList({
-        page: val
-      });
-    },
     handleSizeChange(val) {
-      //切换条数
       this.perPage = val;
-      this.currentPage = 1;
-      this.getList({
-        page: this.currentPage
-      });
+      this.getList();
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getList();
     },
     exportDetail(row) {
-      window.open(PATH_EXPORT_TEAM_PERFORMANCE(row.id), "_blank", "noopener");
+      window.open(
+        PATH_EXPORT_TEAM_PERFORMANCE(row.performance_id),
+        "_blank",
+        "noopener"
+      );
     }
   },
   created() {
-    this.getList({ page: 1 });
+    this.getList();
   }
 };
 </script>

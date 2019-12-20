@@ -8,7 +8,7 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     // proxy: "http://api.gamesife.com"
-    //proxy: "https://pingfen-performance-api.chengjiukehu.com"
+    // proxy: "https://pingfen-performance-api.chengjiukehu.com"
     proxy: "https://pingfen-api.chengjiukehu.com"
   },
   chainWebpack: config => {

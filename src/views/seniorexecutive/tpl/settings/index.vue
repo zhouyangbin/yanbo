@@ -1,0 +1,350 @@
+<template>
+  <div class="tpl-settings">
+    <nav-bar :list="nav"></nav-bar>
+    <section class="content-container">
+      <section>
+        <el-form
+          v-if="showExecutiveScoreManagement"
+          :inline="true"
+          ref="filterForm"
+          :model="filterForm"
+        >
+          <el-form-item class="content-search" prop="dp">
+            <el-cascader
+              @change="handleChange"
+              v-model="filterForm.dp"
+              placeholder="请选择事业部"
+              :props="filterProps"
+              :options="orgTree"
+              :show-all-levels="false"
+            ></el-cascader>
+          </el-form-item>
+          <el-form-item>
+            <el-button round @click="resetForm('filterForm')">{{
+              constants.RESET
+            }}</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              v-if="canCreateTpl"
+              @click="createTpl"
+              round
+              >{{ constants.ADD_NEW_TPL }}</el-button
+            >
+          </el-form-item>
+        </el-form>
+        <br />
+        <el-table :data="tableData" stripe style="width: 100%;margin-top:20px">
+          <el-table-column
+            type="index"
+            :label="constants.SERIAL_NUMBER"
+            width="50"
+          >
+          </el-table-column>
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="name"
+            :label="constants.TPL_NAME"
+          ></el-table-column>
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="departments_text"
+            :label="constants.BUSINESS_UNIT_AND_FUNCTIONAL_UNIT"
+          ></el-table-column>
+          <el-table-column
+            prop="performance_type_text"
+            :label="constants.PERFORMANCE_TYPE"
+          ></el-table-column>
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="executive_types_text"
+            :label="constants.ORGANIZATION_DEPARTMENT_MEMBER_TYPE"
+          ></el-table-column>
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="performance_indicator_types_text"
+            :label="constants.INDICATOR_TYPE_AND_PROPORTION"
+          ></el-table-column>
+          <el-table-column :label="constants.LABEL_OPERATIONS">
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                @click="updateTpl(scope.row)"
+                size="small"
+                >{{ constants.LABEL_MODIFY }}</el-button
+              >
+              <el-button type="text" size="small" @click="delTpl(scope.row)">{{
+                constants.LABEL_DEL
+              }}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <br />
+        <el-row type="flex" justify="end">
+          <el-pagination
+            v-if="total"
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          >
+          </el-pagination>
+        </el-row>
+      </section>
+    </section>
+    <tpl-dialog
+      v-if="showDialog"
+      @close="tplDialogClose"
+      :visible="showDialog"
+      :infoType="infoType"
+      :performanceId="performanceId"
+      :performanceTypes="performanceTypes"
+      :executiveTypes="executiveTypes"
+      :tplFields="tplFields"
+      :tplMeasures="tplMeasures"
+      :orgTree="orgTree"
+      :indicatorTypes="indicatorTypes"
+      @update="tplDefine"
+    ></tpl-dialog>
+    <confirm-dialog
+      v-if="showConfirmDialog"
+      :visible="showConfirmDialog"
+      :tipsText="tipsText"
+      @update="confirmDialog"
+      @close="closeDialog"
+    ></confirm-dialog>
+  </div>
+</template>
+<script>
+import {
+  TPL_SETTING,
+  LABEL_SELECT_DIVISION,
+  ADD_NEW_TPL,
+  SERIAL_NUMBER,
+  BUSINESS_UNIT_AND_FUNCTIONAL_UNIT,
+  ORGANIZATION_DEPARTMENT_MEMBER_TYPE,
+  INDICATOR_TYPE_AND_PROPORTION,
+  TPL_NAME,
+  PERFORMANCE_TYPE,
+  LABEL_OPERATIONS,
+  LABEL_MODIFY,
+  LABEL_DEL,
+  ATTENTION,
+  LABEL_CONFIRM,
+  LABEL_CANCEL,
+  ID_DET_TPL_CONFIRM,
+  RESET
+} from "@/constants/TEXT";
+import {
+  getExecutiveAdminTpls,
+  deleteExecutiveTpls,
+  getExecutivePerformanceTypes,
+  getExecutiveTypes,
+  getExecutiveTplFields,
+  getExecutiveTplMeasures,
+  getExecutiveOrganization,
+  getExecutiveIndicatorTypes
+} from "@/constants/API";
+import { AsyncComp } from "@/utils/asyncCom";
+export default {
+  components: {
+    "nav-bar": () => import("@/components/common/Navbar/index.vue"),
+    "tpl-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/TplDialog/index.vue")
+    ),
+    "confirm-dialog": AsyncComp(
+      import("@/components/modules/seniorexecutive/ConfirmDialog/index.vue")
+    )
+  },
+  data() {
+    return {
+      filterProps: {
+        value: "id",
+        label: "name",
+        children: "children"
+      },
+      filterForm: {
+        dp: []
+      },
+      performanceTypes: [],
+      executiveTypes: [],
+      tplFields: [],
+      tplMeasures: [],
+      orgTree: [],
+      indicatorTypes: [],
+      page: 1,
+      perPage: 10,
+      total: 0,
+      infoType: "add",
+      showDialog: false,
+      tipsText: "是否确认删除模板？",
+      performanceId: 0,
+      showConfirmDialog: false,
+      department_ids: "",
+      canCreateTpl: true,
+      tableData: [],
+      constants: {
+        LABEL_SELECT_DIVISION,
+        ADD_NEW_TPL,
+        SERIAL_NUMBER,
+        BUSINESS_UNIT_AND_FUNCTIONAL_UNIT,
+        ORGANIZATION_DEPARTMENT_MEMBER_TYPE,
+        INDICATOR_TYPE_AND_PROPORTION,
+        TPL_NAME,
+        PERFORMANCE_TYPE,
+        LABEL_OPERATIONS,
+        LABEL_MODIFY,
+        LABEL_DEL,
+        RESET
+      },
+      nav: [
+        {
+          label: TPL_SETTING,
+          active: true
+        }
+      ],
+      permissions: []
+    };
+  },
+  computed: {
+    showExecutiveScoreManagement() {
+      return this.permissions.includes(400);
+    }
+  },
+  methods: {
+    tplDefine() {
+      this.showDialog = false;
+      this.getTplList();
+    },
+    handleChange(value) {
+      this.department_ids = value.length > 0 ? value[value.length - 1] : "";
+      this.page = 1;
+      this.getTplList();
+    },
+    getTplList() {
+      let data = {
+        page: this.page,
+        perPage: this.perPage,
+        department_ids: this.department_ids.split(",")
+      };
+      getExecutiveAdminTpls(data)
+        .then(res => {
+          const { total, data } = res;
+          this.tableData = data;
+          this.total = total;
+        })
+        .catch(e => {});
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+      this.page = 1;
+      this.department_ids = "";
+      this.getTplList();
+    },
+    createTpl() {
+      this.infoType = "add";
+      this.showDialog = true;
+    },
+    tplDialogClose() {
+      this.showDialog = false;
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getTplList();
+    },
+    handleSizeChange(val) {
+      this.perPage = val;
+      this.getTplList();
+    },
+    updateTpl(row) {
+      this.infoType = "modify";
+      this.performanceId = row.id;
+      this.showDialog = true;
+    },
+    delTpl(row) {
+      this.performanceId = row.id;
+      this.showConfirmDialog = true;
+      this.tipsText = "是否确认删除模板？";
+      // 删除 是否确认删除模板？or 该模板正在使用中，不能删除。
+    },
+    closeDialog() {
+      this.showConfirmDialog = false;
+    },
+    confirmDialog() {
+      deleteExecutiveTpls(this.performanceId)
+        .then(res => {
+          this.showConfirmDialog = false;
+          this.getTplList();
+        })
+        .catch(e => {});
+    }
+  },
+  created() {
+    this.permissions = JSON.parse(localStorage.getItem("permissions") || "[]");
+    if (!this.showExecutiveScoreManagement) {
+      this.$message({
+        showClose: true,
+        message: "您没有没有权限查看此页面",
+        type: "error"
+      });
+      return false;
+    }
+    this.getTplList();
+    getExecutivePerformanceTypes()
+      .then(res => {
+        this.performanceTypes = res;
+      })
+      .catch(e => {});
+    getExecutiveTypes()
+      .then(res => {
+        this.executiveTypes = res;
+      })
+      .catch(e => {});
+    getExecutiveTplFields()
+      .then(res => {
+        this.tplFields = res;
+      })
+      .catch(e => {});
+    getExecutiveTplMeasures()
+      .then(res => {
+        this.tplMeasures = res;
+      })
+      .catch(e => {});
+    getExecutiveOrganization()
+      .then(res => {
+        this.orgTree = res;
+      })
+      .catch(e => {});
+    getExecutiveIndicatorTypes()
+      .then(res => {
+        this.indicatorTypes = res;
+      })
+      .catch(e => {});
+  }
+};
+</script>
+<style scoped>
+.tpl-settings .el-form .el-form-item:last-child {
+  float: right;
+}
+.del-dialog >>> .el-dialog__header {
+  border-bottom: 1px solid #e4e7ed;
+}
+.tpl-settings .content-search {
+  position: relative;
+}
+.tpl-settings .content-search .select-tree {
+  position: absolute;
+  left: 0;
+  top: 42px;
+  background-color: #fff;
+  z-index: 999;
+}
+.tpl-settings .select-tree >>> .el-tree__empty-block {
+  width: 180px;
+}
+</style>

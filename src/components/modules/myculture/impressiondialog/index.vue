@@ -10,7 +10,7 @@
         type="textarea"
         :maxlength="2000"
         :rows="6"
-        :placeholder="`请输入${constants.IMPRESSIONS}`"
+        :placeholder="`请输入心得体会`"
         v-model="textarea"
       ></el-input>
       <br />

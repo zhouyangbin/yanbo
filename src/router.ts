@@ -10,7 +10,6 @@ import {
   PATH_GRADE_EMP_DETAIL,
   PATH_PERFORMANCE_MANAGER,
   PATH_PERFORMANCE_PROGRESS,
-  PATH_PERFORMANCE_TREE_PROGRESS,
   PATH_PERFORMANCE_ORG_LIST,
   PATH_PERFORMANCE_TPL,
   PATH_PERFORMANCE_RULES,
@@ -42,7 +41,17 @@ import {
   PATH_MEMBER_CULTURE_DETAILS_HISTORY,
   PATH_CULTURE_LEVEL_DETAIL,
   PATH_CULTURE_LEVEL_DETAIL_HISTORY,
-  PATH_TEAM_DETAIL_MEMEBER
+  PATH_TEAM_DETAIL_MEMEBER,
+  PATH_PERFORMANCE_GRADE_MANAGEMENT,
+  PATH_PERFORMANCE_TPL_SETTINGS,
+  PATH_PERFORMANCE_LABEL_SETTINGS,
+  PATH_EXECUTIVE_ASSESSMENT_DATAILS,
+  PATH_PERFORMANCE_FILL_IN_INDEX,
+  PATH_PERFORMANCE_INDEX_DETAIL,
+  PATH_EXECUTIVE_TEAM_TARGET_CONFIRM,
+  PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL,
+  PATH_PERFORMANCE_HIGH_TARGET_DETAIL,
+  PATH_PERFORMANCE_TREE_PROGRESS
   // PATH_MEMEBER_HIGH_DETAIL
 } from "@/constants/URL";
 
@@ -209,7 +218,7 @@ const router = new Router({
         {
           path: PATH_EMPLYEE_MY_DETAIL(),
           components: {
-            default: () => import("@/views/employee/my/index.vue"),
+            default: () => import("@/views/employee/my/detail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         },
@@ -363,6 +372,78 @@ const router = new Router({
           path: PATH_CULTURE_LEVEL_DETAIL_HISTORY(),
           components: {
             default: () => import("@/views/myculture/levels/history/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_GRADE_MANAGEMENT,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/management/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_TPL_SETTINGS,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/tpl/settings/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_LABEL_SETTINGS,
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/label/settings/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EXECUTIVE_ASSESSMENT_DATAILS(),
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/assessmentDetails/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_FILL_IN_INDEX(),
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/index/fillinIndex/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_INDEX_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/index/indexDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EXECUTIVE_TEAM_TARGET_CONFIRM(),
+          components: {
+            default: () =>
+              import("@/views/employee/team/targetDetail/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_EXECUTIVE_PERFORMANCE_MY_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/scoreDetails/index.vue"),
+            sidebar: () => import("@/components/common/Sidebar/index.vue")
+          }
+        },
+        {
+          path: PATH_PERFORMANCE_HIGH_TARGET_DETAIL(),
+          components: {
+            default: () =>
+              import("@/views/seniorexecutive/grade/targetDetail/index.vue"),
             sidebar: () => import("@/components/common/Sidebar/index.vue")
           }
         }
