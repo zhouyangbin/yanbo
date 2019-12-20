@@ -300,7 +300,7 @@ export default {
         detail_feature == "slef" ? getEmployeeDetailSee : getEmployeeDetail;
       return getEmployeeDetailSee(
         this.$route.params.gradeID,
-        this.$route.params.uid,
+        this.$route.params.uid
       )
         .then(res => {
           const {

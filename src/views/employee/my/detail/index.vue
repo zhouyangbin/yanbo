@@ -51,7 +51,7 @@ export default {
         detail_feature == "slef" ? getEmployeeDetailSee : getEmployeeDetail;
       getEmployeeDetailSee(
         this.$route.params.orgID,
-        this.$route.params.id,
+        this.$route.params.id
       ).then(res => {
         const { performance_status } = res;
 
