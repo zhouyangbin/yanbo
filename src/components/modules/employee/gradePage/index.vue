@@ -364,10 +364,9 @@ export default {
       let detail_feature = this.$route.params.attach;
       let detail_feature_API =
         detail_feature == "slef" ? getEmployeeDetailSee : getEmployeeDetail;
-      return detail_feature_API(
+      return getEmployeeDetailSee(
         this.$route.params.orgID,
         this.$route.params.id,
-        "self"
       )
         .then(res => {
           const {
