@@ -60,7 +60,7 @@ import {
   TARGET_STATUS
 } from "@/constants/TEXT";
 import { PATH_EMPLYEE_MY_DETAIL } from "@/constants/URL";
-import { getMyPerformanceList } from "@/constants/API";
+import { getSelfPerformanceList } from "@/constants/API";
 
 export default {
   data() {
@@ -128,7 +128,7 @@ export default {
     },
     refreshList(data) {
       data["perPage"] = this.perPage;
-      return getMyPerformanceList(data)
+      return getSelfPerformanceList(data)
         .then(res => {
           const { total, data } = res;
           this.total = total;

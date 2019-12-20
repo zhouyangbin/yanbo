@@ -285,7 +285,7 @@ export const postUserPerformanceDraft = (
 
 // 我的绩效评分列表
 
-export const getMyPerformanceList = (params: Object) =>
+export const getSelfPerformanceList = (params: Object) =>
   sendGet(`/performance/api/self/index`, params);
 // 可编辑员工详情
 export const getEmployeeDetail = (
