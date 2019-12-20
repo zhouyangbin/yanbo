@@ -7,6 +7,15 @@
 <script>
 export default {
   name: "app",
+  mounted() {
+    var bpitCommonData = require("bpit.common.data");
+    bpitCommonData.log({
+      group: "talents",
+      project: "FE-PC-TDC",
+      env: process.env.VUE_APP_RDENV,
+      page: "index"
+    });
+  },
   provide() {
     return {
       page_reload: this.page_reload
