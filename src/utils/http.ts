@@ -15,7 +15,6 @@ import {
 import qs from "qs";
 // 引入element-ui右侧弹框提示样式，可以根据项目需求改不同形式弹框
 import { Notification } from "element-ui";
-import { PATH_LOGIN } from "@/constants/URL";
 const isDev = process.env.NODE_ENV != "production";
 
 // 创建axios实例常量配置
@@ -95,7 +94,6 @@ http.interceptors.response.use(
         message: error.response.data.message || HTTP_STATUS_MSG_401,
         duration: 3000
       });
-      router.push({ path: PATH_LOGIN });
     } else if (error.response.status === 422) {
       Notification({
         type: "error",
