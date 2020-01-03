@@ -29,7 +29,7 @@
     </div>
     <div class="container">
       <div class="header">
-        <div class="prev" @click="last_week">上一周</div>
+        <div class="prev" @click="prev_week">上一周</div>
         <div class="current" v-if="weekData[0]">
           {{ weekData[0].year }}/{{ weekData[0].month }}/{{ weekData[0].day
           }}<br />
@@ -114,67 +114,7 @@ export default {
   },
   watch: {},
   methods: {
-    setDate: function(date) {
-      let clen = this.week.length;
-      let week = date.getDay() - 1;
-      date = this.addDate(date, week * -1);
-      this.currentFirstDate = new Date(date);
-      this.weekData = [];
-      for (var i = 0; i < clen; i++) {
-        let week_item = this.formatDate(
-          i == 0 ? this.addDate(date, -1) : this.addDate(date, 1)
-        ); //星期日开始
-        this.weekData.push(week_item);
-      }
-      this.set_timeData();
-    },
-    addDate: function(date, n) {
-      date.setDate(date.getDate() + n);
-      return date;
-    },
-    formatDate: function(date) {
-      let year = date.getFullYear() + "年";
-      let month = date.getMonth() + 1 + "月";
-      let day = date.getDate() + "日";
-      let week = this.week;
-      week = week[date.getDay()];
-      return { year: year, month: month, day: day, week: week };
-    },
-    last_week: function() {
-      let date = this.addDate(this.currentFirstDate, -7);
-      this.setDate(date);
-    },
-    next_week: function() {
-      let date = this.addDate(this.currentFirstDate, 7);
-      this.setDate(date);
-    },
-    set_timeData: function() {
-      for (let i = this.time_strat; i < this.time_end; i++) {
-        this.timeData.push({
-          time: i + ":00",
-          action: this.set_time_action()
-        });
-      }
-    },
-    set_time_action() {
-      let action = [];
-      for (let j = 0; j < this.week.length; j++) {
-        action.push({
-          do: "已完成",
-          willdo: "未完成"
-        });
-      }
-      return action;
-    },
-    scrollGet(e) {
-      let scrollTop = e.srcElement.scrollTop || e.target.scrollTop;
-      let scrollLeft = e.srcElement.scrollLeft || e.target.scrollLeft;
-
-      console.log(scrollLeft);
-      this.$refs.week_left.scrollTop = scrollTop;
-      this.$refs.week_top.scrollLeft = scrollLeft;
-      // this.$refs.week_left.$el.scrollTop;
-    },
+    /////////////////////////////////////////////////日期的方法
     //判断是不是闰年
     isLearYear: function(year) {
       var condition1 = year % 4 == 0;
@@ -264,6 +204,65 @@ export default {
         this.year += 1;
       }
       this.changeDay();
+    },
+    /////////////////////////////////////////////////周日历的方法
+    setDate: function(date) {
+      let clen = this.week.length;
+      let week = date.getDay() - 1;
+      date = this.addDate(date, week * -1);
+      this.currentFirstDate = new Date(date);
+      this.weekData = [];
+      for (var i = 0; i < clen; i++) {
+        let week_item = this.formatDate(
+          i == 0 ? this.addDate(date, -1) : this.addDate(date, 1)
+        ); //星期日开始
+        this.weekData.push(week_item);
+      }
+      this.set_timeData();
+    },
+    addDate: function(date, n) {
+      date.setDate(date.getDate() + n);
+      return date;
+    },
+    formatDate: function(date) {
+      let year = date.getFullYear() + "年";
+      let month = date.getMonth() + 1 + "月";
+      let day = date.getDate() + "日";
+      let week = this.week;
+      week = week[date.getDay()];
+      return { year: year, month: month, day: day, week: week };
+    },
+    prev_week: function() {
+      let date = this.addDate(this.currentFirstDate, -7);
+      this.setDate(date);
+    },
+    next_week: function() {
+      let date = this.addDate(this.currentFirstDate, 7);
+      this.setDate(date);
+    },
+    set_timeData: function() {
+      for (let i = this.time_strat; i < this.time_end; i++) {
+        this.timeData.push({
+          time: i + ":00",
+          action: this.set_time_action()
+        });
+      }
+    },
+    set_time_action() {
+      let action = [];
+      for (let j = 0; j < this.week.length; j++) {
+        action.push({
+          do: "已完成",
+          willdo: "未完成"
+        });
+      }
+      return action;
+    },
+    scrollGet(e) {
+      let scrollTop = e.srcElement.scrollTop || e.target.scrollTop;
+      let scrollLeft = e.srcElement.scrollLeft || e.target.scrollLeft;
+      this.$refs.week_left.scrollTop = scrollTop;
+      this.$refs.week_top.scrollLeft = scrollLeft;
     }
   }
 };
