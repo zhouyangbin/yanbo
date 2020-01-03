@@ -1,92 +1,107 @@
 <template>
-  <section>
-    <div style="width: 100%;height: 800px">
-      <div style="width: 100%;height: 60px;text-align:left">
-        <el-col :span="24" class="toolbar">
-          <el-form :inline="true" :model="filters">
-            <el-form-item label="时间">
-              <el-date-picker
-                v-model="filters.date"
-                align="right"
-                type="date"
-                size="mini"
-                placeholder="选择日期"
-                :picker-options="pickerOptions1"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-form>
-        </el-col>
+  <div class="container">
+    <div class="container">
+      <div class="header">
+        <div class="prev" @click="prev_mouth">上一月</div>
+        <div class="current">{{ year + "年" }}{{ month + "月" }}</div>
+        <div class="next" @click="next_mouth">下一月</div>
       </div>
-      <div style="width: 100%;height: 90%;position: absolute">
-        <div
-          style=" height: 50px;position: relative;width: 100%;text-align: center;"
-        >
-          <div class="year">{{ year + "年" }}</div>
-          <div class="month">{{ month + "月" }}</div>
+      <div class="calendar_box">
+        <div class="week">
+          <div class="item" v-for="(item, index) in week" :key="index">
+            {{ item }}
+          </div>
         </div>
-
-        <div class="calendar_box">
-          <ul class="week">
-            <li class="item">星期日</li>
-            <li class="item">星期一</li>
-            <li class="item">星期二</li>
-            <li class="item">星期三</li>
-            <li class="item">星期四</li>
-            <li class="item">星期五</li>
-            <li class="item">星期六</li>
-          </ul>
-          <ul
-            class="dayList"
-            v-for="(line, lineIndex) in showData"
-            :key="lineIndex"
+        <div
+          class="dayList"
+          v-for="(line, lineIndex) in showData"
+          :key="lineIndex"
+        >
+          <div
+            class="item2"
+            v-for="(showDay, dayIndex) in line"
+            :key="dayIndex"
           >
-            <li
-              class="item2"
-              :id="showID(day, showDay)"
-              v-for="(showDay, dayIndex) in line"
-              :key="dayIndex"
-              :class="{ active: day == showDay }"
-              @click="changeCalendar(showDay)"
-            >
-              {{ showDay.day }}<br /><span class="name"></span>
-            </li>
-          </ul>
+            {{ showDay.day }}<br /><span class="name"></span>
+          </div>
         </div>
       </div>
     </div>
-
-    <!--详情界面-->
-    <el-dialog
-      title="日程详情"
-      :visible.sync="addFormVisible"
-      top="5vh"
-      width="70%"
-      :close-on-click-modal="false"
-    >
-      <div style="height: 500px">
-        <template>
-          <el-table :data="tableData2" style="width: 100%;height: 100%;">
-            <el-table-column prop="departmentname" label="部门" width="180">
-            </el-table-column>
-            <el-table-column prop="personnelname" label="人员" width="180">
-            </el-table-column>
-            <el-table-column prop="calendartitle" label="日程标题" width="180">
-            </el-table-column>
-            <el-table-column prop="begintime" label="开始时间" width="180">
-            </el-table-column>
-            <el-table-column prop="endtime" label="结束时间" width="180">
-            </el-table-column>
-            <el-table-column prop="content" label="日程内容"> </el-table-column>
-          </el-table>
-        </template>
+    <div class="container">
+      <div class="header">
+        <div class="prev" @click="last_week">上一周</div>
+        <div class="current" v-if="weekData[0]">
+          {{ weekData[0].year }}/{{ weekData[0].month }}/{{ weekData[0].day
+          }}<br />
+          {{ weekData[6].year }}/{{ weekData[6].month }}/{{ weekData[6].day }}
+        </div>
+        <div class="next" @click="next_week">下一周</div>
       </div>
-    </el-dialog>
-  </section>
+      <div style="display:flex">
+        <div class="calendar_box" style="width:60px;overflow: hidden;">
+          <div class="week" style="width:100%">
+            <div class="item">
+              时间
+            </div>
+          </div>
+          <div class="week_left_bottom" ref="week_left">
+            <div
+              class="dayList"
+              style="width:100%"
+              v-for="(item, index) in timeData"
+              :key="index"
+            >
+              <div class="item2">
+                {{ item.time }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="calendar_box" style="overflow: hidden;">
+          <div class="week_right_top" ref="week_top">
+            <div class="week">
+              <div class="item" v-for="(item, index) in weekData" :key="index">
+                {{ item.week }}<br />{{ item.day }}
+              </div>
+            </div>
+          </div>
+          <div class="week_right_bottom" @scroll="scrollGet($event)">
+            <div class="dayList" v-for="(item, index) in timeData" :key="index">
+              <div
+                class="item2"
+                v-for="(action, timeIndex) in item.action"
+                :key="timeIndex"
+              >
+                {{ action.do }}<br />
+                {{ action.willdo }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
   name: "LeaderSchedule",
+  data() {
+    return {
+      //记录年月日
+      year: "",
+      month: "",
+      day: "",
+      week: ["Sun", "Sun", "Tues", "Wed", "Thur", "Fri", "Sat"],
+      //要展示和绑定的数据
+      showData: [[], [], [], [], [], []],
+      monthDay: [], //保存当前年每月的天数
+      weekData: [],
+      time_strat: 8,
+      time_end: 24,
+      timeData: [],
+      currentFirstDate: ""
+    };
+  },
   mounted: function() {
     var date = new Date("2019-12");
     this.year = date.getFullYear();
@@ -95,145 +110,70 @@ export default {
     this.monthDay = this.getMonthDay(this.year);
     //初始化数据
     this.changeDay();
-
-    // this.selectDepartment();
+    this.setDate(new Date());
   },
-
-  data() {
-    return {
-      //日程详情是否隐藏参数
-      addFormVisible: false,
-      //部门id
-      departmentId: "",
-      //部门树形菜单
-      departmentTree: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      tableData: [],
-      departmentList: "",
-      personnelList: [],
-      filters: {
-        date: "",
-        department: "请选择部门",
-        personnel: "请选择人员"
-      },
-      //日程详情
-      tableData2: [],
-      //日期选择控制
-      pickerOptions1: {
-        shortcuts: [
-          {
-            text: "今天",
-            onClick(picker) {
-              picker.$emit("pick", new Date());
-            }
-          },
-          {
-            text: "昨天",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            }
-          },
-          {
-            text: "一周前",
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            }
-          }
-        ]
-      },
-
-      props: {
-        children: "children",
-        id: "id",
-        label: "label"
-      },
-      count: 1,
-
-      //记录年月日
-      year: "",
-      month: "",
-      day: "",
-      //要展示和绑定的数据
-      showData: [[], [], [], [], [], []],
-      prevDay: -1, //第1行占多少天
-      monthDay: [] //保存当前年每月的天数
-    };
-  },
-  watch: {
-    department: "handleNodeClick"
-  },
+  watch: {},
   methods: {
-    //清空表格
-    empty() {
-      this.$set(this, "showData", [[], [], [], [], [], []]);
+    setDate: function(date) {
+      let clen = this.week.length;
+      let week = date.getDay() - 1;
+      date = this.addDate(date, week * -1);
+      this.currentFirstDate = new Date(date);
+      this.weekData = [];
+      for (var i = 0; i < clen; i++) {
+        let week_item = this.formatDate(
+          i == 0 ? this.addDate(date, -1) : this.addDate(date, 1)
+        ); //星期日开始
+        this.weekData.push(week_item);
+      }
+      this.set_timeData();
     },
-    //修改时间
-    changedate() {
-      var date = this.filters.date; //2018-09-30
-      this.year = date.getFullYear();
-      this.month = date.getMonth();
-      this.day = date.getDate();
-      this.monthDay = this.getMonthDay(this.year);
-      this.changeDay();
+    addDate: function(date, n) {
+      date.setDate(date.getDate() + n);
+      return date;
+    },
+    formatDate: function(date) {
+      let year = date.getFullYear() + "年";
+      let month = date.getMonth() + 1 + "月";
+      let day = date.getDate() + "日";
+      let week = this.week;
+      week = week[date.getDay()];
+      return { year: year, month: month, day: day, week: week };
+    },
+    last_week: function() {
+      let date = this.addDate(this.currentFirstDate, -7);
+      this.setDate(date);
+    },
+    next_week: function() {
+      let date = this.addDate(this.currentFirstDate, 7);
+      this.setDate(date);
+    },
+    set_timeData: function() {
+      for (let i = this.time_strat; i < this.time_end; i++) {
+        this.timeData.push({
+          time: i + ":00",
+          action: this.set_time_action()
+        });
+      }
+    },
+    set_time_action() {
+      let action = [];
+      for (let j = 0; j < this.week.length; j++) {
+        action.push({
+          do: "已完成",
+          willdo: "未完成"
+        });
+      }
+      return action;
+    },
+    scrollGet(e) {
+      let scrollTop = e.srcElement.scrollTop || e.target.scrollTop;
+      let scrollLeft = e.srcElement.scrollLeft || e.target.scrollLeft;
+
+      console.log(scrollLeft);
+      this.$refs.week_left.scrollTop = scrollTop;
+      this.$refs.week_top.scrollLeft = scrollLeft;
+      // this.$refs.week_left.$el.scrollTop;
     },
     //判断是不是闰年
     isLearYear: function(year) {
@@ -295,142 +235,94 @@ export default {
         }
       }
       //第六行
-      for (var s = 0; s < 7; s++) {
-        if (day > this.monthDay[month]) {
-          //   _arr[5].push("");
-        } else {
-          _arr[5].push({
-            day: day
-          });
-          day++;
+      if (day <= this.monthDay[month]) {
+        for (var s = 0; s < 7; s++) {
+          if (day > this.monthDay[month]) {
+            _arr[5].push("");
+          } else {
+            _arr[5].push({
+              day: day
+            });
+            day++;
+          }
         }
       }
       this.$set(this, "showData", _arr);
     },
-
-    //为li标签增加id属性
-    showID(day, newday) {
-      if (day == newday) {
-        return "li00" + newday;
-      } else {
-        return "li" + newday;
+    prev_mouth() {
+      this.month -= 1;
+      if (this.month == 0) {
+        this.month = 12;
+        this.year -= 1;
       }
+      this.changeDay();
     },
-
-    //当天日程查询详情
-    changeCalendar(day) {
-      if (day == "" || day == undefined) {
-        return;
-      } else {
-        var id = "#li" + day;
-        for (var i = 1; i < 32; i++) {
-          $("#li" + i).css({ "background-color": "#F8F8FF" });
-        }
-        $(id).css({ "background-color": "#00BFFF" });
-        this.showCalender(day);
+    next_mouth() {
+      this.month += 1;
+      if (this.month > 12) {
+        this.month = 1;
+        this.year += 1;
       }
-    },
-
-    //弹窗详情
-    showCalender(day) {
-      var self = this;
-      var dbUrl = self.$API.ajaxPath;
-      //   var param = [];
-      //   var sj = self.filters.date;
-      var yue = this.month;
-      if (yue < 10) {
-        yue = "0" + yue;
-      }
-      var nian = this.year;
-      var youWant = nian + "-" + yue + "-" + day;
-    },
-
-    //查询按钮
-    query() {
-      $(".name").html("");
-      this.changedate();
-      var sj = this.filters.date;
-      var yue = sj.getMonth() + 1;
-      if (yue < 10) {
-        yue = "0" + yue;
-      }
-      var nian = sj.getFullYear();
-      var youWant = nian + "-" + yue;
-      var self = this;
-    },
-
-    //点击菜单栏;
-    handleNodeClick(node) {
-      var self = this;
-      self.departmentId = node.id;
-      this.filters.department = node.label;
-    },
-    //根据部门查询人员
-    selectDepartment() {},
-    //部门查询
-    departmentQuery() {}
+      this.changeDay();
+    }
   }
 };
 </script>
-
 <style scoped>
 li {
   list-style: none;
 }
-.treediv {
-  overflow-y: auto;
-  overflow-x: auto;
-  width: 300px;
-  height: 200px;
-  background-color: #ffffff;
-  z-index: 99999999;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  position: absolute;
-}
-/*滚动条样式*/
-.treediv::-webkit-scrollbar {
-  /*滚动条整体样式*/
-  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
-  height: 4px;
-}
-.treediv::-webkit-scrollbar-thumb {
-  /*滚动条里面小方块*/
-  border-radius: 5px;
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.2);
-}
-.treediv::-webkit-scrollbar-track {
-  /*滚动条里面轨道*/
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.1);
-}
-.calendar {
-  position: relative;
-  width: 350px;
-  height: 50px;
+.container {
+  width: 100%;
 }
 .header {
-  height: 50px;
-  position: relative;
   width: 100%;
-  text-align: center;
+
+  display: flex;
 }
-.year {
-  display: inline-block;
-  font-size: 25px;
-  color: red;
+.prev {
+  height: 50px;
+  flex: 3;
+  display: flex;
+  justify-content: center;
 }
-.month {
-  display: inline-block;
-  font-size: 25px;
-  color: red;
+.current {
+  height: 50px;
+  display: flex;
+  flex: 10;
+  align-items: center;
+  justify-content: center;
+}
+.next {
+  height: 50px;
+  flex: 3;
+  display: flex;
+  justify-content: center;
+}
+.prev,
+.next {
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(66, 207, 175);
+  color: #fff;
 }
 .calendar_box {
   width: 100%;
-  height: auto;
+  height: calc(100vh - 50px);
   overflow: scroll;
+}
+.week_left_bottom {
+  width: 100%;
+  overflow: hidden;
+  height: calc(100vh - 90px);
+}
+.week_right_top {
+  width: 100%;
+  overflow: hidden;
+}
+.week_right_bottom {
+  overflow: scroll;
+  height: calc(100vh - 90px);
 }
 .week {
   padding: 0;
@@ -446,17 +338,15 @@ li {
   justify-content: center;
   flex: 1;
   height: 100%;
-  border: 1px solid #dcdfe6;
-  border-radius: 5px;
-  background-color: #d3d3d3;
+  color: #f45900;
+  border: solid 1px rgba(255, 134, 51, 1);
+  background-color: rgba(255, 230, 213, 1);
 }
 .dayList {
-  padding: 0;
-  margin: 0;
   width: 140%;
   height: auto;
-  border-radius: 5px;
   display: inline-flex;
+  border-radius: 5px;
 }
 .item2 {
   flex: 1;
@@ -468,21 +358,9 @@ li {
   border-radius: 5px;
   background-color: #f8f8ff;
 }
-.item:last-child {
-  border-right: 1px solid #dcdfe6;
-}
-ul {
-  margin: 0;
-  padding: 0;
-  height: 21px;
-}
 .active {
   font-size: 20px;
   color: #ffc0cb;
   /*background-color: #FFC0CB;*/
-}
-.last,
-.prev {
-  background-color: #999999;
 }
 </style>

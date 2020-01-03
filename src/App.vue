@@ -44,9 +44,8 @@ body {
 }
 
 #app {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
   width: 100%;
+  height: calc(100vh);
+  overflow: auto;
 }
 </style>
